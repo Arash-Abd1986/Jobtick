@@ -59,12 +59,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/spacing_middle" />
 
-                <com.jobtick.TextView.TextViewRegular
+                <com.jobtick.TextView.TextViewSemiBold
                     android:id="@+id/txt_details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/details"
-                    android:textAllCaps="true"
                     android:textSize="@dimen/_12sp"
                    android:textColor="@color/colorPrimary"
                     android:textStyle="bold" />
@@ -92,20 +91,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/calendar"
-                    android:tint="@color/grey_40" />
+                    android:tint="@color/greyC4C4C4" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/spacing_middle" />
 
-                <com.jobtick.TextView.TextViewRegular
+                <com.jobtick.TextView.TextViewSemiBold
                     android:id="@+id/txt_date_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/date_time"
-                    android:textAllCaps="true"
                     android:textSize="@dimen/_12sp"
-                    android:textColor="@color/grey_40" />
+                    android:textColor="@color/greyC4C4C4" />
 
             </LinearLayout>
 
@@ -118,7 +116,7 @@
             <LinearLayout
                 android:id="@+id/lyt_btn_budget"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
@@ -130,20 +128,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_dollar_sign"
-                    android:tint="@color/grey_40" />
+                    android:tint="@color/greyC4C4C4" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/spacing_middle" />
 
-                <com.jobtick.TextView.TextViewRegular
+                <com.jobtick.TextView.TextViewSemiBold
                     android:id="@+id/txt_budget"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/budget"
-                    android:textAllCaps="true"
-                    android:textSize="@dimen/_12sp"
-                    android:textColor="@color/grey_40" />
+                    android:textColor="@color/greyC4C4C4"
+                    android:textSize="@dimen/_12sp" />
 
             </LinearLayout>
         </LinearLayout>

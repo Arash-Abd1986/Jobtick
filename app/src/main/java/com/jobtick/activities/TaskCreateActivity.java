@@ -242,12 +242,12 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         ColorStateList csl_primary = AppCompatResources.getColorStateList(this, R.color.colorPrimary);
         imgDateTime.setImageTintList(csl_primary);
         txtDateTime.setTextColor(getResources().getColor(R.color.colorPrimary));
-        ColorStateList csl_grey = AppCompatResources.getColorStateList(this, R.color.grey_40);
+        ColorStateList csl_grey = AppCompatResources.getColorStateList(this, R.color.greyC4C4C4);
         ColorStateList csl_green = AppCompatResources.getColorStateList(this, R.color.green);
         imgDetails.setImageTintList(csl_green);
         imgBudget.setImageTintList(csl_grey);
         txtDetails.setTextColor(getResources().getColor(R.color.green));
-        txtBudget.setTextColor(getResources().getColor(R.color.grey_40));
+        txtBudget.setTextColor(getResources().getColor(R.color.greyC4C4C4));
     }
 
     private void selectDetailsBtn() {

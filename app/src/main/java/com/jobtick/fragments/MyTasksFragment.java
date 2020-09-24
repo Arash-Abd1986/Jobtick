@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -33,6 +34,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
+import com.jobtick.TextView.TextViewBold;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.activities.TaskDetailsActivity;
@@ -83,6 +85,8 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     private boolean isLastPage = false;
     private int totalPage = 10;
     private boolean isLoading = false;
+    ImageView ivNotification;
+    TextViewBold toolbar_title;
 
 
     private String[] status = new String[]{
@@ -119,6 +123,13 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             toolbar = dashboardActivity.findViewById(R.id.toolbar);
             toolbar.getMenu().clear();
             toolbar.inflateMenu(R.menu.menu_my_task);
+            toolbar.setVisibility(View.VISIBLE);
+            ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
+            ivNotification.setVisibility(View.VISIBLE);
+            toolbar_title=dashboardActivity.findViewById(R.id.toolbar_title);
+            toolbar_title.setVisibility(View.VISIBLE);
+
+
         }
         setHasOptionsMenu(true);
         return view;

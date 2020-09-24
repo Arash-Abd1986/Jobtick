@@ -155,6 +155,8 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                                 intent.putExtras(bundleintent);
                                 startActivity(intent);
                             }
+
+
                         }
                         if (pushNotificationModel.getTrigger().equals(PUSH_CONVERSATION)) {
 

@@ -9,7 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,10 +22,12 @@ import androidx.fragment.app.Fragment;
 import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
+import com.jobtick.TextView.TextViewBold;
 import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.CategroyListActivity;
 import com.jobtick.activities.DashboardActivity;
+import com.jobtick.activities.SearchCategoryActivity;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.adapers.TaskCategoryAdapter;
 import com.jobtick.models.TaskCategory;
@@ -69,8 +73,12 @@ public class NewTaskFragment extends Fragment {
     @BindView(R.id.txtBlocked)
     TextViewRegular txtBlocked;
 
-
+    ImageView ivNotification;
+    TextViewBold toolbar_title;
     SessionManager sessionManager;
+
+    @BindView(R.id.lyt_search_category)
+    LinearLayout ltySearchCategory;
 
     public NewTaskFragment() {
         // Required empty public constructor
@@ -89,6 +97,16 @@ public class NewTaskFragment extends Fragment {
             toolbar.getMenu().clear();
             toolbar.inflateMenu(R.menu.menu_new_task);
             toolbar.getMenu().findItem(R.id.action_search).setVisible(false);
+            ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
+            ivNotification.setVisibility(View.VISIBLE);
+            toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
+            toolbar_title.setVisibility(View.VISIBLE);
+
+            //linearCustomeHeader = dashboardActivity.findViewById(R.id.linearCustomeHeader);
+            //  linearCustomeHeader.setVisibility(View.VISIBLE);
+            //  customToolbar = dashboardActivity.findViewById(R.id.customToolbar);
+            //  customToolbar.setVisibility(View.VISIBLE);
+
         }
 
 
@@ -109,6 +127,11 @@ public class NewTaskFragment extends Fragment {
             getContext().startActivity(creating_task);
         });
         init();
+
+        ltySearchCategory.setOnClickListener(v -> {
+            Intent creating_task = new Intent(getActivity(), SearchCategoryActivity.class);
+            startActivity(creating_task);
+        });
         return view;
     }
 

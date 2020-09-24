@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +30,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.R;
+import com.jobtick.TextView.TextViewBold;
 import com.jobtick.activities.ChatActivity;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.MapViewActivity;
@@ -102,6 +104,9 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
     private PresenceChannel presenceChannel;
     private int conversationId;
 
+    ImageView ivNotification;
+    TextViewBold toolbar_title;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -128,6 +133,11 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
             toolbar.getMenu().clear();
             toolbar.inflateMenu(R.menu.menu_new_task);
             toolbar.getMenu().findItem(R.id.action_search).setVisible(true);
+            ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
+            ivNotification.setVisibility(View.VISIBLE);
+            toolbar_title=dashboardActivity.findViewById(R.id.toolbar_title);
+            toolbar_title.setVisibility(View.VISIBLE);
+
         }
 
         toolbar.setOnMenuItemClickListener(item -> {

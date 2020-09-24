@@ -135,6 +135,7 @@
 
 
             <LinearLayout
+                android:id="@+id/lyt_search_category"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginStart="@dimen/spacing_xlarge"

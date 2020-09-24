@@ -33,6 +33,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.AppBarLayout;
 import com.jobtick.R;
+import com.jobtick.TextView.TextViewBold;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.FiltersActivity;
@@ -100,6 +101,8 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     ArrayList<TaskModel> taskArrayList;
     private SearchView searchView;
 
+    ImageView ivNotification;
+    TextViewBold toolbar_title;
     public BrowseFragment() {
         // Required empty public constructor
     }
@@ -116,6 +119,10 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
             toolbar = dashboardActivity.findViewById(R.id.toolbar);
             toolbar.getMenu().clear();
             toolbar.inflateMenu(R.menu.menu_browse_task);
+            ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
+            ivNotification.setVisibility(View.VISIBLE);
+            toolbar_title=dashboardActivity.findViewById(R.id.toolbar_title);
+            toolbar_title.setVisibility(View.VISIBLE);
         }
 
         taskArrayList = new ArrayList<>();

@@ -6,60 +6,154 @@
     android:layout_gravity="bottom"
     android:background="@android:color/transparent"
     android:orientation="vertical">
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/spacing_middle"/>
+        android:layout_height="@dimen/spacing_middle" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/spacing_large"
+        android:src="@drawable/ic_down">
+
+    </ImageView>
+
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_large"
         android:layout_marginTop="@dimen/spacing_medium"
         android:layout_marginEnd="@dimen/spacing_large"
         android:layout_marginBottom="@dimen/spacing_middle"
-        android:elevation="@dimen/spacing_middle"
+        android:backgroundTint="@color/colorF0F0F0"
+        android:elevation="@dimen/spacing_mlarge"
         app:cardCornerRadius="@dimen/spacing_middle">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/spacing_large">
+            android:orientation="vertical">
 
-            <com.jobtick.TextView.TextViewSemiBold
+            <com.jobtick.TextView.TextViewRegular
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add must-have"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_12sp"
-                android:textStyle="bold" />
+                android:layout_margin="@dimen/_16sp"
+                android:text="Write maximum three things you expect from Ticker before he/she makes offer.\n For example:\n · Licence required for doing the job. \n · Should have and bring required tools to complete the job."
+                android:textColor="@color/grey_70">
+
+            </com.jobtick.TextView.TextViewRegular>
 
 
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <com.jobtick.TextView.TextViewRegular
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_16sp"
+        android:text="Requirments"
+        android:textColor="@color/grey_70">
+
+    </com.jobtick.TextView.TextViewRegular>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_middle"
+        android:background="@drawable/linear_rounded_white_fill">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/spacing_mlarge"
+            android:paddingTop="@dimen/spacing_large"
+            android:paddingEnd="@dimen/spacing_mlarge"
+            android:paddingBottom="@dimen/spacing_large">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.jobtick.EditText.EditTextRegular
-                    android:id="@+id/edt_add_must_have"
+                <com.jobtick.TextView.TextViewSemiBold
                     android:layout_width="match_parent"
-                    android:background="@null"
-                    android:textSize="@dimen/_14sp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@id/img_btn_add_must_have"
-                    android:hint="Add new"
-                    android:inputType="textMultiLine" />
+                    android:text="Requirements"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_12sp"
+                    android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/img_btn_add_must_have"
+                <com.jobtick.EditText.EditTextRegular
+                    android:id="@+id/edt_description_counter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_add_primary" />
+                    android:background="@null"
+                    android:hint="0/3"
+                    android:singleLine="true"
+                    android:textColor="@color/red_600"
+                    android:textSize="@dimen/_12sp" />
+
             </RelativeLayout>
+
+            <com.jobtick.EditText.EditTextRegular
+                android:id="@+id/edt_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="What requirements they must have ?"
+                android:inputType="textMultiLine"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_14sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:layout_weight="1"
+        android:backgroundTint="@color/colorPrimary"
+        android:elevation="@dimen/spacing_middle"
+        app:cardCornerRadius="@dimen/spacing_medium">
+
+        <LinearLayout
+            android:id="@+id/lyt_btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_large">
+
+            <com.jobtick.TextView.TextViewRegular
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/next"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14sp" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+
 </LinearLayout>

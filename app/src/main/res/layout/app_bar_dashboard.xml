@@ -8,14 +8,70 @@
     tools:context=".activities.DashboardActivity">
 
 
+    <!--
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/customToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/background"
+            android:fontFamily="@font/poppins_bold"
+            android:visibility="gone"3
+            app:contentInsetStartWithNavigation="0dp">
+
+
+        </androidx.appcompat.widget.Toolbar>
+    -->
+
 
     <androidx.appcompat.widget.Toolbar
-       android:id="@+id/toolbar"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:fontFamily="@font/poppins_bold"
         android:background="@color/background"
-        app:contentInsetStartWithNavigation="0dp"/>
+        android:fontFamily="@font/poppins_bold"
+
+        app:contentInsetStartWithNavigation="0dp">
+
+        <com.jobtick.TextView.TextViewBold
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Jobtick"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/_18sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/ivNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="end"
+            android:layout_margin="@dimen/_12sp"
+            android:src="@drawable/ic_notification_bell"
+            android:visibility="gone"></ImageView>
+
+        <!--<RelativeLayout
+            android:id="@+id/linearCustomeHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/_12sp"
+                android:src="@drawable/ic_notification_bell">
+
+            </ImageView>
+
+        </RelativeLayout>
+-->
+
+    </androidx.appcompat.widget.Toolbar>
 
     <include layout="@layout/content_dashboard" />
 

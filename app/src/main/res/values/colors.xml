@@ -62,6 +62,7 @@
     <color name="grey_30">#a7a7a7</color>
     <color name="btn_grey">#E5E5E5</color>
     <color name="greyF3F3F3">#F3F3F3</color>
+    <color name="greyC4C4C4">#C4C4C4</color>
     <color name="color545454">#545454</color>
     <!--Material color list from https://material.io/guidelines/style/color.html-->
     <color name="colorDeclineRed">#EB524B</color>
@@ -341,6 +342,8 @@
     <color name="grey_900">#212121</color>
     <color name="grey_1000">#1a1a1a</color>
     <color name="textColor">#2B3240</color>
+
+    <color name="colorE6E9FE">#E6E9FE</color>
 
     <color name="colorGrayC9C9C9">#C9C9C9</color>
 

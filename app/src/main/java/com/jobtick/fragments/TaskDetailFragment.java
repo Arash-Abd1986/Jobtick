@@ -395,14 +395,16 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rlt_add_must_have:
-                Intent intent = new Intent(taskCreateActivity, AddTagActivity.class);
+                /*Intent intent = new Intent(taskCreateActivity, AddTagActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putStringArrayList(ConstantKey.TAG, addTagList);
                 bundle.putString(ConstantKey.ACTIONBAR_TITLE, "Must-haves");
                 bundle.putString(ConstantKey.TITLE, "Add up to 3 things the Tasker needs to have or do to make an offer -e.g.\n• Must be available on Saturday morning\n• Must have own van or truck");
                 bundle.putInt(ConstantKey.TAG_SIZE, 3);
                 intent.putExtras(bundle);
-                startActivityForResult(intent, 25);
+                startActivityForResult(intent, 25);*/
+
+                showBottomSheetAddMustHave();
                 //  showBottomSheetDialog();
                 break;
             case R.id.lyt_btn_details:
@@ -592,6 +594,34 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         });
 
     }
+
+
+
+    private void showBottomSheetAddMustHave() {
+        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
+
+        final View view = getLayoutInflater().inflate(R.layout.sheet_add_must_have, null);
+
+        mBottomSheetDialog = new BottomSheetDialog(taskCreateActivity);
+        mBottomSheetDialog.setContentView(view);
+        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+
+        // set background transparent
+        ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
+
+        mBottomSheetDialog.show();
+        mBottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                mBottomSheetDialog = null;
+            }
+        });
+
+    }
+
 
 
     private void showBottomSheetDialog() {

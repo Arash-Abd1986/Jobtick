@@ -144,6 +144,7 @@
         <activity android:name=".activities.CategroyListActivity"></activity>
         <activity android:name=".activities.RescheduleDeclineActivity"></activity>
         <activity android:name=".activities.OnboardActivity"></activity>
+        <activity android:name=".activities.SearchCategoryActivity"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

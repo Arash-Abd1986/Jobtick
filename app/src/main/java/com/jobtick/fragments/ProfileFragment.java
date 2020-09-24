@@ -154,6 +154,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     private AttachmentAdapter adapter;
     private BadgesAdapter badgesAdapter;
     public static onProfileUpdateListener onProfileupdatelistener;
+    ImageView ivNotification;
+    TextViewBold toolbar_title;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -171,6 +173,11 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             toolbar = dashboardActivity.findViewById(R.id.toolbar);
             toolbar.getMenu().clear();
             toolbar.inflateMenu(R.menu.menu_profile);
+            ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
+            ivNotification.setVisibility(View.VISIBLE);
+            toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
+            toolbar_title.setVisibility(View.VISIBLE);
+
         }
         return view;
     }
@@ -456,7 +463,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
             Bundle bundle = new Bundle();
             bundle.putInt(Constant.userID, userAccountModel.getId());
-                   bundle.putString("WhoIs", Constant.AS_A_WORKER);
+            bundle.putString("WhoIs", Constant.AS_A_WORKER);
             //      bundle.putParcelable(Constant.userAccount, userAccountModel);
 
             startActivity(new Intent(dashboardActivity, ReviewsActivity.class)
@@ -468,7 +475,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
     @Override
     public void updatedSuccesfully(String path) {
-        if (path!= null) {
+        if (path != null) {
             ImageUtil.displayImage(imgAvatar, path, null);
         }
 

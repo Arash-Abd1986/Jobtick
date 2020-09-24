@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    tools:context=".activities.NewTaskAlertsActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="New Task Alert"
+        android:background="@color/background"
+        app:contentInsetStartWithNavigation="0dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_middle"
+        android:elevation="@dimen/spacing_middle"
+        android:layout_gravity="center"
+        app:cardCornerRadius="@dimen/spacing_middle">
+
+        <RadioGroup
+            android:id="@+id/rg_inPerson_remote"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <RadioButton
+                android:textColor="@color/radio_btn"
+                android:checked="true"
+                android:id="@+id/rb_in_person"
+                android:layout_width="match_parent"
+                android:paddingStart="@dimen/spacing_xlarge"
+                android:paddingEnd="@dimen/spacing_xlarge"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/radio_button_left_tab"
+                android:button="@null"
+                android:gravity="center"
+                android:text="In Person"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:textColor="@color/radio_btn"
+                android:id="@+id/rb_remote"
+                android:paddingStart="@dimen/spacing_xlarge"
+                android:paddingEnd="@dimen/spacing_xlarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/radio_button_right_tab"
+                android:button="@null"
+                android:gravity="center"
+                android:text="Remote"
+                android:textSize="14sp" />
+
+        </RadioGroup>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+</LinearLayout>

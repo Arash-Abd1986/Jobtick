@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/nav_view"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/mobile_navigation" />
+
+
+    <!--    <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/rlt_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:layout_alignParentBottom="true"
+            android:background="#00000000">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/search_blue_bg"
+                android:padding="15dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/a3"
+                android:tint="@color/white"/>
+        </RelativeLayout>-->
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemIconSize="@dimen/_25sp"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_menu"></com.google.android.material.bottomnavigation.BottomNavigationView>
+
+
+    <!--    app:itemRippleColor="@android:color/transparent"-->
+
+
+    <!--   <RelativeLayout
+           android:visibility="gone"
+           android:layout_marginTop="-12dp"
+           android:layout_width="match_parent"
+           android:layout_height="100dp"
+           android:layout_alignParentBottom="true"
+           android:background="#00000000">
+
+           <ImageView
+               android:layout_width="50dp"
+               android:layout_height="50dp"
+               android:layout_centerHorizontal="true"
+               android:background="@drawable/search_blue_bg"
+               android:scaleType="centerInside"
+               android:padding="15dp"
+               android:src="@drawable/a3"
+               android:tint="@color/white"/>
+       </RelativeLayout>-->
+
+    <!-- <LinearLayout
+         android:background="@color/white"
+         android:id="@+id/bottomLinear"
+         android:layout_width="match_parent"
+         android:layout_height="80dp"
+         android:layout_alignParentBottom="true"
+         android:orientation="horizontal">
+
+
+         <LinearLayout
+             android:id="@+id/llNewTask"
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:background="?selectableItemBackgroundBorderless"
+             android:orientation="vertical"
+             android:paddingTop="3dp">
+
+             <ImageView
+                 android:id="@+id/ivNewTask"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_gravity="center"
+                 android:layout_weight="1.25"
+                 android:padding="8dp"
+                 android:scaleType="centerInside"
+                 android:src="@drawable/ic_home_services_0" />
+
+             <TextView
+                 android:id="@+id/tvNewTask"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:gravity="top|center"
+                 android:text="new_task"
+                 android:textColor="@color/black"
+                 android:textSize="12dp" />
+
+         </LinearLayout>
+
+         <LinearLayout
+             android:id="@+id/llMyTask"
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:background="?selectableItemBackgroundBorderless"
+             android:orientation="vertical"
+             android:paddingTop="3dp">
+
+             <ImageView
+                 android:id="@+id/ivMyTask"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_gravity="center"
+                 android:layout_weight="1.25"
+                 android:padding="8dp"
+                 android:scaleType="centerInside"
+                 android:src="@drawable/ic_home_services_0" />
+
+             <TextView
+                 android:id="@+id/tvMyTask"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:gravity="top|center"
+                 android:text="my tasks"
+                 android:textColor="@color/black"
+                 android:textSize="12dp" />
+
+         </LinearLayout>
+
+         <LinearLayout
+             android:id="@+id/llBrowse"
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:background="?selectableItemBackgroundBorderless"
+             android:orientation="vertical"
+             android:paddingTop="3dp">
+
+             <ImageView
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_gravity="center"
+                 android:layout_weight="1.25"
+                 android:padding="8dp"
+                 android:scaleType="centerInside" />
+
+             <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:gravity="top|center"
+                 android:text="browse"
+                 android:textColor="@color/black"
+                 android:textSize="12dp" />
+
+         </LinearLayout>
+
+         <LinearLayout
+             android:id="@+id/llInbox"
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:background="?selectableItemBackgroundBorderless"
+             android:orientation="vertical"
+             android:paddingTop="3dp">
+
+             <ImageView
+                 android:id="@+id/ivInbox"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_gravity="center"
+                 android:layout_weight="1.25"
+                 android:padding="8dp"
+                 android:scaleType="centerInside"
+                 android:src="@drawable/ic_home_services_0" />
+
+             <TextView
+                 android:id="@+id/tvInbox"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:gravity="top|center"
+                 android:text="inbox"
+                 android:textColor="@color/black"
+                 android:textSize="12dp" />
+
+         </LinearLayout>
+
+         <LinearLayout
+             android:id="@+id/llProfile"
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:background="?selectableItemBackgroundBorderless"
+             android:orientation="vertical"
+             android:paddingTop="3dp">
+
+             <ImageView
+                 android:id="@+id/ivProfile"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_gravity="center"
+                 android:layout_weight="1.25"
+                 android:padding="8dp"
+                 android:scaleType="centerInside"
+                 android:src="@drawable/ic_home_services_0" />
+
+             <TextView
+                 android:id="@+id/tvProfile"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:gravity="top|center"
+                 android:text="profile"
+                 android:textColor="@color/black"
+                 android:textSize="12dp" />
+
+         </LinearLayout>
+
+     </LinearLayout>-->
+
+
+</RelativeLayout>

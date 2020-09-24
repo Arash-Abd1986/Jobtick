@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.jobtick.TextView.TextViewRegular
+        android:id="@+id/txt_bedge"
+        android:visibility="gone"
+        android:background="@drawable/round_shape_primary"
+        android:layout_width="@dimen/spacing_medium"
+        android:layout_height="@dimen/spacing_medium"
+        android:gravity="center"
+        android:padding="@dimen/spacing_medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/white" />
+
+</LinearLayout>

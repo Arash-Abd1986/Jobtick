@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/lyt_outer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="@dimen/spacing_middle"
+        android:layout_marginEnd="@dimen/spacing_middle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/lyt_inner"
+                android:layout_width="@dimen/_60dp"
+                android:layout_height="@dimen/_60dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacing_middle"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/img_view"
+                    android:layout_width="40dp"
+
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/spacing_medium"
+                    android:clickable="true"
+                    app:srcCompat="@drawable/ic_search" />
+            </LinearLayout>
+
+            <com.jobtick.TextView.TextViewRegular
+                android:id="@+id/txt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:imeOptions="actionSearch"
+
+                android:text="Caitle"
+                android:textColor="#293241"
+                android:textSize="@dimen/_16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_middle" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="@dimen/_25sp"
+        android:layout_marginEnd="@dimen/_25sp"
+        android:background="@color/grey_20">
+
+    </View>
+</LinearLayout>

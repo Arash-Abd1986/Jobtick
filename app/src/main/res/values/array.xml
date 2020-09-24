@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+
+    <integer-array name="category_image_0">
+        <item>@drawable/ic_handyman_0</item>
+        <item>@drawable/ic_cleaning_0</item>
+        <item>@drawable/ic_home_services_0</item>
+        <item>@drawable/ic_removalist_0</item>
+        <item>@drawable/ic_delivery_0</item>
+        <item>@drawable/ic_car_services_0</item>
+        <item>@drawable/ic_healthcare_0</item>
+        <item>@drawable/ic_education_0</item>
+        <item>@drawable/ic_events_0</item>
+        <item>@drawable/ic_computer_and_it_0</item>
+        <item>@drawable/ic_graphics_and_design_0</item>
+        <item>@drawable/ic_anything_else_0</item>
+
+    </integer-array>
+
+
+    <integer-array name="category_image_1">
+        <item>@drawable/ic_handyman_1</item>
+        <item>@drawable/ic_cleaning_1</item>
+        <item>@drawable/ic_home_services_1</item>
+        <item>@drawable/ic_removalist_1</item>
+        <item>@drawable/ic_delivery_1</item>
+        <item>@drawable/ic_car_services_1</item>
+        <item>@drawable/ic_healthcare_1</item>
+        <item>@drawable/ic_education_1</item>
+        <item>@drawable/ic_events_1</item>
+        <item>@drawable/ic_computer_and_it_1</item>
+        <item>@drawable/ic_graphics_and_design_1</item>
+        <item>@drawable/ic_anything_else_1</item>
+
+    </integer-array>
+
+
+    <integer-array name="category_id">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </integer-array>
+
+    <string-array name="category_name">
+        <item>Handyman</item>
+        <item>Cleaning</item>
+        <item>Home Serices</item>
+        <item>Removalist</item>
+        <item>Delivery</item>
+        <item>Car Services</item>
+        <item>Healthcare</item>
+        <item>Education</item>
+        <item>Events</item>
+        <item><![CDATA[Computer\n & IT]]></item>
+        <item><![CDATA[Graphics\n & Design]]></item>
+        <item>Anything\n Else</item>
+
+    </string-array>
+
+
+
+
+</resources>

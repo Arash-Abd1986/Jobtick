@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_new_task">
+
+    <fragment
+        android:id="@+id/navigation_new_task"
+        android:name="com.jobtick.fragments.NewTaskFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_new_task" />
+
+
+    <fragment
+        android:id="@+id/navigation_my_tasks"
+        android:name="com.jobtick.fragments.MyTasksFragment"
+        android:label="@string/title_my_jobs"
+        tools:layout="@layout/fragment_my_tasks" />
+
+
+    <fragment
+        android:id="@+id/navigation_browse"
+        android:name="com.jobtick.fragments.BrowseFragment"
+        android:label="@string/title_explore"
+        tools:layout="@layout/fragment_browse" />
+
+
+    <fragment
+        android:id="@+id/navigation_inbox"
+        android:name="com.jobtick.fragments.InboxFragment"
+        android:label="@string/title_chat"
+        tools:layout="@layout/fragment_inbox" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.jobtick.fragments.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+
+
+</navigation>

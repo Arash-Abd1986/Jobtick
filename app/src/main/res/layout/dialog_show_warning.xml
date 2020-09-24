@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="260dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="@dimen/spacing_middle"
+    app:cardCornerRadius="@dimen/spacing_middle"
+    android:layout_margin="@dimen/spacing_medium"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <com.jobtick.TextView.TextViewRegular
+            android:id="@+id/txt_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This coupon could not be applied."
+            android:textSize="@dimen/_18sp"
+            android:textColor="@color/textColor"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="@dimen/spacing_xlarge"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacing_line"
+            android:background="@color/grey_10"/>
+
+        <com.jobtick.Button.ButtonRegular
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/OK"
+            android:background="@color/transparent"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/btn_ok"
+            />
+
+
+    </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>

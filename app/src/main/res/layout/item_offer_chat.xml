@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/spacing_large">
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/img_avatar"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/pic" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_middle"
+        android:layout_toEndOf="@+id/img_avatar"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.jobtick.TextView.TextViewBold
+                android:id="@+id/txt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/txt_created_date"
+                android:singleLine="true"
+                android:text="Nathan Fox"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_12sp"
+                android:textStyle="bold" />
+
+
+            <com.jobtick.TextView.TextViewRegular
+                android:id="@+id/txt_created_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/textViewOptions"
+                android:text="21 min. ago"
+                android:textColor="@color/grey_40"
+                android:textSize="@dimen/_12sp" />
+
+
+            <TextView
+                android:id="@+id/textViewOptions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+
+                android:layout_gravity="center"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="@dimen/spacing_medium"
+                android:paddingRight="@dimen/spacing_medium"
+                android:text="&#8942;"
+                android:textAppearance="?android:textAppearanceLarge" />
+
+        </RelativeLayout>
+
+
+        <com.jobtick.TextView.TextViewRegular
+            android:id="@+id/txt_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="adipisicing adipisicing commodo Lorem enim si adipis adipisicing commodo Lorem enim si..."
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/_12sp" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_img_file"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="@dimen/spacing_small"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="@dimen/spacing_medium">
+
+
+
+
+        <ImageView
+            android:scaleType="fitCenter"
+            android:id="@+id/img_file"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/ic_gallery" />
+
+        </androidx.cardview.widget.CardView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:id="@+id/lyt_btn_reply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:padding="@dimen/spacing_small">
+
+                <ImageView
+                    android:layout_width="@dimen/_16sp"
+                    android:layout_height="@dimen/_16sp"
+                    android:src="@drawable/ic_corner_up_left"
+                    android:tint="@color/colorPrimary" />
+
+                <com.jobtick.TextView.TextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/spacing_middle"
+                    android:gravity="center_vertical"
+                    android:text="Reply"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_12sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/lyt_btn_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:padding="@dimen/spacing_small">
+
+                <ImageView
+                    android:id="@+id/img_more_less_arrow"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_arrow_down"
+                    android:tint="@color/colorPrimary" />
+
+                <com.jobtick.TextView.TextViewBold
+                    android:id="@+id/txt_more_less"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/spacing_middle"
+                    android:gravity="center_vertical"
+                    android:text="More"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_12sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "582071119574",
+    "firebase_url": "https://jobtick-1-00.firebaseio.com",
+    "project_id": "jobtick-1-00",
+    "storage_bucket": "jobtick-1-00.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:582071119574:android:76c05a3e8155cb88b0a377",
+        "android_client_info": {
+          "package_name": "com.jobtick"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "582071119574-vsobajo13c656mb2vprthha351r4f229.apps.googleusercontent.com",
+
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAegrJsCDz6k-C3eOWDJDmL6DsHkq8z-WM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "582071119574-vsobajo13c656mb2vprthha351r4f229.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "582071119574-snrp1tgtfj1tk5um10hdjc6ggpthfj70.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jobtick"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

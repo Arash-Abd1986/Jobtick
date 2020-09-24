@@ -1,0 +1,192 @@
+package com.jobtick.cancellations;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.jobtick.EditText.EditTextRegular;
+import com.jobtick.R;
+import com.jobtick.activities.ActivityBase;
+import com.jobtick.models.TaskModel;
+import com.jobtick.utils.Constant;
+import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.HttpStatus;
+import com.jobtick.utils.SessionManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import timber.log.Timber;
+
+public class CancellationDeclineActivity extends ActivityBase {
+
+    private static final String TAG = CancellationDeclineActivity.class.getName();
+    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;
+    @BindView(R.id.edt_comments)
+    EditTextRegular edtComments;
+    @BindView(R.id.lyt_btn_submit)
+    LinearLayout lytBtnSubmit;
+
+    private SessionManager sessionManager;
+    private TaskModel taskModel;
+    private Boolean isMyTask = false;
+    private int cancellationID = 0;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_cancellation_decline);
+        ButterKnife.bind(this);
+
+        sessionManager = new SessionManager(this);
+
+        Bundle bundle = getIntent().getExtras();
+        cancellationID = bundle.getInt(ConstantKey.KEY_TASK_CANCELLATION_ID);
+            isMyTask = bundle.getBoolean(ConstantKey.IS_MY_TASK);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+
+    }
+
+    @OnClick(R.id.lyt_btn_submit)
+    public void onViewClicked() {
+        if(validation()){
+            cancellationDecline(edtComments.getText().toString().trim());
+        }
+    }
+
+    private boolean validation() {
+        if(TextUtils.isEmpty(edtComments.getText().toString().trim())){
+            edtComments.setError("?");
+            return false;
+        }
+        return true;
+    }
+
+    private void cancellationDecline(String declined_reason) {
+        showpDialog();
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, Constant.BASE_URL + "cancellation/"+cancellationID+"/decline",
+                response -> {
+                    Timber.e(response);
+                    hidepDialog();
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+
+                                Intent intent = new Intent();
+                                Bundle bundle = new Bundle();
+                                bundle.putBoolean(ConstantKey.DECLINE, true);
+                                intent.putExtras(bundle);
+                                setResult(ConstantKey.RESULTCODE_CANCELLATION_DECLINE, intent);
+
+                                intent = new Intent(CancellationDeclineActivity.this, CancellationDeclinedActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                showToast("Something went Wrong", CancellationDeclineActivity.this);
+                            }
+                        }
+
+
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+
+                    }
+
+
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
+                            hidepDialog();
+                            return;
+                        }
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+                            if (jsonObject_error.has("message")) {
+                                Toast.makeText(CancellationDeclineActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", CancellationDeclineActivity.this);
+                    }
+                    Timber.e(error.toString());
+                    hidepDialog();
+                }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<>();
+
+                map1.put("declined_reason", declined_reason);
+                Timber.e(String.valueOf(map1.size()));
+                Timber.e(map1.toString());
+                return map1;
+
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(CancellationDeclineActivity.this);
+        requestQueue.add(stringRequest);
+        Log.e(TAG, stringRequest.getUrl());
+    }
+}

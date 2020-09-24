@@ -1,0 +1,58 @@
+{
+  "project_info": {
+    "project_number": "416326389503",
+    "firebase_url": "https://job-tick.firebaseio.com",
+    "project_id": "job-tick",
+    "storage_bucket": "job-tick.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416326389503:android:29fb56dd7a80199d",
+        "android_client_info": {
+          "package_name": "com.example.fosters.jobtick"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhNUCrG6FZqlEXoch-0_-FVzWE6Js3keA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416326389503:android:cb0eb22bc3e74328b2c6ca",
+        "android_client_info": {
+          "package_name": "com.jobtick"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416326389503-dqski8gl0acle16cu4ofb3ha7k4dg83o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jobtick",
+            "certificate_hash": "59a4902f01a8a4351622d4f5bb381320273e9c47"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhNUCrG6FZqlEXoch-0_-FVzWE6Js3keA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

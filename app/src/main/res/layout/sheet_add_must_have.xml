@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_middle"/>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_middle"
+        android:elevation="@dimen/spacing_middle"
+        app:cardCornerRadius="@dimen/spacing_middle">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_large">
+
+            <com.jobtick.TextView.TextViewSemiBold
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add must-have"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_12sp"
+                android:textStyle="bold" />
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.jobtick.EditText.EditTextRegular
+                    android:id="@+id/edt_add_must_have"
+                    android:layout_width="match_parent"
+                    android:background="@null"
+                    android:textSize="@dimen/_14sp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@id/img_btn_add_must_have"
+                    android:hint="Add new"
+                    android:inputType="textMultiLine" />
+
+                <ImageView
+                    android:id="@+id/img_btn_add_must_have"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_add_primary" />
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_line"
+        android:background="@color/colorF0F0F0"/>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/spacing_large"
+    android:orientation="vertical"
+    >
+
+    <com.jobtick.TextView.TextViewMedium
+        android:id="@+id/txt_created_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="Feb 21, 2020"
+        android:textColor="@color/grey_40"
+        android:textSize="@dimen/_10sp"
+        android:maxLines="1"
+        android:layout_marginBottom="@dimen/spacing_middle"
+        android:textStyle="bold" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="@dimen/_60dp"
+            android:layout_height="@dimen/_60dp"
+            android:src="@drawable/pic" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/spacing_middle"
+            android:layout_toStartOf="@+id/lyt_amount"
+            android:layout_toEndOf="@+id/img_avatar"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+
+            <com.jobtick.TextView.TextViewBold
+                android:id="@+id/txt_post_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="Clean my two bedroom apartment"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_12sp"
+                android:maxLines="2"
+                android:textStyle="bold" />
+
+            <com.jobtick.TextView.TextViewRegular
+                android:id="@+id/txt_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:text="Cody Lane"
+                android:textColor="@color/grey_70"
+                android:textSize="@dimen/_12sp" />
+
+
+
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/lyt_amount"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/spacing_middle"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+
+            <com.jobtick.TextView.TextViewBold
+                android:id="@+id/txt_amount"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="$ 100"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_20sp"
+                android:maxLines="2"
+                android:textStyle="bold" />
+
+            <com.jobtick.TextView.TextViewSemiBold
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="DEBITED"
+                android:textColor="@color/grey_40"
+                android:textSize="@dimen/_10sp" />
+
+
+
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>
+
+</LinearLayout>

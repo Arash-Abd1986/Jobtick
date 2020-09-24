@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/lyt_parent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing_large">
+
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="@dimen/_60dp"
+            android:layout_height="@dimen/_60dp"
+            android:layout_gravity="center"
+            android:src="@drawable/pic" />
+
+        <View
+            android:layout_width="@dimen/spacing_middle"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <com.jobtick.TextView.TextViewBold
+                    android:id="@+id/txt_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/txt_status"
+                    android:maxLines="1"
+
+                    android:text="Clean my two bedroom apartment"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/_12sp"
+                    android:textStyle="bold" />
+
+                <com.jobtick.TextView.TextViewRegular
+                    android:id="@+id/txt_status"
+                    android:layout_width="@dimen/spacing_middle"
+                    android:layout_height="@dimen/spacing_middle"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/spacing_middle"
+                    android:background="@drawable/round_shape_primary"
+                    android:gravity="center"
+                    android:padding="@dimen/spacing_medium"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="@color/white"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <com.jobtick.TextView.TextViewRegular
+                    android:id="@+id/txt_user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/txt_unseen_count"
+                    android:text="Nathan Fox"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_12sp" />
+
+                <com.jobtick.TextView.TextViewRegular
+                    android:id="@+id/txt_unseen_count"
+                    android:layout_width="@dimen/spacing_mlarge"
+                    android:layout_height="@dimen/spacing_mlarge"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/spacing_middle"
+                    android:background="@drawable/round_shape_primary"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rlt_last_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img_gallery"
+                    android:layout_width="@dimen/_12sp"
+                    android:layout_height="@dimen/_12sp"
+                    android:layout_alignParentEnd="@dimen/spacing_small"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_gallery" />
+
+                <com.jobtick.TextView.TextViewRegular
+                    android:id="@+id/txt_last_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/txt_time_status"
+                    android:layout_toEndOf="@+id/img_gallery"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Hi, is 8:30 pm good?"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/_12sp" />
+
+                <com.jobtick.TextView.TextViewRegular
+                    android:id="@+id/txt_time_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="20 min. ago"
+                    android:textColor="@color/grey_40"
+                    android:textSize="@dimen/_10sp" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_line"
+        android:background="@color/grey_10" />
+</LinearLayout>

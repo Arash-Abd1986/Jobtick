@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".activities.TaskAlertsActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:elevation="@dimen/spacing_mlarge"
+                app:cardCornerRadius="@dimen/spacing_middle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/spacing_mlarge"
+                    android:paddingTop="@dimen/spacing_large"
+                    android:paddingEnd="@dimen/spacing_mlarge"
+                    android:paddingBottom="@dimen/spacing_middle">
+
+                    <com.jobtick.TextView.TextViewMedium
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Turn on task alerts to get notified about tasks we think you’d be interested in."
+                        android:textColor="@color/grey_70"
+                        android:textSize="12sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_middle"
+                        android:orientation="horizontal">
+
+
+                        <com.jobtick.TextView.TextViewMedium
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="Receive Alerts?"
+                            android:textColor="@color/textColor"
+                            android:textSize="14sp" />
+
+
+                        <CheckBox
+                            android:id="@+id/cb_receive_alerts"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/radio_button_selector"
+                            android:button="@null"
+                            android:gravity="center" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:elevation="@dimen/spacing_mlarge"
+                app:cardCornerRadius="@dimen/spacing_middle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/spacing_mlarge"
+                        android:paddingTop="@dimen/spacing_large"
+                        android:paddingEnd="@dimen/spacing_mlarge"
+                        android:paddingBottom="@dimen/spacing_middle">
+
+                        <com.jobtick.TextView.TextViewSemiBold
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Additional Custom Task Alerts"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_medium" />
+
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Add a custom task alert and we’ll let you know when a match pop-ups."
+                            android:textColor="@color/grey_70"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <com.jobtick.TextView.TextViewMedium
+                        android:id="@+id/txt_btn_add_custom_alert"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:background="?attr/selectableItemBackground"
+                        android:drawableStart="@drawable/ic_add_primary"
+                        android:drawablePadding="@dimen/spacing_middle"
+                        android:gravity="center_vertical"
+                        android:inputType="textMultiLine"
+                        android:paddingStart="@dimen/spacing_mlarge"
+                        android:paddingTop="@dimen/spacing_large"
+                        android:paddingEnd="@dimen/spacing_mlarge"
+                        android:paddingBottom="@dimen/spacing_large"
+                        android:text="Add Custom Alert"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:overScrollMode="never"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

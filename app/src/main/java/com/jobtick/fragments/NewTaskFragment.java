@@ -1,0 +1,144 @@
+package com.jobtick.fragments;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.res.TypedArray;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+
+import com.jobtick.EditText.EditTextMedium;
+import com.jobtick.EditText.EditTextRegular;
+import com.jobtick.R;
+import com.jobtick.TextView.TextViewMedium;
+import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.activities.CategroyListActivity;
+import com.jobtick.activities.DashboardActivity;
+import com.jobtick.activities.TaskCreateActivity;
+import com.jobtick.adapers.TaskCategoryAdapter;
+import com.jobtick.models.TaskCategory;
+import com.jobtick.models.TaskModel;
+import com.jobtick.models.UserAccountModel;
+import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.SessionManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import bolts.Task;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import static com.jobtick.utils.Tools.compareTwoDate;
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class NewTaskFragment extends Fragment {
+
+
+    @BindView(R.id.edt_search_categories)
+    TextViewMedium edtSearchCategories;
+
+    @BindView(R.id.lty_btn_post)
+    LinearLayout lytBtnPost;
+    @BindView(R.id.txt_btn_category)
+    TextViewRegular txtBtnCategory;
+
+    private TaskCategoryAdapter adapter;
+    private DashboardActivity dashboardActivity;
+    private TaskModel taskModel;
+    private Toolbar toolbar;
+
+    @BindView(R.id.card_cancel_background)
+    CardView cardCancelBackground;
+
+    @BindView(R.id.card_cancelled)
+    CardView cardCancelled;
+
+    @BindView(R.id.txtBlocked)
+    TextViewRegular txtBlocked;
+
+
+    SessionManager sessionManager;
+
+    public NewTaskFragment() {
+        // Required empty public constructor
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_new_task, container, false);
+        ButterKnife.bind(this, view);
+        dashboardActivity = (DashboardActivity) getActivity();
+        if (dashboardActivity != null) {
+            toolbar = dashboardActivity.findViewById(R.id.toolbar);
+            toolbar.getMenu().clear();
+            toolbar.inflateMenu(R.menu.menu_new_task);
+            toolbar.getMenu().findItem(R.id.action_search).setVisible(false);
+        }
+
+
+        taskModel = new TaskModel();
+        sessionManager = new SessionManager(getContext());
+
+
+        lytBtnPost.setOnClickListener(v -> {
+            Intent creating_task = new Intent(getActivity(), CategroyListActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("category", "");
+            creating_task.putExtras(bundle);
+          /*
+            //taskModel.setCategory(1);
+            bundle.putParcelable(ConstantKey.TASK, taskModel);
+            creating_task.putExtras(bundle);
+            startActivityForResult(creating_task, 12);*/
+            getContext().startActivity(creating_task);
+        });
+        init();
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        toolbar.setOnMenuItemClickListener(item -> false);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        if (requestCode == ConstantKey.RESULTCODE_CATEGORY && data != null) {
+            boolean deSelectAllCategory = data.getBooleanExtra(ConstantKey.CATEGORY, false);
+            if (deSelectAllCategory) {
+                adapter.allUnselect();
+                adapter.notifyDataSetChanged();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void init() {
+        UserAccountModel userAccountModel = sessionManager.getUserAccount();
+        if (userAccountModel.getBlocked()) {
+            cardCancelBackground.setVisibility(View.VISIBLE);
+            cardCancelled.setVisibility(View.VISIBLE);
+            txtBlocked.setText("Your account has been blocked for " + compareTwoDate(sessionManager.getUserAccount().getBlockedUntil()) + " days.");
+        }
+
+    }
+}

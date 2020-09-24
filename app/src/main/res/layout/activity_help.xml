@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    tools:context=".activities.HelpActivity">
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="Help"
+        android:background="@color/background"
+        app:contentInsetStartWithNavigation="0dp"/>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_middle"
+        android:elevation="@dimen/spacing_middle"
+        app:cardCornerRadius="@dimen/spacing_middle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+
+            <RelativeLayout
+                android:id="@+id/rlt_btn_support"
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_mlarge"
+                >
+                <com.jobtick.TextView.TextViewSemiBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="Support"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_14sp"
+                    />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_back"
+                    android:layout_alignParentEnd="true"
+                    android:rotation="180"
+                    android:tint="@color/grey_40"/>
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_line"
+                android:background="@color/background"/>
+
+            <RelativeLayout
+                android:id="@+id/rlt_btn_terms_condition"
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_mlarge"
+                >
+                <com.jobtick.TextView.TextViewSemiBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/terms_condition"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_14sp"
+                    />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_back"
+                    android:layout_alignParentEnd="true"
+                    android:rotation="180"
+                    android:tint="@color/grey_40"/>
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_line"
+                android:background="@color/background"/>
+
+            <RelativeLayout
+                android:id="@+id/rlt_privacy_policy"
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_mlarge"
+                >
+                <com.jobtick.TextView.TextViewSemiBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="Privacy Policy"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_14sp"
+                    />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_back"
+                    android:layout_alignParentEnd="true"
+                    android:rotation="180"
+                    android:tint="@color/grey_40"/>
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_line"
+                android:background="@color/background"/>
+
+
+            <RelativeLayout
+                android:id="@+id/rlt_btn_guidelines_for_poster"
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_mlarge"
+                >
+                <com.jobtick.TextView.TextViewSemiBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="Guidelines For Posters"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_14sp"
+                    />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_back"
+                    android:layout_alignParentEnd="true"
+                    android:rotation="180"
+                    android:tint="@color/grey_40"/>
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_line"
+                android:background="@color/background"/>
+
+
+
+            <RelativeLayout
+                android:id="@+id/rlt_btn_guidelines_for_tickers"
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_mlarge"
+                >
+                <com.jobtick.TextView.TextViewSemiBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="Guidelines For Tickers"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_14sp"
+                    />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_back"
+                    android:layout_alignParentEnd="true"
+                    android:rotation="180"
+                    android:tint="@color/grey_40"/>
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_line"
+                android:background="@color/background"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

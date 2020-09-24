@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".activities.ChatActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:orientation="vertical"
+        tools:context=".activities.ChatActivity">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/background"
+            app:contentInsetStartWithNavigation="0dp"
+            app:menu="@menu/menu_chat"
+            app:navigationIcon="@drawable/ic_back"
+            app:subtitle="Offline"
+            app:subtitleTextColor="@color/red_600">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/img_avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/pic" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:orientation="vertical">
+
+                    <com.jobtick.TextView.TextViewRegular
+                        android:id="@+id/txt_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="Username"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_12sp"
+                        android:textStyle="bold" />
+
+
+                    <com.jobtick.TextView.TextViewRegular
+                        android:id="@+id/txt_subtitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text=""
+                        android:textColor="@color/red_600"
+                        android:textSize="@dimen/_12sp"
+                        android:textStyle="normal" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:id="@+id/lyt_task_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <com.jobtick.TextView.TextViewBold
+                    android:id="@+id/txt_job_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_toStartOf="@+id/card_status"
+                    android:maxLines="2"
+                    android:text=""
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/_12sp"
+                    android:textStyle="bold" />
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_status"
+                    android:layout_width="@dimen/_70dp"
+                    android:layout_height="@dimen/_35sp"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/spacing_line"
+                    android:layout_toStartOf="@+id/card_task_action"
+                    android:backgroundTint="@color/green"
+                    android:elevation="@dimen/spacing_middle"
+                    app:cardCornerRadius="@dimen/spacing_middle">
+
+                    <TextView
+                        android:id="@+id/txt_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:text="ACCEPT"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10sp" />
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_task_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_35sp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/spacing_middle"
+                    android:layout_marginEnd="@dimen/spacing_middle"
+                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:elevation="@dimen/spacing_large"
+                    app:cardCornerRadius="@dimen/spacing_middle">
+
+                    <ImageView
+                        android:id="@+id/img_btn_task_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/spacing_middle"
+                        android:src="@drawable/ic_chevron_right" />
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_line"
+                android:background="@color/grey_10" />
+
+        </LinearLayout>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_background_two_corner_white_1"
+            android:orientation="vertical">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+            <LinearLayout
+                android:id="@+id/lyt_scroll_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="@dimen/spacing_mlarge"
+                android:layout_marginBottom="@dimen/spacing_mlarge"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sp"
+                android:visibility="visible">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/txtCount"
+                        android:padding="@dimen/_10sp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/round_shape_primary_white"
+                        android:src="@drawable/ic_down_arrow"
+                        android:tint="@color/gray" />
+
+                    <com.jobtick.TextView.TextViewMedium
+                        android:id="@+id/txtCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="-11dp"
+                        android:background="@drawable/round_shape_primary_blue"
+                        android:text="0"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sp"
+                        android:visibility="gone">
+
+                    </com.jobtick.TextView.TextViewMedium>
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlt_layout_action_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:minHeight="?attr/actionBarSize">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="@dimen/spacing_middle"
+                android:layout_marginTop="@dimen/spacing_middle"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:layout_toStartOf="@+id/card_send"
+                android:elevation="@dimen/spacing_large"
+                app:cardCornerRadius="@dimen/spacing_middle">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_middle">
+
+                    <ImageView
+                        android:id="@+id/img_btn_image_select"
+                        android:layout_width="@dimen/_24sp"
+                        android:layout_height="@dimen/_24sp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_paperclip" />
+
+                    <com.jobtick.EditText.EditTextRegular
+                        android:id="@+id/edt_comment_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/spacing_middle"
+                        android:layout_toEndOf="@+id/img_btn_image_select"
+                        android:background="@null"
+                        android:hint="Type message..."
+                        android:inputType="textMultiLine"
+                        android:maxLines="5"
+                        android:textSize="@dimen/_12sp" />
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_middle"
+                android:layout_marginEnd="@dimen/spacing_middle"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:backgroundTint="@color/colorPrimary"
+                android:elevation="@dimen/spacing_large"
+                app:cardCornerRadius="@dimen/spacing_middle">
+
+                <ImageView
+                    android:id="@+id/img_btn_send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/spacing_middle"
+                    android:src="@drawable/ic_send" />
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

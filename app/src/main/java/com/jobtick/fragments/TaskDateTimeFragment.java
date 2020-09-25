@@ -9,9 +9,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,12 +25,15 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.models.DueTimeModel;
 import com.jobtick.models.TaskModel;
+import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.Tools;
 
 import java.text.SimpleDateFormat;
@@ -111,6 +117,11 @@ public class TaskDateTimeFragment extends Fragment {
     LinearLayout lytBtnNext;
     @BindView(R.id.lyt_button)
     LinearLayout lytButton;
+    private BottomSheetBehavior mBehavior;
+    private BottomSheetDialog mBottomSheetDialog;
+    @BindView(R.id.bottom_sheet)
+    FrameLayout bottomSheet;
+
 
     public static TaskDateTimeFragment newInstance(String due_date, DueTimeModel due_time, OperationsListener operationsListener) {
 
@@ -138,6 +149,8 @@ public class TaskDateTimeFragment extends Fragment {
         task = new TaskModel();
         task.setDueDate(Tools.getDayMonthDateTimeFormat(getArguments().getString("DUE_DATE")));
         task.setDueTime(getArguments().getParcelable("DUE_TIME"));
+        mBehavior = BottomSheetBehavior.from(bottomSheet);
+
 
         return view;
     }
@@ -145,13 +158,10 @@ public class TaskDateTimeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month = month + 1;
-                str_due_date = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + dayOfMonth);
-                txtDate.setText(str_due_date);
-            }
+        mDateSetListener = (view1, year, month, dayOfMonth) -> {
+            month = month + 1;
+            str_due_date = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + dayOfMonth);
+            txtDate.setText(str_due_date);
         };
         txtDate.setText(task.getDueDate());
         if (task.getDueTime() != null) {
@@ -177,24 +187,21 @@ public class TaskDateTimeFragment extends Fragment {
             }
 
         } else {
-            cbMorning.setChecked(true);
+            cbMorning.setChecked(false);
             cbMidday.setChecked(false);
             cbAfternoon.setChecked(false);
             cbEvening.setChecked(false);
         }
 
-        taskCreateActivity.setActionDraftDateTime(new TaskCreateActivity.ActionDraftDateTime() {
-            @Override
-            public void callDraftTaskDateTime(TaskModel taskModel) {
-                if (taskModel.getDueDate() != null) {
-                    operationsListener.draftTaskDateTime(taskModel, true);
-                } else {
-                    if (!TextUtils.isEmpty(txtDate.getText().toString().trim()) && !checkDateTodayOrOnwords()) {
-                        taskModel.setDueDate(Tools.getDayMonthDateTimeFormat(txtDate.getText().toString().trim()));
-                    }
-                    taskModel.setDueTime(getDueTimeModel());
-                    operationsListener.draftTaskDateTime(taskModel, false);
+        taskCreateActivity.setActionDraftDateTime(taskModel -> {
+            if (taskModel.getDueDate() != null) {
+                operationsListener.draftTaskDateTime(taskModel, true);
+            } else {
+                if (!TextUtils.isEmpty(txtDate.getText().toString().trim()) && !checkDateTodayOrOnwords()) {
+                    taskModel.setDueDate(Tools.getDayMonthDateTimeFormat(txtDate.getText().toString().trim()));
                 }
+                taskModel.setDueTime(getDueTimeModel());
+                operationsListener.draftTaskDateTime(taskModel, false);
             }
         });
 
@@ -250,7 +257,7 @@ public class TaskDateTimeFragment extends Fragment {
                 month = calendar.get(Calendar.MONTH);
                 day = calendar.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(
+              /*  DatePickerDialog dialog = new DatePickerDialog(
                         taskCreateActivity,
                         android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                         mDateSetListener,
@@ -259,7 +266,8 @@ public class TaskDateTimeFragment extends Fragment {
                 //  Toast.makeText(taskCreateActivity, "" + (System.currentTimeMillis() - 1000), Toast.LENGTH_SHORT).show();
                 dialog.getDatePicker().setMinDate(((System.currentTimeMillis() - 1000) + 86400000));
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
+                dialog.show();*/
+                showBottomSheetDialogDate();
                 break;
             case R.id.img_morning:
             case R.id.txt_title_morning:
@@ -420,6 +428,62 @@ public class TaskDateTimeFragment extends Fragment {
     public void onDestroyView() {
         Log.e("datetime", "destoryview");
         super.onDestroyView();
+    }
+
+
+    private void showBottomSheetDialogDate() {
+        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
+
+        final View view = getLayoutInflater().inflate(R.layout.sheet_date, null);
+
+        mBottomSheetDialog = new BottomSheetDialog(taskCreateActivity);
+        mBottomSheetDialog.setContentView(view);
+        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+
+        CalendarView calendarView = view.findViewById(R.id.calenderView);
+        calendarView.setMinDate(System.currentTimeMillis());
+
+
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MONTH, 2); // subtract 2 years from now
+
+        calendarView.setMaxDate(c.getTimeInMillis());
+
+        TextViewMedium txtCancel = view.findViewById(R.id.txt_cancel);
+        txtCancel.setOnClickListener(v -> {
+            mBottomSheetDialog.dismiss();
+        });
+
+        LinearLayout lytBtnDone = view.findViewById(R.id.lyt_btn_done);
+        lytBtnDone.setOnClickListener(v -> {
+            mBottomSheetDialog.dismiss();
+
+        });
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+
+            @Override
+            public void onSelectedDayChange(CalendarView arg0, int year, int month,
+                                            int date) {
+
+                month = month + 1;
+                str_due_date = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + date);
+                txtDate.setText(str_due_date);
+
+            }
+        });
+
+
+        // set background transparent
+        ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
+
+        mBottomSheetDialog.show();
+        mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
 
     }
+
+
 }

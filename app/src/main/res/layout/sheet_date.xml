@@ -18,17 +18,18 @@
 
 
     <CalendarView
+        android:id="@+id/calenderView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </CalendarView>
 
-    <view
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey_70">
+        android:background="@color/colorF0F0F0">
 
-    </view>
+    </View>
 
 
     <LinearLayout
@@ -39,6 +40,7 @@
 
 
         <com.jobtick.TextView.TextViewMedium
+            android:id="@+id/txt_cancel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/spacing_medium"
@@ -62,11 +64,12 @@
             android:layout_marginBottom="@dimen/spacing_large"
             android:layout_weight="0.5"
             android:backgroundTint="@color/colorE6E9FE"
-            android:elevation="@dimen/spacing_middle"
-            app:cardCornerRadius="@dimen/spacing_medium">
+            android:clipToPadding="false"
+            app:cardCornerRadius="@dimen/spacing_medium"
+            app:cardElevation="0dp">
 
             <LinearLayout
-                android:id="@+id/lyt_btn_next"
+                android:id="@+id/lyt_btn_done"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

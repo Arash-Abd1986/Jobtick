@@ -5,349 +5,456 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/spacing_large"
+        android:src="@drawable/ic_down">
+
+    </ImageView>
+
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </androidx.cardview.widget.CardView>
 
-
-    <RelativeLayout
+    <RadioGroup
+        android:id="@+id/radioFilter"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sp">
 
-        <com.jobtick.TextView.TextViewMedium
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="17dp"
-            android:textColor="@color/textColor"
-            android:layout_margin="@dimen/_16sp"
-            android:text="Sort By">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        </com.jobtick.TextView.TextViewMedium>
+            <com.jobtick.TextView.TextViewMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Sort By"
+                android:textColor="@color/textColor"
+                android:textSize="17dp">
 
-        <ImageView
+            </com.jobtick.TextView.TextViewMedium>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/_16sp"
+                android:src="@drawable/ic_filter_close"
+                android:visibility="gone">
+
+            </ImageView>
+        </RelativeLayout>
+
+        <RadioButton
+            android:id="@+id/radioAll2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_margin="@dimen/_16sp"
-            android:src="@drawable/ic_filter_close">
+            android:button="@drawable/radio_button_selector"
+            android:checked="true"
+            android:text="" />
 
-        </ImageView>
-    </RelativeLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_large"
-        android:layout_marginEnd="@dimen/spacing_large"
-        android:orientation="vertical">
-
-
-        <RadioGroup
-            android:id="@+id/radioFilter"
+        <RadioButton
+            android:id="@+id/radioDraft2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:button="@drawable/radio_button_selector"
+            android:paddingStart="@dimen/_15sp" />
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
 
+            <com.jobtick.TextView.TextViewMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16sp"
+                android:text="All"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_16sp">
+
+            </com.jobtick.TextView.TextViewMedium>
+
             <RadioButton
                 android:id="@+id/radioAll"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/radio_button_square_selector"
+                android:layout_alignParentEnd="true"
+                android:button="@drawable/radio_button_selector"
                 android:checked="true"
-                android:paddingStart="@dimen/_15sp"
-                android:text="All Jobs" />
+                android:text="" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.jobtick.TextView.TextViewMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16sp"
+                android:text="Draft"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_16sp">
+
+            </com.jobtick.TextView.TextViewMedium>
 
             <RadioButton
                 android:id="@+id/radioDraft"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/radio_button_square_selector"
-                android:paddingStart="@dimen/_15sp"
-                android:text="Draft" />
+                android:layout_alignParentEnd="true"
+                android:button="@drawable/radio_button_selector"
+                android:paddingStart="@dimen/_15sp" />
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.jobtick.TextView.TextViewMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16sp"
+                android:text="Cancelled"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_16sp">
+
+            </com.jobtick.TextView.TextViewMedium>
 
             <RadioButton
                 android:id="@+id/radioCancelled"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/radio_button_square_selector"
-                android:paddingStart="@dimen/_15sp"
-                android:text="Cancelled" />
+                android:layout_alignParentEnd="true"
+
+                android:button="@drawable/radio_button_selector"
+                android:paddingStart="@dimen/_15sp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.jobtick.TextView.TextViewMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16sp"
+                android:text="Assigned"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_16sp">
+
+            </com.jobtick.TextView.TextViewMedium>
 
             <RadioButton
                 android:id="@+id/radioAssigned"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/radio_button_square_selector"
+                android:layout_alignParentEnd="true"
+                android:button="@drawable/radio_button_selector"
                 android:paddingStart="@dimen/_15sp"
-                android:text="Assigned" />
+
+                />
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.jobtick.TextView.TextViewMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16sp"
+                android:text="Open"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_16sp">
+
+            </com.jobtick.TextView.TextViewMedium>
 
             <RadioButton
                 android:id="@+id/radioOpen"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/radio_button_square_selector"
-                android:paddingStart="@dimen/_15sp"
-                android:text="Open" />
+                android:layout_alignParentEnd="true"
+                android:button="@drawable/radio_button_selector"
+                android:paddingStart="@dimen/_15sp" />
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.jobtick.TextView.TextViewMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16sp"
+                android:text="Pending"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_16sp">
+
+            </com.jobtick.TextView.TextViewMedium>
 
 
             <RadioButton
                 android:id="@+id/radioPending"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/radio_button_square_selector"
-                android:paddingStart="@dimen/_15sp"
-                android:text="Pending" />
+                android:layout_alignParentEnd="true"
+                android:button="@drawable/radio_button_selector"
+                android:paddingStart="@dimen/_15sp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.jobtick.TextView.TextViewMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16sp"
+                android:text="Completed"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_16sp">
+
+            </com.jobtick.TextView.TextViewMedium>
 
 
             <RadioButton
                 android:id="@+id/radioCompleted"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/radio_button_square_selector"
-                android:paddingStart="@dimen/_15sp"
-                android:text="Completed" />
+                android:layout_alignParentEnd="true"
+                android:button="@drawable/radio_button_selector"
+                android:paddingStart="@dimen/_15sp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.jobtick.TextView.TextViewMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16sp"
+                android:text="Offered"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_16sp">
+
+            </com.jobtick.TextView.TextViewMedium>
+
 
             <RadioButton
                 android:id="@+id/radioOffer"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/radio_button_square_selector"
-                android:paddingStart="@dimen/_15sp"
-                android:text="Offered" />
+                android:layout_alignParentEnd="true"
+                android:button="@drawable/radio_button_selector"
+                android:paddingStart="@dimen/_15sp" />
+
+        </RelativeLayout>
 
 
-        </RadioGroup>
+    </RadioGroup>
 
 
-        <!--  <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="@dimen/spacing_large"
+    <!--  <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="@dimen/spacing_large"
 
-              android:layout_marginTop="@dimen/spacing_middle"
-              android:orientation="horizontal">
+          android:layout_marginTop="@dimen/spacing_middle"
+          android:orientation="horizontal">
 
-              <CheckBox
-                  android:id="@+id/cb_receive_alerts"
-                  android:layout_width="32dp"
-                  android:layout_height="32dp"
-                  android:layout_gravity="center"
-                  android:background="@drawable/radio_button_square_selector"
-                  android:button="@null"
-                  android:gravity="center" />
+          <CheckBox
+              android:id="@+id/cb_receive_alerts"
+              android:layout_width="32dp"
+              android:layout_height="32dp"
+              android:layout_gravity="center"
+              android:background="@drawable/radio_button_selector"
+              android:button="@null"
+              android:gravity="center" />
 
-
-              <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginStart="@dimen/_26sp"
-                  android:orientation="vertical">
-
-                  <com.jobtick.TextView.TextViewMedium
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_gravity="center_vertical"
-                      android:layout_weight="1"
-                      android:gravity="center_vertical"
-                      android:text="Open"
-                      android:textColor="@color/textColor"
-                      android:textSize="@dimen/_16sp" />
-
-              </LinearLayout>
-
-
-          </LinearLayout>
 
           <LinearLayout
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_margin="@dimen/spacing_large"
+              android:layout_marginStart="@dimen/_26sp"
+              android:orientation="vertical">
 
-              android:layout_marginTop="@dimen/spacing_middle"
-              android:orientation="horizontal">
-
-              <CheckBox
-                  android:id="@+id/cb_receive_alerts"
-                  android:layout_width="32dp"
-                  android:layout_height="32dp"
-                  android:layout_gravity="center"
-                  android:background="@drawable/radio_button_square_selector"
-                  android:button="@null"
-                  android:gravity="center" />
-
-
-              <LinearLayout
-                  android:layout_width="match_parent"
+              <com.jobtick.TextView.TextViewMedium
+                  android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_marginStart="@dimen/_26sp"
-                  android:orientation="vertical">
-
-                  <com.jobtick.TextView.TextViewMedium
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_gravity="center_vertical"
-                      android:layout_weight="1"
-                      android:gravity="center_vertical"
-                      android:text="Pending"
-                      android:textColor="@color/textColor"
-                      android:textSize="@dimen/_16sp" />
-
-              </LinearLayout>
-
+                  android:layout_gravity="center_vertical"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical"
+                  android:text="Open"
+                  android:textColor="@color/textColor"
+                  android:textSize="@dimen/_16sp" />
 
           </LinearLayout>
+
+
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="@dimen/spacing_large"
+
+          android:layout_marginTop="@dimen/spacing_middle"
+          android:orientation="horizontal">
+
+          <CheckBox
+              android:id="@+id/cb_receive_alerts"
+              android:layout_width="32dp"
+              android:layout_height="32dp"
+              android:layout_gravity="center"
+              android:background="@drawable/radio_button_selector"
+              android:button="@null"
+              android:gravity="center" />
+
 
           <LinearLayout
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_margin="@dimen/spacing_large"
+              android:layout_marginStart="@dimen/_26sp"
+              android:orientation="vertical">
 
-              android:layout_marginTop="@dimen/spacing_middle"
-              android:orientation="horizontal">
-
-              <CheckBox
-                  android:id="@+id/cb_receive_alerts"
-                  android:layout_width="32dp"
-                  android:layout_height="32dp"
-                  android:layout_gravity="center"
-                  android:background="@drawable/radio_button_square_selector"
-                  android:button="@null"
-                  android:gravity="center" />
-
-
-              <LinearLayout
-                  android:layout_width="match_parent"
+              <com.jobtick.TextView.TextViewMedium
+                  android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_marginStart="@dimen/_26sp"
-                  android:orientation="vertical">
-
-                  <com.jobtick.TextView.TextViewMedium
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_gravity="center_vertical"
-                      android:layout_weight="1"
-                      android:gravity="center_vertical"
-                      android:text="Completed"
-                      android:textColor="@color/textColor"
-                      android:textSize="@dimen/_16sp" />
-
-              </LinearLayout>
-
+                  android:layout_gravity="center_vertical"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical"
+                  android:text="Pending"
+                  android:textColor="@color/textColor"
+                  android:textSize="@dimen/_16sp" />
 
           </LinearLayout>
+
+
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="@dimen/spacing_large"
+
+          android:layout_marginTop="@dimen/spacing_middle"
+          android:orientation="horizontal">
+
+          <CheckBox
+              android:id="@+id/cb_receive_alerts"
+              android:layout_width="32dp"
+              android:layout_height="32dp"
+              android:layout_gravity="center"
+              android:background="@drawable/radio_button_selector"
+              android:button="@null"
+              android:gravity="center" />
+
 
           <LinearLayout
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_margin="@dimen/spacing_large"
+              android:layout_marginStart="@dimen/_26sp"
+              android:orientation="vertical">
 
-              android:layout_marginTop="@dimen/spacing_middle"
-              android:orientation="horizontal">
-
-              <CheckBox
-                  android:id="@+id/cb_receive_alerts"
-                  android:layout_width="32dp"
-                  android:layout_height="32dp"
-                  android:layout_gravity="center"
-                  android:background="@drawable/radio_button_square_selector"
-                  android:button="@null"
-                  android:gravity="center" />
-
-
-              <LinearLayout
-                  android:layout_width="match_parent"
+              <com.jobtick.TextView.TextViewMedium
+                  android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_marginStart="@dimen/_26sp"
-                  android:orientation="vertical">
+                  android:layout_gravity="center_vertical"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical"
+                  android:text="Completed"
+                  android:textColor="@color/textColor"
+                  android:textSize="@dimen/_16sp" />
 
-                  <com.jobtick.TextView.TextViewMedium
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_gravity="center_vertical"
-                      android:layout_weight="1"
-                      android:gravity="center_vertical"
-                      android:text="Offered"
-                      android:textColor="@color/textColor"
-                      android:textSize="@dimen/_16sp" />
-
-              </LinearLayout>
+          </LinearLayout>
 
 
-          </LinearLayout>-->
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="@dimen/spacing_large"
+
+          android:layout_marginTop="@dimen/spacing_middle"
+          android:orientation="horizontal">
+
+          <CheckBox
+              android:id="@+id/cb_receive_alerts"
+              android:layout_width="32dp"
+              android:layout_height="32dp"
+              android:layout_gravity="center"
+              android:background="@drawable/radio_button_selector"
+              android:button="@null"
+              android:gravity="center" />
 
 
-    </LinearLayout>
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="@dimen/_26sp"
+              android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1">
+              <com.jobtick.TextView.TextViewMedium
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical"
+                  android:text="Offered"
+                  android:textColor="@color/textColor"
+                  android:textSize="@dimen/_16sp" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_cancel"
-            android:layout_width="0dp"
-            android:layout_height="46dp"
-            android:layout_margin="@dimen/spacing_large"
-            android:layout_weight="0.50"
-            android:backgroundTint="@color/colorF0F0F0"
-            android:elevation="@dimen/spacing_middle"
-            app:cardCornerRadius="@dimen/spacing_medium">
+          </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/lyt_btn_cancel"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center">
 
-                <com.jobtick.TextView.TextViewMedium
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/CANCEL"
-                    android:textAllCaps="true"
-                    android:textColor="@color/textColor"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_ok"
-            android:layout_width="0dp"
-            android:layout_height="46dp"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/spacing_large"
-            android:layout_weight="0.50"
-            android:backgroundTint="@color/colorPrimary"
-            android:elevation="@dimen/spacing_middle"
-            app:cardCornerRadius="@dimen/spacing_medium">
-
-            <LinearLayout
-                android:id="@+id/lyt_btn_ok"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center">
-
-                <com.jobtick.TextView.TextViewMedium
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="OK"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
+      </LinearLayout>-->
 
 
 </LinearLayout>
+
+
+
+
+
+
+
 
 
 

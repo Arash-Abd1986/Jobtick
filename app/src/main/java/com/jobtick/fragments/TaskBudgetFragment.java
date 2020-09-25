@@ -62,7 +62,7 @@ public class TaskBudgetFragment extends Fragment {
     @BindView(R.id.img_btn_add)
     ImageView imgBtnAdd;
     @BindView(R.id.card_time)
-    CardView cardTime;
+    LinearLayout cardTime;
     @BindView(R.id.txt_doller_us)
     TextViewSemiBold txtDollerUs;
     @BindView(R.id.edt_budget)

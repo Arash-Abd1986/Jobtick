@@ -44,9 +44,9 @@
         <ImageView
             android:id="@+id/iv_attachment"
             android:layout_width="match_parent"
-
             android:layout_height="250dp"
-            android:src="@drawable/ic_city_background">
+            android:scaleType="centerCrop"
+            >
 
 
         </ImageView>
@@ -58,58 +58,46 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="1">
 
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/lyt_btn_back"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:layout_marginEnd="@dimen/spacing_medium"
-            android:layout_marginBottom="@dimen/spacing_large"
-            android:layout_weight="1"
-            android:backgroundTint="@color/colorGrayC9C9C9"
-            android:elevation="@dimen/spacing_middle"
-            app:cardCornerRadius="@dimen/spacing_medium">
+            android:layout_gravity="center"
+            android:layout_weight="0.50"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
 
-            <LinearLayout
-                android:id="@+id/lyt_btn_back"
-                android:layout_width="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_large">
+
+            <com.jobtick.TextView.TextViewRegular
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
+                android:text="Back"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_14sp" />
 
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/spacing_large">
-
-                <com.jobtick.TextView.TextViewRegular
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Back"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/_14sp" />
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_button"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="@dimen/spacing_large"
             android:layout_marginTop="@dimen/spacing_large"
             android:layout_marginEnd="@dimen/spacing_medium"
             android:layout_marginBottom="@dimen/spacing_large"
-            android:layout_weight="1"
+            android:layout_weight="0.50"
             android:backgroundTint="@color/red_600"
-            android:elevation="@dimen/spacing_middle"
+            android:clipToPadding="false"
+            app:cardElevation="0dp"
             app:cardCornerRadius="@dimen/spacing_medium">
 
             <LinearLayout
@@ -135,7 +123,6 @@
 
 
     </LinearLayout>
-
 
 
 </LinearLayout>

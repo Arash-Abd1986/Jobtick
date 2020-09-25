@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Task Posted Successfully"
+            android:text="Job Posted Successfully"
             android:textColor="@color/textColor"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -48,7 +48,8 @@
             android:lineSpacingExtra="@dimen/spacing_medium"
             android:text="Uploaded photos requires our team’s approval.\nProcess may take up to 2 hours."
             android:textColor="@color/grey_40"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
 
 
     </LinearLayout>
@@ -61,6 +62,7 @@
         android:layout_margin="@dimen/spacing_large"
         android:backgroundTint="@color/colorPrimary"
         android:elevation="@dimen/spacing_middle"
+        android:visibility="visible"
         app:cardCornerRadius="@dimen/spacing_medium">
 
         <LinearLayout
@@ -102,8 +104,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:backgroundTint="@color/colorPrimary"
+                android:clipToPadding="false"
                 android:elevation="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_medium">
+                app:cardCornerRadius="@dimen/spacing_medium"
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:id="@+id/lyt_btn_new_job"
@@ -116,8 +120,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="post a new job"
-                        android:textAllCaps="true"
+                        android:text="Post a new job"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -129,9 +132,12 @@
                 android:layout_height="46dp"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_weight="0.5"
-                android:backgroundTint="@color/colorPrimary"
+
+                android:backgroundTint="@color/white"
+                android:clipToPadding="false"
                 android:elevation="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_medium">
+                app:cardCornerRadius="@dimen/spacing_medium"
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:id="@+id/lyt_btn_view_your_job"
@@ -146,9 +152,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="view your job"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
+                        android:text="View your job"
+                        android:textColor="@color/textColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 

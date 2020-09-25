@@ -28,7 +28,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.TextView.TextViewSemiBold;
 import com.jobtick.adapers.SectionsPagerAdapter;
 import com.jobtick.fragments.TaskBudgetFragment;
 import com.jobtick.fragments.TaskDateTimeFragment;
@@ -77,15 +77,17 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     @BindView(R.id.img_details)
     ImageView imgDetails;
     @BindView(R.id.txt_details)
-    TextViewRegular txtDetails;
+    TextViewSemiBold txtDetails;
     @BindView(R.id.img_date_time)
     ImageView imgDateTime;
     @BindView(R.id.txt_date_time)
-    TextViewRegular txtDateTime;
+    TextViewSemiBold txtDateTime;
     @BindView(R.id.img_budget)
     ImageView imgBudget;
+
+
     @BindView(R.id.txt_budget)
-    TextViewRegular txtBudget;
+    TextViewSemiBold txtBudget;
 
     TaskModel taskModel;
     private String title;
@@ -431,7 +433,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                                 }
 
                                 intent = new Intent(TaskCreateActivity.this, CompleteMessageActivity.class);
-                                intent.putExtra(COMPLETES_MESSAGE_FROM,RESULTCODE_CREATE_TASK);
+                                intent.putExtra(COMPLETES_MESSAGE_FROM, RESULTCODE_CREATE_TASK);
                                 startActivity(intent);
                                 finish();
                             } else {

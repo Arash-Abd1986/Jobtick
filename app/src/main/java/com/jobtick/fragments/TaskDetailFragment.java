@@ -34,6 +34,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +44,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.BuildConfig;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
+import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.AddTagActivity;
 
@@ -56,6 +58,8 @@ import com.jobtick.models.TaskModel;
 import com.jobtick.retrofit.ApiClient;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.Helper;
+import com.jobtick.utils.ImageUtil;
+import com.jobtick.utils.KeyboardUtil;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.Tools;
 import com.jobtick.widget.SpacingItemDecoration;
@@ -120,7 +124,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     @BindView(R.id.img_location_pin)
     ImageView imgLocationPin;
     @BindView(R.id.card_location)
-    CardView cardLocation;
+    LinearLayout cardLocation;
     @BindView(R.id.lyt_btn_back)
     LinearLayout lytBtnBack;
     @BindView(R.id.card_button)
@@ -556,7 +560,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
             attachmentAdapter.notifyItemRangeRemoved(position, attachmentArrayList.size());
             taskCreateActivity.showToast("Deleted that attachment", taskCreateActivity);
         } else if (action.equalsIgnoreCase("show")) {
-            showBottomSheetDialogViewFullImage();
+            showBottomSheetDialogViewFullImage(obj.getModalUrl(), position);
         }
     }
 
@@ -570,7 +574,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     }
 
 
-    private void showBottomSheetDialogViewFullImage() {
+    private void showBottomSheetDialogViewFullImage(String url, int currentPosition) {
         if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
@@ -581,20 +585,36 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         mBottomSheetDialog.setContentView(view);
         mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
+        ImageView iv_attachment = view.findViewById(R.id.iv_attachment);
+        if (url != null) {
+            ImageUtil.displayImage(iv_attachment, url, null);
+        }
+
+
+        LinearLayout lyt_btn_delete = view.findViewById(R.id.lyt_btn_delete);
+        lyt_btn_delete.setOnClickListener(v -> {
+            recyclerView.removeViewAt(currentPosition);
+            attachmentArrayList.remove(currentPosition);
+            attachmentAdapter.notifyItemRemoved(currentPosition);
+            attachmentAdapter.notifyItemRangeRemoved(currentPosition, attachmentArrayList.size());
+            taskCreateActivity.showToast("Deleted that attachment", taskCreateActivity);
+            mBottomSheetDialog.dismiss();
+
+        });
+
+
+        LinearLayout lyt_btn_back = view.findViewById(R.id.lyt_btn_back);
+        lyt_btn_back.setOnClickListener(v -> {
+            mBottomSheetDialog.dismiss();
+        });
 
         // set background transparent
         ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
         mBottomSheetDialog.show();
-        mBottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                mBottomSheetDialog = null;
-            }
-        });
+        mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
 
     }
-
 
 
     private void showBottomSheetAddMustHave() {
@@ -604,9 +624,53 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
         final View view = getLayoutInflater().inflate(R.layout.sheet_add_must_have, null);
 
+        //  new KeyboardUtil(getActivity(), view);
+
         mBottomSheetDialog = new BottomSheetDialog(taskCreateActivity);
         mBottomSheetDialog.setContentView(view);
         mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        mBottomSheetDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+
+        TextViewMedium txtCount = view.findViewById(R.id.txt_count);
+        TextViewRegular txtTotalCount = view.findViewById(R.id.txt_total_count);
+
+        LinearLayout lytBtnNext = view.findViewById(R.id.lyt_btn_next);
+        EditTextRegular edtAddTag = view.findViewById(R.id.edtAddTag);
+
+        lytBtnNext.setOnClickListener(v -> {
+            if (TextUtils.isEmpty(edtAddTag.getText().toString().trim())) {
+                edtAddTag.setError("Text is empty");
+                return;
+            }
+
+
+            if (3 > addTagList.size()) {
+
+                txtCount.setText(addTagList.size() + 1 + "");
+
+                if (recyclerView.getVisibility() != View.VISIBLE) {
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+                addTagList.add(edtAddTag.getText().toString().trim());
+                tagAdapter.notifyItemInserted(tagAdapter.getItemCount());
+                edtAddTag.setText(null);
+                if (addTagList.size() != 0) {
+                    if (recyclerAddMustHave.getVisibility() != View.VISIBLE) {
+                        recyclerAddMustHave.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    if (recyclerAddMustHave.getVisibility() == View.VISIBLE) {
+                        recyclerAddMustHave.setVisibility(View.GONE);
+                    }
+                }
+            } else {
+                taskCreateActivity.showToast("Max. 3 Tag you can add", taskCreateActivity);
+            }
+
+
+        });
 
 
         // set background transparent
@@ -620,8 +684,13 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
             }
         });
 
-    }
+       /* AddTagSheetFragment addPhotoBottomDialogFragment =
+                AddTagSheetFragment.newInstance();
+        addPhotoBottomDialogFragment.show(taskCreateActivity.getSupportFragmentManager(),
+                "add_photo_dialog_fragment");
+*/
 
+    }
 
 
     private void showBottomSheetDialog() {

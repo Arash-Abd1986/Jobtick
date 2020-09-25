@@ -4,13 +4,16 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -33,8 +36,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewBold;
+import com.jobtick.TextView.TextViewMedium;
+import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.activities.TaskDetailsActivity;
@@ -87,6 +95,10 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     private boolean isLoading = false;
     ImageView ivNotification;
     TextViewBold toolbar_title;
+    private BottomSheetBehavior mBehavior;
+    private BottomSheetDialog mBottomSheetDialog;
+    @BindView(R.id.bottom_sheet)
+    FrameLayout bottomSheet;
 
 
     private String[] status = new String[]{
@@ -125,13 +137,15 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             toolbar.inflateMenu(R.menu.menu_my_task);
             toolbar.setVisibility(View.VISIBLE);
             ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
-            ivNotification.setVisibility(View.VISIBLE);
-            toolbar_title=dashboardActivity.findViewById(R.id.toolbar_title);
-            toolbar_title.setVisibility(View.VISIBLE);
+            ivNotification.setVisibility(View.GONE);
+            toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
+            toolbar_title.setVisibility(View.GONE);
 
 
         }
         setHasOptionsMenu(true);
+        mBehavior = BottomSheetBehavior.from(bottomSheet);
+
         return view;
     }
 
@@ -197,8 +211,8 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                     break;
                 case R.id.action_filter:
 
-                    showSingleChoiceDialog();
-
+                    //showSingleChoiceDialog();
+                    showSortBottomSheet();
                     break;
             }
             return false;
@@ -396,6 +410,63 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
 
     }
+
+
+    private void showSortBottomSheet() {
+        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
+
+        final View view = getLayoutInflater().inflate(R.layout.custom_task_filter, null);
+
+        //  new KeyboardUtil(getActivity(), view);
+
+        mBottomSheetDialog = new BottomSheetDialog(dashboardActivity);
+        mBottomSheetDialog.setContentView(view);
+        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        mBottomSheetDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+
+        // set background transparent
+        ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        RadioGroup radioFilter = view.findViewById(R.id.radioFilter);
+
+
+        radioFilter.setOnCheckedChangeListener((group, checkedId) -> {
+            RadioButton rb = (RadioButton) view.findViewById(checkedId);
+            temp_single_choice_selected = rb.getText().toString();
+            if (temp_single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
+                temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
+            }
+
+            single_choice_selected = temp_single_choice_selected;
+            temp_single_choice_selected = null;
+            currentPage = PAGE_START;
+            isLastPage = false;
+            taskListAdapter.clear();
+            getStatusList();
+
+
+        });
+
+
+        mBottomSheetDialog.show();
+        mBottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                mBottomSheetDialog = null;
+            }
+        });
+
+       /* AddTagSheetFragment addPhotoBottomDialogFragment =
+                AddTagSheetFragment.newInstance();
+        addPhotoBottomDialogFragment.show(taskCreateActivity.getSupportFragmentManager(),
+                "add_photo_dialog_fragment");
+*/
+
+    }
+
 
     private void showSingleChoiceDialog() {
 

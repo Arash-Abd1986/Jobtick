@@ -134,9 +134,9 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
             toolbar.inflateMenu(R.menu.menu_new_task);
             toolbar.getMenu().findItem(R.id.action_search).setVisible(true);
             ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
-            ivNotification.setVisibility(View.VISIBLE);
+            ivNotification.setVisibility(View.GONE);
             toolbar_title=dashboardActivity.findViewById(R.id.toolbar_title);
-            toolbar_title.setVisibility(View.VISIBLE);
+            toolbar_title.setVisibility(View.GONE);
 
         }
 

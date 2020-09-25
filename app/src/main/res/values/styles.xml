@@ -12,7 +12,8 @@
         <item name="android:statusBarColor">@color/background</item>
         <item name="android:navigationBarColor">@color/background</item>
         <item name="android:windowLightStatusBar">true</item>
-        android:<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        android:
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
 
     </style>
 
@@ -24,81 +25,88 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 
-<!--    <style name="TextRegular">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:drawablePadding">@dimen/spacing_middle</item>
-        <item name="android:paddingTop">@dimen/spacing_medium</item>
-        <item name="android:paddingBottom">@dimen/spacing_medium</item>
-        <item name="android:textSize">@dimen/_12sp</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:background">@null</item>
-    </style>-->
+    <!--    <style name="TextRegular">
+            <item name="android:layout_height">wrap_content</item>
+            <item name="android:layout_width">match_parent</item>
+            <item name="android:gravity">center_vertical</item>
+            <item name="android:layout_gravity">center_vertical</item>
+            <item name="android:drawablePadding">@dimen/spacing_middle</item>
+            <item name="android:paddingTop">@dimen/spacing_medium</item>
+            <item name="android:paddingBottom">@dimen/spacing_medium</item>
+            <item name="android:textSize">@dimen/_12sp</item>
+            <item name="android:singleLine">true</item>
+            <item name="android:background">@null</item>
+        </style>-->
 
- <!--   <style name="TextBoldTitle">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:textSize">@dimen/_12sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-    </style>-->
-
-
- <!--   <style name="BtnText">
-        <item name="android:layout_gravity">center</item>
-        <item name="android:gravity">center</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:drawablePadding">@dimen/spacing_large</item>
-    </style>-->
-
-  <!--  <style name="CardBtn">
-        <item name="android:layout_height">46dp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:backgroundTint">@color/colorPrimary</item>
-        <item name="android:elevation">10dp</item>
-        <item name="cardCornerRadius">@dimen/spacing_medium</item>
-        <item name="android:layout_marginStart">@dimen/spacing_large</item>
-        <item name="android:layout_marginEnd">@dimen/spacing_large</item>
-        <item name="android:layout_marginTop">@dimen/spacing_medium</item>
-        <item name="android:layout_marginBottom">@dimen/spacing_middle</item>
-    </style>-->
+    <!--   <style name="TextBoldTitle">
+           <item name="android:layout_height">wrap_content</item>
+           <item name="android:layout_width">match_parent</item>
+           <item name="android:textSize">@dimen/_12sp</item>
+           <item name="android:textStyle">bold</item>
+           <item name="android:textColor">@color/colorPrimary</item>
+       </style>-->
 
 
-  <!--  <style name="CardText">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:elevation">20dp</item>
-        <item name="cardCornerRadius">@dimen/spacing_middle</item>
-        <item name="android:layout_marginStart">@dimen/spacing_large</item>
-        <item name="android:layout_marginEnd">@dimen/spacing_large</item>
-        <item name="android:layout_marginTop">@dimen/spacing_medium</item>
-        <item name="android:layout_marginBottom">@dimen/spacing_middle</item>
-    </style>-->
-<!--
-    <style name="LytBtn">
-        <item name="android:background">?attr/selectableItemBackground</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:gravity">center</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-    </style>-->
+    <!--   <style name="BtnText">
+           <item name="android:layout_gravity">center</item>
+           <item name="android:gravity">center</item>
+           <item name="android:layout_height">wrap_content</item>
+           <item name="android:layout_width">wrap_content</item>
+           <item name="android:textAllCaps">true</item>
+           <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+           <item name="android:textStyle">bold</item>
+           <item name="android:textColor">@color/white</item>
+           <item name="android:drawablePadding">@dimen/spacing_large</item>
+       </style>-->
 
-   <!-- <style name="LytText">
-        <item name="android:layout_marginStart">@dimen/spacing_mlarge</item>
-        <item name="android:layout_marginEnd">@dimen/spacing_mlarge</item>
-        <item name="android:layout_marginTop">@dimen/spacing_middle</item>
-        <item name="android:layout_marginBottom">@dimen/spacing_medium</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>-->
+    <!--  <style name="CardBtn">
+          <item name="android:layout_height">46dp</item>
+          <item name="android:layout_width">match_parent</item>
+          <item name="android:backgroundTint">@color/colorPrimary</item>
+          <item name="android:elevation">10dp</item>
+          <item name="cardCornerRadius">@dimen/spacing_medium</item>
+          <item name="android:layout_marginStart">@dimen/spacing_large</item>
+          <item name="android:layout_marginEnd">@dimen/spacing_large</item>
+          <item name="android:layout_marginTop">@dimen/spacing_medium</item>
+          <item name="android:layout_marginBottom">@dimen/spacing_middle</item>
+      </style>-->
+
+
+    <!--  <style name="CardText">
+          <item name="android:layout_height">wrap_content</item>
+          <item name="android:layout_width">match_parent</item>
+          <item name="android:elevation">20dp</item>
+          <item name="cardCornerRadius">@dimen/spacing_middle</item>
+          <item name="android:layout_marginStart">@dimen/spacing_large</item>
+          <item name="android:layout_marginEnd">@dimen/spacing_large</item>
+          <item name="android:layout_marginTop">@dimen/spacing_medium</item>
+          <item name="android:layout_marginBottom">@dimen/spacing_middle</item>
+      </style>-->
+    <!--
+        <style name="LytBtn">
+            <item name="android:background">?attr/selectableItemBackground</item>
+            <item name="android:layout_gravity">center</item>
+            <item name="android:gravity">center</item>
+            <item name="android:layout_width">match_parent</item>
+            <item name="android:layout_height">match_parent</item>
+        </style>-->
+
+    <!-- <style name="LytText">
+         <item name="android:layout_marginStart">@dimen/spacing_mlarge</item>
+         <item name="android:layout_marginEnd">@dimen/spacing_mlarge</item>
+         <item name="android:layout_marginTop">@dimen/spacing_middle</item>
+         <item name="android:layout_marginBottom">@dimen/spacing_medium</item>
+         <item name="android:orientation">vertical</item>
+         <item name="android:layout_width">match_parent</item>
+         <item name="android:layout_height">wrap_content</item>
+     </style>-->
+
+    <style name="DialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
 
 
     <style name="date_time">

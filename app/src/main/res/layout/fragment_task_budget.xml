@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/grey_100"
     tools:context=".fragments.TaskBudgetFragment">
 
     <ScrollView
@@ -152,8 +152,9 @@
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:clipToPadding="false"
+                app:cardCornerRadius="@dimen/spacing_middle"
+                app:cardElevation="0dp">
 
                 <RadioGroup
                     android:id="@+id/rg_hourly_total"
@@ -162,27 +163,34 @@
                     android:orientation="horizontal"
                     android:weightSum="2">
 
+
                     <RadioButton
-                        android:id="@+id/rb_hourly"
+                        android:id="@+id/rb_total"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/radio_button_left_tab"
                         android:button="@null"
+                        android:checked="true"
                         android:gravity="center"
-                        android:text="Hourly"
+                        android:paddingStart="@dimen/spacing_large"
+                        android:paddingEnd="@dimen/spacing_large"
+                        android:text="Total"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/radio_btn" />
 
                     <RadioButton
-                        android:id="@+id/rb_total"
+                        android:id="@+id/rb_hourly"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/radio_button_right_tab"
                         android:button="@null"
                         android:gravity="center"
-                        android:text="Total"
+                        android:paddingStart="@dimen/spacing_large"
+                        android:paddingEnd="@dimen/spacing_large"
+                        android:text="Hourly"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/radio_btn" />
 
@@ -200,7 +208,7 @@
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:background="@drawable/linear_rounded_white_fill">
+                android:background="@drawable/linear_rounded_white_fill_7dp">
 
 
                 <LinearLayout
@@ -212,7 +220,7 @@
                     <com.jobtick.TextView.TextViewSemiBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Time"
+                        android:text="Hours"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_12sp"
                         android:textStyle="bold" />
@@ -222,13 +230,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.jobtick.EditText.EditTextMedium
                             android:id="@+id/txt_hours"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_toStartOf="@id/img_btn_minus"
-                            android:text="1" />
+                            android:background="@null"
+                            android:inputType="number"
+                            android:textColor="@color/textColor" />
 
                         <ImageView
                             android:id="@+id/img_btn_minus"
@@ -237,7 +247,8 @@
                             android:layout_centerVertical="true"
                             android:layout_toStartOf="@id/img_btn_add"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_minus_primary" />
+                            android:src="@drawable/ic_minus_primary"
+                            android:visibility="gone" />
 
                         <ImageView
                             android:id="@+id/img_btn_add"
@@ -245,9 +256,11 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
+
                             android:layout_marginStart="@dimen/spacing_middle"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_add_primary" />
+                            android:src="@drawable/ic_add_primary"
+                            android:visibility="gone" />
 
                     </RelativeLayout>
 
@@ -261,7 +274,7 @@
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:background="@drawable/linear_rounded_white_fill">
+                android:background="@drawable/linear_rounded_white_fill_7dp">
 
 
                 <LinearLayout
@@ -288,7 +301,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
-                            android:layout_marginEnd="@dimen/spacing_middle"
+
                             android:text="$"
                             android:textColor="@color/grey_40"
                             android:textSize="@dimen/_14sp" />
@@ -300,8 +313,8 @@
                             android:layout_alignParentEnd="true"
                             android:layout_toEndOf="@+id/txt_doller_us"
                             android:background="@null"
-                            android:hint="200"
                             android:inputType="number"
+                            android:textColor="@color/textColor"
                             android:textSize="@dimen/_14sp" />
 
                     </RelativeLayout>
@@ -352,7 +365,7 @@
                         android:layout_marginEnd="@dimen/spacing_mlarge"
                         android:text="Estimated Budget:"
                         android:textColor="@color/textColor"
-                        android:textSize="@dimen/_12sp"
+                        android:textSize="@dimen/_14sp"
                         android:textStyle="bold" />
 
                     <com.jobtick.TextView.TextViewBold
@@ -363,7 +376,7 @@
                         android:layout_toStartOf="@id/txt_budget"
                         android:text="$"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_12sp"
+                        android:textSize="@dimen/_14sp"
                         android:textStyle="bold" />
 
                     <com.jobtick.TextView.TextViewBold
@@ -373,7 +386,7 @@
                         android:layout_alignParentEnd="true"
                         android:text="400"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_12sp"
+                        android:textSize="@dimen/_14sp"
                         android:textStyle="normal" />
 
                 </RelativeLayout>
@@ -400,8 +413,7 @@
                 android:layout_marginEnd="@dimen/spacing_medium"
                 android:layout_marginBottom="@dimen/spacing_large"
                 android:layout_weight="0.7"
-
-                android:backgroundTint="@color/btn_grey"
+                android:backgroundTint="@color/white"
                 android:clipToPadding="false"
                 app:cardCornerRadius="@dimen/spacing_medium"
                 app:cardElevation="0dp">
@@ -421,7 +433,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/back"
-                        android:textColor="@color/textColor"
+                        android:textColor="@color/grey_70"
                         android:textSize="@dimen/_14sp" />
 
                 </LinearLayout>

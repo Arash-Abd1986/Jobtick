@@ -39,10 +39,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.BuildConfig;
+import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.EditText.EditTextRegular;
+import com.jobtick.EditText.EditTextSemiBold;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
@@ -104,11 +105,11 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     @BindView(R.id.lyt_btn_budget)
     LinearLayout lytBtnBudget;
     @BindView(R.id.edt_title_counter)
-    EditTextRegular edtTitleCounter;
+    EditTextSemiBold edtTitleCounter;
     @BindView(R.id.edt_title)
     EditTextRegular edtTitle;
     @BindView(R.id.edt_description_counter)
-    EditTextRegular edtDescriptionCounter;
+    EditTextSemiBold edtDescriptionCounter;
     @BindView(R.id.edt_description)
     EditTextRegular edtDescription;
     @BindView(R.id.recycler_add_must_have)
@@ -162,7 +163,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
     private Uri fileUri;
     private AttachmentAdapter attachmentAdapter;
-    private BottomSheetBehavior mBehavior;
+  //  private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
     private TaskCreateActivity taskCreateActivity;
     private AddTagAdapter tagAdapter;
@@ -217,7 +218,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         task = new TaskModel();
         attachmentArrayList = new ArrayList<>();
         attachmentArrayList.add(new AttachmentModel());
-        mBehavior = BottomSheetBehavior.from(bottomSheet);
+       // mBehavior = BottomSheetBehavior.from(bottomSheet);
         addTagList = new ArrayList<>();
         task.setTitle(getArguments().getString("TITLE"));
         task.setDescription(getArguments().getString("DESCRIPTION"));
@@ -383,8 +384,8 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         tagAdapter.setOnItemClickListener(this);
 
 
-        recyclerView.setLayoutManager(new GridLayoutManager(taskCreateActivity, 3));
-        recyclerView.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(taskCreateActivity, 5), true));
+        recyclerView.setLayoutManager(new GridLayoutManager(taskCreateActivity, 4));
+        recyclerView.addItemDecoration(new SpacingItemDecoration(4, Tools.dpToPx(taskCreateActivity, 5), true));
         recyclerView.setHasFixedSize(true);
         //set data and list adapter
         attachmentAdapter = new AttachmentAdapter(taskCreateActivity, attachmentArrayList, true);
@@ -575,10 +576,10 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
 
     private void showBottomSheetDialogViewFullImage(String url, int currentPosition) {
-        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+        /*if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
-
+*/
         final View view = getLayoutInflater().inflate(R.layout.sheet_full_image, null);
 
         mBottomSheetDialog = new BottomSheetDialog(taskCreateActivity);
@@ -618,9 +619,9 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
 
     private void showBottomSheetAddMustHave() {
-        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+      /*  if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        }
+        }*/
 
         final View view = getLayoutInflater().inflate(R.layout.sheet_add_must_have, null);
 
@@ -628,9 +629,13 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
         mBottomSheetDialog = new BottomSheetDialog(taskCreateActivity);
         mBottomSheetDialog.setContentView(view);
+        mBottomSheetDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+/*
         mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         mBottomSheetDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+*/
 
 
         TextViewMedium txtCount = view.findViewById(R.id.txt_count);
@@ -639,6 +644,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         LinearLayout lytBtnNext = view.findViewById(R.id.lyt_btn_next);
         EditTextRegular edtAddTag = view.findViewById(R.id.edtAddTag);
 
+        txtCount.setText(addTagList.size() + "");
         lytBtnNext.setOnClickListener(v -> {
             if (TextUtils.isEmpty(edtAddTag.getText().toString().trim())) {
                 edtAddTag.setError("Text is empty");
@@ -694,9 +700,9 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
 
     private void showBottomSheetDialog() {
-        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+     /*   if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        }
+        }*/
 
         final View view = getLayoutInflater().inflate(R.layout.sheet_attachment, null);
         LinearLayout lytBtnCamera = view.findViewById(R.id.lyt_btn_camera);
@@ -885,6 +891,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
     private void uploadDataInTempApi(File pictureFile) {
         taskCreateActivity.showpDialog();
+
         Call<String> call;
 
         //    File file = new File(imagePath);
@@ -919,6 +926,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                         }
                     }
 
+                    //attachmentAdapter.addItems(attachmentArrayList);
                     attachmentAdapter.notifyItemInserted(0);
                     //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
                     taskCreateActivity.showToast("attachment added", taskCreateActivity);

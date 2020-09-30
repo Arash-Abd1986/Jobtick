@@ -103,6 +103,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     ImageView ivNotification;
     TextViewBold toolbar_title;
+
     public BrowseFragment() {
         // Required empty public constructor
     }
@@ -120,10 +121,11 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
             toolbar.getMenu().clear();
             toolbar.inflateMenu(R.menu.menu_browse_task);
             ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
-            ivNotification.setVisibility(View.VISIBLE);
-            toolbar_title=dashboardActivity.findViewById(R.id.toolbar_title);
-            toolbar_title.setVisibility(View.VISIBLE);
+            ivNotification.setVisibility(View.GONE);
+            toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
+            toolbar_title.setVisibility(View.GONE);
         }
+
 
         taskArrayList = new ArrayList<>();
         setHasOptionsMenu(true);

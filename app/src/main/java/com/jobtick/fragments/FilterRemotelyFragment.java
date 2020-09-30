@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.jobtick.R;
+import com.jobtick.TextView.TextViewBold;
 import com.jobtick.TextView.TextViewSemiBold;
 import com.jobtick.activities.FiltersActivity;
 import com.jobtick.models.FilterModel;
@@ -32,7 +33,7 @@ public class FilterRemotelyFragment extends Fragment {
 
 
     @BindView(R.id.txt_price_min_max)
-    TextViewSemiBold txtPriceMinMax;
+    TextViewBold txtPriceMinMax;
     @BindView(R.id.sk_price)
     MultiSlider skPrice;
     @BindView(R.id.cb_open_tasks)

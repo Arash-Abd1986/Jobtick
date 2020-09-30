@@ -52,7 +52,7 @@ public class TaskDateTimeFragment extends Fragment {
 
 
     TaskCreateActivity taskCreateActivity;
-    int year, month, day;
+    int cyear, cmonth, cday;
     String str_due_date = null;
     DatePickerDialog.OnDateSetListener mDateSetListener;
 
@@ -253,9 +253,9 @@ public class TaskDateTimeFragment extends Fragment {
                 break;
             case R.id.txt_date:
                 Calendar calendar = Calendar.getInstance();
-                year = calendar.get(Calendar.YEAR);
-                month = calendar.get(Calendar.MONTH);
-                day = calendar.get(Calendar.DAY_OF_MONTH);
+                cyear = calendar.get(Calendar.YEAR);
+                cmonth = calendar.get(Calendar.MONTH);
+                cday = calendar.get(Calendar.DAY_OF_MONTH);
 
               /*  DatePickerDialog dialog = new DatePickerDialog(
                         taskCreateActivity,
@@ -458,22 +458,32 @@ public class TaskDateTimeFragment extends Fragment {
         });
 
         LinearLayout lytBtnDone = view.findViewById(R.id.lyt_btn_done);
+
+        Calendar calendar = Calendar.getInstance();
+        cyear = calendar.get(Calendar.YEAR);
+
+        cmonth = calendar.get(Calendar.MONTH);
+        cmonth = cmonth + 1;
+
+        cday = calendar.get(Calendar.DAY_OF_MONTH);
         lytBtnDone.setOnClickListener(v -> {
+
+
+            str_due_date = Tools.getDayMonthDateTimeFormat(cyear + "-" + cmonth + "-" + cday);
+            txtDate.setText(str_due_date);
+
             mBottomSheetDialog.dismiss();
 
         });
 
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        calendarView.setOnDateChangeListener((arg0, year, month, date) -> {
 
-            @Override
-            public void onSelectedDayChange(CalendarView arg0, int year, int month,
-                                            int date) {
+            cmonth = month + 1;
+            cyear = year;
+            cday = date;
+            //         str_due_date = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + date);
+            //       txtDate.setText(str_due_date);
 
-                month = month + 1;
-                str_due_date = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + date);
-                txtDate.setText(str_due_date);
-
-            }
         });
 
 

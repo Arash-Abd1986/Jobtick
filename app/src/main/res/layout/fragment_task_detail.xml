@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/grey_100"
     android:orientation="vertical"
     tools:context=".fragments.TaskDetailFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background">
+        android:background="@color/grey_100">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -161,7 +161,7 @@
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
                     android:layout_marginBottom="@dimen/spacing_middle"
-                    android:background="@drawable/linear_rounded_white_fill">
+                    android:background="@drawable/linear_rounded_white_fill_7dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -181,12 +181,12 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
-                                android:text="Title"
+                                android:text="Job title"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/_12sp"
+                                android:textSize="@dimen/_13sp"
                                 android:textStyle="bold" />
 
-                            <com.jobtick.EditText.EditTextRegular
+                            <com.jobtick.EditText.EditTextSemiBold
                                 android:id="@+id/edt_title_counter"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -195,7 +195,7 @@
                                 android:hint="0/10+"
                                 android:singleLine="true"
                                 android:textColor="@color/red_600"
-                                android:textSize="@dimen/_12sp" />
+                                android:textSize="@dimen/_13sp" />
 
                         </RelativeLayout>
 
@@ -204,7 +204,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="clean my two bedroom apartment"
+                            android:hint="Write a title for you job"
                             android:singleLine="true"
                             android:textColor="@color/textColor"
                             android:textSize="@dimen/_14sp" />
@@ -219,7 +219,7 @@
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
                     android:layout_marginBottom="@dimen/spacing_middle"
-                    android:background="@drawable/linear_rounded_white_fill">
+                    android:background="@drawable/linear_rounded_white_fill_7dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -237,12 +237,12 @@
                             <com.jobtick.TextView.TextViewSemiBold
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Description"
+                                android:text="Job description"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/_12sp"
+                                android:textSize="@dimen/_13sp"
                                 android:textStyle="bold" />
 
-                            <com.jobtick.EditText.EditTextRegular
+                            <com.jobtick.EditText.EditTextSemiBold
                                 android:id="@+id/edt_description_counter"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -258,10 +258,12 @@
                         <com.jobtick.EditText.EditTextRegular
                             android:id="@+id/edt_description"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:background="@null"
-                            android:hint="Excepteur qui qui fugiat et esse pariatur voluptate exercitation"
+                            android:gravity="top|start"
                             android:inputType="textMultiLine"
+
+                            android:minHeight="90dp"
                             android:textColor="@color/textColor"
                             android:textSize="@dimen/_14sp" />
 
@@ -275,9 +277,10 @@
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
+
                     android:layout_marginBottom="@dimen/spacing_medium"
-                    android:elevation="@dimen/spacing_mlarge"
-                    app:cardCornerRadius="@dimen/spacing_middle">
+                    app:cardCornerRadius="@dimen/spacing_xmedium"
+                    app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -294,9 +297,10 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
-                            android:text="Attachment"
+                            android:layout_marginStart="5dp"
+                            android:text="Attachments"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/_13sp"
                             android:textStyle="bold" />
 
 
@@ -315,6 +319,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_large"
                     android:layout_marginEnd="@dimen/spacing_large"
                     android:overScrollMode="never"
                     android:scrollbars="none"
@@ -325,25 +330,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_large"
+
                     android:layout_marginTop="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_xlarge"
                     android:background="?attr/selectableItemBackground">
 
                     <ImageView
                         android:id="@+id/img_add_white"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="35dp"
+                        android:layout_height="30dp"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_add_white" />
 
-                    <com.jobtick.TextView.TextViewRegular
+                    <com.jobtick.TextView.TextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/spacing_large"
+                        android:layout_marginStart="@dimen/spacing_xmedium"
                         android:layout_toEndOf="@id/img_add_white"
-                        android:text="Add must-have"
-                        android:textColor="@color/colorPrimary" />
+                        android:text="Add requirements"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_14sp" />
 
 
                 </RelativeLayout>
@@ -368,9 +375,8 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="Can be completed online?"
+                        android:text="Can the job be done remotely?"
                         android:textColor="@color/textColor" />
-
 
                     <CheckBox
                         android:id="@+id/checkbox_online"
@@ -385,7 +391,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:background="@drawable/linear_rounded_white_fill"
                     android:id="@+id/card_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -393,7 +398,7 @@
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
                     android:layout_marginBottom="@dimen/spacing_middle"
-                  >
+                    android:background="@drawable/linear_rounded_white_fill_8dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -459,7 +464,6 @@
                 android:id="@+id/card_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_large"
@@ -468,6 +472,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/btn_grey"
                 android:clipToPadding="false"
+                android:visibility="gone"
                 app:cardCornerRadius="@dimen/spacing_medium"
                 app:cardElevation="0dp">
 
@@ -501,7 +506,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_large"

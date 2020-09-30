@@ -31,9 +31,9 @@
             android:layout_marginStart="@dimen/spacing_large"
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_middle"
-            card_view:cardUseCompatPadding="false"
             android:layout_marginBottom="@dimen/spacing_middle"
-            card_view:cardCornerRadius="@dimen/spacing_middle">
+            card_view:cardCornerRadius="@dimen/spacing_middle"
+            card_view:cardUseCompatPadding="false">
 
             <LinearLayout
                 android:id="@+id/lyt_btn_parent_layout"
@@ -77,10 +77,10 @@
                             android:paddingEnd="@dimen/spacing_small"
                             android:paddingBottom="@dimen/spacing_medium"
                             android:text="Assigned"
-                            app:textAllCaps="false"
                             android:textColor="@color/grey_70"
-                            android:textSize="12dp"
-                            android:textStyle="normal" />
+                            android:textSize="@dimen/_12sp"
+                            android:textStyle="normal"
+                            app:textAllCaps="false" />
 
 
                     </LinearLayout>
@@ -114,6 +114,12 @@
                         android:orientation="vertical">
 
 
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+
+                        </RelativeLayout>
                         <com.jobtick.TextView.TextViewMedium
                             android:id="@+id/txt_title"
                             android:layout_width="match_parent"
@@ -121,7 +127,7 @@
                             android:singleLine="true"
                             android:text="Clean my two bedroom apartment"
                             android:textColor="@color/textColor"
-                            android:textSize="@dimen/_12sp"
+                            android:textSize="@dimen/_14sp"
                             android:textStyle="bold" />
 
                         <View
@@ -151,7 +157,7 @@
                                         android:layout_width="16dp"
                                         android:layout_height="16dp"
                                         android:src="@drawable/ic_map_pin"
-                                        android:tint="@color/textColor" />
+                                        android:tint="@color/colorGrayC9C9C9" />
 
                                     <com.jobtick.TextView.TextViewRegular
                                         android:id="@+id/txt_location"
@@ -162,9 +168,9 @@
                                         android:drawablePadding="@dimen/spacing_middle"
                                         android:gravity="center_vertical"
                                         android:singleLine="true"
-                                        android:text="Surfers Paradise"
+                                        android:text="No location set"
                                         android:textColor="@color/grey_70"
-                                        android:textSize="10sp" />
+                                        android:textSize="@dimen/_12sp" />
                                 </LinearLayout>
 
 
@@ -174,16 +180,16 @@
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:paddingTop="@dimen/spacing_small"
-                                    android:paddingBottom="@dimen/spacing_small"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:paddingTop="@dimen/spacing_small"
+                                    android:paddingBottom="@dimen/spacing_small">
 
                                     <ImageView
                                         android:layout_width="16dp"
                                         android:layout_height="16dp"
                                         android:src="@drawable/calendar"
-                                        android:tint="@color/textColor" />
+                                        android:tint="@color/colorGrayC9C9C9" />
 
                                     <com.jobtick.TextView.TextViewRegular
                                         android:id="@+id/txt_due_date"
@@ -194,9 +200,9 @@
                                         android:drawablePadding="@dimen/spacing_middle"
                                         android:gravity="center_vertical"
                                         android:singleLine="true"
-                                        android:text="Tuesday, March 3"
+                                        android:text="No date set"
                                         android:textColor="@color/grey_70"
-                                        android:textSize="10sp" />
+                                        android:textSize="@dimen/_12sp" />
                                 </LinearLayout>
 
 
@@ -214,22 +220,22 @@
                                         android:layout_height="16dp"
                                         android:layout_gravity="center"
                                         android:src="@drawable/ic_clock"
-                                        android:tint="@color/textColor" />
+                                        android:tint="@color/colorGrayC9C9C9" />
 
                                     <com.jobtick.TextView.TextViewRegular
                                         android:id="@+id/txt_due_time"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:maxLength="15"
                                         android:layout_marginStart="@dimen/spacing_middle"
                                         android:drawablePadding="@dimen/spacing_middle"
-                                        android:gravity="center_vertical"
-                                        android:singleLine="true"
                                         android:ellipsize="end"
-                                        android:text="  "
+                                        android:gravity="center_vertical"
+                                        android:maxLength="15"
+                                        android:singleLine="true"
+                                        android:text="No time set  "
                                         android:textColor="@color/grey_70"
-                                        android:textSize="10sp" />
+                                        android:textSize="@dimen/_12sp" />
 
                                     <com.jobtick.TextView.TextViewSemiBold
                                         android:id="@+id/txt_offer_count"
@@ -245,7 +251,7 @@
                                         android:paddingEnd="@dimen/spacing_medium"
                                         android:paddingBottom="@dimen/spacing_small"
                                         android:text="4 Offers"
-                                        android:textColor="@color/textColor"
+                                        android:textColor="@color/grey_70"
                                         android:textSize="10dp"
                                         android:textStyle="normal" />
                                 </LinearLayout>
@@ -268,7 +274,7 @@
                                     android:gravity="center"
                                     android:text="$ 200"
                                     android:textColor="@color/colorPrimary"
-                                    android:textSize="18dp"
+                                    android:textSize="@dimen/_18sp"
                                     android:textStyle="bold" />
 
 

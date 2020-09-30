@@ -3,6 +3,7 @@ package com.jobtick.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
@@ -19,6 +20,8 @@ public class SearchCategoryActivity extends ActivityBase {
     @BindView(R.id.lyt_search_new)
     LinearLayout lytSearchNew;
 
+    @BindView(R.id.iv_back)
+    ImageView ivBack;
 
     @BindView(R.id.lyt_categories)
     LinearLayout lytCategories;
@@ -33,7 +36,7 @@ public class SearchCategoryActivity extends ActivityBase {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.lyt_search_new, R.id.lyt_categories})
+    @OnClick({R.id.lyt_search_new, R.id.lyt_categories, R.id.iv_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_search_new:
@@ -44,6 +47,9 @@ public class SearchCategoryActivity extends ActivityBase {
 
                 Intent categoryActivity = new Intent(SearchCategoryActivity.this, CategroyListActivity.class);
                 startActivity(categoryActivity);
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
 
         }

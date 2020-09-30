@@ -53,22 +53,6 @@
             </ImageView>
         </RelativeLayout>
 
-        <RadioButton
-            android:id="@+id/radioAll2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:button="@drawable/radio_button_selector"
-            android:checked="true"
-            android:text="" />
-
-        <RadioButton
-            android:id="@+id/radioDraft2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:button="@drawable/radio_button_selector"
-            android:paddingStart="@dimen/_15sp" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -78,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_16sp"
-                android:text="All"
+                android:text="All Jobs"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/_16sp">
 
@@ -91,6 +75,7 @@
                 android:layout_alignParentEnd="true"
                 android:button="@drawable/radio_button_selector"
                 android:checked="true"
+                android:tag="All Jobs"
                 android:text="" />
 
         </RelativeLayout>
@@ -114,10 +99,12 @@
             <RadioButton
                 android:id="@+id/radioDraft"
                 android:layout_width="wrap_content"
+
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:button="@drawable/radio_button_selector"
-                android:paddingStart="@dimen/_15sp" />
+                android:paddingStart="@dimen/_15sp"
+                android:tag="Draft" />
 
 
         </RelativeLayout>
@@ -143,9 +130,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-
                 android:button="@drawable/radio_button_selector"
-                android:paddingStart="@dimen/_15sp" />
+                android:paddingStart="@dimen/_15sp"
+                android:tag="Cancelled" />
 
         </RelativeLayout>
 
@@ -172,6 +159,7 @@
                 android:layout_alignParentEnd="true"
                 android:button="@drawable/radio_button_selector"
                 android:paddingStart="@dimen/_15sp"
+                android:tag="Assigned"
 
                 />
 
@@ -200,7 +188,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:button="@drawable/radio_button_selector"
-                android:paddingStart="@dimen/_15sp" />
+                android:paddingStart="@dimen/_15sp"
+
+                android:tag="Open" />
 
 
         </RelativeLayout>
@@ -228,7 +218,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:button="@drawable/radio_button_selector"
-                android:paddingStart="@dimen/_15sp" />
+                android:paddingStart="@dimen/_15sp"
+                android:tag="Pending" />
 
         </RelativeLayout>
 
@@ -255,7 +246,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:button="@drawable/radio_button_selector"
-                android:paddingStart="@dimen/_15sp" />
+                android:paddingStart="@dimen/_15sp"
+                android:text="Completed" />
 
         </RelativeLayout>
 
@@ -282,7 +274,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:button="@drawable/radio_button_selector"
-                android:paddingStart="@dimen/_15sp" />
+                android:paddingStart="@dimen/_15sp"
+                android:tag="Offered" />
 
         </RelativeLayout>
 

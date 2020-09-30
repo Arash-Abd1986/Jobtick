@@ -4,15 +4,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:id="@+id/card_attachment"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_margin="@dimen/spacing_small"
-        android:backgroundTint="@color/grey_5"
-        android:elevation="@dimen/spacing_small"
-        app:cardCornerRadius="@dimen/spacing_middle">
+        android:background="@drawable/vector"
+
+        >
 
 
         <RelativeLayout
@@ -24,17 +23,17 @@
 
             <ImageView
                 android:id="@+id/img_btn_add"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:padding="@dimen/spacing_medium"
-                android:src="@drawable/ic_add_circle_96" />
+                android:src="@drawable/ic_plus" />
 
 
         </RelativeLayout>
 
 
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
 
 </RelativeLayout>

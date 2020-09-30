@@ -17,14 +17,15 @@
 
     </ImageView>
 
-    <TextView
+    <com.jobtick.TextView.TextViewMedium
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Choose an action"
-        android:textColor="@color/textColor">
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/_14sp">
 
-    </TextView>
+    </com.jobtick.TextView.TextViewMedium>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,6 +36,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/_10sp"
             android:layout_weight="3"
             android:orientation="horizontal">
 
@@ -56,10 +58,14 @@
                     android:src="@drawable/ic_file_manager" />
 
                 <com.jobtick.TextView.TextViewRegular
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="FileManager"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                    android:layout_marginTop="@dimen/_10sp"
+                    android:gravity="center"
+                    android:text="File Manager"
+
+
+                    android:textColor="@color/textColor" />
 
 
             </LinearLayout>
@@ -81,13 +87,18 @@
                     android:src="@drawable/ic_gallery" />
 
                 <com.jobtick.TextView.TextViewRegular
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sp"
+                    android:gravity="center"
                     android:text="Gallery"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+
+                    android:textColor="@color/textColor" />
 
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/lyt_btn_camera"
                 android:layout_width="match_parent"
@@ -105,15 +116,16 @@
                     android:src="@drawable/ic_camera" />
 
                 <com.jobtick.TextView.TextViewRegular
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Camera"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                    android:layout_marginTop="@dimen/_10sp"
+                    android:gravity="center"
+                    android:text="Photos"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/_12sp" />
 
 
             </LinearLayout>
-
-
 
 
         </LinearLayout>

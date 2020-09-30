@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -23,6 +24,7 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,6 +47,13 @@ public class CategroyListActivity extends ActivityBase implements TaskCategoryAd
 
     @BindView(R.id.recyclerView_categories)
     RecyclerView recyclerViewCategories;
+
+    @BindView(R.id.iv_backbutton)
+    ImageView ivBackButton;
+
+    @BindView(R.id.lyt_search_category)
+    CardView lytSearchCategories;
+
     private TaskModel taskModel;
     private TaskCategoryAdapter adapter;
     private int currentPage = PAGE_START;
@@ -52,8 +61,8 @@ public class CategroyListActivity extends ActivityBase implements TaskCategoryAd
     private int totalPage = 10;
     private boolean isLoading = false;
 
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+    // @BindView(R.id.toolbar)
+    //  MaterialToolbar toolbar;
     private String query = "";
 
     @Override
@@ -63,8 +72,22 @@ public class CategroyListActivity extends ActivityBase implements TaskCategoryAd
         ButterKnife.bind(this);
         init();
         setCaegoryData();
-        toolbar.setNavigationOnClickListener(view -> onBackPressed());
+        clickevent();
+        //toolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
+
+
+    public void clickevent() {
+        ivBackButton.setOnClickListener(v -> finish());
+
+        lytSearchCategories.setOnClickListener(v -> {
+
+            Intent categoryActivity = new Intent(CategroyListActivity.this, SearchCategoryActivity.class);
+            startActivity(categoryActivity);
+            finish();
+        });
+    }
+
 
     public void init() {
         Bundle bundle = getIntent().getExtras();

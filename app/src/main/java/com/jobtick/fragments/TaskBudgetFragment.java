@@ -1,5 +1,6 @@
 package com.jobtick.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewBold;
@@ -56,7 +58,7 @@ public class TaskBudgetFragment extends Fragment {
     @BindView(R.id.rg_hourly_total)
     RadioGroup rgHourlyTotal;
     @BindView(R.id.txt_hours)
-    TextViewRegular txtHours;
+    EditTextMedium txtHours;
     @BindView(R.id.img_btn_minus)
     ImageView imgBtnMinus;
     @BindView(R.id.img_btn_add)
@@ -132,15 +134,17 @@ public class TaskBudgetFragment extends Fragment {
         if (task.getPaymentType() == null || task.getPaymentType().equalsIgnoreCase("fixed")) {
             rbTotal.setChecked(true);
             rbHourly.setChecked(false);
-            rbHourly.setTextColor(taskCreateActivity.getResources().getColor(R.color.black));
-            rbTotal.setTextColor(taskCreateActivity.getResources().getColor(R.color.white));
+       //     rbHourly.setTextColor(taskCreateActivity.getResources().getColor(R.color.black));
+       //     rbTotal.setTextColor(taskCreateActivity.getResources().getColor(R.color.white));
             cardTime.setVisibility(View.GONE);
             showEstimatedBudget();
         } else {
             rbHourly.setChecked(true);
             rbTotal.setChecked(false);
-            rbHourly.setTextColor(taskCreateActivity.getResources().getColor(R.color.white));
-            rbTotal.setTextColor(taskCreateActivity.getResources().getColor(R.color.black));
+
+
+         //   rbHourly.setTextColor(taskCreateActivity.getResources().getColor(R.color.black));
+        //    rbTotal.setTextColor(taskCreateActivity.getResources().getColor(R.color.white));
             cardTime.setVisibility(View.VISIBLE);
             showEstimatedBudget();
         }
@@ -171,7 +175,7 @@ public class TaskBudgetFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                txtDollerUs.setTextColor(taskCreateActivity.getResources().getColor(R.color.black));
             }
 
             @Override
@@ -281,7 +285,7 @@ public class TaskBudgetFragment extends Fragment {
     private int getValidationCode() {
         if (TextUtils.isEmpty(edtBudget.getText().toString().trim())) {
             return 1;
-        }else if(Integer.parseInt(edtBudget.getText().toString().trim()) < 10 ){
+        } else if (Integer.parseInt(edtBudget.getText().toString().trim()) < 10) {
             return 2;
         }
         return 0;

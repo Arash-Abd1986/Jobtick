@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/grey_100"
     android:orientation="vertical"
     tools:context=".activities.Dashboard2Activity">
 
@@ -14,7 +14,6 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/background"
         app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="@drawable/ic_back"
         app:title="Dashboard" />
@@ -39,11 +38,12 @@
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_large"
+                    android:padding="@dimen/spacing_large"
                     android:layout_marginEnd="@dimen/spacing_large"
                     android:layout_marginBottom="@dimen/spacing_medium"
                     android:elevation="@dimen/spacing_small"
@@ -51,7 +51,7 @@
 
                     <RadioGroup
                         android:id="@+id/rg_ticker_poster"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="46dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -102,8 +102,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
-
-                        android:background="@color/background"
                         android:weightSum="3">
 
 
@@ -301,10 +299,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:layout_marginStart="@dimen/spacing_medium"
                         android:layout_marginEnd="@dimen/spacing_medium"
-                        android:background="@color/background"
                         android:weightSum="3">
 
 
@@ -581,7 +577,6 @@
                     </LinearLayout>
 
 
-                    . . .
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -619,15 +614,7 @@
 
                                     android:src="@drawable/ic_shield" />
 
-                                <ImageView
-                                    android:id="@+id/img_account_level"
-                                    android:layout_width="25dp"
-                                    android:layout_height="35dp"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_alignParentBottom="true"
-                                    android:layout_marginBottom="@dimen/_8sp"
-                                    android:layout_weight="1"
-                                    android:src="@drawable/ic_user_level" />
+
 
                             </RelativeLayout>
 
@@ -636,7 +623,7 @@
                                 android:layout_height="match_parent" />
 
                             <LinearLayout
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:orientation="vertical">
@@ -666,6 +653,17 @@
 
 
                             </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/img_account_level"
+                                android:layout_width="25dp"
+                                android:layout_height="35dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginBottom="@dimen/_8sp"
+                                android:layout_weight="1"
+                                android:src="@drawable/ic_user_level" />
+
 
                         </LinearLayout>
 

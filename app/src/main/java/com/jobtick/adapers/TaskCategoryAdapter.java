@@ -76,16 +76,15 @@ public class TaskCategoryAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             txtName.setText(items.get(position).getName());
 
-            if (items.get(position).getIcon() != null && !items.get(position).getIcon().equals("")) {
+           /* if (items.get(position).getIcon() != null && !items.get(position).getIcon().equals("")) {
                 ImageUtil.displayImage(imgView, items.get(position).getIcon(), null);
 
-            }
+            }*/
             lytOuter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mOnItemClickListener!=null)
-                    {
-                        mOnItemClickListener.onItemClick(v,items.get(position),position);
+                    if (mOnItemClickListener != null) {
+                        mOnItemClickListener.onItemClick(v, items.get(position), position);
                     }
                 }
             });

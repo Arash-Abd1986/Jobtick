@@ -28,6 +28,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewSemiBold;
 import com.jobtick.adapers.SectionsPagerAdapter;
 import com.jobtick.fragments.TaskBudgetFragment;
@@ -77,17 +78,17 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     @BindView(R.id.img_details)
     ImageView imgDetails;
     @BindView(R.id.txt_details)
-    TextViewSemiBold txtDetails;
+    TextViewMedium txtDetails;
     @BindView(R.id.img_date_time)
     ImageView imgDateTime;
     @BindView(R.id.txt_date_time)
-    TextViewSemiBold txtDateTime;
+    TextViewMedium txtDateTime;
     @BindView(R.id.img_budget)
     ImageView imgBudget;
 
 
     @BindView(R.id.txt_budget)
-    TextViewSemiBold txtBudget;
+    TextViewMedium txtBudget;
 
     TaskModel taskModel;
     private String title;
@@ -249,18 +250,18 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         imgDetails.setImageTintList(csl_green);
         imgBudget.setImageTintList(csl_grey);
         txtDetails.setTextColor(getResources().getColor(R.color.green));
-        txtBudget.setTextColor(getResources().getColor(R.color.greyC4C4C4));
+        txtBudget.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
     }
 
     private void selectDetailsBtn() {
         ColorStateList csl_primary = AppCompatResources.getColorStateList(this, R.color.colorPrimary);
         imgDetails.setImageTintList(csl_primary);
         txtDetails.setTextColor(getResources().getColor(R.color.colorPrimary));
-        ColorStateList csl_grey = AppCompatResources.getColorStateList(this, R.color.grey_40);
+        ColorStateList csl_grey = AppCompatResources.getColorStateList(this, R.color.greyC4C4C4);
         imgDateTime.setImageTintList(csl_grey);
         imgBudget.setImageTintList(csl_grey);
-        txtDateTime.setTextColor(getResources().getColor(R.color.grey_40));
-        txtBudget.setTextColor(getResources().getColor(R.color.grey_40));
+        txtDateTime.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
+        txtBudget.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
     }
 
 

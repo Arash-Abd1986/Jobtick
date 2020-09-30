@@ -49,7 +49,7 @@
 
 
     <color name="gray">#797878</color>
-    <color name="background">#F5F5F5</color>
+    <color name="background">#FEFEFE</color>
     <color name="grey_3">#f7f7f7</color>
     <color name="grey_5">#f2f2f2</color>
     <color name="grey_10">#e6e6e6</color>
@@ -371,6 +371,7 @@
     <color name="colorTaskOfferTrans">#1A586BF5</color>
     <color name="colorTaskAssigned">#F3B004</color>
     <color name="colorTaskAssignedTrans">#1AF3B004</color>
+    <color name="colorTaskOverDraft">#FF4343</color>
 
     <color name="colorTaskOverDue">#FF4343</color>
     <color name="colorTaskOverDueTrans">#1AFF4343</color>

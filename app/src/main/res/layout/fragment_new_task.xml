@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="What do you need to be done?"
+                android:text="What do you need to get done?"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/_20sp"
                 android:textStyle="bold" />
@@ -146,6 +146,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+
+                    android:clickable="false"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -165,13 +167,14 @@
                         android:layout_width="@dimen/spacing_middle"
                         android:layout_height="match_parent" />
 
-                    <com.jobtick.TextView.TextViewMedium
+                    <com.jobtick.TextView.TextViewRegular
                         android:id="@+id/edt_search_categories"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
+                        android:clickable="false"
                         android:gravity="center_vertical"
                         android:hint="@string/search_categories"
                         android:imeOptions="actionSearch"
@@ -204,8 +207,8 @@
                 android:visibility="gone" />
 
             <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="174dp"
+                android:layout_height="56dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_xxxlarge"
@@ -230,8 +233,8 @@
                     <com.jobtick.TextView.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/spacing_xxlarge"
-                        android:paddingEnd="@dimen/spacing_xxlarge"
+                        android:paddingStart="@dimen/spacing_xlarge"
+                        android:paddingEnd="@dimen/spacing_xlarge"
                         android:text="@string/post_a_job"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_14sp" />

@@ -4,38 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/grey_100"
     tools:context=".activities.TaskCreateActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/grey_100"
+        app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="@drawable/ic_cancel"
-        app:title="Creating Task"
-        android:background="@color/background"
-        app:contentInsetStartWithNavigation="0dp"/>
+        app:titleTextColor="@color/textColor"
+        app:title="Post a Job" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_selection_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
         android:layout_marginStart="@dimen/spacing_large"
         android:layout_marginTop="@dimen/spacing_medium"
         android:layout_marginEnd="@dimen/spacing_large"
         android:layout_marginBottom="@dimen/spacing_middle"
-        android:elevation="@dimen/spacing_middle"
+        android:clipToPadding="false"
         app:cardCornerRadius="@dimen/spacing_middle"
-        android:id="@+id/card_selection_view"
-        android:layout_below="@+id/toolbar">
+        app:cardElevation="0dp">
 
         <LinearLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="3"
-            android:padding="@dimen/spacing_middle">
-
+            android:padding="@dimen/spacing_middle"
+            android:weightSum="3">
 
 
             <LinearLayout
@@ -52,20 +53,20 @@
                     android:id="@+id/img_details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_info"
+                    android:src="@drawable/ic_info_new"
                     android:tint="@color/colorPrimary" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/spacing_middle" />
 
-                <com.jobtick.TextView.TextViewSemiBold
+                <com.jobtick.TextView.TextViewMedium
                     android:id="@+id/txt_details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/details"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_12sp"
-                   android:textColor="@color/colorPrimary"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -90,20 +91,20 @@
                     android:id="@+id/img_date_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/calendar"
-                    android:tint="@color/greyC4C4C4" />
+                    android:src="@drawable/ic_date_gray"
+                     />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/spacing_middle" />
 
-                <com.jobtick.TextView.TextViewSemiBold
+                <com.jobtick.TextView.TextViewMedium
                     android:id="@+id/txt_date_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/date_time"
-                    android:textSize="@dimen/_12sp"
-                    android:textColor="@color/greyC4C4C4" />
+                    android:textColor="@color/colorGrayC9C9C9"
+                    android:textSize="@dimen/_12sp" />
 
             </LinearLayout>
 
@@ -116,7 +117,7 @@
             <LinearLayout
                 android:id="@+id/lyt_btn_budget"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
@@ -127,19 +128,19 @@
                     android:id="@+id/img_budget"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_dollar_sign"
-                    android:tint="@color/greyC4C4C4" />
+                    android:src="@drawable/ic_doller"
+                     />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/spacing_middle" />
 
-                <com.jobtick.TextView.TextViewSemiBold
+                <com.jobtick.TextView.TextViewMedium
                     android:id="@+id/txt_budget"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/budget"
-                    android:textColor="@color/greyC4C4C4"
+                    android:textColor="@color/colorGrayC9C9C9"
                     android:textSize="@dimen/_12sp" />
 
             </LinearLayout>
@@ -148,19 +149,17 @@
     </androidx.cardview.widget.CardView>
 
     <com.jobtick.widget.NonSwipeableViewPager
-        android:layout_below="@+id/card_selection_view"
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/card_selection_view"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
-
     <FrameLayout
-        android:visibility="gone"
         android:id="@+id/creating_task_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:visibility="gone" />
 
 </RelativeLayout>

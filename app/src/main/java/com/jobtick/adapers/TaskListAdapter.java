@@ -22,6 +22,11 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.ImageUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -161,7 +166,22 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (item.getPoster() != null && item.getPoster().getAvatar() != null && item.getPoster().getAvatar().getThumbUrl() != null)
                 ImageUtil.displayImage(imgAvatar, item.getPoster().getAvatar().getThumbUrl(), null);
             txtTitle.setText(item.getTitle());
-            txtDueDate.setText(item.getDueDate());
+
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date date = format.parse(item.getDueDate());
+
+                SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMM dd");
+                String dayOfTheWeek = sdf.format(date);
+                txtDueDate.setText(dayOfTheWeek);
+
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
             txtDueTime.setText(null);
             if (item.getDueTime() != null) {
 
@@ -194,7 +214,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     }
                 }
             }
-            txtStatus.setText(item.getStatus().toUpperCase());
+                txtStatus.setText(item.getStatus().toUpperCase());
 
             if (item.getLocation() != null) {
                 txtLocation.setText(item.getLocation());
@@ -204,14 +224,14 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (item.getStatus().equalsIgnoreCase(Constant.TASK_DRAFT)) {
                 // txtStatus.setVisibility(View.GONE);
                 lytOfferCount.setVisibility(View.GONE);
-                txtBudget.setText("$ " + item.getBudget());
+                txtBudget.setText("$" + item.getBudget());
             } else {
                 //  txtStatus.setVisibility(View.VISIBLE);
                 lytOfferCount.setVisibility(View.VISIBLE);
                 if (item.getStatus().equalsIgnoreCase(Constant.TASK_OPEN)) {
-                    txtBudget.setText("$ " + item.getBudget());
+                    txtBudget.setText("$" + item.getBudget());
                 } else {
-                    txtBudget.setText("$ " + item.getAmount());
+                    txtBudget.setText("$" + item.getAmount());
                 }
             }
             if (item.getOfferCount() <= 1) {
@@ -222,10 +242,10 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             GradientDrawable backgroundGradient = (GradientDrawable) txtStatus.getBackground();
 
             if (item.getStatus().equals("draft")) {
-                cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorTaskOffer));
-                backgroundGradient.setColor(ContextCompat.getColor(context, R.color.colorTaskOffer));
+                cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorTaskOverDraft));
+                backgroundGradient.setColor(ContextCompat.getColor(context, R.color.colorTaskOverDraft));
                 txtStatus.setBackground(backgroundGradient);
-                txtStatus.setTextColor(ContextCompat.getColor(context, R.color.colorTaskOffer));
+                txtStatus.setTextColor(ContextCompat.getColor(context, R.color.colorTaskOverDraft));
 
             } else if (item.getStatus().equals("open")) {
 

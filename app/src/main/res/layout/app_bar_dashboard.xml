@@ -37,9 +37,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Jobtick"
+            android:text="JobTick"
             android:textColor="@color/textColor"
-            android:textSize="@dimen/_18sp"
+            android:textSize="@dimen/_19sp"
             android:visibility="gone" />
 
         <ImageView

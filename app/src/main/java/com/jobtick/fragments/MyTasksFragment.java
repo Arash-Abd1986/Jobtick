@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,6 +55,7 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.widget.MyRadioGroup;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -139,8 +142,9 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
             ivNotification.setVisibility(View.GONE);
             toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
-            toolbar_title.setVisibility(View.GONE);
-
+            toolbar_title.setVisibility(View.VISIBLE);
+            toolbar_title.setText("My Jobs");
+            toolbar_title.setGravity(Gravity.RIGHT);
 
         }
         setHasOptionsMenu(true);
@@ -221,14 +225,14 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     }
 
     private void getStatusList() {
-        if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_VALUE)) {
+        /*if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_VALUE)) {
             toolbar.setTitle(TASK_DRAFT_CASE_ALL_JOB_KEY);
 
 
         } else {
             toolbar.setTitle(single_choice_selected);
 
-        }
+        }*/
         String query_parameter = "";
         if (str_search != null) {
             query_parameter += "&search_query=" + str_search;
@@ -428,6 +432,141 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         mBottomSheetDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 
+        RadioButton rbAll = view.findViewById(R.id.radioAll);
+        RadioButton radioDraft = view.findViewById(R.id.radioDraft);
+        RadioButton radioCancelled = view.findViewById(R.id.radioCancelled);
+        RadioButton radioAssigned = view.findViewById(R.id.radioAssigned);
+        RadioButton radioOpen = view.findViewById(R.id.radioOpen);
+        RadioButton radioPending = view.findViewById(R.id.radioPending);
+        RadioButton radioCompleted = view.findViewById(R.id.radioCompleted);
+        RadioButton radioOffer = view.findViewById(R.id.radioOffer);
+
+        radioDraft.setOnClickListener(v -> {
+            radioDraft.setChecked(true);
+            rbAll.setChecked(false);
+            radioAssigned.setChecked(false);
+            radioCancelled.setChecked(false);
+            radioAssigned.setChecked(false);
+            radioOpen.setChecked(false);
+            radioPending.setChecked(false);
+            radioCompleted.setChecked(false);
+            radioOffer.setChecked(false);
+
+            refreshSort(radioDraft.getTag().toString());
+            mBottomSheetDialog.dismiss();
+
+        });
+
+        rbAll.setOnClickListener(v -> {
+            radioDraft.setChecked(false);
+            rbAll.setChecked(true);
+            radioAssigned.setChecked(false);
+            radioCancelled.setChecked(false);
+            radioOpen.setChecked(false);
+            radioPending.setChecked(false);
+            radioCompleted.setChecked(false);
+            radioOffer.setChecked(false);
+            refreshSort(rbAll.getTag().toString());
+            mBottomSheetDialog.dismiss();
+
+        });
+
+
+        radioAssigned.setOnClickListener(v -> {
+            radioDraft.setChecked(false);
+            rbAll.setChecked(false);
+            radioAssigned.setChecked(true);
+            radioCancelled.setChecked(false);
+            radioOpen.setChecked(false);
+            radioPending.setChecked(false);
+            radioCompleted.setChecked(false);
+            radioOffer.setChecked(false);
+            refreshSort(radioAssigned.getTag().toString());
+            mBottomSheetDialog.dismiss();
+
+        });
+
+
+        radioCancelled.setOnClickListener(v -> {
+            radioDraft.setChecked(false);
+            rbAll.setChecked(false);
+            radioAssigned.setChecked(false);
+            radioCancelled.setChecked(true);
+            radioOpen.setChecked(false);
+            radioPending.setChecked(false);
+            radioCompleted.setChecked(false);
+            radioOffer.setChecked(false);
+            refreshSort(radioCancelled.getTag().toString());
+
+            mBottomSheetDialog.dismiss();
+
+        });
+
+
+        radioOpen.setOnClickListener(v -> {
+
+            radioDraft.setChecked(false);
+            rbAll.setChecked(false);
+            radioAssigned.setChecked(false);
+            radioCancelled.setChecked(false);
+            radioOpen.setChecked(true);
+            radioPending.setChecked(false);
+            radioCompleted.setChecked(false);
+            radioOffer.setChecked(false);
+            refreshSort(radioOpen.getTag().toString());
+            mBottomSheetDialog.dismiss();
+
+        });
+
+        radioPending.setOnClickListener(v -> {
+
+            radioDraft.setChecked(false);
+            rbAll.setChecked(false);
+            radioAssigned.setChecked(false);
+            radioCancelled.setChecked(false);
+            radioOpen.setChecked(false);
+            radioPending.setChecked(true);
+            radioCompleted.setChecked(false);
+            radioOffer.setChecked(false);
+            refreshSort(radioPending.getTag().toString());
+            mBottomSheetDialog.dismiss();
+
+
+        });
+        radioCompleted.setOnClickListener(v ->
+        {
+
+            radioDraft.setChecked(false);
+            rbAll.setChecked(false);
+            radioAssigned.setChecked(false);
+            radioCancelled.setChecked(false);
+            radioOpen.setChecked(false);
+            radioPending.setChecked(false);
+            radioCompleted.setChecked(true);
+            radioOffer.setChecked(false);
+            refreshSort(radioCompleted.getTag().toString());
+
+            mBottomSheetDialog.dismiss();
+
+        });
+
+        radioOffer.setOnClickListener(v -> {
+
+            radioDraft.setChecked(false);
+            rbAll.setChecked(false);
+            radioAssigned.setChecked(false);
+            radioCancelled.setChecked(false);
+            radioOpen.setChecked(false);
+            radioPending.setChecked(false);
+            radioCompleted.setChecked(false);
+            radioOffer.setChecked(true);
+            refreshSort(radioOffer.getTag().toString());
+            mBottomSheetDialog.dismiss();
+
+
+        });
+
+
         // set background transparent
         ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
         RadioGroup radioFilter = view.findViewById(R.id.radioFilter);
@@ -464,6 +603,21 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         addPhotoBottomDialogFragment.show(taskCreateActivity.getSupportFragmentManager(),
                 "add_photo_dialog_fragment");
 */
+
+    }
+
+    public void refreshSort(String rbText) {
+        temp_single_choice_selected = rbText;
+        if (temp_single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
+            temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
+        }
+
+        single_choice_selected = temp_single_choice_selected;
+        temp_single_choice_selected = null;
+        currentPage = PAGE_START;
+        isLastPage = false;
+        taskListAdapter.clear();
+        getStatusList();
 
     }
 

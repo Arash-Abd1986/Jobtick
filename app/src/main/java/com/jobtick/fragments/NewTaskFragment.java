@@ -52,7 +52,7 @@ public class NewTaskFragment extends Fragment {
 
 
     @BindView(R.id.edt_search_categories)
-    TextViewMedium edtSearchCategories;
+    TextViewRegular edtSearchCategories;
 
     @BindView(R.id.lty_btn_post)
     LinearLayout lytBtnPost;
@@ -127,6 +127,12 @@ public class NewTaskFragment extends Fragment {
             getContext().startActivity(creating_task);
         });
         init();
+
+
+        edtSearchCategories.setOnClickListener(v->{
+            Intent creating_task = new Intent(getActivity(), SearchCategoryActivity.class);
+            startActivity(creating_task);
+        });
 
         ltySearchCategory.setOnClickListener(v -> {
             Intent creating_task = new Intent(getActivity(), SearchCategoryActivity.class);

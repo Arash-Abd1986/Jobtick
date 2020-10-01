@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/grey_100"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".fragments.BrowseFragment">
@@ -14,7 +14,7 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background"
+        android:background="@color/grey_100"
         app:elevation="0dp">
 
 
@@ -31,7 +31,7 @@
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:backgroundTint="@color/colorPrimary"
                 android:elevation="3dp"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                app:cardCornerRadius="@dimen/spacing_medium">
 
 
                 <LinearLayout

@@ -3,28 +3,31 @@ package com.jobtick.fragments;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.TextUtils;
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,12 +43,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewMedium;
-import com.jobtick.TextView.TextViewRegular;
+
 import com.jobtick.activities.DashboardActivity;
+import com.jobtick.activities.SearchTaskActivity;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.adapers.TaskListAdapter;
@@ -55,7 +56,6 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.SessionManager;
-import com.jobtick.widget.MyRadioGroup;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,8 +71,16 @@ import pl.droidsonroids.gif.GifImageView;
 import timber.log.Timber;
 
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
+import static com.jobtick.utils.Constant.TASK_ASSIGNED_CASE_UPPER_FIRST;
+import static com.jobtick.utils.Constant.TASK_CANCELLED_CASE_UPPER_FIRST;
+import static com.jobtick.utils.Constant.TASK_CLOSED_CASE_UPPER_FIRST;
+import static com.jobtick.utils.Constant.TASK_COMPLETED_CASE_UPPER_FIRST;
 import static com.jobtick.utils.Constant.TASK_DRAFT_CASE_ALL_JOB_KEY;
 import static com.jobtick.utils.Constant.TASK_DRAFT_CASE_ALL_JOB_VALUE;
+import static com.jobtick.utils.Constant.TASK_DRAFT_CASE_UPPER_FIRST;
+import static com.jobtick.utils.Constant.TASK_OFFERED_CASE_UPPER_FIRST;
+import static com.jobtick.utils.Constant.TASK_OPEN_CASE_UPPER_FIRST;
+import static com.jobtick.utils.Constant.TASK_PENDING_CASE_UPPER_FIRST;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -97,7 +105,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     private int totalPage = 10;
     private boolean isLoading = false;
     ImageView ivNotification;
-    TextViewBold toolbar_title;
+    TextView toolbar_title;
     private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
     @BindView(R.id.bottom_sheet)
@@ -106,13 +114,13 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
     private String[] status = new String[]{
             TASK_DRAFT_CASE_ALL_JOB_KEY,
-            Constant.TASK_DRAFT_CASE_UPPER_FIRST,
+            TASK_DRAFT_CASE_UPPER_FIRST,
             Constant.TASK_CANCELLED_CASE_UPPER_FIRST,
-            Constant.TASK_ASSIGNED_CASE_UPPER_FIRST,
-            Constant.TASK_OPEN_CASE_UPPER_FIRST,
-            Constant.TASK_PENDING_CASE_UPPER_FIRST,
+            TASK_ASSIGNED_CASE_UPPER_FIRST,
+            TASK_OPEN_CASE_UPPER_FIRST,
+            TASK_PENDING_CASE_UPPER_FIRST,
             Constant.TASK_COMPLETED_CASE_UPPER_FIRST,
-            Constant.TASK_OFFERED_CASE_UPPER_FIRST
+            TASK_OFFERED_CASE_UPPER_FIRST
     };
 
     private String single_choice_selected = null;
@@ -143,8 +151,13 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             ivNotification.setVisibility(View.GONE);
             toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
             toolbar_title.setVisibility(View.VISIBLE);
-            toolbar_title.setText("My Jobs");
-            toolbar_title.setGravity(Gravity.RIGHT);
+            toolbar_title.setText("My jobs");
+
+            toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_medium));
+            toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.grey_100));
+            androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+            params.gravity = Gravity.LEFT;
+            toolbar_title.setLayoutParams(params);
 
         }
         setHasOptionsMenu(true);
@@ -194,7 +207,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_search:
-                    Menu menu = toolbar.getMenu();
+                   /* Menu menu = toolbar.getMenu();
                     SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
                     searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
                     searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -210,7 +223,10 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                             str_search = newText;
                             return false;
                         }
-                    });
+                    });*/
+
+                    Intent intent = new Intent(dashboardActivity, SearchTaskActivity.class);
+                    dashboardActivity.startActivity(intent);
 
                     break;
                 case R.id.action_filter:
@@ -411,8 +427,6 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         bundle.putString(ConstantKey.TITLE, ConstantKey.CREATE_TASK);
         update_task.putExtras(bundle);
         startActivityForResult(update_task, ConstantKey.RESULTCODE_UPDATE_TASK);
-
-
     }
 
 
@@ -432,14 +446,35 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         mBottomSheetDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 
-        RadioButton rbAll = view.findViewById(R.id.radioAll);
-        RadioButton radioDraft = view.findViewById(R.id.radioDraft);
-        RadioButton radioCancelled = view.findViewById(R.id.radioCancelled);
-        RadioButton radioAssigned = view.findViewById(R.id.radioAssigned);
-        RadioButton radioOpen = view.findViewById(R.id.radioOpen);
-        RadioButton radioPending = view.findViewById(R.id.radioPending);
-        RadioButton radioCompleted = view.findViewById(R.id.radioCompleted);
-        RadioButton radioOffer = view.findViewById(R.id.radioOffer);
+        AppCompatRadioButton rbAll = view.findViewById(R.id.radioAll);
+        AppCompatRadioButton radioDraft = view.findViewById(R.id.radioDraft);
+        AppCompatRadioButton radioCancelled = view.findViewById(R.id.radioCancelled);
+        AppCompatRadioButton radioAssigned = view.findViewById(R.id.radioAssigned);
+        AppCompatRadioButton radioOpen = view.findViewById(R.id.radioOpen);
+        AppCompatRadioButton radioPending = view.findViewById(R.id.radioPending);
+        AppCompatRadioButton radioCompleted = view.findViewById(R.id.radioCompleted);
+        AppCompatRadioButton radioOffer = view.findViewById(R.id.radioOffer);
+
+
+        if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_VALUE)) {
+            rbAll.setChecked(true);
+        } else if (single_choice_selected.equals(TASK_DRAFT_CASE_UPPER_FIRST)) {
+            radioDraft.setChecked(true);
+        } else if (single_choice_selected.equals(TASK_OPEN_CASE_UPPER_FIRST)) {
+            radioOpen.setChecked(true);
+        } else if (single_choice_selected.equals(TASK_PENDING_CASE_UPPER_FIRST)) {
+            radioPending.setChecked(true);
+        } else if (single_choice_selected.equals(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
+            radioAssigned.setChecked(true);
+        } else if (single_choice_selected.equals(TASK_COMPLETED_CASE_UPPER_FIRST)) {
+            radioCompleted.setChecked(true);
+        } else if (single_choice_selected.equals(TASK_OFFERED_CASE_UPPER_FIRST)) {
+            radioOffer.setChecked(true);
+        } else if (single_choice_selected.equals(TASK_CLOSED_CASE_UPPER_FIRST)) {
+            radioCompleted.setChecked(true);
+        } else if (single_choice_selected.equals(TASK_CANCELLED_CASE_UPPER_FIRST)) {
+            radioCancelled.setChecked(true);
+        }
 
         radioDraft.setOnClickListener(v -> {
             radioDraft.setChecked(true);
@@ -453,6 +488,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             radioOffer.setChecked(false);
 
             refreshSort(radioDraft.getTag().toString());
+
             mBottomSheetDialog.dismiss();
 
         });

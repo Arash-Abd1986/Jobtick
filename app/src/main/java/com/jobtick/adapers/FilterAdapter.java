@@ -4,25 +4,18 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
-
+import com.jobtick.TextView.TextViewSemiBold;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-
     private List<String> items;
-
     private Context ctx;
-
 
     public FilterAdapter(Context context, List<String> items) {
         this.items = items;
@@ -32,7 +25,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.txt_data)
-        TextViewRegular txtData;
+        TextViewSemiBold txtData;
 
         public OriginalViewHolder(View v) {
             super(v);

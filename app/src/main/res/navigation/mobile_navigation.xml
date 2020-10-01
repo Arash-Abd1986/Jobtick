@@ -20,7 +20,6 @@
     <fragment
         android:id="@+id/navigation_browse"
         android:name="com.jobtick.fragments.BrowseFragment"
-        android:label="@string/title_explore"
         tools:layout="@layout/fragment_browse" />
 
 

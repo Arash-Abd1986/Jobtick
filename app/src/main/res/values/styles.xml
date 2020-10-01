@@ -152,8 +152,8 @@
 
     <style name="CustomShapeAppearanceBottomSheetDialog" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopRight">@dimen/spacing_large</item>
-        <item name="cornerSizeTopLeft">@dimen/spacing_large</item>
+        <item name="cornerSizeTopRight">@dimen/spacing_mxlarge</item>
+        <item name="cornerSizeTopLeft">@dimen/spacing_mxlarge</item>
         <item name="cornerSizeBottomRight">0dp</item>
         <item name="cornerSizeBottomLeft">0dp</item>
     </style>
@@ -175,6 +175,10 @@
         <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="colorControlNormal">@color/grey_40</item>
     </style>
+
+
+
+
 
 
 </resources>

@@ -3,7 +3,9 @@ package com.jobtick.fragments;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,11 +14,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.jobtick.EditText.EditTextMedium;
@@ -74,7 +79,7 @@ public class NewTaskFragment extends Fragment {
     TextViewRegular txtBlocked;
 
     ImageView ivNotification;
-    TextViewBold toolbar_title;
+    TextView toolbar_title;
     SessionManager sessionManager;
 
     @BindView(R.id.lyt_search_category)
@@ -107,6 +112,20 @@ public class NewTaskFragment extends Fragment {
             //  customToolbar = dashboardActivity.findViewById(R.id.customToolbar);
             //  customToolbar.setVisibility(View.VISIBLE);
 
+
+            toolbar_title.setText("JobTick");
+            //  toolbar_title.setGravity(Gravity.RIGHT)
+            //  toolbar_title.setGravity(Gravity.LEFT);
+
+            toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.background));
+            toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_bold));
+
+            androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+
+            params.gravity = Gravity.CENTER;
+            toolbar_title.setLayoutParams(params);
+           // Typeface font = Typeface.createFromAsset(getContext().getAssets(), "font/poppins_bold.otf");
+          //  toolbar_title.setTypeface(font);
         }
 
 
@@ -129,7 +148,7 @@ public class NewTaskFragment extends Fragment {
         init();
 
 
-        edtSearchCategories.setOnClickListener(v->{
+        edtSearchCategories.setOnClickListener(v -> {
             Intent creating_task = new Intent(getActivity(), SearchCategoryActivity.class);
             startActivity(creating_task);
         });

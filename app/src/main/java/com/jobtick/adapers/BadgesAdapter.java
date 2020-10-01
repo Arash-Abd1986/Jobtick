@@ -49,7 +49,7 @@ public class BadgesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public BadgesAdapter(Context context, List<BadgesModel> items, Boolean delete_action) {
         this.items = items;
         this.context = context;
-        this.delete_action = delete_action;
+        this.delete_action =    delete_action;
     }
 
     @NonNull

@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/grey_100"
     android:orientation="vertical"
     tools:context=".fragments.TaskDetailFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
+        android:background="@color/grey_100"
         android:orientation="vertical"
         android:overScrollMode="never">
 
@@ -37,14 +37,13 @@
                     android:id="@+id/recycler_view_status"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    tools:listitem="@layout/item_task_view"
                     android:overScrollMode="never"
                     android:visibility="visible" />
 
             </FrameLayout>
 
-
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
     </LinearLayout>
 

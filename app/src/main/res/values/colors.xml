@@ -367,6 +367,9 @@
 
     <color name="colorF0F0F0">#F0F0F0</color>
 
+    <color name="colorTaskDraftTrans">#1AFF4343</color>
+
+
     <color name="colorTaskOffer">#586BF5</color>
     <color name="colorTaskOfferTrans">#1A586BF5</color>
     <color name="colorTaskAssigned">#F3B004</color>

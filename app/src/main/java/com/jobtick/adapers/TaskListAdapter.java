@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -141,6 +142,10 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         TextViewSemiBold txtBudget;
         @BindView(R.id.txt_status)
         TextViewSemiBold txtStatus;
+
+        @BindView(R.id.tv_delete)
+        ImageView tvDelete;
+
         @BindView(R.id.lyt_budget_open)
         LinearLayout lytBudgetOpen;
         @BindView(R.id.lyt_btn_parent_layout)
@@ -168,23 +173,27 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             txtTitle.setText(item.getTitle());
 
 
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                Date date = format.parse(item.getDueDate());
+            if (item.getDueDate() != null && !item.getDueDate().equals("")) {
 
-                SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMM dd");
-                String dayOfTheWeek = sdf.format(date);
-                txtDueDate.setText(dayOfTheWeek);
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    Date date = format.parse(item.getDueDate());
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMM dd");
+                    String dayOfTheWeek = sdf.format(date);
+                    txtDueDate.setText(dayOfTheWeek);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
 
-            } catch (ParseException e) {
-                e.printStackTrace();
             }
 
 
-            txtDueTime.setText(null);
             if (item.getDueTime() != null) {
 
+                txtDueTime.setText("");
                 if (item.getDueTime().getMorning()) {
                     if (TextUtils.isEmpty(txtDueTime.getText().toString())) {
                         txtDueTime.setText("Morning");
@@ -213,9 +222,11 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         txtDueTime.append(", Midday");
                     }
                 }
+            } else {
+                txtDueTime.setText("No time set");
             }
-                txtStatus.setText(item.getStatus().toUpperCase());
-
+            txtStatus.setText(item.getStatus().toUpperCase());
+            tvDelete.setVisibility(View.GONE);
             if (item.getLocation() != null) {
                 txtLocation.setText(item.getLocation());
             } else {
@@ -223,16 +234,20 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }
             if (item.getStatus().equalsIgnoreCase(Constant.TASK_DRAFT)) {
                 // txtStatus.setVisibility(View.GONE);
-                lytOfferCount.setVisibility(View.GONE);
                 txtBudget.setText("$" + item.getBudget());
             } else {
                 //  txtStatus.setVisibility(View.VISIBLE);
-                lytOfferCount.setVisibility(View.VISIBLE);
                 if (item.getStatus().equalsIgnoreCase(Constant.TASK_OPEN)) {
                     txtBudget.setText("$" + item.getBudget());
                 } else {
                     txtBudget.setText("$" + item.getAmount());
                 }
+            }
+
+            if (item.getOfferCount() == 0) {
+                txtOfferCount.setVisibility(View.GONE);
+            } else {
+                txtOfferCount.setVisibility(View.VISIBLE);
             }
             if (item.getOfferCount() <= 1) {
                 txtOfferCount.setText(item.getOfferCount() + " Offer");
@@ -243,10 +258,10 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             if (item.getStatus().equals("draft")) {
                 cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorTaskOverDraft));
-                backgroundGradient.setColor(ContextCompat.getColor(context, R.color.colorTaskOverDraft));
+                backgroundGradient.setColor(ContextCompat.getColor(context, R.color.colorTaskDraftTrans));
                 txtStatus.setBackground(backgroundGradient);
                 txtStatus.setTextColor(ContextCompat.getColor(context, R.color.colorTaskOverDraft));
-
+                tvDelete.setVisibility(View.VISIBLE);
             } else if (item.getStatus().equals("open")) {
 
                 cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorTaskOffer));

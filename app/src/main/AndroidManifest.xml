@@ -87,7 +87,7 @@
         <activity android:name=".activities.HelpActivity" />
         <activity android:name=".activities.SettingActivity" />
         <activity android:name=".activities.CompleteRegistrationActivity" />
-        <activity android:name=".activities.TaskCreateActivity"   />
+        <activity android:name=".activities.TaskCreateActivity" />
         <activity android:name=".activities.SavedTaskActivity"></activity>
         <activity android:name=".activities.UserProfileActivity"></activity>
         <activity android:name=".activities.WebViewActivity"></activity>
@@ -145,6 +145,10 @@
         <activity android:name=".activities.RescheduleDeclineActivity"></activity>
         <activity android:name=".activities.OnboardActivity"></activity>
         <activity android:name=".activities.SearchCategoryActivity"></activity>
+
+        <activity android:name=".activities.SearchTaskActivity">
+
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

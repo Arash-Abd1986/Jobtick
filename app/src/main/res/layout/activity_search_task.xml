@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_100"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:backgroundTint="@color/white"
+        app:cardElevation="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/_5sp">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:padding="12dp"
+                android:src="@drawable/ic_back">
+
+            </ImageView>
+
+            <com.jobtick.EditText.EditTextRegular
+                android:id="@+id/edt_search_categoreis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/iv_back"
+                android:background="@null"
+                android:hint="Search my jobs..."
+                android:textColor="@color/grey_70"
+                android:textColorHint="@color/grey_70"
+                android:textSize="@dimen/_15sp">
+
+            </com.jobtick.EditText.EditTextRegular>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <FrameLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/_7sp"
+
+            tools:listitem="@layout/item_category_search">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_no_search_found">
+
+                </ImageView>
+
+                <com.jobtick.TextView.TextViewRegular
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sp"
+                    android:layout_marginBottom="@dimen/_15sp"
+                    android:gravity="center"
+                    android:text="We didn't find any results for your search">
+
+                </com.jobtick.TextView.TextViewRegular>
+
+
+                <LinearLayout
+                    android:id="@+id/lyt_search_new"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_46dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/spacing_large"
+
+                    android:layout_marginTop="@dimen/_16sp"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:background="@drawable/ic_rounded_button"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/spacing_xlarge"
+                    android:paddingEnd="@dimen/spacing_xlarge">
+
+                    <com.jobtick.TextView.TextViewRegular
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Start a new serch"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/_14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lyt_categories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_46dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_16sp"
+                    android:background="@drawable/ic_rounded_button_fill"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/spacing_xxxlarge"
+                    android:paddingEnd="@dimen/spacing_xxxlarge"
+                    android:visibility="gone">
+
+                    <com.jobtick.TextView.TextViewSemiBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Categories"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_14sp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+
+</LinearLayout>

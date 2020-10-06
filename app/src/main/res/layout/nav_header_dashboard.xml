@@ -13,7 +13,7 @@
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:orientation="vertical"
-        android:padding="@dimen/spacing_mxlarge"
+        android:padding="@dimen/_15sp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <ImageView
@@ -22,12 +22,16 @@
             android:layout_height="wrap_content"
             android:background="?selectableItemBackgroundBorderless"
             android:padding="@dimen/spacing_middle"
-            android:src="@drawable/ic_cancel" />
+            android:src="@drawable/ic_cancel"
+            android:visibility="gone" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_middle"
+            android:layout_marginBottom="@dimen/_5sp"
+
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -36,28 +40,28 @@
 
 
                 <RelativeLayout
-                    android:layout_width="80dp"
-                    android:layout_height="80dp">
-
+                    android:layout_width="75dp"
+                    android:layout_height="75dp">
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/img_user_avatar"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/pic" />
+                        android:layout_marginBottom="@dimen/_5sp"
+                        android:src="@drawable/ic_place_holder" />
 
 
                     <ImageView
+
                         android:id="@+id/img_verified_account"
-                        android:layout_width="@dimen/_15sp"
-                        android:layout_height="15dp"
+                        android:layout_width="12dp"
+                        android:layout_height="14dp"
+                        android:layout_alignBottom="@+id/img_user_avatar"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="@dimen/_8sp"
                         android:layout_weight="1"
-
+                        android:adjustViewBounds="true"
                         android:background="@drawable/ic_shield" />
 
                     <ImageView
@@ -68,7 +72,8 @@
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="@dimen/_8sp"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_user_level" />
+                        android:src="@drawable/ic_user_level"
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
@@ -105,8 +110,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/spacing_middle"
-                android:layout_marginLeft="@dimen/spacing_middle"
+                android:layout_marginStart="@dimen/_5sp"
+
                 android:orientation="vertical">
 
                 <com.jobtick.TextView.TextViewSemiBold
@@ -114,16 +119,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Aaron Brooks"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/spacing_large" />
+                    android:textColor="#1a1848"
+                    android:textSize="@dimen/_15sp"
+                    android:textStyle="bold" />
 
                 <com.jobtick.TextView.TextViewRegular
                     android:id="@+id/txt_account_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Account Level 2"
-                    android:textColor="@color/grey_40"
-                    android:textSize="@dimen/spacing_middle" />
+                    android:layout_marginTop="@dimen/_3sp"
+                    android:text="Level 2"
+                    android:textColor="#8b919d"
+                    android:textSize="@dimen/_12sp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -131,7 +138,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/spacing_line"
+        android:layout_height="0.50dp"
         android:layout_alignParentBottom="true"
         android:background="@color/btn_grey" />
 

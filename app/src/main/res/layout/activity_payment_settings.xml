@@ -4,23 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/grey_100"
     tools:context=".activities.PaymentSettingsActivity">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <!--    <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/background"
+            app:contentInsetStartWithNavigation="0dp"
+            app:navigationIcon="@drawable/ic_back"
+            app:title="Payment Settings" />-->
+
+    <LinearLayout
+        android:id="@+id/linearToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/background"
-        app:contentInsetStartWithNavigation="0dp"
-        app:navigationIcon="@drawable/ic_back"
-        app:title="Payment Settings" />
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="@dimen/_32sp"
+            android:layout_height="@dimen/_32sp"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_10sp"
+            android:padding="@dimen/_8sp"
+            android:src="@drawable/ic_back" />
+
+        <com.jobtick.TextView.TextViewMedium
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_5sp"
+            android:text="Payment Settings"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/_18sp" />
+
+    </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/lyt_bottom"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/linearToolbar"
         android:scrollbars="none">
 
         <LinearLayout
@@ -28,67 +56,70 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_gravity="center"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_large"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@drawable/bg_white_shape"
+                android:padding="@dimen/_3sp">
 
                 <RadioGroup
                     android:id="@+id/rg_payments_withdrawal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="46dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
 
-                    <RadioButton
+                    <com.jobtick.radioButton.RadioButtonSemiBold
                         android:id="@+id/rb_payments"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:paddingStart="@dimen/spacing_xlarge"
-                        android:paddingEnd="@dimen/spacing_xlarge"
                         android:background="@drawable/radio_button_left_tab"
                         android:button="@null"
                         android:checked="true"
                         android:gravity="center"
+                        android:paddingStart="@dimen/spacing_large"
+                        android:paddingEnd="@dimen/spacing_large"
                         android:text="Payments"
-                        android:textColor="@color/radio_btn"
-                        android:textSize="@dimen/_12sp" />
 
-                    <RadioButton
+                        android:textColor="@color/radio_btn"
+                        android:textSize="@dimen/_13sp" />
+
+                    <com.jobtick.radioButton.RadioButtonSemiBold
                         android:id="@+id/rb_withdrawal"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/radio_button_right_tab"
                         android:button="@null"
-                        android:paddingStart="@dimen/spacing_xlarge"
-                        android:paddingEnd="@dimen/spacing_xlarge"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/spacing_large"
+                        android:paddingEnd="@dimen/spacing_large"
                         android:text="Withdrawal"
                         android:textColor="@color/radio_btn"
-                        android:textSize="@dimen/_12sp" />
+                        android:textSize="@dimen/_13sp" />
 
                 </RadioGroup>
 
 
-            </androidx.cardview.widget.CardView>
+            </FrameLayout>
+
 
             <LinearLayout
                 android:id="@+id/linear_credit_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_xxxlarge"
                 android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
 
                 <LinearLayout
@@ -96,48 +127,47 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
-                    <ImageView
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_composite_layer">
+                    <!--  <ImageView
+                          android:layout_width="200dp"
+                          android:layout_height="150dp"
+                          android:layout_gravity="center"
+                          android:src="@drawable/ic_composite_layer">
 
-                    </ImageView>
+                      </ImageView>
 
-                    <com.jobtick.TextView.TextViewSemiBold
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_xlarge"
-                        android:gravity="center"
-                        android:text="No credit/debit card details">
-
-
-                    </com.jobtick.TextView.TextViewSemiBold>
+                      <com.jobtick.TextView.TextViewSemiBold
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="@dimen/spacing_xlarge"
+                          android:gravity="center"
+                          android:text="No credit/debit card details">
 
 
-                    <com.jobtick.TextView.TextViewRegular
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                      </com.jobtick.TextView.TextViewSemiBold>
 
-                        android:layout_marginTop="@dimen/spacing_large"
-                        android:gravity="center"
-                        android:text="Add Credit card details to transfer \n money to split balance">
 
-                    </com.jobtick.TextView.TextViewRegular>
+                      <com.jobtick.TextView.TextViewRegular
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+
+                          android:layout_marginTop="@dimen/spacing_large"
+                          android:gravity="center"
+                          android:text="Add Credit card details to transfer \n money to split balance">
+
+                      </com.jobtick.TextView.TextViewRegular>-->
 
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_46dp"
                         android:layout_marginStart="@dimen/spacing_large"
-                        android:layout_marginTop="@dimen/spacing_xlarge"
                         android:layout_marginEnd="@dimen/spacing_large"
                         android:layout_marginBottom="@dimen/spacing_middle"
                         android:backgroundTint="@color/white"
-                        android:elevation="@dimen/spacing_middle"
-                        app:cardCornerRadius="@dimen/spacing_medium">
+                        app:cardCornerRadius="@dimen/spacing_medium"
+                        app:cardElevation="0dp">
 
 
                         <RelativeLayout
@@ -146,7 +176,6 @@
                             android:layout_height="60dp"
                             android:layout_gravity="center_vertical"
                             android:background="?attr/selectableItemBackground"
-                            android:gravity="center"
                             android:padding="@dimen/spacing_mlarge">
 
                             <ImageView
@@ -154,7 +183,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
-                                android:layout_centerVertical="true"
                                 android:layout_marginEnd="@dimen/spacing_large"
                                 android:src="@drawable/ic_add_primary"
                                 android:tint="@color/colorPrimary" />
@@ -163,11 +191,8 @@
                                 android:id="@+id/txt_add_credit_card"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
                                 android:layout_toEndOf="@id/img_add"
-
                                 android:text="Add Credit/Debit Card"
-                                android:textAllCaps="true"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_12sp" />
 
@@ -321,7 +346,8 @@
                         android:layout_width="150dp"
                         android:layout_height="200dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_bank">
+                        android:src="@drawable/ic_bank"
+                        android:visibility="gone">
 
                     </ImageView>
 
@@ -330,7 +356,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_xlarge"
                         android:gravity="center"
-                        android:text="No bank details">
+                        android:text="No bank details"
+
+                        android:visibility="gone">
 
 
                     </com.jobtick.TextView.TextViewSemiBold>
@@ -339,10 +367,11 @@
                     <com.jobtick.TextView.TextViewRegular
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:layout_marginTop="@dimen/spacing_large"
+
                         android:gravity="center"
-                        android:text="Add  card details to transfer \n money to split balance">
+                        android:text="Add  card details to transfer \n money to split balance"
+                        android:visibility="gone">
 
                     </com.jobtick.TextView.TextViewRegular>
 
@@ -440,39 +469,40 @@
                         android:weightSum="1">
 
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/spacing_middle"
-                        android:layout_weight="0.80"
-                        android:orientation="vertical">
-
-                        <com.jobtick.TextView.TextViewSemiBold
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_small"
-                            android:inputType="number"
-                            android:text="Billing Address"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
+                            android:layout_margin="@dimen/spacing_middle"
+                            android:layout_weight="0.80"
+                            android:orientation="vertical">
 
-                            android:textStyle="bold" />
+                            <com.jobtick.TextView.TextViewSemiBold
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_small"
+                                android:inputType="number"
+                                android:text="Billing Address"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_12sp"
+
+                                android:textStyle="bold" />
 
 
-                        <com.jobtick.TextView.TextViewSemiBold
-                            android:id="@+id/txt_Billing_Address"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_small"
-                            android:layout_marginBottom="@dimen/spacing_small"
-                            android:inputType="number"
-                            android:text="Account Number"
-                            android:textColor="@color/textColor"
-                            android:textSize="@dimen/_12sp"
+                            <com.jobtick.TextView.TextViewSemiBold
+                                android:id="@+id/txt_Billing_Address"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_small"
+                                android:layout_marginBottom="@dimen/spacing_small"
+                                android:inputType="number"
+                                android:text="Account Number"
+                                android:textColor="@color/textColor"
+                                android:textSize="@dimen/_12sp"
 
-                            android:textStyle="bold" />
+                                android:textStyle="bold" />
 
-                    </LinearLayout>
+                        </LinearLayout>
+
                         <ImageView
                             android:id="@+id/ic_delete_billing_account"
                             android:layout_width="0dp"
@@ -490,30 +520,26 @@
                     android:id="@+id/card_add_bank_account"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:layout_marginEnd="@dimen/spacing_large"
                     android:layout_marginBottom="@dimen/spacing_middle"
                     android:backgroundTint="@color/white"
-                    android:elevation="@dimen/spacing_middle"
-                    app:cardCornerRadius="@dimen/spacing_middle">
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="0dp">
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
 
                         android:orientation="vertical">
 
 
                         <RelativeLayout
                             android:id="@+id/rlt_btn_add_bank_account"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-
                             android:background="?attr/selectableItemBackground"
                             android:gravity="center_vertical"
                             android:padding="@dimen/spacing_mlarge">
@@ -523,7 +549,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
-                                android:layout_centerVertical="true"
                                 android:layout_marginEnd="@dimen/spacing_large"
                                 android:src="@drawable/ic_add_primary"
                                 android:tint="@color/colorPrimary" />
@@ -532,7 +557,6 @@
                                 android:id="@+id/txt_add_bank_account"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
                                 android:layout_toEndOf="@id/img_add_bank_account"
                                 android:text="Add Bank Account"
                                 android:textColor="@color/colorPrimary"
@@ -552,28 +576,24 @@
                     android:layout_height="60dp"
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_medium"
-
                     android:layout_marginEnd="@dimen/spacing_large"
                     android:layout_marginBottom="@dimen/spacing_middle"
                     android:backgroundTint="@color/white"
-                    android:elevation="@dimen/spacing_middle"
-                    app:cardCornerRadius="@dimen/spacing_middle">
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="0dp">
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+
                         android:orientation="vertical">
 
 
                         <RelativeLayout
                             android:id="@+id/rlt_btn_add_billing_address"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
-                            android:layout_gravity="center"
                             android:background="?attr/selectableItemBackground"
                             android:gravity="center_vertical"
                             android:padding="@dimen/spacing_mlarge">

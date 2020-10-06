@@ -180,4 +180,22 @@
     </string-array>
 
 
+    <string name="read_more">More</string>
+    <string name="read_less">Less</string>
+    <string name="portfolio">Portfolio</string>
+    <string name="skills">Skills</string>
+    <string name="get_quote">Get a  Quote</string>
+    <string name="name">Name</string>
+    <string name="verify">Verify</string>
+
+    <string name="profile">Profile</string>
+    <string name="level">Level</string>
+    <string name="review">Reviews</string>
+    <string name="view_all">View All</string>
+    <string name="as_ticker">As a Ticker</string>
+    <string name="as_poster">As a Poster</string>
+    <string name="about_me">About me</string>
+
+
+
 </resources>

@@ -10,15 +10,18 @@
             android:icon="@drawable/ic_dashboard"
             app:actionLayout="@layout/menu_badge_navigation"
             android:title="@string/dashboard" />
+
+
         <item
             android:id="@+id/nav_payment"
             android:icon="@drawable/ic_payment"
-            android:title="@string/payment" />
+            android:title="Payments" />
         <item
             android:id="@+id/nav_saved_tasks"
             android:icon="@drawable/ic_saved_task"
-            android:title="@string/saved_tasks" />
+            android:title="Saved  Jobs" />
         <item
+            app:showAsAction="always"
             android:id="@+id/nav_notifications"
             android:icon="@drawable/ic_notification"
             android:title="@string/notifications" />
@@ -26,11 +29,11 @@
         <item
             android:id="@+id/nav_task_alerts"
             android:icon="@drawable/ic_alert"
-            android:title="@string/task_alerts" />
+            android:title="Job Alerts" />
         <item
             android:id="@+id/nav_refer_a_friend"
             android:icon="@drawable/ic_refrer_frnd"
-            android:title="@string/refer_a_friend" />
+            android:title="Refer a Friend" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_setting"

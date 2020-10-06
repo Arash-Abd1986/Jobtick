@@ -56,8 +56,8 @@ import static com.jobtick.utils.Constant.BASE_URL;
 
 public class PaymentSettingsActivity extends ActivityBase implements OnBankAccountAdded {
 
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+ /*   @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;*/
 
     @BindView(R.id.rb_payments)
     RadioButton rbPayments;
@@ -132,6 +132,10 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
 
     @BindView(R.id.ic_delete_billing_account)
     ImageView ic_delete_billing_account;
+
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
+
     public static OnBankAccountAdded onBankaccountadded;
 
     @Override
@@ -146,11 +150,12 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
 
 
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Payment Settings");
+        //  toolbar.setNavigationIcon(R.drawable.ic_back);
+        // setSupportActionBar(toolbar);
+      /*  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Payment Settings");*/
         onBankaccountadded = this;
+        ivBack.setOnClickListener(v -> finish());
     }
 
 
@@ -175,7 +180,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         rbWithdrawal.setTextColor(getResources().getColor(R.color.black));
         linear_credit_card_view.setVisibility(View.VISIBLE);
         linear_bank_details.setVisibility(View.GONE);
-        linear_bank.setVisibility(View.VISIBLE);
+        linear_bank.setVisibility(View.GONE);
         liner_no_payment_method.setVisibility(View.VISIBLE);
         rtl_credit_card_details.setVisibility(View.GONE);
         getBillingAddress();
@@ -545,7 +550,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                linear_bank.setVisibility(View.VISIBLE);
+                                linear_bank.setVisibility(View.GONE);
                                 card_add_bank_account.setVisibility(View.VISIBLE);
                                 card_view_bank_account.setVisibility(View.GONE);
 
@@ -609,7 +614,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 card_add_billing_address.setVisibility(View.VISIBLE);
-                                linear_bank.setVisibility(View.VISIBLE);
+                                linear_bank.setVisibility(View.GONE);
                                 card_view_billing_address.setVisibility(View.GONE);
                             } else {
                                 showToast("Something went Wrong", PaymentSettingsActivity.this);

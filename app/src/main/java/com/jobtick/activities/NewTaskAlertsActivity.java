@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -47,8 +48,9 @@ import timber.log.Timber;
 
 public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlertsInPersonFragment.OperationInPersonListener, NewTaskAlertsRemoteFragment.OperationRemoteListener {
 
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+    /*   @BindView(R.id.toolbar)
+       MaterialToolbar toolbar;
+   */
     @BindView(R.id.rb_in_person)
     RadioButton rbInPerson;
     @BindView(R.id.rb_remote)
@@ -60,6 +62,9 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
 
     TaskAlert taskAlert;
     int position = -1;
+
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,10 +144,14 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
 
 
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+     /*   toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("New Task Alert");
+        getSupportActionBar().setTitle("New Job Alert");*/
+
+        ivBack.setOnClickListener(v -> {
+            finish();
+        });
     }
 
     //  viewpager change listener

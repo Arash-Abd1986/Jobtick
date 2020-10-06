@@ -3,6 +3,7 @@ package com.jobtick.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,11 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -105,7 +109,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
     private int conversationId;
 
     ImageView ivNotification;
-    TextViewBold toolbar_title;
+    TextView toolbar_title;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -135,8 +139,15 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
             toolbar.getMenu().findItem(R.id.action_search).setVisible(true);
             ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
             ivNotification.setVisibility(View.GONE);
-            toolbar_title=dashboardActivity.findViewById(R.id.toolbar_title);
-            toolbar_title.setVisibility(View.GONE);
+            toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
+            toolbar_title.setVisibility(View.VISIBLE);
+            toolbar_title.setText("Chat");
+
+            toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_medium));
+            toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.grey_100));
+            androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+            params.gravity = Gravity.LEFT;
+            toolbar_title.setLayoutParams(params);
 
         }
 
@@ -280,8 +291,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
                 }
             });
 
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
     }

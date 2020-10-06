@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -61,8 +63,13 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
     @BindView(R.id.ivNoPosst)
     public GifImageView ivNoPost;
 
+/*
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+*/
+
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
 
     public static OnRemoveSavedTaskListener onRemoveSavedtasklistener;
 
@@ -86,7 +93,8 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
         // swipeRefresh.setRefreshing(true);
         getStatusList();
 
-        toolbar.setNavigationOnClickListener(view -> onBackPressed());
+        //toolbar.setNavigationOnClickListener(view -> onBackPressed());
+        ivBack.setOnClickListener(v -> finish());
 
     }
 

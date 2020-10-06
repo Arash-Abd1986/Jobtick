@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -44,21 +46,27 @@ import timber.log.Timber;
 
 public class SkillsTagActivity extends ActivityBase implements AddTagAdapter.OnItemClickListener {
 
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     AddTagAdapter adapter;
     ArrayList<String> addTagList;
     @BindView(R.id.txt_title)
-    TextViewSemiBold txtTitle;
+    TextView txtTitle;
     @BindView(R.id.edt_add_tag)
-    EditTextRegular edtAddTag;
+    EditText edtAddTag;
     @BindView(R.id.img_btn_add_tag)
     ImageView imgBtnAddTag;
     private String action_bat_title;
     private String title;
+
     private boolean hasUpdate = false;
+    @BindView(R.id.toolbar_title)
+    TextView toolbar_title;
+
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,14 +85,22 @@ public class SkillsTagActivity extends ActivityBase implements AddTagAdapter.OnI
         }
         init();
 
-        toolbar.setTitle(action_bat_title);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar_title.setText(action_bat_title);
+
+       /* toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });*/
+
+
+        ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-
 
     }
 
@@ -228,7 +244,7 @@ public class SkillsTagActivity extends ActivityBase implements AddTagAdapter.OnI
             return;
         } else {
             addTagList.add(edtAddTag.getText().toString().trim());
-           // updateSkillsTag();
+            // updateSkillsTag();
             hasUpdate = true;
             if (recyclerView.getVisibility() != View.VISIBLE) {
                 recyclerView.setVisibility(View.VISIBLE);

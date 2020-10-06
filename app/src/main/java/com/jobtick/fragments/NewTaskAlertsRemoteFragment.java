@@ -79,7 +79,7 @@ public class NewTaskAlertsRemoteFragment extends Fragment {
             edtKeyword.setText(taskAlert.getKetword());
             txtSaveUpdateAlert.setText("Update alert");
         } else {
-            txtSaveUpdateAlert.setText("save alert");
+            //  txtSaveUpdateAlert.setText("save alert");
         }
 
     }

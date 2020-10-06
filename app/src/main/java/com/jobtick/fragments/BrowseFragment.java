@@ -36,6 +36,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.DashboardActivity;
@@ -87,7 +88,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     AppBarLayout appbar;
 
     @BindView(R.id.ivMapView)
-    ImageView ivMapView;
+    FloatingActionButton ivMapView;
     private DashboardActivity dashboardActivity;
     private ArrayList<String> filters;
     private FilterModel filterModel;
@@ -177,6 +178,8 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 isLoading = true;
                 currentPage++;
                 doApiCall();
+
+
             }
 
             @Override
@@ -232,21 +235,18 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     private void setAnimation() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            recyclerViewFilters.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-
-                    if (scrollX < oldScrollX) { // up
-                        Log.e("scrollx", "up" + scrollX);
-                        Log.e("scrollxold", "up" + oldScrollX);
-                        animateFab(false);
-                    }
-                    if (scrollX > oldScrollX) { // down
-                        Log.e("scrollx", "down" + scrollX);
-                        Log.e("scrollxold", "down" + oldScrollX);
-                        animateFab(true);
-                    }
+            recyclerViewBrowse.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+                if (scrollX < oldScrollX) { // up
+                    Log.e("scrollx", "up" + scrollX);
+                    Log.e("scrollxold", "up" + oldScrollX);
+                    animateFab(false);
                 }
+                if (scrollX > oldScrollX) { // down
+                    Log.e("scrollx", "down" + scrollX);
+                    Log.e("scrollxold", "down" + oldScrollX);
+                    animateFab(true);
+                }
+
             });
         }
     }
@@ -257,18 +257,21 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         if (isFabHide && hide || !isFabHide && !hide) return;
         isFabHide = hide;
 
-        int moveX = hide ? (2 * txtFilters.getWidth()) : 0;
+        int moveX = hide ? (2 * appbar.getWidth()) : 0;
         Log.e("width", "" + moveX);
 
-        txtFilters.animate().translationX(-moveX).setStartDelay(100).setDuration(300).setListener(new Animator.AnimatorListener() {
+
+        appbar.animate().translationY(-moveX).setStartDelay(100).setDuration(300).start();
+
+        /*appbar.animate().translationX(-moveX).setStartDelay(100).setDuration(300).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
                 Log.e("Start1", "called");
                 if (moveX > 0) {
-                    ViewAnimation.collapse(txtFilters);
+                    ViewAnimation.collapse(appbar);
                 } else {
-                    ViewAnimation.expand(txtFilters);
+                    ViewAnimation.expand(appbar);
                 }
             }
 
@@ -286,7 +289,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
             public void onAnimationRepeat(Animator animation) {
                 Log.e("Start4", "called");
             }
-        }).start();
+        }).start();*/
     /*    if(hide){
             ViewAnimation.collapse(txtFilters);
         }else{

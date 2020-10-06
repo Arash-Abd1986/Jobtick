@@ -4,19 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:orientation="vertical"
-    tools:context=".fragments.PaymentHistoryOutgoingFragment">
+    android:background="@color/grey_100"
+    android:orientation="vertical">
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_large"
-        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/_10sp"
         android:layout_marginEnd="@dimen/spacing_large"
         android:layout_marginBottom="@dimen/spacing_middle"
-        android:elevation="@dimen/spacing_middle"
-        app:cardCornerRadius="@dimen/spacing_middle">
+        android:elevation="0dp"
+        app:cardCornerRadius="@dimen/spacing_middle"
+        app:cardElevation="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,68 +30,81 @@
                 android:orientation="vertical"
                 android:padding="@dimen/spacing_large">
 
-                <RelativeLayout
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/ic_rounded_grey_button">
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/_10sp"
+                        android:layout_weight="1"
+                        android:background="@drawable/ic_rounded_grey_button"
+                        android:paddingTop="@dimen/_10sp"
+                        android:paddingBottom="@dimen/_10sp">
 
-                        <com.jobtick.TextView.TextViewMedium
-                            android:layout_width="wrap_content"
-                            android:text="All Time"
+
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/_10sp"
+                            android:layout_weight="1"
                             android:padding="@dimen/spacing_medium"
+                            android:text="All time"
+                            android:textColor="@color/grey_70"
+                            android:textSize="@dimen/_13sp" />
 
-                            android:layout_height="wrap_content">
-
-                        </com.jobtick.TextView.TextViewMedium>
                         <ImageView
                             android:layout_width="15dp"
+                            android:layout_height="15dp"
                             android:layout_gravity="center"
+                            android:layout_marginEnd="@dimen/_12sp"
                             android:src="@drawable/ic_down_arrow"
-                            android:layout_marginStart="@dimen/spacing_medium"
-                            android:layout_marginEnd="@dimen/spacing_medium"
-                            android:tint="@color/textColor"
-                            android:layout_height="15dp">
+                            android:tint="@color/colorGrayC9C9C9">
 
                         </ImageView>
+
                         <Spinner
                             android:id="@+id/spinner_showing_data"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:visibility="gone"
                             android:layout_gravity="center"
                             android:entries="@array/array_name"
-                            android:padding="@dimen/spacing_small" />
+                            android:padding="@dimen/spacing_small"
+                            android:visibility="gone" />
                     </LinearLayout>
 
 
                     <LinearLayout
                         android:id="@+id/card_download_csv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="center"
                         android:layout_margin="@dimen/spacing_medium"
-                        android:background="@drawable/ic_rounded_button">
+                        android:layout_marginLeft="@dimen/_10sp"
+                        android:layout_weight="1"
+                        android:background="@drawable/ic_rounded_button"
+                        android:padding="@dimen/_5sp">
 
                         <LinearLayout
                             android:id="@+id/lyt_btn_download_csv"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/spacing_middle">
 
-                            <com.jobtick.TextView.TextViewRegular
-                                android:layout_width="wrap_content"
+                            <com.jobtick.TextView.TextViewSemiBold
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="DOWNLOAD CSV"
+                                android:gravity="center"
+                                android:text="Download CSV"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/_10sp" />
+                                android:textSize="@dimen/_12sp" />
 
 
                         </LinearLayout>
@@ -98,7 +112,7 @@
 
                     </LinearLayout>
 
-                </RelativeLayout>
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -115,20 +129,20 @@
                         android:layout_centerVertical="true"
                         android:orientation="vertical">
 
-                        <com.jobtick.TextView.TextViewBold
+                        <com.jobtick.TextView.TextViewSemiBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Net Outgoing"
                             android:textColor="@color/textColor"
-                            android:textSize="@dimen/_14sp"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/_14sp" />
 
                         <com.jobtick.TextView.TextViewRegular
                             android:id="@+id/txt_total_transactions"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="3 transactions"
-                            android:textColor="@color/grey_40"
+                            android:layout_marginTop="@dimen/_3sp"
+                            android:text="3 Transactions"
+                            android:textColor="@color/grey_70"
                             android:textSize="@dimen/_12sp" />
 
 
@@ -141,9 +155,9 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:text="$ 265"
+                        android:text="$365"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_20sp"
+                        android:textSize="@dimen/_22sp"
                         android:textStyle="bold" />
 
 
@@ -151,25 +165,14 @@
 
             </LinearLayout>
 
-
-            <include layout=" @layout/item_payment_history" />
-
-            <include layout="@layout/item_payment_history" />
-
-            <include layout=" @layout/item_payment_history" />
-
-
-            <include layout="@layout/item_payment_history" />
-
-            <include layout=" @layout/item_payment_history" />
+            <!--design by umesh share please user recyclerview here
+          i item below layout-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_payment_history" />
 
 
-            <include layout="@layout/item_payment_history" />
-
-            <include layout=" @layout/item_payment_history" />
-
-
-            <include layout="@layout/item_payment_history" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

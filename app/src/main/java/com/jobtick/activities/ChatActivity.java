@@ -34,6 +34,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.TextView.TextViewMedium;
+import com.jobtick.TextView.TextViewSemiBold;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -130,7 +131,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     @BindView(R.id.txt_subtitle)
     TextViewRegular txtSubtitle;
     @BindView(R.id.txt_job_title)
-    TextViewBold txtJobTitle;
+    TextView txtJobTitle;
     @BindView(R.id.lyt_scroll_down)
     LinearLayout lytScrollDown;
 

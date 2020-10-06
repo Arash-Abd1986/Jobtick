@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey_100"
     android:orientation="vertical">
 
     <LinearLayout
@@ -10,14 +11,42 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+        <!-- <com.google.android.material.appbar.MaterialToolbar
+             android:id="@+id/toolbar"
+             android:layout_width="match_parent"
+             android:layout_height="?attr/actionBarSize"
+             android:background="@color/background"
+             app:contentInsetStartWithNavigation="0dp"
+             app:navigationIcon="@drawable/ic_back"
+             app:title="" />-->
+
+        <LinearLayout
+            android:id="@+id/linearToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/background"
-            app:contentInsetStartWithNavigation="0dp"
-            app:navigationIcon="@drawable/ic_back"
-            app:title="" />
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="@dimen/_32sp"
+                android:layout_height="@dimen/_32sp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_10sp"
+                android:padding="@dimen/_8sp"
+                android:src="@drawable/ic_back" />
+
+            <com.jobtick.TextView.TextViewMedium
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_5sp"
+                android:text="Notifications Settings"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_18sp" />
+
+        </LinearLayout>
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -26,8 +55,8 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_large"
             android:layout_marginBottom="@dimen/spacing_middle"
-            android:elevation="@dimen/spacing_mlarge"
-            app:cardCornerRadius="@dimen/spacing_middle">
+            app:cardCornerRadius="@dimen/spacing_middle"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,44 +66,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/spacing_large"
-                    android:orientation="horizontal">
+                    android:layout_margin="@dimen/_16sp"
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_info"
-                        android:tint="@color/blue">
-
-                    </ImageView>
-
-
-                    <com.jobtick.TextView.TextViewRegular
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_26sp"
-                        android:layout_marginTop="@dimen/spacing_middle"
-                        android:layout_marginEnd="@dimen/spacing_middle"
-                        android:layout_marginBottom="@dimen/spacing_middle"
-                        android:text="You will always receive import notification about any payment, Cancellations and your account."
-                        android:textColor="@color/gray">
-
-                    </com.jobtick.TextView.TextViewRegular>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/spacing_large"
-
-                    android:layout_marginTop="@dimen/spacing_middle"
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/cb_receive_alerts"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:background="@drawable/radio_button_square_selector"
                         android:button="@null"
@@ -84,7 +82,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_26sp"
+                        android:layout_marginStart="@dimen/_12sp"
                         android:orientation="vertical">
 
                         <com.jobtick.TextView.TextViewRegular
@@ -93,9 +91,9 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="Email"
+                            android:text="Transectional"
                             android:textColor="@color/textColor"
-                            android:textSize="@dimen/_16sp" />
+                            android:textSize="@dimen/_14sp" />
 
                         <com.jobtick.TextView.TextViewRegular
                             android:layout_width="wrap_content"
@@ -104,7 +102,7 @@
                             android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:text="Must Be On"
-                            android:textColor="@color/textColor"
+                            android:textColor="@color/grey_70"
                             android:textSize="@dimen/_11sp" />
                     </LinearLayout>
 
@@ -112,18 +110,21 @@
                 </LinearLayout>
 
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.50dp"
+                    android:background="#F0F0F0" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/spacing_large"
+                    android:layout_margin="@dimen/_16sp"
 
-                    android:layout_marginTop="@dimen/spacing_middle"
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/cb_receive_alerts"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:background="@drawable/radio_button_square_selector"
                         android:button="@null"
@@ -133,7 +134,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_26sp"
+                        android:layout_marginStart="@dimen/_12sp"
                         android:orientation="vertical">
 
                         <com.jobtick.TextView.TextViewRegular
@@ -142,28 +143,41 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="SMS"
+                            android:text="Job updates"
                             android:textColor="@color/textColor"
-                            android:textSize="@dimen/_16sp" />
+                            android:textSize="@dimen/_14sp" />
 
-
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="Must Be On"
+                            android:textColor="@color/grey_70"
+                            android:textSize="@dimen/_11sp"
+                            android:visibility="gone" />
                     </LinearLayout>
 
 
                 </LinearLayout>
 
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.50dp"
+                    android:background="#F0F0F0" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/spacing_large"
+                    android:layout_margin="@dimen/_16sp"
 
-                    android:layout_marginTop="@dimen/spacing_middle"
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/cb_receive_alerts"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:background="@drawable/radio_button_square_selector"
                         android:button="@null"
@@ -173,7 +187,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_26sp"
+                        android:layout_marginStart="@dimen/_12sp"
                         android:orientation="vertical">
 
                         <com.jobtick.TextView.TextViewRegular
@@ -182,14 +196,77 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="Push Notifications"
+                            android:text="Job alerts"
                             android:textColor="@color/textColor"
-                            android:textSize="@dimen/_16sp" />
+                            android:textSize="@dimen/_14sp" />
 
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="Must Be On"
+                            android:textColor="@color/grey_70"
+                            android:textSize="@dimen/_11sp"
+                            android:visibility="gone" />
                     </LinearLayout>
 
 
                 </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.50dp"
+                    android:background="#F0F0F0" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_16sp"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/radio_button_square_selector"
+                        android:button="@null"
+                        android:gravity="center" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sp"
+                        android:orientation="vertical">
+
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="Updates and recommendations"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_14sp" />
+
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="Must Be On"
+                            android:textColor="@color/grey_70"
+                            android:textSize="@dimen/_11sp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

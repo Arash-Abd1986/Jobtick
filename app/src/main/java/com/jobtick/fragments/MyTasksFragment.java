@@ -19,12 +19,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatRadioButton;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -241,14 +241,14 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     }
 
     private void getStatusList() {
-        /*if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_VALUE)) {
-            toolbar.setTitle(TASK_DRAFT_CASE_ALL_JOB_KEY);
+        if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_VALUE)) {
+            toolbar_title.setText(TASK_DRAFT_CASE_ALL_JOB_KEY);
 
 
         } else {
-            toolbar.setTitle(single_choice_selected);
+            toolbar_title.setText(single_choice_selected);
 
-        }*/
+        }
         String query_parameter = "";
         if (str_search != null) {
             query_parameter += "&search_query=" + str_search;
@@ -456,6 +456,46 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         AppCompatRadioButton radioOffer = view.findViewById(R.id.radioOffer);
 
 
+        RelativeLayout relativeCompleted = view.findViewById(R.id.relativeCompleted);
+        RelativeLayout relativeAllJobs = view.findViewById(R.id.relativeAllJobs);
+        RelativeLayout relativeDraft = view.findViewById(R.id.relativeDraft);
+        RelativeLayout relativeCancelled = view.findViewById(R.id.relativeCancelled);
+        RelativeLayout relativeAssigned = view.findViewById(R.id.relativeAssigned);
+        RelativeLayout relativeOpen = view.findViewById(R.id.relativeOpen);
+        RelativeLayout relativePending = view.findViewById(R.id.relativePending);
+        RelativeLayout relativeOffer = view.findViewById(R.id.relativeOffer);
+
+        relativeDraft.setOnClickListener(v -> {
+            radioDraft.performClick();
+        });
+
+        relativeCancelled.setOnClickListener(v -> {
+            radioCancelled.performClick();
+
+        });
+
+        relativeAssigned.setOnClickListener(v -> {
+            radioAssigned.performClick();
+        });
+
+        relativeOpen.setOnClickListener(v -> {
+            relativeOpen.performClick();
+        });
+
+        relativePending.setOnClickListener(v -> {
+            relativePending.performClick();
+        });
+
+        relativeOffer.setOnClickListener(v ->
+        {
+            relativeOffer.performClick();
+        });
+
+
+        relativeAllJobs.setOnClickListener(v -> {
+            rbAll.performClick();
+        });
+
         if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_VALUE)) {
             rbAll.setChecked(true);
         } else if (single_choice_selected.equals(TASK_DRAFT_CASE_UPPER_FIRST)) {
@@ -475,6 +515,12 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         } else if (single_choice_selected.equals(TASK_CANCELLED_CASE_UPPER_FIRST)) {
             radioCancelled.setChecked(true);
         }
+
+
+        relativeCompleted.setOnClickListener(v -> {
+            radioCompleted.performClick();
+        });
+
 
         radioDraft.setOnClickListener(v -> {
             radioDraft.setChecked(true);

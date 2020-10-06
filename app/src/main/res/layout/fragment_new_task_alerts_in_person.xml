@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/grey_100"
     android:orientation="vertical"
     tools:context=".fragments.NewTaskAlertsInPersonFragment">
 
@@ -16,18 +16,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_10sp"
             android:orientation="vertical">
 
 
-            <androidx.cardview.widget.CardView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_mlarge"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@drawable/greay_border_bg"
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -40,9 +41,10 @@
 
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <com.jobtick.TextView.TextViewSemiBold
                             android:layout_width="wrap_content"
@@ -63,15 +65,16 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_xlarge" />
+                        android:layout_height="@dimen/spacing_xlarge"
+                        android:visibility="gone" />
 
-                    <com.jobtick.TextView.TextViewBold
+                    <com.jobtick.TextView.TextViewSemiBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Add Keyword Or Phrase"
+                        android:text="Add a Keyword or Phrase"
                         android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_12sp"
                         android:textStyle="bold" />
-
 
 
                     <com.jobtick.EditText.EditTextRegular
@@ -79,7 +82,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:hint="e.g Clean"
+                        android:hint=""
                         android:singleLine="true"
                         android:textSize="14sp" />
 
@@ -89,20 +92,17 @@
                 </LinearLayout>
 
 
+            </FrameLayout>
 
-
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_mlarge"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@drawable/greay_border_bg"
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -114,13 +114,13 @@
                     android:paddingBottom="@dimen/spacing_large">
 
 
-                    <com.jobtick.TextView.TextViewBold
+                    <com.jobtick.TextView.TextViewSemiBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Suburb"
                         android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_12sp"
                         android:textStyle="bold" />
-
 
 
                     <RelativeLayout
@@ -134,10 +134,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
+                            android:layout_toStartOf="@+id/img_map_pin"
+                            android:hint=""
                             android:textColor="@color/textColor"
                             android:textColorHint="@color/textColor"
-                            android:layout_toStartOf="@+id/img_map_pin"
-                            android:hint="Union Ave, Austin"
                             android:textSize="14sp" />
 
                         <ImageView
@@ -152,7 +152,7 @@
                 </LinearLayout>
 
 
-            </androidx.cardview.widget.CardView>
+            </FrameLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -160,9 +160,9 @@
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:layout_marginBottom="@dimen/spacing_medium"
+                app:cardCornerRadius="@dimen/spacing_middle"
+                app:cardElevation="0dp">
 
 
                 <LinearLayout
@@ -177,8 +177,8 @@
                         android:layout_height="wrap_content">
 
                         <com.jobtick.TextView.TextViewSemiBold
-                            android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:text="Distance"
                             android:textColor="@color/colorPrimary"
@@ -186,12 +186,12 @@
                             android:textStyle="bold" />
 
                         <com.jobtick.TextView.TextViewSemiBold
-                            android:layout_height="wrap_content"
                             android:id="@+id/txt_distance_km"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:textColor="@color/textColor"
                             android:text="15 KM"
+                            android:textColor="@color/textColor"
                             android:textSize="@dimen/_12sp"
                             android:textStyle="bold" />
 
@@ -203,21 +203,21 @@
                         android:layout_height="@dimen/spacing_middle" />
 
                     <SeekBar
-                        android:layout_marginEnd="-5dp"
-                        android:layout_marginStart="-5dp"
-                        android:layout_gravity="center"
                         android:id="@+id/sk_distance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="-5dp"
+                        android:layout_marginEnd="-5dp"
                         android:layoutDirection="ltr"
                         android:max="100"
+                        android:minHeight="5dip"
                         android:mirrorForRtl="true"
                         android:progress="15"
                         android:progressBackgroundTint="@color/grey_40"
                         android:progressTint="@color/colorPrimary"
                         android:thumbOffset="@dimen/spacing_large"
-                        android:thumbTint="@color/colorPrimary"
-                        />
+                        android:thumbTint="@color/colorPrimary" />
 
                 </LinearLayout>
 
@@ -235,8 +235,8 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/spacing_large"
         android:backgroundTint="@color/colorPrimary"
-        android:elevation="@dimen/spacing_middle"
-        app:cardCornerRadius="@dimen/spacing_medium">
+        app:cardCornerRadius="@dimen/spacing_medium"
+        app:cardElevation="0dp">
 
         <LinearLayout
             android:id="@+id/lyt_btn_save_alert"
@@ -250,12 +250,11 @@
             android:padding="@dimen/spacing_large">
 
             <com.jobtick.TextView.TextViewRegular
+                android:id="@+id/txt_save_update_alert"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txt_save_update_alert"
                 android:text="Update alert"
                 android:textColor="@color/white"
-                app:textAllCaps="true"
                 android:textSize="@dimen/_14sp" />
 
 

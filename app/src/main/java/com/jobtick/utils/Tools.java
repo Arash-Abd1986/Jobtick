@@ -280,6 +280,24 @@ public class Tools {
         return newFormat.format(new Date(String.valueOf(old_date)));
     }
 
+    public static String getDayMonthDateTimeFormat2(String dateTime) {
+        if (dateTime == null) {
+            return "";
+        }
+        SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date old_date = new Date();
+        try {
+            old_date = utcFormat.parse(dateTime);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat newFormat = new SimpleDateFormat("dd MMM yyyy");
+
+        return newFormat.format(new Date(String.valueOf(old_date)));
+
+    }
+
 /*
     public static void displayImageRound(final Context ctx, final ImageView img, @DrawableRes int drawable) {
         try {

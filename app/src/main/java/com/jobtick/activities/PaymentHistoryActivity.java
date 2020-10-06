@@ -1,6 +1,7 @@
 package com.jobtick.activities;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -12,9 +13,6 @@ import com.jobtick.R;
 import com.jobtick.adapers.SectionsPagerAdapter;
 import com.jobtick.fragments.PaymentHistoryEarnedFragment;
 import com.jobtick.fragments.PaymentHistoryOutgoingFragment;
-import com.jobtick.fragments.TaskBudgetFragment;
-import com.jobtick.fragments.TaskDateTimeFragment;
-import com.jobtick.fragments.TaskDetailFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,8 +31,13 @@ public class PaymentHistoryActivity extends ActivityBase {
     @BindView(R.id.rg_outgoing_earned)
     RadioGroup rgOutgoingEarned;
 
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
+
+
+    // @BindView(R.id.toolbar)
+    // MaterialToolbar toolbar;
 
 
     @Override
@@ -48,11 +51,15 @@ public class PaymentHistoryActivity extends ActivityBase {
     }
 
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+       /* toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Payment History");
-        toolbar.setNavigationOnClickListener(view -> onBackPressed());
+        getSupportActionBar().setTitle("Payment");
+        toolbar.setNavigationOnClickListener(view -> onBackPressed());*/
+
+        ivBack.setOnClickListener(v -> {
+            finish();
+        });
 
     }
 
@@ -66,20 +73,17 @@ public class PaymentHistoryActivity extends ActivityBase {
     }
 
     private void clickevent() {
-        rgOutgoingEarned.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
+        rgOutgoingEarned.setOnCheckedChangeListener((group, checkedId) -> {
 
-                switch (checkedId) {
-                    case R.id.rb_outgoing:
-                        viewPager.setCurrentItem(0);
-                        break;
+            switch (checkedId) {
+                case R.id.rb_outgoing:
+                    viewPager.setCurrentItem(0);
+                    break;
 
-                    case R.id.rb_earned:
-                        viewPager.setCurrentItem(1);
-                        break;
+                case R.id.rb_earned:
+                    viewPager.setCurrentItem(1);
+                    break;
 
-                }
             }
         });
     }

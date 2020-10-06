@@ -7,6 +7,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,6 +110,10 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
         if (makeAnOfferModel != null) {
             txtTotalBudget.setText(String.format("$%d", makeAnOfferModel.getOffer_price()));
         }
+
+
+        Log.e("","");
+
         toolbar.setNavigationOnClickListener(MakeAnOfferReviewFragment.this);
         reviewConditions();
         setupBudget(makeAnOfferModel.getOffer_price());
@@ -120,6 +125,7 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
                 @Override
                 public void run() {
                     ImageUtil.displayImage(imgOfferOnTask, makeAnOfferModel.getAttachment().getModalUrl(), null);
+                    //Log.e("getModalUrl",""+makeAnOfferModel.getAttachment().getModalUrl());
                 }
             });
 

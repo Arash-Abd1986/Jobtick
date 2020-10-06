@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jobtick.TextView.TextViewSemiBold;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewBold;
@@ -41,8 +42,6 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
     private OnItemClickListener mOnItemClickListener;
-
-
 
 
     public interface OnItemClickListener {
@@ -106,7 +105,7 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         ConversationModel conversationModel = mItems.get(position);
         conversationModel.setUnseenCount(0);
         mItems.remove(position);
-        mItems.add(position,conversationModel);
+        mItems.add(position, conversationModel);
         notifyItemChanged(position);
     }
 
@@ -157,7 +156,7 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             boolean is_available = false;
             ConversationModel conversationModel = mItems.get(i);
             for (int n : integerArrayList) {
-                if(conversationModel.getId() != null) {
+                if (conversationModel.getId() != null) {
                     if (n == conversationModel.getId()) {
                         is_available = true;
                         break;
@@ -180,7 +179,7 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         ConversationModel conversationModel = new ConversationModel(context);
         for (int i = 0; mItems.size() > i; i++) {
             conversationModel = mItems.get(i);
-            if(conversationModel.getId() != null) {
+            if (conversationModel.getId() != null) {
                 if (userId == conversationModel.getId()) {
                     is_available = true;
                     position = i;
@@ -204,7 +203,7 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         ConversationModel conversationModel = new ConversationModel(context);
         for (int i = 0; mItems.size() > i; i++) {
             conversationModel = mItems.get(i);
-            if(conversationModel.getId() != null) {
+            if (conversationModel.getId() != null) {
                 if (userId == conversationModel.getId()) {
                     is_available = true;
                     position = i;
@@ -235,7 +234,7 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.img_avatar)
         CircularImageView imgAvatar;
         @BindView(R.id.txt_title)
-        TextViewBold txtTitle;
+        TextViewSemiBold txtTitle;
         @BindView(R.id.txt_status)
         TextViewRegular txtStatus;
         @BindView(R.id.txt_user_name)
@@ -302,10 +301,10 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 rltLastMessage.setVisibility(View.GONE);
             }
 
-            if(item.getUnseenCount() != 0){
+            if (item.getUnseenCount() != 0) {
                 txtUnseenCount.setVisibility(View.VISIBLE);
-                txtUnseenCount.setText(""+item.getUnseenCount());
-            }else{
+                txtUnseenCount.setText("" + item.getUnseenCount());
+            } else {
                 txtUnseenCount.setVisibility(View.GONE);
             }
             lytParentLayout.setOnClickListener(v -> {

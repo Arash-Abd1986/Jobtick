@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_xlarge"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:background="@drawable/linear_rounded_white_fill_7dp">
@@ -64,9 +64,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle">
+                android:layout_marginTop="@dimen/spacing_mxlarge"
+                android:layout_marginEnd="@dimen/spacing_large">
 
 
                 <LinearLayout
@@ -131,9 +130,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
-                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_mxlarge"
                 android:layout_marginEnd="@dimen/spacing_small"
-                android:layout_marginBottom="@dimen/spacing_middle"
                 android:elevation="@dimen/spacing_middle">
 
 
@@ -198,13 +196,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_mxlarge"
+                android:layout_marginEnd="@dimen/spacing_middle"
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:orientation="horizontal">
 
 
-                <com.jobtick.TextView.TextViewRegular
+                <com.jobtick.TextView.TextViewMedium
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

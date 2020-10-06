@@ -101,7 +101,7 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
             txtDistanceKm.setText(taskAlert.getDistance() + " KM");
             txtSaveUpdateAlert.setText("Update alert");
         } else {
-            txtSaveUpdateAlert.setText("save alert");
+         //   txtSaveUpdateAlert.setText("save alert");
         }
         seekbar();
     }

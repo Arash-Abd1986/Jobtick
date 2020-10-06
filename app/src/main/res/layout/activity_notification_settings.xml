@@ -3,53 +3,348 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/grey_100"
     android:orientation="vertical">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbars"
+    <!--
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbars"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/background"
+            app:contentInsetStartWithNavigation="0dp"
+            app:navigationIcon="@drawable/ic_back"
+            app:title="Notifications Settings" />
+    -->
+
+
+    <LinearLayout
+        android:id="@+id/linearToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/background"
-        app:contentInsetStartWithNavigation="0dp"
-        app:navigationIcon="@drawable/ic_back"
-        app:title="Notifications Settings" />
+        android:orientation="horizontal">
 
-    <androidx.core.widget.NestedScrollView
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="@dimen/_32sp"
+            android:layout_height="@dimen/_32sp"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_10sp"
+            android:padding="@dimen/_8sp"
+            android:src="@drawable/ic_back" />
+
+        <com.jobtick.TextView.TextViewMedium
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_5sp"
+            android:text="Notifications Settings"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/_18sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="150dp"
+        android:gravity="bottom"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_large"
+            app:cardCornerRadius="@dimen/spacing_medium"
+            app:cardElevation="0dp">
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <RelativeLayout
+                    android:id="@+id/rtl_btn_email_notification"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="@dimen/spacing_mlarge">
+
+                    <com.jobtick.TextView.TextViewSemiBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="Email Notifications"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_12sp"
+                        android:textStyle="bold" />
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:rotation="180"
+                        android:src="@drawable/ic_back"
+                        android:tint="@color/colorGrayC9C9C9" />
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="@dimen/spacing_large"
+            android:elevation="@dimen/spacing_middle"
+
+            app:cardCornerRadius="@dimen/spacing_medium"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <RelativeLayout
+                    android:id="@+id/rtl_btn_push_notifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="@dimen/spacing_mlarge">
+
+                    <com.jobtick.TextView.TextViewSemiBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="Push Notifications"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_12sp"
+                        android:textStyle="bold" />
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:rotation="180"
+                        android:src="@drawable/ic_back"
+                        android:tint="@color/colorGrayC9C9C9" />
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginTop="7dp"
+
+            android:layout_marginEnd="@dimen/spacing_large"
+            android:elevation="@dimen/spacing_middle"
+            app:cardCornerRadius="@dimen/spacing_medium"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rtl_btn_sms_notifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="@dimen/spacing_mlarge">
+
+                    <com.jobtick.TextView.TextViewSemiBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="SMS Notifications"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_12sp"
+                        android:textStyle="bold" />
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:rotation="180"
+                        android:src="@drawable/ic_back"
+                        android:tint="@color/colorGrayC9C9C9" />
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+
+
+    <!--
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_mlarge"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:elevation="@dimen/spacing_mlarge"
+                    app:cardCornerRadius="@dimen/spacing_middle">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/spacing_large">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/spacing_large">
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <com.jobtick.TextView.TextViewBold
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Test Notification"
+                                        android:textColor="@color/colorPrimary"
+                                        android:textSize="12sp"
+                                        android:textStyle="bold" />
+
+
+                                    <com.jobtick.TextView.TextViewRegular
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Make sure you get all those\nimportant push notifications."
+                                        android:textColor="@color/grey_40"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/_40dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_margin="@dimen/spacing_small"
+                                    android:background="@drawable/ic_rounded_button"
+                                    >
+
+
+                                    <com.jobtick.TextView.TextViewRegular
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:gravity="center"
+                                        android:paddingStart="@dimen/spacing_mxlarge"
+                                        android:paddingEnd="@dimen/spacing_mxlarge"
+                                        android:text="Test"
+                                        android:textAllCaps="true"
+                                        android:textColor="@color/colorPrimary"
+                                        android:textSize="@dimen/spacing_middle" />
+
+                                </LinearLayout>
+
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:elevation="@dimen/spacing_mlarge"
+                    app:cardCornerRadius="@dimen/spacing_middle">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_mlarge"
+                            android:layout_marginTop="@dimen/spacing_large"
+                            android:layout_marginEnd="@dimen/spacing_mlarge"
+                            android:layout_marginBottom="@dimen/spacing_large"
+                            android:text="Your notifications can be updated anytime via the options below"
+                            android:textColor="@color/grey_40"
+                            android:textSize="12sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_line"
+                            android:background="@color/grey_10" />
 
 
                         <RelativeLayout
+                            android:id="@+id/rtl_transactional"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackground"
+                            android:paddingStart="@dimen/spacing_mlarge"
+                            android:paddingTop="@dimen/spacing_large"
+                            android:paddingEnd="@dimen/spacing_mlarge"
+                            android:paddingBottom="@dimen/spacing_large">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -59,7 +354,7 @@
                                 <com.jobtick.TextView.TextViewBold
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Test Notification"
+                                    android:text="Transactional"
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
@@ -68,439 +363,340 @@
                                 <com.jobtick.TextView.TextViewRegular
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Make sure you get all those\nimportant push notifications."
-                                    android:textColor="@color/grey_40"
+                                    android:text="Email , Push"
+                                    android:textColor="@color/textColor"
+
                                     android:textSize="12sp" />
                             </LinearLayout>
 
 
-                            <LinearLayout
+                            <ImageView
                                 android:layout_width="wrap_content"
-                                android:layout_height="@dimen/_40dp"
+                                android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
-                                android:layout_margin="@dimen/spacing_small"
-                                android:background="@drawable/ic_rounded_button"
-                                >
-
-
-                                <com.jobtick.TextView.TextViewRegular
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
-                                    android:paddingStart="@dimen/spacing_mxlarge"
-                                    android:paddingEnd="@dimen/spacing_mxlarge"
-                                    android:text="Test"
-                                    android:textAllCaps="true"
-                                    android:textColor="@color/colorPrimary"
-                                    android:textSize="@dimen/spacing_middle" />
-
-                            </LinearLayout>
-
+                                android:rotation="180"
+                                android:src="@drawable/ic_back"
+                                android:tint="@color/grey_40" />
 
                         </RelativeLayout>
 
 
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_line"
+                            android:background="@color/grey_10" />
+
+                        <RelativeLayout
+                            android:id="@+id/rtl_task_updates"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackground"
+                            android:paddingStart="@dimen/spacing_mlarge"
+                            android:paddingTop="@dimen/spacing_large"
+                            android:paddingEnd="@dimen/spacing_mlarge"
+                            android:paddingBottom="@dimen/spacing_large">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <com.jobtick.TextView.TextViewBold
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Task Updates"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+
+                                <com.jobtick.TextView.TextViewRegular
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Email,SMS,Push"
+                                    android:textColor="@color/textColor"
+
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:rotation="180"
+                                android:src="@drawable/ic_back"
+                                android:tint="@color/grey_40" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_line"
+                            android:background="@color/grey_10" />
+
+                        <RelativeLayout
+                            android:id="@+id/rtl_task_reminder"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackground"
+                            android:paddingStart="@dimen/spacing_mlarge"
+                            android:paddingTop="@dimen/spacing_large"
+                            android:paddingEnd="@dimen/spacing_mlarge"
+                            android:paddingBottom="@dimen/spacing_large">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <com.jobtick.TextView.TextViewBold
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Task Reminder"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+
+                                <com.jobtick.TextView.TextViewRegular
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Email , Push"
+                                    android:textColor="@color/textColor"
+
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:rotation="180"
+                                android:src="@drawable/ic_back"
+                                android:tint="@color/grey_40" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_line"
+                            android:background="@color/grey_10" />
+
+                        <RelativeLayout
+                            android:id="@+id/rtl_task_job_alert"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackground"
+                            android:paddingStart="@dimen/spacing_mlarge"
+                            android:paddingTop="@dimen/spacing_large"
+                            android:paddingEnd="@dimen/spacing_mlarge"
+                            android:paddingBottom="@dimen/spacing_large">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <com.jobtick.TextView.TextViewBold
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Jobtick Alert"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+
+                                <com.jobtick.TextView.TextViewRegular
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Email, SMS, Push"
+                                    android:textColor="@color/textColor"
+
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:rotation="180"
+                                android:src="@drawable/ic_back"
+                                android:tint="@color/grey_40" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_line"
+                            android:background="@color/grey_10" />
+
+                        <RelativeLayout
+                            android:id="@+id/rtl_task_recommendation"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackground"
+                            android:paddingStart="@dimen/spacing_mlarge"
+                            android:paddingTop="@dimen/spacing_large"
+                            android:paddingEnd="@dimen/spacing_mlarge"
+                            android:paddingBottom="@dimen/spacing_large">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <com.jobtick.TextView.TextViewBold
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Task Recommendation"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+
+                                <com.jobtick.TextView.TextViewRegular
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Email ,SMS, Push"
+                                    android:textColor="@color/textColor"
+
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:rotation="180"
+                                android:src="@drawable/ic_back"
+                                android:tint="@color/grey_40" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_line"
+                            android:background="@color/grey_10" />
+
+                        <RelativeLayout
+                            android:id="@+id/rtl_helpful_info"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackground"
+                            android:paddingStart="@dimen/spacing_mlarge"
+                            android:paddingTop="@dimen/spacing_large"
+                            android:paddingEnd="@dimen/spacing_mlarge"
+                            android:paddingBottom="@dimen/spacing_large">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <com.jobtick.TextView.TextViewBold
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Helpful Information"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+
+                                <com.jobtick.TextView.TextViewRegular
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Email , SMS, Push"
+                                    android:textColor="@color/textColor"
+
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:rotation="180"
+                                android:src="@drawable/ic_back"
+                                android:tint="@color/grey_40" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_line"
+                            android:background="@color/grey_10" />
+
+                        <RelativeLayout
+                            android:id="@+id/rtl_update_newteller"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackground"
+                            android:paddingStart="@dimen/spacing_mlarge"
+                            android:paddingTop="@dimen/spacing_large"
+                            android:paddingEnd="@dimen/spacing_mlarge"
+                            android:paddingBottom="@dimen/spacing_large">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <com.jobtick.TextView.TextViewBold
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Updates and Newteller"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+
+                                <com.jobtick.TextView.TextViewRegular
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Email , Push"
+                                    android:textColor="@color/textColor"
+
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:rotation="180"
+                                android:src="@drawable/ic_back"
+                                android:tint="@color/grey_40" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_line"
+                            android:background="@color/grey_10" />
+
+
                     </LinearLayout>
-
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_mlarge"
-                app:cardCornerRadius="@dimen/spacing_middle">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <com.jobtick.TextView.TextViewRegular
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_mlarge"
-                        android:layout_marginTop="@dimen/spacing_large"
-                        android:layout_marginEnd="@dimen/spacing_mlarge"
-                        android:layout_marginBottom="@dimen/spacing_large"
-                        android:text="Your notifications can be updated anytime via the options below"
-                        android:textColor="@color/grey_40"
-                        android:textSize="12sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_line"
-                        android:background="@color/grey_10" />
-
-
-                    <RelativeLayout
-                        android:id="@+id/rtl_transactional"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:paddingStart="@dimen/spacing_mlarge"
-                        android:paddingTop="@dimen/spacing_large"
-                        android:paddingEnd="@dimen/spacing_mlarge"
-                        android:paddingBottom="@dimen/spacing_large">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <com.jobtick.TextView.TextViewBold
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Transactional"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-
-                            <com.jobtick.TextView.TextViewRegular
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Email , Push"
-                                android:textColor="@color/textColor"
-
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:rotation="180"
-                            android:src="@drawable/ic_back"
-                            android:tint="@color/grey_40" />
-
-                    </RelativeLayout>
-
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_line"
-                        android:background="@color/grey_10" />
-
-                    <RelativeLayout
-                        android:id="@+id/rtl_task_updates"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:paddingStart="@dimen/spacing_mlarge"
-                        android:paddingTop="@dimen/spacing_large"
-                        android:paddingEnd="@dimen/spacing_mlarge"
-                        android:paddingBottom="@dimen/spacing_large">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <com.jobtick.TextView.TextViewBold
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Task Updates"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-
-                            <com.jobtick.TextView.TextViewRegular
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Email,SMS,Push"
-                                android:textColor="@color/textColor"
-
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:rotation="180"
-                            android:src="@drawable/ic_back"
-                            android:tint="@color/grey_40" />
-
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_line"
-                        android:background="@color/grey_10" />
-
-                    <RelativeLayout
-                        android:id="@+id/rtl_task_reminder"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:paddingStart="@dimen/spacing_mlarge"
-                        android:paddingTop="@dimen/spacing_large"
-                        android:paddingEnd="@dimen/spacing_mlarge"
-                        android:paddingBottom="@dimen/spacing_large">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <com.jobtick.TextView.TextViewBold
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Task Reminder"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-
-                            <com.jobtick.TextView.TextViewRegular
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Email , Push"
-                                android:textColor="@color/textColor"
-
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:rotation="180"
-                            android:src="@drawable/ic_back"
-                            android:tint="@color/grey_40" />
-
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_line"
-                        android:background="@color/grey_10" />
-
-                    <RelativeLayout
-                        android:id="@+id/rtl_task_job_alert"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:paddingStart="@dimen/spacing_mlarge"
-                        android:paddingTop="@dimen/spacing_large"
-                        android:paddingEnd="@dimen/spacing_mlarge"
-                        android:paddingBottom="@dimen/spacing_large">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <com.jobtick.TextView.TextViewBold
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Jobtick Alert"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-
-                            <com.jobtick.TextView.TextViewRegular
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Email, SMS, Push"
-                                android:textColor="@color/textColor"
-
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:rotation="180"
-                            android:src="@drawable/ic_back"
-                            android:tint="@color/grey_40" />
-
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_line"
-                        android:background="@color/grey_10" />
-
-                    <RelativeLayout
-                        android:id="@+id/rtl_task_recommendation"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:paddingStart="@dimen/spacing_mlarge"
-                        android:paddingTop="@dimen/spacing_large"
-                        android:paddingEnd="@dimen/spacing_mlarge"
-                        android:paddingBottom="@dimen/spacing_large">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <com.jobtick.TextView.TextViewBold
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Task Recommendation"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-
-                            <com.jobtick.TextView.TextViewRegular
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Email ,SMS, Push"
-                                android:textColor="@color/textColor"
-
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:rotation="180"
-                            android:src="@drawable/ic_back"
-                            android:tint="@color/grey_40" />
-
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_line"
-                        android:background="@color/grey_10" />
-
-                    <RelativeLayout
-                        android:id="@+id/rtl_helpful_info"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:paddingStart="@dimen/spacing_mlarge"
-                        android:paddingTop="@dimen/spacing_large"
-                        android:paddingEnd="@dimen/spacing_mlarge"
-                        android:paddingBottom="@dimen/spacing_large">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <com.jobtick.TextView.TextViewBold
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Helpful Information"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-
-                            <com.jobtick.TextView.TextViewRegular
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Email , SMS, Push"
-                                android:textColor="@color/textColor"
-
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:rotation="180"
-                            android:src="@drawable/ic_back"
-                            android:tint="@color/grey_40" />
-
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_line"
-                        android:background="@color/grey_10" />
-
-                    <RelativeLayout
-                        android:id="@+id/rtl_update_newteller"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:paddingStart="@dimen/spacing_mlarge"
-                        android:paddingTop="@dimen/spacing_large"
-                        android:paddingEnd="@dimen/spacing_mlarge"
-                        android:paddingBottom="@dimen/spacing_large">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <com.jobtick.TextView.TextViewBold
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Updates and Newteller"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-
-                            <com.jobtick.TextView.TextViewRegular
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Email , Push"
-                                android:textColor="@color/textColor"
-
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:rotation="180"
-                            android:src="@drawable/ic_back"
-                            android:tint="@color/grey_40" />
-
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_line"
-                        android:background="@color/grey_10" />
-
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    -->
 
 
 </LinearLayout>

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavGraph;
@@ -58,13 +59,16 @@ import static com.jobtick.utils.ConstantKey.PUSH_TRIGGER;
 
 public class NotificationActivity extends ActivityBase implements NotificationListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+    /*    @BindView(R.id.toolbar)
+        MaterialToolbar toolbar;*/
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
 
+
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
     private int totalPage = 10;
@@ -116,10 +120,17 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
 
 
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+      /*  toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getResources().getString(R.string.notifications));
+        getSupportActionBar().setTitle(getResources().getString(R.string.notifications));*/
+
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 

@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp">
+    android:layout_height="wrap_content">
 
 
     <FrameLayout
@@ -16,10 +14,10 @@
             android:id="@+id/card_task_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/_10sp"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:layout_marginEnd="@dimen/spacing_smlarge"
-            android:layout_marginBottom="@dimen/spacing_middle"
+            android:layout_marginStart="@dimen/_16sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="@dimen/_16sp"
+            android:layout_marginBottom="4dp"
             android:visibility="visible"
             app:cardElevation="0dp"
             card_view:cardBackgroundColor="@color/colorRed"
@@ -30,12 +28,11 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:layout_marginEnd="@dimen/spacing_middle"
-            android:layout_marginBottom="@dimen/spacing_middle"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="@dimen/_16sp"
+            android:layout_marginBottom="4dp"
             android:backgroundTint="@color/white"
-
             app:cardElevation="0dp"
             card_view:cardCornerRadius="@dimen/spacing_middle"
             card_view:cardUseCompatPadding="false">
@@ -59,8 +56,8 @@
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/img_avatar"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
                         android:layout_gravity="center"
                         android:layout_marginStart="7dp"
                         android:layout_marginEnd="7dp"
@@ -70,7 +67,10 @@
                         android:id="@+id/lyt_offer_count"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="bottom">
+                        android:layout_gravity="bottom"
+
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp">
 
 
                         <com.jobtick.TextView.TextViewSemiBold
@@ -80,13 +80,11 @@
                             android:layout_gravity="bottom"
                             android:background="@drawable/shape_rounded_white"
                             android:gravity="center"
-                            android:paddingStart="@dimen/spacing_small"
                             android:paddingTop="@dimen/spacing_medium"
-                            android:paddingEnd="@dimen/spacing_small"
                             android:paddingBottom="@dimen/spacing_medium"
                             android:text="Assigned"
                             android:textColor="@color/grey_70"
-                            android:textSize="@dimen/_8sp"
+                            android:textSize="@dimen/_9sp"
                             android:textStyle="normal"
                             app:textAllCaps="false" />
 
@@ -167,8 +165,9 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:paddingBottom="@dimen/spacing_small">
+                                    android:layout_marginTop="@dimen/_2sp"
+                                    android:layout_marginBottom="@dimen/_2sp"
+                                    android:orientation="horizontal">
 
                                     <ImageView
                                         android:layout_width="13dp"
@@ -194,12 +193,12 @@
 
                                 </LinearLayout>
 
-
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:paddingBottom="@dimen/spacing_small">
+                                    android:layout_marginTop="@dimen/_2sp"
+                                    android:layout_marginBottom="@dimen/_2sp"
+                                    android:orientation="horizontal">
 
                                     <ImageView
                                         android:layout_width="13dp"
@@ -222,10 +221,11 @@
                                         android:textSize="@dimen/_12sp" />
                                 </LinearLayout>
 
-
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_3sp"
+                                    android:layout_marginBottom="@dimen/_2sp"
                                     android:orientation="horizontal">
 
                                     <ImageView
@@ -289,7 +289,6 @@
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="@dimen/_18sp"
                                     android:textStyle="bold" />
-
 
                             </LinearLayout>
                         </LinearLayout>

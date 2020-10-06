@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -40,8 +42,8 @@ import static com.jobtick.utils.Constant.BASE_URL;
 
 public class BillingAddressActivity extends ActivityBase {
 
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+/*    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;*/
 
     @BindView(R.id.edt_address_line_1)
     EditTextRegular edtAddressLine1;
@@ -64,6 +66,9 @@ public class BillingAddressActivity extends ActivityBase {
     @BindView(R.id.lyt_btn_change_billing_address)
     LinearLayout lytBtnChangeBillingAddress;
 
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,10 +79,14 @@ public class BillingAddressActivity extends ActivityBase {
 
 
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+
+        ivBack.setOnClickListener(v -> {
+            finish();
+        });
+      /*  toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Billing Address");
+        getSupportActionBar().setTitle("Billing Address");*/
     }
 
 

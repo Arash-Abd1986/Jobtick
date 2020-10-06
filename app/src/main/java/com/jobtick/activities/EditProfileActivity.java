@@ -17,13 +17,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,6 +44,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.jobtick.adapers.AttachmentAdapterEditProfile;
 import com.jobtick.retrofit.ApiClient;
 import com.jobtick.utils.CameraUtils;
 import com.jobtick.utils.ImageUtil;
@@ -95,59 +100,74 @@ import static com.jobtick.activities.DashboardActivity.onProfileupdatelistenerSi
 import static com.jobtick.fragments.ProfileFragment.onProfileupdatelistener;
 import static com.jobtick.utils.Constant.URL_REMOVE_AVTAR;
 
-public class EditProfileActivity extends ActivityBase implements AttachmentAdapter.OnItemClickListener {
+public class EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile.OnItemClickListener {
 
     private static final String TAG = EditProfileActivity.class.getName();
     private int PLACE_SELECTION_REQUEST_CODE = 1;
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+    private static final int GALLERY_PICKUP_VIDEO_REQUEST_CODE = 300;
+    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
+    private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
+
+    /*@BindView(R.id.toolbar)
+    MaterialToolbar toolbar;*/
     @BindView(R.id.edt_first_name)
-    EditTextRegular edtFirstName;
+    EditText edtFirstName;
     @BindView(R.id.edt_last_name)
-    EditTextRegular edtLastName;
+    EditText edtLastName;
     @BindView(R.id.edt_payment_id)
-    EditTextRegular edtPaymentId;
+    EditText edtPaymentId;
     @BindView(R.id.txt_suburb)
-    TextViewRegular txtSuburb;
+    TextView txtSuburb;
     @BindView(R.id.edt_tagline)
-    EditTextRegular edtTagline;
+    EditText edtTagline;
     @BindView(R.id.edt_about_me)
-    EditTextRegular edtAboutMe;
+    EditText edtAboutMe;
     @BindView(R.id.edt_email_address)
-    EditTextRegular edtEmailAddress;
+    EditText edtEmailAddress;
     @BindView(R.id.txt_birth_date)
-    TextViewRegular txtBirthDate;
+    TextView txtBirthDate;
     @BindView(R.id.edt_business_number)
-    EditTextRegular edtBusinessNumber;
+    EditText edtBusinessNumber;
     @BindView(R.id.img_transportation_back)
     ImageView imgTransportationBack;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    AttachmentAdapter adapter;
+    AttachmentAdapterEditProfile adapter;
+
     @BindView(R.id.txt_transportation)
-    TextViewRegular txtTransportation;
+    TextView txtTransportation;
+
     @BindView(R.id.rlt_btn_transportation)
     RelativeLayout rltBtnTransportation;
+
     @BindView(R.id.txt_languages)
-    TextViewRegular txtLanguages;
+    TextView txtLanguages;
+
     @BindView(R.id.img_languages_back)
     ImageView imgLanguagesBack;
+
     @BindView(R.id.rlt_btn_languages)
     RelativeLayout rltBtnLanguages;
+
     @BindView(R.id.txt_education)
-    TextViewRegular txtEducation;
+    TextView txtEducation;
+
     @BindView(R.id.img_education_back)
     ImageView imgEducationBack;
     @BindView(R.id.rlt_btn_education)
     RelativeLayout rltBtnEducation;
+
     @BindView(R.id.txt_experience)
-    TextViewRegular txtExperience;
+    TextView txtExperience;
+
     @BindView(R.id.img_experience_back)
     ImageView imgExperienceBack;
     @BindView(R.id.rlt_btn_experience)
     RelativeLayout rltBtnExperience;
+
     @BindView(R.id.txt_specialities)
-    TextViewRegular txtSpecialities;
+    TextView txtSpecialities;
+
     @BindView(R.id.img_specialities_back)
     ImageView imgSpecialitiesBack;
     @BindView(R.id.rlt_btn_specialities)
@@ -163,8 +183,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
 
-    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
-    private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
+
 
     @BindView(R.id.img_user_avatar)
     CircularImageView imgAvatar;
@@ -177,8 +196,19 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     @BindView(R.id.bottom_sheet)
     FrameLayout bottomSheet;
 
-    @BindView(R.id.img_btn_delete)
-    ImageView imgBtnDelete;
+    @BindView(R.id.lytDeletePicture)
+    RelativeLayout lytDeletePicture;
+
+    @BindView(R.id.card_save_profile)
+    CardView card_save_profile;
+
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
+
+    public static final long MAX_VIDEO_DURATION = 30;
+    public static final long MAX_VIDEO_SIZE = 20 * 1024 * 1024;
+
+    boolean isUploadPortfolio=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,7 +218,14 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         attachmentArrayList = new ArrayList<>();
         mBehavior = BottomSheetBehavior.from(bottomSheet);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+       /* toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });*/
+
+        ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -199,15 +236,17 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month = month + 1;
-                str_DOB = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + dayOfMonth);
+                str_DOB = Tools.getDayMonthDateTimeFormat2(year + "-" + month + "-" + dayOfMonth);
                 txtBirthDate.setText(str_DOB);
             }
         };
 
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+     /*   toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.action_submit) {
+            public boolean onMenuItemClick(MenuItem item)
+            {
+                if (item.getItemId() == R.id.action_submit)
+                {
                     new MaterialAlertDialogBuilder(EditProfileActivity.this)
                             .setTitle("Update Profile")
                             .setMessage("Are you sure you want to update your Profile?")
@@ -223,12 +262,53 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                 }
                 return true;
             }
+        });*/
+
+        card_save_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new MaterialAlertDialogBuilder(EditProfileActivity.this)
+                        .setTitle("Update Profile")
+                        .setMessage("Are you sure you want to update your Profile?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (validation())
+                                    submitProfile();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            }
         });
 
         init();
-
-
         getAllUserProfileDetails();
+        initComponentScroll();
+    }
+    private void initComponentScroll() {
+        NestedScrollView nested_content = (NestedScrollView) findViewById(R.id.nested_scroll_view);
+        nested_content.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY < oldScrollY) { // up
+                    animateFab(false);
+                }
+                if (scrollY > oldScrollY) { // down
+                    animateFab(true);
+                }
+            }
+        });
+    }
+
+    boolean isFabHide = false;
+
+    private void animateFab(final boolean hide) {
+        if (isFabHide && hide || !isFabHide && !hide) return;
+        isFabHide = hide;
+        int moveY = hide ? (2 * card_save_profile.getHeight()) : 0;
+        card_save_profile.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
     }
 
     private boolean validation() {
@@ -361,15 +441,14 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     }
 
     private void init() {
-        recyclerView.setLayoutManager(new GridLayoutManager(EditProfileActivity.this, 3));
-        recyclerView.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(EditProfileActivity.this, 5), true));
+        recyclerView.setLayoutManager(new GridLayoutManager(EditProfileActivity.this, 4));
+        recyclerView.addItemDecoration(new SpacingItemDecoration(4, Tools.dpToPx(EditProfileActivity.this, 8), true));
         recyclerView.setHasFixedSize(true);
         //set data and list adapter
-        adapter = new AttachmentAdapter(EditProfileActivity.this, attachmentArrayList, true);
+        adapter = new AttachmentAdapterEditProfile(EditProfileActivity.this, attachmentArrayList, true);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
     }
-
 
     private void getAllUserProfileDetails() {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
@@ -435,7 +514,8 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         Log.e(TAG, stringRequest.getUrl());
     }
 
-    private void setUpAllEditFields(UserAccountModel userAccountModel) {
+    private void setUpAllEditFields(UserAccountModel userAccountModel)
+    {
         transportationSetUp(userAccountModel);
         languagesSetUp(userAccountModel);
         educationSetUp(userAccountModel);
@@ -454,60 +534,74 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         edtAboutMe.setText(userAccountModel.getAbout());
         edtBusinessNumber.setText(userAccountModel.getBusiness_number());
         edtEmailAddress.setText(userAccountModel.getEmail());
-        txtBirthDate.setText(userAccountModel.getDob());
+        txtBirthDate.setText(Tools.getDayMonthDateTimeFormat2(userAccountModel.getDob()));
         if (userAccountModel.getAvatar() != null) {
             ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getThumbUrl(), null);
+            lytDeletePicture.setVisibility(View.VISIBLE);
+        }else
+        {
+            lytDeletePicture.setVisibility(View.GONE);
         }
+
     }
 
     private void specialitiesSetUp(UserAccountModel userAccountModel) {
         if (userAccountModel.getSkills().getSpecialities() != null && userAccountModel.getSkills().getSpecialities().size() != 0) {
             String str_tag = convertArrayToString(userAccountModel.getSkills().getSpecialities());
-            txtSpecialities.setText(str_tag);
+            txtSpecialities.setText(""+userAccountModel.getSkills().getSpecialities().size());
             txtSpecialities.setVisibility(View.VISIBLE);
         } else {
-            txtSpecialities.setVisibility(View.GONE);
+            txtSpecialities.setVisibility(View.VISIBLE);
+            txtSpecialities.setText("0");
         }
     }
 
     private void experienceSetUp(UserAccountModel userAccountModel) {
         if (userAccountModel.getSkills().getExperience() != null && userAccountModel.getSkills().getExperience().size() != 0) {
             String str_tag = convertArrayToString(userAccountModel.getSkills().getExperience());
-            txtExperience.setText(str_tag);
+            txtExperience.setText(""+userAccountModel.getSkills().getExperience().size());
             txtExperience.setVisibility(View.VISIBLE);
         } else {
-            txtExperience.setVisibility(View.GONE);
+            txtExperience.setVisibility(View.VISIBLE);
+            txtExperience.setText("0");
         }
     }
 
     private void educationSetUp(UserAccountModel userAccountModel) {
         if (userAccountModel.getSkills().getEducation() != null && userAccountModel.getSkills().getEducation().size() != 0) {
             String str_tag = convertArrayToString(userAccountModel.getSkills().getEducation());
-            txtEducation.setText(str_tag);
+            txtEducation.setText(""+userAccountModel.getSkills().getEducation().size());
             txtEducation.setVisibility(View.VISIBLE);
         } else {
-            txtEducation.setVisibility(View.GONE);
+            txtEducation.setVisibility(View.VISIBLE);
+            txtEducation.setText("0");
         }
     }
 
     private void languagesSetUp(UserAccountModel userAccountModel) {
         if (userAccountModel.getSkills().getLanguage() != null && userAccountModel.getSkills().getLanguage().size() != 0) {
             String str_tag = convertArrayToString(userAccountModel.getSkills().getLanguage());
-            txtLanguages.setText(str_tag);
+            txtLanguages.setText(""+userAccountModel.getSkills().getLanguage().size());
             txtLanguages.setVisibility(View.VISIBLE);
         } else {
-            txtLanguages.setVisibility(View.GONE);
+            txtLanguages.setVisibility(View.VISIBLE);
+            txtLanguages.setText("0");
         }
     }
 
-    private void transportationSetUp(UserAccountModel userAccountModel) {
-        if (userAccountModel.getSkills().getTransportation() != null && userAccountModel.getSkills().getTransportation().size() != 0) {
+    private void transportationSetUp(UserAccountModel userAccountModel)
+    {
+        if (userAccountModel.getSkills().getTransportation() != null && userAccountModel.getSkills().getTransportation().size() != 0)
+        {
             String str_tag = convertArrayToString(userAccountModel.getSkills().getTransportation());
-            txtTransportation.setText(str_tag);
+            txtTransportation.setText(""+userAccountModel.getSkills().getTransportation().size());
             txtTransportation.setVisibility(View.VISIBLE);
+
         } else {
-            txtTransportation.setVisibility(View.GONE);
+            txtTransportation.setVisibility(View.generateViewId());
+            txtTransportation.setText("0");
         }
+
     }
 
     private String convertArrayToString(ArrayList<String> tag) {
@@ -530,13 +624,18 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
-        if (action.equalsIgnoreCase("add")) {
-            Intent intent = new Intent(EditProfileActivity.this, PortfolioActivity.class);
+        if (action.equalsIgnoreCase("add"))
+        {
+           /* Intent intent = new Intent(EditProfileActivity.this, PortfolioActivity.class);
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(ConstantKey.ATTACHMENT, attachmentArrayList);
             intent.putExtras(bundle);
-            startActivityForResult(intent, 234);
-        } else if (action.equalsIgnoreCase("delete")) {
+            startActivityForResult(intent, 234);*/
+
+            showBottomSheetDialog(true);
+
+        } else if (action.equalsIgnoreCase("delete"))
+        {
             deleteMediaInAttachment(position, obj);
         }
     }
@@ -555,9 +654,13 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                             Timber.e(jsonObject.toString());
 
 
-                            attachmentArrayList.remove(position);
+                            /*attachmentArrayList.remove(position);
                             adapter.notifyItemRemoved(position);
-                            adapter.notifyItemRangeRemoved(position, attachmentArrayList.size());
+                            adapter.notifyItemRangeRemoved(position, attachmentArrayList.size());*/
+
+                            attachmentArrayList.remove(position);
+                            adapter.DeleteItem(position);
+
                             showToast("Portfolio Deleted", EditProfileActivity.this);
 
 
@@ -626,7 +729,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
 
     @OnClick({R.id.txt_suburb, R.id.txt_birth_date, R.id.rlt_btn_transportation, R.id.rlt_btn_languages,
-            R.id.rlt_btn_education, R.id.rlt_btn_experience, R.id.rlt_btn_specialities, R.id.img_user_avatar, R.id.img_btn_delete})
+            R.id.rlt_btn_education, R.id.rlt_btn_experience, R.id.rlt_btn_specialities, R.id.img_user_avatar, R.id.lytDeletePicture})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.txt_suburb:
@@ -705,16 +808,131 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                 startActivityForResult(intent, 5);
                 break;
             case R.id.img_user_avatar:
-                showBottomSheetDialog();
+                showBottomSheetDialog(false);
 
                 break;
-            case R.id.img_btn_delete:
-                removeProfilePicture();
+            case R.id.lytDeletePicture:
+
+                new MaterialAlertDialogBuilder(EditProfileActivity.this)
+                        .setTitle("Alert!")
+                        .setMessage("Remove profile photo?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id)
+                            {
+                                dialog.dismiss();
+                                removeProfilePicture();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Action for 'NO' Button
+                                dialog.cancel();
+
+                            }
+                        }).show();
+
                 break;
 
         }
     }
 
+    private void uploadDataInPortfolioMediaApi(File pictureFile)
+    {
+        showpDialog();
+        Call<String> call;
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
+        MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
+        call = ApiClient.getClient().getPortfolioMediaUpload("XMLHttpRequest",
+                sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
+
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                hidepDialog();
+                Log.e("Response", response.toString());
+                if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
+                    showToast(response.message(), EditProfileActivity.this);
+                    return;
+                }
+                try {
+                    String strResponse = response.body();
+                    if (response.code() == HttpStatus.NOT_FOUND) {
+                        Toast.makeText(EditProfileActivity.this, "not found", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (response.code() == HttpStatus.AUTH_FAILED) {
+                        unauthorizedUser();
+                        return;
+                    }
+                    if (response.code() == HttpStatus.SUCCESS)
+                    {
+                        Log.e("body", strResponse);
+                        JSONObject jsonObject = new JSONObject(strResponse);
+                        Log.e("json", jsonObject.toString());
+                        if (jsonObject.has("data")) {
+                            AttachmentModel attachment = new AttachmentModel();
+                            JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+                            if (jsonObject_data.has("id") && !jsonObject_data.isNull("id"))
+                                attachment.setId(jsonObject_data.getInt("id"));
+                            if (jsonObject_data.has("name") && !jsonObject_data.isNull("name"))
+                                attachment.setName(jsonObject_data.getString("name"));
+                            if (jsonObject_data.has("file_name") && !jsonObject_data.isNull("file_name"))
+                                attachment.setFileName(jsonObject_data.getString("file_name"));
+                            if (jsonObject_data.has("mime") && !jsonObject_data.isNull("mime"))
+                                attachment.setMime(jsonObject_data.getString("mime"));
+                            if (jsonObject_data.has("url") && !jsonObject_data.isNull("url"))
+                                attachment.setUrl(jsonObject_data.getString("url"));
+                            if (jsonObject_data.has("thumb_url") && !jsonObject_data.isNull("thumb_url"))
+                                attachment.setThumbUrl(jsonObject_data.getString("thumb_url"));
+                            if (jsonObject_data.has("modal_url") && !jsonObject_data.isNull("modal_url"))
+                                attachment.setModalUrl(jsonObject_data.getString("modal_url"));
+                            if (jsonObject_data.has("created_at") && !jsonObject_data.isNull("created_at"))
+                                attachment.setCreatedAt(jsonObject_data.getString("created_at"));
+                            attachment.setType(AttachmentAdapter.VIEW_TYPE_IMAGE);
+
+                            if (attachmentArrayList.size() != 0)
+                            {
+
+                                attachmentArrayList.add(attachmentArrayList.size() - 1, attachment);
+
+                            }
+                        }
+
+
+                        ArrayList<AttachmentModel> updateAttachment=new ArrayList<>();
+                        updateAttachment.addAll(attachmentArrayList);
+
+                        attachmentArrayList.clear();
+                        attachmentArrayList.addAll(updateAttachment);
+                        adapter.clearAll();
+
+                        adapter.addItems(attachmentArrayList);
+
+                        updateAttachment.clear();
+                        //adapter.notifyDataSetChanged();
+
+
+                        //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
+                        // showToast("attachment added", AttachmentActivity.this);
+                    } else {
+                        showToast("Something went wrong", EditProfileActivity.this);
+                    }
+                } catch (JSONException e) {
+                    showToast("Something went wrong", EditProfileActivity.this);
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                hidepDialog();
+                Log.e("Response", call.toString());
+            }
+        });
+
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -747,7 +965,16 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                     }
 
                     imgAvatar.setImageBitmap(bitmap);
-                    uploadProfileAvtar(new File(uri.getPath()));
+
+                    if(isUploadPortfolio)
+                    {
+                        uploadDataInPortfolioMediaApi(new File(uri.getPath()));
+                    }else
+                    {
+                        uploadProfileAvtar(new File(uri.getPath()));
+                    }
+
+
                 } else if (resultCode == RESULT_CANCELED) {
                     // user cancelled Image capture
                     Toast.makeText(getApplicationContext(),
@@ -780,16 +1007,58 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                         }
 
                         imgAvatar.setImageBitmap(bitmap);
-                        uploadProfileAvtar(new File(uri.getPath()));
+
+                        if(isUploadPortfolio)
+                        {
+                            uploadDataInPortfolioMediaApi(new File(uri.getPath()));
+
+                        }else
+                        {
+                            uploadProfileAvtar(new File(uri.getPath()));
+                        }
+
 
                         //// uploadDataInPortfolioMediaApi(file);
                     }
-                } else if (resultCode == RESULT_CANCELED) {
-                    // user cancelled recording
-                    Toast.makeText(getApplicationContext(),
-                            "User cancelled Pickup Image", Toast.LENGTH_SHORT)
-                            .show();
-                } else {
+                }
+                else if (requestCode == GALLERY_PICKUP_VIDEO_REQUEST_CODE)
+                {
+                    if (resultCode == RESULT_OK) {
+                        imageStoragePath = CameraUtils.getImagePath(EditProfileActivity.this, data.getData());
+                        Log.e("path", imageStoragePath);
+                        if(imageStoragePath != null) {
+                            MediaPlayer mpl = MediaPlayer.create(EditProfileActivity.this, Uri.parse(imageStoragePath));
+                            int si = mpl.getDuration();
+                            long duration = TimeUnit.MILLISECONDS.toSeconds(si);
+                            File file = new File(imageStoragePath);
+                            long file_size = Integer.parseInt(String.valueOf(file.length()));
+                            if (duration > MAX_VIDEO_DURATION) {
+                                CameraUtils.showLimitDialog(EditProfileActivity.this);
+                                imageStoragePath = null;
+                            } else if (file_size > MAX_VIDEO_SIZE) {
+                                showToast("Maximum video size exceeds(20 MB)", EditProfileActivity.this);
+                                imageStoragePath = null;
+                            } else {
+                                Log.e("Duration: ", String.valueOf(duration) + "");
+                                Log.e("Size: ", String.valueOf(file_size) + "");
+                                // uploadUrl = strVideoPath;
+                                Log.e("VIDEO", "video");
+                                uploadDataInPortfolioMediaApi(file);
+                            }
+                        }
+                    } else if (resultCode == RESULT_CANCELED) {
+                        // user cancelled recording
+                        Toast.makeText(getApplicationContext(),
+                                "User cancelled video recording", Toast.LENGTH_SHORT)
+                                .show();
+                    } else {
+                        // failed to record video
+                        Toast.makeText(getApplicationContext(),
+                                "Sorry! Failed to record video", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                }
+                else {
                     // failed to record video
                     Toast.makeText(getApplicationContext(),
                             "Sorry! Failed to Pickup Image", Toast.LENGTH_SHORT)
@@ -817,7 +1086,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                     specialitiesSetUp(userAccountModel);
                 } else if (requestCode == 234) {
                     userAccountModel.setPortfolio(bundle.getParcelableArrayList(ConstantKey.ATTACHMENT));
-                    adapter.clear();
+                    adapter.clearAll();
                     attachmentArrayList.clear();
                     attachmentArrayList = userAccountModel.getPortfolio();
                     /*
@@ -831,7 +1100,10 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
     }
 
-    private void showBottomSheetDialog() {
+    private void showBottomSheetDialog(boolean isUploadPortfolioOrPrfile)
+    {
+        isUploadPortfolio=isUploadPortfolioOrPrfile;
+
         if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
@@ -843,9 +1115,18 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         LinearLayout lytBtnDoc = view.findViewById(R.id.lyt_btn_doc);
         LinearLayout lyrBtnVideoCamera = view.findViewById(R.id.lyt_btn_video_camera);
 
-        lytBtnVideo.setVisibility(View.GONE);
-        lytBtnDoc.setVisibility(View.INVISIBLE);
-        lyrBtnVideoCamera.setVisibility(View.INVISIBLE);
+        if(isUploadPortfolioOrPrfile)
+        {
+            lytBtnVideo.setVisibility(View.VISIBLE);
+            lytBtnDoc.setVisibility(View.VISIBLE);
+            lyrBtnVideoCamera.setVisibility(View.VISIBLE);
+        }else
+        {
+            lytBtnVideo.setVisibility(View.GONE);
+            lytBtnDoc.setVisibility(View.INVISIBLE);
+            lyrBtnVideoCamera.setVisibility(View.INVISIBLE);
+        }
+
 
         lytBtnCamera.setOnClickListener(view1 -> {
             // Checking availability of the camera
@@ -891,6 +1172,8 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         });
 
     }
+
+
 
     /**
      * Requesting permissions using Dexter library
@@ -994,7 +1277,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                             attachment.setType(AttachmentAdapter.VIEW_TYPE_IMAGE);
 
                             sessionManager.getUserAccount().setAvatar(attachment);
-                            imgBtnDelete.setVisibility(View.VISIBLE);
+                            lytDeletePicture.setVisibility(View.VISIBLE);
                             if (onProfileupdatelistener != null) {
                                 onProfileupdatelistener.updatedSuccesfully(attachment.getThumbUrl());
                             }
@@ -1021,12 +1304,10 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         });
 
     }
-
-
     private void removeProfilePicture() {
         showpDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_PROFILE + URL_REMOVE_AVTAR,
-                new com.android.volley.Response.Listener<String>() {
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Timber.e(response);
@@ -1039,7 +1320,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
                                     showToast("Profile Picture has been  Deleted", EditProfileActivity.this);
                                     imgAvatar.setImageResource(R.drawable.ic_profile_image);
-                                    imgBtnDelete.setVisibility(View.GONE);
+                                    lytDeletePicture.setVisibility(View.GONE);
                                     if (onProfileupdatelistener != null) {
                                         onProfileupdatelistener.updatedSuccesfully("");
                                     }
@@ -1056,7 +1337,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                         }
                     }
                 },
-                new com.android.volley.Response.ErrorListener() {
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         NetworkResponse networkResponse = error.networkResponse;

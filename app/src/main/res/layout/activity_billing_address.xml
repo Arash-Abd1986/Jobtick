@@ -4,24 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/grey_100"
     android:orientation="vertical"
     tools:context=".activities.BillingAddressActivity">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <!--    <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/background"
+            app:contentInsetStartWithNavigation="0dp"
+            app:navigationIcon="@drawable/ic_back"
+            app:title="Billing Address" />-->
+
+    <LinearLayout
+        android:id="@+id/linearToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/background"
-        app:contentInsetStartWithNavigation="0dp"
-        app:navigationIcon="@drawable/ic_back"
-        app:title="Billing Address" />
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="@dimen/_32sp"
+            android:layout_height="@dimen/_32sp"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_10sp"
+            android:padding="@dimen/_8sp"
+            android:src="@drawable/ic_back" />
+
+        <com.jobtick.TextView.TextViewMedium
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_5sp"
+            android:text="Billing Address"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/_18sp" />
+
+    </LinearLayout>
+
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/card_button"
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/linearToolbar"
         android:scrollbars="none">
 
 
@@ -31,15 +59,14 @@
             android:orientation="vertical">
 
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:background="@drawable/greay_border_bg">
 
 
                 <LinearLayout
@@ -66,17 +93,16 @@
                         android:textSize="@dimen/_14sp" />
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:background="@drawable/greay_border_bg">
 
 
                 <LinearLayout
@@ -104,17 +130,16 @@
 
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:background="@drawable/greay_border_bg">
 
 
                 <LinearLayout
@@ -141,17 +166,16 @@
 
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:background="@drawable/greay_border_bg">
 
 
                 <LinearLayout
@@ -177,18 +201,17 @@
                         android:textSize="@dimen/_14sp" />
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:background="@drawable/greay_border_bg">
 
 
                 <LinearLayout
@@ -208,25 +231,24 @@
                     <com.jobtick.EditText.EditTextRegular
                         android:id="@+id/edt_postcode"
                         android:layout_width="match_parent"
-                        android:maxLength="4"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:hint="786574"
                         android:inputType="number"
+                        android:maxLength="4"
                         android:textSize="@dimen/_14sp" />
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:background="@drawable/greay_border_bg">
 
 
                 <LinearLayout
@@ -253,7 +275,7 @@
                         android:textSize="@dimen/_14sp" />
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
 
         </LinearLayout>
@@ -268,8 +290,8 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/spacing_large"
         android:backgroundTint="@color/colorPrimary"
-        android:elevation="@dimen/spacing_middle"
-        app:cardCornerRadius="@dimen/spacing_medium">
+        app:cardCornerRadius="@dimen/spacing_medium"
+        app:cardElevation="0dp">
 
         <LinearLayout
             android:id="@+id/lyt_btn_change_billing_address"
@@ -285,7 +307,7 @@
             <com.jobtick.TextView.TextViewRegular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/change_billing_address"
+                android:text="Add billing address"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14sp"
                 android:textStyle="bold" />

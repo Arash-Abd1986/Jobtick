@@ -55,6 +55,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/relativeAllJobs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -84,6 +85,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/relativeDraft"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -112,6 +114,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/relativeCancelled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -139,6 +142,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/relativeAssigned"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -159,7 +163,6 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:button="@drawable/radio_button_fill_selector"
-
                         android:paddingStart="@dimen/_15sp"
                         android:tag="Assigned" />
 
@@ -167,6 +170,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/relativeOpen"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -196,6 +200,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/relativePending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -223,6 +228,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/relativeCompleted"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -244,12 +250,14 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:button="@drawable/radio_button_fill_selector"
-                        android:paddingStart="@dimen/_15sp" />
+                        android:paddingStart="@dimen/_15sp"
+                        android:tag="Completed" />
 
                 </RelativeLayout>
 
 
                 <RelativeLayout
+                    android:id="@+id/relativeOffer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 

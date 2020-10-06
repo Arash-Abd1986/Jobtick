@@ -15,7 +15,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
-                onesignal_app_id: 'dd77e2db-8358-4c20-95b9-e4943e401d4b',
+                onesignal_app_id               : 'dd77e2db-8358-4c20-95b9-e4943e401d4b',
                 // Project number pulled from dashboard, local value is ignored.
                 onesignal_google_project_number: 'REMOTE'
         ]
@@ -48,7 +48,6 @@ android {
 }
 
 
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -69,6 +68,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:15.0.1'
     implementation 'com.google.android.gms:play-services-places:15.0.1'
 
+    implementation 'com.android.support:design:22.2.0'
 
     implementation 'com.google.code.gson:gson:2.8.6'
 
@@ -130,5 +130,8 @@ dependencies {
     implementation 'com.onesignal:OneSignal:3.15.3'
 
     implementation 'com.github.HamidrezaAmz:MagicalExoPlayer:1.0.15'
+    implementation 'co.lujun:androidtagview:1.1.7'
+    implementation 'com.rishabhharit.roundedimageview:RoundedImageView:0.8.4'
+
 
 }

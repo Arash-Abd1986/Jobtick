@@ -11,26 +11,21 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.adapers.TaskAlertAdapter;
-import com.jobtick.models.TaskModel;
 import com.jobtick.models.task.TaskAlert;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.HttpStatus;
@@ -50,14 +45,19 @@ import timber.log.Timber;
 
 public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter.OnItemClickListener {
 
+/*
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+*/
     @BindView(R.id.cb_receive_alerts)
     CheckBox cbReceiveAlerts;
     @BindView(R.id.txt_btn_add_custom_alert)
-    TextViewMedium txtBtnAddCustomAlert;
+    TextView txtBtnAddCustomAlert;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
 
     TaskAlertAdapter adapter;
     ArrayList<TaskAlert> taskAlertArrayList;
@@ -83,10 +83,13 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
 
 
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+       /* toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Job Alerts");
+        getSupportActionBar().setTitle("Job Alerts");*/
+        ivBack.setOnClickListener(v->{
+            finish();
+        });
     }
 
 

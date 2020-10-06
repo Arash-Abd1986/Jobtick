@@ -27,12 +27,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_middle"
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:backgroundTint="@color/colorPrimary"
                 android:elevation="3dp"
                 app:cardCornerRadius="@dimen/spacing_medium">
-
 
                 <LinearLayout
                     android:id="@+id/lyt_btn_filters"
@@ -41,14 +39,15 @@
                     android:background="?attr/selectableItemBackground"
                     android:orientation="horizontal"
                     android:paddingStart="@dimen/spacing_middle"
-                    android:paddingTop="@dimen/spacing_middle"
+                    android:paddingTop="@dimen/spacing_xmedium"
                     android:paddingEnd="@dimen/spacing_middle"
-                    android:paddingBottom="@dimen/spacing_middle">
+                    android:paddingBottom="@dimen/spacing_xmedium">
 
                     <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_filter"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_browse_filter"
                         android:tint="@color/white" />
 
                     <com.jobtick.TextView.TextViewRegular
@@ -60,7 +59,7 @@
                         android:drawablePadding="@dimen/spacing_middle"
                         android:gravity="center_vertical"
                         android:singleLine="true"
-                        android:text="FILTERS"
+                        android:text="Filters"
                         android:textColor="@color/white"
                         android:textSize="10sp" />
                 </LinearLayout>
@@ -71,7 +70,6 @@
                 android:id="@+id/recycler_view_filters"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_middle"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:overScrollMode="never" />
@@ -97,12 +95,25 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" />
 
-            <ImageView
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/ivMapView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_margin="16dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:src="@drawable/ic_map_white"
+                app:elevation="@dimen/_16sp"
+                app:fabSize="normal"
+                app:tint="@color/white" />
+
+          <!--  <com.rishabhharit.roundedimageview.RoundedImageView
                 android:id="@+id/ivMapView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
-                android:src="@drawable/ic_map"></ImageView>
+                android:src="@drawable/ic_map"></com.rishabhharit.roundedimageview.RoundedImageView>
+-->
         </FrameLayout>
 
 

@@ -47,8 +47,8 @@ import timber.log.Timber;
 
 public class ChangePasswordActivity extends ActivityBase {
 
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+    /*    @BindView(R.id.toolbar)
+        MaterialToolbar toolbar;*/
     @BindView(R.id.edt_current_password)
     EditTextRegular edtCurrentPassword;
     @BindView(R.id.img_btn_current_password_toggle)
@@ -63,6 +63,10 @@ public class ChangePasswordActivity extends ActivityBase {
     ImageView imgBtnConfirmPasswordToggle;
     @BindView(R.id.lyt_btn_submit)
     LinearLayout lytBtnSubmit;
+
+
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
 
 
     private boolean current_password_hide = true;
@@ -80,10 +84,15 @@ public class ChangePasswordActivity extends ActivityBase {
 
 
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+        ivBack.setOnClickListener(v -> {
+            finish();
+        });
+
+
+    /*    toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Change Password");
+        getSupportActionBar().setTitle("Change Password");*/
     }
 
 

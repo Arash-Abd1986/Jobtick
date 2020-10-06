@@ -25,8 +25,6 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -222,10 +220,17 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         txtDueTime.append(", Midday");
                     }
                 }
+
+
+                if (!!item.getDueTime().getMorning() && !!item.getDueTime().getAfternoon() &&
+                        !!item.getDueTime().getEvening() && !!item.getDueTime().getMidday()) {
+                    txtDueTime.setText("No time set");
+
+                }
             } else {
                 txtDueTime.setText("No time set");
             }
-            txtStatus.setText(item.getStatus().toUpperCase());
+            txtStatus.setText(item.getStatus());
             tvDelete.setVisibility(View.GONE);
             if (item.getLocation() != null) {
                 txtLocation.setText(item.getLocation());

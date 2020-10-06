@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -41,8 +43,8 @@ import static com.jobtick.utils.Constant.BASE_URL;
 
 public class AddBankAccountActivity extends ActivityBase {
 
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+/*    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;*/
 
     @BindView(R.id.edt_account_name)
     EditTextRegular edtAccountName;
@@ -56,6 +58,8 @@ public class AddBankAccountActivity extends ActivityBase {
     @BindView(R.id.lyt_btn_add_bank_account)
     LinearLayout lytBtnAddBankAccount;
 
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +71,13 @@ public class AddBankAccountActivity extends ActivityBase {
 
 
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+        ivBack.setOnClickListener(v -> {
+            finish();
+        });
+       /* toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Add Bank Account");
+        getSupportActionBar().setTitle("Add Bank Account");*/
     }
 
 

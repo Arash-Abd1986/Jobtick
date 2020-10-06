@@ -4,24 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/grey_100"
     android:orientation="vertical"
     tools:context=".activities.AddBankAccountActivity">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
+        android:id="@+id/linearToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_back"
-        app:title="@string/add_bank_account"
-        android:background="@color/background"
-        app:contentInsetStartWithNavigation="0dp"/>
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="@dimen/_32sp"
+            android:layout_height="@dimen/_32sp"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_10sp"
+            android:padding="@dimen/_8sp"
+            android:src="@drawable/ic_back" />
+
+        <com.jobtick.TextView.TextViewMedium
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_5sp"
+            android:text="Add Bank Account"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/_18sp" />
+
+    </LinearLayout>
+
+
+    <!--    <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_back"
+            app:title="@string/add_bank_account"
+            android:background="@color/background"
+            app:contentInsetStartWithNavigation="0dp"/>-->
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
+
         android:layout_height="match_parent"
         android:layout_above="@+id/card_button"
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/linearToolbar"
         android:scrollbars="none">
 
 
@@ -31,15 +60,14 @@
             android:orientation="vertical">
 
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:background="@drawable/greay_border_bg">
 
 
                 <LinearLayout
@@ -62,20 +90,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:hint="Enter Name"
                         android:textSize="@dimen/_14sp" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:background="@drawable/greay_border_bg">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -98,20 +124,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:hint="xxx-xxx"
                         android:textSize="@dimen/_14sp" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:background="@drawable/greay_border_bg">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -122,10 +146,10 @@
                     <com.jobtick.TextView.TextViewSemiBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="number"
                         android:text="Account Number"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_12sp"
-                        android:inputType="number"
 
                         android:textStyle="bold" />
 
@@ -136,11 +160,10 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:inputType="number"
-                        android:hint="xxxxxxxxxxx"
                         android:textSize="@dimen/_14sp" />
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -153,7 +176,7 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/spacing_large"
         android:backgroundTint="@color/colorPrimary"
-        android:elevation="@dimen/spacing_middle"
+        app:cardElevation="0dp"
         app:cardCornerRadius="@dimen/spacing_medium">
 
         <LinearLayout

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <com.jobtick.TextView.TextViewSemiBold
-        android:layout_marginStart="@dimen/spacing_middle"
+        android:id="@+id/txt_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="REMOTE"
-        android:textColor="@color/textColor"
-        android:textSize="@dimen/_10sp"
-        android:textAllCaps="true"
-        android:id="@+id/txt_data"
+        android:layout_marginStart="@dimen/spacing_middle"
         android:background="@drawable/shape_tab_primary_2dp"
         android:backgroundTint="@color/white"
-        android:padding="@dimen/spacing_middle"/>
+        android:paddingStart="@dimen/spacing_middle"
+        android:paddingTop="@dimen/spacing_xmedium"
+        android:paddingBottom="@dimen/spacing_xmedium"
+        android:paddingEnd="@dimen/spacing_middle"
+        android:text="Remote"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/_10sp" />
 </LinearLayout>

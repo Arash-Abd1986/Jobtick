@@ -29,7 +29,6 @@ public class AddTagSheetFragment extends BottomSheetDialogFragment {
         View view = inflater.inflate(R.layout.sheet_add_must_have, container,
                 false);
 
-
         if (getDialog().getWindow() != null) {
             getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,8 +19,8 @@ import butterknife.OnClick;
 
 public class SettingActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+    /*    @BindView(R.id.toolbar)
+        MaterialToolbar toolbar;*/
     @BindView(R.id.rlt_btn_edit_account)
     RelativeLayout rltBtnEditAccount;
     @BindView(R.id.rlt_btn_payment_settings)
@@ -31,6 +32,9 @@ public class SettingActivity extends AppCompatActivity {
     @BindView(R.id.rlt_btn_mobile_verification)
     RelativeLayout rltBtnMobileVerification;
 
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +45,16 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+      /*  toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Settings");
+        getSupportActionBar().setTitle("Settings");*/
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 

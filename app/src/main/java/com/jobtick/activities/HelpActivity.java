@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,8 +20,8 @@ import static com.jobtick.utils.Constant.URL_privacy_policy;
 
 public class HelpActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+/*    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;*/
     @BindView(R.id.rlt_btn_support)
     RelativeLayout rltBtnSupport;
     @BindView(R.id.rlt_btn_terms_condition)
@@ -32,22 +33,27 @@ public class HelpActivity extends AppCompatActivity {
     @BindView(R.id.rlt_btn_guidelines_for_tickers)
     RelativeLayout rltBtnGuidelinesForTickers;
 
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
         ButterKnife.bind(this);
-        initToolbar();
+       // initToolbar();
+        ivBack.setOnClickListener(v->{finish();});
+
     }
 
 
-    private void initToolbar() {
+    /*private void initToolbar() {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Help");
     }
-
+*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

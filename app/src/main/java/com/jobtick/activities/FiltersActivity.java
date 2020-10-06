@@ -49,7 +49,8 @@ public class FiltersActivity extends AppCompatActivity implements FilterInPerson
     @BindView(R.id.view_pager)
     ViewPager viewPager;
     FilterModel filterModel;
-    Map<String ,String> filters;
+    Map<String, String> filters;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,7 @@ public class FiltersActivity extends AppCompatActivity implements FilterInPerson
         filterModel = new FilterModel();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null && bundle.getParcelable(Constant.FILTER) != null) {
-            filterModel =  bundle.getParcelable(Constant.FILTER);
+            filterModel = bundle.getParcelable(Constant.FILTER);
         }
         initToolbar();
         initComponent();
@@ -70,24 +71,24 @@ public class FiltersActivity extends AppCompatActivity implements FilterInPerson
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
         viewPager.setOffscreenPageLimit(3);
 
-        if(filterModel != null){
-            if(filterModel.getSection().equalsIgnoreCase(Constant.FILTER_REMOTE)){
+        if (filterModel != null) {
+            if (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_REMOTE)) {
                 viewPager.setCurrentItem(0);
                 rbRemotely.setChecked(true);
                 rbInPerson.setChecked(false);
                 rbAll.setChecked(false);
-            }else if(filterModel.getSection().equalsIgnoreCase(Constant.FILTER_IN_PERSON)){
+            } else if (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_IN_PERSON)) {
                 viewPager.setCurrentItem(1);
                 rbRemotely.setChecked(false);
                 rbInPerson.setChecked(true);
                 rbAll.setChecked(false);
-            }else{
+            } else {
                 viewPager.setCurrentItem(2);
                 rbRemotely.setChecked(false);
                 rbInPerson.setChecked(false);
                 rbAll.setChecked(true);
             }
-        }else{
+        } else {
             viewPager.setCurrentItem(2);
             rbRemotely.setChecked(false);
             rbInPerson.setChecked(false);
@@ -95,46 +96,41 @@ public class FiltersActivity extends AppCompatActivity implements FilterInPerson
         }
 
 
-        rgFilters.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton rb_btn = (RadioButton) findViewById(checkedId);
-                if (rb_btn.getText().equals(getResources().getString(R.string.remotely))) {
-                    viewPager.setCurrentItem(0);
-                    rbRemotely.setChecked(true);
-                    rbInPerson.setChecked(false);
-                    rbAll.setChecked(false);
-                } else  if (rb_btn.getText().equals(getResources().getString(R.string.in_person))) {
-                    viewPager.setCurrentItem(1);
-                    rbRemotely.setChecked(false);
-                    rbInPerson.setChecked(true);
-                    rbAll.setChecked(false);
-                } else  if (rb_btn.getText().equals(getResources().getString(R.string.all))) {
-                    viewPager.setCurrentItem(2);
-                    rbRemotely.setChecked(false);
-                    rbInPerson.setChecked(false);
-                    rbAll.setChecked(true);
-                }
+        rgFilters.setOnCheckedChangeListener((group, checkedId) -> {
+            RadioButton rb_btn = (RadioButton) findViewById(checkedId);
+            if (rb_btn.getText().equals(getResources().getString(R.string.remotely))) {
+                viewPager.setCurrentItem(0);
+                rbRemotely.setChecked(true);
+                rbInPerson.setChecked(false);
+                rbAll.setChecked(false);
+            } else if (rb_btn.getText().equals(getResources().getString(R.string.in_person))) {
+                viewPager.setCurrentItem(1);
+                rbRemotely.setChecked(false);
+                rbInPerson.setChecked(true);
+                rbAll.setChecked(false);
+            } else if (rb_btn.getText().equals(getResources().getString(R.string.all))) {
+                viewPager.setCurrentItem(2);
+                rbRemotely.setChecked(false);
+                rbInPerson.setChecked(false);
+                rbAll.setChecked(true);
             }
         });
     }
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(FilterRemotelyFragment.newInstance(this,filterModel), getResources().getString(R.string.remotely));
-        adapter.addFragment(FilterInPersonFragment.newInstance(this,filterModel), getResources().getString(R.string.in_person));
-        adapter.addFragment(FilterAllFragment.newInstance(this,filterModel), getResources().getString(R.string.all));
+        adapter.addFragment(FilterRemotelyFragment.newInstance(this, filterModel), getResources().getString(R.string.remotely));
+        adapter.addFragment(FilterInPersonFragment.newInstance(this, filterModel), getResources().getString(R.string.in_person));
+        adapter.addFragment(FilterAllFragment.newInstance(this, filterModel), getResources().getString(R.string.all));
         viewPager.setAdapter(adapter);
     }
 
 
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_cancel);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Filters");
     }
-
 
 
     @Override
@@ -163,7 +159,7 @@ public class FiltersActivity extends AppCompatActivity implements FilterInPerson
 
         @Override
         public void onPageSelected(final int position) {
-            switch (position){
+            switch (position) {
                 case 0:
                     rbRemotely.setChecked(true);
                     rbInPerson.setChecked(false);
@@ -197,7 +193,7 @@ public class FiltersActivity extends AppCompatActivity implements FilterInPerson
     @Override
     public void getInPersonData(FilterModel filterModel) {
 
-            this.filterModel = filterModel;
+        this.filterModel = filterModel;
 
         onBackPressed();
     }

@@ -14,8 +14,8 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/grey_100"
         app:contentInsetStartWithNavigation="0dp"
-        app:navigationIcon="@drawable/ic_cancel"
-        app:title="Filters" />
+        app:navigationIcon="@drawable/ic_back"
+        app:title="Filter" />
 
 
     <LinearLayout

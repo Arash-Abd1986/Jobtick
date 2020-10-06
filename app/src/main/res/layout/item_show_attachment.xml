@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
         android:layout_centerInParent="true"
-        android:layout_width="@dimen/_72dp"
-        android:layout_height="@dimen/_72dp"
-        app:cardCornerRadius="4dp"
-        android:elevation="2dp"
-        android:layout_margin="@dimen/spacing_line"
-        android:backgroundTint="@color/grey_40">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="@dimen/_5sp">
 
 
         <RelativeLayout
@@ -19,13 +16,11 @@
             android:layout_height="match_parent">
 
 
-
-
-            <ImageView
+            <com.rishabhharit.roundedimageview.RoundedImageView
+                app:cornerRadius="10dp"
                 android:id="@+id/img_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackgroundBorderless"
                 android:scaleType="centerCrop"
                 android:src="@drawable/default_image"
                 android:visibility="visible" />
@@ -35,11 +30,11 @@
                 android:padding="@dimen/spacing_medium"
                 android:clickable="true"
                 android:visibility="visible"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@drawable/ic_cancel"
                 android:tint="@color/red"
-                android:background="@drawable/round_shape_primary_white"
+                android:background="@drawable/ic_close_portfollio"
                 android:id="@+id/img_btn_delete"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"/>

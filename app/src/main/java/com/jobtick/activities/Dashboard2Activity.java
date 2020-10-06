@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
@@ -17,6 +18,7 @@ import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.TextView.TextViewSemiBold;
 import com.jobtick.models.UserAccountModel;
+import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 
 import butterknife.BindView;
@@ -26,25 +28,25 @@ public class Dashboard2Activity extends ActivityBase {
 
 
     @BindView(R.id.txt_user_name)
-    TextViewSemiBold txtUserName;
+    TextView txtUserName;
 
     @BindView(R.id.txt_account_level)
-    TextViewRegular txtAccountLevel;
+    TextView txtAccountLevel;
 
     @BindView(R.id.txt_awaiting_for_offer)
-    TextViewMedium txtAwaitingOffer;
+    TextView txtAwaitingOffer;
 
     @BindView(R.id.txt_assigned)
-    TextViewMedium txtAssigend;
+    TextView txtAssigend;
 
     @BindView(R.id.txt_overdue)
-    TextViewMedium txtOverDue;
+    TextView txtOverDue;
 
     @BindView(R.id.txt_released_money)
-    TextViewMedium txtReleasedMoney;
+    TextView txtReleasedMoney;
 
     @BindView(R.id.txt_completed)
-    TextViewMedium txtCompleted;
+    TextView txtCompleted;
 
     @BindView(R.id.rb_as_ticker)
     RadioButton rbAsATicker;
@@ -65,16 +67,16 @@ public class Dashboard2Activity extends ActivityBase {
     ImageView iv_green_account;
 
     @BindView(R.id.txt_account)
-    TextViewRegular txt_account;
+    TextView txt_account;
 
     @BindView(R.id.txt_payment)
-    TextViewRegular txt_payment;
+    TextView txt_payment;
 
     @BindView(R.id.txt_skills)
-    TextViewRegular txt_skills;
+    TextView txt_skills;
 
     @BindView(R.id.txt_badges)
-    TextViewRegular txt_badges;
+    TextView txt_badges;
 
     @BindView(R.id.view_payment1)
     View view_payment1;
@@ -112,8 +114,14 @@ public class Dashboard2Activity extends ActivityBase {
     private UserAccountModel userAccountModel;
     private SessionManager sessionManager;
 
+    @BindView(R.id.img_user_avatar)
+    ImageView imgUserAvatar;
+/*
     @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+    MaterialToolbar toolbar;*/
+
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,9 +138,12 @@ public class Dashboard2Activity extends ActivityBase {
     }
 
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+/*        toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
+        ivBack.setOnClickListener(v -> {
+            finish();
+        });
     }
 
 
@@ -141,8 +152,11 @@ public class Dashboard2Activity extends ActivityBase {
     }
 
     public void setData() {
+
+
         txtUserName.setText(sessionManager.getUserAccount().getName());
         txtAccountLevel.setText(sessionManager.getUserAccount().getWorkerTier().getName());
+        ImageUtil.displayImage(imgUserAvatar, sessionManager.getUserAccount().getAvatar().getThumbUrl(), null);
     }
 
     public void initComponent() {

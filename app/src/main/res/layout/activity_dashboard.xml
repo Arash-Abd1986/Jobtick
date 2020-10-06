@@ -14,11 +14,15 @@
         android:layout_height="match_parent" />
 
     <com.google.android.material.navigation.NavigationView
+
         android:id="@+id/navigation_view"
+        app:itemTextAppearance="@style/NavigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        app:itemIconTint="#4D576A"
         android:fitsSystemWindows="true"
+        app:itemTextColor="#2B3240"
         app:headerLayout="@layout/nav_header_dashboard"
         app:menu="@menu/activity_dashboard_drawer" />
 

@@ -9,7 +9,6 @@
     android:orientation="vertical"
     tools:context=".fragments.BrowseFragment">
 
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -30,7 +29,7 @@
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:backgroundTint="@color/colorPrimary"
                 android:elevation="3dp"
-                app:cardCornerRadius="@dimen/spacing_medium">
+                app:cardCornerRadius="@dimen/spacing_xmedium">
 
                 <LinearLayout
                     android:id="@+id/lyt_btn_filters"
@@ -107,13 +106,13 @@
                 app:fabSize="normal"
                 app:tint="@color/white" />
 
-          <!--  <com.rishabhharit.roundedimageview.RoundedImageView
-                android:id="@+id/ivMapView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-                android:src="@drawable/ic_map"></com.rishabhharit.roundedimageview.RoundedImageView>
--->
+            <!--  <com.rishabhharit.roundedimageview.RoundedImageView
+                  android:id="@+id/ivMapView"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|bottom"
+                  android:src="@drawable/ic_map"></com.rishabhharit.roundedimageview.RoundedImageView>
+  -->
         </FrameLayout>
 
 

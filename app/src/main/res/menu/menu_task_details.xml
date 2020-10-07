@@ -4,90 +4,83 @@
 
     <item
         android:id="@+id/menu_share"
-        android:icon="@drawable/ic_share"
+        android:icon="@drawable/ic_share_white"
         android:title="@string/share"
-        app:showAsAction="ifRoom"
-        />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_bookmark"
-        android:icon="@drawable/ic_mark"
+        android:icon="@drawable/ic_bookmark_white"
+        android:iconTint="@color/white"
         android:title="@string/menu_bookmark"
-        android:iconTint="@color/black"
-        app:showAsAction="always"
-        />
+        app:showAsAction="always" />
 
     <item
-        android:icon="@drawable/ic_three_dot"
-        android:title="@string/menu"
         android:id="@+id/item_three_dot"
+        android:icon="@drawable/ic_three_dot_white"
+
+        android:title="@string/menu"
         app:showAsAction="always">
         <menu>
             <group
 
                 android:id="@+id/grp_delete">
-            <item
-                android:id="@+id/action_delete"
-                app:showAsAction="withText"
-                android:icon="@drawable/ic_menu_delete"
-                android:title="@string/delete" />
+                <item
+                    android:id="@+id/action_delete"
+                    android:icon="@drawable/ic_menu_delete"
+                    android:title="@string/delete"
+                    app:showAsAction="withText" />
             </group>
-            <group
-                android:id="@+id/grp_edit">
-            <item
-                android:id="@+id/action_edit"
-                android:icon="@drawable/ic_menu_edit"
-                android:title="@string/edit"
-                app:showAsAction="withText"/>
+            <group android:id="@+id/grp_edit">
+                <item
+                    android:id="@+id/action_edit"
+                    android:icon="@drawable/ic_menu_edit"
+                    android:title="@string/edit"
+                    app:showAsAction="withText" />
             </group>
-            <group
-                android:id="@+id/grp_copy">
+            <group android:id="@+id/grp_copy">
                 <item
                     android:id="@+id/action_copy"
                     android:icon="@drawable/ic_menu_copy"
                     android:title="@string/copy"
-                    app:showAsAction="withText"/>
+                    app:showAsAction="withText" />
             </group>
-            <group
-                android:id="@+id/grp_report">
+            <group android:id="@+id/grp_report">
                 <item
                     android:id="@+id/action_report"
                     android:icon="@drawable/ic_menu_report"
                     android:title="@string/report"
-                    app:showAsAction="withText"/>
+                    app:showAsAction="withText" />
             </group>
-            <group
-                android:id="@+id/grp_increase_budget">
+            <group android:id="@+id/grp_increase_budget">
                 <item
                     android:id="@+id/action_increase_budget"
                     android:icon="@drawable/ic_menu_dollar"
                     android:title="@string/increase_budget"
-                    app:showAsAction="withText"/>
+                    app:showAsAction="withText" />
             </group>
-            <group
-                android:id="@+id/grp_cancellation">
+            <group android:id="@+id/grp_cancellation">
                 <item
                     android:id="@+id/action_cancellation"
                     android:icon="@drawable/ic_menu_report"
                     android:title="@string/Cancellation"
-                    app:showAsAction="withText"/>
+                    app:showAsAction="withText" />
             </group>
-            <group
-                android:id="@+id/grp_reschedule">
+            <group android:id="@+id/grp_reschedule">
                 <item
                     android:id="@+id/action_rechedule"
                     android:icon="@drawable/ic_menu_reschedule"
                     android:title="@string/Reschedule"
-                    app:showAsAction="withText"/>
+                    app:showAsAction="withText" />
             </group>
-           <!-- <group
-                android:id="@+id/grp_reschedule">
-                <item
-                    android:id="@+id/action_rechedule"
-                    android:icon="@drawable/calendar"
-                    android:title="@string/Reschedule"
-                    app:showAsAction="withText"/>
-            </group>-->
+            <!-- <group
+                 android:id="@+id/grp_reschedule">
+                 <item
+                     android:id="@+id/action_rechedule"
+                     android:icon="@drawable/calendar"
+                     android:title="@string/Reschedule"
+                     app:showAsAction="withText"/>
+             </group>-->
         </menu>
     </item>
 

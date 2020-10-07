@@ -52,6 +52,8 @@
     <color name="background">#FEFEFE</color>
     <color name="grey_3">#f7f7f7</color>
     <color name="grey_5">#f2f2f2</color>
+    <color name="grey_E2E2E2">#E2E2E2</color>
+
     <color name="grey_10">#e6e6e6</color>
     <color name="grey_20">#cccccc</color>
     <color name="grey_40">#999999</color>
@@ -389,4 +391,5 @@
     <color name="colorTaskCancelledTrans">#1A2B3240</color>
     <color name="rating_card_bg">#EAEBEC</color>
     <color name="accent">#5568FE</color>
+    <color name="semiBlack">#802B3240</color>
 </resources>

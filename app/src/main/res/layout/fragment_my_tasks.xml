@@ -37,7 +37,6 @@
                     android:id="@+id/recycler_view_status"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:listitem="@layout/item_task_view"
                     android:overScrollMode="never"
                     android:visibility="visible" />
 

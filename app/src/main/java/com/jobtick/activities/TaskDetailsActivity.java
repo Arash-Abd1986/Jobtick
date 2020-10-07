@@ -134,7 +134,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.img_map_pin)
     ImageView imgMapPin;
     @BindView(R.id.txt_description)
-    TextViewRegular txtDescription;
+    TextView txtDescription;
     @BindView(R.id.txt_offer_count)
     TextViewBold txtOfferCount;
     @BindView(R.id.txt_budget)
@@ -182,7 +182,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.img_avtar_poster)
     CircularImageView imgAvtarPoster;
     @BindView(R.id.txt_poster_name)
-    TextViewRegular txtPosterName;
+    TextView txtPosterName;
     @BindView(R.id.txt_poster_location)
     TextViewRegular txtPosterLocation;
     @BindView(R.id.txt_poster_last_online)
@@ -896,7 +896,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         txtCreatedDate.setText("Posted " + taskModel.getCreatedAt());
 
         if (taskModel.getBookmarkID() != null) {
-            toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_mark_filled);
+            toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_white);
         }
 
         txtDescription.setText(taskModel.getDescription());
@@ -971,9 +971,25 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 }
                 if (scrollRange + verticalOffset == 0) {
                     collapsingToolbar.setTitle("Task Details");
+                    toolbar.getMenu().findItem(R.id.menu_share).setIcon(R.drawable.ic_share);
+                    toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot);
+
+                    if (taskModel.getBookmarkID() != null) {
+                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_black);
+                    } else {
+                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_black);
+                    }
                     isShow = true;
                 } else if (isShow) {
                     collapsingToolbar.setTitle("");
+                    toolbar.getMenu().findItem(R.id.menu_share).setIcon(R.drawable.ic_share_white);
+                    toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot_white);
+
+                    if (taskModel.getBookmarkID() != null) {
+                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_white);
+                    } else {
+                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white);
+                    }
                     isShow = false;
                 }
             }

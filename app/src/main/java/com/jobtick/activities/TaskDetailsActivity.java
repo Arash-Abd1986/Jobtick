@@ -118,19 +118,19 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.app_bar_layout)
     AppBarLayout appBarLayout;
     @BindView(R.id.txt_status_open)
-    TextViewRegular txtStatusOpen;
+    TextView txtStatusOpen;
     @BindView(R.id.txt_status_assigned)
-    TextViewRegular txtStatusAssigned;
+    TextView txtStatusAssigned;
     @BindView(R.id.txt_status_completed)
-    TextViewRegular txtStatusCompleted;
+    TextView txtStatusCompleted;
     @BindView(R.id.txt_due_date)
-    TextViewRegular txtDueDate;
+    TextView txtDueDate;
     @BindView(R.id.txt_due_time)
-    TextViewBold txtDueTime;
+    TextView txtDueTime;
     @BindView(R.id.txt_created_date)
-    TextViewRegular txtCreatedDate;
+    TextView txtCreatedDate;
     @BindView(R.id.txt_location)
-    TextViewMedium txtLocation;
+    TextView txtLocation;
     @BindView(R.id.img_map_pin)
     ImageView imgMapPin;
     @BindView(R.id.txt_description)
@@ -152,9 +152,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.nested_scroll_view)
     NestedScrollView nestedScrollView;
     @BindView(R.id.txt_btn_text)
-    TextViewMedium txtBtnText;
+    TextView txtBtnText;
     @BindView(R.id.txt_offers_count)
-    TextViewBold txtOffersCount;
+    TextView txtOffersCount;
     @BindView(R.id.lyt_btn_view_all_offers)
     LinearLayout lytBtnViewAllOffers;
     @BindView(R.id.card_view_all_offers)
@@ -162,17 +162,17 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.card_offer_layout)
     CardView cardOfferLayout;
     @BindView(R.id.txt_title)
-    TextViewBold txtTitle;
+    TextView txtTitle;
     @BindView(R.id.txt_waiting_for_offer)
-    TextViewBold txtWaitingForOffer;
+    TextView txtWaitingForOffer;
     @BindView(R.id.img_avtar_worker)
     CircularImageView imgAvtarWorker;
     @BindView(R.id.txt_worker_name)
-    TextViewRegular txtWorkerName;
+    TextView txtWorkerName;
     @BindView(R.id.txt_worker_location)
-    TextViewRegular txtWorkerLocation;
+    TextView txtWorkerLocation;
     @BindView(R.id.txt_worker_last_online)
-    TextViewRegular txtWorkerLastOnline;
+    TextView txtWorkerLastOnline;
     @BindView(R.id.lyt_btn_private_chat)
     LinearLayout lytBtnPrivateChat;
     @BindView(R.id.card_private_chat)
@@ -184,11 +184,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.txt_poster_name)
     TextView txtPosterName;
     @BindView(R.id.txt_poster_location)
-    TextViewRegular txtPosterLocation;
+    TextView txtPosterLocation;
     @BindView(R.id.txt_poster_last_online)
-    TextViewRegular txtPosterLastOnline;
+    TextView txtPosterLastOnline;
     @BindView(R.id.txt_questions_count)
-    TextViewBold txtQuestionsCount;
+    TextView txtQuestionsCount;
     @BindView(R.id.recycler_view_questions)
     RecyclerView recyclerViewQuestions;
     @BindView(R.id.lyt_btn_view_all_questions)
@@ -212,11 +212,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.rlt_question_add)
     RelativeLayout rltQuestionAdd;
     @BindView(R.id.txt_status_cancelled)
-    TextViewRegular txtStatusCancelled;
+    TextView txtStatusCancelled;
     @BindView(R.id.txt_status_overdue)
-    TextViewRegular txtStatusOverdue;
+    TextView txtStatusOverdue;
     @BindView(R.id.txt_status_reviewed)
-    TextViewRegular txtStatusReviewed;
+    TextView txtStatusReviewed;
     private AdapterImageSlider adapterImageSlider;
     @BindView(R.id.pager)
     ViewPager viewPager;

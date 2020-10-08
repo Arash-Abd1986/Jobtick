@@ -150,27 +150,27 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.rlt_profile)
         RelativeLayout rltProfile;
         @BindView(R.id.txt_name)
-        TextViewBold txtName;
+        TextView txtName;
         @BindView(R.id.ratingbar_worker)
         AppCompatRatingBar ratingbarWorker;
         @BindView(R.id.txt_rating_value)
-        TextViewRegular txtRatingValue;
+        TextView txtRatingValue;
         @BindView(R.id.txt_completion_rate)
-        TextViewRegular txtCompletionRate;
+        TextView txtCompletionRate;
         @BindView(R.id.txt_budget)
-        TextViewBold txtBudget;
+        TextView txtBudget;
         @BindView(R.id.txt_btn_accept)
         TextView txtBtnAccept;
         @BindView(R.id.card_accept)
         CardView cardAccept;
         @BindView(R.id.lyt_budget_status)
         LinearLayout lytBudgetStatus;
-        @BindView(R.id.txt_type)
-        TextViewBold txtType;
+        /*        @BindView(R.id.txt_type)
+                TextView txtType;*/
         @BindView(R.id.txt_created_date)
-        TextViewRegular txtCreatedDate;
+        TextView txtCreatedDate;
         @BindView(R.id.txt_message)
-        TextViewRegular txtMessage;
+        TextView txtMessage;
         @BindView(R.id.img_offer_on_task)
         ImageView imgOfferOnTask;
         @BindView(R.id.img_btn_play)
@@ -182,11 +182,15 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.img_more_less_arrow)
         ImageView imgMoreLessArrow;
         @BindView(R.id.txt_more_less)
-        TextViewBold txtMoreLess;
+        TextView txtMoreLess;
         @BindView(R.id.lyt_btn_more)
         LinearLayout lytBtnMore;
         @BindView(R.id.txt_more_reply)
-        TextViewBold txtMoreReply;
+        TextView txtMoreReply;
+
+        @BindView(R.id.linear_more_reply)
+        LinearLayout linearMoreReply;
+
         @BindView(R.id.recycler_view_offer_chat)
         RecyclerView recyclerViewOfferChat;
 
@@ -199,8 +203,11 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.linear_user_profile)
         LinearLayout linearUserProfile;
 
-        @BindView(R.id.textViewOptions)
-        TextView textViewOptions;
+/*        @BindView(R.id.textViewOptions)
+        TextView textViewOptions;*/
+
+        @BindView(R.id.ivFlag)
+        ImageView ivFlag;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -234,21 +241,24 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (item.getCommentsTotal() > 3) {
                 int remaining_number = item.getCommentsTotal() - 3;
                 if (remaining_number == 1) {
-                    txtMoreReply.setText("1 more reply");
+                    txtMoreReply.setText("view 1 reply");
                 } else {
-                    txtMoreReply.setText(remaining_number + " more replies");
+                    txtMoreReply.setText("view" + remaining_number + "  replies");
                 }
-                txtMoreReply.setVisibility(View.VISIBLE);
+                linearMoreReply.setVisibility(View.VISIBLE);
             } else {
-                txtMoreReply.setVisibility(View.GONE);
+                linearMoreReply.setVisibility(View.GONE);
+
             }
 
             if (item.getWorker().getId() == sessionManager.getUserAccount().getId()) {
                 cardDeleteOffer.setVisibility(View.VISIBLE);
-                textViewOptions.setVisibility(View.GONE);
+                txtBudget.setVisibility(View.VISIBLE);
+
+                ivFlag.setVisibility(View.GONE);
             } else {
                 cardDeleteOffer.setVisibility(View.GONE);
-                textViewOptions.setVisibility(View.VISIBLE);
+                ivFlag.setVisibility(View.VISIBLE);
 
             }
 
@@ -265,18 +275,18 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 ratingbarWorker.setProgress(item.getWorker().getWorkerRatings().getAvgRating());
 
             }
-            txtCompletionRate.setText(item.getWorker().getWorkTaskStatistics().getCompletionRate() + "% Completion Rate");
+            txtCompletionRate.setText(item.getWorker().getWorkTaskStatistics().getCompletionRate() + "%");
             txtCreatedDate.setText(item.getCreatedAt());
             if (item.getAttachments() != null && item.getAttachments().size() != 0) {
                 cardLiveVideo.setVisibility(View.VISIBLE);
                 txtMessage.setVisibility(View.GONE);
-                txtType.setText("Video Offer");
+                //txtType.setText("Video Offer");
                 ImageUtil.displayImage(imgOfferOnTask, item.getAttachments().get(0).getModalUrl(), null);
                 lytBtnMore.setVisibility(View.GONE);
             } else {
                 cardLiveVideo.setVisibility(View.GONE);
                 txtMessage.setVisibility(View.VISIBLE);
-                txtType.setText("Message");
+                //  txtType.setText("Message");
                 txtMessage.setText(item.getMessage());
 
                /*
@@ -324,7 +334,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             imgOfferOnTask.setOnClickListener(v -> {
                 Intent intent = new Intent(context, VideoPlayerActivity.class);
-                intent.putExtra(VIDEO_PATH,item.getAttachments().get(0).getUrl());
+                intent.putExtra(VIDEO_PATH, item.getAttachments().get(0).getUrl());
                 context.startActivity(intent);
             });
 
@@ -381,32 +391,31 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             });
 
 
-            textViewOptions.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            ivFlag.setOnClickListener(view -> {
 
-                    //creating a popup menutextViewOptions
-                    PopupMenu popup = new PopupMenu(context, textViewOptions);
-                    //inflating menu from xml resource
-                    popup.inflate(R.menu.menu_report);
-                    //adding click listener
-                    popup.setOnMenuItemClickListener(item1 -> {
-                        switch (item1.getItemId()) {
-                            case R.id.action_report:
-                                Bundle bundle = new Bundle();
-                                Intent intent = new Intent(context, ReportActivity.class);
-                                bundle.putString("key", KEY_OFFER_REPORT);
-                                bundle.putInt(ConstantKey.offerId, item.getId());
-                                intent.putExtras(bundle);
-                                context.startActivity(intent);
-                                break;
-                        }
-                        return false;
-                    });
-                    //displaying the popup
-                    popup.show();
+                Bundle bundle = new Bundle();
+                Intent intent = new Intent(context, ReportActivity.class);
+                bundle.putString("key", KEY_OFFER_REPORT);
+                bundle.putInt(ConstantKey.offerId, item.getId());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+/*
+                //creating a popup menutextViewOptions
+                PopupMenu popup = new PopupMenu(context, ivFlag);
+                //inflating menu from xml resource
+                popup.inflate(R.menu.menu_report);
+                //adding click listener
+                popup.setOnMenuItemClickListener(item1 -> {
+                    switch (item1.getItemId()) {
+                        case R.id.action_report:
 
-                }
+                            break;
+                    }
+                    return false;
+                });
+                //displaying the popup
+                popup.show();*/
+
             });
 
 

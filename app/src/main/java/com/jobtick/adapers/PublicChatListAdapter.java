@@ -2,6 +2,7 @@ package com.jobtick.adapers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,17 +57,19 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
     private boolean isOfferModel = true;
 
 
-    public void addExtraItems(OfferModel item,boolean isOfferModel) {
+    public void addExtraItems(OfferModel item, boolean isOfferModel) {
         this.offerModel = item;
         this.isOfferModel = isOfferModel;
     }
 
-    public void addExtraItems(QuestionModel item,boolean isOfferModel) {
+    public void addExtraItems(QuestionModel item, boolean isOfferModel) {
         this.questionModel = item;
         this.isOfferModel = isOfferModel;
     }
+
     public interface OnItemClickListener {
         void onItemClick(View view, OfferModel obj, int position, String action);
+
         void onItemClick(View view, QuestionModel obj, int position, String action);
 
         void onItemClick(View view, CommentModel obj, int position, String action);
@@ -158,13 +161,13 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         @BindView(R.id.img_avatar)
         CircularImageView imgAvatar;
         @BindView(R.id.txt_name)
-        TextViewBold txtName;
+        TextView txtName;
         @BindView(R.id.txt_created_date)
-        TextViewRegular txtCreatedDate;
+        TextView txtCreatedDate;
         @BindView(R.id.txt_message)
-        TextViewRegular txtMessage;
+        TextView txtMessage;
         @BindView(R.id.txt_more_less)
-        TextViewBold txtMoreLess;
+        TextView txtMoreLess;
         @BindView(R.id.img_file)
         ImageView imgFile;
         @BindView(R.id.lyt_btn_reply)
@@ -177,8 +180,11 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         CardView cardImgFile;
 
 
-        @BindView(R.id.textViewOptions)
-        TextView textViewOptions;
+/*        @BindView(R.id.textViewOptions)
+        TextView textViewOptions;*/
+
+        @BindView(R.id.ivFlag)
+        ImageView ivFlag;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -210,7 +216,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
                         txtMoreLess.setText(item.getStrMore());
                         mItems.get(getAdapterPosition()).setIsUserPrefrenceToMore(true);
                         if (item.getIsUserPrefrenceToMore()) {
-                                   txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
+                            txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
                         }
                     } else {
                         lytBtnMore.setVisibility(View.GONE);
@@ -242,118 +248,112 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
                 });*/
 
 
-            if(item.getAttachments()!=null&&item.getAttachments().
+            if (item.getAttachments() != null && item.getAttachments().
 
-                size() !=0)
+                    size() != 0) {
+                cardImgFile.setVisibility(View.VISIBLE);
+                ImageUtil.displayImage(imgFile, item.getAttachments().get(0).getModalUrl(), null);
+            } else {
+                cardImgFile.setVisibility(View.GONE);
+            }
+            if (item.getReply()) {
+                lytBtnReply.setVisibility(View.VISIBLE);
+            } else {
+                lytBtnReply.setVisibility(View.GONE);
+            }
 
-                {
-                    cardImgFile.setVisibility(View.VISIBLE);
-                    ImageUtil.displayImage(imgFile, item.getAttachments().get(0).getModalUrl(), null);
-                } else
+            ivFlag.setOnClickListener(view -> {
 
-                {
-                    cardImgFile.setVisibility(View.GONE);
-                }
-            if(item.getReply())
-
-                {
-                    lytBtnReply.setVisibility(View.VISIBLE);
-                } else
-
-                {
-                    lytBtnReply.setVisibility(View.GONE);
-                }
-
-            textViewOptions.setOnClickListener(view -> {
-
-                //creating a popup menutextViewOptions
-                PopupMenu popup = new PopupMenu(context, textViewOptions);
+               /* //creating a popup menutextViewOptions
+                PopupMenu popup = new PopupMenu(context, ivFlag);
                 //inflating menu from xml resource
                 popup.inflate(R.menu.menu_report);
                 //adding click listener
                 popup.setOnMenuItemClickListener(item1 -> {
                     switch (item1.getItemId()) {
                         case R.id.action_report:
-                            Bundle bundle = new Bundle();
-                            Intent intent = new Intent(context, ReportActivity.class);
-                            bundle.putString("key",KEY_COMMENT_REPORT);
-                            bundle.putInt(ConstantKey.commentId, item.getId());
-                            intent.putExtras(bundle);
-                            context.startActivity(intent);                                break;
+
+                            break;
                     }
                     return false;
                 });
                 //displaying the popup
-                popup.show();
+                popup.show();*/
+                Bundle bundle = new Bundle();
+                Intent intent = new Intent(context, ReportActivity.class);
+                bundle.putString("key", KEY_COMMENT_REPORT);
+                bundle.putInt(ConstantKey.commentId, item.getId());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+
 
             });
 
             lytBtnReply.setOnClickListener(v -> {
-            if (mOnItemClickListener != null) {
-                if(isOfferModel) {
-                    mOnItemClickListener.onItemClick(v, offerModel, getAdapterPosition(), "reply");
-                }else {
-                    mOnItemClickListener.onItemClick(v, questionModel, getAdapterPosition(), "reply");
+                if (mOnItemClickListener != null) {
+                    if (isOfferModel) {
+                        mOnItemClickListener.onItemClick(v, offerModel, getAdapterPosition(), "reply");
+                    } else {
+                        mOnItemClickListener.onItemClick(v, questionModel, getAdapterPosition(), "reply");
+                    }
                 }
-            }
-        });
-
+            });
 
 
             lytBtnMore.setOnClickListener(v -> {
-            if (item.getStrMore().equalsIgnoreCase("More")) {
-                txtMessage.setMaxLines(Integer.MAX_VALUE);
-                lytBtnMore.setVisibility(View.VISIBLE);
-                txtMoreLess.setText("Less");
-                imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_up));
-                mItems.get(getAdapterPosition()).setStrMore("Less");
-                item.setStrMore("Less");
-            } else {
-                txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
-                lytBtnMore.setVisibility(View.VISIBLE);
-                txtMoreLess.setText("More");
-                imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_down));
-                mItems.get(getAdapterPosition()).setStrMore("More");
-                item.setStrMore("More");
-            }
-        });
-            }
+                if (item.getStrMore().equalsIgnoreCase("More")) {
+                    txtMessage.setMaxLines(Integer.MAX_VALUE);
+                    lytBtnMore.setVisibility(View.VISIBLE);
+                    txtMoreLess.setText("Less");
+                    imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_up));
+                    mItems.get(getAdapterPosition()).setStrMore("Less");
+                    item.setStrMore("Less");
+                } else {
+                    txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
+                    lytBtnMore.setVisibility(View.VISIBLE);
+                    txtMoreLess.setText("More");
+                    imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_down));
+                    mItems.get(getAdapterPosition()).setStrMore("More");
+                    item.setStrMore("More");
+                }
+            });
         }
+    }
 
-        private String toggleLayoutExpand(String show, View view) {
-            toggleArrow(show, view);
+    private String toggleLayoutExpand(String show, View view) {
+        toggleArrow(show, view);
        /* if (show.equalsIgnoreCase("Less")) {
 
             ViewAnimation.expand(lyt_expand);
         } else {
             ViewAnimation.collapse(lyt_expand);
         }*/
-            return show;
-        }
+        return show;
+    }
 
 
-        public boolean toggleArrow(String show, View view) {
-            return toggleArrow(show, view, true);
-        }
+    public boolean toggleArrow(String show, View view) {
+        return toggleArrow(show, view, true);
+    }
 
-        public boolean toggleArrow(String show, View view, boolean delay) {
-            if (show.equalsIgnoreCase("Less")) {
-                view.animate().setDuration(delay ? 200 : 0).rotation(180);
-                return true;
-            } else {
-                view.animate().setDuration(delay ? 200 : 0).rotation(0);
-                return false;
-            }
-        }
-
-
-        public class ProgressHolder extends BaseViewHolder {
-            ProgressHolder(View itemView) {
-                super(itemView);
-            }
-
-            @Override
-            protected void clear() {
-            }
+    public boolean toggleArrow(String show, View view, boolean delay) {
+        if (show.equalsIgnoreCase("Less")) {
+            view.animate().setDuration(delay ? 200 : 0).rotation(180);
+            return true;
+        } else {
+            view.animate().setDuration(delay ? 200 : 0).rotation(0);
+            return false;
         }
     }
+
+
+    public class ProgressHolder extends BaseViewHolder {
+        ProgressHolder(View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        protected void clear() {
+        }
+    }
+}

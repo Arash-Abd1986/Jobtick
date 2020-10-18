@@ -270,12 +270,9 @@ public class AddCreditCardActivity extends ActivityBase {
 
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        errorHandle1(error.networkResponse);
-                        hidepDialog();
-                    }
+                error -> {
+                    errorHandle1(error.networkResponse);
+                    hidepDialog();
                 }) {
 
 

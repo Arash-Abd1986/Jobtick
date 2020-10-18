@@ -155,10 +155,8 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
         }
 
         return super.onOptionsItemSelected(item);
@@ -208,29 +206,20 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
             }
             mBottomSheetDialog.hide();
         });
-        lytBtnVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getGalleryVideo();
-                mBottomSheetDialog.hide();
-            }
+        lytBtnVideo.setOnClickListener(view12 -> {
+            getGalleryVideo();
+            mBottomSheetDialog.hide();
         });
-        lyrBtnVideoCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                recordVideo();
-                mBottomSheetDialog.hide();
-            }
+        lyrBtnVideoCamera.setOnClickListener(view13 -> {
+            recordVideo();
+            mBottomSheetDialog.hide();
         });
-        lytBtnDoc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("application/pdf");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select PDF File"), 1001);
-                mBottomSheetDialog.hide();
-            }
+        lytBtnDoc.setOnClickListener(view14 -> {
+            Intent intent = new Intent();
+            intent.setType("application/pdf");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select PDF File"), 1001);
+            mBottomSheetDialog.hide();
         });
 
         lytBtnImage.setOnClickListener(new View.OnClickListener() {
@@ -253,12 +242,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
         ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
         mBottomSheetDialog.show();
-        mBottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                mBottomSheetDialog = null;
-            }
-        });
+        mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
 
     }
 
@@ -322,13 +306,9 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
         alertBuilder.setTitle("Permission necessary");
         alertBuilder.setMessage(msg + " permission is necessary");
         alertBuilder.setPositiveButton(android.R.string.yes,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        ActivityCompat.requestPermissions((Activity) context,
-                                new String[]{permission},
-                                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-                    }
-                });
+                (dialog, which) -> ActivityCompat.requestPermissions((Activity) context,
+                        new String[]{permission},
+                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE));
         AlertDialog alert = alertBuilder.create();
         alert.show();
     }
@@ -771,45 +751,42 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
 
                     }
                 },
-                new com.android.volley.Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        NetworkResponse networkResponse = error.networkResponse;
-                        if (networkResponse != null && networkResponse.data != null) {
-                            String jsonError = new String(networkResponse.data);
-                            // Print Error!
-                            Timber.e(jsonError);
-                            if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                                unauthorizedUser();
-                                hidepDialog();
-                                return;
-                            }
-                            try {
-                                JSONObject jsonObject = new JSONObject(jsonError);
-
-                                JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                                if (jsonObject_error.has("message")) {
-                                    Toast.makeText(AttachmentActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                                }
-                                if (jsonObject_error.has("errors")) {
-                                    JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-
-
-                                }
-
-                                //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            showToast("Something Went Wrong", AttachmentActivity.this);
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
+                            hidepDialog();
+                            return;
                         }
-                        Timber.e(error.toString());
-                        hidepDialog();
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+                            if (jsonObject_error.has("message")) {
+                                Toast.makeText(AttachmentActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+
+
+                            }
+
+                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", AttachmentActivity.this);
                     }
+                    Timber.e(error.toString());
+                    hidepDialog();
                 }) {
 
 

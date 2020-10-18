@@ -1,17 +1,15 @@
 package com.jobtick.fragments;
 
-import android.animation.Animator;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -61,6 +59,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -103,7 +102,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     private Toolbar toolbar;
 
     ArrayList<TaskModel> taskArrayList;
-    private SearchView searchView;
+   // private SearchView searchView;
 
     ImageView ivNotification;
     TextView toolbar_title;
@@ -113,6 +112,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -131,7 +131,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
             toolbar_title.setText("Explore");
 
-            toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_medium));
+            toolbar_title.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.poppins_medium));
             toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.grey_100));
             androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
             params.gravity = Gravity.LEFT;

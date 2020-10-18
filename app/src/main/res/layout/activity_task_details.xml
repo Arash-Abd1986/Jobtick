@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -47,10 +48,7 @@
                             <androidx.viewpager.widget.ViewPager
                                 android:id="@+id/pager"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_alignParentStart="true"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentTop="true" />
+                                android:layout_height="match_parent" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -95,12 +93,14 @@
                                         android:paddingStart="@dimen/spacing_middle"
                                         android:paddingTop="@dimen/spacing_middle"
                                         android:paddingEnd="@dimen/spacing_large"
-                                        android:paddingBottom="@dimen/spacing_middle">
+                                        android:paddingBottom="@dimen/spacing_middle"
+                                        tools:ignore="TooDeepLayout">
 
                                         <ImageView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            app:srcCompat="@drawable/ic_clock_task_details" />
+                                            app:srcCompat="@drawable/ic_clock_task_details"
+                                            android:contentDescription="@string/todo" />
 
                                         <View
                                             android:layout_width="@dimen/spacing_middle"
@@ -110,7 +110,7 @@
                                             android:id="@+id/txt_due_date"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="Tuesday, March 3 - "
+                                            android:text="@string/tuesday_march_3"
                                             android:textColor="@color/textColor"
                                             android:textSize="@dimen/_10sp" />
 
@@ -118,7 +118,7 @@
                                             android:id="@+id/txt_due_time"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="Morning"
+                                            android:text="@string/morning"
                                             android:textColor="@color/textColor"
                                             android:textSize="@dimen/_10sp" />
                                     </LinearLayout>
@@ -136,10 +136,11 @@
                                     android:paddingTop="@dimen/spacing_medium"
                                     android:paddingEnd="@dimen/_12sp"
                                     android:paddingBottom="@dimen/spacing_medium"
-                                    android:text="$200"
+                                    android:text="@string/_200"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/_18sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    tools:ignore="RelativeOverlap" />
 
 
                             </RelativeLayout>
@@ -237,7 +238,7 @@
                             android:backgroundTint="@color/green_gray_selected"
                             android:gravity="center"
                             android:singleLine="true"
-                            android:text="OPEN"
+                            android:text="@string/open"
                             android:textColor="@color/white_black_selected"
                             android:textSize="@dimen/_10sp" />
 
@@ -253,7 +254,7 @@
                             android:backgroundTint="@color/green_gray_selected"
                             android:gravity="center"
                             android:singleLine="true"
-                            android:text="ASSIGNED"
+                            android:text="@string/assigned"
                             android:textColor="@color/white_black_selected"
                             android:textSize="@dimen/_10sp" />
 
@@ -269,7 +270,7 @@
                             android:backgroundTint="@color/green_gray_selected"
                             android:gravity="center"
                             android:singleLine="true"
-                            android:text="CANCELLED"
+                            android:text="@string/cancelled"
                             android:textColor="@color/white_black_selected"
                             android:textSize="@dimen/_10sp" />
 
@@ -287,7 +288,7 @@
                             android:backgroundTint="@color/green_gray_selected"
                             android:gravity="center"
                             android:singleLine="true"
-                            android:text="OVERDUE"
+                            android:text="@string/overdue"
                             android:textColor="@color/white_black_selected"
                             android:textSize="@dimen/_10sp" />
 
@@ -304,7 +305,7 @@
                             android:backgroundTint="@color/green_gray_selected"
                             android:gravity="center"
                             android:singleLine="true"
-                            android:text="COMPLETED"
+                            android:text="@string/completed"
                             android:textColor="@color/white_black_selected"
                             android:textSize="@dimen/_10sp" />
 
@@ -320,7 +321,7 @@
                             android:backgroundTint="@color/green_gray_selected"
                             android:gravity="center"
                             android:singleLine="true"
-                            android:text="REVIEWED"
+                            android:text="@string/reviewed"
                             android:textColor="@color/white_black_selected"
                             android:textSize="@dimen/_10sp" />
 
@@ -342,7 +343,7 @@
                         android:elevation="@dimen/spacing_middle"
                         android:visibility="gone"
                         app:cardBackgroundColor="@color/colorRed"
-                        app:cardCornerRadius="@dimen/spacing_middle"></androidx.cardview.widget.CardView>
+                        app:cardCornerRadius="@dimen/spacing_middle"/>
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_cancelled"
@@ -375,7 +376,8 @@
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:src="@drawable/ic_alert_cancellation">
+                                    android:src="@drawable/ic_alert_cancellation"
+                                    android:contentDescription="@string/todo">
 
                                 </ImageView>
 
@@ -385,7 +387,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/spacing_large"
                                     android:layout_marginEnd="@dimen/spacing_large"
-                                    android:text="This job has been cancelled Please contact customer support if you need  further help "
+                                    android:text="@string/this_job_has_been_cancelled_please_contact_customer_support_if_you_need_further_help"
                                     android:textColor="@color/textColor"
                                     android:textSize="@dimen/_13sp"
                                     android:textStyle="bold" />
@@ -395,7 +397,6 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="35dp"
-                                android:layout_alignParentBottom="true"
                                 android:layout_gravity="bottom"
                                 android:layout_margin="@dimen/spacing_large"
                                 android:background="@drawable/ic_rounded_red_button"
@@ -403,18 +404,18 @@
 
                                 <LinearLayout
                                     android:id="@+id/li_repost"
-
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:background="?attr/selectableItemBackground"
                                     android:clickable="true"
-                                    android:gravity="center">
+                                    android:gravity="center"
+                                    android:focusable="true">
 
                                     <com.jobtick.TextView.TextViewMedium
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="Repost this job"
+                                        android:text="@string/repost_this_job"
                                         android:textColor="@color/colorRed"
                                         android:textSize="14sp" />
                                 </LinearLayout>
@@ -448,7 +449,7 @@
                                 android:layout_marginStart="@dimen/spacing_large"
                                 android:layout_marginTop="@dimen/spacing_large"
                                 android:layout_marginEnd="@dimen/spacing_large"
-                                android:text="Request for Increase Budget "
+                                android:text="@string/request_for_increase_budget"
                                 android:textColor="@color/textColor"
                                 android:textSize="@dimen/_13sp"
                                 android:textStyle="bold" />
@@ -457,7 +458,6 @@
                                 android:id="@+id/card_view_request"
                                 android:layout_width="match_parent"
                                 android:layout_height="35dp"
-                                android:layout_alignParentBottom="true"
                                 android:layout_gravity="bottom"
                                 android:layout_margin="@dimen/spacing_large"
                                 android:backgroundTint="@color/colorPrimary"
@@ -470,14 +470,15 @@
                                     android:layout_height="match_parent"
                                     android:background="?attr/selectableItemBackground"
                                     android:clickable="true"
-                                    android:gravity="center">
+                                    android:gravity="center"
+                                    android:focusable="true">
 
                                     <com.jobtick.TextView.TextViewMedium
                                         android:id="@+id/txt_view_budget_request"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="View Request"
+                                        android:text="@string/view_request"
                                         android:textAllCaps="true"
                                         android:textColor="@color/white"
                                         android:textSize="14sp" />
@@ -494,7 +495,7 @@
                         android:layout_marginStart="@dimen/spacing_smlarge"
                         android:layout_marginEnd="@dimen/spacing_smlarge"
 
-                        android:text="Clean my two bedroom apartment"
+                        android:text="@string/clean_my_two_bedroom_apartment"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/_18sp"
                         android:textStyle="bold" />
@@ -522,7 +523,8 @@
                                 android:layout_width="@dimen/_18sp"
                                 android:layout_height="@dimen/_18sp"
                                 android:layout_marginEnd="@dimen/_8sp"
-                                android:src="@drawable/ic_map_gray" />
+                                android:src="@drawable/ic_map_gray"
+                                android:contentDescription="@string/todo" />
 
                             <com.jobtick.TextView.TextViewMedium
                                 android:id="@+id/txt_location"
@@ -531,7 +533,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:gravity="start"
                                 android:maxLines="2"
-                                android:text="6386 Spring St"
+                                android:text="@string/_6386_spring_st"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_10sp" />
 
@@ -545,8 +547,7 @@
                             android:layout_gravity="center_vertical|end"
                             android:layout_weight="0.4"
                             android:gravity="end"
-
-                            android:text="Posted 32 minutes ago."
+                            android:text="@string/posted_32_minutes_ago"
                             android:textColor="@color/grey_70"
                             android:textSize="@dimen/_10sp" />
 
@@ -563,7 +564,7 @@
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:layout_marginStart="@dimen/spacing_smlarge"
                         android:layout_marginEnd="@dimen/spacing_smlarge"
-                        android:text="Excepteur qui qui fugiat et esse pariatur voluptate exercitation esse officia cillum occaecat culpa pariatur. Nisi in ut tempor laborum officia dolore ad occaecat. Anim ad voluptate proident ea commodo qui velit officia minim."
+                        android:text="@string/excepteur_qui_qui_fugiat_et_esse_pariatur_voluptate_exercitation_esse_officia_cillum_occaecat_culpa_pariatur_nisi_in_ut_tempor_laborum_officia_dolore_ad_occaecat_anim_ad_voluptate_proident_ea_commodo_qui_velit_officia_minim"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/_14sp" />
 
@@ -581,7 +582,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_large"
                         android:layout_marginEnd="@dimen/spacing_large"
-                        android:text="4 Offers"
+                        android:text="@string/_4_offers"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_10sp"
                         android:textStyle="bold"
@@ -601,7 +602,7 @@
                         android:layout_marginStart="@dimen/spacing_smlarge"
                         android:layout_marginEnd="@dimen/spacing_smlarge"
                         android:gravity="center"
-                        android:text="$ 200"
+                        android:text="@string/_200"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_36sp"
                         android:textStyle="bold"
@@ -628,7 +629,7 @@
                             android:layout_alignParentTop="true"
                             android:layout_marginStart="@dimen/spacing_smlarge"
                             android:layout_marginTop="@dimen/spacing_smlarge"
-                            android:text="Posted By"
+                            android:text="@string/posted_by"
                             android:textColor="@color/colorPrimary">
 
 
@@ -653,7 +654,8 @@
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true">
+                                    android:layout_centerInParent="true"
+                                    tools:ignore="UselessParent">
 
 
                                     <com.mikhaellopez.circularimageview.CircularImageView
@@ -675,9 +677,10 @@
                                             android:layout_width="@dimen/_15sp"
                                             android:layout_height="@dimen/_15sp"
                                             android:layout_gravity="center"
-                                            android:layout_marginRight="@dimen/_10sp"
+                                            android:layout_marginEnd="@dimen/_10sp"
                                             android:layout_marginBottom="@dimen/_5sp"
-                                            android:src="@drawable/ic_shield" />
+                                            android:src="@drawable/ic_shield"
+                                            android:contentDescription="@string/todo" />
                                     </RelativeLayout>
 
                                     <ImageView
@@ -687,9 +690,9 @@
                                         android:layout_alignParentEnd="true"
                                         android:layout_alignParentBottom="true"
                                         android:layout_marginBottom="@dimen/_8sp"
-                                        android:layout_weight="1"
                                         android:src="@drawable/ic_user_level"
-                                        android:visibility="gone" />
+                                        android:visibility="gone"
+                                        android:contentDescription="@string/todo"/>
 
                                 </RelativeLayout>
 
@@ -742,7 +745,7 @@
                                     android:id="@+id/txt_poster_name"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Aaron Brooks"
+                                    android:text="@string/aaron_brooks"
                                     android:textColor="@color/textColor"
                                     android:textSize="@dimen/_13sp" />
 
@@ -752,7 +755,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:singleLine="true"
-                                    android:text="Surfers Paradise, Australia"
+                                    android:text="@string/surfers_paradise_australia"
                                     android:textColor="@color/grey_40"
                                     android:textSize="@dimen/_10sp" />
 
@@ -760,7 +763,7 @@
                                     android:id="@+id/txt_poster_last_online"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Active 13 min. ago"
+                                    android:text="@string/active_13_min_ago"
                                     android:textColor="@color/grey_40"
                                     android:textSize="@dimen/_10sp" />
                             </LinearLayout>
@@ -791,13 +794,14 @@
                                         android:layout_height="19dp"
                                         android:layout_gravity="center"
                                         android:src="@drawable/ic_message"
-                                        android:tint="@color/white" />
+                                        android:tint="@color/white"
+                                        android:contentDescription="@string/todo" />
 
                                     <com.jobtick.TextView.TextViewSemiBold
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="4dp"
-                                        android:text="Chat"
+                                        android:text="@string/chat"
                                         android:textColor="@color/white"
                                         android:textSize="@dimen/_13sp">
 
@@ -827,7 +831,6 @@
                 android:id="@+id/card_assignee_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_marginBottom="@dimen/spacing_medium"
                 android:elevation="@dimen/spacing_mlarge"
                 android:visibility="visible"
@@ -837,7 +840,8 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="TooManyViews">
 
                     <com.jobtick.TextView.TextViewBold
                         android:layout_width="match_parent"
@@ -876,7 +880,7 @@
                                 android:id="@+id/txt_worker_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Aaron Brooks"
+                                android:text="@string/aaron_brooks"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_14sp" />
 
@@ -886,7 +890,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:text="Surfers Paradise, Australia"
+                                android:text="@string/surfers_paradise_australia"
                                 android:textColor="@color/grey_40"
                                 android:textSize="@dimen/_12sp" />
 
@@ -894,7 +898,7 @@
                                 android:id="@+id/txt_worker_last_online"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Active 13 min. ago"
+                                android:text="@string/active_13_min_ago"
                                 android:textColor="@color/grey_40"
                                 android:textSize="@dimen/_12sp" />
                         </LinearLayout>
@@ -923,7 +927,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="Private Chat"
+                                android:text="@string/private_chat"
                                 android:textAllCaps="true"
                                 android:textColor="@color/white"
                                 android:textSize="14sp" />
@@ -944,7 +948,7 @@
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:singleLine="true"
-                android:text="OFFER"
+                android:text="@string/offer"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_12sp"
                 android:textStyle="bold" />
@@ -978,7 +982,7 @@
                         android:layout_marginBottom="@dimen/spacing_xxlarge"
                         android:gravity="center"
                         android:singleLine="true"
-                        android:text="Waiting For OFFER"
+                        android:text="@string/waiting_for_offer"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_12sp"
                         android:textStyle="bold"
@@ -1013,7 +1017,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="VIEW ALL OFFERS"
+                                android:text="@string/view_all_offers"
                                 android:textAllCaps="true"
                                 android:textColor="@color/white"
                                 android:textSize="14sp" />
@@ -1052,7 +1056,7 @@
                         android:layout_marginStart="@dimen/spacing_large"
                         android:layout_marginTop="@dimen/spacing_large"
                         android:singleLine="true"
-                        android:text="Question"
+                        android:text="@string/question"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_12sp"
                         android:textStyle="bold" />
@@ -1088,7 +1092,7 @@
                                 android:layout_marginEnd="@dimen/spacing_large"
                                 android:layout_marginBottom="@dimen/spacing_medium"
                                 android:background="@null"
-                                android:hint="My Comment"
+                                android:hint="@string/my_comment"
                                 android:inputType="textMultiLine" />
 
 
@@ -1125,14 +1129,15 @@
                                             android:layout_height="16dp"
                                             android:layout_gravity="center_vertical"
                                             android:src="@drawable/ic_send"
-                                            android:tint="@color/colorPrimary" />
+                                            android:tint="@color/colorPrimary"
+                                            android:contentDescription="@string/todo" />
 
                                         <com.jobtick.TextView.TextViewBold
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center_vertical"
                                             android:layout_marginStart="@dimen/spacing_large"
-                                            android:text="Send"
+                                            android:text="@string/send"
                                             android:textColor="@color/colorPrimary"
                                             android:textSize="@dimen/_12sp"
                                             android:textStyle="bold" />
@@ -1187,7 +1192,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                    android:text="VIEW ALL QUESTIONS"
+                                    android:text="@string/view_all_questions"
                                     android:textAllCaps="true"
                                     android:textColor="@color/white"
                                     android:textSize="14sp" />
@@ -1224,14 +1229,15 @@
             android:layout_height="match_parent"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:gravity="center">
+            android:gravity="center"
+            android:focusable="true">
 
             <com.jobtick.TextView.TextViewMedium
                 android:id="@+id/txt_btn_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="MAKE AN OFFER"
+                android:text="@string/make_an_offer"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="14sp" />

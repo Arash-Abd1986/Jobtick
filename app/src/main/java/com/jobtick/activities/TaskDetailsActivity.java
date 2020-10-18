@@ -1734,6 +1734,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             View v = inflater.inflate(R.layout.item_slider_image, container, false);
 
             ImageView image = (ImageView) v.findViewById(R.id.image);
+            image.setAdjustViewBounds(true);
             if (attachment.getThumbUrl() != null) {
                 ImageUtil.displayImage(image, attachment.getModalUrl(), null);
             } else {

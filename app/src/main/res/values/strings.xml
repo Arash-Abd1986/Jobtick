@@ -195,7 +195,39 @@
     <string name="as_ticker">As a Ticker</string>
     <string name="as_poster">As a Poster</string>
     <string name="about_me">About me</string>
-
+    <string name="todo">TODO</string>
+    <string name="tuesday_march_3">Tuesday, March 3 -</string>
+    <string name="morning">Morning</string>
+    <string name="_200">$200</string>
+    <string name="open">OPEN</string>
+    <string name="assigned">ASSIGNED</string>
+    <string name="cancelled">CANCELLED</string>
+    <string name="overdue">OVERDUE</string>
+    <string name="completed">COMPLETED</string>
+    <string name="reviewed">REVIEWED</string>
+    <string name="this_job_has_been_cancelled_please_contact_customer_support_if_you_need_further_help">This job has been cancelled Please contact customer support if you need further help</string>
+    <string name="repost_this_job">Repost this job</string>
+    <string name="request_for_increase_budget">Request for Increase Budget</string>
+    <string name="view_request">View Request</string>
+    <string name="clean_my_two_bedroom_apartment">Clean my two bedroom apartment</string>
+    <string name="_6386_spring_st">6386 Spring St</string>
+    <string name="posted_32_minutes_ago">Posted 32 minutes ago.</string>
+    <string name="excepteur_qui_qui_fugiat_et_esse_pariatur_voluptate_exercitation_esse_officia_cillum_occaecat_culpa_pariatur_nisi_in_ut_tempor_laborum_officia_dolore_ad_occaecat_anim_ad_voluptate_proident_ea_commodo_qui_velit_officia_minim">Excepteur qui qui fugiat et esse pariatur voluptate exercitation esse officia cillum occaecat culpa pariatur. Nisi in ut tempor laborum officia dolore ad occaecat. Anim ad voluptate proident ea commodo qui velit officia minim.</string>
+    <string name="_4_offers">4 Offers</string>
+    <string name="posted_by">Posted By</string>
+    <string name="aaron_brooks">Aaron Brooks</string>
+    <string name="surfers_paradise_australia">Surfers Paradise, Australia</string>
+    <string name="active_13_min_ago">Active 13 min. ago</string>
+    <string name="chat">Chat</string>
+    <string name="private_chat">Private Chat</string>
+    <string name="offer">OFFER</string>
+    <string name="waiting_for_offer">Waiting For OFFER</string>
+    <string name="view_all_offers">VIEW ALL OFFERS</string>
+    <string name="question">Question</string>
+    <string name="my_comment">My Comment</string>
+    <string name="send">Send</string>
+    <string name="view_all_questions">VIEW ALL QUESTIONS</string>
+    <string name="make_an_offer">MAKE AN OFFER</string>
 
 
 </resources>

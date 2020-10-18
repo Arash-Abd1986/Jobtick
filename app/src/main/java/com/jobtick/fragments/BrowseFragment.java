@@ -59,7 +59,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -443,7 +442,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
                     }
                 }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());

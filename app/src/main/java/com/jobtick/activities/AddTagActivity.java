@@ -70,12 +70,7 @@ public class AddTagActivity extends ActivityBase implements AddTagAdapter.OnItem
     }
 
     private void initToolbar() {
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
         toolbar.setTitle(action_bar_title);
     }
 

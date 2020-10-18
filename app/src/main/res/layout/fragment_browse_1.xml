@@ -47,7 +47,8 @@
                         android:layout_height="12dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_browse_filter"
-                        android:tint="@color/white" />
+                        android:tint="@color/white"
+                        android:contentDescription="@string/todo" />
 
                     <com.jobtick.TextView.TextViewRegular
                         android:id="@+id/txt_filters"
@@ -58,9 +59,9 @@
                         android:drawablePadding="@dimen/spacing_middle"
                         android:gravity="center_vertical"
                         android:singleLine="true"
-                        android:text="Filters"
+                        android:text="@string/filters"
                         android:textColor="@color/white"
-                        android:textSize="10sp" />
+                        android:textSize="@dimen/_10sp" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>

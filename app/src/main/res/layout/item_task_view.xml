@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/lyt_btn_parent_layout">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_task_background"
@@ -34,33 +35,36 @@
         card_view:cardCornerRadius="@dimen/spacing_middle"
         card_view:cardUseCompatPadding="false">
 
-        <LinearLayout
-            android:id="@+id/lyt_btn_parent_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:orientation="horizontal"
-            android:padding="@dimen/spacing_xmedium">
+
+
+
 
 
             <LinearLayout
-                android:id="@+id/lyt_task_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/lyt_task_profile"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/lyt_task_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
 
 
-                <com.mikhaellopez.circularimageview.CircularImageView
-                    android:id="@+id/img_avatar"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="7dp"
-                    android:layout_marginEnd="7dp"
-                    android:src="@drawable/pic" />
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/img_avatar"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginBottom="7dp"
+                        android:src="@drawable/pic" />
 
-                <com.jobtick.TextView.TextViewSemiBold
+                    <com.jobtick.TextView.TextViewSemiBold
                         android:id="@+id/txt_status"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -69,23 +73,14 @@
                         android:gravity="center"
                         android:paddingTop="@dimen/spacing_medium"
                         android:paddingBottom="@dimen/spacing_medium"
-                        android:text="Assigned"
+                        android:text="@string/assignee"
                         android:textColor="@color/grey_70"
                         android:textSize="@dimen/_9sp"
                         android:textStyle="normal"
                         app:textAllCaps="false" />
 
 
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_toRightOf="@+id/lyt_task_profile"
-                android:orientation="horizontal">
-
+                </LinearLayout>
                 <View
                     android:layout_width="@dimen/spacing_middle"
                     android:layout_height="match_parent" />
@@ -116,9 +111,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
-                            android:layout_toLeftOf="@+id/tv_delete"
+                            android:layout_toStartOf="@+id/tv_delete"
                             android:singleLine="true"
-                            android:text="Clean my two bedroom apartment"
+                            android:text="@string/clean_my_two_bedroom_apartment"
                             android:textColor="@color/textColor"
                             android:textSize="@dimen/_14sp"
                             android:textStyle="bold" />
@@ -129,7 +124,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:src="@drawable/ic_delete"
-                            android:visibility="gone"></ImageView>
+                            android:visibility="gone" />
                     </RelativeLayout>
 
 
@@ -160,7 +155,6 @@
                                     android:layout_width="13dp"
                                     android:layout_height="13dp"
                                     android:layout_gravity="center"
-
                                     android:src="@drawable/ic_map_pin"
                                     android:tint="@color/colorGrayC9C9C9" />
 
@@ -173,7 +167,7 @@
                                     android:drawablePadding="@dimen/spacing_middle"
                                     android:gravity="center_vertical"
                                     android:singleLine="true"
-                                    android:text="No location set"
+                                    android:text="@string/no_location_set"
                                     android:textColor="@color/grey_70"
                                     android:textSize="@dimen/_12sp" />
 
@@ -203,7 +197,7 @@
                                     android:drawablePadding="@dimen/spacing_middle"
                                     android:gravity="center_vertical"
                                     android:singleLine="true"
-                                    android:text="No date set"
+                                    android:text="@string/no_date_set"
                                     android:textColor="@color/grey_70"
                                     android:textSize="@dimen/_12sp" />
                             </LinearLayout>
@@ -233,7 +227,7 @@
                                     android:gravity="center_vertical"
                                     android:maxLength="15"
                                     android:singleLine="true"
-                                    android:text="22222"
+                                    android:text="@string/_22222"
                                     android:textColor="@color/grey_70"
                                     android:textSize="@dimen/_12sp" />
 
@@ -250,9 +244,9 @@
                                     android:paddingTop="@dimen/spacing_small"
                                     android:paddingEnd="@dimen/spacing_medium"
                                     android:paddingBottom="@dimen/spacing_small"
-                                    android:text="4 Offers"
+                                    android:text="@string/_4_offers"
                                     android:textColor="@color/grey_70"
-                                    android:textSize="10dp"
+                                    android:textSize="10sp"
                                     android:textStyle="normal" />
                             </LinearLayout>
 
@@ -272,7 +266,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
-                                android:text="$200"
+                                android:text="@string/_200"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_18sp"
                                 android:textStyle="bold" />
@@ -282,6 +276,7 @@
                 </LinearLayout>
 
             </LinearLayout>
-        </LinearLayout>
+
+
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

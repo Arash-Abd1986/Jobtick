@@ -374,11 +374,7 @@ public class ActivityBase extends AppCompatActivity {
         new MaterialAlertDialogBuilder(this)
                 .setTitle("Permissions required!")
                 .setMessage("Camera needs few permissions to work properly. Grant them in settings.")
-                .setPositiveButton("GOTO SETTINGS", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        CameraUtils.openSettings(ActivityBase.this);
-                    }
-                })
+                .setPositiveButton("GOTO SETTINGS", (dialog, which) -> CameraUtils.openSettings(ActivityBase.this))
                 .setNegativeButton("CANCEL", null)
                 .show();
     }

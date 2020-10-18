@@ -50,7 +50,7 @@
             android:layout_gravity="end"
             android:layout_margin="@dimen/_12sp"
             android:src="@drawable/ic_notification_bell"
-            android:visibility="gone"></ImageView>
+            android:visibility="gone"/>
 
         <!--<RelativeLayout
             android:id="@+id/linearCustomeHeader"

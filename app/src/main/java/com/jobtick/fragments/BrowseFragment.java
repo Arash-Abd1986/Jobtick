@@ -42,6 +42,7 @@ import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.FiltersActivity;
 import com.jobtick.activities.MapViewActivity;
+import com.jobtick.activities.SearchCategoryActivity;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.adapers.FilterAdapter;
 import com.jobtick.adapers.TaskListAdapter;
@@ -52,7 +53,6 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.SessionManager;
-import com.jobtick.utils.ViewAnimation;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -198,11 +198,14 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_search:
-                        toolbar.getMenu().findItem(R.id.action_map).setVisible(false);
-                        Menu menu = toolbar.getMenu();
-                        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-                        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-                        searchView.setOnQueryTextListener(BrowseFragment.this);
+//                        toolbar.getMenu().findItem(R.id.action_map).setVisible(false);
+//                        Menu menu = toolbar.getMenu();
+//                        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+//                        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+//                        searchView.setOnQueryTextListener(BrowseFragment.this);
+
+                        Intent creating_task = new Intent(getActivity(), SearchCategoryActivity.class);
+                        startActivity(creating_task);
                         // searchView.setOnCloseListener(BrowseFragment.this);
                         if (item.collapseActionView()) {
                             Log.e("Close", "Called");

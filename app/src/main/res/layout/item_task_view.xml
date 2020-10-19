@@ -21,7 +21,6 @@
         card_view:cardBackgroundColor="@color/colorRed"
         card_view:cardCornerRadius="@dimen/spacing_middle"
         card_view:cardUseCompatPadding="false" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/content"
         android:layout_width="match_parent"
@@ -34,10 +33,6 @@
         app:cardElevation="0dp"
         card_view:cardCornerRadius="@dimen/spacing_middle"
         card_view:cardUseCompatPadding="false">
-
-
-
-
 
 
             <LinearLayout
@@ -84,12 +79,10 @@
                 <View
                     android:layout_width="@dimen/spacing_middle"
                     android:layout_height="match_parent" />
-
                 <View
                     android:layout_width="@dimen/spacing_line"
                     android:layout_height="match_parent"
                     android:background="@color/grey_10" />
-
                 <View
                     android:layout_width="@dimen/spacing_middle"
                     android:layout_height="match_parent" />
@@ -99,7 +92,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -252,31 +244,32 @@
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:id="@+id/lyt_budget_open"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:gravity="bottom"
-                            android:orientation="vertical">
 
                             <com.jobtick.TextView.TextViewSemiBold
                                 android:id="@+id/txt_budget"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
+                                android:layout_gravity="bottom"
+                                android:gravity="bottom"
                                 android:text="@string/_200"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_18sp"
                                 android:textStyle="bold" />
 
-                        </LinearLayout>
+
+
                     </LinearLayout>
                 </LinearLayout>
 
+
+
+
+
+
             </LinearLayout>
-
-
     </androidx.cardview.widget.CardView>
+
+
+
+
 </RelativeLayout>

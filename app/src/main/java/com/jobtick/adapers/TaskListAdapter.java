@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -150,7 +151,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.lyt_budget_open)
         LinearLayout lytBudgetOpen;
         @BindView(R.id.lyt_btn_parent_layout)
-        LinearLayout lytBtnParentLayout;
+        RelativeLayout lytBtnParentLayout;
 
 
         @BindView(R.id.card_task_background)

@@ -118,23 +118,9 @@
                             android:src="@drawable/ic_delete"
                             android:visibility="gone" />
                     </RelativeLayout>
-
-
-                    <View
+                             <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_small" />
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -165,7 +151,6 @@
 
 
                             </LinearLayout>
-
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -193,7 +178,6 @@
                                     android:textColor="@color/grey_70"
                                     android:textSize="@dimen/_12sp" />
                             </LinearLayout>
-
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -242,15 +226,8 @@
                                     android:textStyle="normal" />
                             </LinearLayout>
 
-                        </LinearLayout>
-
-
-
-
-
-
-                    </LinearLayout>
                 </LinearLayout>
+
                 <com.jobtick.TextView.TextViewSemiBold
                     android:id="@+id/txt_budget"
                     android:layout_width="match_parent"

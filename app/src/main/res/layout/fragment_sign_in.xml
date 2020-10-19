@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,12 +13,12 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_above="@+id/bottomLayout"
                 android:orientation="vertical">
 
@@ -365,7 +363,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/spacing_xlarge" />
+                    android:layout_height="@dimen/spacing_medium" />
 
 
                 <LinearLayout
@@ -382,7 +380,7 @@
                         android:padding="@dimen/spacing_middle"
                         android:text="Don't Have An Account?"
                         android:textColor="@color/grey_40"
-                        android:textSize="@dimen/_13sp"
+                        android:textSize="@dimen/_5sp"
                         android:textStyle="bold" />
 
 
@@ -399,7 +397,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/spacing_large" />
+                    android:layout_height="5dp" />
             </LinearLayout>
         </RelativeLayout>
 

@@ -138,7 +138,7 @@
         <activity android:name=".activities.ActivityBase" />
         <activity android:name=".activities.ViewAllQuestionsActivity" />
 
-        <activity android:name=".activities.RescheduleReqFromWorkerActivity"></activity>
+        <activity android:name=".activities.RescheduleReqFromWorkerActivity" />
 
         <activity android:name=".activities.SinginSingupAcitivity"></activity>
         <activity android:name=".activities.CategroyListActivity"></activity>

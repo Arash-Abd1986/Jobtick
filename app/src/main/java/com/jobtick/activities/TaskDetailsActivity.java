@@ -1734,6 +1734,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             } else {
                 Tools.displayImageOriginal(act, image, attachment.getDrawable());
             }
+            image.setAdjustViewBounds(true);
+            image.setBackgroundResource(R.drawable.banner_person);
+            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {

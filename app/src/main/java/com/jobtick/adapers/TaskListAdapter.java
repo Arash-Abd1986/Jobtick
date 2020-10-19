@@ -148,8 +148,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.tv_delete)
         ImageView tvDelete;
 
-        @BindView(R.id.lyt_budget_open)
-        LinearLayout lytBudgetOpen;
         @BindView(R.id.lyt_btn_parent_layout)
         RelativeLayout lytBtnParentLayout;
 

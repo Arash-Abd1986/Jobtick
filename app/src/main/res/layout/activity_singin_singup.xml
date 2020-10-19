@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -39,51 +40,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginStart="@dimen/_40sp"
-        android:layout_marginEnd="@dimen/_40sp"
+        android:paddingStart="@dimen/_25sp"
+        android:paddingEnd="@dimen/_25sp"
         android:gravity="center"
         android:orientation="vertical">
 
-        <LinearLayout
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
             android:id="@+id/lyt_btn_sign_up"
+            style="@style/materialButton.medium"
+            android:text="@string/sign_up"
+            android:background="@color/blueButtons"
+            android:textColor="@color/white"
+            />
+
+        <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_46dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_16sp"
-            android:background="@drawable/ic_rounded_button"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <com.jobtick.TextView.TextViewRegular
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="Sign Up"
-                android:textAllCaps="true"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/_14sp" />
-        </LinearLayout>
-
-        <LinearLayout
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
             android:id="@+id/lyt_btn_sign_in"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_46dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_16sp"
-            android:background="@drawable/ic_rounded_green_button"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <com.jobtick.TextView.TextViewRegular
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="SIGN IN"
-                android:textColor="@color/green"
-                android:textSize="@dimen/_14sp" />
-        </LinearLayout>
+            style="@style/materialButton.medium.outlined"
+            android:text="@string/log_in"
+            android:textColor="@color/blueButtons"
+            app:strokeColor="@color/blueButtons"
+            app:strokeWidth="@dimen/outline_normal" />
 
     </LinearLayout>
 

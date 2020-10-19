@@ -92,4 +92,27 @@
     <dimen name="paddingImgPath">200dp</dimen>
 
 
+    <!-- new dimensions for new material design styles -->
+    <!-- corners -->
+    <dimen name="buttonCorners">4dp</dimen>
+    <dimen name="cardCorners">8dp</dimen>
+
+    <!-- outline -->
+    <dimen name="outline_normal">1dp</dimen>
+    <dimen name="outline_thick">2dp</dimen>
+
+    <!-- elevations -->
+    <dimen name="cardElevation_none">0dp</dimen>
+
+
+    <!-- margins -->
+    <dimen name="horizontal_margin_default">8dp</dimen>
+    <dimen name="horizontal_margin_half">4dp</dimen>
+    <dimen name="horizontal_margin_double">16dp</dimen>
+
+    <!-- font sizes -->
+    <dimen name="button_text_size_normal">14sp</dimen>
+
+
+
 </resources>

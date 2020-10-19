@@ -2,11 +2,10 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 
 import butterknife.BindView;
@@ -16,10 +15,10 @@ public class SinginSingupAcitivity extends ActivityBase {
 
 
     @BindView(R.id.lyt_btn_sign_up)
-    LinearLayout lytBtnSignup;
+    MaterialButton lytBtnSignup;
 
     @BindView(R.id.lyt_btn_sign_in)
-    LinearLayout lytBtnSingin;
+    MaterialButton lytBtnSingin;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

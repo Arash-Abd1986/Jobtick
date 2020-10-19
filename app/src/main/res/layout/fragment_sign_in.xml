@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/backgroundLightGrey">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -45,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/_15sp"
-                    android:src="@mipmap/ic_launcher_foreground"></ImageView>
+                    android:src="@mipmap/ic_launcher_foreground"/>
 
 
                 <com.jobtick.TextView.TextViewSemiBold
@@ -75,25 +74,19 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/spacing_large"
-                            android:layout_marginTop="@dimen/spacing_medium"
-                            android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_marginBottom="@dimen/spacing_middle"
-                            android:elevation="@dimen/spacing_mlarge"
-                            app:cardCornerRadius="@dimen/spacing_middle">
-
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
+                                android:layout_marginStart="@dimen/spacing_large"
+                                android:layout_marginTop="@dimen/spacing_medium"
+                                android:layout_marginEnd="@dimen/spacing_large"
+                                android:layout_marginBottom="@dimen/spacing_middle"
                                 android:paddingStart="@dimen/spacing_mlarge"
                                 android:paddingTop="@dimen/spacing_large"
                                 android:paddingEnd="@dimen/spacing_mlarge"
-                                android:paddingBottom="@dimen/spacing_large">
+                                android:paddingBottom="@dimen/spacing_large"
+                                android:background="@drawable/rectangle_round_corners_outlined">
 
                                 <com.jobtick.TextView.TextViewMedium
                                     android:layout_width="match_parent"
@@ -121,32 +114,24 @@
                                         android:layout_gravity="center_vertical"
                                         android:background="@null"
                                         android:gravity="center_vertical"
-                                        android:hint="Enter Your Email"
                                         android:textSize="@dimen/_14sp" />
 
                                 </LinearLayout>
                             </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/spacing_large"
-                            android:layout_marginTop="@dimen/spacing_medium"
-                            android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_marginBottom="@dimen/spacing_middle"
-                            android:elevation="@dimen/spacing_mlarge"
-                            app:cardCornerRadius="@dimen/spacing_middle">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
+                                android:layout_marginStart="@dimen/spacing_large"
+                                android:layout_marginTop="@dimen/spacing_medium"
+                                android:layout_marginEnd="@dimen/spacing_large"
+                                android:layout_marginBottom="@dimen/spacing_middle"
                                 android:paddingStart="@dimen/spacing_mlarge"
                                 android:paddingTop="@dimen/spacing_large"
                                 android:paddingEnd="@dimen/spacing_mlarge"
-                                android:paddingBottom="@dimen/spacing_large">
+                                android:paddingBottom="@dimen/spacing_large"
+                                android:background="@drawable/rectangle_round_corners_outlined">
 
                                 <com.jobtick.TextView.TextViewMedium
                                     android:layout_width="match_parent"
@@ -180,7 +165,6 @@
                                             android:layout_gravity="center_vertical"
                                             android:background="@null"
                                             android:gravity="center_vertical"
-                                            android:hint="8 - 20 Characters"
                                             android:inputType="textPassword"
                                             android:textSize="@dimen/_14sp" />
 
@@ -197,7 +181,6 @@
 
                                 </RelativeLayout>
                             </LinearLayout>
-                        </androidx.cardview.widget.CardView>
 
                     </LinearLayout>
 
@@ -296,8 +279,8 @@
                             android:layout_marginEnd="@dimen/spacing_small"
                             android:layout_marginBottom="@dimen/spacing_medium"
                             android:layout_weight="1"
-                            android:elevation="10dp"
-                            app:cardCornerRadius="@dimen/spacing_medium">
+                            app:cardElevation="0dp"
+                            app:cardCornerRadius="@dimen/buttonCorners">
 
                             <LinearLayout
                                 android:id="@+id/lyt_btn_google"
@@ -327,8 +310,8 @@
                             android:layout_marginEnd="@dimen/spacing_middle"
                             android:layout_marginBottom="@dimen/spacing_medium"
                             android:layout_weight="1"
-                            android:elevation="10dp"
-                            app:cardCornerRadius="@dimen/spacing_medium">
+                            app:cardElevation="0dp"
+                            app:cardCornerRadius="@dimen/cardCorners">
 
                             <LinearLayout
                                 android:id="@+id/lyt_btn_facebook"

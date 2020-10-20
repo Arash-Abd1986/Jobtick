@@ -50,6 +50,9 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
     @BindView(R.id.img_btn_repeat_password_toggle)
     ImageView imgBtnRepeatPasswordToggle;
 
+    @BindView(R.id.txt_btn_terms)
+    TextViewRegular txtBtnTerms;
+
     private boolean password_hide = true;
     private boolean repeat_password_hide = true;
 
@@ -96,7 +99,7 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
 
 
     @OnClick({R.id.img_btn_password_toggle, R.id.img_btn_repeat_password_toggle, R.id.lyt_btn_sign_up, R.id.lyt_btn_google, R.id.lyt_btn_facebook, R.id.txt_btn_sign_in,
-    R.id.lnr_password, R.id.lnr_email, R.id.lnr_confirm_password})
+    R.id.lnr_password, R.id.lnr_email, R.id.lnr_confirm_password, R.id.txt_btn_terms})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_btn_password_toggle:
@@ -132,6 +135,9 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
                 break;
                 case R.id.lnr_email:
                     editTextOnClick(edtEmailAddress);
+                break;
+            case R.id.txt_btn_terms:
+                //TODO: should be implemented
                 break;
 
         }

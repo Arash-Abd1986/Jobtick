@@ -232,6 +232,14 @@
     <string name="no_date_set">No date set</string>
     <string name="no_location_set">No location set</string>
     <string name="filters">Filters</string>
+    <string name="create_your_account">Create Your Account</string>
+    <string name="email">Email</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="by_joining_you_agree">By joining you agree to JobTick’s</string>
+    <string name="terms_of_services">terms of services</string>
+    <string name="already_have_an_account">Already Have An Account?</string>
+    <string name="don_t_have_an_account">Don\'t Have An Account?</string>
+    <string name="login_to_your_account">Login To Your Account</string>
 
 
 </resources>

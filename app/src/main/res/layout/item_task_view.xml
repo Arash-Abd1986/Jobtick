@@ -47,7 +47,7 @@
                     android:id="@+id/lyt_task_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:orientation="vertical">
 
 
@@ -69,11 +69,11 @@
                         android:layout_margin="@dimen/spacing_small"
                         android:background="@drawable/shape_rounded_white"
                         android:gravity="center"
-                        android:paddingTop="@dimen/spacing_medium"
-                        android:paddingBottom="@dimen/spacing_medium"
+                        android:paddingTop="@dimen/spacing_small"
+                        android:paddingBottom="@dimen/spacing_small"
                         android:text="@string/assignee"
                         android:textColor="@color/grey_70"
-                        android:textSize="@dimen/_9sp"
+                        android:textSize="@dimen/_10sp"
                         android:textStyle="normal"
                         app:textAllCaps="false" />
 
@@ -241,6 +241,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:gravity="end"
+                    android:layout_marginStart="@dimen/spacing_small"
+                    android:layout_marginEnd="@dimen/spacing_small"
                     android:text="@string/_200"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_15sp"

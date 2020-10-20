@@ -28,7 +28,7 @@ import timber.log.Timber;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SignUpFragment extends Fragment implements AuthActivity.EditTextError {
+public class SignUpFragment extends FragmentBase implements AuthActivity.EditTextError {
 
 
     @BindView(R.id.edt_email_address)
@@ -58,9 +58,6 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
 
     private AuthActivity authActivity;
 
-    public SignUpFragment() {
-        // Required empty public constructor
-    }
 
 
     @Override
@@ -87,8 +84,12 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
         if (TextUtils.isEmpty(edtEmailAddress.getText().toString().trim())) {
             edtEmailAddress.setError("Check your email address");
             return false;
-        } else if (TextUtils.isEmpty(edtPassword.getText().toString().trim())) {
-            edtEmailAddress.setError("Enter your password");
+        }else if(edtPassword.getText().toString().trim().length() < 8){
+            edtPassword.setError("Password must be greater than 8 characters.");
+            return false;
+        }
+        else if (TextUtils.isEmpty(edtPassword.getText().toString().trim())) {
+            edtPassword.setError("Enter your password");
             return false;
         } else if (!edtPassword.getText().toString().trim().equals(edtRepeatPassword.getText().toString().trim())) {
             edtRepeatPassword.setError("password doesn't match");
@@ -191,11 +192,4 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
         edtEmailAddress.setError(email);
         edtPassword.setError(password);
     }
-
-    private void editTextOnClick(View view){
-        Timber.d("SignUpFragment: clicked");
-        view.requestFocus();
-        Helper.openKeyboard(authActivity);
-    }
-
 }

@@ -240,6 +240,11 @@
     <string name="already_have_an_account">Already Have An Account?</string>
     <string name="don_t_have_an_account">Don\'t Have An Account?</string>
     <string name="login_to_your_account">Login To Your Account</string>
+    <string name="enter_last_name">Enter Last Name</string>
+    <string name="what_would_you_like_to_do">What Would You Like To Do On TickJob?</string>
+    <string name="post_tasks">Post Tasks</string>
+    <string name="complete_tasks">Complete Tasks</string>
+    <string name="suburb">Suburb</string>
 
 
 </resources>

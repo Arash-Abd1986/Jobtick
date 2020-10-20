@@ -40,7 +40,7 @@ import timber.log.Timber;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SignInFragment extends Fragment implements AuthActivity.EditTextError {
+public class SignInFragment extends FragmentBase implements AuthActivity.EditTextError {
 
     private AuthActivity authActivity;
 
@@ -168,14 +168,4 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
         edtEmailAddress.setError(email);
         edtPassword.setError(password);
     }
-
-
-    private void editTextOnClick(View view){
-        Timber.d("SignInFragment: clicked");
-        view.requestFocus();
-        Helper.openKeyboard(authActivity);
-    }
-
-
-
 }

@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.jobtick.interfaces.HasEditTextRegular;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -66,6 +67,13 @@ public class CompleteRegistrationActivity extends ActivityBase {
     RadioButton cbPoster;
     @BindView(R.id.cb_worker)
     RadioButton cbWorker;
+
+    @BindView(R.id.lnr_first_name)
+    LinearLayout lnrFirstName;
+    @BindView(R.id.lnr_last_name)
+    LinearLayout lnrLastName;
+    @BindView(R.id.lnr_suburb)
+    LinearLayout lnrSuburb;
 
     private int PLACE_SELECTION_REQUEST_CODE = 1;
     private GeocodeObject geoCodeObject;
@@ -268,10 +276,11 @@ public class CompleteRegistrationActivity extends ActivityBase {
         }
     }
 
-    @OnClick({R.id.txt_suburb, R.id.lyt_btn_complete_registration})
+    @OnClick({R.id.lyt_btn_complete_registration,
+    R.id.lnr_first_name, R.id.lnr_last_name, R.id.lnr_suburb})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.txt_suburb:
+            case R.id.lnr_suburb:
                 Intent intent = new PlaceAutocomplete.IntentBuilder()
                         .accessToken(Mapbox.getAccessToken())
                         .placeOptions(PlaceOptions.builder()
@@ -305,6 +314,12 @@ public class CompleteRegistrationActivity extends ActivityBase {
                     startActivity(intent);
 
                 }
+                break;
+            case R.id.lnr_first_name:
+                editTextOnClick(edtFirstName);
+                break;
+            case R.id.lnr_last_name:
+                editTextOnClick(edtLastName);
                 break;
         }
     }

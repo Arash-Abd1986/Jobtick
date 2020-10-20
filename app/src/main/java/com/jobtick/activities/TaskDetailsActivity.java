@@ -27,6 +27,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -88,7 +89,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -231,8 +231,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     LinearLayout lytButtonViewRequest;
 
 
-    @BindView(R.id.fl_task_details)
-    FrameLayout fl_task_details;
+   // @BindView(R.id.fl_task_details)
+    //FrameLayout fl_task_details;
 
     private ArrayList<AttachmentModel> dataList;
 
@@ -300,7 +300,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void initialStage() {
-        fl_task_details.setVisibility(View.VISIBLE);
+        //fl_task_details.setVisibility(View.VISIBLE);
 
         recyclerViewOffers.setVisibility(View.GONE);
         attachmentArrayList_question = new ArrayList<>();
@@ -351,7 +351,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusCancelled.setVisibility(View.GONE);
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.GONE);
-
+                txtStatusOpen.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_tab_primary_2dp));
+                txtStatusOpen.setTextColor(ContextCompat.getColor(this,R.color.white));
                 if (isMyTask) {
                     cardMakeAnOffer.setVisibility(View.VISIBLE);
                     txtBtnText.setText(ConstantKey.BTN_ASSIGNED);
@@ -444,6 +445,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusCancelled.setVisibility(View.GONE);
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.GONE);
+                txtStatusOpen.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_tab_primary_2dp));
+                txtStatusOpen.setTextColor(ContextCompat.getColor(this,R.color.white));
+
+
 
                 if (isMyTask) {
                     //poster task
@@ -760,7 +765,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         });
     }
 
-
     private void initComponentScroll() {
         NestedScrollView nested_content = (NestedScrollView) findViewById(R.id.nested_scroll_view);
         nested_content.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -791,7 +795,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 response -> {
                     hidepDialog();
                     try {
-                        fl_task_details.setVisibility(View.GONE);
+                        //fl_task_details.setVisibility(View.GONE);
 
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -840,10 +844,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         } else {
                             showToast("Something went wrong", TaskDetailsActivity.this);
                         }
-                        fl_task_details.setVisibility(View.GONE);
+                     //   fl_task_details.setVisibility(View.GONE);
 
                     } catch (JSONException e) {
-                        fl_task_details.setVisibility(View.GONE);
+                        //fl_task_details.setVisibility(View.GONE);
 
                         showToast("JSONException", TaskDetailsActivity.this);
                         Timber.e(String.valueOf(e));
@@ -851,7 +855,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     }
                 },
                 error -> {
-                    fl_task_details.setVisibility(View.GONE);
+                //    fl_task_details.setVisibility(View.GONE);
 
                     errorHandle1(error.networkResponse);
                     hidepDialog();

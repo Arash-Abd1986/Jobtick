@@ -91,7 +91,7 @@
                     android:layout_height="match_parent" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -226,6 +226,22 @@
                                     android:textColor="@color/grey_70"
                                     android:textSize="@dimen/_10sp"
                                     android:textStyle="normal" />
+                                <FrameLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"/>
+                                <com.jobtick.TextView.TextViewSemiBold
+                                    android:id="@+id/txt_budget"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom"
+                                    android:gravity="end"
+                                    android:layout_marginStart="@dimen/spacing_small"
+                                    android:layout_marginEnd="@dimen/spacing_small"
+                                    android:text="@string/_200"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/_15sp"
+                                    android:textStyle="bold" />
                             </LinearLayout>
 
                 </LinearLayout>
@@ -235,18 +251,7 @@
     android:layout_weight="1"
     tools:ignore="UselessLeaf" />
 
-                <com.jobtick.TextView.TextViewSemiBold
-                    android:id="@+id/txt_budget"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:gravity="end"
-                    android:layout_marginStart="@dimen/spacing_small"
-                    android:layout_marginEnd="@dimen/spacing_small"
-                    android:text="@string/_200"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_15sp"
-                    android:textStyle="bold" />
+
 
 
 

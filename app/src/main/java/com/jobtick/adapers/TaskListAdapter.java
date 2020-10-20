@@ -274,8 +274,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     tvDelete.setVisibility(View.VISIBLE);
                     break;
                 case "open":
+                    cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorTaskOffer));
+                    backgroundGradient.setColor(ContextCompat.getColor(context, R.color.colorTaskOfferTrans));
+                    txtStatus.setBackground(backgroundGradient);
+                    txtStatus.setTextColor(ContextCompat.getColor(context, R.color.colorTaskOffer));
+                    break;
                 case "offered":
-
                     cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorTaskOffer));
                     backgroundGradient.setColor(ContextCompat.getColor(context, R.color.colorTaskOfferTrans));
                     txtStatus.setBackground(backgroundGradient);
@@ -291,6 +295,13 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
                     break;
                 case "completed":
+
+                    cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorTaskCompleted));
+                    backgroundGradient.setColor(ContextCompat.getColor(context, R.color.colorTaskCompletedTrans));
+
+                    txtStatus.setBackground(backgroundGradient);
+                    txtStatus.setTextColor(ContextCompat.getColor(context, R.color.colorTaskCompleted));
+                    break;
                 case "closed":
 
                     cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorTaskCompleted));

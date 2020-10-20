@@ -140,7 +140,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.txt_budget)
     TextViewBold txtBudget;
     @BindView(R.id.lyt_btn_message)
-    LinearLayout lytBtnMessage;
+   LinearLayout lytBtnMessage;
     @BindView(R.id.card_message)
     CardView cardMessage;
     @BindView(R.id.lyt_btn_make_an_offer)
@@ -224,11 +224,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     LinearLayout layoutDots;
 
 
-    @BindView(R.id.card_view_request)
-    CardView card_view_request;
+  //  @BindView(R.id.card_view_request)
+    //CardView card_view_request;
 
     @BindView(R.id.lyt_btn_view_reqeust)
-    LinearLayout lytButtonViewRequest;
+    CardView lytButtonViewRequest;
 
 
    // @BindView(R.id.fl_task_details)
@@ -251,7 +251,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private ArrayList<AttachmentModel> attachmentArrayList_question;
     AttachmentAdapter adapter;
     @BindView(R.id.card_increase_budget)
-    CardView cardIncreaseBudget;
+    FrameLayout cardIncreaseBudget;
     @BindView(R.id.card_cancel_background)
     CardView cardCancelBackground;
 
@@ -259,7 +259,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     CardView cardCancelled;
 
     @BindView(R.id.liAssign)
-    LinearLayout liAssign;
+    FrameLayout liAssign;
     @BindView(R.id.linearUserProfile)
     LinearLayout linearUserProfile;
 

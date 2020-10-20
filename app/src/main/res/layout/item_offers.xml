@@ -212,7 +212,7 @@
                     android:id="@+id/ivFlag"
                     android:layout_width="@dimen/_16sp"
                     android:layout_height="@dimen/_16sp"
-                    android:layout_marginEnd="@dimen/_40dp"
+                    android:layout_marginEnd="@dimen/_8dp"
                     android:src="@drawable/ic_red_flag" />
 
 

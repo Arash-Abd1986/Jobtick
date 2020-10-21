@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="bottom"
     android:background="@android:color/transparent"
     android:orientation="vertical">
@@ -37,70 +36,52 @@
       android:gravity="center"
       android:background="@drawable/shape_rounded_gray">
 <ImageView
+    android:id="@+id/img_requirement"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:src="@drawable/ic_image"
     android:padding="@dimen/spacing_medium"
     android:layout_margin="@dimen/spacing_xmedium"/>
       <ImageView
+          android:id="@+id/credit_requirement"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:src="@drawable/ic_credit_card"
           android:padding="@dimen/spacing_medium"
           android:layout_margin="@dimen/spacing_xmedium"/>
       <ImageView
+          android:id="@+id/map_requirement"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:src="@drawable/ic_map_pin"
           android:padding="@dimen/spacing_medium"
           android:layout_margin="@dimen/spacing_xmedium"/>
       <ImageView
+          android:id="@+id/calender_requirement"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:src="@drawable/ic_calendar"
           android:padding="@dimen/spacing_medium"
           android:layout_margin="@dimen/spacing_xmedium"/>
       <ImageView
+          android:id="@+id/phone_requirement"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:src="@drawable/ic_phone"
           android:padding="@dimen/spacing_medium"
           android:layout_margin="@dimen/spacing_xmedium"/>
   </LinearLayout>
-
-    <com.jobtick.TextView.TextViewMedium
+    <com.jobtick.widget.NonSwipeableViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/spacing_mlarge"
-        android:text="@string/upload_a_profile_picture"
-        android:textColor="@color/textColor"
-        android:textSize="@dimen/_14sp"/>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/imgLogo"
-            android:layout_width="90sp"
-            android:layout_height="90sp"
-            android:layout_gravity="center"
-            android:background="@drawable/logo"/>
-
-
-
-            <com.jobtick.TextView.TextViewMedium
-                android:id="@+id/txt_btn_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/spacing_mlarge"
-                android:padding="@dimen/spacing_large"
-                android:text="@string/next"
-                android:background="@drawable/shape_center_tab_primary"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+    <FrameLayout
+        android:id="@+id/requirements_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 
 </LinearLayout>

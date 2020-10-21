@@ -2,21 +2,36 @@ package com.jobtick.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.jobtick.R;
+import com.jobtick.activities.ActivityBase;
+import com.jobtick.activities.OnboardActivity;
+import com.jobtick.adapers.ReqAdapter;
 
-class RequirementsBottomSheet extends BottomSheetDialogFragment {
+import java.util.ArrayList;
 
+import butterknife.BindView;
+
+import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
+
+class RequirementsBottomSheet extends BottomSheetDialogFragment   {
+
+    ReqAdapter adapter;
+    int mTab;
+    Context context;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
 
 
     public RequirementsBottomSheet() {
@@ -36,6 +51,9 @@ class RequirementsBottomSheet extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.bottom_sheet_requirements, container, false);
+        adapter = new ReqAdapter(((ActivityBase) context),mTab);
+        viewPager.setAdapter(adapter);
+
     }
 
     @Override

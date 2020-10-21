@@ -499,6 +499,15 @@
                             android:text="@string/excepteur_qui_qui_fugiat_et_esse_pariatur_voluptate_exercitation_esse_officia_cillum_occaecat_culpa_pariatur_nisi_in_ut_tempor_laborum_officia_dolore_ad_occaecat_anim_ad_voluptate_proident_ea_commodo_qui_velit_officia_minim"
                             android:textColor="@color/textColor"
                             android:textSize="@dimen/_14sp" />
+                        <com.jobtick.TextView.TextViewRegular
+                            android:id="@+id/txt_poster_last_online"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/active_13_min_ago"
+                            android:textColor="@color/grey_40"
+                            android:textSize="@dimen/_10sp"
+                            app:layout_anchor="@+id/nested_scroll_view"
+                            app:layout_anchorGravity="center" />
 
                     </LinearLayout>
 
@@ -1178,14 +1187,6 @@
 
     </FrameLayout>
 
-    <com.jobtick.TextView.TextViewRegular
-        android:id="@+id/txt_poster_last_online"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/active_13_min_ago"
-        android:textColor="@color/grey_40"
-        android:textSize="@dimen/_10sp"
-        app:layout_anchor="@+id/nested_scroll_view"
-        app:layout_anchorGravity="center" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

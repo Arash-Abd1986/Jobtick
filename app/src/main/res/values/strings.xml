@@ -233,6 +233,8 @@
     <string name="no_location_set">No location set</string>
     <string name="filters">Filters</string>
     <string name="nathan_fox">Nathan Fox</string>
+    <string name="requirements">Requirements</string>
+    <string name="upload_a_profile_picture">Upload a profile picture</string>
 
 
 </resources>

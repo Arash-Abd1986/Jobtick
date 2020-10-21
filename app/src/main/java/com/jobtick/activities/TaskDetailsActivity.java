@@ -259,7 +259,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     CardView cardCancelled;
 
     @BindView(R.id.liAssign)
-    FrameLayout liAssign;
+    LinearLayout liAssign;
     @BindView(R.id.linearUserProfile)
     LinearLayout linearUserProfile;
 
@@ -434,6 +434,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 break;
             case Constant.TASK_OPEN:
                 txtStatusOpen.setSelected(true);
+                txtStatusOpen.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_tab_primary_2dp));
+                txtStatusOpen.setTextColor(ContextCompat.getColor(this,R.color.white));
                 txtStatusAssigned.setSelected(false);
                 txtStatusCompleted.setSelected(false);
                 txtStatusCancelled.setSelected(false);
@@ -445,8 +447,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusCancelled.setVisibility(View.GONE);
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.GONE);
-                txtStatusOpen.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_tab_primary_2dp));
-                txtStatusOpen.setTextColor(ContextCompat.getColor(this,R.color.white));
 
 
 

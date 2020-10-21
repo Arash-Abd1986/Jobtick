@@ -5,10 +5,148 @@
     android:layout_height="match_parent"
     tools:context=".fragments.CreditReqFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.jobtick.TextView.TextViewMedium
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/spacing_mlarge"
+            android:text="@string/provide_bank_account"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/_14sp"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_large"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:background="@drawable/greay_border_bg"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_middle"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:orientation="vertical">
+
+                <com.jobtick.TextView.TextViewSemiBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/account_name"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp" />
+
+                <com.jobtick.EditText.EditTextMedium
+                    android:id="@+id/edt_account_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/_0000_0000_0000_0000"
+                    android:singleLine="true"
+                    android:textColor="@color/textColor"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_large"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:background="@drawable/greay_border_bg"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_middle"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:orientation="vertical">
+
+                <com.jobtick.TextView.TextViewSemiBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bsb"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp" />
+
+                <com.jobtick.EditText.EditTextMedium
+                    android:id="@+id/edt_bsb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/xxx_xxx"
+                    android:singleLine="true"
+                    android:textColor="@color/textColor"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_large"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:background="@drawable/greay_border_bg"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_middle"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:orientation="vertical">
+
+                <com.jobtick.TextView.TextViewSemiBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/account_number"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp" />
+
+                <com.jobtick.EditText.EditTextMedium
+                    android:id="@+id/edt_account_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/xxxxxxxxxx"
+                    android:singleLine="true"
+                    android:textColor="@color/textColor"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+        </FrameLayout>
+        <com.jobtick.TextView.TextViewMedium
+            android:id="@+id/txt_btn_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/spacing_mlarge"
+            android:padding="@dimen/spacing_large"
+            android:text="@string/next"
+            android:background="@drawable/shape_tab_primary"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+    </LinearLayout>
 
 </FrameLayout>

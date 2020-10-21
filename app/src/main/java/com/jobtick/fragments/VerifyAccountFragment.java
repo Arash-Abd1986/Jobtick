@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.Button.ButtonRegular;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
@@ -31,7 +32,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class VerifyAccountFragment extends Fragment {
+public class VerifyAccountFragment extends FragmentBase {
     String email, password;
     SessionManager sessionManager;
     @BindView(R.id.edt_verification_code)
@@ -42,7 +43,7 @@ public class VerifyAccountFragment extends Fragment {
 
     AuthActivity authActivity;
     @BindView(R.id.lyt_btn_finish)
-    LinearLayout lytBtnFinish;
+    MaterialButton lytBtnFinish;
 
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
@@ -64,7 +65,7 @@ public class VerifyAccountFragment extends Fragment {
         sessionManager = new SessionManager(getActivity());
         otpEnterInEdtText();
 
-        toolbar.setNavigationOnClickListener(v->{
+        toolbar.setNavigationOnClickListener(v -> {
             authActivity.onBackPressed();
         });
 
@@ -90,7 +91,7 @@ public class VerifyAccountFragment extends Fragment {
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.i("debug verification: ", s.toString());
-                if(s.length() > 6){
+                if (s.length() > 6) {
                     edtVerificationCode.setText(s.subSequence(0, 6));
                     edtVerificationCode.setSelection(6);
                 }
@@ -124,15 +125,22 @@ public class VerifyAccountFragment extends Fragment {
     }
 
     @OnClick(R.id.lyt_btn_finish)
-    public void onViewClicked() {
-        String otp = edtVerificationCode.getText().toString().trim();
+    public void onViewClicked(View view) {
 
-        if (validation())
-            authActivity.verification(email, password, otp);
+        switch (view.getId()) {
+            case R.id.lyt_btn_finish:
+                String otp = edtVerificationCode.getText().toString().trim();
+
+                if (validation())
+                    authActivity.verification(email, password, otp);
+                break;
+            case R.id.lnr_verification:
+                editTextOnClick(emailVerifyMessage);
+        }
     }
 
     private boolean validation() {
-        if(edtVerificationCode.getText().toString().trim().length() != 6){
+        if (edtVerificationCode.getText().toString().trim().length() != 6) {
             edtVerificationCode.setError("Verification code must be equal to 6 characters.");
             return false;
         }

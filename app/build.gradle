@@ -134,4 +134,8 @@ dependencies {
     implementation 'com.rishabhharit.roundedimageview:RoundedImageView:0.8.4'
 
 
+    //Lottie library for animations
+    implementation 'com.airbnb.android:lottie:3.4.4'
+
+
 }

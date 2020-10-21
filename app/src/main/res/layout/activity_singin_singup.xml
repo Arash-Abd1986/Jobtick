@@ -69,16 +69,14 @@
 
     </LinearLayout>
 
-    <pl.droidsonroids.gif.GifImageView
+    <com.airbnb.lottie.LottieAnimationView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_below="@+id/lyt_btn"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/_20sp"
-        android:background="@color/transparent"
-        android:backgroundTint="@color/white"
+        android:layout_height="220dp"
+        app:lottie_rawRes="@raw/city"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/city" />
+        android:layout_alignParentBottom="true"/>
 
 
 </RelativeLayout>

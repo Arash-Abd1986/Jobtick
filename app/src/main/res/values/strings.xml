@@ -233,7 +233,7 @@
     <string name="no_location_set">No location set</string>
     <string name="filters">Filters</string>
     <string name="create_your_account">Create Your Account</string>
-    <string name="email">Email</string>
+    <string name="email">Email Address</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="by_joining_you_agree">By joining you agree to JobTick’s</string>
     <string name="terms_of_services">terms of services</string>
@@ -245,6 +245,9 @@
     <string name="post_tasks">Post Tasks</string>
     <string name="complete_tasks">Complete Tasks</string>
     <string name="suburb">Suburb</string>
+    <string name="email_verification_code">Email verification code</string>
+    <string name="verification_sent">\"Enter verification code sent to "</string>
+    <string name="enter_verification_code">Enter verification code sent to</string>
 
 
 </resources>

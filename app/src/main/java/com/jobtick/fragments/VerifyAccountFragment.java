@@ -5,7 +5,9 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.Button.ButtonRegular;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
+import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.AuthActivity;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.SessionManager;
@@ -31,20 +34,13 @@ import butterknife.OnClick;
 public class VerifyAccountFragment extends Fragment {
     String email, password;
     SessionManager sessionManager;
-    @BindView(R.id.edt_first)
-    EditTextRegular edtFirst;
-    @BindView(R.id.edt_second)
-    EditTextRegular edtSecond;
-    @BindView(R.id.edt_third)
-    EditTextRegular edtThird;
-    @BindView(R.id.edt_fourth)
-    EditTextRegular edtFourth;
-    @BindView(R.id.edt_fifth)
-    EditTextRegular edtFifth;
-    @BindView(R.id.edt_sixth)
-    EditTextRegular edtSixth;
+    @BindView(R.id.edt_verification_code)
+    EditTextRegular edtVerificationCode;
+
+    @BindView(R.id.email_verify_message)
+    TextViewRegular emailVerifyMessage;
+
     AuthActivity authActivity;
-    StringBuilder sb;
     @BindView(R.id.lyt_btn_finish)
     LinearLayout lytBtnFinish;
 
@@ -66,185 +62,48 @@ public class VerifyAccountFragment extends Fragment {
         email = getArguments().getString("email");
         password = getArguments().getString("password");
         sessionManager = new SessionManager(getActivity());
-        sb = new StringBuilder();
         otpEnterInEdtText();
 
         toolbar.setNavigationOnClickListener(v->{
             authActivity.onBackPressed();
         });
+
+        emailVerifyMessage.setText(email);
         return view;
     }
 
     private void otpEnterInEdtText() {
         // Get clipboard manager object.
-        edtFirst.addListener(new EditTextRegular.GoEditTextListener() {
+        edtVerificationCode.addListener(new EditTextRegular.GoEditTextListener() {
             @Override
             public void onUpdate() {
                 pasteData();
             }
         });
 
-        edtFirst.addTextChangedListener(new TextWatcher() {
+
+        edtVerificationCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
-                if (sb.length() == 0 & edtFirst.length() == 1) {
-                    sb.append(s);
-                    edtFirst.clearFocus();
-                    edtSecond.requestFocus();
-                    edtSecond.setCursorVisible(true);
+                Log.i("debug verification: ", s.toString());
+                if(s.length() > 6){
+                    edtVerificationCode.setText(s.subSequence(0, 6));
+                    edtVerificationCode.setSelection(6);
                 }
             }
 
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-
-                if (sb.length() == 1) {
-                    sb.deleteCharAt(0);
-                }
-            }
-
+            @Override
             public void afterTextChanged(Editable s) {
-                if (sb.length() == 0) {
-                    edtFirst.requestFocus();
-                }
-
-            }
-        });
-
-        edtSecond.addTextChangedListener(new TextWatcher() {
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
-                if (sb.length() == 1 & edtSecond.length() == 1) {
-                    sb.append(s);
-                    edtSecond.clearFocus();
-                    edtThird.requestFocus();
-                    edtThird.setCursorVisible(true);
-                }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-
-                if (sb.length() == 2) {
-                    sb.deleteCharAt(1);
-                }
-            }
-
-            public void afterTextChanged(Editable s) {
-                if (sb.length() == 1) {
-                    edtSecond.requestFocus();
-                }
-
-            }
-        });
-
-        edtThird.addTextChangedListener(new TextWatcher() {
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
-                if (sb.length() == 2 & edtThird.length() == 1) {
-                    sb.append(s);
-                    edtThird.clearFocus();
-                    edtFourth.requestFocus();
-                    edtFourth.setCursorVisible(true);
-                }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-
-                if (sb.length() == 3) {
-                    sb.deleteCharAt(2);
-                }
-            }
-
-            public void afterTextChanged(Editable s) {
-                if (sb.length() == 2) {
-                    edtThird.requestFocus();
-                }
-
-            }
-        });
-
-        edtFourth.addTextChangedListener(new TextWatcher() {
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
-                if (sb.length() == 3 & edtFourth.length() == 1) {
-                    sb.append(s);
-                    edtFourth.clearFocus();
-                    edtFifth.requestFocus();
-                    edtFifth.setCursorVisible(true);
-                }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-
-                if (sb.length() == 4) {
-                    sb.deleteCharAt(3);
-                }
-            }
-
-            public void afterTextChanged(Editable s) {
-                if (sb.length() == 3) {
-                    edtFourth.requestFocus();
-                }
-
-            }
-        });
-
-        edtFifth.addTextChangedListener(new TextWatcher() {
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
-                if (sb.length() == 4 & edtFifth.length() == 1) {
-                    sb.append(s);
-                    edtFifth.clearFocus();
-                    edtSixth.requestFocus();
-                    edtSixth.setCursorVisible(true);
-                }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-
-                if (sb.length() == 5) {
-                    sb.deleteCharAt(4);
-                }
-            }
-
-            public void afterTextChanged(Editable s) {
-                if (sb.length() == 4) {
-                    edtFifth.requestFocus();
-                }
-
-            }
-        });
-
-        edtSixth.addTextChangedListener(new TextWatcher() {
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
-                if (sb.length() == 5 & edtSixth.length() == 1) {
-                    sb.append(s);
-                    edtSixth.clearFocus();
+                if (edtVerificationCode.getText().length() == 6) {
                     Helper.closeKeyboard(authActivity);
                 }
             }
 
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-
-                if (sb.length() == 6) {
-                    sb.deleteCharAt(5);
-                }
-            }
-
-            public void afterTextChanged(Editable s) {
-                if (sb.length() == 5) {
-                    edtSixth.requestFocus();
-                }
-
-            }
         });
-
     }
 
     private void pasteData() {
@@ -260,31 +119,24 @@ public class VerifyAccountFragment extends Fragment {
             ClipData.Item item = clipData.getItemAt(0);
             String text = item.getText().toString();
 
-            // Set the text to target textview.
-            /// Toast.makeText(authActivity, text, Toast.LENGTH_SHORT).show();
-            edtFirst.setText(String.valueOf(text.charAt(0)));
-            edtSecond.setText(String.valueOf(text.charAt(1)));
-            edtThird.setText(String.valueOf(text.charAt(2)));
-            edtFourth.setText(String.valueOf(text.charAt(3)));
-            edtFifth.setText(String.valueOf(text.charAt(4)));
-            edtSixth.setText(String.valueOf(text.charAt(5)));
-
+            edtVerificationCode.setText(text);
         }
     }
 
     @OnClick(R.id.lyt_btn_finish)
     public void onViewClicked() {
-        String otp = edtFirst.getText().toString().trim() +
-                edtSecond.getText().toString().trim() +
-                edtThird.getText().toString().trim() +
-                edtFourth.getText().toString().trim() +
-                edtFifth.getText().toString().trim() +
-                edtSixth.getText().toString().trim();
-        if (otp.length() == 6) {
+        String otp = edtVerificationCode.getText().toString().trim();
+
+        if (validation())
             authActivity.verification(email, password, otp);
-        } else {
-            authActivity.showToast("check otp", authActivity);
+    }
+
+    private boolean validation() {
+        if(edtVerificationCode.getText().toString().trim().length() != 6){
+            edtVerificationCode.setError("Verification code must be equal to 6 characters.");
+            return false;
         }
+        return true;
     }
 
 }

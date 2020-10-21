@@ -87,4 +87,21 @@
     </declare-styleable>
 
 
+<!--    <declare-styleable name="ExtendedEntryText">-->
+<!--        <attr name="csb_min" format="integer"/>-->
+<!--        <attr name="csb_thumbDrawable" format="reference"/>-->
+<!--        <attr name="csb_progressColor" format="color"/>-->
+<!--        <attr name="csb_progressWidth" format="dimension"/>-->
+<!--        <attr name="csb_arcWidth" format="dimension"/>-->
+<!--        <attr name="csb_secondaryText" format="string"/>-->
+<!--    </declare-styleable>-->
+
+
+    <declare-styleable name="ExtendedEntryText">
+        <attr name="eTitle" format="string"/>
+        <attr name="eContent" format="string"/>
+        <attr name="eIsPassword" format="boolean"/>
+    </declare-styleable>
+
+
 </resources>

@@ -156,8 +156,12 @@ public class SignInFragment extends FragmentBase implements AuthActivity.EditTex
         if (TextUtils.isEmpty(edtEmailAddress.getText().toString().trim())) {
             edtEmailAddress.setError("Check your email address");
             return false;
-        } else if (TextUtils.isEmpty(edtPassword.getText().toString().trim())) {
-            edtEmailAddress.setError("Enter your password");
+        }
+        else if (TextUtils.isEmpty(edtPassword.getText().toString().trim())) {
+            edtPassword.setError("Enter your password");
+            return false;
+        }else if(edtPassword.getText().toString().trim().length() < 8){
+            edtPassword.setError("Password must be atleast 8 characters.");
             return false;
         }
         return true;

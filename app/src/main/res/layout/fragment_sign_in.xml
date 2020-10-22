@@ -57,7 +57,7 @@
                 <LinearLayout
                     android:id="@+id/lnr_email"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/input_text_height"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
@@ -97,7 +97,7 @@
                 <LinearLayout
                     android:id="@+id/lnr_password"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/input_text_height"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"

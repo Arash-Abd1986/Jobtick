@@ -120,7 +120,7 @@ public class OnboardActivity extends ActivityBase {
 
         lytBtnNext.setOnClickListener(v ->
                 {
-                    if (viewPager.getCurrentItem() == lottieAnimList.size()) {
+                    if (viewPager.getCurrentItem() == lottieAnimList.size() - 1) {
                         Intent main = new Intent(OnboardActivity.this, DashboardActivity.class);
                         main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -223,9 +223,10 @@ public class OnboardActivity extends ActivityBase {
         if (dots.length > 0) {
             dots[current].setImageResource(R.drawable.shape_circle_blue);
         }
-        if (current == size -1) {
+        if (current == size -1)
             lytBtnNext.setText(R.string.get_started);
-        }
+        else
+            lytBtnNext.setText(R.string.next);
     }
 
 

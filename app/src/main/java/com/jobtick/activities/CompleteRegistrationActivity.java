@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -25,6 +26,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.jobtick.interfaces.HasEditTextRegular;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -59,7 +62,7 @@ public class CompleteRegistrationActivity extends ActivityBase {
     @BindView(R.id.edt_last_name)
     EditTextRegular edtLastName;
     @BindView(R.id.lyt_btn_complete_registration)
-    LinearLayout lytBtnCompleteRegistration;
+    MaterialButton lytBtnCompleteRegistration;
     Context context;
     @BindView(R.id.txt_suburb)
     TextViewRegular txtSuburb;
@@ -88,6 +91,15 @@ public class CompleteRegistrationActivity extends ActivityBase {
         ButterKnife.bind(this);
         context = CompleteRegistrationActivity.this;
         initToolbar();
+
+        //perform click is implemented for parent of txtSuburb for comforting of user
+        //also we should perform click of parent when we try to click it.
+        txtSuburb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((View)v.getParent()).performClick();
+            }
+        });
     }
 
     private void initToolbar() {
@@ -265,8 +277,13 @@ public class CompleteRegistrationActivity extends ActivityBase {
             Helper.closeKeyboard(this);
             CarmenFeature carmenFeature = PlacePicker.getPlace(data);
             Helper.Logger("THIS", "CarmenFeature = " + carmenFeature.toJson());
-            GeocodeObject geocodeObject = Helper.getGeoCodeObject(this, carmenFeature.center().latitude()
-                    , carmenFeature.center().longitude());
+
+            //TODO: No Need To get fine location, suburb is enough
+            //remove these comments latter
+//            GeocodeObject geocodeObject = Helper.getGeoCodeObject(this, carmenFeature.center().latitude()
+//                    , carmenFeature.center().longitude());
+
+
             txtSuburb.setText(carmenFeature.placeName());
 
             // editArea.setText(geocodeObject.getKnownName());
@@ -277,17 +294,18 @@ public class CompleteRegistrationActivity extends ActivityBase {
     }
 
     @OnClick({R.id.lyt_btn_complete_registration,
-    R.id.lnr_first_name, R.id.lnr_last_name, R.id.lnr_suburb})
+    R.id.lnr_first_name, R.id.lnr_last_name, R.id.lnr_suburb, R.id.txt_suburb})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lnr_suburb:
+                Log.i("completeRegis","clicked");
                 Intent intent = new PlaceAutocomplete.IntentBuilder()
                         .accessToken(Mapbox.getAccessToken())
                         .placeOptions(PlaceOptions.builder()
                                 // .backgroundColor(Helper.getAttrColor(taskCreateActivity, R.attr.colorBackground))
                                 .backgroundColor(getResources().getColor(R.color.background))
                                 .limit(10)
-                                .country("IN")
+                                .country("AU")
                                 /*.addInjectedFeature(home)
                                 .addInjectedFeature(work)*/
                                 .build(PlaceOptions.MODE_FULLSCREEN))
@@ -305,7 +323,7 @@ public class CompleteRegistrationActivity extends ActivityBase {
                     showpDialog();
                     profileUpdate(str_fname, str_lname, str_suburb);
 
-                    intent = new Intent(CompleteRegistrationActivity.this, DashboardActivity.class);
+                    intent = new Intent(CompleteRegistrationActivity.this, OnboardActivity.class);
                     if (cbWorker.isChecked()) {
                         intent.putExtra("as", "worker");
                     } else if (cbPoster.isChecked()) {

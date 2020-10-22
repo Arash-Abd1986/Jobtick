@@ -31,7 +31,7 @@
             <LinearLayout
                 android:id="@+id/lnr_first_name"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/input_text_height"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
@@ -61,7 +61,7 @@
             <LinearLayout
                 android:id="@+id/lnr_last_name"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/input_text_height"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
@@ -125,7 +125,7 @@
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/cb_poster"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/radio_button_height"
                             android:layout_marginBottom="@dimen/spacing_medium"
                             android:background="@drawable/rectangle_round_corners_outlined"
                             android:button="@drawable/inset_radio_button"
@@ -136,7 +136,7 @@
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/cb_worker"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/radio_button_height"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:background="@drawable/rectangle_round_corners_outlined"
                             android:button="@drawable/inset_radio_button"
@@ -156,13 +156,15 @@
             <LinearLayout
                 android:id="@+id/lnr_suburb"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/input_text_height"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:background="@drawable/rectangle_round_corners_outlined"
                 android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
                 android:padding="@dimen/spacing_large">
 
                 <com.jobtick.TextView.TextViewSemiBold
@@ -188,39 +190,18 @@
 
     </androidx.core.widget.NestedScrollView>
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_button"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/lyt_btn_complete_registration"
+        style="@style/materialButton.medium"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/spacing_large"
-        android:backgroundTint="@color/colorPrimary"
-        android:elevation="@dimen/spacing_middle"
-        app:cardCornerRadius="@dimen/spacing_medium">
-
-        <LinearLayout
-            android:id="@+id/lyt_btn_complete_registration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="@dimen/spacing_large">
-
-            <com.jobtick.TextView.TextViewRegular
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Get started"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_14sp"
-                app:textAllCaps="true" />
-
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
+        android:layout_height="@dimen/material_button_standard_height"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/margin_bottom_button"
+        android:background="@color/blueButtons"
+        android:text="@string/get_started"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

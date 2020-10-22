@@ -30,7 +30,7 @@ import butterknife.OnClick;
 
 import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 
-class RequirementsBottomSheet extends BottomSheetDialogFragment   {
+public class RequirementsBottomSheet extends BottomSheetDialogFragment {
 
     ReqAdapter adapter;
     int mTab;
@@ -72,7 +72,7 @@ class RequirementsBottomSheet extends BottomSheetDialogFragment   {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initComponent();
+       initComponent();
 
     }
 
@@ -90,9 +90,10 @@ class RequirementsBottomSheet extends BottomSheetDialogFragment   {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        adapter = new ReqAdapter(((ActivityBase) context),mTab);
-      //  viewPager.setAdapter(adapter);
+       // adapter = new ReqAdapter(getS);
+        //  viewPager.setAdapter(adapter);
     }
+
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
 
         @Override
@@ -146,11 +147,13 @@ class RequirementsBottomSheet extends BottomSheetDialogFragment   {
             case R.id.calender_requirement:
                 viewPager.setCurrentItem(3);
                 selectCalenderBtn();
-                break; case R.id.phone_requirement:
+                break;
+            case R.id.phone_requirement:
                 viewPager.setCurrentItem(4);
                 selectPhoneBtn();
                 break;
-        }}
+        }
+    }
 
     private void selectImageBtn() {
         ColorStateList csl_primary = AppCompatResources.getColorStateList(context, R.color.colorPrimary);
@@ -162,6 +165,7 @@ class RequirementsBottomSheet extends BottomSheetDialogFragment   {
         phone.setImageTintList(csl_grey);
 
     }
+
     private void selectMapBtn() {
         ColorStateList csl_primary = AppCompatResources.getColorStateList(context, R.color.colorPrimary);
         map.setImageTintList(csl_primary);
@@ -171,6 +175,7 @@ class RequirementsBottomSheet extends BottomSheetDialogFragment   {
         calender.setImageTintList(csl_grey);
         phone.setImageTintList(csl_grey);
     }
+
     private void selectCreditBtn() {
         ColorStateList csl_primary = AppCompatResources.getColorStateList(context, R.color.colorPrimary);
         credit.setImageTintList(csl_primary);
@@ -180,6 +185,7 @@ class RequirementsBottomSheet extends BottomSheetDialogFragment   {
         calender.setImageTintList(csl_grey);
         phone.setImageTintList(csl_grey);
     }
+
     private void selectCalenderBtn() {
         ColorStateList csl_primary = AppCompatResources.getColorStateList(context, R.color.colorPrimary);
         calender.setImageTintList(csl_primary);
@@ -189,6 +195,7 @@ class RequirementsBottomSheet extends BottomSheetDialogFragment   {
         img.setImageTintList(csl_grey);
         phone.setImageTintList(csl_grey);
     }
+
     private void selectPhoneBtn() {
         ColorStateList csl_primary = AppCompatResources.getColorStateList(context, R.color.colorPrimary);
         phone.setImageTintList(csl_primary);

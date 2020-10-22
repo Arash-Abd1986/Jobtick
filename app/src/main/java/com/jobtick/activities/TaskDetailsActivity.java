@@ -59,6 +59,7 @@ import com.jobtick.cancellations.CancellationPosterActivity;
 import com.jobtick.cancellations.CancellationRequestActivity;
 import com.jobtick.cancellations.CancellationRequestSubmittedActivity;
 import com.jobtick.cancellations.CancellationWorkerActivity;
+import com.jobtick.fragments.RequirementsBottomSheet;
 import com.jobtick.incrementbudget.IncreaseBudgetFromPosterActivity;
 import com.jobtick.incrementbudget.IncreaseBudgetRequestToPosterActivity;
 import com.jobtick.incrementbudget.IncrementBudgetRequestViewActivity;
@@ -1277,13 +1278,15 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         showCustomDialogReleaseMoney("Are you sure all work is done, and release to money?");
                         break;
                     case ConstantKey.BTN_MAKE_AN_OFFER:
-                        intent = new Intent(TaskDetailsActivity.this, MakeAnOfferActivity.class);
+                        RequirementsBottomSheet requirementsBottomSheet = new RequirementsBottomSheet();
+                        requirementsBottomSheet.show(getSupportFragmentManager(),"");
+                      /*  intent = new Intent(TaskDetailsActivity.this, MakeAnOfferActivity.class);
                         bundle = new Bundle();
                         bundle.putInt("id", taskModel.getId());
                         bundle.putInt("budget", taskModel.getBudget());
                         //  bundle.putParcelable(ConstantKey.TASK, taskModel);
                         intent.putExtras(bundle);
-                        startActivity(intent);
+                        startActivity(intent);*/
                         break;
                     case ConstantKey.BTN_OFFER_PENDING:
                         Toast.makeText(TaskDetailsActivity.this, "offer pending", Toast.LENGTH_SHORT).show();

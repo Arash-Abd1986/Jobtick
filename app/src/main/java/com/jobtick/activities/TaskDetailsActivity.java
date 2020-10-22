@@ -814,7 +814,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 initStatusTask(taskModel.getStatus().toLowerCase());
                                 initComponent();
                                 setDataInLayout(taskModel);
-//                                initQuestion();
+                                initQuestion();
 
                                 questionListAdapter.addItems(taskModel.getQuestions());
 
@@ -825,7 +825,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                         break searchHint;
                                     }
                                 }
-
                             }
                         } else {
                             showToast("Something went wrong", TaskDetailsActivity.this);
@@ -846,8 +845,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     errorHandle1(error.networkResponse);
                     hideProgressDialog();
                 }) {
-
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
@@ -902,7 +899,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     private void setDataInLayout(TaskModel taskModel) {
         txtTitle.setText(taskModel.getTitle());
-
         txtCreatedDate.setText("Posted " + taskModel.getCreatedAt());
 
         if (taskModel.getBookmarkID() != null) {
@@ -918,7 +914,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         txtPosterName.setText(taskModel.getPoster().getName());
         if (taskModel.getLocation() != null && taskModel.getLocation().isEmpty()) {
             txtLocation.setText(taskModel.getLocation());
-
         } else {
             txtLocation.setText("Remote Task");
         }
@@ -1100,56 +1095,43 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         super.onBackPressed();
     }
 
-
     private void initComponent() {
-        if (taskModel.getOfferCount() == 0) {
-            txtOffersCount.setText(getString(R.string.offer));
-            txtWaitingForOffer.setVisibility(View.VISIBLE);
-        } else if (taskModel.getOfferCount() == 1) {
-            txtOffersCount.setText("OFFER (" + taskModel.getOfferCount() + ")");
-            txtWaitingForOffer.setVisibility(View.GONE);
-        } else {
-            txtOffersCount.setText("OFFERS (" + taskModel.getOfferCount() + ")");
-            txtWaitingForOffer.setVisibility(View.GONE);
-        }
-        if (taskModel.getQuestionCount() == 0) {
-            txtQuestionsCount.setText("QUESTION");
-        } else if (taskModel.getOfferCount() == 1) {
-            txtQuestionsCount.setText("QUESTION (" + taskModel.getQuestionCount() + ")");
-        } else {
-            txtQuestionsCount.setText("QUESTIONS (" + taskModel.getQuestionCount() + ")");
-        }
-        //TODO taskModel.getOfferCount() > 5
-        if (taskModel.getOfferCount() > 5) {
-            cardViewAllOffers.setVisibility(View.VISIBLE);
-        } else {
-            cardViewAllOffers.setVisibility(View.GONE);
-        }
-        //TODO taskModel.getQuestionCount() > 5
-        if (taskModel.getQuestionCount() > 5) {
-            lytViewAllQuestions.setVisibility(View.VISIBLE);
-        } else {
-            lytViewAllQuestions.setVisibility(View.GONE);
-        }
+        setOfferView(taskModel.getOfferCount());
+        setQuestionView(taskModel.getQuestionCount());
+        setAdditionalFund();
+        setAttachmentAndSlider();
+        setWorker();
+    }
 
-
+    private void setAdditionalFund() {
         if (taskModel.getAdditionalFund() != null && taskModel.getAdditionalFund().getStatus().equals("pending")) {
-
             if (taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
                 cardIncreaseBudget.setVisibility(View.VISIBLE);
-
             }
-
         } else {
             cardIncreaseBudget.setVisibility(View.GONE);
         }
+    }
+
+    private void setWorker() {
+        //worker
+        if (taskModel.getWorker() != null) {
+            if (taskModel.getWorker().getAvatar() != null && taskModel.getWorker().getAvatar().getThumbUrl() != null) {
+                ImageUtil.displayImage(imgAvtarWorker, taskModel.getWorker().getAvatar().getThumbUrl(), null);
+            } else {
+                //TODO DUMMY IMAGE
+            }
+            txtWorkerName.setText(taskModel.getWorker().getName());
+            txtWorkerLocation.setText(taskModel.getWorker().getLocation());
+            txtWorkerLastOnline.setText("Active " + taskModel.getWorker().getLastOnline());
+        }
+    }
+
+    private void setAttachmentAndSlider() {
         Log.e("Attachment", taskModel.getAttachments().size() + "");
         adapterImageSlider = new AdapterImageSlider(this, new ArrayList<>());
-        if (taskModel.getAttachments() != null && taskModel.getAttachments().size() != 0) {
-            adapterImageSlider.setItems(taskModel.getAttachments());
-            dataList.addAll(taskModel.getAttachments());
 
-        } else {
+        if (taskModel.getAttachments() == null || taskModel.getAttachments().size() == 0) {
             AttachmentModel attachment = new AttachmentModel();
             if (taskModel.getTaskType().equalsIgnoreCase(ConstantKey.PHYSICAL)) {
                 attachment.setDrawable(R.drawable.banner_person);
@@ -1159,10 +1141,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             ArrayList<AttachmentModel> attachments = new ArrayList<>();
             attachments.add(attachment);
             taskModel.setAttachments(attachments);
-            adapterImageSlider.setItems(taskModel.getAttachments());
-            dataList.addAll(taskModel.getAttachments());
 
         }
+        adapterImageSlider.setItems(taskModel.getAttachments());
+        dataList.addAll(taskModel.getAttachments());
+
         viewPager.setAdapter(adapterImageSlider);
         // displaying selected image first
         viewPager.setCurrentItem(0);
@@ -1189,17 +1172,37 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         });
 
         // startAutoSlider(adapterImageSlider.getCount());
+    }
 
-        //worker
-        if (taskModel.getWorker() != null) {
-            if (taskModel.getWorker().getAvatar() != null && taskModel.getWorker().getAvatar().getThumbUrl() != null) {
-                ImageUtil.displayImage(imgAvtarWorker, taskModel.getWorker().getAvatar().getThumbUrl(), null);
-            } else {
-                //TODO DUMMY IMAGE
-            }
-            txtWorkerName.setText(taskModel.getWorker().getName());
-            txtWorkerLocation.setText(taskModel.getWorker().getLocation());
-            txtWorkerLastOnline.setText("Active " + taskModel.getWorker().getLastOnline());
+    private void setQuestionView(int questionCount) {
+        if (questionCount == 0) {
+            txtQuestionsCount.setText("QUESTION");
+        } else {
+            txtQuestionsCount.setText("QUESTIONS (" + questionCount + ")");
+        }
+
+        //TODO taskModel.getQuestionCount() > 5
+        if (taskModel.getQuestionCount() > 5) {
+            lytViewAllQuestions.setVisibility(View.VISIBLE);
+        } else {
+            lytViewAllQuestions.setVisibility(View.GONE);
+        }
+    }
+
+    private void setOfferView(int offerCount) {
+        if (offerCount == 0) {
+            txtOffersCount.setText(getString(R.string.offer));
+            txtWaitingForOffer.setVisibility(View.VISIBLE);
+        } else {
+            txtOffersCount.setText("OFFERS (" + offerCount + ")");
+            txtWaitingForOffer.setVisibility(View.GONE);
+        }
+
+        //TODO taskModel.getOfferCount() > 5
+        if (offerCount > 5) {
+            cardViewAllOffers.setVisibility(View.VISIBLE);
+        } else {
+            cardViewAllOffers.setVisibility(View.GONE);
         }
     }
 
@@ -2274,6 +2277,5 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(TaskDetailsActivity.this);
         requestQueue.add(stringRequest);
-
     }
 }

@@ -51,7 +51,7 @@ class RequirementsBottomSheet extends BottomSheetDialogFragment   {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.bottom_sheet_requirements, container, false);
-        adapter = new ReqAdapter(((ActivityBase) context),mTab);
+        adapter = new ReqAdapter(getChildFragmentManager(),mTab);
         viewPager.setAdapter(adapter);
 
     }

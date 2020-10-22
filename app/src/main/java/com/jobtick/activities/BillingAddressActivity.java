@@ -1,16 +1,11 @@
 package com.jobtick.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -18,15 +13,12 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -151,12 +143,12 @@ public class BillingAddressActivity extends ActivityBase {
     }
 
     private void AddBillingAddress() {
-        showpDialog();
+        showProgressDialog();
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, BASE_URL + ADD_BILLING,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -196,11 +188,11 @@ public class BillingAddressActivity extends ActivityBase {
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
-                            hidepDialog();
+                            hideProgressDialog();
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             //  showCustomDialog(jsonObject_error.getString("message"));
@@ -218,7 +210,7 @@ public class BillingAddressActivity extends ActivityBase {
                         showToast("Something Went Wrong", BillingAddressActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 

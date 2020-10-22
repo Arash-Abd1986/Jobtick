@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -81,7 +80,6 @@ public class ActivityBase extends AppCompatActivity {
 //    GoogleApiClient mGoogleApiClient;
 //    Location mLastLocation;
 
-
     SessionManager sessionManager;
 
 
@@ -116,8 +114,8 @@ public class ActivityBase extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        initpDialog();
+        getExtras();
+        initProgressDialog();
         sessionManager = new SessionManager(this);
         //        mGoogleApiClient = new Builder(this)
         //                .addConnectionCallbacks(this)
@@ -404,7 +402,7 @@ public class ActivityBase extends AppCompatActivity {
     }
 
 
-    public void initpDialog() {
+    public void initProgressDialog() {
         pDialog = new ProgressDialog(this);
         pDialog.setTitle(getString(R.string.processing));
         pDialog.setMessage(getString(R.string.please_wait));
@@ -412,13 +410,12 @@ public class ActivityBase extends AppCompatActivity {
     }
 
 
-    public void showpDialog() {
-
+    public void showProgressDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
     }
 
-    public void hidepDialog() {
+    public void hideProgressDialog() {
 
         if (pDialog.isShowing())
             pDialog.dismiss();
@@ -663,7 +660,7 @@ public class ActivityBase extends AppCompatActivity {
                 case 400:
                 case 401:
                     unauthorizedUser();
-                    hidepDialog();
+                    hideProgressDialog();
                     break;
                 case 402:
                 case 403:
@@ -759,5 +756,8 @@ public class ActivityBase extends AppCompatActivity {
         }
         stopLocationUpdates();
         super.onDestroy();
+    }
+
+    protected void getExtras() {
     }
 }

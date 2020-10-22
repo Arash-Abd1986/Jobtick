@@ -221,6 +221,7 @@
     <string name="chat">Chat</string>
     <string name="private_chat">Private Chat</string>
     <string name="offer">OFFER</string>
+    <string name="offerWithNumber">OFFER(%1$s)</string>
     <string name="waiting_for_offer">Waiting For OFFER</string>
     <string name="view_all_offers">VIEW ALL OFFERS</string>
     <string name="question">Question</string>

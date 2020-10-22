@@ -427,7 +427,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
                             }
                             isLoading = false;
                         } catch (JSONException e) {
-                            dashboardActivity.hidepDialog();
+                            dashboardActivity.hideProgressDialog();
                             Log.e("EXCEPTION", String.valueOf(e));
                             e.printStackTrace();
                         }

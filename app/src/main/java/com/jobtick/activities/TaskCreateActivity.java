@@ -29,7 +29,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
-import com.jobtick.TextView.TextViewSemiBold;
 import com.jobtick.adapers.SectionsPagerAdapter;
 import com.jobtick.fragments.TaskBudgetFragment;
 import com.jobtick.fragments.TaskDateTimeFragment;
@@ -397,11 +396,11 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
             queryParameter = "/create";
             METHOD = Request.Method.POST;
         }
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(METHOD, Constant.URL_TASKS + queryParameter,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
@@ -461,7 +460,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                             Log.e("error", jsonError);
                             if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                                 unauthorizedUser();
-                                hidepDialog();
+                                hideProgressDialog();
                                 return;
                             }
                             try {
@@ -488,7 +487,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                             showToast("Something Went Wrong", TaskCreateActivity.this);
                         }
                         Timber.e(error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 

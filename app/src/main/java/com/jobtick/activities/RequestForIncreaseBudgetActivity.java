@@ -136,13 +136,13 @@ public class RequestForIncreaseBudgetActivity extends ActivityBase {
     }
 
     private void getPaymentMethod() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PAYMENTS_METHOD,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Timber.e(response);
-                        hidepDialog();
+                        hideProgressDialog();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             Timber.e(jsonObject.toString());
@@ -187,7 +187,7 @@ public class RequestForIncreaseBudgetActivity extends ActivityBase {
                                 }
                                 if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                                     unauthorizedUser();
-                                    hidepDialog();
+                                    hideProgressDialog();
                                     return;
                                 }
                             } catch (JSONException e) {
@@ -196,7 +196,7 @@ public class RequestForIncreaseBudgetActivity extends ActivityBase {
                         }
                         Timber.e(error.toString());
                         errorHandle1(error.networkResponse);
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
             @Override
@@ -262,7 +262,7 @@ public class RequestForIncreaseBudgetActivity extends ActivityBase {
 
         if (validation) {
             // startProgress("Validating Credit Card");
-            showpDialog();
+            showProgressDialog();
             Stripe stripe = new Stripe(getApplicationContext(),
                     PUBLISHABLE_KEY);
             PaymentMethodCreateParams paymentMethod = PaymentMethodCreateParams.create(card_xml.toPaymentMethodParamsCard());
@@ -276,7 +276,7 @@ public class RequestForIncreaseBudgetActivity extends ActivityBase {
 
                 @Override
                 public void onError(@NotNull Exception e) {
-                    hidepDialog();
+                    hideProgressDialog();
                     Log.e("Stripe", e.toString());
                 }
             });
@@ -309,7 +309,7 @@ public class RequestForIncreaseBudgetActivity extends ActivityBase {
                                 if (jsonObject.getBoolean("success")) {
                                     getPaymentMethod();
                                 } else {
-                                    hidepDialog();
+                                    hideProgressDialog();
                                     showToast("Something went Wrong", RequestForIncreaseBudgetActivity.this);
                                 }
                             }
@@ -318,7 +318,7 @@ public class RequestForIncreaseBudgetActivity extends ActivityBase {
                         } catch (JSONException e) {
                             Timber.e(String.valueOf(e));
                             e.printStackTrace();
-                            hidepDialog();
+                            hideProgressDialog();
                         }
 
 
@@ -328,7 +328,7 @@ public class RequestForIncreaseBudgetActivity extends ActivityBase {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         errorHandle1(error.networkResponse);
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 

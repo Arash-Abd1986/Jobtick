@@ -34,20 +34,17 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.BuildConfig;
-import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.EditText.EditTextSemiBold;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.activities.AddTagActivity;
 
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.adapers.AddTagAdapter;
@@ -57,10 +54,8 @@ import com.jobtick.models.GeocodeObject;
 import com.jobtick.models.PositionModel;
 import com.jobtick.models.TaskModel;
 import com.jobtick.retrofit.ApiClient;
-import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.ImageUtil;
-import com.jobtick.utils.KeyboardUtil;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.Tools;
 import com.jobtick.widget.SpacingItemDecoration;
@@ -890,7 +885,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
 
     private void uploadDataInTempApi(File pictureFile) {
-        taskCreateActivity.showpDialog();
+        taskCreateActivity.showProgressDialog();
 
         Call<String> call;
 
@@ -906,7 +901,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                taskCreateActivity.hidepDialog();
+                taskCreateActivity.hideProgressDialog();
                 Log.e("Response", response.toString());
                 if (response.code() == 422) {
                     taskCreateActivity.showToast(response.message(), taskCreateActivity);
@@ -939,7 +934,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                taskCreateActivity.hidepDialog();
+                taskCreateActivity.hideProgressDialog();
                 Log.e("Response", call.toString());
             }
         });

@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.viewpager.widget.ViewPager;
 
@@ -22,10 +21,8 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.adapers.SectionsPagerAdapter;
@@ -33,7 +30,6 @@ import com.jobtick.fragments.NewTaskAlertsInPersonFragment;
 import com.jobtick.fragments.NewTaskAlertsRemoteFragment;
 import com.jobtick.models.task.TaskAlert;
 import com.jobtick.utils.Constant;
-import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
 
 import org.json.JSONException;
@@ -202,11 +198,11 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
 
     private void addTaskAlert(TaskAlert taskAlert) {
         //{{baseurl}}/taskalerts
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, Constant.URL_TASK_ALERT,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -235,11 +231,11 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
-                            hidepDialog();
+                            hideProgressDialog();
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             showCustomDialog(jsonObject_error.getString("message"));
@@ -257,7 +253,7 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
                         showToast("Something Went Wrong", NewTaskAlertsActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 

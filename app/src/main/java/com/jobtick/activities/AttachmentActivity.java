@@ -556,7 +556,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
     }
 
     private void uploadDataInTempApi(File pictureFile) {
-        showpDialog();
+        showProgressDialog();
         Call<String> call;
 
         //    File file = new File(imagePath);
@@ -571,7 +571,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                hidepDialog();
+                hideProgressDialog();
                 Log.e("Response", response.toString());
                 if (response.code() == 422) {
                     showToast(response.message(), AttachmentActivity.this);
@@ -603,7 +603,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                hidepDialog();
+                hideProgressDialog();
                 Log.e("Response", call.toString());
             }
         });
@@ -611,7 +611,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
     }
 
     private void uploadDataInTaskMediaApi(File pictureFile) {
-        showpDialog();
+        showProgressDialog();
         Call<String> call;
 
         //    File file = new File(imagePath);
@@ -626,7 +626,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                hidepDialog();
+                hideProgressDialog();
                 Log.e("Response", response.toString());
                 if (response.code() == 422) {
                     showToast(response.message(), AttachmentActivity.this);
@@ -689,7 +689,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                hidepDialog();
+                hideProgressDialog();
                 Log.e("Response", call.toString());
             }
         });
@@ -715,14 +715,14 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
     }
 
     private void deleteMediaInAttachment(int position, AttachmentModel obj) {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_TASKS + "/" + slug + "/attachment?media=" + attachmentArrayList.get(position).getId(),
                 new com.android.volley.Response.Listener<String>() {
 
                     @Override
                     public void onResponse(String response) {
                         Timber.e(response);
-                        hidepDialog();
+                        hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
@@ -758,7 +758,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
@@ -785,7 +785,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
                         showToast("Something Went Wrong", AttachmentActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 

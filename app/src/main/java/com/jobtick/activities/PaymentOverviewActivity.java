@@ -49,7 +49,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import bolts.Task;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -178,11 +177,11 @@ public class PaymentOverviewActivity extends ActivityBase {
     }
 
     private void getPaymentMethod() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PAYMENTS_METHOD,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -228,7 +227,7 @@ public class PaymentOverviewActivity extends ActivityBase {
                     }
                     Timber.e(error.toString());
                     errorHandle1(error.networkResponse);
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -314,7 +313,7 @@ public class PaymentOverviewActivity extends ActivityBase {
     }
 
     private void payAcceptOffer() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_TASKS + "/" + taskModel.getSlug() + "/accept-offer",
                 new Response.Listener<String>() {
 
@@ -332,7 +331,7 @@ public class PaymentOverviewActivity extends ActivityBase {
                                         JSONObject jsonObject_data = jsonObject.getJSONObject("data");
                                         if (jsonObject_data.has("status") && !jsonObject_data.isNull("status")) {
                                             if (jsonObject_data.getString("status").equalsIgnoreCase("assigned")) {
-                                                hidepDialog();
+                                                hideProgressDialog();
                                                 Intent intent = new Intent();
                                                 Bundle bundle = new Bundle();
                                                 bundle.putBoolean(ConstantKey.PAYMENT_OVERVIEW, true);
@@ -352,10 +351,10 @@ public class PaymentOverviewActivity extends ActivityBase {
                                         }
                                     }
 
-                                    hidepDialog();
+                                    hideProgressDialog();
 
                                 } else {
-                                    hidepDialog();
+                                    hideProgressDialog();
                                     showToast("Something went Wrong", PaymentOverviewActivity.this);
                                 }
                             }
@@ -364,7 +363,7 @@ public class PaymentOverviewActivity extends ActivityBase {
                         } catch (JSONException e) {
                             Timber.e(String.valueOf(e));
                             e.printStackTrace();
-                            hidepDialog();
+                            hideProgressDialog();
                         }
 
 
@@ -372,7 +371,7 @@ public class PaymentOverviewActivity extends ActivityBase {
                 },
                 error -> {
                     errorHandle1(error.networkResponse);
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 
@@ -413,7 +412,7 @@ public class PaymentOverviewActivity extends ActivityBase {
 
         if (validation) {
             // startProgress("Validating Credit Card");
-            showpDialog();
+            showProgressDialog();
             Stripe stripe = new Stripe(getApplicationContext(),
                     PUBLISHABLE_KEY);
             PaymentMethodCreateParams paymentMethod = PaymentMethodCreateParams.create(card_xml.toPaymentMethodParamsCard());
@@ -427,7 +426,7 @@ public class PaymentOverviewActivity extends ActivityBase {
 
                 @Override
                 public void onError(@NotNull Exception e) {
-                    hidepDialog();
+                    hideProgressDialog();
                     Log.e("Stripe", e.toString());
                 }
             });
@@ -460,7 +459,7 @@ public class PaymentOverviewActivity extends ActivityBase {
                                 if (jsonObject.getBoolean("success")) {
                                     getPaymentMethod();
                                 } else {
-                                    hidepDialog();
+                                    hideProgressDialog();
                                     showToast("Something went Wrong", PaymentOverviewActivity.this);
                                 }
                             }
@@ -469,7 +468,7 @@ public class PaymentOverviewActivity extends ActivityBase {
                         } catch (JSONException e) {
                             Timber.e(String.valueOf(e));
                             e.printStackTrace();
-                            hidepDialog();
+                            hideProgressDialog();
                         }
 
 
@@ -479,7 +478,7 @@ public class PaymentOverviewActivity extends ActivityBase {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         errorHandle1(error.networkResponse);
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 

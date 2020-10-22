@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.hardware.camera2.CameraCharacteristics;
 import android.net.Uri;
 import android.os.Build;
@@ -34,7 +33,6 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -47,7 +45,6 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.adapers.AttachmentAdapter;
@@ -499,7 +496,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
 
     private void uploadDataInTempApi(File pictureFile) {
-        makeAnOfferActivity.showpDialog();
+        makeAnOfferActivity.showProgressDialog();
         Call<String> call;
 
         //    File file = new File(imagePath);
@@ -514,7 +511,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
-                makeAnOfferActivity.hidepDialog();
+                makeAnOfferActivity.hideProgressDialog();
                 Log.e("Response", response.toString());
                 if (response.code() == 422) {
                     makeAnOfferActivity.showToast(response.message(), makeAnOfferActivity);
@@ -580,7 +577,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
-                makeAnOfferActivity.hidepDialog();
+                makeAnOfferActivity.hideProgressDialog();
                 Log.e("Response", call.toString());
             }
         });

@@ -157,7 +157,7 @@ public class ViewAllOffersActivity extends ActivityBase implements SwipeRefreshL
                             }
                             isLoading = false;
                         } catch (JSONException e) {
-                            hidepDialog();
+                            hideProgressDialog();
                             Log.e("EXCEPTION", String.valueOf(e));
                             e.printStackTrace();
                         }

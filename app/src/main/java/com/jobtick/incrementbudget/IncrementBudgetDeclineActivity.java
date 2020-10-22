@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -27,7 +26,6 @@ import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.CompleteMessageActivity;
-import com.jobtick.cancellations.CancellationDeclinedActivity;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
@@ -101,11 +99,11 @@ public class IncrementBudgetDeclineActivity extends ActivityBase {
     }
 
     private void rejectRequest(String id, String rejectReason) {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, Constant.BASE_URL + URL_ADDITIONAL_FUND + "/" + id + "/reject",
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
@@ -141,7 +139,7 @@ public class IncrementBudgetDeclineActivity extends ActivityBase {
                         Log.e("error", jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
@@ -174,7 +172,7 @@ public class IncrementBudgetDeclineActivity extends ActivityBase {
                         showToast("Something Went Wrong", IncrementBudgetDeclineActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 

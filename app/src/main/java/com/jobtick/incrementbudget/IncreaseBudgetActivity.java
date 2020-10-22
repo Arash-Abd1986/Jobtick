@@ -163,14 +163,14 @@ public class IncreaseBudgetActivity extends ActivityBase {
     }
 
     private void submitIncreaseBudget(String increase_budget, String increase_budget_reason) {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, Constant.URL_TASKS + "/" + taskModel.getSlug() + "/additionalfund/request",
                 new com.android.volley.Response.Listener<String>() {
 
                     @Override
                     public void onResponse(String response) {
                         Timber.e(response);
-                        hidepDialog();
+                        hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
@@ -209,7 +209,7 @@ public class IncreaseBudgetActivity extends ActivityBase {
                             Timber.e(jsonError);
                             if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                                 unauthorizedUser();
-                                hidepDialog();
+                                hideProgressDialog();
                                 return;
                             }
                             try {
@@ -233,7 +233,7 @@ public class IncreaseBudgetActivity extends ActivityBase {
                             showToast("Something Went Wrong", IncreaseBudgetActivity.this);
                         }
                         Timber.e(error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 

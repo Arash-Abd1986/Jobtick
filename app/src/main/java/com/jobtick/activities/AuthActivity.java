@@ -88,13 +88,13 @@ public class AuthActivity extends ActivityBase {
     }
 
     public void forgotPasswordverification(String email, String otp) {
-        showpDialog();
+        showProgressDialog();
         String str_email = email;
         String str_otp = otp;
         Helper.closeKeyboard(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_VERIFY_OTP,
                 response -> {
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Bundle bundle = new Bundle();
@@ -136,7 +136,7 @@ public class AuthActivity extends ActivityBase {
                     } else {
                         showToast("Something Went Wrong", AuthActivity.this);
                     }
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 
@@ -166,7 +166,7 @@ public class AuthActivity extends ActivityBase {
     }
 
     public void resetPassword(String email, String otp, String new_password) {
-        showpDialog();
+        showProgressDialog();
         String str_email = email;
         String str_otp = otp;
         String str_new_password = new_password;
@@ -174,7 +174,7 @@ public class AuthActivity extends ActivityBase {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_FORGOT_PASSWORD,
                 response -> {
 
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
@@ -228,7 +228,7 @@ public class AuthActivity extends ActivityBase {
                     } else {
                         showToast("Something Went Wrong", AuthActivity.this);
                     }
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 
@@ -330,7 +330,7 @@ public class AuthActivity extends ActivityBase {
 
 
     protected void facebookGetRequiredParameter(LoginResult loginResult) {
-        showpDialog();
+        showProgressDialog();
         GraphRequest request = GraphRequest.newMeRequest(
                 loginResult.getAccessToken(),
                 (object, response) -> {
@@ -349,7 +349,7 @@ public class AuthActivity extends ActivityBase {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 });
         Bundle parameters = new Bundle();
@@ -376,7 +376,7 @@ public class AuthActivity extends ActivityBase {
                     public void onResponse(String response) {
                         Log.e("responce_url", response);
 
-                        hidepDialog();
+                        hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
@@ -443,7 +443,7 @@ public class AuthActivity extends ActivityBase {
                             //  ((CredentialActivity)getActivity()).showToast("Something Went Wrong",getActivity());
                         }
                         Log.e("error", error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 
@@ -538,7 +538,7 @@ public class AuthActivity extends ActivityBase {
     }
 
     public void login(String email, String password) {
-        showpDialog();
+        showProgressDialog();
         String str_email = email;
         String str_password = password;
         String str_fcm_token = getToken();
@@ -552,7 +552,7 @@ public class AuthActivity extends ActivityBase {
                     public void onResponse(String response) {
                         Log.e("responce_url", response);
 
-                        hidepDialog();
+                        hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
@@ -648,7 +648,7 @@ public class AuthActivity extends ActivityBase {
                         showToast("Something Went Wrong", AuthActivity.this);
                     }
                     Log.e("error", error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 
@@ -722,7 +722,7 @@ public class AuthActivity extends ActivityBase {
                     public void onResponse(String response) {
                         Log.e("responce_url", response);
 
-                        hidepDialog();
+                        hideProgressDialog();
                         // showToast("Check your inbox",AuthActivity.this);
                         Bundle bundle = new Bundle();
                         Fragment fragment = new VerifyAccountFragment();
@@ -768,7 +768,7 @@ public class AuthActivity extends ActivityBase {
                             showToast("Something Went Wrong", AuthActivity.this);
                         }
                         Log.e("error", error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 
@@ -839,7 +839,7 @@ public class AuthActivity extends ActivityBase {
 
     private void signInUpdateUI(GoogleSignInAccount account) {
         try {
-            showpDialog();
+            showProgressDialog();
 
             if (account.getDisplayName() != null) {
                 String[] displayName = account.getDisplayName().toString().split(" ");
@@ -874,7 +874,7 @@ public class AuthActivity extends ActivityBase {
                             response -> {
                                 Log.e("responce_url", response);
 
-                                hidepDialog();
+                                hideProgressDialog();
                                 try {
 
                                     JSONObject jsonObject = new JSONObject(response);
@@ -935,7 +935,7 @@ public class AuthActivity extends ActivityBase {
                                         showToast("Something Went Wrong", AuthActivity.this);
                                     }
                                     Log.e("error", error.toString());
-                                    hidepDialog();
+                                    hideProgressDialog();
                                 }
                             }) {
 
@@ -985,14 +985,14 @@ public class AuthActivity extends ActivityBase {
 
 
         } catch (Exception e) {
-            hidepDialog();
+            hideProgressDialog();
         }
 
     }
 
 
     public void Signup(String email, String password) {
-        showpDialog();
+        showProgressDialog();
         String str_email = email;
         String str_password = password;
         String str_fcm_token = getToken();
@@ -1010,7 +1010,7 @@ public class AuthActivity extends ActivityBase {
                     public void onResponse(String response) {
                         Log.e("responce_url", response);
 
-                        hidepDialog();
+                        hideProgressDialog();
                         //  showToast("Check your inbox", AuthActivity.this);
                         Bundle bundle = new Bundle();
                         Fragment fragment = new VerifyAccountFragment();
@@ -1066,7 +1066,7 @@ public class AuthActivity extends ActivityBase {
                             showToast("Something Went Wrong", AuthActivity.this);
                         }
                         Log.e("error", error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 
@@ -1106,7 +1106,7 @@ public class AuthActivity extends ActivityBase {
     }
 
     public void verification(String email, String password, String otp) {
-        showpDialog();
+        showProgressDialog();
         String str_email = email;
         String str_password = password;
         String str_otp = otp;
@@ -1115,7 +1115,7 @@ public class AuthActivity extends ActivityBase {
                 response -> {
                     Log.e("responce_url", response);
 
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
@@ -1179,7 +1179,7 @@ public class AuthActivity extends ActivityBase {
                             showToast("Something Went Wrong", AuthActivity.this);
                         }
                         Log.e("error", error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 
@@ -1212,7 +1212,7 @@ public class AuthActivity extends ActivityBase {
 
 
     public void nextStepForgotPassowrd(String email) {
-        showpDialog();
+        showProgressDialog();
         String str_email = email;
 
         Helper.closeKeyboard(this);
@@ -1223,7 +1223,7 @@ public class AuthActivity extends ActivityBase {
                     public void onResponse(String response) {
                         Log.e("responce_url", response);
 
-                        hidepDialog();
+                        hideProgressDialog();
                         //  showToast("Check your inbox", AuthActivity.this);
                         Bundle bundle = new Bundle();
                         Fragment fragment = new ForgotPassword2Fragment();
@@ -1275,7 +1275,7 @@ public class AuthActivity extends ActivityBase {
                         showToast("Something Went Wrong", AuthActivity.this);
                     }
                     Log.e("error", error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 

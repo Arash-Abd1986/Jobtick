@@ -7,14 +7,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -94,12 +90,12 @@ public class CancellationAcceptedActivity extends ActivityBase {
     }
 
     private void cancellationAccept() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, Constant.BASE_URL + "cancellation/" + cancellationID + "/accept",
 
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
@@ -135,7 +131,7 @@ public class CancellationAcceptedActivity extends ActivityBase {
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
 
                         }
@@ -160,7 +156,7 @@ public class CancellationAcceptedActivity extends ActivityBase {
                         showToast("Something Went Wrong", CancellationAcceptedActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 

@@ -581,11 +581,11 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
     private void getAllProfileData() {
 
-        dashboardActivity.showpDialog();
+        dashboardActivity.showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
                 response -> {
                     Log.e("response", response);
-                    dashboardActivity.hidepDialog();
+                    dashboardActivity.hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -618,7 +618,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                 },
                 error -> {
                     dashboardActivity.errorHandle1(error.networkResponse);
-                    dashboardActivity.hidepDialog();
+                    dashboardActivity.hideProgressDialog();
                 }) {
 
 

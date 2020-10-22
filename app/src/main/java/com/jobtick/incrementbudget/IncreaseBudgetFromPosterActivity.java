@@ -38,7 +38,6 @@ import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.TextView.TextViewSemiBold;
 import com.jobtick.activities.ActivityBase;
-import com.jobtick.activities.PaymentOverviewActivity;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.activities.UserProfileActivity;
 import com.jobtick.models.TaskModel;
@@ -223,11 +222,11 @@ public class IncreaseBudgetFromPosterActivity extends ActivityBase {
 
 
     private void submitIncreaseBudget(String increase_budget, String increase_budget_reason) {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, Constant.URL_TASKS + "/" + taskModel.getSlug() + URL_BUDGET_Increment,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
@@ -262,7 +261,7 @@ public class IncreaseBudgetFromPosterActivity extends ActivityBase {
                         Log.e("error", jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
@@ -295,7 +294,7 @@ public class IncreaseBudgetFromPosterActivity extends ActivityBase {
                         showToast("Something Went Wrong", IncreaseBudgetFromPosterActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 
@@ -386,11 +385,11 @@ public class IncreaseBudgetFromPosterActivity extends ActivityBase {
     }
 
     private void getPaymentMethod() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PAYMENTS_METHOD,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -436,7 +435,7 @@ public class IncreaseBudgetFromPosterActivity extends ActivityBase {
                     }
                     Timber.e(error.toString());
                     errorHandle1(error.networkResponse);
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -476,7 +475,7 @@ public class IncreaseBudgetFromPosterActivity extends ActivityBase {
 
         if (validation) {
             // startProgress("Validating Credit Card");
-            showpDialog();
+            showProgressDialog();
             Stripe stripe = new Stripe(getApplicationContext(),
                     PUBLISHABLE_KEY);
             PaymentMethodCreateParams paymentMethod = PaymentMethodCreateParams.create(card_xml.toPaymentMethodParamsCard());
@@ -490,7 +489,7 @@ public class IncreaseBudgetFromPosterActivity extends ActivityBase {
 
                 @Override
                 public void onError(@NotNull Exception e) {
-                    hidepDialog();
+                    hideProgressDialog();
                     Log.e("Stripe", e.toString());
                 }
             });
@@ -523,7 +522,7 @@ public class IncreaseBudgetFromPosterActivity extends ActivityBase {
                                 if (jsonObject.getBoolean("success")) {
                                     getPaymentMethod();
                                 } else {
-                                    hidepDialog();
+                                    hideProgressDialog();
                                     showToast("Something went Wrong", IncreaseBudgetFromPosterActivity.this);
                                 }
                             }
@@ -532,7 +531,7 @@ public class IncreaseBudgetFromPosterActivity extends ActivityBase {
                         } catch (JSONException e) {
                             Timber.e(String.valueOf(e));
                             e.printStackTrace();
-                            hidepDialog();
+                            hideProgressDialog();
                         }
 
 
@@ -542,7 +541,7 @@ public class IncreaseBudgetFromPosterActivity extends ActivityBase {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         errorHandle1(error.networkResponse);
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 

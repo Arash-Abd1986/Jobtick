@@ -3,17 +3,14 @@ package com.jobtick.fragments;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -313,7 +310,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                             str_search = null;
                         } catch (JSONException e) {
                             str_search = null;
-                            dashboardActivity.hidepDialog();
+                            dashboardActivity.hideProgressDialog();
                             Log.e("EXCEPTION", String.valueOf(e));
                             e.printStackTrace();
                         }
@@ -361,14 +358,14 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     }
 
     private void getDataFromServer(String slug) {
-        dashboardActivity.showpDialog();
+        dashboardActivity.showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS + "/" + slug,
                 new Response.Listener<String>() {
 
                     @Override
                     public void onResponse(String response) {
                         Timber.e(response);
-                        dashboardActivity.hidepDialog();
+                        dashboardActivity.hideProgressDialog();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             Log.e("json", jsonObject.toString());
@@ -396,7 +393,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                 },
                 error -> {
                     dashboardActivity.errorHandle1(error.networkResponse);
-                    dashboardActivity.hidepDialog();
+                    dashboardActivity.hideProgressDialog();
                 }) {
 
 

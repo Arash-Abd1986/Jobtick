@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -25,7 +24,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewBold;
 import com.jobtick.TextView.TextViewMedium;
@@ -301,11 +299,11 @@ public class IncrementBudgetRequestViewActivity extends ActivityBase {
     }*/
 
     private void acceptRequest(String id) {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, Constant.BASE_URL + URL_ADDITIONAL_FUND + "/" + id + "/accept",
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
@@ -341,7 +339,7 @@ public class IncrementBudgetRequestViewActivity extends ActivityBase {
                         Log.e("error", jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
@@ -374,7 +372,7 @@ public class IncrementBudgetRequestViewActivity extends ActivityBase {
                         showToast("Something Went Wrong", IncrementBudgetRequestViewActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 
@@ -424,7 +422,7 @@ public class IncrementBudgetRequestViewActivity extends ActivityBase {
     }
 
 
-    public void initpDialog() {
+    public void initProgressDialog() {
         pDialog = new ProgressDialog(this);
         pDialog.setTitle(getString(R.string.processing));
         pDialog.setMessage(getString(R.string.please_wait));
@@ -432,24 +430,24 @@ public class IncrementBudgetRequestViewActivity extends ActivityBase {
     }
 
 
-    public void showpDialog() {
+    public void showProgressDialog() {
 
         if (!pDialog.isShowing())
             pDialog.show();
     }
 
-    public void hidepDialog() {
+    public void hideProgressDialog() {
 
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
 
     private void getPaymentMethod() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PAYMENTS_METHOD,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -495,7 +493,7 @@ public class IncrementBudgetRequestViewActivity extends ActivityBase {
                     }
                     Timber.e(error.toString());
                     errorHandle1(error.networkResponse);
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {

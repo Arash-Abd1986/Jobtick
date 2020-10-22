@@ -12,15 +12,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -29,8 +26,6 @@ import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewBold;
 import com.jobtick.activities.ActivityBase;
-import com.jobtick.activities.CompleteMessageActivity;
-import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.CancellationReasonModel;
 import com.jobtick.models.TaskModel;
@@ -38,7 +33,6 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
-import com.jobtick.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -142,12 +136,12 @@ public class CancellationPosterActivity extends ActivityBase {
 
 
     private void getNoticeList() {
-        showpDialog();
+        showProgressDialog();
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, Constant.BASE_URL + "cancellation/notice",
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -180,7 +174,7 @@ public class CancellationPosterActivity extends ActivityBase {
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
@@ -200,7 +194,7 @@ public class CancellationPosterActivity extends ActivityBase {
                         showToast("Something Went Wrong", CancellationPosterActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 
@@ -224,11 +218,11 @@ public class CancellationPosterActivity extends ActivityBase {
 
 
     private void getCancellationReasonList() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, Constant.URL_CANCELLATION + "/reasons",
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -263,7 +257,7 @@ public class CancellationPosterActivity extends ActivityBase {
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
@@ -283,7 +277,7 @@ public class CancellationPosterActivity extends ActivityBase {
                         showToast("Something Went Wrong", CancellationPosterActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 
@@ -357,11 +351,11 @@ public class CancellationPosterActivity extends ActivityBase {
     }
 
     private void cancellationSubmit(String str_reason, String str_comment) {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, Constant.URL_TASKS + "/" + str_SLUG + "/cancellation",
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
@@ -400,7 +394,7 @@ public class CancellationPosterActivity extends ActivityBase {
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
@@ -424,7 +418,7 @@ public class CancellationPosterActivity extends ActivityBase {
                         showToast("Something Went Wrong", CancellationPosterActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 

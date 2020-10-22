@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
@@ -434,13 +433,13 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
 
 
     private void addCommentIntoServer(String str_message, Integer id, String url) {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/comments",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.e("response", response);
-                        hidepDialog();
+                        hideProgressDialog();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             Timber.e(jsonObject.toString());
@@ -471,7 +470,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                             Timber.e(jsonError);
                             if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                                 unauthorizedUser();
-                                hidepDialog();
+                                hideProgressDialog();
                                 return;
                             }
                             try {
@@ -496,7 +495,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                             showToast("Something Went Wrong", PublicChatActivity.this);
                         }
                         Timber.e(error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
             @Override
@@ -564,7 +563,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                             recyclerViewQuestion.scrollToPosition(items.size() - 1);
 
                         } catch (JSONException e) {
-                            hidepDialog();
+                            hideProgressDialog();
                             Log.e("EXCEPTION", String.valueOf(e));
                             e.printStackTrace();
                         }
@@ -595,7 +594,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
 
 
     private void uploadDataInTempAttachmentMediaApi(File pictureFile) {
-        showpDialog();
+        showProgressDialog();
         Call<String> call;
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
@@ -605,7 +604,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-                hidepDialog();
+                hideProgressDialog();
                 Log.e("Response", response.toString());
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     showToast(response.message(), PublicChatActivity.this);
@@ -642,7 +641,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                hidepDialog();
+                hideProgressDialog();
                 Log.e("Response", call.toString());
             }
         });

@@ -25,7 +25,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
@@ -147,14 +146,14 @@ public class ChangePasswordActivity extends ActivityBase {
     }
 
     private void changePassword() {
-        showpDialog();
+        showProgressDialog();
         String str_old_password = edtCurrentPassword.getText().toString().trim();
         String str_new_password = edtNewPassword.getText().toString().trim();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_CHANGE_PASSWORD,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
@@ -182,7 +181,7 @@ public class ChangePasswordActivity extends ActivityBase {
                             Timber.e(jsonError);
                             if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                                 unauthorizedUser();
-                                hidepDialog();
+                                hideProgressDialog();
                                 return;
                             }
                             try {
@@ -219,7 +218,7 @@ public class ChangePasswordActivity extends ActivityBase {
                             showToast("Something Went Wrong", ChangePasswordActivity.this);
                         }
                         Timber.e(error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 

@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -34,10 +33,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
 import com.jobtick.activities.ChatActivity;
 import com.jobtick.activities.DashboardActivity;
-import com.jobtick.activities.MapViewActivity;
 import com.jobtick.adapers.InboxListAdapter;
 import com.jobtick.models.ConversationModel;
 import com.jobtick.pagination.PaginationListener;
@@ -393,7 +390,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
                             }
                             isLoading = false;
                         } catch (JSONException e) {
-                            dashboardActivity.hidepDialog();
+                            dashboardActivity.hideProgressDialog();
                             Log.e("EXCEPTION", String.valueOf(e));
                             e.printStackTrace();
                         }

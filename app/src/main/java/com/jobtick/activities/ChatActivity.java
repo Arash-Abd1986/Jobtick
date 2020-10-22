@@ -34,7 +34,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.TextView.TextViewMedium;
-import com.jobtick.TextView.TextViewSemiBold;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -56,7 +55,6 @@ import com.pusher.client.connection.ConnectionStateChange;
 import com.pusher.client.util.HttpAuthorizer;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.adapers.ChatAdapter;
 import com.jobtick.models.AttachmentModel;
@@ -68,7 +66,6 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.HttpStatus;
-import com.jobtick.utils.ImageUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -596,7 +593,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
 
                         } catch (JSONException e) {
-                            hidepDialog();
+                            hideProgressDialog();
                             Log.e("EXCEPTION", String.valueOf(e));
                             e.printStackTrace();
                         }
@@ -777,7 +774,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                         showToast("Something Went Wrong", ChatActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -858,7 +855,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
 
     private void uploadDataInPortfolioMediaApi(File pictureFile) {
-        showpDialog();
+        showProgressDialog();
         Call<String> call;
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         RequestBody requestConversationid = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(conversationModel.getId()));
@@ -868,7 +865,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-                hidepDialog();
+                hideProgressDialog();
                 Log.e("Response", response.toString());
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     showToast(response.message(), ChatActivity.this);
@@ -907,7 +904,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                hidepDialog();
+                hideProgressDialog();
                 Log.e("Response", call.toString());
             }
         });

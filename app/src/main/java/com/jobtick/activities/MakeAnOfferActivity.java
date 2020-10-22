@@ -40,8 +40,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static com.jobtick.utils.ConstantKey.RESULTCODE_INCREASE_BUDGET;
-
 public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMustHaveFragment.MustHaveCallbackFunction, MakeAnOfferBudgetFragment.BudgetCallbackFunction, MakeAnOfferAboutFragment.AboutCallbackFunction, MakeAnOfferReviewFragment.ReviewCallbackFunction {
 
     private static final String TAG = "MakeAnOfferActivity";
@@ -165,14 +163,14 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
 
     private void submitOffer(MakeAnOfferModel makeAnOfferModel) {
 
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_OFFERS,
                 new com.android.volley.Response.Listener<String>() {
 
                     @Override
                     public void onResponse(String response) {
                         Timber.e(response);
-                        hidepDialog();
+                        hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
@@ -221,12 +219,12 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
                             Timber.e(jsonError);
                             if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                                 unauthorizedUser();
-                                hidepDialog();
+                                hideProgressDialog();
                                 return;
                             }
                             if (networkResponse.statusCode == 500) {
                                 showToast("Something Went Wrong", MakeAnOfferActivity.this);
-                                hidepDialog();
+                                hideProgressDialog();
                                 return;
                             }
                             try {
@@ -253,7 +251,7 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
                             showToast("Something Went Wrong", MakeAnOfferActivity.this);
                         }
                         Timber.e(error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 

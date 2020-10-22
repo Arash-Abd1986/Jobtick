@@ -1,12 +1,10 @@
 package com.jobtick.activities;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -28,10 +26,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.cancellations.CancellationDeclinedActivity;
-import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
-import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
 
@@ -100,7 +95,7 @@ public class RescheduleDeclineActivity extends ActivityBase {
 
     public void RescheduleRequestReject(String message) {
 //reschedule/:duedateextend/accept
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.BASE_URL + URL_CREATE_RESCHEDULE + "/" + reqeustId+"/reject",
                 response -> {
                     Timber.e(response);
@@ -117,9 +112,9 @@ public class RescheduleDeclineActivity extends ActivityBase {
                         } else {
                             showToast(getString(R.string.server_went_wrong), RescheduleDeclineActivity.this);
                         }
-                        hidepDialog();
+                        hideProgressDialog();
                     } catch (JSONException e) {
-                        hidepDialog();
+                        hideProgressDialog();
                         e.printStackTrace();
                     }
 
@@ -134,10 +129,10 @@ public class RescheduleDeclineActivity extends ActivityBase {
                             Timber.e(jsonError);
                             if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                                 unauthorizedUser();
-                                hidepDialog();
+                                hideProgressDialog();
                                 return;
                             }
-                            hidepDialog();
+                            hideProgressDialog();
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonError);
 
@@ -157,7 +152,7 @@ public class RescheduleDeclineActivity extends ActivityBase {
                             showToast("Something Went Wrong", RescheduleDeclineActivity.this);
                         }
                         Timber.e(error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 

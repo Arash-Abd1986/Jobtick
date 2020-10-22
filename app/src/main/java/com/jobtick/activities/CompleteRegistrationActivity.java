@@ -7,14 +7,11 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -120,7 +117,7 @@ public class CompleteRegistrationActivity extends ActivityBase {
                     public void onResponse(String response) {
                         Log.e("responce_url", response);
 
-                        hidepDialog();
+                        hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
@@ -184,7 +181,7 @@ public class CompleteRegistrationActivity extends ActivityBase {
                             showToast("Something Went Wrong", context);
                         }
                         Log.e("error", error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 
@@ -293,7 +290,7 @@ public class CompleteRegistrationActivity extends ActivityBase {
                     String str_lname = edtLastName.getText().toString().trim();
                     String str_suburb = txtSuburb.getText().toString().trim();
 
-                    showpDialog();
+                    showProgressDialog();
                     profileUpdate(str_fname, str_lname, str_suburb);
 
                     intent = new Intent(CompleteRegistrationActivity.this, DashboardActivity.class);

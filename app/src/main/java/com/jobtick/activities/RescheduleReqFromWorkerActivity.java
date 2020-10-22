@@ -5,19 +5,14 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.DatePicker;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.cardview.widget.CardView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
@@ -28,7 +23,6 @@ import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.models.TaskModel;
-import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.Tools;
 
@@ -44,7 +38,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-import static com.jobtick.utils.Constant.BASE_URL;
 import static com.jobtick.utils.Constant.URL_CREATE_RESCHEDULE;
 import static com.jobtick.utils.Constant.URL_TASKS;
 
@@ -160,11 +153,11 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase {
 
         ///{{baseurl}}/tasks/:task_slug/reschedule
 
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/" + URL_CREATE_RESCHEDULE,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -189,11 +182,11 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase {
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
-                            hidepDialog();
+                            hideProgressDialog();
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             if (jsonObject_error.has("message")) {
@@ -213,7 +206,7 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase {
                         showToast("Something Went Wrong", RescheduleReqFromWorkerActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 

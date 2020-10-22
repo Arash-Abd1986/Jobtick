@@ -14,7 +14,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
 import com.jobtick.adapers.TaskCategoryAdapter;
 import com.jobtick.models.TaskCategory;
@@ -25,7 +24,6 @@ import com.jobtick.utils.ConstantKey;
 
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -197,7 +195,7 @@ public class CategroyListActivity extends ActivityBase implements TaskCategoryAd
                         }
                         isLoading = false;
                     } catch (JSONException e) {
-                        hidepDialog();
+                        hideProgressDialog();
                         Log.e("EXCEPTION", String.valueOf(e));
                         e.printStackTrace();
                     }

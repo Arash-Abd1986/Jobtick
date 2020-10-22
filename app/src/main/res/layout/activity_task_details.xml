@@ -131,7 +131,7 @@
                     android:orientation="horizontal" />
             </RelativeLayout>
 
-            <!--  <include layout="@layout/toolbar"/>-->
+<!--              <include layout="@layout/toolbar"/>-->
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -251,8 +251,8 @@
                             android:layout_marginStart="@dimen/_3dp"
                             android:layout_marginEnd="@dimen/_3dp"
                             android:layout_weight="1"
-                            android:gravity="center"
                             android:backgroundTint="@color/green_gray_selected"
+                            android:gravity="center"
                             android:singleLine="true"
                             android:text="@string/completed"
                             android:textColor="@color/white_black_selected"
@@ -382,10 +382,10 @@
                         android:orientation="vertical">
 
                         <FrameLayout
+                            android:id="@+id/card_increase_budget"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:id="@+id/card_increase_budget">
+                            android:layout_gravity="center">
 
 
                             <com.jobtick.TextView.TextViewBold
@@ -399,6 +399,7 @@
                                 android:textColor="@color/textColor"
                                 android:textSize="@dimen/_13sp"
                                 android:textStyle="bold" />
+
                             <androidx.cardview.widget.CardView
                                 android:id="@+id/lyt_btn_view_reqeust"
                                 android:layout_width="match_parent"
@@ -499,6 +500,7 @@
                             android:text="@string/excepteur_qui_qui_fugiat_et_esse_pariatur_voluptate_exercitation_esse_officia_cillum_occaecat_culpa_pariatur_nisi_in_ut_tempor_laborum_officia_dolore_ad_occaecat_anim_ad_voluptate_proident_ea_commodo_qui_velit_officia_minim"
                             android:textColor="@color/textColor"
                             android:textSize="@dimen/_14sp" />
+
                         <com.jobtick.TextView.TextViewRegular
                             android:id="@+id/txt_poster_last_online"
                             android:layout_width="match_parent"
@@ -582,10 +584,10 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/txtPostedBy"
                             android:layout_marginStart="@dimen/spacing_middle"
-                            android:orientation="horizontal"
                             android:layout_marginTop="@dimen/spacing_middle"
                             android:layout_marginEnd="@dimen/spacing_middle"
-                            android:layout_marginBottom="@dimen/spacing_smlarge">
+                            android:layout_marginBottom="@dimen/spacing_smlarge"
+                            android:orientation="horizontal">
 
                             <RelativeLayout
                                 android:id="@+id/relativProfile"
@@ -677,8 +679,8 @@
                                 android:id="@+id/linearUserProfile"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="@dimen/spacing_middle"
                                 android:layout_marginStart="@dimen/spacing_middle"
+                                android:layout_marginEnd="@dimen/spacing_middle"
                                 android:orientation="vertical">
 
                                 <com.jobtick.TextView.TextViewSemiBold
@@ -700,10 +702,12 @@
                                     android:textSize="@dimen/_10sp" />
 
                             </LinearLayout>
-<FrameLayout
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"/>
+
+                            <FrameLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+
                             <androidx.cardview.widget.CardView
                                 android:id="@+id/card_message"
                                 android:layout_width="wrap_content"
@@ -726,17 +730,17 @@
                                         android:layout_width="19dp"
                                         android:layout_height="19dp"
                                         android:layout_gravity="center"
-                                        android:contentDescription="@string/todo"
                                         android:layout_margin="@dimen/spacing_small"
+                                        android:contentDescription="@string/todo"
                                         android:src="@drawable/ic_message"
-                                         android:tint="@color/white_black_selected" />
+                                        android:tint="@color/white_black_selected" />
 
                                     <com.jobtick.TextView.TextViewSemiBold
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="4dp"
                                         android:text="@string/chat"
-                                         android:textColor="@color/white_black_selected"
+                                        android:textColor="@color/white_black_selected"
                                         android:textSize="@dimen/_13sp">
 
                                     </com.jobtick.TextView.TextViewSemiBold>
@@ -1178,7 +1182,6 @@
         </LinearLayout>
 
 
-
     </androidx.cardview.widget.CardView>
 
     <FrameLayout
@@ -1189,7 +1192,6 @@
         android:visibility="gone">
 
     </FrameLayout>
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -10,11 +10,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
@@ -26,7 +24,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
@@ -293,12 +290,12 @@ public class MobileOtpVerifyActivity extends ActivityBase {
 
     public void getOTPVerified
             (String otp) {
-        showpDialog();
+        showProgressDialog();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_OTP_VERIFICATION,
                 response -> {
 
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
@@ -344,7 +341,7 @@ public class MobileOtpVerifyActivity extends ActivityBase {
                     } else {
                         showToast("Something Went Wrong", MobileOtpVerifyActivity.this);
                     }
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 

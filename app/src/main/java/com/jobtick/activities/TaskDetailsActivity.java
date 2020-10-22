@@ -222,9 +222,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     ViewPager viewPager;
     @BindView(R.id.layout_dots)
     LinearLayout layoutDots;
+    @BindView(R.id.txt_budgets)
+    TextView budget;
 
 
-  //  @BindView(R.id.card_view_request)
+    //  @BindView(R.id.card_view_request)
     //CardView card_view_request;
 
     @BindView(R.id.lyt_btn_view_reqeust)

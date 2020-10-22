@@ -91,7 +91,7 @@ class RequirementsBottomSheet extends BottomSheetDialogFragment   {
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ReqAdapter(((ActivityBase) context),mTab);
-        viewPager.setAdapter(adapter);
+      //  viewPager.setAdapter(adapter);
     }
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
 

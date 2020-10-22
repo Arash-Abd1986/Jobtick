@@ -249,5 +249,17 @@
     <string name="verification_sent">\"Enter verification code sent to "</string>
     <string name="enter_verification_code">Enter verification code sent to</string>
 
+    <!-- onboarding descriptions -->
+    <string name="poster_page1">Post whatever you need to get done!</string>
+    <string name="poster_page2">The best offers will be made on your job by Tickers</string>
+    <string name="poster_page3">Select the best Ticker to get your job done</string>
+    <string name="poster_page4">Great! Job is done! Enjoy JobTick!</string>
+
+    <string name="worker_page1">Explore jobs which suit you</string>
+    <string name="worker_page2">Make your best offer to get the job</string>
+    <string name="worker_page3">You will be notified if your offer has been accepted by poster</string>
+    <string name="worker_page4">Do your best! enjoy your money!</string>
+    <string name="get_started">GET STARTED</string>
+
 
 </resources>

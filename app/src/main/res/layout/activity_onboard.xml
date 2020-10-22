@@ -26,29 +26,16 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/txtText"
-        android:layout_below="@+id/txt_skip"
-        android:layout_marginTop="@dimen/spacing_xlarge"
-        android:layout_marginBottom="@dimen/spacing_medium" />
-
-    <com.jobtick.TextView.TextViewRegular
-        android:id="@+id/txtText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_above="@+id/bottomLayout"
-        android:layout_margin="@dimen/spacing_xxlarge"
-
-        android:gravity="center"
-        android:text="@string/short_lorem_ipsum"
-        android:textColor="@color/grey_70"
-        android:textSize="@dimen/_16sp" />
+        android:layout_below="@+id/txt_skip"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_marginBottom="@dimen/spacing_medium" />
 
     <LinearLayout
         android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/spacing_medium"
         android:orientation="horizontal"
         android:weightSum="1">
 
@@ -56,53 +43,31 @@
             android:id="@+id/layout_dots"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginBottom="48dp"
+            android:layout_marginStart="24dp"
+            android:layout_gravity="bottom"
             android:layout_weight="0.5"
-            android:gravity="center"
+            android:gravity="start"
             android:orientation="horizontal" />
 
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/lyt_btn_next"
+            style="@style/materialButton.medium"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_46dp"
+            android:layout_height="42dp"
+            android:layout_gravity="end"
             android:layout_marginStart="@dimen/spacing_large"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:layout_marginEnd="@dimen/spacing_large"
-            android:layout_marginBottom="@dimen/spacing_middle"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="32dp"
             android:layout_weight="0.5"
-            android:backgroundTint="@color/colorPrimary"
-            android:elevation="@dimen/spacing_middle"
-            app:cardCornerRadius="@dimen/spacing_medium">
-
-            <LinearLayout
-                android:id="@+id/lyt_btn_next"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:orientation="vertical">
-                <!-- <androidx.cardview.widget.CardView style="@style/CardBtn">
-
-                     <LinearLayout
-                         android:id="@+id/lyt_btn_sign_in"
-                         style="@style/LytBtn">-->
-
-                <com.jobtick.TextView.TextViewRegular
-                    android:id="@+id/txtNextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="Next"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_14sp"
-                    app:textAllCaps="true" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+            android:background="@color/blueButtons"
+            android:gravity="center"
+            android:text="@string/next"
+            android:textColor="@color/white" />
 
 
     </LinearLayout>
-
 
 </RelativeLayout>

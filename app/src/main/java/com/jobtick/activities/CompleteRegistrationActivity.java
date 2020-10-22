@@ -262,7 +262,7 @@ public class CompleteRegistrationActivity extends ActivityBase {
         if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == RESULT_OK) {
 
             // Retrieve the information from the selected location's CarmenFeature
-
+            Helper.closeKeyboard(this);
             CarmenFeature carmenFeature = PlacePicker.getPlace(data);
             Helper.Logger("THIS", "CarmenFeature = " + carmenFeature.toJson());
             GeocodeObject geocodeObject = Helper.getGeoCodeObject(this, carmenFeature.center().latitude()

@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
@@ -24,14 +26,14 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pl.droidsonroids.gif.GifImageView;
 
 public class OnboardActivity extends ActivityBase {
 
 
     int pos;
     AdapterImageSlider adapterImageSlider;
-    ArrayList<Integer> gifList;
+    ArrayList<Integer> lottieAnimList;
+    ArrayList<Integer> descriptionList;
 
     @BindView(R.id.pager)
     ViewPager viewPager;
@@ -40,11 +42,9 @@ public class OnboardActivity extends ActivityBase {
     @BindView(R.id.layout_dots)
     LinearLayout layoutDots;
 
-    @BindView(R.id.txtNextButton)
-    TextViewRegular txtMextButton;
 
     @BindView(R.id.lyt_btn_next)
-    LinearLayout lytBtnNext;
+    MaterialButton lytBtnNext;
 
     @BindView(R.id.txt_skip)
     TextViewMedium txtSkip;
@@ -54,7 +54,8 @@ public class OnboardActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboard);
         ButterKnife.bind(this);
-        gifList = new ArrayList<>();
+        lottieAnimList = new ArrayList<>();
+        descriptionList = new ArrayList<>();
         init();
 
         txtSkip.setOnClickListener(v -> {
@@ -69,23 +70,33 @@ public class OnboardActivity extends ActivityBase {
         if (getIntent().hasExtra("as")) {
             if (getIntent().getExtras().getString("as").equals("poster")) {
 
-                gifList.add(R.drawable.ic_poster1);
-                gifList.add(R.drawable.ic_poster2);
-                gifList.add(R.drawable.ic_poster3);
-                gifList.add(R.drawable.ic_poster4);
+                lottieAnimList.add(R.raw.slide1);
+                lottieAnimList.add(R.raw.slide5);
+                lottieAnimList.add(R.raw.slide2);
+                lottieAnimList.add(R.raw.slide3);
+
+                descriptionList.add(R.string.poster_page1);
+                descriptionList.add(R.string.poster_page2);
+                descriptionList.add(R.string.poster_page3);
+                descriptionList.add(R.string.poster_page4);
             }
             if (getIntent().getExtras().getString("as").equals("worker")) {
 
-                gifList.add(R.drawable.ic_worker1);
-                gifList.add(R.drawable.ic_poster2);
-                gifList.add(R.drawable.ic_poster3);
-                gifList.add(R.drawable.ic_worker4);
+                lottieAnimList.add(R.raw.slide4);
+                lottieAnimList.add(R.raw.slide5);
+                lottieAnimList.add(R.raw.slide2);
+                lottieAnimList.add(R.raw.slide6);
+
+                descriptionList.add(R.string.worker_page1);
+                descriptionList.add(R.string.worker_page2);
+                descriptionList.add(R.string.worker_page3);
+                descriptionList.add(R.string.worker_page4);
 
             }
         }
 
 
-        adapterImageSlider = new AdapterImageSlider(OnboardActivity.this, gifList);
+        adapterImageSlider = new AdapterImageSlider(OnboardActivity.this, lottieAnimList, descriptionList);
         viewPager.setAdapter(adapterImageSlider);
         addBottomDots(layoutDots, adapterImageSlider.getCount(), 0);
 
@@ -109,7 +120,7 @@ public class OnboardActivity extends ActivityBase {
 
         lytBtnNext.setOnClickListener(v ->
                 {
-                    if (viewPager.getCurrentItem() == gifList.size()) {
+                    if (viewPager.getCurrentItem() == lottieAnimList.size()) {
                         Intent main = new Intent(OnboardActivity.this, DashboardActivity.class);
                         main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -136,7 +147,8 @@ public class OnboardActivity extends ActivityBase {
 
     private static class AdapterImageSlider extends PagerAdapter {
         private Activity act;
-        private ArrayList<Integer> items;
+        private ArrayList<Integer> animItems;
+        private ArrayList<Integer> descItems;
         private AdapterImageSlider.OnItemClickListener onItemClickListener;
 
         private interface OnItemClickListener {
@@ -148,42 +160,36 @@ public class OnboardActivity extends ActivityBase {
         }
 
         // constructor
-        private AdapterImageSlider(Activity activity, ArrayList<Integer> items) {
+        private AdapterImageSlider(Activity activity, ArrayList<Integer> animItems, ArrayList<Integer> descriptionItems) {
             this.act = activity;
-            this.items = items;
+            this.animItems = animItems;
+            this.descItems = descriptionItems;
         }
-
 
         @Override
         public int getCount() {
-            return this.items.size();
+            return this.animItems.size();
         }
 
-        public int getItem(int pos) {
-            return items.get(pos);
-        }
-
-        public void setItems(ArrayList<Integer> items) {
-            this.items = items;
-            notifyDataSetChanged();
-        }
 
         @Override
         public boolean isViewFromObject(View view, Object object) {
-            return view == ((RelativeLayout) object);
+            return view == ((LinearLayout) object);
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            final int attachment = items.get(position);
+            final int animAttachment = animItems.get(position);
+            final int descAttachment = descItems.get(position);
             LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View v = inflater.inflate(R.layout.item_slider_image, container, false);
 
-            ImageView image = (ImageView) v.findViewById(R.id.image);
-            image.setVisibility(View.GONE);
-            GifImageView ivGIFImageView = v.findViewById(R.id.ivGIFImageView);
-            ivGIFImageView.setVisibility(View.VISIBLE);
-            ivGIFImageView.setImageResource(attachment);
+            LottieAnimationView lottieAnimationView = v.findViewById(R.id.lottieAnimationView);
+            TextViewRegular description = v.findViewById(R.id.description);
+            lottieAnimationView.setVisibility(View.VISIBLE);
+            description.setVisibility(View.VISIBLE);
+            lottieAnimationView.setAnimation(animAttachment);
+            description.setText(descAttachment);
             ((ViewPager) container).addView(v);
 
             return v;
@@ -191,7 +197,7 @@ public class OnboardActivity extends ActivityBase {
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            ((ViewPager) container).removeView((RelativeLayout) object);
+            ((ViewPager) container).removeView((LinearLayout) object);
 
         }
 
@@ -217,8 +223,8 @@ public class OnboardActivity extends ActivityBase {
         if (dots.length > 0) {
             dots[current].setImageResource(R.drawable.shape_circle_blue);
         }
-        if (current == size) {
-            txtMextButton.setText("GET STARTED");
+        if (current == size -1) {
+            lytBtnNext.setText(R.string.get_started);
         }
     }
 

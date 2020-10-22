@@ -41,20 +41,15 @@ public class ReqAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position){
             case 0:
-                ImageReqFragment imageReqFragment=new ImageReqFragment();
-                return imageReqFragment;
+                return new ImageReqFragment();
             case 1:
-                CreditReqFragment creditReqFragment=new CreditReqFragment();
-                return creditReqFragment;
+                return new CreditReqFragment();
             case 2:
-                MapReqFragment mapReqFragment=new MapReqFragment();
-                return mapReqFragment;
+                return new MapReqFragment();
             case 3:
-                CalenderReqFragment calenderReqFragment=new CalenderReqFragment();
-                return calenderReqFragment;
+                return new CalenderReqFragment();
             case 4:
-                PhoneReqFragment phoneReqFragment=new PhoneReqFragment();
-                return phoneReqFragment;
+                return new PhoneReqFragment();
             default:
                 return null;
         }

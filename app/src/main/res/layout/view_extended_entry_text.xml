@@ -8,7 +8,7 @@
     android:paddingBottom="@dimen/padding_vertical_edit_text"
     android:paddingStart="@dimen/padding_horizontal_edit_text"
     android:paddingEnd="@dimen/padding_horizontal_edit_text"
-    android:background="@drawable/rectangle_round_corners_outlined">
+    android:background="@drawable/rectangle_card_round_corners_outlined">
 
     <com.jobtick.TextView.TextViewSemiBold
         android:id="@+id/title"

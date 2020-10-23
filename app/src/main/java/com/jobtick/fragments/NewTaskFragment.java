@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
@@ -40,6 +41,7 @@ import com.jobtick.models.TaskModel;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.widget.ExtendedButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +62,7 @@ public class NewTaskFragment extends Fragment {
     TextViewRegular edtSearchCategories;
 
     @BindView(R.id.lty_btn_post)
-    LinearLayout lytBtnPost;
+    MaterialButton lytBtnPost;
     @BindView(R.id.txt_btn_category)
     TextViewRegular txtBtnCategory;
 

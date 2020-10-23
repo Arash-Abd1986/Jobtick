@@ -205,6 +205,11 @@
 
     <style name="materialButton" parent="Widget.MaterialComponents.Button">
         <item name="cornerRadius">@dimen/buttonCorners</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="materialButton.medium">
@@ -213,12 +218,31 @@
         <item name="android:textSize">@dimen/button_text_size_normal</item>
     </style>
 
+    <style name="materialButton._400">
+        <item name="fontFamily">@font/poppins_reg</item>
+        <item name="android:fontFamily">@font/poppins_reg</item>
+    </style>
+
+    <style name="materialButton._500">
+        <item name="fontFamily">@fon/poppins_medium</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+    </style>
+
+    <style name="materialButton._700">
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+    </style>
+
     <style name="materialButton.medium.outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="cornerRadius">@dimen/buttonCorners</item>
         <item name="fontFamily">@font/poppins_medium</item>
         <item name="android:fontFamily">@font/poppins_medium</item>
         <item name="android:textSize">@dimen/button_text_size_normal</item>
         <item name="strokeWidth">@dimen/outline_normal</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
     </style>
 
 

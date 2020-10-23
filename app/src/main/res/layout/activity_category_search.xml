@@ -7,30 +7,22 @@
     android:background="@color/grey_100"
     android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_large"
-        android:layout_marginTop="@dimen/spacing_large"
-        android:layout_marginEnd="@dimen/spacing_large"
-        android:backgroundTint="@color/white"
-        android:layout_marginBottom="@dimen/spacing_large"
-        app:cardElevation="0dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_large"
             android:orientation="horizontal"
-            android:padding="@dimen/_5sp"
-            >
+            android:background="@drawable/rectangle_card_round_corners_outlined">
 
             <ImageView
-                android:padding="12dp"
                 android:id="@+id/iv_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
+                android:layout_width="6dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="21dp"
+                android:layout_gravity="center_vertical|start"
                 android:src="@drawable/ic_back">
 
             </ImageView>
@@ -39,19 +31,16 @@
                 android:id="@+id/edt_search_categoreis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/iv_back"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginStart="18dp"
                 android:background="@null"
                 android:hint="Search Categories"
                 android:textColor="@color/grey_70"
                 android:textColorHint="@color/grey_70"
-                android:textSize="@dimen/_15sp">
+                android:textSize="@dimen/_12sp">
 
             </com.jobtick.EditText.EditTextRegular>
-
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
 
     <FrameLayout
@@ -61,7 +50,6 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sp"
             android:layout_marginTop="@dimen/_10sp"

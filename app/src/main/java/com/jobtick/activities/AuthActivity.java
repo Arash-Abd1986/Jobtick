@@ -1,13 +1,11 @@
 package com.jobtick.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -29,7 +27,6 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.GoogleAuthException;
@@ -875,42 +872,38 @@ public class AuthActivity extends ActivityBase {
                     String finalStr_fname = str_fname;
                     String finalStr_lname = str_lname;
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_SIGNIN_GOOGLE,
-                            new Response.Listener<String>() {
+                            response -> {
+                                Log.e("responce_url", response);
 
-                                @Override
-                                public void onResponse(String response) {
-                                    Log.e("responce_url", response);
+                                hidepDialog();
+                                try {
 
-                                    hidepDialog();
-                                    try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    Log.e("json", jsonObject.toString());
+                                    JSONObject jsonObject_data = jsonObject.getJSONObject("data");
 
-                                        JSONObject jsonObject = new JSONObject(response);
-                                        Log.e("json", jsonObject.toString());
-                                        JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+                                    sessionManager.setAccessToken(jsonObject_data.getString("access_token"));
+                                    sessionManager.setTokenType(jsonObject_data.getString("token_type"));
 
-                                        sessionManager.setAccessToken(jsonObject_data.getString("access_token"));
-                                        sessionManager.setTokenType(jsonObject_data.getString("token_type"));
+                                    JSONObject jsonObject_user = jsonObject_data.getJSONObject("user");
+                                    UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
+                                    sessionManager.setUserAccount(userAccountModel);
 
-                                        JSONObject jsonObject_user = jsonObject_data.getJSONObject("user");
-                                        UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
-                                        sessionManager.setUserAccount(userAccountModel);
+                                    sessionManager.setLogin(true);
 
-                                        sessionManager.setLogin(true);
+                                    //   showToast("Login SuccessFully!!!", AuthActivity.this);
 
-                                        //   showToast("Login SuccessFully!!!", AuthActivity.this);
-
-                                        Intent intent = new Intent(AuthActivity.this, DashboardActivity.class);
-                                        openActivity(intent);
+                                    Intent intent = new Intent(AuthActivity.this, DashboardActivity.class);
+                                    openActivity(intent);
 
 
-                                    } catch (JSONException e) {
-                                        Log.e("EXCEPTION", String.valueOf(e));
-                                        e.printStackTrace();
-
-                                    }
-
+                                } catch (JSONException e) {
+                                    Log.e("EXCEPTION", String.valueOf(e));
+                                    e.printStackTrace();
 
                                 }
+
+
                             },
                             new Response.ErrorListener() {
                                 @Override
@@ -1244,50 +1237,47 @@ public class AuthActivity extends ActivityBase {
 
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        NetworkResponse networkResponse = error.networkResponse;
-                        if (networkResponse != null && networkResponse.data != null) {
-                            String jsonError = new String(networkResponse.data);
-                            // Print Error!
-                            Log.e("intent22", jsonError);
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Log.e("intent22", jsonError);
 
-                            try {
-                                JSONObject jsonObject = new JSONObject(jsonError);
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
 
-                                JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
-                                String message = jsonObject_error.getString("message");
-                                if (jsonObject_error.has("error_code")) {
-                                    if (jsonObject_error.getInt("error_code") == 1002) {
-                                        // resendOtp(str_email,str_password);
-                                    }
+                            String message = jsonObject_error.getString("message");
+                            if (jsonObject_error.has("error_code")) {
+                                if (jsonObject_error.getInt("error_code") == 1002) {
+                                    // resendOtp(str_email,str_password);
                                 }
-
-                                if (jsonObject_error.has("errors")) {
-
-                                    JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-
-                                    String error_email = null;
-                                    if (jsonObject_errors.has("email")) {
-                                        JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
-                                        error_email = jsonArray_mobile.getString(0);
-                                    }
-                                    editTextError.error(error_email, "");
-
-                                }
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
-                        } else {
-                            showToast("Something Went Wrong", AuthActivity.this);
+
+                            if (jsonObject_error.has("errors")) {
+
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+
+                                String error_email = null;
+                                if (jsonObject_errors.has("email")) {
+                                    JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
+                                    error_email = jsonArray_mobile.getString(0);
+                                }
+                                editTextError.error(error_email, "");
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        Log.e("error", error.toString());
-                        hidepDialog();
+                    } else {
+                        showToast("Something Went Wrong", AuthActivity.this);
                     }
+                    Log.e("error", error.toString());
+                    hidepDialog();
                 }) {
 
 
@@ -1303,7 +1293,6 @@ public class AuthActivity extends ActivityBase {
             protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("email", str_email);
-
                 return map1;
             }
         };

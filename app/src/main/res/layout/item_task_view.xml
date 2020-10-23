@@ -21,7 +21,6 @@
         card_view:cardBackgroundColor="@color/colorRed"
         card_view:cardCornerRadius="@dimen/spacing_middle"
         card_view:cardUseCompatPadding="false" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/content"
         android:layout_width="match_parent"
@@ -36,16 +35,13 @@
         card_view:cardUseCompatPadding="false">
 
 
-
-
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_toEndOf="@+id/lyt_task_profile"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:id="@+id/lyt_task_profile"
                     android:layout_width="wrap_content"
@@ -84,31 +80,27 @@
                 <View
                     android:layout_width="@dimen/spacing_middle"
                     android:layout_height="match_parent" />
-
                 <View
                     android:layout_width="@dimen/spacing_line"
                     android:layout_height="match_parent"
                     android:background="@color/grey_10" />
-
                 <View
                     android:layout_width="@dimen/spacing_middle"
                     android:layout_height="match_parent" />
 
-
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-
                     <RelativeLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
 
                         <com.jobtick.TextView.TextViewMedium
                             android:id="@+id/txt_title"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_toStartOf="@+id/tv_delete"
@@ -126,23 +118,9 @@
                             android:src="@drawable/ic_delete"
                             android:visibility="gone" />
                     </RelativeLayout>
-
-
-                    <View
+                             <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_small" />
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -173,7 +151,6 @@
 
 
                             </LinearLayout>
-
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -201,7 +178,6 @@
                                     android:textColor="@color/grey_70"
                                     android:textSize="@dimen/_12sp" />
                             </LinearLayout>
-
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -250,33 +226,28 @@
                                     android:textStyle="normal" />
                             </LinearLayout>
 
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lyt_budget_open"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:gravity="bottom"
-                            android:orientation="vertical">
-
-                            <com.jobtick.TextView.TextViewSemiBold
-                                android:id="@+id/txt_budget"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:text="@string/_200"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/_18sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-                    </LinearLayout>
                 </LinearLayout>
 
+                <com.jobtick.TextView.TextViewSemiBold
+                    android:id="@+id/txt_budget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="end"
+                    android:layout_marginEnd="5dp"
+                    android:text="@string/_200"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_18sp"
+                    android:textStyle="bold" />
+
+
+
+
+
             </LinearLayout>
-
-
     </androidx.cardview.widget.CardView>
+
+
+
+
 </RelativeLayout>

@@ -1430,7 +1430,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     }
                 }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
@@ -1479,63 +1479,57 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private void submitReleaseMoney() {
         showpDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/close",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Timber.e(response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            Log.e("json", jsonObject.toString());
-                            if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                response -> {
+                    Timber.e(response);
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Log.e("json", jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
 
-                                initialStage();
-                            } else {
-                                hidepDialog();
-                                showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
-                            }
-
-                        } catch (JSONException e) {
+                            initialStage();
+                        } else {
                             hidepDialog();
+                            showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
+                        }
+
+                    } catch (JSONException e) {
+                        hidepDialog();
+                        e.printStackTrace();
+                    }
+
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
+                            hidepDialog();
+                            return;
+                        }
+                        hidepDialog();
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+                            if (jsonObject_error.has("message")) {
+                                Toast.makeText(TaskDetailsActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
+                    } else {
+                        showToast("Something Went Wrong", TaskDetailsActivity.this);
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        NetworkResponse networkResponse = error.networkResponse;
-                        if (networkResponse != null && networkResponse.data != null) {
-                            String jsonError = new String(networkResponse.data);
-                            // Print Error!
-                            Timber.e(jsonError);
-                            if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                                unauthorizedUser();
-                                hidepDialog();
-                                return;
-                            }
-                            hidepDialog();
-                            try {
-                                JSONObject jsonObject = new JSONObject(jsonError);
-
-                                JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                                if (jsonObject_error.has("message")) {
-                                    Toast.makeText(TaskDetailsActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                                }
-                                if (jsonObject_error.has("errors")) {
-                                    JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                                }
-                                //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            showToast("Something Went Wrong", TaskDetailsActivity.this);
-                        }
-                        Timber.e(error.toString());
-                        hidepDialog();
-                    }
+                    Timber.e(error.toString());
+                    hidepDialog();
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -1652,7 +1646,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }
 
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("question_text", str_comment);
                 if (attachmentModels != null && attachmentModels.size() != 0) {
@@ -1740,6 +1734,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             } else {
                 Tools.displayImageOriginal(act, image, attachment.getDrawable());
             }
+            image.setAdjustViewBounds(true);
+            image.setBackgroundResource(R.drawable.banner_person);
+            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {

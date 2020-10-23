@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -14,31 +15,20 @@ import com.jobtick.fragments.ImageReqFragment;
 import com.jobtick.fragments.MapReqFragment;
 import com.jobtick.fragments.PhoneReqFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ReqAdapter extends FragmentStateAdapter {
+public class ReqAdapter extends FragmentPagerAdapter {
 
-    int mTab;
+    private final List<Fragment> mFragmentList = new ArrayList<>();
 
-
-    public ReqAdapter(@NonNull FragmentActivity fragmentActivity, int mTab) {
-        super(fragmentActivity);
-        this.mTab = mTab;
-    }
-
-    public ReqAdapter(@NonNull Fragment fragment, int mTab) {
-        super(fragment);
-        this.mTab = mTab;
-    }
-
-    public ReqAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, int mTab) {
-        super(fragmentManager, lifecycle);
-        this.mTab = mTab;
+    public ReqAdapter(FragmentManager manager) {
+        super(manager);
     }
 
     @NonNull
     @Override
-    public Fragment createFragment(int position) {
+    public Fragment getItem(int position) {
         switch (position){
             case 0:
                 return new ImageReqFragment();
@@ -55,8 +45,13 @@ public class ReqAdapter extends FragmentStateAdapter {
         }
     }
 
+
+    public void addFragment(Fragment fragment) {
+        mFragmentList.add(fragment);
+    }
+
     @Override
-    public int getItemCount() {
-        return mTab;
+    public int getCount() {
+        return mFragmentList.size();
     }
 }

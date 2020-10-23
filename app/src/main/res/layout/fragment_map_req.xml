@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.MapReqFragment">
@@ -24,8 +25,6 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/card_button"
-            android:layout_below="@+id/linearToolbar"
             android:scrollbars="none">
 
 
@@ -253,24 +252,24 @@
                     </LinearLayout>
                 </LinearLayout>
 
-
+                <com.jobtick.TextView.TextViewMedium
+                    android:id="@+id/txt_btn_next"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/spacing_mlarge"
+                    android:padding="@dimen/spacing_large"
+                    android:text="@string/next"
+                    android:background="@drawable/shape_tab_primary"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 
-        <com.jobtick.TextView.TextViewMedium
-            android:id="@+id/txt_btn_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/spacing_mlarge"
-            android:padding="@dimen/spacing_large"
-            android:text="@string/next"
-            android:background="@drawable/shape_tab_primary"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
+
 
     </LinearLayout>
 

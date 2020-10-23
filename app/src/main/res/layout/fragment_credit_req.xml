@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/credit_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.CreditReqFragment">
@@ -134,7 +135,7 @@
             </LinearLayout>
         </FrameLayout>
         <com.jobtick.TextView.TextViewMedium
-            android:id="@+id/txt_btn_text"
+            android:id="@+id/txt_btn_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

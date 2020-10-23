@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="bottom"
     android:background="@android:color/transparent"
     android:orientation="vertical">
@@ -27,61 +27,72 @@
 
     </com.jobtick.TextView.TextViewMedium>
 
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      android:layout_margin="@dimen/spacing_mlarge"
-      android:layout_gravity="center"
-      android:gravity="center"
-      android:background="@drawable/shape_rounded_gray">
-<ImageView
-    android:id="@+id/img_requirement"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/spacing_mlarge"
+        android:background="@drawable/shape_rounded_gray"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_requirement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_xmedium"
+            android:padding="@dimen/spacing_medium"
+            android:src="@drawable/ic_image" />
+
+        <ImageView
+            android:id="@+id/credit_requirement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_xmedium"
+            android:padding="@dimen/spacing_medium"
+            android:src="@drawable/ic_credit_card" />
+
+        <ImageView
+            android:id="@+id/map_requirement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_xmedium"
+            android:padding="@dimen/spacing_medium"
+            android:src="@drawable/ic_map_pin" />
+
+        <ImageView
+            android:id="@+id/calender_requirement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_xmedium"
+            android:padding="@dimen/spacing_medium"
+            android:src="@drawable/ic_calendar" />
+
+        <ImageView
+            android:id="@+id/phone_requirement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_xmedium"
+            android:padding="@dimen/spacing_medium"
+            android:src="@drawable/ic_phone" />
+    </LinearLayout>
+
+<LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:src="@drawable/ic_image"
-    android:padding="@dimen/spacing_medium"
-    android:layout_margin="@dimen/spacing_xmedium"/>
-      <ImageView
-          android:id="@+id/credit_requirement"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:src="@drawable/ic_credit_card"
-          android:padding="@dimen/spacing_medium"
-          android:layout_margin="@dimen/spacing_xmedium"/>
-      <ImageView
-          android:id="@+id/map_requirement"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:src="@drawable/ic_map_pin"
-          android:padding="@dimen/spacing_medium"
-          android:layout_margin="@dimen/spacing_xmedium"/>
-      <ImageView
-          android:id="@+id/calender_requirement"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:src="@drawable/ic_calendar"
-          android:padding="@dimen/spacing_medium"
-          android:layout_margin="@dimen/spacing_xmedium"/>
-      <ImageView
-          android:id="@+id/phone_requirement"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:src="@drawable/ic_phone"
-          android:padding="@dimen/spacing_medium"
-          android:layout_margin="@dimen/spacing_xmedium"/>
-  </LinearLayout>
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
+    android:orientation="horizontal">
     <FrameLayout
         android:id="@+id/requirements_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone" />
+        android:visibility="visible" />
+
+    <FrameLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/bottom_sheet_behavior" />
+</LinearLayout>
 
 
 </LinearLayout>

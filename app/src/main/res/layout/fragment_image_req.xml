@@ -65,7 +65,6 @@
                     android:layout_height="@dimen/_40dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_weight="1"
                     android:background="@drawable/ic_pick_camera"
                     tools:ignore="ContentDescription" />
             </RelativeLayout>
@@ -79,7 +78,7 @@
             android:layout_margin="@dimen/spacing_mlarge"
             android:background="@drawable/shape_tab_primary"
             android:gravity="center"
-            android:padding="@dimen/spacing_large"
+            android:padding="@dimen/spacing_middle"
             android:text="@string/next"
             android:textAllCaps="true"
             android:textColor="@color/white"

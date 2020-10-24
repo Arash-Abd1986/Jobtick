@@ -141,10 +141,6 @@ public class CalenderReqFragment extends Fragment {
         return view;
     }
 
-
-
-
-
     private void getAllUserProfileDetails() {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
                 response -> {

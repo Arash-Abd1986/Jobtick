@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +45,7 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -158,10 +161,7 @@ public class ImageReqFragment extends Fragment {
     }
 
     private void setUpAvatar(UserAccountModel userAccountModel) {
-//        if (userAccountModel.getAvatar().getThumbUrl() != null && !userAccountModel.getAvatar().getThumbUrl().equals("")) {
-//            ((RequirementsBottomSheet) getParentFragment()).changeFragment(1);
-//        }
-        ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getThumbUrl(), null);
+        ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getUrl(), null);
     }
 
     @OnClick({R.id.img_user_avatar})
@@ -172,7 +172,6 @@ public class ImageReqFragment extends Fragment {
     }
 
     private void showBottomSheetDialog() {
-        System.out.println("ccccccccccccccccc");
 
         final View view = getLayoutInflater().inflate(R.layout.sheet_attachment, null);
         LinearLayout lytBtnCamera = view.findViewById(R.id.lyt_btn_camera);
@@ -314,6 +313,7 @@ public class ImageReqFragment extends Fragment {
             ((ActivityBase) getActivity()).showProgressDialog();
         }
 
+
         Call<String> call;
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
@@ -371,7 +371,7 @@ public class ImageReqFragment extends Fragment {
 
                             sessionManager.getUserAccount().setAvatar(attachment);
 
-                            ImageUtil.displayImage(imgAvatar, attachment.getThumbUrl(), null);
+//                            ImageUtil.displayImage(imgAvatar, attachment.getThumbUrl(), null);
 
                             if (onProfileupdatelistener != null) {
                                 onProfileupdatelistener.updatedSuccesfully(attachment.getThumbUrl());
@@ -402,6 +402,7 @@ public class ImageReqFragment extends Fragment {
                 }
             }
         });
+
     }
 
     public void showPermissionsAlert() {

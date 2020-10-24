@@ -80,8 +80,8 @@ public class CreditReqFragment extends Fragment {
                 }
             }
         });
-       edtAccountName = view.findViewById(R.id.edt_account_name);
-       edtBsb = view.findViewById(R.id.edt_bsb);
+        edtAccountName = view.findViewById(R.id.edt_account_name);
+        edtBsb = view.findViewById(R.id.edt_bsb);
         edtAccountNumber = view.findViewById(R.id.edt_account_number);
     }
 
@@ -91,8 +91,6 @@ public class CreditReqFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_credit_req, container, false);
         return view;
     }
-
-
 
 
     public void addBankAccountDetails() {
@@ -143,7 +141,7 @@ public class CreditReqFragment extends Fragment {
                             ((ActivityBase) getActivity()).hideProgressDialog();
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                             // showCustomDialog(jsonObject_error.getString("message"));
+                            // showCustomDialog(jsonObject_error.getString("message"));
                             if (jsonObject_error.has("message")) {
                                 Toast.makeText(getActivity(), jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
                             }

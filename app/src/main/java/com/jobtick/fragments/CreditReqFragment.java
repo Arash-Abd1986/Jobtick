@@ -220,7 +220,7 @@ public class CreditReqFragment extends Fragment {
                         // Print Error!
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            ((ActivityBase) getActivity()).unauthorizedUser();`
+                            ((ActivityBase) getActivity()).unauthorizedUser();
                             ((ActivityBase) getActivity()).hideProgressDialog();
                             return;
                         }

@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +23,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.R;
@@ -55,6 +53,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -79,7 +78,7 @@ public class ImageReqFragment extends Fragment {
 
     private UserAccountModel userAccountModel;
     private static String imageStoragePath;
-//    private BottomSheetBehavior mBehavior;
+    //    private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
 
     public ImageReqFragment() {
@@ -88,6 +87,7 @@ public class ImageReqFragment extends Fragment {
     public static ImageReqFragment newInstance() {
         return new ImageReqFragment();
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -103,7 +103,9 @@ public class ImageReqFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_image_req, container, false);
+        View view = inflater.inflate(R.layout.fragment_image_req, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     private void getAllUserProfileDetails() {
@@ -156,9 +158,9 @@ public class ImageReqFragment extends Fragment {
     }
 
     private void setUpAvatar(UserAccountModel userAccountModel) {
-        if (userAccountModel.getAvatar().getThumbUrl() != null && !userAccountModel.getAvatar().getThumbUrl().equals("")) {
-            ((RequirementsBottomSheet) getParentFragment()).changeFragment(1);
-        }
+//        if (userAccountModel.getAvatar().getThumbUrl() != null && !userAccountModel.getAvatar().getThumbUrl().equals("")) {
+//            ((RequirementsBottomSheet) getParentFragment()).changeFragment(1);
+//        }
         ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getThumbUrl(), null);
     }
 
@@ -170,10 +172,7 @@ public class ImageReqFragment extends Fragment {
     }
 
     private void showBottomSheetDialog() {
-
-//        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-//            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-//        }
+        System.out.println("ccccccccccccccccc");
 
         final View view = getLayoutInflater().inflate(R.layout.sheet_attachment, null);
         LinearLayout lytBtnCamera = view.findViewById(R.id.lyt_btn_camera);

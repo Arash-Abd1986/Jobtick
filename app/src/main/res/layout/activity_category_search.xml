@@ -8,39 +8,39 @@
     android:orientation="vertical">
 
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:background="@drawable/rectangle_button_round_corners_outlined"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/ic_back">
+
+        </ImageView>
+
+        <com.jobtick.EditText.EditTextRegular
+            android:id="@+id/edt_search_categoreis"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:layout_marginEnd="@dimen/spacing_large"
-            android:orientation="horizontal"
-            android:background="@drawable/rectangle_card_round_corners_outlined">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginStart="8dp"
+            android:background="@null"
+            android:hint="Search Categories"
+            android:textColor="@color/grey_70"
+            android:textColorHint="@color/grey_70"
+            android:textSize="@dimen/_12sp">
 
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="6dp"
-                android:layout_height="12dp"
-                android:layout_marginStart="21dp"
-                android:layout_gravity="center_vertical|start"
-                android:src="@drawable/ic_back">
-
-            </ImageView>
-
-            <com.jobtick.EditText.EditTextRegular
-                android:id="@+id/edt_search_categoreis"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
-                android:layout_marginStart="18dp"
-                android:background="@null"
-                android:hint="Search Categories"
-                android:textColor="@color/grey_70"
-                android:textColorHint="@color/grey_70"
-                android:textSize="@dimen/_12sp">
-
-            </com.jobtick.EditText.EditTextRegular>
-        </LinearLayout>
+        </com.jobtick.EditText.EditTextRegular>
+    </LinearLayout>
 
 
     <FrameLayout
@@ -84,57 +84,37 @@
                     android:layout_marginTop="@dimen/_15sp"
                     android:layout_marginBottom="@dimen/_15sp"
                     android:gravity="center"
-                    android:text="We didn't find any results for your search">
+                    android:text="We didn't find any results for your search"
+                    android:textSize="@dimen/_12sp">
 
                 </com.jobtick.TextView.TextViewRegular>
 
 
-                <LinearLayout
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/lyt_search_new"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_46dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/spacing_large"
-
-                    android:layout_marginTop="@dimen/_16sp"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:background="@drawable/ic_rounded_button"
+                    style="@style/materialButton.medium.outlined"
+                    android:layout_width="245dp"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:text="@string/start_a_new_search"
+                    android:textColor="@color/blueButtons"
+                    android:textSize="@dimen/_14sp"
+                    app:strokeColor="@color/blueButtons"
+                    app:strokeWidth="@dimen/outline_normal"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingStart="@dimen/spacing_xlarge"
-                    android:paddingEnd="@dimen/spacing_xlarge">
+                    android:layout_gravity="center"/>
 
-                    <com.jobtick.TextView.TextViewRegular
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="Start a new serch"
-                        android:textColor="@color/blue"
-                        android:textSize="@dimen/_14sp" />
-                </LinearLayout>
 
-                <LinearLayout
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/lyt_categories"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_46dp"
-                    android:layout_gravity="center"
+                    style="@style/materialButton.medium"
+                    android:layout_width="245dp"
+                    android:layout_height="46dp"
                     android:layout_marginTop="@dimen/_16sp"
-                    android:background="@drawable/ic_rounded_button_fill"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingStart="@dimen/spacing_xxxlarge"
-                    android:paddingEnd="@dimen/spacing_xxxlarge">
-
-                    <com.jobtick.TextView.TextViewSemiBold
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="Categories"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_14sp" />
-                </LinearLayout>
+                    android:background="@color/blueButtons"
+                    android:text="@string/categories"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14sp" />
 
 
             </LinearLayout>

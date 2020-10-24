@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/iv_clock"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
         android:layout_marginBottom="14dp"
         android:layout_marginStart="26dp"
@@ -25,8 +25,7 @@
         android:layout_toEndOf="@+id/iv_clock"
         android:text="Cleanng"
         android:textColor="@color/grey_70"
-
-        android:textSize="@dimen/_17sp">
+        android:textSize="@dimen/_16sp">
 
     </com.jobtick.TextView.TextViewRegular>
 
@@ -34,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_margin="@dimen/_15sp"
+        android:layout_centerVertical="true"
 
         android:src="@drawable/ic_arrow_up_left"
 

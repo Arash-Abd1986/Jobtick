@@ -23,7 +23,7 @@ public class SinginSingupAcitivity extends ActivityBase {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_singin_singup);
+        setContentView(R.layout.activity_signin_signup);
         ButterKnife.bind(this);
 
         lytBtnSignup.setOnClickListener(v -> {

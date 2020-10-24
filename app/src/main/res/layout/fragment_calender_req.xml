@@ -10,15 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <com.jobtick.TextView.TextViewMedium
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
             android:layout_gravity="center"
             android:layout_margin="@dimen/spacing_mlarge"
+            android:gravity="left"
             android:text="@string/provide_a_date_of_birth"
             android:textColor="@color/textColor"
-            android:textSize="@dimen/_14sp"/>
+            android:textSize="@dimen/_14sp" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -29,7 +30,6 @@
             android:layout_marginBottom="@dimen/spacing_medium"
             android:background="@drawable/greay_border_bg"
             android:visibility="visible">
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,16 +82,14 @@
             android:id="@+id/txt_btn_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_gravity="center"
             android:layout_margin="@dimen/spacing_mlarge"
+            android:background="@drawable/shape_tab_primary"
+            android:gravity="center"
             android:padding="@dimen/spacing_large"
             android:text="@string/next"
-            android:background="@drawable/shape_tab_primary"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="14sp" />
-
     </LinearLayout>
-
 </FrameLayout>

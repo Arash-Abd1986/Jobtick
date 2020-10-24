@@ -1,7 +1,6 @@
 package com.jobtick.fragments;
 
 import android.app.ProgressDialog;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -26,7 +23,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.gson.Gson;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
-import com.jobtick.activities.PaymentSettingsActivity;
 import com.jobtick.models.BankAccountModel;
 import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.models.UserAccountModel;
@@ -40,8 +36,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
@@ -71,7 +65,8 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getAllUserProfileDetails();
-        handleState();
+        getBankAccountAddress();
+        getBillingAddress();
         img = view.findViewById(R.id.img_requirement);
         credit = view.findViewById(R.id.credit_requirement);
         map = view.findViewById(R.id.map_requirement);
@@ -94,7 +89,7 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
 
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                             userAccountModel = new UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"));
-                            getBankAccountAddress();
+                            handleState();
                         } else {
                             Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
                         }
@@ -148,7 +143,7 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
                                     if (data.isSuccess()) {
                                         if (data.getData() != null && data.getData().getAccount_number() != null) {
                                             bankAccountModel = data;
-                                            getBillingAddress();
+                                            handleState();
                                         }
                                     }
                                 }
@@ -157,13 +152,11 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
                                     return;
                                 }
                                 ((ActivityBase) getActivity()).showToast("Something went Wrong", getActivity());
-                                handleState();
                             }
                         }
                     } catch (JSONException e) {
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
-                        handleState();
                     }
                 },
                 error -> {
@@ -200,7 +193,7 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
                             return;
                         }
                         ((ActivityBase) getActivity()).showToast("Something Went Wrong", getContext());
-                        handleState();
+
                     }
                     Timber.e(error.toString());
                     ((ActivityBase) getActivity()).hideProgressDialog();
@@ -307,11 +300,11 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
         if (userAccountModel != null) {
             if (userAccountModel.getAvatar() == null || userAccountModel.getAvatar().getUrl().equals("")) {
                 selectImageBtn();
+            } else if (bankAccountModel == null || bankAccountModel.getData() == null || bankAccountModel.getData().getAccount_name().equals("") || bankAccountModel.getData().getAccount_number().equals("")) {
+                selectCreditBtn();
             } else if (userAccountModel.getDob() == null || userAccountModel.getDob().equals("")) {
                 selectCalenderBtn();
-            } else if (bankAccountModel.getData() == null || bankAccountModel.getData().getAccount_name().equals("") || bankAccountModel.getData().getAccount_number().equals("")) {
-                selectCreditBtn();
-            } else if (billingAdreessModel.getData() == null || billingAdreessModel.getData().getLocation().equals("") || billingAdreessModel.getData().getPost_code().equals("")) {
+            } else if (billingAdreessModel == null || billingAdreessModel.getData() == null || billingAdreessModel.getData().getLocation().equals("") || billingAdreessModel.getData().getPost_code().equals("")) {
                 selectMapBtn();
             } else if (userAccountModel.getMobile().equals("") || userAccountModel.getMobileVerifiedAt().equals("")) {
                 selectPhoneBtn();
@@ -322,6 +315,12 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void selectImageBtn() {
+        img.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
+        map.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        credit.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        calender.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        phone.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+
         ImageReqFragment fragment = ImageReqFragment.newInstance();
         getChildFragmentManager().
                 beginTransaction().
@@ -331,6 +330,12 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void selectCreditBtn() {
+        img.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        map.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        credit.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
+        calender.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        phone.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+
         CreditReqFragment fragment = CreditReqFragment.newInstance();
         getChildFragmentManager().
                 beginTransaction().
@@ -339,6 +344,12 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void selectMapBtn() {
+        img.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        map.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
+        credit.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        calender.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        phone.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+
 
         MapReqFragment fragment = MapReqFragment.newInstance();
         getChildFragmentManager().
@@ -348,6 +359,11 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void selectCalenderBtn() {
+        img.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        map.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        credit.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        calender.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
+        phone.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
 
         CalenderReqFragment fragment = CalenderReqFragment.newInstance();
         getChildFragmentManager().
@@ -357,6 +373,13 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void selectPhoneBtn() {
+
+        img.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        map.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        credit.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        calender.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        phone.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
+
         PhoneReqFragment fragment = PhoneReqFragment.newInstance();
         getChildFragmentManager().
                 beginTransaction().

@@ -1,91 +1,51 @@
 package com.jobtick.fragments;
 
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
-import com.jobtick.activities.EditProfileActivity;
-import com.jobtick.activities.SkillsTagActivity;
-import com.jobtick.adapers.AttachmentAdapter;
-import com.jobtick.adapers.AttachmentAdapterEditProfile;
-import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.UserAccountModel;
-import com.jobtick.retrofit.ApiClient;
 import com.jobtick.utils.Constant;
-import com.jobtick.utils.ConstantKey;
-import com.jobtick.utils.Helper;
-import com.jobtick.utils.HttpStatus;
-import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.Tools;
-import com.jobtick.widget.SpacingItemDecoration;
-import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 import timber.log.Timber;
-
-import static com.jobtick.fragments.ProfileFragment.onProfileupdatelistener;
 
 public class CalenderReqFragment extends Fragment {
 
     private UserAccountModel userAccountModel;
     TextView btnNext;
     SessionManager sessionManager;
-    private static final String TAG = EditProfileActivity.class.getName();
-
 
     int year, month, day;
     String str_DOB = null;
     DatePickerDialog.OnDateSetListener mDateSetListener;
-     TextView txtBirthDate;
+    TextView txtBirthDate;
+
     public CalenderReqFragment() {
     }
 
@@ -105,7 +65,7 @@ public class CalenderReqFragment extends Fragment {
         sessionManager = new SessionManager(getContext());
         btnNext = view.findViewById(R.id.txt_btn_next);
 
-        txtBirthDate= view.findViewById(R.id.txt_birth_date);
+        txtBirthDate = view.findViewById(R.id.txt_birth_date);
         txtBirthDate.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             year = calendar.get(Calendar.YEAR);
@@ -121,9 +81,7 @@ public class CalenderReqFragment extends Fragment {
         });
         getAllUserProfileDetails();
         btnNext.setOnClickListener(v -> {
-
             ((RequirementsBottomSheet) getParentFragment()).changeFragment(4);
-
         });
 
         mDateSetListener = (view1, year, month, dayOfMonth) -> {
@@ -131,14 +89,12 @@ public class CalenderReqFragment extends Fragment {
             str_DOB = Tools.getDayMonthDateTimeFormat2(year + "-" + month + "-" + dayOfMonth);
             txtBirthDate.setText(str_DOB);
         };
-
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.fragment_calender_req, container, false);
-
-        return view;
+        return inflater.inflate(R.layout.fragment_calender_req, container, false);
     }
 
     private void getAllUserProfileDetails() {
@@ -190,16 +146,7 @@ public class CalenderReqFragment extends Fragment {
         }
     }
 
-
-
-
-
     private void setUpDate(UserAccountModel userAccountModel) {
-        if (userAccountModel.getDob() != null && !userAccountModel.getDob().equals("")) {
-            ((RequirementsBottomSheet) getParentFragment()).changeFragment(2);
-        }
         txtBirthDate.setText(Tools.getDayMonthDateTimeFormat2(userAccountModel.getDob()));
-
     }
-
 }

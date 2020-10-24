@@ -60,7 +60,6 @@ public class AddBankAccountActivity extends ActivityBase {
         initToolbar();
     }
 
-
     private void initToolbar() {
         ivBack.setOnClickListener(v -> {
             finish();
@@ -70,7 +69,6 @@ public class AddBankAccountActivity extends ActivityBase {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Add Bank Account");*/
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

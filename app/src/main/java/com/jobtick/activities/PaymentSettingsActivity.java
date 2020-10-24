@@ -71,7 +71,6 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
     @BindView(R.id.rlt_btn_add_credit_card)
     RelativeLayout rltBtnAddCreditCard;
 
-
     @BindView(R.id.linear_bank_details)
     LinearLayout linear_bank_details;
 
@@ -81,17 +80,14 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
     @BindView(R.id.linear_bank)
     LinearLayout linear_bank;
 
-
     @BindView(R.id.card_add_billing_address)
     CardView card_add_billing_address;
 
     @BindView(R.id.card_add_bank_account)
     CardView card_add_bank_account;
 
-
     @BindView(R.id.card_view_bank_account)
     CardView card_view_bank_account;
-
 
     @BindView(R.id.txt_account_number)
     TextViewSemiBold txtAccountNumber;
@@ -101,7 +97,6 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
 
     @BindView(R.id.txt_Billing_Address)
     TextViewSemiBold txtBillingAddress;
-
 
     @BindView(R.id.tvCardHolderName)
     TextViewRegular tvCardHolderName;
@@ -138,10 +133,9 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         setContentView(R.layout.activity_payment_settings);
         ButterKnife.bind(this);
         initToolbar();
-        initalView();
+        initView();
         radioBtnClick();
     }
-
 
     private void initToolbar() {
         //  toolbar.setNavigationIcon(R.drawable.ic_back);
@@ -151,7 +145,6 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         onBankaccountadded = this;
         ivBack.setOnClickListener(v -> finish());
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -168,7 +161,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         super.onBackPressed();
     }
 
-    private void initalView() {
+    private void initView() {
         rbPayments.setChecked(true);
         rbPayments.setTextColor(getResources().getColor(R.color.white));
         rbWithdrawal.setTextColor(getResources().getColor(R.color.black));
@@ -179,7 +172,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         rtl_credit_card_details.setVisibility(View.GONE);
         getBillingAddress();
         getPaymentMethod();
-        getBankAccountAddress();
+        getBankAccountDetails();
 
     }
 
@@ -203,13 +196,8 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         });
     }
 
-
-    public void getBankAccountAddress() {
-
-
+    public void getBankAccountDetails() {
         showProgressDialog();
-
-
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_ACCOUNT_DETAILS,
                 response -> {
                     Timber.e(response);
@@ -228,14 +216,11 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                                     if (data.isSuccess()) {
 
                                         if (data.getData() != null && data.getData().getAccount_number() != null) {
-
                                             linear_bank.setVisibility(View.GONE);
                                             card_add_bank_account.setVisibility(View.GONE);
                                             card_view_bank_account.setVisibility(View.VISIBLE);
                                             txtAccountNumber.setText(data.getData().getAccount_number());
-
                                         }
-
                                     }
                                 }
                             } else {
@@ -302,7 +287,6 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
 
 
     }
-
 
     public void getBillingAddress() {
 
@@ -397,7 +381,6 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
 
     }
 
-
     private void getPaymentMethod() {
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PAYMENTS_METHOD,
@@ -488,7 +471,6 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         requestQueue.add(stringRequest);
     }
 
-
     @OnClick({R.id.rlt_btn_add_credit_card, R.id.card_add_bank_account, R.id.card_add_billing_address, R.id.card_delete_credit_card, R.id.ic_delete_bank_account, R.id.ic_delete_billing_account})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -518,7 +500,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
 
     @Override
     public void bankAccountAdd() {
-        getBankAccountAddress();
+        getBankAccountDetails();
     }
 
     @Override

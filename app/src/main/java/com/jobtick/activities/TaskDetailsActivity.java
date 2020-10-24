@@ -244,7 +244,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     //FrameLayout fl_task_details;
 
     public static TaskModel taskModel = new TaskModel();
-    ;
     public static String isOfferQuestion = "";
     public static OfferModel offerModel;
     public static QuestionModel questionModel;
@@ -263,7 +262,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private String imageStoragePath;
     private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
 
-    ;
     private AttachmentAdapter adapter;
 
     public int pushOfferID;
@@ -281,7 +279,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
         initialStage();
     }
-
 
     @Override
     protected void getExtras() {
@@ -713,13 +710,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     new MaterialAlertDialogBuilder(TaskDetailsActivity.this)
                             .setTitle(getResources().getString(R.string.title_copy))
                             .setNegativeButton(getResources().getString(R.string.no), null)
-                            .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    // deleteTaskPermanent(taskDetails.getSlug());
-                                    copyTask(taskModel);
-                                }
+                            .setPositiveButton(getResources().getString(R.string.yes), (dialog, which) -> {
+                                dialog.dismiss();
+                                // deleteTaskPermanent(taskDetails.getSlug());
+                                copyTask(taskModel);
                             }).show();
                     break;
                 case R.id.action_cancellation:
@@ -796,7 +790,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 response -> {
                     hideProgressDialog();
                     try {
-                        //fl_task_details.setVisibility(View.GONE);
 
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -829,10 +822,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         } else {
                             showToast("Something went wrong", TaskDetailsActivity.this);
                         }
-                        //   fl_task_details.setVisibility(View.GONE);
 
                     } catch (JSONException e) {
-                        //fl_task_details.setVisibility(View.GONE);
 
                         showToast("JSONException", TaskDetailsActivity.this);
                         Timber.e(String.valueOf(e));
@@ -895,7 +886,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         adapter.setOnItemClickListener(this);
 
     }
-
 
     private void setDataInLayout(TaskModel taskModel) {
         txtTitle.setText(taskModel.getTitle());
@@ -963,7 +953,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         return dueTime;
     }
 
-
     private void initToolbar() {
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
@@ -1001,7 +990,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         });
 
     }
-
 
     private void copyTask(TaskModel taskModel) {
 
@@ -1560,7 +1548,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         requestQueue.add(stringRequest);
     }
 
-
     private void showCustomDialog(String message) {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
@@ -1694,7 +1681,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     public void onWidthdraw(int id) {
         doApiCall(Constant.URL_OFFERS + "/" + id);
     }
-
 
     private static class AdapterImageSlider extends PagerAdapter {
         private Activity act;
@@ -1865,7 +1851,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
-
     //Adapter override method
     @Override
     public void onItemOfferClick(View v, OfferModel obj, int position, String action) {
@@ -1901,7 +1886,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
-
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
         if (action.equalsIgnoreCase("add")) {
@@ -1915,7 +1899,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             showToast("Delete this attachment", TaskDetailsActivity.this);
         }
     }
-
 
     private void uploadDataQuestionMediaApi(File pictureFile) {
         showProgressDialog();
@@ -2099,9 +2082,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         requestQueue.add(stringRequest);
     }
 
-
     private void doApiCall(String url) {
-
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url,
                 new Response.Listener<String>() {
@@ -2150,7 +2131,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         requestQueue.add(stringRequest);
         Log.e("url", stringRequest.getUrl());
     }
-
 
     public void addToBookmark() {
         //{{baseurl}}/task/clean-my-small-player-15965410804/bookmark
@@ -2218,7 +2198,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         requestQueue.add(stringRequest);
         Log.e("url", stringRequest.getUrl());
     }
-
 
     private void removeBookmark() {
         showProgressDialog();

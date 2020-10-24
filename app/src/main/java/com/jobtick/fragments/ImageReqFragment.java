@@ -157,6 +157,9 @@ public class ImageReqFragment extends Fragment {
     }
 
     private void setUpAvatar(UserAccountModel userAccountModel) {
+        if (userAccountModel.getAvatar().getThumbUrl() != null && !userAccountModel.getAvatar().getThumbUrl().equals("")) {
+            ((RequirementsBottomSheet) getParentFragment()).changeFragment(1);
+        }
         ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getThumbUrl(), null);
     }
 

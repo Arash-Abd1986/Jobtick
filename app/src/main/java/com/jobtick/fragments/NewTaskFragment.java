@@ -77,8 +77,8 @@ public class NewTaskFragment extends Fragment {
     @BindView(R.id.card_cancelled)
     CardView cardCancelled;
 
-    @BindView(R.id.txtBlocked)
-    TextViewRegular txtBlocked;
+//    @BindView(R.id.txtBlocked)
+//    TextViewRegular txtBlocked;
 
     ImageView ivNotification;
     TextView toolbar_title;
@@ -187,7 +187,8 @@ public class NewTaskFragment extends Fragment {
         if (userAccountModel.getBlocked()) {
             cardCancelBackground.setVisibility(View.VISIBLE);
             cardCancelled.setVisibility(View.VISIBLE);
-            txtBlocked.setText("Your account has been blocked for " + compareTwoDate(sessionManager.getUserAccount().getBlockedUntil()) + " days.");
+            //TODO: add this view for blocked user. I (Mohsen) comment views in the layout.
+           // txtBlocked.setText("Your account has been blocked for " + compareTwoDate(sessionManager.getUserAccount().getBlockedUntil()) + " days.");
         }
 
     }

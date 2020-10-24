@@ -21,11 +21,13 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.AddBankAccountActivity;
 import com.jobtick.utils.HttpStatus;
+import com.jobtick.utils.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,14 +44,14 @@ import static com.jobtick.activities.PaymentSettingsActivity.onBankaccountadded;
 import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
 import static com.jobtick.utils.Constant.BASE_URL;
 
-public class CreditReqFragment extends Fragment  {
+public class CreditReqFragment extends Fragment {
 
 
     TextView btnNext;
-    EditTextRegular edtAccountName;
-    EditTextRegular edtBsb;
-    EditTextRegular edtAccountNumber;
-
+    EditTextMedium edtAccountName;
+    EditTextMedium edtBsb;
+    EditTextMedium edtAccountNumber;
+    SessionManager sessionManager;
 
 
     public CreditReqFragment() {
@@ -67,35 +69,40 @@ public class CreditReqFragment extends Fragment  {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        sessionManager = new SessionManager(getContext());
         btnNext = view.findViewById(R.id.txt_btn_next);
-        edtAccountName=view.findViewById(R.id.edt_account_name);
-        edtBsb=view.findViewById(R.id.edt_bsb);
-        edtAccountNumber=view.findViewById(R.id.edt_account_number);
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((RequirementsBottomSheet) getParentFragment()).changeFragment(2);
+                if (validate()) {
+                    addBankAccountDetails();
+                }
+            }
+        });
+       edtAccountName = view.findViewById(R.id.edt_account_name);
+       edtBsb = view.findViewById(R.id.edt_bsb);
+        edtAccountNumber = view.findViewById(R.id.edt_account_number);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.fragment_credit_req, container, false);
+        View view = inflater.inflate(R.layout.fragment_credit_req, container, false);
         return view;
     }
 
 
-    @OnClick(R.id.txt_btn_next)
-    public void onViewClicked() {
-        ((RequirementsBottomSheet) getParentFragment()).changeFragment(2);
-        if (validate()) {
-            addBankAccountDetails();
-        }
-    }
+
 
     public void addBankAccountDetails() {
 
-        //showProgressDialog();
+        ((ActivityBase) getActivity()).showProgressDialog();
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, BASE_URL + ADD_ACCOUNT_DETAILS,
                 response -> {
                     Timber.e(response);
-                   // hideProgressDialog();
+                    ((ActivityBase) getActivity()).hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -107,7 +114,7 @@ public class CreditReqFragment extends Fragment  {
                                 if (onBankaccountadded != null) {
                                     onBankaccountadded.bankAccountAdd();
                                 }
-                              //  finish();
+                                ((ActivityBase) getActivity()).finish();
                             } else {
                                 Toast.makeText(getActivity(), "Something went Wrong !", Toast.LENGTH_SHORT).show();
 
@@ -128,22 +135,22 @@ public class CreditReqFragment extends Fragment  {
                         // Print Error!
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                           unauthorizedUser();
-                          //  hideProgressDialog();
+                            ((ActivityBase) getActivity()).unauthorizedUser();
+                            ((ActivityBase) getActivity()).hideProgressDialog();
                             return;
                         }
                         try {
-                          //  hideProgressDialog();
+                            ((ActivityBase) getActivity()).hideProgressDialog();
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            //  showCustomDialog(jsonObject_error.getString("message"));
+                             // showCustomDialog(jsonObject_error.getString("message"));
                             if (jsonObject_error.has("message")) {
                                 Toast.makeText(getActivity(), jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
                             }
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
                             }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                            Toast.makeText(getActivity(), "errors", Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -152,7 +159,7 @@ public class CreditReqFragment extends Fragment  {
 
                     }
                     Timber.e(error.toString());
-                   // hideProgressDialog();
+                    ((ActivityBase) getActivity()).hideProgressDialog();
                 }) {
 
 

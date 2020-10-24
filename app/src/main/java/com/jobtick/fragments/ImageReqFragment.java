@@ -79,7 +79,7 @@ public class ImageReqFragment extends Fragment {
 
     private UserAccountModel userAccountModel;
     private static String imageStoragePath;
-    private BottomSheetBehavior mBehavior;
+//    private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
 
     public ImageReqFragment() {
@@ -92,13 +92,12 @@ public class ImageReqFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        sessionManager = new SessionManager(getContext());
         imgAvatar = view.findViewById(R.id.img_user_avatar);
         TextView btnNext = view.findViewById(R.id.txt_btn_nextI);
-        FrameLayout bottomSheet = view.findViewById(R.id.bottom_sheet);
         btnNext.setOnClickListener(v -> ((RequirementsBottomSheet) getParentFragment()).changeFragment(1));
         getAllUserProfileDetails();
 
-        mBehavior = BottomSheetBehavior.from(bottomSheet);
     }
 
     @Override
@@ -172,9 +171,9 @@ public class ImageReqFragment extends Fragment {
 
     private void showBottomSheetDialog() {
 
-        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        }
+//        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+//            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//        }
 
         final View view = getLayoutInflater().inflate(R.layout.sheet_attachment, null);
         LinearLayout lytBtnCamera = view.findViewById(R.id.lyt_btn_camera);

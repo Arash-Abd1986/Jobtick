@@ -23,8 +23,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
+import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.BillingAddressActivity;
 import com.jobtick.utils.HttpStatus;
+import com.jobtick.utils.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +53,7 @@ public class MapReqFragment extends Fragment {
     EditTextRegular edtState;
     EditTextRegular edtPostcode;
     EditTextRegular edtCountry;
-
+    SessionManager sessionManager;
 
     public MapReqFragment() {
     }
@@ -68,6 +70,7 @@ public class MapReqFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        sessionManager = new SessionManager(getContext());
         edtAddressLine1 = view.findViewById(R.id.edt_address_line_1);
         edtAddressLine2 = view.findViewById(R.id.edt_address_line_2);
         edtSuburs = view.findViewById(R.id.edt_suburs);
@@ -134,12 +137,12 @@ public class MapReqFragment extends Fragment {
     }
 
     private void AddBillingAddress() {
-        showProgressDialog();
+        ((ActivityBase) getActivity()). showProgressDialog();
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, BASE_URL + ADD_BILLING,
                 response -> {
                     Timber.e(response);
-                    hideProgressDialog();
+                    ((ActivityBase) getActivity()).hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -157,7 +160,7 @@ public class MapReqFragment extends Fragment {
                                 if (onBankaccountadded != null) {
                                     onBankaccountadded.billingAddressAdd();
                                 }
-                                finish();
+                                ((ActivityBase) getActivity()).finish();
 
                             } else {
                                 Toast.makeText(getActivity(), "Something went Wrong !", Toast.LENGTH_SHORT).show();
@@ -179,12 +182,12 @@ public class MapReqFragment extends Fragment {
                         // Print Error!
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser();
-                            hideProgressDialog();
+                            ((ActivityBase) getActivity()).unauthorizedUser();
+                            ((ActivityBase) getActivity()).hideProgressDialog();
                             return;
                         }
                         try {
-                            hideProgressDialog();
+                            ((ActivityBase) getActivity()).hideProgressDialog();
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             //  showCustomDialog(jsonObject_error.getString("message"));
@@ -202,7 +205,7 @@ public class MapReqFragment extends Fragment {
                         Toast.makeText(getActivity(), "Something went Wrong !", Toast.LENGTH_SHORT).show();
                     }
                     Timber.e(error.toString());
-                    hideProgressDialog();
+                    ((ActivityBase) getActivity()).hideProgressDialog();
                 }) {
 
 

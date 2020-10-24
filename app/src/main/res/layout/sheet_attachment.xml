@@ -7,15 +7,12 @@
     android:background="@android:color/transparent"
     android:orientation="vertical">
 
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="@dimen/spacing_large"
-        android:src="@drawable/ic_down">
-
-    </ImageView>
+        android:src="@drawable/ic_down"/>
 
     <com.jobtick.TextView.TextViewMedium
         android:layout_width="match_parent"
@@ -23,9 +20,7 @@
         android:gravity="center"
         android:text="Choose an action"
         android:textColor="@color/textColor"
-        android:textSize="@dimen/_14sp">
-
-    </com.jobtick.TextView.TextViewMedium>
+        android:textSize="@dimen/_14sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,11 +58,7 @@
                     android:layout_marginTop="@dimen/_10sp"
                     android:gravity="center"
                     android:text="File Manager"
-
-
                     android:textColor="@color/textColor" />
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -92,11 +83,7 @@
                     android:layout_marginTop="@dimen/_10sp"
                     android:gravity="center"
                     android:text="Gallery"
-
-
                     android:textColor="@color/textColor" />
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -123,11 +110,7 @@
                     android:text="Photos"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/_12sp" />
-
-
             </LinearLayout>
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -136,7 +119,6 @@
             android:layout_weight="3"
             android:orientation="horizontal"
             android:visibility="gone">
-
 
             <LinearLayout
                 android:id="@+id/lyt_btn_video_camera"
@@ -159,8 +141,6 @@
                     android:layout_height="wrap_content"
                     android:text="Video Camera"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -184,13 +164,7 @@
                     android:layout_height="wrap_content"
                     android:text="Doc"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
-
             </LinearLayout>
         </LinearLayout>
-
-
     </LinearLayout>
-
-
 </LinearLayout>

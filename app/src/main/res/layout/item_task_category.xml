@@ -1,76 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lyt_outer"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="68dp"
     android:orientation="vertical">
 
+
+    <ImageView
+        android:id="@+id/img_view"
+        android:layout_width="32dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_placeholder_category" />
+
     <LinearLayout
-        android:id="@+id/lyt_outer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
->
+        android:orientation="vertical"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="64dp"
+        android:layout_centerInParent="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+    <com.jobtick.TextView.TextViewRegular
+        android:id="@+id/txt_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Car"
+        android:textColor="#293241"
+        android:textSize="@dimen/_16sp"
+        android:layout_gravity="center_vertical"
+        />
 
-            <LinearLayout
-                android:id="@+id/lyt_inner"
-                android:layout_width="@dimen/_60dp"
-                android:layout_height="@dimen/_60dp"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/spacing_middle"
-                android:gravity="center">
+    <com.jobtick.TextView.TextViewRegular
+        android:id="@+id/txt_names"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="Lorem Ipsum is simply dummy"
+        android:textColor="#293241"
+        android:textSize="@dimen/_12sp"
+        />
 
-                <ImageView
-                    android:id="@+id/img_view"
-                    android:layout_width="40dp"
-
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/spacing_medium"
-                    android:clickable="true"
-                    app:srcCompat="@drawable/ic_placeholder_category" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-
-                android:orientation="vertical">
-
-                <com.jobtick.TextView.TextViewRegular
-                    android:id="@+id/txt_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionSearch"
-
-                    android:text="Caitle"
-                    android:textColor="#293241"
-                    android:textSize="@dimen/_15sp" />
-
-                <com.jobtick.TextView.TextViewRegular
-                    android:id="@+id/txt_names"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:imeOptions="actionSearch"
-
-                    android:text="Lorem Ipsum is simply dummy"
-                    android:textColor="#293241"
-                    android:textSize="@dimen/_12sp" />
-
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/spacing_middle" />
-        </LinearLayout>
     </LinearLayout>
 
     <View
@@ -78,7 +53,10 @@
         android:layout_height="0.2dp"
         android:layout_marginStart="@dimen/_25sp"
         android:layout_marginEnd="@dimen/_25sp"
-        android:background="@color/grey_20">
+        android:background="@color/grey_20"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"/>
 
-    </View>
-</LinearLayout>
+
+</RelativeLayout>

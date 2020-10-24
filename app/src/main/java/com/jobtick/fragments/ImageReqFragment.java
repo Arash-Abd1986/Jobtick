@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,7 +29,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
-import com.jobtick.activities.EditProfileActivity;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.UserAccountModel;
@@ -54,7 +51,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,25 +66,19 @@ import timber.log.Timber;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.jobtick.activities.DashboardActivity.onProfileupdatelistenerSideMenu;
+import static com.jobtick.fragments.ProfileFragment.onProfileupdatelistener;
 
 
 public class ImageReqFragment extends Fragment {
 
-    private static final String TAG = EditProfileActivity.class.getName();
-    private int PLACE_SELECTION_REQUEST_CODE = 1;
-    private static final int GALLERY_PICKUP_VIDEO_REQUEST_CODE = 300;
-    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
-    private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
-    private TextView btnNext;
+    private final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
+    private final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
     private CircularImageView imgAvatar;
     SessionManager sessionManager;
 
-    private ArrayList<AttachmentModel> attachmentArrayList;
     private UserAccountModel userAccountModel;
-
     private static String imageStoragePath;
-    private FrameLayout bottomSheet;
-    boolean isUploadPortfolio = false;
     private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
 
@@ -103,11 +93,9 @@ public class ImageReqFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         imgAvatar = view.findViewById(R.id.img_user_avatar);
-        btnNext = view.findViewById(R.id.txt_btn_nextI);
-        bottomSheet = view.findViewById(R.id.bottom_sheet);
-        btnNext.setOnClickListener(v -> {
-            ((RequirementsBottomSheet) getParentFragment()).changeFragment(1);
-        });
+        TextView btnNext = view.findViewById(R.id.txt_btn_nextI);
+        FrameLayout bottomSheet = view.findViewById(R.id.bottom_sheet);
+        btnNext.setOnClickListener(v -> ((RequirementsBottomSheet) getParentFragment()).changeFragment(1));
         getAllUserProfileDetails();
 
         mBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -122,8 +110,9 @@ public class ImageReqFragment extends Fragment {
     private void getAllUserProfileDetails() {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
                 response -> {
-                    Log.e("response", response);
-                    // hideProgressDialog();
+                    if (getActivity() != null) {
+                        ((ActivityBase) getActivity()).hideProgressDialog();
+                    }
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -143,13 +132,15 @@ public class ImageReqFragment extends Fragment {
                     }
                 },
                 error -> {
-                    //    errorHandle1(error.networkResponse);
-                    ((ActivityBase) getActivity()).hideProgressDialog();
+                    if (getActivity() != null) {
+                        ((ActivityBase) getActivity()).errorHandle1(error.networkResponse);
+                        ((ActivityBase) getActivity()).hideProgressDialog();
+                    }
                 }) {
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 // map1.put("X-Requested-With", "XMLHttpRequest");
@@ -157,10 +148,12 @@ public class ImageReqFragment extends Fragment {
             }
         };
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        requestQueue.add(stringRequest);
+        if (getActivity() != null) {
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            requestQueue.add(stringRequest);
+        }
     }
 
     private void setUpAvatar(UserAccountModel userAccountModel) {
@@ -169,10 +162,8 @@ public class ImageReqFragment extends Fragment {
 
     @OnClick({R.id.img_user_avatar})
     public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.img_user_avatar:
-                showBottomSheetDialog();
-                break;
+        if (view.getId() == R.id.img_user_avatar) {
+            showBottomSheetDialog();
         }
     }
 
@@ -215,10 +206,11 @@ public class ImageReqFragment extends Fragment {
             startActivityForResult(Intent.createChooser(openGallery, "Open Gallery"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
             mBottomSheetDialog.hide();
         });
-
-        mBottomSheetDialog = new BottomSheetDialog(getActivity());
-        mBottomSheetDialog.setContentView(view);
-        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        if (getActivity() != null) {
+            mBottomSheetDialog = new BottomSheetDialog(getActivity());
+            mBottomSheetDialog.setContentView(view);
+            mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
 
         // set background transparent
         ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
@@ -317,7 +309,10 @@ public class ImageReqFragment extends Fragment {
     }
 
     private void uploadProfileAvatar(File pictureFile) {
-        ((ActivityBase) getActivity()).showProgressDialog();
+        if (getActivity() != null) {
+            ((ActivityBase) getActivity()).showProgressDialog();
+        }
+
         Call<String> call;
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
@@ -328,9 +323,14 @@ public class ImageReqFragment extends Fragment {
             @Override
             public void onResponse(Call<String> call, retrofit2.Response<String> response) {
 
-                ((ActivityBase) getActivity()).hideProgressDialog();
+                if (getActivity() != null) {
+                    ((ActivityBase) getActivity()).hideProgressDialog();
+                }
+
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
-                    ((ActivityBase) getActivity()).showToast(response.message(), getActivity());
+                    if (getActivity() != null) {
+                        ((ActivityBase) getActivity()).showToast(response.message(), getActivity());
+                    }
                     return;
                 }
                 try {
@@ -340,7 +340,9 @@ public class ImageReqFragment extends Fragment {
                         return;
                     }
                     if (response.code() == HttpStatus.AUTH_FAILED) {
-                        ((ActivityBase) getActivity()).unauthorizedUser();
+                        if (getActivity() != null) {
+                            ((ActivityBase) getActivity()).unauthorizedUser();
+                        }
                         return;
                     }
                     if (response.code() == HttpStatus.SUCCESS) {
@@ -368,6 +370,8 @@ public class ImageReqFragment extends Fragment {
 
                             sessionManager.getUserAccount().setAvatar(attachment);
 
+                            ImageUtil.displayImage(imgAvatar, attachment.getThumbUrl(), null);
+
                             if (onProfileupdatelistener != null) {
                                 onProfileupdatelistener.updatedSuccesfully(attachment.getThumbUrl());
                             }
@@ -378,23 +382,31 @@ public class ImageReqFragment extends Fragment {
                         //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
                         // showToast("attachment added", AttachmentActivity.this);
                     } else {
-                        ((ActivityBase) getActivity()).showToast("Something went wrong", getActivity());
+                        if (getActivity() != null) {
+                            ((ActivityBase) getActivity()).showToast("Something went wrong", getActivity());
+                        }
                     }
                 } catch (JSONException e) {
-                    ((ActivityBase) getActivity()).showToast("Something went wrong", getActivity());
+                    if (getActivity() != null) {
+                        ((ActivityBase) getActivity()).showToast("Something went wrong", getActivity());
+                    }
                     e.printStackTrace();
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                ((ActivityBase) getActivity()).hideProgressDialog();
-                Log.e("Response", call.toString());
+                if (getActivity() != null) {
+                    ((ActivityBase) getActivity()).hideProgressDialog();
+                }
             }
         });
     }
 
     public void showPermissionsAlert() {
+        if (getActivity() == null) {
+            return;
+        }
         new MaterialAlertDialogBuilder(getActivity())
                 .setTitle("Permissions required!")
                 .setMessage("Camera needs few permissions to work properly. Grant them in settings.")

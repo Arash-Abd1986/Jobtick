@@ -71,14 +71,14 @@ public class NewTaskFragment extends Fragment {
     private TaskModel taskModel;
     private Toolbar toolbar;
 
-    @BindView(R.id.card_cancel_background)
-    CardView cardCancelBackground;
-
-    @BindView(R.id.card_cancelled)
-    CardView cardCancelled;
-
+    //TODO: add this for implementing block user.
+//    @BindView(R.id.card_cancel_background)
+//    CardView cardCancelBackground;
 //    @BindView(R.id.txtBlocked)
 //    TextViewRegular txtBlocked;
+//
+//    @BindView(R.id.card_cancelled)
+//    CardView cardCancelled;
 
     ImageView ivNotification;
     TextView toolbar_title;
@@ -147,7 +147,7 @@ public class NewTaskFragment extends Fragment {
             startActivityForResult(creating_task, 12);*/
             getContext().startActivity(creating_task);
         });
-        init();
+     //   init();
 
 
         edtSearchCategories.setOnClickListener(v -> {
@@ -182,14 +182,14 @@ public class NewTaskFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void init() {
-        UserAccountModel userAccountModel = sessionManager.getUserAccount();
-        if (userAccountModel.getBlocked()) {
-            cardCancelBackground.setVisibility(View.VISIBLE);
-            cardCancelled.setVisibility(View.VISIBLE);
-            //TODO: add this view for blocked user. I (Mohsen) comment views in the layout.
-           // txtBlocked.setText("Your account has been blocked for " + compareTwoDate(sessionManager.getUserAccount().getBlockedUntil()) + " days.");
-        }
-
-    }
+    //TODO: add this view for blocked user. I (Mohsen) comment views in the layout.
+//    public void init() {
+//        UserAccountModel userAccountModel = sessionManager.getUserAccount();
+//        if (userAccountModel.getBlocked()) {
+//            cardCancelBackground.setVisibility(View.VISIBLE);
+//            cardCancelled.setVisibility(View.VISIBLE);
+//            txtBlocked.setText("Your account has been blocked for " + compareTwoDate(sessionManager.getUserAccount().getBlockedUntil()) + " days.");
+//        }
+//
+//    }
 }

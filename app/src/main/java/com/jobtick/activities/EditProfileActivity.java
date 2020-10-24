@@ -119,8 +119,8 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     EditText edtAboutMe;
     @BindView(R.id.edt_email_address)
     EditText edtEmailAddress;
-    @BindView(R.id.txt_birth_date)
-    TextView txtBirthDate;
+   @BindView(R.id.txt_birth_date)
+   TextView txtBirthDate;
     @BindView(R.id.edt_business_number)
     EditText edtBusinessNumber;
     @BindView(R.id.img_transportation_back)

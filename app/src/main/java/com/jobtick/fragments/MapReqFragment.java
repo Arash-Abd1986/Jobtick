@@ -91,7 +91,6 @@ public class MapReqFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map_req, container, false);
-
         return view;
     }
 

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/post_requirements_item_height"
     android:layout_gravity="start"
     android:gravity="start">
 
@@ -12,9 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
-        android:layout_marginTop="@dimen/spacing_medium"
-
-        android:src="@drawable/ic_minus" />
+        android:src="@drawable/ic_minus"
+        android:layout_gravity="center_vertical"/>
 
     <com.jobtick.TextView.TextViewRegular
         android:id="@+id/txt_btn_add_must_have"

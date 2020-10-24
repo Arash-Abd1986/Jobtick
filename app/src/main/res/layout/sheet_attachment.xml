@@ -21,7 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Choose an action"
+        android:text="@string/choose_an_action"
+        android:lines="1"
         android:textColor="@color/textColor"
         android:textSize="@dimen/_14sp">
 
@@ -44,7 +45,6 @@
                 android:id="@+id/lyt_btn_video"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
@@ -62,9 +62,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sp"
                     android:gravity="center"
-                    android:text="File Manager"
-
-
+                    android:text="@string/file_manager"
+                    android:lines="1"
                     android:textColor="@color/textColor" />
 
 
@@ -91,9 +90,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sp"
                     android:gravity="center"
-                    android:text="Gallery"
-
-
+                    android:text="@string/gallery"
+                    android:lines="1"
                     android:textColor="@color/textColor" />
 
 
@@ -120,7 +118,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sp"
                     android:gravity="center"
-                    android:text="Photos"
+                    android:text="@string/photos"
+                    android:lines="1"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/_12sp" />
 

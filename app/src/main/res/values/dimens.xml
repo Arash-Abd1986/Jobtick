@@ -137,6 +137,7 @@
     <dimen name="material_button_standard_height">60dp</dimen>
     <dimen name="input_text_height">70dp</dimen>
     <dimen name="radio_button_height">52dp</dimen>
+    <dimen name="post_requirements_item_height">30dp</dimen>
 
 
 </resources>

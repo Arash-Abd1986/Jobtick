@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -107,11 +108,11 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     @BindView(R.id.edt_title_counter)
     EditTextSemiBold edtTitleCounter;
     @BindView(R.id.edt_title)
-    EditTextRegular edtTitle;
+    EditTextMedium edtTitle;
     @BindView(R.id.edt_description_counter)
     EditTextSemiBold edtDescriptionCounter;
     @BindView(R.id.edt_description)
-    EditTextRegular edtDescription;
+    EditTextMedium edtDescription;
     @BindView(R.id.recycler_add_must_have)
     RecyclerView recyclerAddMustHave;
     @BindView(R.id.img_add_white)
@@ -121,7 +122,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     @BindView(R.id.checkbox_online)
     CheckBox checkboxOnline;
     @BindView(R.id.txt_suburb)
-    TextViewRegular txtSuburb;
+    TextViewMedium txtSuburb;
     @BindView(R.id.img_location_pin)
     ImageView imgLocationPin;
     @BindView(R.id.card_location)
@@ -478,8 +479,9 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
             CarmenFeature carmenFeature = PlacePicker.getPlace(data);
             Helper.Logger(TAG, "CarmenFeature = " + carmenFeature.toJson());
-            GeocodeObject geocodeObject = Helper.getGeoCodeObject(getActivity(), carmenFeature.center().latitude()
-                    , carmenFeature.center().longitude());
+            //No Need to get fine location, suburb is OK.
+//            GeocodeObject geocodeObject = Helper.getGeoCodeObject(getActivity(), carmenFeature.center().latitude()
+//                    , carmenFeature.center().longitude());
             txtSuburb.setText(carmenFeature.placeName());
 
 
@@ -663,9 +665,10 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                 tagAdapter.notifyItemInserted(tagAdapter.getItemCount());
                 edtAddTag.setText(null);
                 if (addTagList.size() != 0) {
-                    if (recyclerAddMustHave.getVisibility() != View.VISIBLE) {
-                        recyclerAddMustHave.setVisibility(View.VISIBLE);
-                    }
+
+                    //we change recycler view visibility to change size of it
+                    recyclerAddMustHave.setVisibility(View.GONE);
+                    recyclerAddMustHave.setVisibility(View.VISIBLE);
                 } else {
                     if (recyclerAddMustHave.getVisibility() == View.VISIBLE) {
                         recyclerAddMustHave.setVisibility(View.GONE);

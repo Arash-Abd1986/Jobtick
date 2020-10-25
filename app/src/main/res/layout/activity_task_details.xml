@@ -23,12 +23,22 @@
             app:expandedTitleTextAppearance="@android:color/transparent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/pager"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/semiBlack" />
+                android:layout_height="match_parent">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/semiBlack" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#40888888" />
+            </FrameLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -38,62 +48,66 @@
                 android:layout_marginEnd="@dimen/spacing_middle"
                 android:layout_marginBottom="@dimen/spacing_xmlarge"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingBottom="25dp">
-
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:background="@drawable/shape_tab_left_white"
                     android:contentDescription="@string/todo"
+                    android:gravity="center"
                     android:paddingStart="@dimen/spacing_middle"
-                    android:paddingTop="@dimen/spacing_middle"
-                    android:paddingEnd="@dimen/spacing_middle"
-                    android:paddingBottom="@dimen/spacing_middle"
+                    android:paddingTop="@dimen/spacing_medium"
+                    android:paddingEnd="@dimen/spacing_medium"
+                    android:paddingBottom="@dimen/spacing_medium"
                     app:srcCompat="@drawable/ic_clock_task_details" />
 
                 <com.jobtick.TextView.TextViewMedium
                     android:id="@+id/txt_due_date"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:background="@color/white"
-                    android:paddingTop="@dimen/spacing_middle"
-                    android:paddingBottom="@dimen/spacing_middle"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/spacing_medium"
+                    android:paddingBottom="@dimen/spacing_medium"
                     android:text="@string/tuesday_march_3"
                     android:textColor="@color/textColor"
-                    android:textSize="@dimen/_10sp" />
+                    android:textSize="10dp" />
 
                 <com.jobtick.TextView.TextViewMedium
                     android:id="@+id/txt_due_time"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:background="@drawable/shape_tab_right_white"
-                    android:paddingStart="@dimen/spacing_middle"
-                    android:paddingTop="@dimen/spacing_middle"
-                    android:paddingEnd="@dimen/spacing_large"
-                    android:paddingBottom="@dimen/spacing_middle"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/spacing_medium"
+                    android:paddingTop="@dimen/spacing_medium"
+                    android:paddingEnd="@dimen/spacing_middle"
+                    android:paddingBottom="@dimen/spacing_medium"
                     android:text="@string/morning"
                     android:textColor="@color/textColor"
-                    android:textSize="@dimen/_10sp" />
+                    android:textSize="10dp" />
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <com.jobtick.TextView.TextViewMedium
+                <com.jobtick.TextView.TextViewBold
                     android:id="@+id/txt_budgets"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_tab_primary"
-                    android:paddingStart="@dimen/_12sp"
-                    android:paddingTop="@dimen/spacing_medium"
-                    android:paddingEnd="@dimen/_12sp"
-                    android:paddingBottom="@dimen/spacing_medium"
+                    android:gravity="center"
+                    android:minWidth="@dimen/_50dp"
+                    android:padding="4dp"
+                    android:paddingBottom="@dimen/spacing_xsmall"
                     android:text="@string/_200"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_18sp"
+                    android:textSize="@dimen/_14dp"
                     android:textStyle="bold" />
 
 
@@ -131,7 +145,7 @@
                     android:orientation="horizontal" />
             </RelativeLayout>
 
-<!--              <include layout="@layout/toolbar"/>-->
+            <!--              <include layout="@layout/toolbar"/>-->
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -170,14 +184,14 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_35sp"
+                        android:layout_height="30dp"
                         android:layout_marginStart="@dimen/_16sp"
                         android:layout_marginTop="@dimen/_12sp"
                         android:layout_marginEnd="@dimen/_16sp"
                         android:layout_marginBottom="@dimen/spacing_middle"
                         android:orientation="horizontal">
 
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.jobtick.TextView.TextViewSemiBold
                             android:id="@+id/txt_status_open"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -185,14 +199,15 @@
                             android:layout_marginStart="@dimen/_3dp"
                             android:layout_marginEnd="@dimen/_3dp"
                             android:layout_weight="1"
+                            android:background="@drawable/shape_tab_gray10"
                             android:backgroundTint="@color/green_gray_open"
                             android:gravity="center"
                             android:singleLine="true"
                             android:text="@string/open"
                             android:textColor="@color/white_black_selected"
-                            android:textSize="@dimen/_10sp" />
+                            android:textSize="10dp" />
 
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.jobtick.TextView.TextViewSemiBold
                             android:id="@+id/txt_status_assigned"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -200,14 +215,15 @@
                             android:layout_marginStart="@dimen/_3dp"
                             android:layout_marginEnd="@dimen/_3dp"
                             android:layout_weight="1"
+                            android:background="@drawable/shape_tab_gray10"
                             android:backgroundTint="@color/green_gray_selected"
                             android:gravity="center"
                             android:singleLine="true"
                             android:text="@string/assigned"
                             android:textColor="@color/white_black_selected"
-                            android:textSize="@dimen/_10sp" />
+                            android:textSize="10dp" />
 
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.jobtick.TextView.TextViewSemiBold
                             android:id="@+id/txt_status_cancelled"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -221,11 +237,11 @@
                             android:singleLine="true"
                             android:text="@string/cancelled"
                             android:textColor="@color/white_black_selected"
-                            android:textSize="@dimen/_10sp"
+                            android:textSize="10dp"
                             android:visibility="gone" />
 
 
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.jobtick.TextView.TextViewSemiBold
                             android:id="@+id/txt_status_overdue"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -239,11 +255,10 @@
                             android:singleLine="true"
                             android:text="@string/overdue"
                             android:textColor="@color/white_black_selected"
-                            android:textSize="@dimen/_10sp"
+                            android:textSize="10dp"
                             android:visibility="gone" />
 
-
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.jobtick.TextView.TextViewSemiBold
                             android:id="@+id/txt_status_completed"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -251,14 +266,15 @@
                             android:layout_marginStart="@dimen/_3dp"
                             android:layout_marginEnd="@dimen/_3dp"
                             android:layout_weight="1"
+                            android:background="@drawable/shape_tab_gray10"
                             android:backgroundTint="@color/green_gray_selected"
                             android:gravity="center"
                             android:singleLine="true"
                             android:text="@string/completed"
                             android:textColor="@color/white_black_selected"
-                            android:textSize="@dimen/_10sp" />
+                            android:textSize="10dp" />
 
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.jobtick.TextView.TextViewSemiBold
                             android:id="@+id/txt_status_reviewed"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -272,11 +288,9 @@
                             android:singleLine="true"
                             android:text="@string/reviewed"
                             android:textColor="@color/white_black_selected"
-                            android:textSize="@dimen/_10sp"
+                            android:textSize="10dp"
                             android:visibility="gone" />
-
                     </LinearLayout>
-
 
                     <View
                         android:layout_width="match_parent"
@@ -408,6 +422,7 @@
                                 android:layout_margin="@dimen/spacing_large"
                                 android:backgroundTint="@color/colorPrimary"
                                 android:elevation="@dimen/spacing_middle"
+                                android:visibility="gone"
                                 app:cardCornerRadius="@dimen/spacing_large">
 
                                 <com.jobtick.TextView.TextViewMedium
@@ -500,22 +515,12 @@
                             android:text="@string/excepteur_qui_qui_fugiat_et_esse_pariatur_voluptate_exercitation_esse_officia_cillum_occaecat_culpa_pariatur_nisi_in_ut_tempor_laborum_officia_dolore_ad_occaecat_anim_ad_voluptate_proident_ea_commodo_qui_velit_officia_minim"
                             android:textColor="@color/textColor"
                             android:textSize="@dimen/_14sp" />
-
-                        <com.jobtick.TextView.TextViewRegular
-                            android:id="@+id/txt_poster_last_online"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/active_13_min_ago"
-                            android:textColor="@color/grey_40"
-                            android:textSize="@dimen/_10sp"
-                            app:layout_anchor="@+id/nested_scroll_view"
-                            app:layout_anchorGravity="center" />
-
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8dp"
                         android:background="@color/colorF0F0F0"
                         android:orientation="horizontal">
 
@@ -561,12 +566,12 @@
                             android:background="@color/grey_10" />
                     </LinearLayout>
 
-
                     <RelativeLayout
+                        android:id="@+id/postedByLyt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="#F0F0F0"
                         android:orientation="vertical">
-
 
                         <com.jobtick.TextView.TextViewSemiBold
                             android:id="@+id/txtPostedBy"
@@ -578,7 +583,6 @@
                             android:text="@string/posted_by"
                             android:textColor="@color/colorPrimary" />
 
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -586,7 +590,6 @@
                             android:layout_marginStart="@dimen/spacing_middle"
                             android:layout_marginTop="@dimen/spacing_middle"
                             android:layout_marginEnd="@dimen/spacing_middle"
-                            android:layout_marginBottom="@dimen/spacing_smlarge"
                             android:orientation="horizontal">
 
                             <RelativeLayout
@@ -594,93 +597,47 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content">
 
+                                <com.mikhaellopez.circularimageview.CircularImageView
+                                    android:id="@+id/img_avtar_poster"
+                                    android:layout_width="70dp"
+                                    android:layout_height="70dp"
+                                    android:layout_centerHorizontal="true"
+                                    android:src="@drawable/ic_place_holder" />
+
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
-                                    tools:ignore="UselessParent">
-
-
-                                    <com.mikhaellopez.circularimageview.CircularImageView
-                                        android:id="@+id/img_avtar_poster"
-                                        android:layout_width="80sp"
-                                        android:layout_height="80sp"
-                                        android:layout_centerHorizontal="true"
-                                        android:paddingBottom="@dimen/_10sp"
-                                        android:src="@drawable/ic_place_holder" />
-
-                                    <RelativeLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignBottom="@id/img_avtar_poster"
-                                        android:layout_centerHorizontal="true">
-
-                                        <ImageView
-                                            android:id="@+id/img_account_shield"
-                                            android:layout_width="@dimen/_15sp"
-                                            android:layout_height="@dimen/_15sp"
-                                            android:layout_gravity="center"
-                                            android:layout_marginEnd="@dimen/_10sp"
-                                            android:layout_marginBottom="@dimen/_5sp"
-                                            android:contentDescription="@string/todo"
-                                            android:src="@drawable/ic_shield" />
-                                    </RelativeLayout>
+                                    android:layout_alignBottom="@id/img_avtar_poster"
+                                    android:layout_centerHorizontal="true">
 
                                     <ImageView
-                                        android:id="@+id/img_account_level"
-                                        android:layout_width="25dp"
-                                        android:layout_height="35dp"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_alignParentBottom="true"
-                                        android:layout_marginBottom="@dimen/_8sp"
+                                        android:id="@+id/img_account_shield"
+                                        android:layout_width="15dp"
+                                        android:layout_height="15dp"
+                                        android:layout_gravity="center"
                                         android:contentDescription="@string/todo"
-                                        android:src="@drawable/ic_user_level"
-                                        android:visibility="gone" />
-
+                                        android:src="@drawable/ic_shield" />
                                 </RelativeLayout>
 
-
-                                <!--    <FrameLayout
-                                        android:id="@+id/frame_postedby"
-                                        android:layout_width="wrap_content"
-                                        android:padding="15dp"
-                                        android:layout_height="wrap_content">
-
-                                        <com.mikhaellopez.circularimageview.CircularImageView
-                                            android:id="@+id/img_avtar_poster"
-                                            android:layout_width="50sp"
-                                            android:layout_height="50sp"
-                                            android:src="@drawable/ic_place_holder" />
-
-                                        <RelativeLayout
-                                            android:layout_width="wrap_content"
-                                            android:layout_gravity="bottom|center"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginBottom="-6dp"
-                                            android:layout_centerHorizontal="true">
-
-                                            <ImageView
-                                                android:id="@+id/img_account_shield"
-                                                android:layout_width="@dimen/_15sp"
-                                                android:layout_height="@dimen/_15sp"
-                                                android:layout_gravity="center"
-
-                                                android:src="@drawable/ic_shield" />
-                                        </RelativeLayout>
-
-
-                                    </FrameLayout>-->
-
-
+                                <ImageView
+                                    android:id="@+id/img_account_level"
+                                    android:layout_width="25dp"
+                                    android:layout_height="35dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginBottom="@dimen/_8sp"
+                                    android:contentDescription="@string/todo"
+                                    android:src="@drawable/ic_user_level"
+                                    android:visibility="gone" />
                             </RelativeLayout>
-
 
                             <LinearLayout
                                 android:id="@+id/linearUserProfile"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
                                 android:layout_marginStart="@dimen/spacing_middle"
-                                android:layout_marginEnd="@dimen/spacing_middle"
+                                android:layout_weight="1"
                                 android:orientation="vertical">
 
                                 <com.jobtick.TextView.TextViewSemiBold
@@ -691,7 +648,6 @@
                                     android:textColor="@color/textColor"
                                     android:textSize="@dimen/_13sp" />
 
-
                                 <com.jobtick.TextView.TextViewRegular
                                     android:id="@+id/txt_poster_location"
                                     android:layout_width="wrap_content"
@@ -701,67 +657,54 @@
                                     android:textColor="@color/grey_40"
                                     android:textSize="@dimen/_10sp" />
 
+                                <com.jobtick.TextView.TextViewRegular
+                                    android:id="@+id/txt_poster_last_online"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/active_13_min_ago"
+                                    android:textColor="@color/grey_40"
+                                    android:textSize="@dimen/_10sp"
+                                    app:layout_anchor="@+id/nested_scroll_view"
+                                    app:layout_anchorGravity="center" />
                             </LinearLayout>
 
-                            <FrameLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1" />
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/card_message"
+                            <LinearLayout
+                                android:id="@+id/lyt_btn_message"
                                 android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_margin="@dimen/spacing_middle"
-                                app:cardCornerRadius="8dp">
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:background="@drawable/bg_private_chat_disable"
+                                android:orientation="horizontal"
+                                android:paddingStart="@dimen/_8dp"
+                                android:paddingTop="4dp"
+                                android:paddingEnd="@dimen/_8dp"
+                                android:paddingBottom="4dp">
 
-
-                                <LinearLayout
-                                    android:id="@+id/lyt_btn_message"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="@dimen/_50dp"
+                                <ImageView
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
                                     android:layout_gravity="center"
-                                    android:background="@drawable/shape_account_grey"
-                                    android:gravity="center"
-                                    android:paddingStart="18dp"
-                                    android:paddingEnd="18dp">
+                                    android:layout_margin="@dimen/spacing_small"
+                                    android:contentDescription="@string/todo"
+                                    android:src="@drawable/ic_message" />
 
-                                    <ImageView
-                                        android:layout_width="19dp"
-                                        android:layout_height="19dp"
-                                        android:layout_gravity="center"
-                                        android:layout_margin="@dimen/spacing_small"
-                                        android:contentDescription="@string/todo"
-                                        android:src="@drawable/ic_message"
-                                        android:tint="@color/white_black_selected" />
-
-                                    <com.jobtick.TextView.TextViewSemiBold
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="4dp"
-                                        android:text="@string/chat"
-                                        android:textColor="@color/white_black_selected"
-                                        android:textSize="@dimen/_13sp">
-
-                                    </com.jobtick.TextView.TextViewSemiBold>
-
-
-                                </LinearLayout>
-                            </androidx.cardview.widget.CardView>
+                                <com.jobtick.TextView.TextViewRegular
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="4dp"
+                                    android:text="@string/chat"
+                                    android:textColor="#4D576A"
+                                    android:textSize="10dp" />
+                            </LinearLayout>
                         </LinearLayout>
-
-
                     </RelativeLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_line"
                         android:background="@color/grey_10" />
-
-
                 </LinearLayout>
-
-
             </androidx.cardview.widget.CardView>
 
 
@@ -838,7 +781,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/active_13_min_ago"
                                 android:textColor="@color/grey_40"
-                                android:textSize="@dimen/_12sp" />
+                                android:textSize="10dp" />
                         </LinearLayout>
 
 

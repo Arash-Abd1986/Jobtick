@@ -27,6 +27,8 @@ import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.BillingAddressActivity;
 import com.jobtick.activities.PaymentSettingsActivity;
+import com.jobtick.activities.TaskDetailsActivity;
+import com.jobtick.models.BankAccountModel;
 import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
@@ -82,9 +84,20 @@ public class MapReqFragment extends Fragment {
         edtCountry = view.findViewById(R.id.edt_Country);
         btnNext = view.findViewById(R.id.txt_btn_next);
         btnNext.setOnClickListener(v -> {
-            ((RequirementsBottomSheet) getParentFragment()).changeFragment(3);
-
+            if (validation()) {
+                AddBillingAddress();
+            }
         });
+
+        BillingAdreessModel billingAdreessModel = ((TaskDetailsActivity) getActivity()).billingAdreessModel;
+        if (billingAdreessModel != null && billingAdreessModel.getData() != null) {
+            edtAddressLine1.setText(billingAdreessModel.getData().getLine1());
+            edtAddressLine2.setText(billingAdreessModel.getData().getLine2());
+            edtSuburs.setText(billingAdreessModel.getData().getLocation());
+            edtState.setText(billingAdreessModel.getData().getState());
+            edtPostcode.setText(billingAdreessModel.getData().getPost_code());
+            edtCountry.setText(billingAdreessModel.getData().getCountry());
+        }
     }
 
     @Override
@@ -96,7 +109,6 @@ public class MapReqFragment extends Fragment {
 
     @OnClick(R.id.lyt_btn_change_billing_address)
     public void onViewClicked() {
-
         if (validation()) {
             AddBillingAddress();
         }
@@ -139,7 +151,7 @@ public class MapReqFragment extends Fragment {
     }
 
     private void AddBillingAddress() {
-        ((ActivityBase) getActivity()). showProgressDialog();
+        ((ActivityBase) getActivity()).showProgressDialog();
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, BASE_URL + ADD_BILLING,
                 response -> {
@@ -150,20 +162,13 @@ public class MapReqFragment extends Fragment {
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-/*                                Intent intent = new Intent();
-                                Bundle bundle = new Bundle();
-                                bundle.putBoolean(ConstantKey.WRITE_REVIEW, true);
-                                intent.putExtras(bundle);
-                                setResult(ConstantKey.RESULTCODE_WRITE_REVIEW, intent);
-                                onBackPressed();*/
                                 Toast.makeText(getActivity(), "Updated successfully !", Toast.LENGTH_SHORT).show();
 
 
                                 if (onBankaccountadded != null) {
                                     onBankaccountadded.billingAddressAdd();
                                 }
-                                ((ActivityBase) getActivity()).finish();
-
+                                ((RequirementsBottomSheet) getParentFragment()).changeFragment(3);
                             } else {
                                 Toast.makeText(getActivity(), "Something went Wrong !", Toast.LENGTH_SHORT).show();
 
@@ -240,99 +245,5 @@ public class MapReqFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
-    public void getBillingAddress() {
-
-        ((ActivityBase) getActivity()).showProgressDialog();
-
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_BILLING,
-                response -> {
-                    Timber.e(response);
-                    ((ActivityBase) getActivity()).hideProgressDialog();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                String jsonString = jsonObject.toString(); //http request
-                                BillingAdreessModel data = new BillingAdreessModel();
-                                Gson gson = new Gson();
-                                data = gson.fromJson(jsonString, BillingAdreessModel.class);
-
-                                if (data != null) {
-                                    if (data.isSuccess()) {
-
-                                        if (data.getData() != null && data.getData().getLine1() != null) {
-                                            edtAddressLine1.setText(data.getData().getLine1());
-                                            edtAddressLine2.setText(data.getData().getLine2());
-                                            edtCountry.setText(data.getData().getCountry());
-                                            edtState.setText(data.getData().getState());
-                                            edtPostcode.setText(data.getData().getPost_code());
-                                            edtSuburs.setText(data.getData().getLocation());
-                                        }
-                                    }
-                                }
-                            } else {
-                                ((ActivityBase) getActivity()).showToast("Something went Wrong", getActivity());
-                            }
-                        }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-
-                    }
-
-
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            ((ActivityBase) getActivity()).unauthorizedUser();
-                            ((ActivityBase) getActivity()).hideProgressDialog();
-                            return;
-                        }
-                        try {
-                            ((ActivityBase) getActivity()).hideProgressDialog();
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            //  showCustomDialog(jsonObject_error.getString("message"));
-                            if (jsonObject_error.has("message")) {
-                                Toast.makeText(getActivity(), jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                            }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        ((ActivityBase) getActivity()).showToast("Something Went Wrong", getActivity());
-                    }
-                    Timber.e(error.toString());
-                    ((ActivityBase) getActivity()).hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        requestQueue.add(stringRequest);
-
-    }
 
 }

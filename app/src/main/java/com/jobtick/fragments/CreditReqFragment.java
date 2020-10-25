@@ -28,6 +28,7 @@ import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.AddBankAccountActivity;
 import com.jobtick.activities.PaymentSettingsActivity;
+import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.BankAccountModel;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
@@ -80,6 +81,12 @@ public class CreditReqFragment extends Fragment {
         edtAccountName = view.findViewById(R.id.edt_account_name);
         edtBsb = view.findViewById(R.id.edt_bsb);
         edtAccountNumber = view.findViewById(R.id.edt_account_number);
+        BankAccountModel bankAccountModel = ((TaskDetailsActivity) getActivity()).bankAccountModel;
+        if (bankAccountModel != null && bankAccountModel.getData() != null) {
+            edtAccountName.setText(bankAccountModel.getData().getAccount_name());
+            edtBsb.setText(bankAccountModel.getData().getBsb_code());
+            edtAccountNumber.setText(bankAccountModel.getData().getAccount_number());
+        }
     }
 
     @Override
@@ -176,92 +183,6 @@ public class CreditReqFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
 
-    }
-
-    public void getBankAccountDetails() {
-        ((ActivityBase) getActivity()).showProgressDialog();
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_ACCOUNT_DETAILS,
-                response -> {
-                    Timber.e(response);
-                    ((ActivityBase) getActivity()).hideProgressDialog();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                String jsonString = jsonObject.toString(); //http request
-                                BankAccountModel data = new BankAccountModel();
-                                Gson gson = new Gson();
-                                data = gson.fromJson(jsonString, BankAccountModel.class);
-
-                                if (data != null) {
-                                    if (data.isSuccess()) {
-
-                                        if (data.getData() != null && data.getData().getAccount_number() != null) {
-                                            edtAccountName.setText(data.getData().getAccount_name());
-                                            edtBsb.setText(data.getData().getBsb_code());
-                                            edtAccountNumber.setText(data.getData().getAccount_number());
-                                        }
-                                    }
-                                }
-                            } else {
-                                ((ActivityBase) getActivity()).showToast("Something went Wrong", getContext());
-                            }
-                        }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            ((ActivityBase) getActivity()).unauthorizedUser();
-                            ((ActivityBase) getActivity()).hideProgressDialog();
-                            return;
-                        }
-                        try {
-                            ((ActivityBase) getActivity()).hideProgressDialog();
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            //  showCustomDialog(jsonObject_error.getString("message"));
-                            if (jsonObject_error.has("message")) {
-                                Toast.makeText(getContext(), jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                            }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        ((ActivityBase) getActivity()).showToast("Something Went Wrong", getContext());
-                    }
-                    Timber.e(error.toString());
-                    ((ActivityBase) getActivity()).hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        requestQueue.add(stringRequest);
     }
 
     public boolean validate() {

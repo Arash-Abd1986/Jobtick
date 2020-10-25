@@ -66,12 +66,15 @@ import com.jobtick.incrementbudget.IncrementBudgetRequestViewActivity;
 import com.jobtick.interfaces.OnRequestAcceptListener;
 import com.jobtick.interfaces.OnWidthDrawListener;
 import com.jobtick.models.AttachmentModel;
+import com.jobtick.models.BankAccountModel;
+import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.models.BookmarkTaskModel;
 import com.jobtick.models.DueTimeModel;
 import com.jobtick.models.OfferDeleteModel;
 import com.jobtick.models.OfferModel;
 import com.jobtick.models.QuestionModel;
 import com.jobtick.models.TaskModel;
+import com.jobtick.models.UserAccountModel;
 import com.jobtick.retrofit.ApiClient;
 import com.jobtick.utils.CameraUtils;
 import com.jobtick.utils.Constant;
@@ -103,6 +106,8 @@ import retrofit2.Callback;
 import timber.log.Timber;
 
 import static com.jobtick.activities.SavedTaskActivity.onRemoveSavedtasklistener;
+import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
+import static com.jobtick.utils.Constant.ADD_BILLING;
 import static com.jobtick.utils.Constant.BASE_URL;
 import static com.jobtick.utils.Constant.TASK_CANCELLED;
 import static com.jobtick.utils.Constant.TASK_CLOSED;
@@ -142,8 +147,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     TextViewBold txtBudget;
     @BindView(R.id.lyt_btn_message)
     LinearLayout lytBtnMessage;
-    @BindView(R.id.card_message)
-    CardView cardMessage;
+    //    @BindView(R.id.card_message)
+//    CardView cardMessage;
+    @BindView(R.id.postedByLyt)
+    RelativeLayout postedByLyt;
     @BindView(R.id.lyt_btn_make_an_offer)
     LinearLayout lytBtnMakeAnOffer;
     @BindView(R.id.card_make_an_offer)
@@ -249,6 +256,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     public static QuestionModel questionModel;
     public static OnRequestAcceptListener requestAcceptListener;
     public static OnWidthDrawListener widthDrawListener;
+
+
+    public UserAccountModel userAccountModel;
+    public BankAccountModel bankAccountModel;
+    public BillingAdreessModel billingAdreessModel;
 
     private ArrayList<AttachmentModel> dataList = new ArrayList<>();
     private ArrayList<AttachmentModel> attachmentArrayList_question = new ArrayList<>();
@@ -424,7 +436,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_delete, false);
 
                 cardOfferLayout.setVisibility(View.GONE);
-                cardMessage.setVisibility(View.VISIBLE);
+//                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.VISIBLE);
                 if (taskModel.getQuestions() != null && taskModel.getQuestions().size() != 0) {
                     rltQuestionAdd.setVisibility(View.GONE);
@@ -474,7 +486,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
-                cardMessage.setVisibility(View.GONE);
+//                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.GONE);
                 cardPrivateChat.setVisibility(View.GONE);
                 if (taskModel.getOffers().size() != 0) {
@@ -514,7 +526,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.GONE);
 
-                cardMessage.setVisibility(View.VISIBLE);
+//                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.VISIBLE);
                 cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.setVisibility(View.GONE);
@@ -573,7 +585,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
 
-                cardMessage.setVisibility(View.VISIBLE);
+//                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.VISIBLE);
                 cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.setVisibility(View.GONE);
@@ -618,7 +630,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
 
 
-                cardMessage.setVisibility(View.VISIBLE);
+//                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.VISIBLE);
                 cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.setVisibility(View.GONE);
@@ -808,6 +820,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 initComponent();
                                 setDataInLayout(taskModel);
                                 initQuestion();
+                                getAllUserProfileDetails();
+                                getBankAccountAddress();
+                                getBillingAddress();
+
 
                                 questionListAdapter.addItems(taskModel.getQuestions());
 
@@ -854,12 +870,212 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     }
 
+    public void getAllUserProfileDetails() {
+        showProgressDialog();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
+                response -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+
+                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                            userAccountModel = new UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"));
+                        } else {
+                            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (JSONException e) {
+                        Toast.makeText(this, "JSONException", Toast.LENGTH_SHORT).show();
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    errorHandle1(error.networkResponse);
+                    hideProgressDialog();
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                // map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    public void getBankAccountAddress() {
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_ACCOUNT_DETAILS,
+                response -> {
+                    Timber.e(response);
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+                                String jsonString = jsonObject.toString(); //http request
+                                BankAccountModel data = new BankAccountModel();
+                                Gson gson = new Gson();
+                                data = gson.fromJson(jsonString, BankAccountModel.class);
+
+                                if (data != null) {
+                                    if (data.isSuccess()) {
+                                        if (data.getData() != null && data.getData().getAccount_number() != null) {
+                                            bankAccountModel = data;
+                                        }
+                                    }
+                                }
+                            } else {
+                                showToast("Something went Wrong", this);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
+                            hideProgressDialog();
+                            return;
+                        }
+                        try {
+                            hideProgressDialog();
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            //  showCustomDialog(jsonObject_error.getString("message"));
+                            if (jsonObject_error.has("message")) {
+                                Toast.makeText(this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", this);
+                    }
+                    Timber.e(error.toString());
+                    hideProgressDialog();
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    public void getBillingAddress() {
+
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_BILLING,
+                response -> {
+                    Timber.e(response);
+                    try {
+                        hideProgressDialog();
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+                                String jsonString = jsonObject.toString(); //http request
+                                BillingAdreessModel data = new BillingAdreessModel();
+                                Gson gson = new Gson();
+                                data = gson.fromJson(jsonString, BillingAdreessModel.class);
+
+                                if (data != null) {
+                                    if (data.isSuccess()) {
+                                        if (data.getData() != null && data.getData().getLine1() != null) {
+                                            billingAdreessModel = data;
+                                        }
+                                    }
+                                }
+                            } else {
+                                showToast("Something went Wrong", this);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
+                            return;
+                        }
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            //  showCustomDialog(jsonObject_error.getString("message"));
+                            if (jsonObject_error.has("message")) {
+                                Toast.makeText(this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", this);
+                    }
+                    Timber.e(error.toString());
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
     private void setOwnerTask() {
         if (taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
             //this is self task
             isMyTask = true;
+            postedByLyt.setVisibility(View.GONE);
         } else {
             //this is another tasks
+            postedByLyt.setVisibility(View.VISIBLE);
             if (taskModel.getWorker() != null) {
                 if (taskModel.getWorker().getId().equals(sessionManager.getUserAccount().getId())) {
                     isMyTask = false;
@@ -911,7 +1127,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             txtPosterLocation.setVisibility(View.VISIBLE);
             txtPosterLocation.setText(taskModel.getPoster().getLocation());
         } else {
-            txtPosterLocation.setVisibility(View.GONE);
+            txtPosterLocation.setVisibility(View.INVISIBLE);
 
         }
 
@@ -1087,6 +1303,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         setOfferView(taskModel.getOfferCount());
         setQuestionView(taskModel.getQuestionCount());
         setAdditionalFund();
+        budget.setText("$ " + taskModel.getBudget());
         setAttachmentAndSlider();
         setWorker();
     }
@@ -1272,15 +1489,19 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         showCustomDialogReleaseMoney("Are you sure all work is done, and release to money?");
                         break;
                     case ConstantKey.BTN_MAKE_AN_OFFER:
-                        RequirementsBottomSheet requirementsBottomSheet = new RequirementsBottomSheet();
-                        requirementsBottomSheet.show(getSupportFragmentManager(), "");
-                      /*  intent = new Intent(TaskDetailsActivity.this, MakeAnOfferActivity.class);
-                        bundle = new Bundle();
-                        bundle.putInt("id", taskModel.getId());
-                        bundle.putInt("budget", taskModel.getBudget());
-                        //  bundle.putParcelable(ConstantKey.TASK, taskModel);
-                        intent.putExtras(bundle);
-                        startActivity(intent);*/
+                        int key = handleRequirementStrip();
+                        if (key == 5) {
+                            intent = new Intent(TaskDetailsActivity.this, MakeAnOfferActivity.class);
+                            bundle = new Bundle();
+                            bundle.putInt("id", taskModel.getId());
+                            bundle.putInt("budget", taskModel.getBudget());
+                            //  bundle.putParcelable(ConstantKey.TASK, taskModel);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        } else {
+                            RequirementsBottomSheet requirementsBottomSheet = RequirementsBottomSheet.newInstance(key);
+                            requirementsBottomSheet.show(getSupportFragmentManager(), "");
+                        }
                         break;
                     case ConstantKey.BTN_OFFER_PENDING:
                         Toast.makeText(TaskDetailsActivity.this, "offer pending", Toast.LENGTH_SHORT).show();
@@ -1343,6 +1564,28 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 startActivity(intent);
                 break;
         }
+    }
+
+    private int handleRequirementStrip() {
+        int key = 0;
+        if (userAccountModel != null) {
+            if (userAccountModel.getAvatar() == null || userAccountModel.getAvatar().getUrl().equals("")) {
+                key = 0;
+            } else if (bankAccountModel == null || bankAccountModel.getData() == null || bankAccountModel.getData().getAccount_name().equals("") || bankAccountModel.getData().getAccount_number().equals("")) {
+                key = 1;
+            } else if (billingAdreessModel == null || billingAdreessModel.getData() == null || billingAdreessModel.getData().getLocation().equals("") || billingAdreessModel.getData().getPost_code().equals("")) {
+                key = 2;
+            } else if (userAccountModel.getDob() == null || userAccountModel.getDob().equals("")) {
+                key = 3;
+            } else if (userAccountModel.getMobile() == null || userAccountModel.getMobile().equals("") || userAccountModel.getMobileVerifiedAt().equals("")) {
+                key = 4;
+            } else {
+                key = 5;
+            }
+        } else {
+            key = 0;
+        }
+        return key;
     }
 
     private void showCustomDialogAskToReleaseMoney(String message) {

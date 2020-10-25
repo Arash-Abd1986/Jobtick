@@ -52,7 +52,7 @@
                         android:singleLine="true"
                         android:text="Nathan Fox"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_12sp"
+                        android:textSize="@dimen/spacing_middle"
                         android:textStyle="bold" />
 
 
@@ -63,7 +63,7 @@
                         android:text="21 min. ago"
                         android:layout_toLeftOf="@id/textViewOptions"
                         android:textColor="@color/grey_40"
-                        android:textSize="@dimen/_12sp" />
+                        android:textSize="@dimen/spacing_middle" />
 
                     <TextView
                         android:id="@+id/textViewOptions"
@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:text="adipisicing adipisicing commodo Lorem enim si adipis adipisicing commodo Lorem enim si..."
                     android:textColor="@color/textColor"
-                    android:textSize="@dimen/_12sp" />
+                    android:textSize="@dimen/spacing_middle" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -145,7 +145,7 @@
                             android:gravity="center_vertical"
                             android:text="Reply"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
+                            android:textSize="@dimen/spacing_middle"
                             android:textStyle="bold" />
 
 
@@ -177,7 +177,7 @@
                             android:gravity="center_vertical"
                             android:text="More"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
+                            android:textSize="@dimen/spacing_middle"
                             android:textStyle="bold" />
 
 
@@ -237,7 +237,7 @@
                 android:padding="@dimen/spacing_small"
                 android:text="7 more replies"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_12sp"
+                android:textSize="@dimen/spacing_middle"
                 android:textStyle="bold" />
 
 

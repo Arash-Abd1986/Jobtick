@@ -93,6 +93,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -204,21 +205,21 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.lyt_view_all_questions)
     LinearLayout lytViewAllQuestions;
     @BindView(R.id.card_questions_layout)
-    CardView cardQuestionsLayout;
-    @BindView(R.id.img_avatar)
-    CircularImageView imgAvatar;
+    LinearLayout cardQuestionsLayout;
+ //   @BindView(R.id.img_avatar)
+ //   CircularImageView imgAvatar;
     @BindView(R.id.edt_comment)
     EditTextRegular edtComment;
     @BindView(R.id.lyt_btn_comment_send)
-    LinearLayout lytBtnCommentSend;
-    @BindView(R.id.lyt_comment)
-    LinearLayout lytComment;
+    ImageView lytBtnCommentSend;
+ //   @BindView(R.id.lyt_comment)
+  //  LinearLayout lytComment;
     @BindView(R.id.recycler_view_question_attachment)
     RecyclerView recyclerViewQuestionAttachment;
-    @BindView(R.id.card_comment_send)
-    CardView cardCommentSend;
-    @BindView(R.id.rlt_question_add)
-    RelativeLayout rltQuestionAdd;
+ //   @BindView(R.id.card_comment_send)
+ //   CardView cardCommentSend;
+ //   @BindView(R.id.rlt_question_add)
+ //   RelativeLayout rltQuestionAdd;
     @BindView(R.id.txt_status_cancelled)
     TextView txtStatusCancelled;
     @BindView(R.id.txt_status_overdue)
@@ -244,7 +245,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     LinearLayout liAssign;
     @BindView(R.id.linearUserProfile)
     LinearLayout linearUserProfile;
-
+   // @BindView(R.id.img_btn_image_select)
+    //ImageView addBtn;
     //  @BindView(R.id.card_view_request)
     //CardView card_view_request;
     // @BindView(R.id.fl_task_details)
@@ -285,6 +287,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         setContentView(R.layout.activity_task_details);
         ButterKnife.bind(this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
 
         requestAcceptListener = this;
         widthDrawListener = this;
@@ -439,7 +443,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 //                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.VISIBLE);
                 if (taskModel.getQuestions() != null && taskModel.getQuestions().size() != 0) {
-                    rltQuestionAdd.setVisibility(View.GONE);
+                 //   rltQuestionAdd.setVisibility(View.GONE);
                 } else {
                     cardQuestionsLayout.setVisibility(View.GONE);
                 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_100"
+    android:background="#ffffff"
     tools:context=".activities.TaskDetailsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -168,11 +168,9 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:visibility="visible"
                 app:cardCornerRadius="@dimen/spacing_smlarge"
                 app:cardElevation="0dp">
@@ -389,7 +387,6 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -590,6 +587,7 @@
                             android:layout_marginStart="@dimen/spacing_middle"
                             android:layout_marginTop="@dimen/spacing_middle"
                             android:layout_marginEnd="@dimen/spacing_middle"
+                            android:layout_marginBottom="@dimen/spacing_middle"
                             android:orientation="horizontal">
 
                             <RelativeLayout
@@ -599,10 +597,11 @@
 
                                 <com.mikhaellopez.circularimageview.CircularImageView
                                     android:id="@+id/img_avtar_poster"
-                                    android:layout_width="70dp"
-                                    android:layout_height="70dp"
+                                    android:layout_width="55dp"
+                                    android:layout_height="55dp"
                                     android:layout_centerHorizontal="true"
-                                    android:src="@drawable/ic_place_holder" />
+                                    android:src="@drawable/ic_place_holder"
+                                    app:civ_border="false" />
 
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
@@ -638,6 +637,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="@dimen/spacing_middle"
                                 android:layout_weight="1"
+                                android:gravity="center_vertical"
                                 android:orientation="vertical">
 
                                 <com.jobtick.TextView.TextViewSemiBold
@@ -688,7 +688,7 @@
                                     android:contentDescription="@string/todo"
                                     android:src="@drawable/ic_message" />
 
-                                <com.jobtick.TextView.TextViewRegular
+                                <com.jobtick.TextView.TextViewSemiBold
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
@@ -699,11 +699,6 @@
                             </LinearLayout>
                         </LinearLayout>
                     </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_line"
-                        android:background="@color/grey_10" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -718,7 +713,6 @@
                 app:cardCornerRadius="@dimen/spacing_middle">
 
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -735,7 +729,6 @@
                         android:textSize="@dimen/_12sp"
                         android:textStyle="bold" />
 
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -744,9 +737,10 @@
 
                         <com.mikhaellopez.circularimageview.CircularImageView
                             android:id="@+id/img_avtar_worker"
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:src="@drawable/pic" />
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:src="@drawable/pic"
+                            app:civ_border="false" />
 
                         <LinearLayout
                             android:id="@+id/liAssign"
@@ -764,7 +758,6 @@
                                 android:text="@string/aaron_brooks"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_14sp" />
-
 
                             <com.jobtick.TextView.TextViewRegular
                                 android:id="@+id/txt_worker_location"
@@ -784,9 +777,7 @@
                                 android:textSize="10dp" />
                         </LinearLayout>
 
-
                     </RelativeLayout>
-
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_private_chat"
@@ -814,13 +805,8 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
-
-
                 </LinearLayout>
-
-
             </androidx.cardview.widget.CardView>
-
 
             <com.jobtick.TextView.TextViewSemiBold
                 android:id="@+id/txt_offers_count"
@@ -834,7 +820,6 @@
                 android:textSize="@dimen/_12sp"
                 android:textStyle="bold" />
 
-
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_offer_layout"
                 android:layout_width="match_parent"
@@ -844,15 +829,14 @@
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_medium"
                 android:visibility="visible"
+                app:cardBackgroundColor="#f0f0f0"
                 app:cardCornerRadius="@dimen/spacing_middle"
                 app:cardElevation="0dp">
 
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
 
                     <com.jobtick.TextView.TextViewBold
                         android:id="@+id/txt_waiting_for_offer"
@@ -869,14 +853,13 @@
                         android:textStyle="bold"
                         android:visibility="gone" />
 
-
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view_offers"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:overScrollMode="never"
+                        tools:itemCount="1"
                         tools:listitem="@layout/item_offers" />
-
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_view_all_offers"
@@ -904,13 +887,8 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
-
-
                 </LinearLayout>
-
-
             </androidx.cardview.widget.CardView>
-
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_questions_layout"
@@ -921,7 +899,6 @@
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_medium"
                 android:elevation="@dimen/spacing_mlarge"
-                android:visibility="gone"
                 app:cardCornerRadius="@dimen/spacing_middle">
 
                 <LinearLayout
@@ -1023,16 +1000,10 @@
                                             android:textSize="@dimen/_12sp"
                                             android:textStyle="bold" />
                                     </LinearLayout>
-
-
                                 </androidx.cardview.widget.CardView>
-
                             </RelativeLayout>
-
                         </LinearLayout>
-
                     </RelativeLayout>
-
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view_questions"
@@ -1068,7 +1039,6 @@
                                 android:gravity="center"
                                 android:orientation="vertical">
 
-
                                 <com.jobtick.TextView.TextViewMedium
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -1079,17 +1049,10 @@
                                     android:textSize="14sp" />
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
-
                     </LinearLayout>
-
                 </LinearLayout>
-
-
             </androidx.cardview.widget.CardView>
-
-
         </LinearLayout>
-
     </androidx.core.widget.NestedScrollView>
 
     <androidx.cardview.widget.CardView
@@ -1123,8 +1086,6 @@
                 android:textColor="@color/white"
                 android:textSize="14sp" />
         </LinearLayout>
-
-
     </androidx.cardview.widget.CardView>
 
     <FrameLayout
@@ -1132,9 +1093,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        android:visibility="gone">
-
-    </FrameLayout>
-
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

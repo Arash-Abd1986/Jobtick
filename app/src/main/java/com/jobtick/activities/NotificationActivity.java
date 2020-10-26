@@ -8,8 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavGraph;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -18,14 +16,10 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
 import com.jobtick.adapers.NotificationListAdapter;
-import com.jobtick.adapers.TaskAlertAdapter;
 import com.jobtick.models.NotificationModel;
 import com.jobtick.models.PushNotificationModel;
 import com.jobtick.pagination.PaginationListener;
@@ -47,7 +41,6 @@ import static com.jobtick.pagination.PaginationListener.PAGE_START;
 import static com.jobtick.utils.ConstantKey.ID;
 import static com.jobtick.utils.ConstantKey.PUSH_COMMENT;
 import static com.jobtick.utils.ConstantKey.PUSH_CONVERSATION;
-import static com.jobtick.utils.ConstantKey.PUSH_CONVERSATION_ID;
 import static com.jobtick.utils.ConstantKey.PUSH_OFFER;
 import static com.jobtick.utils.ConstantKey.PUSH_QUESTION;
 import static com.jobtick.utils.ConstantKey.PUSH_STATUS;
@@ -253,7 +246,7 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
                         }
                         isLoading = false;
                     } catch (JSONException e) {
-                        hidepDialog();
+                        hideProgressDialog();
                         Log.e("EXCEPTION", String.valueOf(e));
                         e.printStackTrace();
                     }

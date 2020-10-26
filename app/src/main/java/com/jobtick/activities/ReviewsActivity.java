@@ -1,13 +1,11 @@
 package com.jobtick.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -25,8 +23,6 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -35,9 +31,7 @@ import com.jobtick.R;
 import com.jobtick.TextView.TextViewBold;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.adapers.ReviewAdapter;
-import com.jobtick.adapers.TaskListAdapter;
 import com.jobtick.models.ReviewModel;
-import com.jobtick.models.TaskModel;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.CustomToast;
@@ -46,11 +40,9 @@ import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -168,7 +160,7 @@ public class ReviewsActivity extends ActivityBase {
                 userAccountModel = sessionManager.getUserAccount();
             }
         }
-        initpDialog();
+        initProgressDialog();
         init();
         getReviewList();
     }
@@ -345,7 +337,7 @@ public class ReviewsActivity extends ActivityBase {
 
 
     public void getReviewList() {
-        showpDialog();
+        showProgressDialog();
 
         //profile/:user_id/reviews/:ratee_type
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + userId + "/reviews/" + WhoIs,
@@ -401,7 +393,7 @@ public class ReviewsActivity extends ActivityBase {
                             isLastPage = true;
                         }
                         isLoading = false;
-                        hidepDialog();
+                        hideProgressDialog();
                     } catch (JSONException e) {
                         //str_search = null;
                         //  dashboardActivity.hidepDialog();
@@ -417,11 +409,11 @@ public class ReviewsActivity extends ActivityBase {
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
-                            hidepDialog();
+                            hideProgressDialog();
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             showCustomDialog(jsonObject_error.getString("message"));
@@ -439,7 +431,7 @@ public class ReviewsActivity extends ActivityBase {
                         showToast("Something Went Wrong", ReviewsActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
 
                        /*str_search = null;
                     swipeRefresh.setRefreshing(false);

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -20,7 +19,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
 import com.jobtick.adapers.TaskListAdapter;
 import com.jobtick.interfaces.OnRemoveSavedTaskListener;
@@ -156,7 +154,7 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
                         }
                         isLoading = false;
                     } catch (JSONException e) {
-                        hidepDialog();
+                        hideProgressDialog();
                         Log.e("EXCEPTION", String.valueOf(e));
                         e.printStackTrace();
                     }

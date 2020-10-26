@@ -1,97 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:padding="@dimen/spacing_large">
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/img_avatar"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_alignParentStart="true"
         android:src="@drawable/pic" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_middle"
-        android:layout_toEndOf="@+id/img_avatar"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
-
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/lyt_btn_reply"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="@dimen/spacing_small">
 
             <com.jobtick.TextView.TextViewBold
                 android:id="@+id/txt_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/lyt_btn_reply"
                 android:singleLine="true"
-                android:text="Nathan Fox"
+                android:text="@string/nathan_fox"
                 android:textColor="@color/textColor"
-                android:textSize="@dimen/_12sp"
+                android:textSize="@dimen/spacing_middle"
                 android:textStyle="bold" />
 
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
-            <LinearLayout
-                android:id="@+id/lyt_btn_reply"
+            <ImageView
+                android:id="@+id/ivFlag"
+                android:layout_width="@dimen/_16sp"
+                android:layout_height="@dimen/_16sp"
+                android:layout_marginEnd="@dimen/_8dp"
+                android:src="@drawable/ic_red_flag" />
 
+            <ImageView
+                android:layout_width="@dimen/_16sp"
+                android:layout_height="@dimen/_16sp"
+                android:src="@drawable/ic_corner_up_left"
+                android:tint="@color/colorPrimary" />
+
+            <com.jobtick.TextView.TextViewBold
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/spacing_middle"
+                android:gravity="center_vertical"
+                android:text="Reply"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/spacing_middle"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-                android:layout_toLeftOf="@id/textViewOptions"
-                android:background="?attr/selectableItemBackground"
-                android:orientation="horizontal"
-                android:padding="@dimen/spacing_small">
-
-                <ImageView
-                    android:id="@+id/ivFlag"
-                    android:layout_width="@dimen/_16sp"
-                    android:layout_height="@dimen/_16sp"
-                    android:layout_marginEnd="@dimen/_40dp"
-                    android:src="@drawable/ic_red_flag" />
-
-                <ImageView
-                    android:layout_width="@dimen/_16sp"
-                    android:layout_height="@dimen/_16sp"
-                    android:src="@drawable/ic_corner_up_left"
-                    android:tint="@color/colorPrimary" />
-
-                <com.jobtick.TextView.TextViewBold
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/spacing_middle"
-                    android:gravity="center_vertical"
-                    android:text="Reply"
-
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_12sp"
-                    android:textStyle="bold" />
-
-
-            </LinearLayout>
-
-
-            <TextView
-                android:id="@+id/textViewOptions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="center"
-                android:paddingLeft="@dimen/spacing_medium"
-                android:paddingRight="@dimen/spacing_medium"
-                android:text="&#8942;"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:visibility="gone" />
-
-        </RelativeLayout>
-
+        <TextView
+            android:id="@+id/textViewOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:paddingLeft="@dimen/spacing_medium"
+            android:paddingRight="@dimen/spacing_medium"
+            android:text="&#8942;"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:visibility="gone" />
 
         <com.jobtick.TextView.TextViewMedium
             android:id="@+id/txt_message"
@@ -99,8 +86,7 @@
             android:layout_height="wrap_content"
             android:text="adipisicing adipisicing commodo Lorem enim si adipis adipisicing commodo Lorem enim si..."
             android:textColor="@color/textColor"
-            android:textSize="@dimen/_12sp" />
-
+            android:textSize="@dimen/spacing_middle" />
 
         <com.jobtick.TextView.TextViewRegular
             android:id="@+id/txt_created_date"
@@ -109,32 +95,30 @@
             android:layout_marginTop="8dp"
             android:text="21 min. ago"
             android:textColor="@color/grey_40"
-            android:textSize="@dimen/_12sp" />
+            android:textSize="@dimen/spacing_middle" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_img_file"
-            android:layout_width="80dp"
+            android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_margin="@dimen/spacing_small"
             app:cardCornerRadius="@dimen/spacing_medium"
             app:cardElevation="0dp">
-
 
             <ImageView
                 android:id="@+id/img_file"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/spacing_medium"
+                android:adjustViewBounds="true"
                 android:background="?attr/selectableItemBackground"
-                android:scaleType="fitCenter"
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_gallery" />
-
         </androidx.cardview.widget.CardView>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
 
             <LinearLayout
                 android:id="@+id/lyt_btn_more"
@@ -159,21 +143,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/spacing_middle"
-
                     android:layout_marginEnd="@dimen/spacing_middle"
                     android:gravity="center_vertical"
                     android:text="See More"
                     android:textColor="@color/grey_70"
                     android:textSize="@dimen/_12sp"
                     android:textStyle="bold" />
-
-
             </LinearLayout>
-
         </RelativeLayout>
-
-
     </LinearLayout>
-
-
-</RelativeLayout>
+</LinearLayout>

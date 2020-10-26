@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.DatePicker;
@@ -25,7 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -40,7 +38,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -59,9 +56,7 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.GeocodeObject;
@@ -124,8 +119,8 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     EditText edtAboutMe;
     @BindView(R.id.edt_email_address)
     EditText edtEmailAddress;
-    @BindView(R.id.txt_birth_date)
-    TextView txtBirthDate;
+   @BindView(R.id.txt_birth_date)
+   TextView txtBirthDate;
     @BindView(R.id.edt_business_number)
     EditText edtBusinessNumber;
     @BindView(R.id.img_transportation_back)
@@ -338,7 +333,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     }
 
     private void submitProfile() {
-        showpDialog();
+        showProgressDialog();
         Helper.closeKeyboard(this);
         String str_fname = edtFirstName.getText().toString().trim();
         String str_lname = edtLastName.getText().toString().trim();
@@ -352,7 +347,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_USER_PROFILE_INFO,
                 response -> {
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
 
                         if (response != null) {
@@ -403,7 +398,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                         showToast("Something Went Wrong", EditProfileActivity.this);
                     }
 
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 
@@ -456,7 +451,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                     @Override
                     public void onResponse(String response) {
                         Log.e("response", response);
-                        hidepDialog();
+                        hideProgressDialog();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             Timber.e(jsonObject.toString());
@@ -491,7 +486,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         errorHandle1(error.networkResponse);
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 
@@ -641,13 +636,13 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     }
 
     private void deleteMediaInAttachment(int position, AttachmentModel obj) {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_PROFILE + "/portfolio/" + attachmentArrayList.get(position).getId(),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Timber.e(response);
-                        hidepDialog();
+                        hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
@@ -680,7 +675,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                             Timber.e(jsonError);
                             if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                                 unauthorizedUser();
-                                hidepDialog();
+                                hideProgressDialog();
                                 return;
                             }
                             try {
@@ -704,7 +699,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                             showToast("Something Went Wrong", EditProfileActivity.this);
                         }
                         Timber.e(error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 
@@ -839,7 +834,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
     private void uploadDataInPortfolioMediaApi(File pictureFile)
     {
-        showpDialog();
+        showProgressDialog();
         Call<String> call;
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
@@ -850,7 +845,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-                hidepDialog();
+                hideProgressDialog();
                 Log.e("Response", response.toString());
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     showToast(response.message(), EditProfileActivity.this);
@@ -927,7 +922,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                hidepDialog();
+                hideProgressDialog();
                 Log.e("Response", call.toString());
             }
         });
@@ -1224,7 +1219,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
 
     private void uploadProfileAvtar(File pictureFile) {
-        showpDialog();
+        showProgressDialog();
         Call<String> call;
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
@@ -1235,7 +1230,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
             @Override
             public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-                hidepDialog();
+                hideProgressDialog();
                 Log.e("Response", response.toString());
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     showToast(response.message(), EditProfileActivity.this);
@@ -1298,20 +1293,20 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                hidepDialog();
+                hideProgressDialog();
                 Log.e("Response", call.toString());
             }
         });
 
     }
     private void removeProfilePicture() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_PROFILE + URL_REMOVE_AVTAR,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Timber.e(response);
-                        hidepDialog();
+                        hideProgressDialog();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             Timber.e(jsonObject.toString());
@@ -1347,7 +1342,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                             Timber.e(jsonError);
                             if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                                 unauthorizedUser();
-                                hidepDialog();
+                                hideProgressDialog();
                                 return;
                             }
                             try {
@@ -1371,7 +1366,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                             showToast("Something Went Wrong", EditProfileActivity.this);
                         }
                         Timber.e(error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 

@@ -135,7 +135,7 @@ public class TaskFragment extends Fragment {
         String str_status = String.valueOf(1);
         String str_required_persons = String.valueOf(4);
         String str_due_date = "12/02/2020";
-        ((TaskCreateActivity) getActivity()).showpDialog();
+        ((TaskCreateActivity) getActivity()).showProgressDialog();
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_TASKS_CREATE,
@@ -145,7 +145,7 @@ public class TaskFragment extends Fragment {
                     public void onResponse(String response) {
                         Log.e("responce_url", response);
 
-                        ((TaskCreateActivity) getActivity()).hidepDialog();
+                        ((TaskCreateActivity) getActivity()).hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
@@ -210,7 +210,7 @@ public class TaskFragment extends Fragment {
                             ((TaskCreateActivity) getActivity()).showToast("Something Went Wrong", getActivity());
                         }
                         Log.e("error", error.toString());
-                        ((TaskCreateActivity) getActivity()).hidepDialog();
+                        ((TaskCreateActivity) getActivity()).hideProgressDialog();
                     }
                 }) {
 
@@ -372,7 +372,7 @@ public class TaskFragment extends Fragment {
     private void uploadImageWithAmount() {
 
         //  if(filePath!=null) {
-        ((TaskCreateActivity) getActivity()).showpDialog();
+        ((TaskCreateActivity) getActivity()).showProgressDialog();
 
 
         Call<String> call;
@@ -391,7 +391,7 @@ public class TaskFragment extends Fragment {
 
             call = ApiClient.getClient().getTaskTempAttachmentMediaData(/*"application/x-www-form-urlencoded",*/ "XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
         } else {
-            ((TaskCreateActivity) getActivity()).hidepDialog();
+            ((TaskCreateActivity) getActivity()).hideProgressDialog();
 
             Toast.makeText(getActivity(), "Please select the image", Toast.LENGTH_SHORT).show();
             return;
@@ -400,7 +400,7 @@ public class TaskFragment extends Fragment {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                ((TaskCreateActivity) getActivity()).hidepDialog();
+                ((TaskCreateActivity) getActivity()).hideProgressDialog();
                 Log.e("Response", response.toString());
                 String strResponse = response.body();
                 Log.e("body", strResponse);
@@ -437,7 +437,7 @@ public class TaskFragment extends Fragment {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                ((TaskCreateActivity) getActivity()).hidepDialog();
+                ((TaskCreateActivity) getActivity()).hideProgressDialog();
                 Log.e("Response", call.toString());
             }
         });
@@ -489,7 +489,7 @@ public class TaskFragment extends Fragment {
     //working
     private void deleteTaskMedia() {
 
-        ((TaskCreateActivity) getActivity()).showpDialog();
+        ((TaskCreateActivity) getActivity()).showProgressDialog();
 
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_DELETE_TASK_MEDIA+"/title-15852200400"+"/attachment?media="+"22,23",
                 new com.android.volley.Response.Listener<String>() {
@@ -498,7 +498,7 @@ public class TaskFragment extends Fragment {
                     public void onResponse(String response) {
                         Log.e("responce_url", response);
 
-                        ((TaskCreateActivity) getActivity()).hidepDialog();
+                        ((TaskCreateActivity) getActivity()).hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
@@ -564,7 +564,7 @@ public class TaskFragment extends Fragment {
                             ((TaskCreateActivity) getActivity()).showToast("Something Went Wrong", getActivity());
                         }
                         Log.e("error", error.toString());
-                        ((TaskCreateActivity) getActivity()).hidepDialog();
+                        ((TaskCreateActivity) getActivity()).hideProgressDialog();
                     }
                 }) {
 
@@ -593,7 +593,7 @@ public class TaskFragment extends Fragment {
     private void taskAttachmentMediaUpload() {
 
         //  if(filePath!=null) {
-        ((TaskCreateActivity) getActivity()).showpDialog();
+        ((TaskCreateActivity) getActivity()).showProgressDialog();
 
 
         Call<String> call;
@@ -612,7 +612,7 @@ public class TaskFragment extends Fragment {
 
             call = ApiClient.getClient().getTasKAttachmentMediaUpload("title-15852200400", "XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
         } else {
-            ((TaskCreateActivity) getActivity()).hidepDialog();
+            ((TaskCreateActivity) getActivity()).hideProgressDialog();
 
             Toast.makeText(getActivity(), "Please select the image", Toast.LENGTH_SHORT).show();
             return;
@@ -621,7 +621,7 @@ public class TaskFragment extends Fragment {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                ((TaskCreateActivity) getActivity()).hidepDialog();
+                ((TaskCreateActivity) getActivity()).hideProgressDialog();
                 Log.e("Response", response.toString());
                 String strResponse = response.body();
                 Log.e("body", strResponse);
@@ -644,7 +644,7 @@ public class TaskFragment extends Fragment {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                ((TaskCreateActivity) getActivity()).hidepDialog();
+                ((TaskCreateActivity) getActivity()).hideProgressDialog();
                 Log.e("Response", call.toString());
             }
         });
@@ -655,7 +655,7 @@ public class TaskFragment extends Fragment {
     //not working
     private void deleteTask() {
 
-        ((TaskCreateActivity) getActivity()).showpDialog();
+        ((TaskCreateActivity) getActivity()).showProgressDialog();
 
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_JOB_DELETE+"/"+"title-15853140431",
                 new com.android.volley.Response.Listener<String>() {
@@ -664,7 +664,7 @@ public class TaskFragment extends Fragment {
                     public void onResponse(String response) {
                         Log.e("responce_url", response);
 
-                        ((TaskCreateActivity) getActivity()).hidepDialog();
+                        ((TaskCreateActivity) getActivity()).hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
@@ -729,7 +729,7 @@ public class TaskFragment extends Fragment {
                             ((TaskCreateActivity) getActivity()).showToast("Something Went Wrong", getActivity());
                         }
                         Log.e("error", error.toString());
-                        ((TaskCreateActivity) getActivity()).hidepDialog();
+                        ((TaskCreateActivity) getActivity()).hideProgressDialog();
                     }
                 }) {
 
@@ -762,7 +762,7 @@ public class TaskFragment extends Fragment {
         String str_assignedpersons = String.valueOf(4);
         String str_required_persons = String.valueOf(2);
 
-        ((TaskCreateActivity) getActivity()).showpDialog();
+        ((TaskCreateActivity) getActivity()).showProgressDialog();
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.PUT, Constant.URL_UPDATE_TASK + "/"+"title-15852200400",
@@ -772,7 +772,7 @@ public class TaskFragment extends Fragment {
                     public void onResponse(String response) {
                         Log.e("responce_url", response);
 
-                        ((TaskCreateActivity) getActivity()).hidepDialog();
+                        ((TaskCreateActivity) getActivity()).hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
@@ -837,7 +837,7 @@ public class TaskFragment extends Fragment {
                             ((TaskCreateActivity) getActivity()).showToast("Something Went Wrong", getActivity());
                         }
                         Log.e("error", error.toString());
-                        ((TaskCreateActivity) getActivity()).hidepDialog();
+                        ((TaskCreateActivity) getActivity()).hideProgressDialog();
                     }
                 }) {
 
@@ -877,7 +877,7 @@ public class TaskFragment extends Fragment {
     //working
     private void listUserTask() {
 
-        ((TaskCreateActivity) getActivity()).showpDialog();
+        ((TaskCreateActivity) getActivity()).showProgressDialog();
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_LIST_USER_TASK + "?page="+"1",
@@ -887,7 +887,7 @@ public class TaskFragment extends Fragment {
                     public void onResponse(String response) {
                         Log.e("responce_url", response);
 
-                        ((TaskCreateActivity) getActivity()).hidepDialog();
+                        ((TaskCreateActivity) getActivity()).hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
@@ -952,7 +952,7 @@ public class TaskFragment extends Fragment {
                             ((TaskCreateActivity) getActivity()).showToast("Something Went Wrong", getActivity());
                         }
                         Log.e("error", error.toString());
-                        ((TaskCreateActivity) getActivity()).hidepDialog();
+                        ((TaskCreateActivity) getActivity()).hideProgressDialog();
                     }
                 }) {
 
@@ -979,7 +979,7 @@ public class TaskFragment extends Fragment {
     //working
     private void getSingleUserTask() {
 
-        ((TaskCreateActivity) getActivity()).showpDialog();
+        ((TaskCreateActivity) getActivity()).showProgressDialog();
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_GET_SINGLE_TASK + "/"+ "title-15851442704",
@@ -989,7 +989,7 @@ public class TaskFragment extends Fragment {
                     public void onResponse(String response) {
                         Log.e("responce_url", response);
 
-                        ((TaskCreateActivity) getActivity()).hidepDialog();
+                        ((TaskCreateActivity) getActivity()).hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
@@ -1054,7 +1054,7 @@ public class TaskFragment extends Fragment {
                             ((TaskCreateActivity) getActivity()).showToast("Something Went Wrong", getActivity());
                         }
                         Log.e("error", error.toString());
-                        ((TaskCreateActivity) getActivity()).hidepDialog();
+                        ((TaskCreateActivity) getActivity()).hideProgressDialog();
                     }
                 }) {
 
@@ -1093,7 +1093,7 @@ public class TaskFragment extends Fragment {
         String str_task_type = String.valueOf(1);
         String str_status = String.valueOf(0);
         String str_draft = String.valueOf(1);
-        ((TaskCreateActivity) getActivity()).showpDialog();
+        ((TaskCreateActivity) getActivity()).showProgressDialog();
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_TASKS_CREATE,
@@ -1103,7 +1103,7 @@ public class TaskFragment extends Fragment {
                     public void onResponse(String response) {
                         Log.e("responce_url", response);
 
-                        ((TaskCreateActivity) getActivity()).hidepDialog();
+                        ((TaskCreateActivity) getActivity()).hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
@@ -1168,7 +1168,7 @@ public class TaskFragment extends Fragment {
                             ((TaskCreateActivity) getActivity()).showToast("Something Went Wrong", getActivity());
                         }
                         Log.e("error", error.toString());
-                        ((TaskCreateActivity) getActivity()).hidepDialog();
+                        ((TaskCreateActivity) getActivity()).hideProgressDialog();
                     }
                 }) {
 

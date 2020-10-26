@@ -6,19 +6,17 @@
         android:id="@+id/menu_share"
         android:icon="@drawable/ic_share_white"
         android:title="@string/share"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_bookmark"
         android:icon="@drawable/ic_bookmark_white"
-        android:iconTint="@color/white"
         android:title="@string/menu_bookmark"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/item_three_dot"
         android:icon="@drawable/ic_three_dot_white"
-
         android:title="@string/menu"
         app:showAsAction="always">
         <menu>

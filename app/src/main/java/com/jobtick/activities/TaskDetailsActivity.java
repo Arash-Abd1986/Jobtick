@@ -27,6 +27,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,18 +59,22 @@ import com.jobtick.cancellations.CancellationPosterActivity;
 import com.jobtick.cancellations.CancellationRequestActivity;
 import com.jobtick.cancellations.CancellationRequestSubmittedActivity;
 import com.jobtick.cancellations.CancellationWorkerActivity;
+import com.jobtick.fragments.RequirementsBottomSheet;
 import com.jobtick.incrementbudget.IncreaseBudgetFromPosterActivity;
 import com.jobtick.incrementbudget.IncreaseBudgetRequestToPosterActivity;
 import com.jobtick.incrementbudget.IncrementBudgetRequestViewActivity;
 import com.jobtick.interfaces.OnRequestAcceptListener;
 import com.jobtick.interfaces.OnWidthDrawListener;
 import com.jobtick.models.AttachmentModel;
+import com.jobtick.models.BankAccountModel;
+import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.models.BookmarkTaskModel;
 import com.jobtick.models.DueTimeModel;
 import com.jobtick.models.OfferDeleteModel;
 import com.jobtick.models.OfferModel;
 import com.jobtick.models.QuestionModel;
 import com.jobtick.models.TaskModel;
+import com.jobtick.models.UserAccountModel;
 import com.jobtick.retrofit.ApiClient;
 import com.jobtick.utils.CameraUtils;
 import com.jobtick.utils.Constant;
@@ -102,6 +107,8 @@ import retrofit2.Callback;
 import timber.log.Timber;
 
 import static com.jobtick.activities.SavedTaskActivity.onRemoveSavedtasklistener;
+import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
+import static com.jobtick.utils.Constant.ADD_BILLING;
 import static com.jobtick.utils.Constant.BASE_URL;
 import static com.jobtick.utils.Constant.TASK_CANCELLED;
 import static com.jobtick.utils.Constant.TASK_CLOSED;
@@ -141,8 +148,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     TextViewBold txtBudget;
     @BindView(R.id.lyt_btn_message)
     LinearLayout lytBtnMessage;
-    @BindView(R.id.card_message)
-    CardView cardMessage;
+    //    @BindView(R.id.card_message)
+//    CardView cardMessage;
+    @BindView(R.id.postedByLyt)
+    RelativeLayout postedByLyt;
     @BindView(R.id.lyt_btn_make_an_offer)
     LinearLayout lytBtnMakeAnOffer;
     @BindView(R.id.card_make_an_offer)
@@ -196,21 +205,21 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.lyt_view_all_questions)
     LinearLayout lytViewAllQuestions;
     @BindView(R.id.card_questions_layout)
-    CardView cardQuestionsLayout;
-    @BindView(R.id.img_avatar)
-    CircularImageView imgAvatar;
+    LinearLayout cardQuestionsLayout;
+ //   @BindView(R.id.img_avatar)
+ //   CircularImageView imgAvatar;
     @BindView(R.id.edt_comment)
     EditTextRegular edtComment;
     @BindView(R.id.lyt_btn_comment_send)
-    LinearLayout lytBtnCommentSend;
-    @BindView(R.id.lyt_comment)
-    LinearLayout lytComment;
+    ImageView lytBtnCommentSend;
+ //   @BindView(R.id.lyt_comment)
+  //  LinearLayout lytComment;
     @BindView(R.id.recycler_view_question_attachment)
     RecyclerView recyclerViewQuestionAttachment;
-    @BindView(R.id.card_comment_send)
-    CardView cardCommentSend;
-    @BindView(R.id.rlt_question_add)
-    RelativeLayout rltQuestionAdd;
+ //   @BindView(R.id.card_comment_send)
+ //   CardView cardCommentSend;
+ //   @BindView(R.id.rlt_question_add)
+ //   RelativeLayout rltQuestionAdd;
     @BindView(R.id.txt_status_cancelled)
     TextView txtStatusCancelled;
     @BindView(R.id.txt_status_overdue)
@@ -222,56 +231,55 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     ViewPager viewPager;
     @BindView(R.id.layout_dots)
     LinearLayout layoutDots;
-
-
-    @BindView(R.id.card_view_request)
-    CardView card_view_request;
-
+    @BindView(R.id.txt_budgets)
+    TextView budget;
     @BindView(R.id.lyt_btn_view_reqeust)
-    LinearLayout lytButtonViewRequest;
+    CardView lytButtonViewRequest;
+    @BindView(R.id.card_increase_budget)
+    FrameLayout cardIncreaseBudget;
+    @BindView(R.id.card_cancel_background)
+    CardView cardCancelBackground;
+    @BindView(R.id.card_cancelled)
+    CardView cardCancelled;
+    @BindView(R.id.liAssign)
+    LinearLayout liAssign;
+    @BindView(R.id.linearUserProfile)
+    LinearLayout linearUserProfile;
+   // @BindView(R.id.img_btn_image_select)
+    //ImageView addBtn;
+    //  @BindView(R.id.card_view_request)
+    //CardView card_view_request;
+    // @BindView(R.id.fl_task_details)
+    //FrameLayout fl_task_details;
+
+    public static TaskModel taskModel = new TaskModel();
+    public static String isOfferQuestion = "";
+    public static OfferModel offerModel;
+    public static QuestionModel questionModel;
+    public static OnRequestAcceptListener requestAcceptListener;
+    public static OnWidthDrawListener widthDrawListener;
 
 
-    @BindView(R.id.fl_task_details)
-    FrameLayout fl_task_details;
+    public UserAccountModel userAccountModel;
+    public BankAccountModel bankAccountModel;
+    public BillingAdreessModel billingAdreessModel;
 
-    private ArrayList<AttachmentModel> dataList;
+    private ArrayList<AttachmentModel> dataList = new ArrayList<>();
+    private ArrayList<AttachmentModel> attachmentArrayList_question = new ArrayList<>();
 
-
-    public static TaskModel taskModel;
-    String str_slug = "";
-    private static int[] array_image_place = {
-            R.drawable.task_detials_1
-    };
+    private String str_slug = "";
     private boolean isMyTask = false;
+    boolean isFabHide = false;
     private OfferListAdapter offerListAdapter;
     private QuestionListAdapter questionListAdapter;
     private boolean noActionAvailable = false;
     private String imageStoragePath;
     private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
-    private ArrayList<AttachmentModel> attachmentArrayList_question;
-    AttachmentAdapter adapter;
-    @BindView(R.id.card_increase_budget)
-    CardView cardIncreaseBudget;
-    @BindView(R.id.card_cancel_background)
-    CardView cardCancelBackground;
 
-    @BindView(R.id.card_cancelled)
-    CardView cardCancelled;
+    private AttachmentAdapter adapter;
 
-    @BindView(R.id.liAssign)
-    LinearLayout liAssign;
-    @BindView(R.id.linearUserProfile)
-    LinearLayout linearUserProfile;
-
-    public static String isOfferQuestion = "";
-    public static OfferModel offerModel;
-    public static QuestionModel questionModel;
     public int pushOfferID;
     public int pushQuestionID;
-
-    public static OnRequestAcceptListener requestAcceptListener;
-    public static OnWidthDrawListener widthDrawListener;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -279,45 +287,55 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         setContentView(R.layout.activity_task_details);
         ButterKnife.bind(this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
+
+        requestAcceptListener = this;
+        widthDrawListener = this;
+
+        initialStage();
+    }
+
+    @Override
+    protected void getExtras() {
+        super.getExtras();
+
+        if (getIntent() == null || getIntent().getExtras() == null) {
+            return;
+        }
+
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null && bundle.getString(ConstantKey.SLUG) != null) {
+        if (bundle.getString(ConstantKey.SLUG) != null) {
             str_slug = bundle.getString(ConstantKey.SLUG);
         }
-        if (bundle != null && bundle.getInt(ConstantKey.USER_ID) != 0) {
+        if (bundle.getInt(ConstantKey.USER_ID) != 0) {
             int userId = bundle.getInt(ConstantKey.USER_ID);
             SessionManager sessionManager = new SessionManager(this);
             isMyTask = userId == sessionManager.getUserAccount().getId();
         }
-        if (bundle != null && bundle.getInt(ConstantKey.PUSH_OFFER_ID) != 0) {
+        if (bundle.getInt(ConstantKey.PUSH_OFFER_ID) != 0) {
             pushOfferID = bundle.getInt(ConstantKey.PUSH_OFFER_ID);
         }
-        if (bundle != null && bundle.getInt(ConstantKey.PUSH_QUESTION_ID) != 0) {
+        if (bundle.getInt(ConstantKey.PUSH_QUESTION_ID) != 0) {
             pushQuestionID = bundle.getInt(ConstantKey.PUSH_QUESTION_ID);
         }
-        requestAcceptListener = this;
-        widthDrawListener = this;
-        initialStage();
     }
 
     private void initialStage() {
-        fl_task_details.setVisibility(View.VISIBLE);
+        //fl_task_details.setVisibility(View.VISIBLE);
 
         recyclerViewOffers.setVisibility(View.GONE);
-        attachmentArrayList_question = new ArrayList<>();
-        dataList = new ArrayList<>();
-        taskModel = new TaskModel();
         cardViewAllOffers.setVisibility(View.GONE);
+
         initToolbar();
         initComponentScroll();
-        //initOfferList();
+        initOfferList();
         initQuestionList();
-        getdata();
-
+        getData();
     }
 
     private void initQuestionList() {
         recyclerViewQuestions.setHasFixedSize(true);
-        // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(TaskDetailsActivity.this);
         recyclerViewQuestions.setLayoutManager(layoutManager);
         questionListAdapter = new QuestionListAdapter(TaskDetailsActivity.this, new ArrayList<>());
@@ -333,11 +351,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         offerListAdapter = new OfferListAdapter(TaskDetailsActivity.this, isMyTask, new ArrayList<>());
         recyclerViewOffers.setAdapter(offerListAdapter);
         offerListAdapter.setOnItemClickListener(this);
-
     }
 
-    private void initMenu() {
-        switch (taskModel.getStatus().toLowerCase()) {
+    private void initStatusTask(String status) {
+        switch (status) {
             case Constant.TASK_ASSIGNED:
                 txtStatusOpen.setSelected(false);
                 txtStatusAssigned.setSelected(true);
@@ -351,7 +368,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusCancelled.setVisibility(View.GONE);
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.GONE);
-
+                txtStatusOpen.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_tab_primary_2dp));
+                txtStatusOpen.setTextColor(ContextCompat.getColor(this, R.color.white));
                 if (isMyTask) {
                     cardMakeAnOffer.setVisibility(View.VISIBLE);
                     txtBtnText.setText(ConstantKey.BTN_ASSIGNED);
@@ -422,10 +440,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_delete, false);
 
                 cardOfferLayout.setVisibility(View.GONE);
-                cardMessage.setVisibility(View.VISIBLE);
+//                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.VISIBLE);
                 if (taskModel.getQuestions() != null && taskModel.getQuestions().size() != 0) {
-                    rltQuestionAdd.setVisibility(View.GONE);
+                 //   rltQuestionAdd.setVisibility(View.GONE);
                 } else {
                     cardQuestionsLayout.setVisibility(View.GONE);
                 }
@@ -433,6 +451,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 break;
             case Constant.TASK_OPEN:
                 txtStatusOpen.setSelected(true);
+                txtStatusOpen.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_tab_primary_2dp));
+                txtStatusOpen.setTextColor(ContextCompat.getColor(this, R.color.white));
                 txtStatusAssigned.setSelected(false);
                 txtStatusCompleted.setSelected(false);
                 txtStatusCancelled.setSelected(false);
@@ -444,6 +464,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusCancelled.setVisibility(View.GONE);
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.GONE);
+
 
                 if (isMyTask) {
                     //poster task
@@ -469,7 +490,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
-                cardMessage.setVisibility(View.GONE);
+//                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.GONE);
                 cardPrivateChat.setVisibility(View.GONE);
                 if (taskModel.getOffers().size() != 0) {
@@ -509,7 +530,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.GONE);
 
-                cardMessage.setVisibility(View.VISIBLE);
+//                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.VISIBLE);
                 cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.setVisibility(View.GONE);
@@ -568,7 +589,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
 
-                cardMessage.setVisibility(View.VISIBLE);
+//                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.VISIBLE);
                 cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.setVisibility(View.GONE);
@@ -613,7 +634,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
 
 
-                cardMessage.setVisibility(View.VISIBLE);
+//                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.VISIBLE);
                 cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.setVisibility(View.GONE);
@@ -705,13 +726,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     new MaterialAlertDialogBuilder(TaskDetailsActivity.this)
                             .setTitle(getResources().getString(R.string.title_copy))
                             .setNegativeButton(getResources().getString(R.string.no), null)
-                            .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    // deleteTaskPermanent(taskDetails.getSlug());
-                                    copyTask(taskModel);
-                                }
+                            .setPositiveButton(getResources().getString(R.string.yes), (dialog, which) -> {
+                                dialog.dismiss();
+                                // deleteTaskPermanent(taskDetails.getSlug());
+                                copyTask(taskModel);
                             }).show();
                     break;
                 case R.id.action_cancellation:
@@ -760,7 +778,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         });
     }
 
-
     private void initComponentScroll() {
         NestedScrollView nested_content = (NestedScrollView) findViewById(R.id.nested_scroll_view);
         nested_content.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -776,8 +793,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         });
     }
 
-    boolean isFabHide = false;
-
     private void animateFab(final boolean hide) {
         if (isFabHide && hide || !isFabHide && !hide) return;
         isFabHide = hide;
@@ -785,45 +800,34 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         cardMakeAnOffer.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
     }
 
-    private void getdata() {
-        showpDialog();
+    private void getData() {
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_TASKS + "/" + str_slug,
                 response -> {
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
-                        fl_task_details.setVisibility(View.GONE);
 
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
+                        System.out.println(jsonObject.toString());
+                        if (jsonObject.has("success") &&
+                                !jsonObject.isNull("success") &&
+                                jsonObject.getBoolean("success")) {
 
-                                if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                    JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                                    taskModel = new TaskModel().getJsonToModel(jsonObject_data, TaskDetailsActivity.this);
-                                }
-                                if (taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
-                                    //this is self task
-                                    isMyTask = true;
-                                } else {
-                                    //this is another tasks
-                                    if (taskModel.getWorker() != null) {
-                                        if (taskModel.getWorker().getId().equals(sessionManager.getUserAccount().getId())) {
-                                            isMyTask = false;
-                                            noActionAvailable = false;
-                                        } else {
-                                            noActionAvailable = true;
-                                        }
-                                    } else {
-                                        isMyTask = false;
-                                        noActionAvailable = false;
-                                    }
-                                }
-                                initOfferList();
-                                initMenu();
+                            if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                                JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+                                taskModel = new TaskModel().getJsonToModel(jsonObject_data, TaskDetailsActivity.this);
+
+                                setOwnerTask();
+//                                initOfferList();
+                                initStatusTask(taskModel.getStatus().toLowerCase());
                                 initComponent();
                                 setDataInLayout(taskModel);
                                 initQuestion();
+                                getAllUserProfileDetails();
+                                getBankAccountAddress();
+                                getBillingAddress();
+
 
                                 questionListAdapter.addItems(taskModel.getQuestions());
 
@@ -834,16 +838,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                         break searchHint;
                                     }
                                 }
-                            } else {
-                                showToast("Something went wrong", TaskDetailsActivity.this);
                             }
                         } else {
                             showToast("Something went wrong", TaskDetailsActivity.this);
                         }
-                        fl_task_details.setVisibility(View.GONE);
 
                     } catch (JSONException e) {
-                        fl_task_details.setVisibility(View.GONE);
 
                         showToast("JSONException", TaskDetailsActivity.this);
                         Timber.e(String.valueOf(e));
@@ -851,13 +851,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     }
                 },
                 error -> {
-                    fl_task_details.setVisibility(View.GONE);
+                    //    fl_task_details.setVisibility(View.GONE);
 
                     errorHandle1(error.networkResponse);
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
-
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
@@ -876,6 +874,226 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     }
 
+    public void getAllUserProfileDetails() {
+        showProgressDialog();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
+                response -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+
+                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                            userAccountModel = new UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"));
+                        } else {
+                            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (JSONException e) {
+                        Toast.makeText(this, "JSONException", Toast.LENGTH_SHORT).show();
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    errorHandle1(error.networkResponse);
+                    hideProgressDialog();
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                // map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    public void getBankAccountAddress() {
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_ACCOUNT_DETAILS,
+                response -> {
+                    Timber.e(response);
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+                                String jsonString = jsonObject.toString(); //http request
+                                BankAccountModel data = new BankAccountModel();
+                                Gson gson = new Gson();
+                                data = gson.fromJson(jsonString, BankAccountModel.class);
+
+                                if (data != null) {
+                                    if (data.isSuccess()) {
+                                        if (data.getData() != null && data.getData().getAccount_number() != null) {
+                                            bankAccountModel = data;
+                                        }
+                                    }
+                                }
+                            } else {
+                                showToast("Something went Wrong", this);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
+                            hideProgressDialog();
+                            return;
+                        }
+                        try {
+                            hideProgressDialog();
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            //  showCustomDialog(jsonObject_error.getString("message"));
+                            if (jsonObject_error.has("message")) {
+                                Toast.makeText(this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", this);
+                    }
+                    Timber.e(error.toString());
+                    hideProgressDialog();
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    public void getBillingAddress() {
+
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_BILLING,
+                response -> {
+                    Timber.e(response);
+                    try {
+                        hideProgressDialog();
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+                                String jsonString = jsonObject.toString(); //http request
+                                BillingAdreessModel data = new BillingAdreessModel();
+                                Gson gson = new Gson();
+                                data = gson.fromJson(jsonString, BillingAdreessModel.class);
+
+                                if (data != null) {
+                                    if (data.isSuccess()) {
+                                        if (data.getData() != null && data.getData().getLine1() != null) {
+                                            billingAdreessModel = data;
+                                        }
+                                    }
+                                }
+                            } else {
+                                showToast("Something went Wrong", this);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
+                            return;
+                        }
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            //  showCustomDialog(jsonObject_error.getString("message"));
+                            if (jsonObject_error.has("message")) {
+                                Toast.makeText(this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", this);
+                    }
+                    Timber.e(error.toString());
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void setOwnerTask() {
+        if (taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
+            //this is self task
+            isMyTask = true;
+            postedByLyt.setVisibility(View.GONE);
+        } else {
+            //this is another tasks
+            postedByLyt.setVisibility(View.VISIBLE);
+            if (taskModel.getWorker() != null) {
+                if (taskModel.getWorker().getId().equals(sessionManager.getUserAccount().getId())) {
+                    isMyTask = false;
+                    noActionAvailable = false;
+                } else {
+                    noActionAvailable = true;
+                }
+            } else {
+                isMyTask = false;
+                noActionAvailable = false;
+            }
+        }
+    }
+
     private void initQuestion() {
         attachmentArrayList_question.add(new AttachmentModel());
         recyclerViewQuestionAttachment.setLayoutManager(new LinearLayoutManager(TaskDetailsActivity.this, RecyclerView.HORIZONTAL, false));
@@ -889,10 +1107,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     }
 
-
     private void setDataInLayout(TaskModel taskModel) {
         txtTitle.setText(taskModel.getTitle());
-
         txtCreatedDate.setText("Posted " + taskModel.getCreatedAt());
 
         if (taskModel.getBookmarkID() != null) {
@@ -908,7 +1124,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         txtPosterName.setText(taskModel.getPoster().getName());
         if (taskModel.getLocation() != null && taskModel.getLocation().isEmpty()) {
             txtLocation.setText(taskModel.getLocation());
-
         } else {
             txtLocation.setText("Remote Task");
         }
@@ -916,7 +1131,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             txtPosterLocation.setVisibility(View.VISIBLE);
             txtPosterLocation.setText(taskModel.getPoster().getLocation());
         } else {
-            txtPosterLocation.setVisibility(View.GONE);
+            txtPosterLocation.setVisibility(View.INVISIBLE);
 
         }
 
@@ -958,7 +1173,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         return dueTime;
     }
 
-
     private void initToolbar() {
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
@@ -996,7 +1210,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         });
 
     }
-
 
     private void copyTask(TaskModel taskModel) {
 
@@ -1039,7 +1252,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void deleteTaskPermanent(String slug) {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, URL_TASKS + "/" + slug,
                 response -> {
                     Timber.e(response);
@@ -1054,9 +1267,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         } else {
                             showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
                         }
-                        hidepDialog();
+                        hideProgressDialog();
                     } catch (JSONException e) {
-                        hidepDialog();
+                        hideProgressDialog();
                         e.printStackTrace();
                     }
 
@@ -1064,7 +1277,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        hidepDialog();
+                        hideProgressDialog();
 
                         //  swipeRefresh.setRefreshing(false);
                         errorHandle1(error.networkResponse);
@@ -1090,56 +1303,44 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         super.onBackPressed();
     }
 
-
     private void initComponent() {
-        if (taskModel.getOfferCount() == 0) {
-            txtOffersCount.setText("OFFER");
-            txtWaitingForOffer.setVisibility(View.VISIBLE);
-        } else if (taskModel.getOfferCount() == 1) {
-            txtOffersCount.setText("OFFER (" + taskModel.getOfferCount() + ")");
-            txtWaitingForOffer.setVisibility(View.GONE);
-        } else {
-            txtOffersCount.setText("OFFERS (" + taskModel.getOfferCount() + ")");
-            txtWaitingForOffer.setVisibility(View.GONE);
-        }
-        if (taskModel.getQuestionCount() == 0) {
-            txtQuestionsCount.setText("QUESTION");
-        } else if (taskModel.getOfferCount() == 1) {
-            txtQuestionsCount.setText("QUESTION (" + taskModel.getQuestionCount() + ")");
-        } else {
-            txtQuestionsCount.setText("QUESTIONS (" + taskModel.getQuestionCount() + ")");
-        }
-        //TODO taskModel.getOfferCount() > 5
-        if (taskModel.getOfferCount() > 5) {
-            cardViewAllOffers.setVisibility(View.VISIBLE);
-        } else {
-            cardViewAllOffers.setVisibility(View.GONE);
-        }
-        //TODO taskModel.getQuestionCount() > 5
-        if (taskModel.getQuestionCount() > 5) {
-            lytViewAllQuestions.setVisibility(View.VISIBLE);
-        } else {
-            lytViewAllQuestions.setVisibility(View.GONE);
-        }
+        setOfferView(taskModel.getOfferCount());
+        setQuestionView(taskModel.getQuestionCount());
+        setAdditionalFund();
+        budget.setText("$ " + taskModel.getBudget());
+        setAttachmentAndSlider();
+        setWorker();
+    }
 
-
+    private void setAdditionalFund() {
         if (taskModel.getAdditionalFund() != null && taskModel.getAdditionalFund().getStatus().equals("pending")) {
-
             if (taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
                 cardIncreaseBudget.setVisibility(View.VISIBLE);
-
             }
-
         } else {
             cardIncreaseBudget.setVisibility(View.GONE);
         }
+    }
+
+    private void setWorker() {
+        //worker
+        if (taskModel.getWorker() != null) {
+            if (taskModel.getWorker().getAvatar() != null && taskModel.getWorker().getAvatar().getThumbUrl() != null) {
+                ImageUtil.displayImage(imgAvtarWorker, taskModel.getWorker().getAvatar().getThumbUrl(), null);
+            } else {
+                //TODO DUMMY IMAGE
+            }
+            txtWorkerName.setText(taskModel.getWorker().getName());
+            txtWorkerLocation.setText(taskModel.getWorker().getLocation());
+            txtWorkerLastOnline.setText("Active " + taskModel.getWorker().getLastOnline());
+        }
+    }
+
+    private void setAttachmentAndSlider() {
         Log.e("Attachment", taskModel.getAttachments().size() + "");
         adapterImageSlider = new AdapterImageSlider(this, new ArrayList<>());
-        if (taskModel.getAttachments() != null && taskModel.getAttachments().size() != 0) {
-            adapterImageSlider.setItems(taskModel.getAttachments());
-            dataList.addAll(taskModel.getAttachments());
 
-        } else {
+        if (taskModel.getAttachments() == null || taskModel.getAttachments().size() == 0) {
             AttachmentModel attachment = new AttachmentModel();
             if (taskModel.getTaskType().equalsIgnoreCase(ConstantKey.PHYSICAL)) {
                 attachment.setDrawable(R.drawable.banner_person);
@@ -1149,10 +1350,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             ArrayList<AttachmentModel> attachments = new ArrayList<>();
             attachments.add(attachment);
             taskModel.setAttachments(attachments);
-            adapterImageSlider.setItems(taskModel.getAttachments());
-            dataList.addAll(taskModel.getAttachments());
 
         }
+        adapterImageSlider.setItems(taskModel.getAttachments());
+        dataList.addAll(taskModel.getAttachments());
+
         viewPager.setAdapter(adapterImageSlider);
         // displaying selected image first
         viewPager.setCurrentItem(0);
@@ -1179,17 +1381,37 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         });
 
         // startAutoSlider(adapterImageSlider.getCount());
+    }
 
-        //worker
-        if (taskModel.getWorker() != null) {
-            if (taskModel.getWorker().getAvatar() != null && taskModel.getWorker().getAvatar().getThumbUrl() != null) {
-                ImageUtil.displayImage(imgAvtarWorker, taskModel.getWorker().getAvatar().getThumbUrl(), null);
-            } else {
-                //TODO DUMMY IMAGE
-            }
-            txtWorkerName.setText(taskModel.getWorker().getName());
-            txtWorkerLocation.setText(taskModel.getWorker().getLocation());
-            txtWorkerLastOnline.setText("Active " + taskModel.getWorker().getLastOnline());
+    private void setQuestionView(int questionCount) {
+        if (questionCount == 0) {
+            txtQuestionsCount.setText("QUESTION");
+        } else {
+            txtQuestionsCount.setText("QUESTIONS (" + questionCount + ")");
+        }
+
+        //TODO taskModel.getQuestionCount() > 5
+        if (taskModel.getQuestionCount() > 5) {
+            lytViewAllQuestions.setVisibility(View.VISIBLE);
+        } else {
+            lytViewAllQuestions.setVisibility(View.GONE);
+        }
+    }
+
+    private void setOfferView(int offerCount) {
+        if (offerCount == 0) {
+            txtOffersCount.setText(getString(R.string.offer));
+            txtWaitingForOffer.setVisibility(View.VISIBLE);
+        } else {
+            txtOffersCount.setText("OFFERS (" + offerCount + ")");
+            txtWaitingForOffer.setVisibility(View.GONE);
+        }
+
+        //TODO taskModel.getOfferCount() > 5
+        if (offerCount > 5) {
+            cardViewAllOffers.setVisibility(View.VISIBLE);
+        } else {
+            cardViewAllOffers.setVisibility(View.GONE);
         }
     }
 
@@ -1271,13 +1493,19 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         showCustomDialogReleaseMoney("Are you sure all work is done, and release to money?");
                         break;
                     case ConstantKey.BTN_MAKE_AN_OFFER:
-                        intent = new Intent(TaskDetailsActivity.this, MakeAnOfferActivity.class);
-                        bundle = new Bundle();
-                        bundle.putInt("id", taskModel.getId());
-                        bundle.putInt("budget", taskModel.getBudget());
-                        //  bundle.putParcelable(ConstantKey.TASK, taskModel);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
+                        int key = handleRequirementStrip();
+                        if (key == 5) {
+                            intent = new Intent(TaskDetailsActivity.this, MakeAnOfferActivity.class);
+                            bundle = new Bundle();
+                            bundle.putInt("id", taskModel.getId());
+                            bundle.putInt("budget", taskModel.getBudget());
+                            //  bundle.putParcelable(ConstantKey.TASK, taskModel);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        } else {
+                            RequirementsBottomSheet requirementsBottomSheet = RequirementsBottomSheet.newInstance(key);
+                            requirementsBottomSheet.show(getSupportFragmentManager(), "");
+                        }
                         break;
                     case ConstantKey.BTN_OFFER_PENDING:
                         Toast.makeText(TaskDetailsActivity.this, "offer pending", Toast.LENGTH_SHORT).show();
@@ -1342,6 +1570,28 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
+    private int handleRequirementStrip() {
+        int key = 0;
+        if (userAccountModel != null) {
+            if (userAccountModel.getAvatar() == null || userAccountModel.getAvatar().getUrl().equals("")) {
+                key = 0;
+            } else if (bankAccountModel == null || bankAccountModel.getData() == null || bankAccountModel.getData().getAccount_name().equals("") || bankAccountModel.getData().getAccount_number().equals("")) {
+                key = 1;
+            } else if (billingAdreessModel == null || billingAdreessModel.getData() == null || billingAdreessModel.getData().getLocation().equals("") || billingAdreessModel.getData().getPost_code().equals("")) {
+                key = 2;
+            } else if (userAccountModel.getDob() == null || userAccountModel.getDob().equals("")) {
+                key = 3;
+            } else if (userAccountModel.getMobile() == null || userAccountModel.getMobile().equals("") || userAccountModel.getMobileVerifiedAt().equals("")) {
+                key = 4;
+            } else {
+                key = 5;
+            }
+        } else {
+            key = 0;
+        }
+        return key;
+    }
+
     private void showCustomDialogAskToReleaseMoney(String message) {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
@@ -1368,7 +1618,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void submitAskToReleaseMoney() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/complete",
                 new Response.Listener<String>() {
                     @Override
@@ -1381,12 +1631,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
                                 initialStage();
                             } else {
-                                hidepDialog();
+                                hideProgressDialog();
                                 showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
                             }
 
                         } catch (JSONException e) {
-                            hidepDialog();
+                            hideProgressDialog();
                             e.printStackTrace();
                         }
 
@@ -1402,10 +1652,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             Timber.e(jsonError);
                             if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                                 unauthorizedUser();
-                                hidepDialog();
+                                hideProgressDialog();
                                 return;
                             }
-                            hidepDialog();
+                            hideProgressDialog();
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonError);
 
@@ -1426,7 +1676,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             showToast("Something Went Wrong", TaskDetailsActivity.this);
                         }
                         Timber.e(error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
             @Override
@@ -1477,7 +1727,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void submitReleaseMoney() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/close",
                 response -> {
                     Timber.e(response);
@@ -1488,12 +1738,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
                             initialStage();
                         } else {
-                            hidepDialog();
+                            hideProgressDialog();
                             showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
                         }
 
                     } catch (JSONException e) {
-                        hidepDialog();
+                        hideProgressDialog();
                         e.printStackTrace();
                     }
 
@@ -1506,10 +1756,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
-                        hidepDialog();
+                        hideProgressDialog();
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
 
@@ -1529,7 +1779,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         showToast("Something Went Wrong", TaskDetailsActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -1544,7 +1794,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         RequestQueue requestQueue = Volley.newRequestQueue(TaskDetailsActivity.this);
         requestQueue.add(stringRequest);
     }
-
 
     private void showCustomDialog(String message) {
         final Dialog dialog = new Dialog(this);
@@ -1572,7 +1821,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void postComment(String str_comment, ArrayList<AttachmentModel> attachmentModels) {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_QUESTIONS + "/" + taskModel.getId() + "/create",
                 new Response.Listener<String>() {
                     @Override
@@ -1597,9 +1846,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             } else {
                                 showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
                             }
-                            hidepDialog();
+                            hideProgressDialog();
                         } catch (JSONException e) {
-                            hidepDialog();
+                            hideProgressDialog();
                             e.printStackTrace();
                         }
 
@@ -1613,7 +1862,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
@@ -1635,7 +1884,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         showToast("Something Went Wrong", TaskDetailsActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -1672,14 +1921,13 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @Override
     public void onRequestAccept() {
         cardIncreaseBudget.setVisibility(View.GONE);
-        getdata();
+        getData();
     }
 
     @Override
     public void onWidthdraw(int id) {
         doApiCall(Constant.URL_OFFERS + "/" + id);
     }
-
 
     private static class AdapterImageSlider extends PagerAdapter {
         private Activity act;
@@ -1850,7 +2098,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
-
     //Adapter override method
     @Override
     public void onItemOfferClick(View v, OfferModel obj, int position, String action) {
@@ -1886,7 +2133,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
-
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
         if (action.equalsIgnoreCase("add")) {
@@ -1901,9 +2147,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
-
     private void uploadDataQuestionMediaApi(File pictureFile) {
-        showpDialog();
+        showProgressDialog();
         Call<String> call;
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
@@ -1913,7 +2158,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-                hidepDialog();
+                hideProgressDialog();
                 Log.e("Response", response.toString());
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     showToast(response.message(), TaskDetailsActivity.this);
@@ -1956,7 +2201,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                hidepDialog();
+                hideProgressDialog();
             }
         });
 
@@ -2005,7 +2250,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     public void RescheduleRequestAccept(int method, String acceptReject) {
 //reschedule/:duedateextend/accept
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(method, Constant.BASE_URL + URL_CREATE_RESCHEDULE + "/" + acceptReject,
                 response -> {
                     Timber.e(response);
@@ -2016,7 +2261,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             if (jsonObject.getBoolean("success")) {
                                 if (acceptReject.contains("accept")) {
                                     showCustomDialog("Request Accepted Successfully");
-                                    getdata();
+                                    getData();
                                 } else {
                                     showCustomDialog("Request Declined !");
 
@@ -2027,9 +2272,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         } else {
                             showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
                         }
-                        hidepDialog();
+                        hideProgressDialog();
                     } catch (JSONException e) {
-                        hidepDialog();
+                        hideProgressDialog();
                         e.printStackTrace();
                     }
 
@@ -2044,10 +2289,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             Timber.e(jsonError);
                             if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                                 unauthorizedUser();
-                                hidepDialog();
+                                hideProgressDialog();
                                 return;
                             }
-                            hidepDialog();
+                            hideProgressDialog();
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonError);
 
@@ -2067,7 +2312,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             showToast("Something Went Wrong", TaskDetailsActivity.this);
                         }
                         Timber.e(error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 
@@ -2084,15 +2329,13 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         requestQueue.add(stringRequest);
     }
 
-
     private void doApiCall(String url) {
-
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        hidepDialog();
+                        hideProgressDialog();
                         Log.e("responce_url", response);
                         // categoryArrayList.clear();
                         try {
@@ -2103,7 +2346,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             initialStage();
                             showCustomDialog(data.getMessage());
                         } catch (JSONException e) {
-                            hidepDialog();
+                            hideProgressDialog();
                             Log.e("EXCEPTION", String.valueOf(e));
                             e.printStackTrace();
                         }
@@ -2113,7 +2356,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //  swipeRefresh.setRefreshing(false);
-                        hidepDialog();
+                        hideProgressDialog();
 
                         errorHandle1(error.networkResponse);
                     }
@@ -2136,16 +2379,15 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         Log.e("url", stringRequest.getUrl());
     }
 
-
     public void addToBookmark() {
         //{{baseurl}}/task/clean-my-small-player-15965410804/bookmark
         //  https://dev.jobtick.com/api/v1/tasks/move-my-sofa-ere-15965445892/bookmark
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/bookmark",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        hidepDialog();
+                        hideProgressDialog();
                         Log.e("responce_url", response);
                         // categoryArrayList.clear();
                         try {
@@ -2159,11 +2401,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             //   toolbar.getMenu().getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_launcher));
 
                             showCustomDialog(data.getMessage());
-                            getdata();
+                            getData();
 
 
                         } catch (JSONException e) {
-                            hidepDialog();
+                            hideProgressDialog();
                             Log.e("EXCEPTION", String.valueOf(e));
                             e.printStackTrace();
                         }
@@ -2172,7 +2414,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        hidepDialog();
+                        hideProgressDialog();
 
                         //  swipeRefresh.setRefreshing(false);
                         errorHandle1(error.networkResponse);
@@ -2204,9 +2446,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         Log.e("url", stringRequest.getUrl());
     }
 
-
     private void removeBookmark() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, BASE_URL + "bookmarks/" + taskModel.getBookmarkID(),
                 response -> {
                     Timber.e(response);
@@ -2217,7 +2458,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_mark);
 
                                 showToast("Task Removed From Saved Task !", TaskDetailsActivity.this);
-                                getdata();
+                                getData();
                                 if (onRemoveSavedtasklistener != null) {
                                     onRemoveSavedtasklistener.onRemoveSavedTask();
                                 }
@@ -2228,15 +2469,15 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         } else {
                             showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
                         }
-                        hidepDialog();
+                        hideProgressDialog();
                     } catch (JSONException e) {
-                        hidepDialog();
+                        hideProgressDialog();
                         e.printStackTrace();
                     }
 
                 },
                 error -> {
-                    hidepDialog();
+                    hideProgressDialog();
 
                     //  swipeRefresh.setRefreshing(false);
                     errorHandle1(error.networkResponse);
@@ -2262,6 +2503,5 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(TaskDetailsActivity.this);
         requestQueue.add(stringRequest);
-
     }
 }

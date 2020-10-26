@@ -12,7 +12,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
@@ -28,9 +27,7 @@ import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.fragments.SignInFragment;
-import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.Constant;
-import com.jobtick.utils.Helper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -102,12 +99,12 @@ public class MobileVerificationActivity extends ActivityBase {
     }
 
     public void getOTP(String mobileNumber) {
-        showpDialog();
+        showProgressDialog();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_SEND_OTP,
                 response -> {
 
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
@@ -153,7 +150,7 @@ public class MobileVerificationActivity extends ActivityBase {
                     } else {
                         showToast("Something Went Wrong", MobileVerificationActivity.this);
                     }
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 

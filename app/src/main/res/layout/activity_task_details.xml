@@ -1,102 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_100"
+    android:background="#ffffff"
     tools:context=".activities.TaskDetailsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:background="@color/semiBlack"
         android:layout_height="300dp"
+        android:background="@color/semiBlack"
         app:elevation="0dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/semiBlack"
             app:contentScrim="?attr/background"
             app:expandedTitleTextAppearance="@android:color/transparent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:background="@color/semiBlack">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/pager"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/semiBlack" />
+                android:layout_height="match_parent">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/semiBlack">
+
+                    <LinearLayout
+                        android:id="@+id/lyt_btn_view_all_offers"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center">
+
+                        <com.jobtick.TextView.TextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/view_all_offers"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </androidx.viewpager.widget.ViewPager>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#40888888" />
+            </FrameLayout>
+
             <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_gravity="bottom"
-                                android:gravity="center"
-                                android:layout_marginStart="@dimen/spacing_medium"
-                                android:layout_marginEnd="@dimen/spacing_medium"
-                                android:paddingBottom="25dp"
-                                android:layout_marginBottom="@dimen/spacing_xlarge">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="@dimen/spacing_middle"
+                android:layout_marginEnd="@dimen/spacing_middle"
+                android:layout_marginBottom="@dimen/spacing_xmlarge"
+                android:gravity="center"
+                android:orientation="horizontal">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shape_tab_left_white"
+                    android:contentDescription="@string/todo"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/spacing_middle"
+                    android:paddingTop="@dimen/spacing_medium"
+                    android:paddingEnd="@dimen/spacing_medium"
+                    android:paddingBottom="@dimen/spacing_medium"
+                    app:srcCompat="@drawable/ic_clock_task_details" />
 
-                                        <ImageView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="match_parent"
-                                            android:paddingStart="@dimen/spacing_middle"
-                                            android:paddingTop="@dimen/spacing_middle"
-                                            android:paddingEnd="@dimen/spacing_middle"
-                                            android:paddingBottom="@dimen/spacing_middle"
-                                            app:srcCompat="@drawable/ic_clock_task_details"
-                                            android:background="@drawable/shape_tab_left_white"
-                                            android:contentDescription="@string/todo" />
+                <com.jobtick.TextView.TextViewMedium
+                    android:id="@+id/txt_due_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/spacing_medium"
+                    android:paddingBottom="@dimen/spacing_medium"
+                    android:text="@string/tuesday_march_3"
+                    android:textColor="@color/textColor"
+                    android:textSize="10dp"
+                    tools:ignore="SpUsage" />
 
-                                        <com.jobtick.TextView.TextViewMedium
-                                            android:id="@+id/txt_due_date"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="match_parent"
-                                            android:text="@string/tuesday_march_3"
-                                            android:textColor="@color/textColor"
-                                            android:background="@color/white"
-                                            android:paddingStart="@dimen/spacing_middle"
-                                            android:paddingTop="@dimen/spacing_middle"
-                                            android:paddingEnd="@dimen/spacing_large"
-                                            android:paddingBottom="@dimen/spacing_middle"
-                                            android:textSize="@dimen/_10sp" />
+                <com.jobtick.TextView.TextViewMedium
+                    android:id="@+id/txt_due_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shape_tab_right_white"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/spacing_medium"
+                    android:paddingTop="@dimen/spacing_medium"
+                    android:paddingEnd="@dimen/spacing_middle"
+                    android:paddingBottom="@dimen/spacing_medium"
+                    android:text="@string/morning"
+                    android:textColor="@color/textColor"
+                    android:textSize="10dp"
+                    tools:ignore="SpUsage" />
 
-                                        <com.jobtick.TextView.TextViewMedium
-                                            android:id="@+id/txt_due_time"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="match_parent"
-                                            android:text="@string/morning"
-                                            android:background="@drawable/shape_tab_right_white"
-                                            android:paddingStart="@dimen/spacing_middle"
-                                            android:paddingTop="@dimen/spacing_middle"
-                                            android:paddingEnd="@dimen/spacing_large"
-                                            android:paddingBottom="@dimen/spacing_middle"
-                                            android:textColor="@color/textColor"
-                                            android:textSize="@dimen/_10sp" />
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
+                <com.jobtick.TextView.TextViewBold
+                    android:id="@+id/txt_budgets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_tab_primary"
+                    android:gravity="center"
+                    android:minWidth="@dimen/_50dp"
+                    android:padding="4dp"
+                    android:paddingBottom="@dimen/spacing_xsmall"
+                    android:text="@string/_200"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14dp"
+                    android:textStyle="bold"
+                    tools:ignore="SpUsage" />
+            </LinearLayout>
 
-                                <com.jobtick.TextView.TextViewMedium
-                                    android:id="@+id/txt_budgets"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/shape_tab_primary"
-                                    android:paddingStart="@dimen/_12sp"
-                                    android:paddingTop="@dimen/spacing_medium"
-                                    android:paddingEnd="@dimen/_12sp"
-                                    android:paddingBottom="@dimen/spacing_medium"
-                                    android:text="@string/_200"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/_18sp"
-                                    android:textStyle="bold"
-                                   android:layout_marginStart="@dimen/spacing_xmmlarge"/>
-
-
-                            </LinearLayout>
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -112,26 +146,30 @@
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
                 app:titleMarginStart="-25dp"
                 app:titleTextColor="@color/white" />
-            <LinearLayout
-                android:id="@+id/layout_dots"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_weight="0.5"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true" />
-            <!--  <include layout="@layout/toolbar"/>-->
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true">
+
+                <LinearLayout
+                    android:id="@+id/layout_dots"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/spacing_xmlarge"
+                    android:orientation="horizontal" />
+            </RelativeLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
-
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="-25dp"
-
-
         android:clipToPadding="false"
         android:paddingBottom="@dimen/spacing_large"
         android:scrollbars="none"
@@ -143,11 +181,9 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:visibility="visible"
                 app:cardCornerRadius="@dimen/spacing_smlarge"
                 app:cardElevation="0dp">
@@ -159,14 +195,14 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_35sp"
+                        android:layout_height="30dp"
                         android:layout_marginStart="@dimen/_16sp"
                         android:layout_marginTop="@dimen/_12sp"
                         android:layout_marginEnd="@dimen/_16sp"
                         android:layout_marginBottom="@dimen/spacing_middle"
                         android:orientation="horizontal">
 
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.jobtick.TextView.TextViewSemiBold
                             android:id="@+id/txt_status_open"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -174,15 +210,16 @@
                             android:layout_marginStart="@dimen/_3dp"
                             android:layout_marginEnd="@dimen/_3dp"
                             android:layout_weight="1"
-                            android:background="@drawable/shape_tab_primary"
-                            android:backgroundTint="@color/green_gray_selected"
+                            android:background="@drawable/shape_tab_gray10"
+                            android:backgroundTint="@color/green_gray_open"
                             android:gravity="center"
                             android:singleLine="true"
                             android:text="@string/open"
                             android:textColor="@color/white_black_selected"
-                            android:textSize="@dimen/_10sp" />
+                            android:textSize="10dp"
+                            tools:ignore="SpUsage" />
 
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.jobtick.TextView.TextViewSemiBold
                             android:id="@+id/txt_status_assigned"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -190,15 +227,16 @@
                             android:layout_marginStart="@dimen/_3dp"
                             android:layout_marginEnd="@dimen/_3dp"
                             android:layout_weight="1"
-                            android:background="@drawable/shape_tab_primary"
+                            android:background="@drawable/shape_tab_gray10"
                             android:backgroundTint="@color/green_gray_selected"
                             android:gravity="center"
                             android:singleLine="true"
                             android:text="@string/assigned"
                             android:textColor="@color/white_black_selected"
-                            android:textSize="@dimen/_10sp" />
+                            android:textSize="10dp"
+                            tools:ignore="SpUsage" />
 
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.jobtick.TextView.TextViewSemiBold
                             android:id="@+id/txt_status_cancelled"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -212,11 +250,11 @@
                             android:singleLine="true"
                             android:text="@string/cancelled"
                             android:textColor="@color/white_black_selected"
-                            android:textSize="@dimen/_10sp" />
+                            android:textSize="10dp"
+                            android:visibility="gone"
+                            tools:ignore="SpUsage" />
 
-
-                        <com.jobtick.TextView.TextViewRegular
-
+                        <com.jobtick.TextView.TextViewSemiBold
                             android:id="@+id/txt_status_overdue"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -230,10 +268,11 @@
                             android:singleLine="true"
                             android:text="@string/overdue"
                             android:textColor="@color/white_black_selected"
-                            android:textSize="@dimen/_10sp" />
+                            android:textSize="10dp"
+                            android:visibility="gone"
+                            tools:ignore="SpUsage" />
 
-
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.jobtick.TextView.TextViewSemiBold
                             android:id="@+id/txt_status_completed"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -241,15 +280,16 @@
                             android:layout_marginStart="@dimen/_3dp"
                             android:layout_marginEnd="@dimen/_3dp"
                             android:layout_weight="1"
-                            android:background="@drawable/shape_tab_primary"
+                            android:background="@drawable/shape_tab_gray10"
                             android:backgroundTint="@color/green_gray_selected"
                             android:gravity="center"
                             android:singleLine="true"
                             android:text="@string/completed"
                             android:textColor="@color/white_black_selected"
-                            android:textSize="@dimen/_10sp" />
+                            android:textSize="10dp"
+                            tools:ignore="SpUsage" />
 
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.jobtick.TextView.TextViewSemiBold
                             android:id="@+id/txt_status_reviewed"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -263,15 +303,14 @@
                             android:singleLine="true"
                             android:text="@string/reviewed"
                             android:textColor="@color/white_black_selected"
-                            android:textSize="@dimen/_10sp" />
-
+                            android:textSize="10dp"
+                            android:visibility="gone"
+                            tools:ignore="SpUsage" />
                     </LinearLayout>
-
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_medium" />
-
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_cancel_background"
@@ -283,7 +322,7 @@
                         android:elevation="@dimen/spacing_middle"
                         android:visibility="gone"
                         app:cardBackgroundColor="@color/colorRed"
-                        app:cardCornerRadius="@dimen/spacing_middle"/>
+                        app:cardCornerRadius="@dimen/spacing_middle" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_cancelled"
@@ -296,7 +335,6 @@
                         android:elevation="@dimen/spacing_middle"
                         android:visibility="gone"
                         app:cardCornerRadius="@dimen/spacing_middle">
-
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -316,13 +354,10 @@
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:src="@drawable/ic_alert_cancellation"
-                                    android:contentDescription="@string/todo">
-
-                                </ImageView>
+                                    android:contentDescription="@string/todo"
+                                    android:src="@drawable/ic_alert_cancellation"/>
 
                                 <com.jobtick.TextView.TextViewRegular
-
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/spacing_large"
@@ -331,7 +366,6 @@
                                     android:textColor="@color/textColor"
                                     android:textSize="@dimen/_13sp"
                                     android:textStyle="bold" />
-
                             </LinearLayout>
 
                             <LinearLayout
@@ -348,8 +382,8 @@
                                     android:layout_height="match_parent"
                                     android:background="?attr/selectableItemBackground"
                                     android:clickable="true"
-                                    android:gravity="center"
-                                    android:focusable="true">
+                                    android:focusable="true"
+                                    android:gravity="center">
 
                                     <com.jobtick.TextView.TextViewMedium
                                         android:layout_width="wrap_content"
@@ -361,27 +395,19 @@
                                         tools:ignore="TooDeepLayout" />
                                 </LinearLayout>
                             </LinearLayout>
-
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_increase_budget"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_large"
-                        android:layout_marginTop="@dimen/spacing_medium"
-                        android:layout_marginEnd="@dimen/spacing_large"
-                        android:layout_marginBottom="@dimen/spacing_middle"
-                        android:elevation="@dimen/spacing_middle"
-                        app:cardCornerRadius="@dimen/spacing_middle">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <FrameLayout
+                            android:id="@+id/card_increase_budget"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:layout_gravity="center">
 
                             <com.jobtick.TextView.TextViewBold
                                 android:id="@+id/txt_titles"
@@ -396,172 +422,159 @@
                                 android:textStyle="bold" />
 
                             <androidx.cardview.widget.CardView
-                                android:id="@+id/card_view_request"
+                                android:id="@+id/lyt_btn_view_reqeust"
                                 android:layout_width="match_parent"
                                 android:layout_height="35dp"
                                 android:layout_gravity="bottom"
                                 android:layout_margin="@dimen/spacing_large"
                                 android:backgroundTint="@color/colorPrimary"
                                 android:elevation="@dimen/spacing_middle"
+                                android:visibility="gone"
                                 app:cardCornerRadius="@dimen/spacing_large">
 
-                                <LinearLayout
-                                    android:id="@+id/lyt_btn_view_reqeust"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="?attr/selectableItemBackground"
-                                    android:clickable="true"
+                                <com.jobtick.TextView.TextViewMedium
+                                    android:id="@+id/txt_view_budget_request"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
                                     android:gravity="center"
-                                    android:focusable="true">
-
-                                    <com.jobtick.TextView.TextViewMedium
-                                        android:id="@+id/txt_view_budget_request"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="@string/view_request"
-                                        android:textAllCaps="true"
-                                        android:textColor="@color/white"
-                                        android:textSize="14sp" />
-                                </LinearLayout>
+                                    android:text="@string/view_request"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/white"
+                                    android:textSize="14sp" />
                             </androidx.cardview.widget.CardView>
+                        </FrameLayout>
 
+                        <com.jobtick.TextView.TextViewBold
+                            android:id="@+id/txt_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_smlarge"
+                            android:layout_marginEnd="@dimen/spacing_smlarge"
+                            android:text="@string/clean_my_two_bedroom_apartment"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_18sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginStart="@dimen/spacing_smlarge"
+                            android:layout_marginTop="@dimen/_12sp"
+                            android:layout_marginEnd="@dimen/spacing_smlarge"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.6">
+
+                                <ImageView
+                                    android:id="@+id/img_map_pin"
+                                    android:layout_width="@dimen/_18sp"
+                                    android:layout_height="@dimen/_18sp"
+                                    android:layout_marginEnd="@dimen/_8sp"
+                                    android:contentDescription="@string/todo"
+                                    android:src="@drawable/ic_map_gray" />
+
+                                <com.jobtick.TextView.TextViewMedium
+                                    android:id="@+id/txt_location"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="start"
+                                    android:maxLines="2"
+                                    android:text="@string/_6386_spring_st"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/_10sp" />
+                            </LinearLayout>
+
+                            <com.jobtick.TextView.TextViewRegular
+                                android:id="@+id/txt_created_date"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical|end"
+                                android:layout_weight="0.4"
+                                android:gravity="end"
+                                android:text="@string/posted_32_minutes_ago"
+                                android:textColor="@color/grey_70"
+                                android:textSize="@dimen/_10sp" />
                         </LinearLayout>
-                    </androidx.cardview.widget.CardView>
 
-                    <com.jobtick.TextView.TextViewBold
-                        android:id="@+id/txt_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_smlarge"
-                        android:layout_marginEnd="@dimen/spacing_smlarge"
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_middle" />
 
-                        android:text="@string/clean_my_two_bedroom_apartment"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_18sp"
-                        android:textStyle="bold" />
-
+                        <com.jobtick.TextView.TextViewMedium
+                            android:id="@+id/txt_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:layout_marginStart="@dimen/spacing_smlarge"
+                            android:layout_marginEnd="@dimen/spacing_smlarge"
+                            android:text="@string/excepteur_qui_qui_fugiat_et_esse_pariatur_voluptate_exercitation_esse_officia_cillum_occaecat_culpa_pariatur_nisi_in_ut_tempor_laborum_officia_dolore_ad_occaecat_anim_ad_voluptate_proident_ea_commodo_qui_velit_officia_minim"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_14sp" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginStart="@dimen/spacing_smlarge"
-                        android:layout_marginTop="@dimen/_12sp"
-                        android:layout_marginEnd="@dimen/spacing_smlarge"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
+                        android:layout_marginTop="@dimen/_8dp"
+                        android:background="@color/colorF0F0F0"
+                        android:orientation="horizontal">
 
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_line"
+                            android:background="@color/grey_10" />
 
-                        <LinearLayout
-                            android:layout_width="0dp"
+                        <com.jobtick.TextView.TextViewBold
+                            android:id="@+id/txt_offer_count"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.6">
+                            android:layout_marginStart="@dimen/spacing_large"
+                            android:layout_marginEnd="@dimen/spacing_large"
+                            android:text="@string/_4_offers"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_10sp"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
 
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_line"
+                            android:background="@color/grey_E2E2E2"
+                            android:visibility="gone" />
 
-                            <ImageView
-                                android:id="@+id/img_map_pin"
-                                android:layout_width="@dimen/_18sp"
-                                android:layout_height="@dimen/_18sp"
-                                android:layout_marginEnd="@dimen/_8sp"
-                                android:src="@drawable/ic_map_gray"
-                                android:contentDescription="@string/todo" />
-
-                            <com.jobtick.TextView.TextViewMedium
-                                android:id="@+id/txt_location"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="start"
-                                android:maxLines="2"
-                                android:text="@string/_6386_spring_st"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/_10sp" />
-
-                        </LinearLayout>
-
-                        <com.jobtick.TextView.TextViewRegular
-                            android:id="@+id/txt_created_date"
-
-                            android:layout_width="0dp"
+                        <com.jobtick.TextView.TextViewBold
+                            android:id="@+id/txt_budget"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|end"
-                            android:layout_weight="0.4"
-                            android:gravity="end"
-                            android:text="@string/posted_32_minutes_ago"
-                            android:textColor="@color/grey_70"
-                            android:textSize="@dimen/_10sp" />
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/spacing_smlarge"
+                            android:layout_marginEnd="@dimen/spacing_smlarge"
+                            android:gravity="center"
+                            android:text="@string/_200"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_36sp"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
 
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_line"
+                            android:background="@color/grey_10" />
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_middle" />
-
-                    <com.jobtick.TextView.TextViewMedium
-                        android:id="@+id/txt_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:layout_marginStart="@dimen/spacing_smlarge"
-                        android:layout_marginEnd="@dimen/spacing_smlarge"
-                        android:text="@string/excepteur_qui_qui_fugiat_et_esse_pariatur_voluptate_exercitation_esse_officia_cillum_occaecat_culpa_pariatur_nisi_in_ut_tempor_laborum_officia_dolore_ad_occaecat_anim_ad_voluptate_proident_ea_commodo_qui_velit_officia_minim"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_14sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_line"
-                        android:layout_marginTop="@dimen/spacing_middle"
-                        android:layout_marginBottom="@dimen/spacing_middle"
-                        android:background="@color/grey_10"
-                        android:visibility="gone" />
-
-                    <com.jobtick.TextView.TextViewBold
-                        android:id="@+id/txt_offer_count"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_large"
-                        android:layout_marginEnd="@dimen/spacing_large"
-                        android:text="@string/_4_offers"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_10sp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_line"
-                        android:layout_marginTop="@dimen/spacing_middle"
-                        android:background="@color/grey_E2E2E2" />
-
-                    <com.jobtick.TextView.TextViewBold
-                        android:id="@+id/txt_budget"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/spacing_smlarge"
-                        android:layout_marginEnd="@dimen/spacing_smlarge"
-                        android:gravity="center"
-                        android:text="@string/_200"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_36sp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
-
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_line"
-                        android:background="@color/grey_10" />
-
-
                     <RelativeLayout
+                        android:id="@+id/postedByLyt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/colorF0F0F0"
+                        android:background="#F0F0F0"
                         android:orientation="vertical">
-
 
                         <com.jobtick.TextView.TextViewSemiBold
                             android:id="@+id/txtPostedBy"
@@ -571,129 +584,79 @@
                             android:layout_marginStart="@dimen/spacing_smlarge"
                             android:layout_marginTop="@dimen/spacing_smlarge"
                             android:text="@string/posted_by"
-                            android:textColor="@color/colorPrimary">
+                            android:textColor="@color/colorPrimary" />
 
-
-                        </com.jobtick.TextView.TextViewSemiBold>
-
-
-                        <RelativeLayout
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/txtPostedBy"
-                            android:layout_marginStart="@dimen/spacing_smlarge"
+                            android:layout_marginStart="@dimen/spacing_middle"
                             android:layout_marginTop="@dimen/spacing_middle"
-                            android:layout_marginEnd="@dimen/spacing_smlarge"
-                            android:layout_marginBottom="@dimen/spacing_smlarge">
+                            android:layout_marginEnd="@dimen/spacing_middle"
+                            android:layout_marginBottom="@dimen/spacing_middle"
+                            android:orientation="horizontal">
 
                             <RelativeLayout
                                 android:id="@+id/relativProfile"
                                 android:layout_width="wrap_content"
-
                                 android:layout_height="wrap_content">
+
+                                <com.mikhaellopez.circularimageview.CircularImageView
+                                    android:id="@+id/img_avtar_poster"
+                                    android:layout_width="55dp"
+                                    android:layout_height="55dp"
+                                    android:layout_centerHorizontal="true"
+                                    android:src="@drawable/ic_place_holder"
+                                    app:civ_border="false" />
 
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
-                                    tools:ignore="UselessParent">
-
-
-                                    <com.mikhaellopez.circularimageview.CircularImageView
-                                        android:id="@+id/img_avtar_poster"
-                                        android:layout_width="80sp"
-                                        android:layout_height="80sp"
-                                        android:layout_centerHorizontal="true"
-                                        android:paddingBottom="@dimen/_10sp"
-                                        android:src="@drawable/ic_place_holder" />
-
-                                    <RelativeLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignBottom="@id/img_avtar_poster"
-                                        android:layout_centerHorizontal="true">
-
-                                        <ImageView
-                                            android:id="@+id/img_account_shield"
-                                            android:layout_width="@dimen/_15sp"
-                                            android:layout_height="@dimen/_15sp"
-                                            android:layout_gravity="center"
-                                            android:layout_marginEnd="@dimen/_10sp"
-                                            android:layout_marginBottom="@dimen/_5sp"
-                                            android:src="@drawable/ic_shield"
-                                            android:contentDescription="@string/todo" />
-                                    </RelativeLayout>
+                                    android:layout_alignBottom="@id/img_avtar_poster"
+                                    android:layout_centerHorizontal="true">
 
                                     <ImageView
-                                        android:id="@+id/img_account_level"
-                                        android:layout_width="25dp"
-                                        android:layout_height="35dp"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_alignParentBottom="true"
-                                        android:layout_marginBottom="@dimen/_8sp"
-                                        android:src="@drawable/ic_user_level"
-                                        android:visibility="gone"
-                                        android:contentDescription="@string/todo"/>
-
+                                        android:id="@+id/img_account_shield"
+                                        android:layout_width="15dp"
+                                        android:layout_height="15dp"
+                                        android:layout_gravity="center"
+                                        android:contentDescription="@string/todo"
+                                        android:src="@drawable/ic_shield" />
                                 </RelativeLayout>
 
-
-                                <!--    <FrameLayout
-                                        android:id="@+id/frame_postedby"
-                                        android:layout_width="wrap_content"
-                                        android:padding="15dp"
-                                        android:layout_height="wrap_content">
-
-                                        <com.mikhaellopez.circularimageview.CircularImageView
-                                            android:id="@+id/img_avtar_poster"
-                                            android:layout_width="50sp"
-                                            android:layout_height="50sp"
-                                            android:src="@drawable/ic_place_holder" />
-
-                                        <RelativeLayout
-                                            android:layout_width="wrap_content"
-                                            android:layout_gravity="bottom|center"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginBottom="-6dp"
-                                            android:layout_centerHorizontal="true">
-
-                                            <ImageView
-                                                android:id="@+id/img_account_shield"
-                                                android:layout_width="@dimen/_15sp"
-                                                android:layout_height="@dimen/_15sp"
-                                                android:layout_gravity="center"
-
-                                                android:src="@drawable/ic_shield" />
-                                        </RelativeLayout>
-
-
-                                    </FrameLayout>-->
-
-
+                                <ImageView
+                                    android:id="@+id/img_account_level"
+                                    android:layout_width="25dp"
+                                    android:layout_height="35dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginBottom="@dimen/_8sp"
+                                    android:contentDescription="@string/todo"
+                                    android:src="@drawable/ic_user_level"
+                                    android:visibility="gone" />
                             </RelativeLayout>
-
 
                             <LinearLayout
                                 android:id="@+id/linearUserProfile"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_toStartOf="@+id/card_message"
-                                android:layout_toEndOf="@+id/relativProfile"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/spacing_middle"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
                                 android:orientation="vertical">
 
                                 <com.jobtick.TextView.TextViewSemiBold
                                     android:id="@+id/txt_poster_name"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/aaron_brooks"
                                     android:textColor="@color/textColor"
                                     android:textSize="@dimen/_13sp" />
 
-
                                 <com.jobtick.TextView.TextViewRegular
                                     android:id="@+id/txt_poster_location"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:singleLine="true"
                                     android:text="@string/surfers_paradise_australia"
@@ -706,79 +669,54 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/active_13_min_ago"
                                     android:textColor="@color/grey_40"
-                                    android:textSize="@dimen/_10sp" />
+                                    android:textSize="@dimen/_10sp"
+                                    app:layout_anchor="@+id/nested_scroll_view"
+                                    app:layout_anchorGravity="center" />
                             </LinearLayout>
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/card_message"
+                            <LinearLayout
+                                android:id="@+id/lyt_btn_message"
                                 android:layout_width="wrap_content"
-                                android:layout_height="@dimen/_40dp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:layout_margin="@dimen/spacing_small"
-                                android:backgroundTint="@color/colorPrimary"
-                                app:cardCornerRadius="8dp">
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:background="@drawable/bg_private_chat_disable"
+                                android:orientation="horizontal"
+                                android:paddingStart="@dimen/_8dp"
+                                android:paddingTop="4dp"
+                                android:paddingEnd="@dimen/_8dp"
+                                android:paddingBottom="4dp">
 
-
-                                <LinearLayout
-                                    android:id="@+id/lyt_btn_message"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                <ImageView
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
                                     android:layout_gravity="center"
-                                    android:background="?attr/selectableItemBackground"
-                                    android:gravity="center"
-                                    android:paddingStart="10dp"
-                                    android:paddingEnd="10dp">
+                                    android:layout_margin="@dimen/spacing_small"
+                                    android:contentDescription="@string/todo"
+                                    android:src="@drawable/ic_message" />
 
-                                    <ImageView
-                                        android:layout_width="19dp"
-                                        android:layout_height="19dp"
-                                        android:layout_gravity="center"
-                                        android:src="@drawable/ic_message"
-                                        android:tint="@color/white"
-                                        android:contentDescription="@string/todo" />
-
-                                    <com.jobtick.TextView.TextViewSemiBold
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="4dp"
-                                        android:text="@string/chat"
-                                        android:textColor="@color/white"
-                                        android:textSize="@dimen/_13sp">
-
-                                    </com.jobtick.TextView.TextViewSemiBold>
-
-
-                                </LinearLayout>
-                            </androidx.cardview.widget.CardView>
-                        </RelativeLayout>
-
-
+                                <com.jobtick.TextView.TextViewSemiBold
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="4dp"
+                                    android:text="@string/chat"
+                                    android:textColor="#4D576A"
+                                    android:textSize="10dp"
+                                    tools:ignore="SpUsage" />
+                            </LinearLayout>
+                        </LinearLayout>
                     </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_line"
-                        android:background="@color/grey_10" />
-
-
                 </LinearLayout>
-
-
             </androidx.cardview.widget.CardView>
-
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_assignee_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_medium"
-                android:elevation="@dimen/spacing_mlarge"
-                android:visibility="visible"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:visibility="visible">
 
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -795,7 +733,6 @@
                         android:textSize="@dimen/_12sp"
                         android:textStyle="bold" />
 
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -804,9 +741,10 @@
 
                         <com.mikhaellopez.circularimageview.CircularImageView
                             android:id="@+id/img_avtar_worker"
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:src="@drawable/pic" />
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:src="@drawable/pic"
+                            app:civ_border="false" />
 
                         <LinearLayout
                             android:id="@+id/liAssign"
@@ -825,7 +763,6 @@
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_14sp" />
 
-
                             <com.jobtick.TextView.TextViewRegular
                                 android:id="@+id/txt_worker_location"
                                 android:layout_width="match_parent"
@@ -841,12 +778,19 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/active_13_min_ago"
                                 android:textColor="@color/grey_40"
-                                android:textSize="@dimen/_12sp" />
+                                android:textSize="10dp"
+                                tools:ignore="SpUsage" />
                         </LinearLayout>
-
-
                     </RelativeLayout>
 
+                    <com.jobtick.TextView.TextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/private_chat"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_private_chat"
@@ -862,38 +806,23 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="?attr/selectableItemBackground"
-                            android:gravity="center">
-
-                            <com.jobtick.TextView.TextViewMedium
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="@string/private_chat"
-                                android:textAllCaps="true"
-                                android:textColor="@color/white"
-                                android:textSize="14sp" />
-                        </LinearLayout>
+                            android:gravity="center"
+                            android:orientation="vertical"/>
                     </androidx.cardview.widget.CardView>
 
-
+                    <com.jobtick.TextView.TextViewSemiBold
+                        android:id="@+id/txt_offers_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_large"
+                        android:layout_marginTop="@dimen/spacing_large"
+                        android:singleLine="true"
+                        android:text="@string/offer"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_12sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
-
-
             </androidx.cardview.widget.CardView>
-
-
-            <com.jobtick.TextView.TextViewSemiBold
-                android:id="@+id/txt_offers_count"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:singleLine="true"
-                android:text="@string/offer"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_12sp"
-                android:textStyle="bold" />
-
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_offer_layout"
@@ -902,17 +831,16 @@
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_middle"
                 android:layout_marginEnd="@dimen/spacing_large"
-                app:cardElevation="0dp"
                 android:layout_marginBottom="@dimen/spacing_medium"
                 android:visibility="visible"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                app:cardBackgroundColor="#f0f0f0"
+                app:cardCornerRadius="@dimen/spacing_middle"
+                app:cardElevation="0dp">
 
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
 
                     <com.jobtick.TextView.TextViewBold
                         android:id="@+id/txt_waiting_for_offer"
@@ -929,14 +857,13 @@
                         android:textStyle="bold"
                         android:visibility="gone" />
 
-
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view_offers"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:overScrollMode="never"
+                        tools:itemCount="1"
                         tools:listitem="@layout/item_offers" />
-
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_view_all_offers"
@@ -945,212 +872,139 @@
                         android:layout_margin="@dimen/spacing_large"
                         android:backgroundTint="@color/colorPrimary"
                         android:elevation="@dimen/spacing_middle"
-                        app:cardCornerRadius="@dimen/spacing_medium">
-
-                        <LinearLayout
-                            android:id="@+id/lyt_btn_view_all_offers"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?attr/selectableItemBackground"
-                            android:gravity="center">
-
-                            <com.jobtick.TextView.TextViewMedium
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="@string/view_all_offers"
-                                android:textAllCaps="true"
-                                android:textColor="@color/white"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-
+                        app:cardCornerRadius="@dimen/spacing_medium"/>
                 </LinearLayout>
-
-
             </androidx.cardview.widget.CardView>
 
-
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:id="@+id/card_questions_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_middle"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_medium"
-                android:elevation="@dimen/spacing_mlarge"
-                android:visibility="gone"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <com.jobtick.TextView.TextViewBold
+                    android:id="@+id/txt_questions_count"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_middle"
-                    android:orientation="vertical">
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:singleLine="true"
+                    android:text="@string/question"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_12sp"
+                    android:textStyle="bold" />
 
-                    <com.jobtick.TextView.TextViewBold
-                        android:id="@+id/txt_questions_count"
+                <RelativeLayout
+                    android:id="@+id/rlt_layout_action_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?attr/actionBarSize">
+
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_large"
-                        android:layout_marginTop="@dimen/spacing_large"
-                        android:singleLine="true"
-                        android:text="@string/question"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_12sp"
-                        android:textStyle="bold" />
-
-                    <RelativeLayout
-                        android:id="@+id/rlt_question_add"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_large"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="@dimen/spacing_middle"
                         android:layout_marginTop="@dimen/spacing_middle"
-                        android:layout_marginEnd="@dimen/spacing_large"
-                        android:layout_marginBottom="@dimen/spacing_middle">
+                        android:layout_marginEnd="@dimen/spacing_medium"
+                        android:layout_marginBottom="@dimen/spacing_middle"
+                        android:background="@drawable/shape_border">
 
-                        <com.mikhaellopez.circularimageview.CircularImageView
-                            android:id="@+id/img_avatar"
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginEnd="@dimen/spacing_large"
-                            android:src="@drawable/pic" />
-
-                        <LinearLayout
-                            android:id="@+id/lyt_comment"
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/img_avatar"
-                            android:orientation="vertical">
+                            android:padding="@dimen/spacing_middle">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_view_question_attachment"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/spacing_small"
+                                android:overScrollMode="never" />
 
                             <com.jobtick.EditText.EditTextRegular
                                 android:id="@+id/edt_comment"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="@dimen/spacing_large"
-                                android:layout_marginBottom="@dimen/spacing_medium"
+                                android:layout_centerVertical="true"
+                                android:layout_margin="@dimen/spacing_small"
+                                android:layout_toStartOf="@id/lyt_btn_comment_send"
+                                android:layout_toEndOf="@+id/recycler_view_question_attachment"
                                 android:background="@null"
-                                android:hint="@string/my_comment"
-                                android:inputType="textMultiLine" />
+                                android:hint="Ask a question"
+                                android:inputType="textMultiLine"
+                                android:maxLines="5"
+                                android:textSize="@dimen/_12sp" />
 
+                            <ImageView
+                                android:id="@+id/lyt_btn_comment_send"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_margin="@dimen/spacing_small"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:padding="@dimen/spacing_middle"
+                                android:src="@drawable/ic_send"
+                                tools:ignore="ContentDescription" />
+                        </RelativeLayout>
+                    </FrameLayout>
+                </RelativeLayout>
 
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_questions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never" />
 
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/recycler_view_question_attachment"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toStartOf="@id/card_comment_send"
-                                    android:overScrollMode="never" />
+                <LinearLayout
+                    android:id="@+id/lyt_view_all_questions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                                <androidx.cardview.widget.CardView
-                                    android:id="@+id/card_comment_send"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_centerVertical="true"
-                                    app:cardCornerRadius="@dimen/spacing_medium"
-                                    app:cardElevation="0dp">
-
-                                    <LinearLayout
-                                        android:id="@+id/lyt_btn_comment_send"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:background="?attr/selectableItemBackground"
-                                        android:orientation="horizontal"
-                                        android:padding="@dimen/spacing_middle">
-
-                                        <ImageView
-                                            android:layout_width="16dp"
-                                            android:layout_height="16dp"
-                                            android:layout_gravity="center_vertical"
-                                            android:src="@drawable/ic_send"
-                                            android:tint="@color/colorPrimary"
-                                            android:contentDescription="@string/todo" />
-
-                                        <com.jobtick.TextView.TextViewBold
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_gravity="center_vertical"
-                                            android:layout_marginStart="@dimen/spacing_large"
-                                            android:text="@string/send"
-                                            android:textColor="@color/colorPrimary"
-                                            android:textSize="@dimen/_12sp"
-                                            android:textStyle="bold" />
-                                    </LinearLayout>
-
-
-                                </androidx.cardview.widget.CardView>
-
-                            </RelativeLayout>
-
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_view_questions"
+                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:overScrollMode="never" />
+                        android:layout_height="@dimen/spacing_line"
+                        android:background="@color/grey_10" />
 
-                    <LinearLayout
-                        android:id="@+id/lyt_view_all_questions"
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone">
+                        android:layout_height="46dp"
+                        android:layout_margin="@dimen/spacing_large"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:elevation="@dimen/spacing_middle"
+                        app:cardCornerRadius="@dimen/spacing_medium">
 
-                        <View
+                        <LinearLayout
+                            android:id="@+id/lyt_btn_view_all_questions"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/spacing_line"
-                            android:background="@color/grey_10" />
+                            android:layout_height="match_parent"
+                            android:background="?attr/selectableItemBackground"
+                            android:gravity="center"
+                            android:orientation="vertical">
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="46dp"
-                            android:layout_margin="@dimen/spacing_large"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:elevation="@dimen/spacing_middle"
-                            app:cardCornerRadius="@dimen/spacing_medium">
-
-                            <LinearLayout
-                                android:id="@+id/lyt_btn_view_all_questions"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="?attr/selectableItemBackground"
+                            <com.jobtick.TextView.TextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:orientation="vertical">
-
-
-                                <com.jobtick.TextView.TextViewMedium
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:text="@string/view_all_questions"
-                                    android:textAllCaps="true"
-                                    android:textColor="@color/white"
-                                    android:textSize="14sp" />
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                    </LinearLayout>
-
+                                android:text="@string/view_all_questions"
+                                android:textAllCaps="true"
+                                android:textColor="@color/white"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
                 </LinearLayout>
-
-
-            </androidx.cardview.widget.CardView>
-
-
+            </LinearLayout>
         </LinearLayout>
-
     </androidx.core.widget.NestedScrollView>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/card_make_an_offer"
         android:layout_width="match_parent"
@@ -1169,8 +1023,8 @@
             android:layout_height="match_parent"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:gravity="center"
-            android:focusable="true">
+            android:focusable="true"
+            android:gravity="center">
 
             <com.jobtick.TextView.TextViewMedium
                 android:id="@+id/txt_btn_text"
@@ -1183,13 +1037,11 @@
                 android:textSize="14sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
     <FrameLayout
         android:id="@+id/fl_task_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        android:visibility="gone">
-
-    </FrameLayout>
-
+        android:visibility="gone" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -19,7 +19,6 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -275,12 +274,12 @@ public class LeaveReviewActivity extends ActivityBase {
     }
 
     private void submitReview(String rating, String written_review, String url) {
-        showpDialog();
+        showProgressDialog();
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -312,11 +311,11 @@ public class LeaveReviewActivity extends ActivityBase {
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
-                            hidepDialog();
+                            hideProgressDialog();
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             //  showCustomDialog(jsonObject_error.getString("message"));
@@ -334,7 +333,7 @@ public class LeaveReviewActivity extends ActivityBase {
                         showToast("Something Went Wrong", LeaveReviewActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 

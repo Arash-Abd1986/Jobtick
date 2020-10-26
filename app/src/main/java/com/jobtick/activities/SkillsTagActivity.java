@@ -21,10 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewSemiBold;
 import com.jobtick.adapers.AddTagAdapter;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
@@ -105,13 +102,13 @@ public class SkillsTagActivity extends ActivityBase implements AddTagAdapter.OnI
     }
 
     private void updateSkillsTag() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_PROFILE + "/skills",
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.e("response", response);
-                        hidepDialog();
+                        hideProgressDialog();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             Timber.e(jsonObject.toString());
@@ -144,7 +141,7 @@ public class SkillsTagActivity extends ActivityBase implements AddTagAdapter.OnI
                             Timber.e(jsonError);
                             if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                                 unauthorizedUser();
-                                hidepDialog();
+                                hideProgressDialog();
                                 return;
                             }
                             try {
@@ -163,7 +160,7 @@ public class SkillsTagActivity extends ActivityBase implements AddTagAdapter.OnI
                             showToast("Something Went Wrong", SkillsTagActivity.this);
                         }
                         Timber.e(error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
             @Override

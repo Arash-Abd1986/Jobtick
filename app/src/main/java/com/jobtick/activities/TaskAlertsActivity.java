@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -165,11 +164,11 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
     public void removeTaskAlert(int taskAlertId) {
         //{{baseurl}}/taskalerts/:taskalert_id
 
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, Constant.URL_TASK_ALERT + "/" + taskAlertId,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -194,11 +193,11 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
-                            hidepDialog();
+                            hideProgressDialog();
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             showCustomDialog(jsonObject_error.getString("message"));
@@ -216,7 +215,7 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
                         showToast("Something Went Wrong", TaskAlertsActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 
@@ -266,11 +265,11 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
 
     public void getListOfTaskAlert() {
         taskAlertArrayList.clear();
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, Constant.URL_TASK_ALERT,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -306,11 +305,11 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
-                            hidepDialog();
+                            hideProgressDialog();
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             //  showCustomDialog(jsonObject_error.getString("message"));
@@ -328,7 +327,7 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
                         showToast("Something Went Wrong", TaskAlertsActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 

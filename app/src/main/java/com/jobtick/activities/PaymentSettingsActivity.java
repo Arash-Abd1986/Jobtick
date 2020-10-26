@@ -2,7 +2,6 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,7 +11,6 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.android.volley.AuthFailureError;
@@ -22,18 +20,15 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewBold;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.TextView.TextViewSemiBold;
-import com.jobtick.incrementbudget.IncreaseBudgetFromPosterActivity;
 import com.jobtick.interfaces.OnBankAccountAdded;
 import com.jobtick.models.BankAccountModel;
 import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.models.CreditCardModel;
-import com.jobtick.models.payments.PaymentMethodModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
@@ -47,7 +42,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import kotlin.BuilderInference;
 import timber.log.Timber;
 
 import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
@@ -77,7 +71,6 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
     @BindView(R.id.rlt_btn_add_credit_card)
     RelativeLayout rltBtnAddCreditCard;
 
-
     @BindView(R.id.linear_bank_details)
     LinearLayout linear_bank_details;
 
@@ -87,17 +80,14 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
     @BindView(R.id.linear_bank)
     LinearLayout linear_bank;
 
-
     @BindView(R.id.card_add_billing_address)
     CardView card_add_billing_address;
 
     @BindView(R.id.card_add_bank_account)
     CardView card_add_bank_account;
 
-
     @BindView(R.id.card_view_bank_account)
     CardView card_view_bank_account;
-
 
     @BindView(R.id.txt_account_number)
     TextViewSemiBold txtAccountNumber;
@@ -107,7 +97,6 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
 
     @BindView(R.id.txt_Billing_Address)
     TextViewSemiBold txtBillingAddress;
-
 
     @BindView(R.id.tvCardHolderName)
     TextViewRegular tvCardHolderName;
@@ -144,10 +133,9 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         setContentView(R.layout.activity_payment_settings);
         ButterKnife.bind(this);
         initToolbar();
-        initalView();
+        initView();
         radioBtnClick();
     }
-
 
     private void initToolbar() {
         //  toolbar.setNavigationIcon(R.drawable.ic_back);
@@ -157,7 +145,6 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         onBankaccountadded = this;
         ivBack.setOnClickListener(v -> finish());
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -174,7 +161,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         super.onBackPressed();
     }
 
-    private void initalView() {
+    private void initView() {
         rbPayments.setChecked(true);
         rbPayments.setTextColor(getResources().getColor(R.color.white));
         rbWithdrawal.setTextColor(getResources().getColor(R.color.black));
@@ -185,7 +172,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         rtl_credit_card_details.setVisibility(View.GONE);
         getBillingAddress();
         getPaymentMethod();
-        getBankAccountAddress();
+        getBankAccountDetails();
 
     }
 
@@ -209,17 +196,12 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         });
     }
 
-
-    public void getBankAccountAddress() {
-
-
-        showpDialog();
-
-
+    public void getBankAccountDetails() {
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_ACCOUNT_DETAILS,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -234,14 +216,11 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                                     if (data.isSuccess()) {
 
                                         if (data.getData() != null && data.getData().getAccount_number() != null) {
-
                                             linear_bank.setVisibility(View.GONE);
                                             card_add_bank_account.setVisibility(View.GONE);
                                             card_view_bank_account.setVisibility(View.VISIBLE);
                                             txtAccountNumber.setText(data.getData().getAccount_number());
-
                                         }
-
                                     }
                                 }
                             } else {
@@ -264,11 +243,11 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
-                            hidepDialog();
+                            hideProgressDialog();
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             //  showCustomDialog(jsonObject_error.getString("message"));
@@ -286,7 +265,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                         showToast("Something Went Wrong", PaymentSettingsActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 
@@ -309,15 +288,14 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
 
     }
 
-
     public void getBillingAddress() {
 
-        showpDialog();
+        showProgressDialog();
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_BILLING,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -359,11 +337,11 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
-                            hidepDialog();
+                            hideProgressDialog();
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             //  showCustomDialog(jsonObject_error.getString("message"));
@@ -381,7 +359,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                         showToast("Something Went Wrong", PaymentSettingsActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 
@@ -403,13 +381,12 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
 
     }
 
-
     private void getPaymentMethod() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PAYMENTS_METHOD,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -476,7 +453,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                     }
                     Timber.e(error.toString());
                     errorHandle1(error.networkResponse);
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -493,7 +470,6 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         RequestQueue requestQueue = Volley.newRequestQueue(PaymentSettingsActivity.this);
         requestQueue.add(stringRequest);
     }
-
 
     @OnClick({R.id.rlt_btn_add_credit_card, R.id.card_add_bank_account, R.id.card_add_billing_address, R.id.card_delete_credit_card, R.id.ic_delete_bank_account, R.id.ic_delete_billing_account})
     public void onViewClicked(View view) {
@@ -524,7 +500,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
 
     @Override
     public void bankAccountAdd() {
-        getBankAccountAddress();
+        getBankAccountDetails();
     }
 
     @Override
@@ -540,11 +516,11 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
 
 
     private void DeleteBankAccountDetails() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_DELETE_BANK_ACCOUNT,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -583,7 +559,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                     }
                     Timber.e(error.toString());
                     errorHandle1(error.networkResponse);
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -603,11 +579,11 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
     }
 
     private void DeleteBillingAddress() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_DELETE_BILLING_ADDRESS,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -645,7 +621,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                     }
                     Timber.e(error.toString());
                     errorHandle1(error.networkResponse);
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -666,11 +642,11 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
 
 
     private void DeleteCard() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_PAYMENTS_METHOD,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -707,7 +683,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                     }
                     Timber.e(error.toString());
                     errorHandle1(error.networkResponse);
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {

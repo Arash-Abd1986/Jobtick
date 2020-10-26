@@ -146,14 +146,14 @@ public class ChangePasswordActivity extends ActivityBase {
     }
 
     private void changePassword() {
-        showpDialog();
+        showProgressDialog();
         String str_old_password = edtCurrentPassword.getText().toString().trim();
         String str_new_password = edtNewPassword.getText().toString().trim();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_CHANGE_PASSWORD,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
@@ -181,7 +181,7 @@ public class ChangePasswordActivity extends ActivityBase {
                             Timber.e(jsonError);
                             if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                                 unauthorizedUser();
-                                hidepDialog();
+                                hideProgressDialog();
                                 return;
                             }
                             try {
@@ -218,7 +218,7 @@ public class ChangePasswordActivity extends ActivityBase {
                             showToast("Something Went Wrong", ChangePasswordActivity.this);
                         }
                         Timber.e(error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 

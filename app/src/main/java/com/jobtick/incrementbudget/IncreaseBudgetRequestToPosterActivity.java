@@ -230,7 +230,7 @@ public class IncreaseBudgetRequestToPosterActivity extends ActivityBase {
         return true;
     }
 
-    public void initpDialog() {
+    public void initProgressDialog() {
         pDialog = new ProgressDialog(this);
         pDialog.setTitle(getString(R.string.processing));
         pDialog.setMessage(getString(R.string.please_wait));
@@ -238,13 +238,13 @@ public class IncreaseBudgetRequestToPosterActivity extends ActivityBase {
     }
 
 
-    public void showpDialog() {
+    public void showProgressDialog() {
 
         if (!pDialog.isShowing())
             pDialog.show();
     }
 
-    public void hidepDialog() {
+    public void hideProgressDialog() {
 
         if (pDialog.isShowing())
             pDialog.dismiss();
@@ -252,11 +252,11 @@ public class IncreaseBudgetRequestToPosterActivity extends ActivityBase {
 
 
     private void submitIncreaseBudget(String increase_budget, String increase_budget_reason) {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, Constant.URL_TASKS + "/" + taskModel.getSlug() + URL_BUDGET_Increment,
                 response -> {
                     Timber.e(response);
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
@@ -292,7 +292,7 @@ public class IncreaseBudgetRequestToPosterActivity extends ActivityBase {
                         Log.e("error", jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             unauthorizedUser();
-                            hidepDialog();
+                            hideProgressDialog();
                             return;
                         }
                         try {
@@ -325,7 +325,7 @@ public class IncreaseBudgetRequestToPosterActivity extends ActivityBase {
                         showToast("Something Went Wrong", IncreaseBudgetRequestToPosterActivity.this);
                     }
                     Timber.e(error.toString());
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 

@@ -187,6 +187,8 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         LinearLayout lytBtnMore;
         @BindView(R.id.txt_more_reply)
         TextView txtMoreReply;
+        @BindView(R.id.linearAcceptDeleteOffer)
+        LinearLayout linearAcceptDeleteOffer;
 
         @BindView(R.id.linear_more_reply)
         LinearLayout linearMoreReply;
@@ -228,9 +230,11 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (isMyTask) {
                 txtBudget.setVisibility(View.VISIBLE);
                 cardAccept.setVisibility(View.VISIBLE);
+                linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
             } else {
                 txtBudget.setVisibility(View.GONE);
                 cardAccept.setVisibility(View.GONE);
+                linearAcceptDeleteOffer.setVisibility(View.GONE);
             }
             if (item.getReply()) {
                 lytBtnReply.setVisibility(View.VISIBLE);
@@ -254,6 +258,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (item.getWorker().getId() == sessionManager.getUserAccount().getId()) {
                 cardDeleteOffer.setVisibility(View.VISIBLE);
                 txtBudget.setVisibility(View.VISIBLE);
+                linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
 
                 ivFlag.setVisibility(View.GONE);
             } else {

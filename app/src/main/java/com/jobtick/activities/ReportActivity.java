@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatButton;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -39,7 +38,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-import static com.jobtick.utils.Constant.BASE_URL;
 import static com.jobtick.utils.Constant.URL_OFFERS;
 import static com.jobtick.utils.Constant.URL_TASKS;
 import static com.jobtick.utils.Constant.userID;
@@ -156,7 +154,7 @@ public class ReportActivity extends ActivityBase {
 
     private void reportTaskSpam() {
         //  {{baseurl}}/tasks/:slug/report
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + str_SLUG + "/report",
                 response -> {
                     Timber.e(response);
@@ -171,15 +169,15 @@ public class ReportActivity extends ActivityBase {
                         } else {
                             showToast(getString(R.string.server_went_wrong), ReportActivity.this);
                         }
-                        hidepDialog();
+                        hideProgressDialog();
                     } catch (JSONException e) {
-                        hidepDialog();
+                        hideProgressDialog();
                         e.printStackTrace();
                     }
 
                 },
                 error -> {
-                    hidepDialog();
+                    hideProgressDialog();
 
                     //  swipeRefresh.setRefreshing(false);
                     errorHandle1(error.networkResponse);
@@ -211,7 +209,7 @@ public class ReportActivity extends ActivityBase {
 
     private void reportUserSpam() {
 
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + str_USERID + "/report",
                 response -> {
                     Timber.e(response);
@@ -227,15 +225,15 @@ public class ReportActivity extends ActivityBase {
                         } else {
                             showToast(getString(R.string.server_went_wrong), ReportActivity.this);
                         }
-                        hidepDialog();
+                        hideProgressDialog();
                     } catch (JSONException e) {
-                        hidepDialog();
+                        hideProgressDialog();
                         e.printStackTrace();
                     }
 
                 },
                 error -> {
-                    hidepDialog();
+                    hideProgressDialog();
 
                     //  swipeRefresh.setRefreshing(false);
                     errorHandle1(error.networkResponse);
@@ -267,7 +265,7 @@ public class ReportActivity extends ActivityBase {
     }
 
     private void reportQuestionSpam() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + str_QUESTIONID + "/report",
                 response -> {
                     Timber.e(response);
@@ -282,15 +280,15 @@ public class ReportActivity extends ActivityBase {
                         } else {
                             showToast(getString(R.string.server_went_wrong), ReportActivity.this);
                         }
-                        hidepDialog();
+                        hideProgressDialog();
                     } catch (JSONException e) {
-                        hidepDialog();
+                        hideProgressDialog();
                         e.printStackTrace();
                     }
 
                 },
                 error -> {
-                    hidepDialog();
+                    hideProgressDialog();
 
                     //  swipeRefresh.setRefreshing(false);
                     errorHandle1(error.networkResponse);
@@ -320,7 +318,7 @@ public class ReportActivity extends ActivityBase {
     }
 
     private void reportCommentSpam() {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + str_COMMENTID + "/report",
                 response -> {
                     Timber.e(response);
@@ -335,15 +333,15 @@ public class ReportActivity extends ActivityBase {
                         } else {
                             showToast(getString(R.string.server_went_wrong), ReportActivity.this);
                         }
-                        hidepDialog();
+                        hideProgressDialog();
                     } catch (JSONException e) {
-                        hidepDialog();
+                        hideProgressDialog();
                         e.printStackTrace();
                     }
 
                 },
                 error -> {
-                    hidepDialog();
+                    hideProgressDialog();
 
                     //  swipeRefresh.setRefreshing(false);
                     errorHandle1(error.networkResponse);
@@ -375,7 +373,7 @@ public class ReportActivity extends ActivityBase {
     private void reportOfferSpam() {
         //{{baseurl}}/offers/:id/report
 
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_OFFERS + "/" + str_OFFERID + "/report",
                 response -> {
                     Timber.e(response);
@@ -390,15 +388,15 @@ public class ReportActivity extends ActivityBase {
                         } else {
                             showToast(getString(R.string.server_went_wrong), ReportActivity.this);
                         }
-                        hidepDialog();
+                        hideProgressDialog();
                     } catch (JSONException e) {
-                        hidepDialog();
+                        hideProgressDialog();
                         e.printStackTrace();
                     }
 
                 },
                 error -> {
-                    hidepDialog();
+                    hideProgressDialog();
 
                     //  swipeRefresh.setRefreshing(false);
                     errorHandle1(error.networkResponse);

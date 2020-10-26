@@ -350,7 +350,7 @@ public class  PortfolioActivity extends ActivityBase implements AttachmentAdapte
     }
 
     private void uploadDataInPortfolioMediaApi(File pictureFile) {
-        showpDialog();
+        showProgressDialog();
         Call<String> call;
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
@@ -360,7 +360,7 @@ public class  PortfolioActivity extends ActivityBase implements AttachmentAdapte
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                hidepDialog();
+                hideProgressDialog();
                 Log.e("Response", response.toString());
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     showToast(response.message(), PortfolioActivity.this);
@@ -418,7 +418,7 @@ public class  PortfolioActivity extends ActivityBase implements AttachmentAdapte
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                hidepDialog();
+                hideProgressDialog();
                 Log.e("Response", call.toString());
             }
         });
@@ -427,13 +427,13 @@ public class  PortfolioActivity extends ActivityBase implements AttachmentAdapte
 
 
     private void deleteMediaInAttachment(int position, AttachmentModel obj) {
-        showpDialog();
+        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_PROFILE + "/portfolio/" + attachmentArrayList.get(position).getId(),
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Timber.e(response);
-                        hidepDialog();
+                        hideProgressDialog();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             Timber.e(jsonObject.toString());
@@ -465,7 +465,7 @@ public class  PortfolioActivity extends ActivityBase implements AttachmentAdapte
                             Timber.e(jsonError);
                             if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                                 unauthorizedUser();
-                                hidepDialog();
+                                hideProgressDialog();
                                 return;
                             }
                             try {
@@ -489,7 +489,7 @@ public class  PortfolioActivity extends ActivityBase implements AttachmentAdapte
                             showToast("Something Went Wrong", PortfolioActivity.this);
                         }
                         Timber.e(error.toString());
-                        hidepDialog();
+                        hideProgressDialog();
                     }
                 }) {
 

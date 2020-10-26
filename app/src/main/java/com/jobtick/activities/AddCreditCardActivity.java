@@ -1,8 +1,6 @@
 package com.jobtick.activities;
 
 import android.app.DatePickerDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -11,7 +9,6 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.android.volley.AuthFailureError;
@@ -19,14 +16,12 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.incrementbudget.IncreaseBudgetFromPosterActivity;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.Tools;
 import com.stripe.android.ApiResultCallback;
@@ -205,7 +200,7 @@ public class AddCreditCardActivity extends ActivityBase {
 
         if (validation) {
             // startProgress("Validating Credit Card");
-            showpDialog();
+            showProgressDialog();
             Stripe stripe = new Stripe(getApplicationContext(),
                     PUBLISHABLE_KEY);
             PaymentMethodCreateParams paymentMethod = PaymentMethodCreateParams.create(card_xml.toPaymentMethodParamsCard());
@@ -219,7 +214,7 @@ public class AddCreditCardActivity extends ActivityBase {
 
                 @Override
                 public void onError(@NotNull Exception e) {
-                    hidepDialog();
+                    hideProgressDialog();
                     Log.e("Stripe", e.toString());
                 }
             });
@@ -255,7 +250,7 @@ public class AddCreditCardActivity extends ActivityBase {
                                     }
                                     finish();
                                 } else {
-                                    hidepDialog();
+                                    hideProgressDialog();
                                     showToast("Something went Wrong", AddCreditCardActivity.this);
                                 }
                             }
@@ -264,7 +259,7 @@ public class AddCreditCardActivity extends ActivityBase {
                         } catch (JSONException e) {
                             Timber.e(String.valueOf(e));
                             e.printStackTrace();
-                            hidepDialog();
+                            hideProgressDialog();
                         }
 
 
@@ -272,7 +267,7 @@ public class AddCreditCardActivity extends ActivityBase {
                 },
                 error -> {
                     errorHandle1(error.networkResponse);
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 

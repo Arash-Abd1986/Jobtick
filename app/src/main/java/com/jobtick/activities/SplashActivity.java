@@ -12,8 +12,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.auth.api.Auth;
-import com.jobtick.interfaces.OnBankAccountAdded;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -81,13 +79,13 @@ public class SplashActivity extends ActivityBase {
     }
 
     private void getAccountDetails() {
-        showpDialog();
+        showProgressDialog();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_GET_ACCOUNT,
                 response -> {
                     Log.e("responce_url", response);
 
-                    hidepDialog();
+                    hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
@@ -112,7 +110,7 @@ public class SplashActivity extends ActivityBase {
                 },
                 error -> {
                     errorHandle1(error.networkResponse);
-                    hidepDialog();
+                    hideProgressDialog();
                 }) {
 
 

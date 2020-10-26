@@ -919,7 +919,6 @@
                         android:id="@+id/rlt_layout_action_data"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
                         android:minHeight="?attr/actionBarSize">
 
 
@@ -931,7 +930,7 @@
                             android:layout_marginTop="@dimen/spacing_middle"
                             android:layout_marginEnd="@dimen/spacing_medium"
                             android:layout_marginBottom="@dimen/spacing_middle"
-                            android:layout_toStartOf="@+id/card_send"
+                            android:layout_centerInParent="true"
                             android:background="@drawable/shape_border">
 
                             <RelativeLayout
@@ -957,6 +956,7 @@
                                     android:layout_centerVertical="true"
                                     android:layout_margin="@dimen/spacing_small"
                                     android:layout_toEndOf="@+id/recycler_view_question_attachment"
+                                    android:layout_toStartOf="@id/lyt_btn_comment_send"
                                     android:background="@null"
                                     android:hint="Ask a question"
                                     android:inputType="textMultiLine"
@@ -964,8 +964,9 @@
                                     android:textSize="@dimen/_12sp" />
                                 <ImageView
                                     android:id="@+id/lyt_btn_comment_send"
-                                    android:layout_width="25dp"
-                                    android:layout_height="25dp"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:padding="@dimen/spacing_middle"
                                     android:layout_margin="@dimen/spacing_small"
                                     android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
@@ -977,22 +978,7 @@
                         </FrameLayout>
 
 
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/card_send"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="@dimen/spacing_medium"
-                            android:layout_marginTop="@dimen/spacing_middle"
-                            android:layout_marginEnd="@dimen/spacing_middle"
-                            android:layout_marginBottom="@dimen/spacing_middle"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:elevation="@dimen/spacing_large"
-                            app:cardCornerRadius="@dimen/spacing_middle">
 
-
-                        </androidx.cardview.widget.CardView>
                     </RelativeLayout>
 
 

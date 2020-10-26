@@ -191,7 +191,6 @@ public class OnboardActivity extends ActivityBase {
 //            lottieAnimationView.setAnimation(animAttachment);
 //            description.setText(descAttachment);
 //            ((ViewPager) container).addView(v);
-
             return v;
         }
 

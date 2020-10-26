@@ -26,7 +26,7 @@
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
     <string name="forgot_password">Forgot Your Password?</string>
-    <string name="log_in">LogIn</string>
+    <string name="log_in">Login</string>
     <string name="google">GOOGLE</string>
     <string name="sign_up">Sign up</string>
     <string name="repeat_password">Repeat Password</string>

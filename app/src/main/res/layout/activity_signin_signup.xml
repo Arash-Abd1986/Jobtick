@@ -41,14 +41,14 @@
         android:id="@+id/lyt_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/jobTickExplaination"
+        android:layout_above="@id/cityAnimation"
         android:paddingStart="@dimen/_25sp"
         android:paddingEnd="@dimen/_25sp"
         android:orientation="vertical">
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_marginTop="16dp"
             android:id="@+id/lyt_btn_sign_up"
             style="@style/materialButton.medium"
@@ -59,7 +59,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_marginTop="16dp"
             android:id="@+id/lyt_btn_sign_in"
             style="@style/materialButton.medium.outlined"
@@ -70,16 +70,39 @@
 
     </LinearLayout>
 
-    <com.airbnb.lottie.LottieAnimationView
+    <LinearLayout
+        android:id="@+id/cityAnimation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:lottie_rawRes="@raw/city"
-        app:lottie_loop="true"
-        app:lottie_autoPlay="true"
-        android:scaleType="centerCrop"
-        android:adjustViewBounds="true"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/lyt_btn"/>
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_alignParentBottom="true">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:lottie_rawRes="@raw/city"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:layout_weight="0.5"
+            android:layout_gravity="bottom"/>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:lottie_rawRes="@raw/city"
+            app:lottie_loop="true"
+            android:scaleType="centerCrop"
+            app:lottie_autoPlay="true"
+            android:scaleX="-1"
+            android:adjustViewBounds="true"
+            android:layout_weight="0.5"
+            android:layoutDirection="rtl"
+            android:layout_gravity="bottom" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>

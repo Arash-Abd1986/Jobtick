@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:visibility="visible"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/slide1"
+        android:layout_weight="0.8"/>
+
+    <com.jobtick.TextView.TextViewRegular
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/spacing_xxlarge"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="@dimen/spacing_xxlarge"
+        android:layout_marginBottom="@dimen/spacing_xxlarge"
+        android:gravity="center"
+        android:text="@string/short_lorem_ipsum"
+        android:textColor="@color/grey_70"
+        android:textSize="@dimen/_18sp"
+        android:lineHeight="28dp"
+        android:visibility="visible"
+        android:layout_weight="0.2"/>
+
+</LinearLayout>

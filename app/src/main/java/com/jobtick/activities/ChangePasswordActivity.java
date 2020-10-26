@@ -54,7 +54,7 @@ public class ChangePasswordActivity extends ActivityBase {
     ImageView imgBtnCurrentPasswordToggle;
     @BindView(R.id.edt_new_password)
     EditTextRegular edtNewPassword;
-    @BindView(R.id.img_btn_new_password_toggle)
+    @BindView(R.id.img_btn_password_toggle)
     ImageView imgBtnNewPasswordToggle;
     @BindView(R.id.edt_confirm_password)
     EditTextRegular edtConfirmPassword;
@@ -112,13 +112,13 @@ public class ChangePasswordActivity extends ActivityBase {
     }
 
 
-    @OnClick({R.id.img_btn_current_password_toggle, R.id.img_btn_new_password_toggle, R.id.img_btn_confirm_password_toggle, R.id.lyt_btn_submit})
+    @OnClick({R.id.img_btn_current_password_toggle, R.id.img_btn_password_toggle, R.id.img_btn_confirm_password_toggle, R.id.lyt_btn_submit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_btn_current_password_toggle:
                 current_passowrd_toggle();
                 break;
-            case R.id.img_btn_new_password_toggle:
+            case R.id.img_btn_password_toggle:
                 new_passowrd_toggle();
                 break;
             case R.id.img_btn_confirm_password_toggle:

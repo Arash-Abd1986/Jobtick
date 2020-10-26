@@ -198,7 +198,7 @@
 
                         </RelativeLayout>
 
-                        <com.jobtick.EditText.EditTextRegular
+                        <com.jobtick.EditText.EditTextMedium
                             android:id="@+id/edt_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -250,11 +250,11 @@
                                 android:hint="0/25+"
                                 android:singleLine="true"
                                 android:textColor="@color/red_600"
-                                android:textSize="@dimen/_12sp" />
+                                android:textSize="@dimen/_13sp" />
 
                         </RelativeLayout>
 
-                        <com.jobtick.EditText.EditTextRegular
+                        <com.jobtick.EditText.EditTextMedium
                             android:id="@+id/edt_description"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -291,7 +291,7 @@
                         android:orientation="vertical">
 
 
-                        <com.jobtick.TextView.TextViewBold
+                        <com.jobtick.TextView.TextViewSemiBold
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
@@ -316,13 +316,14 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_add_must_have"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:layout_marginEnd="@dimen/spacing_large"
                     android:overScrollMode="never"
                     android:scrollbars="none"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:nestedScrollingEnabled="false" />
 
                 <RelativeLayout
                     android:id="@+id/rlt_add_must_have"
@@ -347,7 +348,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/spacing_xmedium"
                         android:layout_toEndOf="@id/img_add_white"
-                        android:text="Add requirements"
+                        android:text="@string/add_requirements"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_14sp" />
 
@@ -413,7 +414,7 @@
                             android:layout_height="wrap_content"
                             android:text="Location"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
+                            android:textSize="@dimen/_13sp"
                             android:textStyle="bold" />
 
                         <RelativeLayout
@@ -421,13 +422,14 @@
                             android:layout_height="wrap_content">
 
 
-                            <com.jobtick.TextView.TextViewRegular
+                            <com.jobtick.TextView.TextViewMedium
                                 android:id="@+id/txt_suburb"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_toStartOf="@+id/img_location_pin"
-                                android:hint="Union Ave, Austin"
-                                android:inputType="textMultiLine" />
+                                android:hint="@string/enter_job_location"
+                                android:inputType="textMultiLine"
+                                android:textSize="@dimen/_14sp"/>
 
 
                             <ImageView

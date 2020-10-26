@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,162 +7,156 @@
     android:background="@color/grey_100"
     android:orientation="vertical">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/grey_100">
 
-            <RelativeLayout
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/iv_backbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@drawable/ic_back" />
 
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/grey_100">
-
-                <ImageView
-                    android:id="@+id/iv_backbutton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:padding="@dimen/_12sp"
-                    android:src="@drawable/ic_back"></ImageView>
-
-                <com.jobtick.TextView.TextViewMedium
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/iv_backbutton"
-                    android:text="Categories"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/_16sp">
-
-                </com.jobtick.TextView.TextViewMedium>
-            </RelativeLayout>
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_categories"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@layout/item_task_category">
-
-            </androidx.recyclerview.widget.RecyclerView>
-
-
-        </LinearLayout>
-
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/lyt_search_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="33dp"
-            android:layout_marginEnd="33dp"
-            android:layout_marginBottom="@dimen/spacing_xxxlarge"
-            android:backgroundTint="@color/white"
-            android:clipToPadding="true"
-            app:cardCornerRadius="@dimen/_5sp"
-            app:cardElevation="@dimen/_3sp">
-
-            <RelativeLayout
+            <com.jobtick.TextView.TextViewMedium
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/iv_backbutton"
+                android:text="@string/categories"
+                android:layout_marginStart="-4dp"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_18sp">
 
-                <ImageView
-                    android:id="@+id/iv_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_search">
+            </com.jobtick.TextView.TextViewMedium>
+        </RelativeLayout>
 
-                </ImageView>
 
-                <com.jobtick.TextView.TextViewRegular
-                    android:id="@+id/edt_search_categoreis"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_categories"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_task_category">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+    </LinearLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/lyt_search_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="33dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginBottom="@dimen/spacing_xxxlarge"
+        android:backgroundTint="@color/white"
+        android:clipToPadding="true"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="@dimen/_3sp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_search">
+
+            </ImageView>
+
+            <com.jobtick.TextView.TextViewRegular
+                android:id="@+id/edt_search_categoreis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="12dp"
+                android:layout_toRightOf="@id/iv_back"
+                android:background="@null"
+                android:hint="Search Categories"
+                android:textColor="@color/grey_70"
+                android:textColorHint="@color/grey_70"
+                android:textSize="@dimen/_12sp">
+
+            </com.jobtick.TextView.TextViewRegular>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <!--
+            <androidx.cardview.widget.CardView
+                android:id="@+id/lyt_search_category"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:visibility="gone"
+                android:layout_marginStart="@dimen/spacing_xlarge"
+                android:layout_marginEnd="@dimen/spacing_xlarge"
+                android:layout_marginBottom="@dimen/spacing_xxxlarge"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="@dimen/_5sp"
+                app:cardElevation="@dimen/_3sp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_toRightOf="@id/iv_back"
-                    android:background="@null"
-                    android:hint="Search Categories"
-                    android:textColor="@color/grey_70"
-                    android:textColorHint="@color/grey_70"
-                    android:textSize="@dimen/_12sp">
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                </com.jobtick.TextView.TextViewRegular>
+                    <View
+                        android:layout_width="@dimen/spacing_mlarge"
+                        android:layout_height="match_parent" />
 
-            </RelativeLayout>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:tint="@color/grey_70"
+                        app:srcCompat="@drawable/ic_search" />
 
-        </androidx.cardview.widget.CardView>
+                    <View
+                        android:layout_width="@dimen/spacing_middle"
+                        android:layout_height="match_parent" />
 
-
-        <!--
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/lyt_search_category"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="bottom"
-                    android:visibility="gone"
-                    android:layout_marginStart="@dimen/spacing_xlarge"
-                    android:layout_marginEnd="@dimen/spacing_xlarge"
-                    android:layout_marginBottom="@dimen/spacing_xxxlarge"
-                    android:backgroundTint="@color/white"
-                    app:cardCornerRadius="@dimen/_5sp"
-                    app:cardElevation="@dimen/_3sp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <com.jobtick.TextView.TextViewRegular
+                        android:id="@+id/edt_search_categories"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <View
-                            android:layout_width="@dimen/spacing_mlarge"
-                            android:layout_height="match_parent" />
-
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:clickable="true"
-                            android:tint="@color/grey_70"
-                            app:srcCompat="@drawable/ic_search" />
-
-                        <View
-                            android:layout_width="@dimen/spacing_middle"
-                            android:layout_height="match_parent" />
-
-                        <com.jobtick.TextView.TextViewRegular
-                            android:id="@+id/edt_search_categories"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:background="@android:color/transparent"
-                            android:gravity="center_vertical"
-                            android:hint="@string/search_categories"
-                            android:imeOptions="actionSearch"
-                            android:inputType="textEmailAddress|textNoSuggestions"
-                            android:maxLines="1"
-                            android:singleLine="true"
-                            android:textColor="@color/grey_70"
-                            android:textColorHint="@color/grey_70"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-        -->
+                        android:hint="@string/search_categories"
+                        android:imeOptions="actionSearch"
+                        android:inputType="textEmailAddress|textNoSuggestions"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/grey_70"
+                        android:textColorHint="@color/grey_70"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+    -->
 
 
-    </FrameLayout>
-
-</LinearLayout>
+</FrameLayout>

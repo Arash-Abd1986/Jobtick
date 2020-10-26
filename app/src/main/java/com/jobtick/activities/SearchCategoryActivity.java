@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 
@@ -18,13 +19,13 @@ import butterknife.OnClick;
 public class SearchCategoryActivity extends ActivityBase {
 
     @BindView(R.id.lyt_search_new)
-    LinearLayout lytSearchNew;
+    MaterialButton lytSearchNew;
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
 
     @BindView(R.id.lyt_categories)
-    LinearLayout lytCategories;
+    MaterialButton lytCategories;
 
     @BindView(R.id.edt_search_categoreis)
     EditTextRegular edtSearchCategories;

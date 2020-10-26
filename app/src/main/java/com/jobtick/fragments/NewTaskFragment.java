@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
@@ -40,6 +41,7 @@ import com.jobtick.models.TaskModel;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.widget.ExtendedButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +62,7 @@ public class NewTaskFragment extends Fragment {
     TextViewRegular edtSearchCategories;
 
     @BindView(R.id.lty_btn_post)
-    LinearLayout lytBtnPost;
+    MaterialButton lytBtnPost;
     @BindView(R.id.txt_btn_category)
     TextViewRegular txtBtnCategory;
 
@@ -69,14 +71,14 @@ public class NewTaskFragment extends Fragment {
     private TaskModel taskModel;
     private Toolbar toolbar;
 
-    @BindView(R.id.card_cancel_background)
-    CardView cardCancelBackground;
-
-    @BindView(R.id.card_cancelled)
-    CardView cardCancelled;
-
-    @BindView(R.id.txtBlocked)
-    TextViewRegular txtBlocked;
+    //TODO: add this for implementing block user.
+//    @BindView(R.id.card_cancel_background)
+//    CardView cardCancelBackground;
+//    @BindView(R.id.txtBlocked)
+//    TextViewRegular txtBlocked;
+//
+//    @BindView(R.id.card_cancelled)
+//    CardView cardCancelled;
 
     ImageView ivNotification;
     TextView toolbar_title;
@@ -145,7 +147,7 @@ public class NewTaskFragment extends Fragment {
             startActivityForResult(creating_task, 12);*/
             getContext().startActivity(creating_task);
         });
-        init();
+     //   init();
 
 
         edtSearchCategories.setOnClickListener(v -> {
@@ -180,13 +182,14 @@ public class NewTaskFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void init() {
-        UserAccountModel userAccountModel = sessionManager.getUserAccount();
-        if (userAccountModel.getBlocked()) {
-            cardCancelBackground.setVisibility(View.VISIBLE);
-            cardCancelled.setVisibility(View.VISIBLE);
-            txtBlocked.setText("Your account has been blocked for " + compareTwoDate(sessionManager.getUserAccount().getBlockedUntil()) + " days.");
-        }
-
-    }
+    //TODO: add this view for blocked user. I (Mohsen) comment views in the layout.
+//    public void init() {
+//        UserAccountModel userAccountModel = sessionManager.getUserAccount();
+//        if (userAccountModel.getBlocked()) {
+//            cardCancelBackground.setVisibility(View.VISIBLE);
+//            cardCancelled.setVisibility(View.VISIBLE);
+//            txtBlocked.setText("Your account has been blocked for " + compareTwoDate(sessionManager.getUserAccount().getBlockedUntil()) + " days.");
+//        }
+//
+//    }
 }

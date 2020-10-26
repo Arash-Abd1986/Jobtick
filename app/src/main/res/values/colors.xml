@@ -392,5 +392,7 @@
     <color name="colorTaskCancelledTrans">#1A2B3240</color>
     <color name="rating_card_bg">#EAEBEC</color>
     <color name="accent">#5568FE</color>
+    <color name="blueButtons">#586BF5</color>
+    <color name="backgroundLightGrey">#E5E5E5</color>
     <color name="semiBlack">#562B3240</color>
 </resources>

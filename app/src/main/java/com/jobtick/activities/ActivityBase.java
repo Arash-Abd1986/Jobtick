@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,6 +41,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.jobtick.interfaces.HasEditTextRegular;
+import com.jobtick.utils.Helper;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -63,6 +66,7 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.CustomToast;
 import com.jobtick.utils.SessionManager;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -72,7 +76,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class ActivityBase extends AppCompatActivity {
+public class ActivityBase extends AppCompatActivity implements HasEditTextRegular {
 
     private static final String TAG = ActivityBase.class.getSimpleName();
 
@@ -759,5 +763,11 @@ public class ActivityBase extends AppCompatActivity {
     }
 
     protected void getExtras() {
+    }
+
+    @Override
+    public void editTextOnClick(@NotNull View view) {
+        view.requestFocus();
+        Helper.openKeyboard(this);
     }
 }

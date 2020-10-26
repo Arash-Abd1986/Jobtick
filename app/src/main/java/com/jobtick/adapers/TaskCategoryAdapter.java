@@ -6,10 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.models.TaskCategory;
@@ -24,7 +26,7 @@ import java.util.List;
 public class TaskCategoryAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
 
-    private List<TaskCategory> items = new ArrayList<>();
+    private List<TaskCategory> items;
     private HashMap<Integer, Boolean> hashMapSelected;
     private OnLoadMoreListener onLoadMoreListener;
     private boolean isLoaderVisible = false;
@@ -55,15 +57,13 @@ public class TaskCategoryAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         ImageView imgView;
         TextViewRegular txtName;
-        LinearLayout lytOuter;
-        LinearLayout lytInner;
+        RelativeLayout lytOuter;
 
         public OriginalViewHolder(View v) {
             super(v);
             imgView = v.findViewById(R.id.img_view);
             txtName = v.findViewById(R.id.txt_name);
             lytOuter = v.findViewById(R.id.lyt_outer);
-            lytInner = v.findViewById(R.id.lyt_inner);
         }
 
         @Override
@@ -75,6 +75,7 @@ public class TaskCategoryAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             super.onBind(position);
 
             txtName.setText(items.get(position).getName());
+            Glide.with(ctx).load(items.get(position).getIcon()).into(imgView);
 
            /* if (items.get(position).getIcon() != null && !items.get(position).getIcon().equals("")) {
                 ImageUtil.displayImage(imgView, items.get(position).getIcon(), null);

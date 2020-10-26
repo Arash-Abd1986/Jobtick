@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
@@ -34,11 +35,12 @@ import com.jobtick.utils.Helper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SignInFragment extends Fragment implements AuthActivity.EditTextError {
+public class SignInFragment extends FragmentBase implements AuthActivity.EditTextError {
 
     private AuthActivity authActivity;
 
@@ -49,7 +51,7 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
     @BindView(R.id.txt_forgot_password)
     TextViewMedium txtForgotPassword;
     @BindView(R.id.lyt_btn_sign_in)
-    LinearLayout lytBtnSignIn;
+    MaterialButton lytBtnSignIn;
     @BindView(R.id.txt_btn_sign_up)
     TextView txtBtnSignUp;
     @BindView(R.id.img_btn_password_toggle)
@@ -58,6 +60,11 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
     LinearLayout lytBtnGoogle;
     @BindView(R.id.lyt_btn_facebook)
     LinearLayout lytBtnFacebook;
+
+    @BindView(R.id.lnr_email)
+    LinearLayout lnrEmail;
+    @BindView(R.id.lnr_password)
+    LinearLayout lnrPassword;
 
     private boolean password_hide = true;
 
@@ -103,7 +110,8 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
 
     }
 
-    @OnClick({R.id.txt_forgot_password, R.id.lyt_btn_sign_in, R.id.lyt_btn_google, R.id.lyt_btn_facebook, R.id.txt_btn_sign_up})
+    @OnClick({R.id.txt_forgot_password, R.id.lyt_btn_sign_in, R.id.lyt_btn_google, R.id.lyt_btn_facebook, R.id.txt_btn_sign_up,
+    R.id.lnr_email, R.id.lnr_password})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.txt_forgot_password:
@@ -134,6 +142,13 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
                 ft.commit();
                 // authActivity.switchContent(new SignUpFragment());
                 break;
+            case R.id.lnr_email:
+                editTextOnClick(edtEmailAddress);
+                break;
+            case R.id.lnr_password:
+                editTextOnClick(edtPassword);
+                break;
+
         }
     }
 
@@ -141,8 +156,12 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
         if (TextUtils.isEmpty(edtEmailAddress.getText().toString().trim())) {
             edtEmailAddress.setError("Check your email address");
             return false;
-        } else if (TextUtils.isEmpty(edtPassword.getText().toString().trim())) {
-            edtEmailAddress.setError("Enter your password");
+        }
+        else if (TextUtils.isEmpty(edtPassword.getText().toString().trim())) {
+            edtPassword.setError("Enter your password");
+            return false;
+        }else if(edtPassword.getText().toString().trim().length() < 8){
+            edtPassword.setError("Password must be atleast 8 characters.");
             return false;
         }
         return true;
@@ -153,6 +172,4 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
         edtEmailAddress.setError(email);
         edtPassword.setError(password);
     }
-
-
 }

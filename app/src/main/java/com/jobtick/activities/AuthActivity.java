@@ -65,6 +65,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class AuthActivity extends ActivityBase {
 
@@ -1008,7 +1009,7 @@ public class AuthActivity extends ActivityBase {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.e("responce_url", response);
+                        Timber.tag("responce_url").e(response);
 
                         hideProgressDialog();
                         //  showToast("Check your inbox", AuthActivity.this);
@@ -1030,7 +1031,7 @@ public class AuthActivity extends ActivityBase {
                         if (networkResponse != null && networkResponse.data != null) {
                             String jsonError = new String(networkResponse.data);
                             // Print Error!
-                            Log.e("intent22", jsonError);
+                            Timber.tag("intent22").e(jsonError);
 
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonError);
@@ -1038,6 +1039,7 @@ public class AuthActivity extends ActivityBase {
                                 JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                                 if (jsonObject_error.has("message")) {
+                                    Timber.d("AuthActivity: " + jsonObject_error.getString("message"));
                                     showToast(jsonObject_error.getString("message"), AuthActivity.this);
                                 }
                                 if (jsonObject_error.has("errors")) {
@@ -1065,7 +1067,7 @@ public class AuthActivity extends ActivityBase {
                         } else {
                             showToast("Something Went Wrong", AuthActivity.this);
                         }
-                        Log.e("error", error.toString());
+                        Timber.tag("error").e(error.toString());
                         hideProgressDialog();
                     }
                 }) {

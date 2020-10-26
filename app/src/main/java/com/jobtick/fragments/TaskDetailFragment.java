@@ -40,12 +40,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.BuildConfig;
+import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.EditText.EditTextSemiBold;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
-
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.adapers.AddTagAdapter;
 import com.jobtick.adapers.AttachmentAdapter;
@@ -102,11 +102,11 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     @BindView(R.id.edt_title_counter)
     EditTextSemiBold edtTitleCounter;
     @BindView(R.id.edt_title)
-    EditTextRegular edtTitle;
+    EditTextMedium edtTitle;
     @BindView(R.id.edt_description_counter)
     EditTextSemiBold edtDescriptionCounter;
     @BindView(R.id.edt_description)
-    EditTextRegular edtDescription;
+    EditTextMedium edtDescription;
     @BindView(R.id.recycler_add_must_have)
     RecyclerView recyclerAddMustHave;
     @BindView(R.id.img_add_white)
@@ -116,7 +116,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     @BindView(R.id.checkbox_online)
     CheckBox checkboxOnline;
     @BindView(R.id.txt_suburb)
-    TextViewRegular txtSuburb;
+    TextViewMedium txtSuburb;
     @BindView(R.id.img_location_pin)
     ImageView imgLocationPin;
     @BindView(R.id.card_location)
@@ -473,8 +473,9 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
             CarmenFeature carmenFeature = PlacePicker.getPlace(data);
             Helper.Logger(TAG, "CarmenFeature = " + carmenFeature.toJson());
-            GeocodeObject geocodeObject = Helper.getGeoCodeObject(getActivity(), carmenFeature.center().latitude()
-                    , carmenFeature.center().longitude());
+            //No Need to get fine location, suburb is OK.
+//            GeocodeObject geocodeObject = Helper.getGeoCodeObject(getActivity(), carmenFeature.center().latitude()
+//                    , carmenFeature.center().longitude());
             txtSuburb.setText(carmenFeature.placeName());
 
 
@@ -658,9 +659,10 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                 tagAdapter.notifyItemInserted(tagAdapter.getItemCount());
                 edtAddTag.setText(null);
                 if (addTagList.size() != 0) {
-                    if (recyclerAddMustHave.getVisibility() != View.VISIBLE) {
-                        recyclerAddMustHave.setVisibility(View.VISIBLE);
-                    }
+
+                    //we change recycler view visibility to change size of it
+                    recyclerAddMustHave.setVisibility(View.GONE);
+                    recyclerAddMustHave.setVisibility(View.VISIBLE);
                 } else {
                     if (recyclerAddMustHave.getVisibility() == View.VISIBLE) {
                         recyclerAddMustHave.setVisibility(View.GONE);

@@ -480,6 +480,7 @@ public class Helper {
         Geocoder geocoder;
         geocoder = new Geocoder(context, Locale.getDefault());
 
+        //TODO: getting location should not be in main thread.
         try {
             addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
         } catch (IOException e) {

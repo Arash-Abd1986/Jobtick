@@ -210,12 +210,12 @@
         <item name="android:paddingStart">0dp</item>
         <item name="android:paddingEnd">0dp</item>
         <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/button_text_size_normal</item>
     </style>
 
     <style name="materialButton.medium">
         <item name="fontFamily">@font/poppins_medium</item>
         <item name="android:fontFamily">@font/poppins_medium</item>
-        <item name="android:textSize">@dimen/button_text_size_normal</item>
     </style>
 
     <style name="materialButton._400">

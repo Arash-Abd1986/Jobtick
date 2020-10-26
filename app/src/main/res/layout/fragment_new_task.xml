@@ -8,202 +8,197 @@
     android:orientation="vertical"
     tools:context=".fragments.NewTaskFragment">
 
-<!--            <androidx.cardview.widget.CardView-->
-<!--                android:id="@+id/card_cancel_background"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="@dimen/_30sp"-->
-<!--                android:layout_marginStart="@dimen/spacing_smlarge"-->
-<!--                android:layout_marginTop="@dimen/spacing_medium"-->
-<!--                android:layout_marginEnd="@dimen/spacing_smlarge"-->
-<!--                android:elevation="@dimen/spacing_middle"-->
-<!--                android:visibility="invisible"-->
-<!--                app:cardBackgroundColor="@color/colorRed"-->
-<!--                app:cardCornerRadius="@dimen/spacing_middle"/>-->
+    <!--            <androidx.cardview.widget.CardView-->
+    <!--                android:id="@+id/card_cancel_background"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="@dimen/_30sp"-->
+    <!--                android:layout_marginStart="@dimen/spacing_smlarge"-->
+    <!--                android:layout_marginTop="@dimen/spacing_medium"-->
+    <!--                android:layout_marginEnd="@dimen/spacing_smlarge"-->
+    <!--                android:elevation="@dimen/spacing_middle"-->
+    <!--                android:visibility="invisible"-->
+    <!--                app:cardBackgroundColor="@color/colorRed"-->
+    <!--                app:cardCornerRadius="@dimen/spacing_middle"/>-->
 
-<!--            <androidx.cardview.widget.CardView-->
-<!--                android:id="@+id/card_cancelled"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/spacing_large"-->
-<!--                android:layout_marginTop="-28dp"-->
-<!--                android:layout_marginEnd="@dimen/spacing_large"-->
-<!--                android:layout_marginBottom="@dimen/spacing_middle"-->
-<!--                android:elevation="@dimen/spacing_middle"-->
-<!--                android:visibility="invisible"-->
-<!--                app:cardBackgroundColor="@color/background"-->
-<!--                app:cardCornerRadius="@dimen/spacing_middle">-->
-
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="@dimen/spacing_large"-->
-<!--                    android:layout_marginTop="@dimen/spacing_large"-->
-<!--                    android:layout_marginEnd="@dimen/spacing_large"-->
-<!--                    android:layout_marginBottom="@dimen/_15sp"-->
-<!--                    android:orientation="vertical">-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:gravity="center"-->
-<!--                        android:orientation="horizontal">-->
-
-<!--                        <ImageView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:src="@drawable/ic_alert_cancellation">-->
-
-<!--                        </ImageView>-->
-
-<!--                        <com.jobtick.TextView.TextViewRegular-->
-
-<!--                            android:id="@+id/txtBlocked"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginStart="@dimen/spacing_large"-->
-<!--                            android:layout_marginEnd="@dimen/spacing_large"-->
-<!--                            android:text="This job has been cancelled Please contact customer support if you need  further help "-->
-<!--                            android:textColor="@color/textColor"-->
-<!--                            android:textSize="@dimen/_13sp"-->
-<!--                            android:textStyle="bold" />-->
-
-<!--                    </LinearLayout>-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="35dp"-->
-<!--                        android:layout_alignParentBottom="true"-->
-<!--                        android:layout_gravity="bottom"-->
-<!--                        android:layout_margin="@dimen/spacing_large"-->
-<!--                        android:background="@drawable/ic_rounded_red_button"-->
-<!--                        android:elevation="@dimen/spacing_middle"-->
-<!--                        android:visibility="gone">-->
-
-<!--                        <LinearLayout-->
-<!--                            android:id="@+id/li_repost"-->
-
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:background="?attr/selectableItemBackground"-->
-<!--                            android:clickable="true"-->
-<!--                            android:gravity="center">-->
-
-<!--                            <com.jobtick.TextView.TextViewMedium-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:gravity="center"-->
-<!--                                android:text="Repost this job"-->
-<!--                                android:textColor="@color/colorRed"-->
-<!--                                android:textSize="14sp" />-->
-<!--                        </LinearLayout>-->
-<!--                    </LinearLayout>-->
-
-<!--                </LinearLayout>-->
-<!--            </androidx.cardview.widget.CardView>-->
+    <!--            <androidx.cardview.widget.CardView-->
+    <!--                android:id="@+id/card_cancelled"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginStart="@dimen/spacing_large"-->
+    <!--                android:layout_marginTop="-28dp"-->
+    <!--                android:layout_marginEnd="@dimen/spacing_large"-->
+    <!--                android:layout_marginBottom="@dimen/spacing_middle"-->
+    <!--                android:elevation="@dimen/spacing_middle"-->
+    <!--                android:visibility="invisible"-->
+    <!--                app:cardBackgroundColor="@color/background"-->
+    <!--                app:cardCornerRadius="@dimen/spacing_middle">-->
 
 
+    <!--                <LinearLayout-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginStart="@dimen/spacing_large"-->
+    <!--                    android:layout_marginTop="@dimen/spacing_large"-->
+    <!--                    android:layout_marginEnd="@dimen/spacing_large"-->
+    <!--                    android:layout_marginBottom="@dimen/_15sp"-->
+    <!--                    android:orientation="vertical">-->
 
-    <com.jobtick.TextView.TextViewMedium
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/what_do_you_need_to_get_done"
-        android:textColor="@color/textColor"
-        android:textSize="@dimen/_20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="20dp"
-        android:layout_above="@id/lyt_search_category"/>
+    <!--                    <LinearLayout-->
+    <!--                        android:layout_width="match_parent"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_gravity="center"-->
+    <!--                        android:gravity="center"-->
+    <!--                        android:orientation="horizontal">-->
 
+    <!--                        <ImageView-->
+    <!--                            android:layout_width="wrap_content"-->
+    <!--                            android:layout_height="wrap_content"-->
+    <!--                            android:src="@drawable/ic_alert_cancellation">-->
 
+    <!--                        </ImageView>-->
+
+    <!--                        <com.jobtick.TextView.TextViewRegular-->
+
+    <!--                            android:id="@+id/txtBlocked"-->
+    <!--                            android:layout_width="match_parent"-->
+    <!--                            android:layout_height="wrap_content"-->
+    <!--                            android:layout_marginStart="@dimen/spacing_large"-->
+    <!--                            android:layout_marginEnd="@dimen/spacing_large"-->
+    <!--                            android:text="This job has been cancelled Please contact customer support if you need  further help "-->
+    <!--                            android:textColor="@color/textColor"-->
+    <!--                            android:textSize="@dimen/_13sp"-->
+    <!--                            android:textStyle="bold" />-->
+
+    <!--                    </LinearLayout>-->
+
+    <!--                    <LinearLayout-->
+    <!--                        android:layout_width="match_parent"-->
+    <!--                        android:layout_height="35dp"-->
+    <!--                        android:layout_alignParentBottom="true"-->
+    <!--                        android:layout_gravity="bottom"-->
+    <!--                        android:layout_margin="@dimen/spacing_large"-->
+    <!--                        android:background="@drawable/ic_rounded_red_button"-->
+    <!--                        android:elevation="@dimen/spacing_middle"-->
+    <!--                        android:visibility="gone">-->
+
+    <!--                        <LinearLayout-->
+    <!--                            android:id="@+id/li_repost"-->
+
+    <!--                            android:layout_width="match_parent"-->
+    <!--                            android:layout_height="match_parent"-->
+    <!--                            android:background="?attr/selectableItemBackground"-->
+    <!--                            android:clickable="true"-->
+    <!--                            android:gravity="center">-->
+
+    <!--                            <com.jobtick.TextView.TextViewMedium-->
+    <!--                                android:layout_width="wrap_content"-->
+    <!--                                android:layout_height="wrap_content"-->
+    <!--                                android:gravity="center"-->
+    <!--                                android:text="Repost this job"-->
+    <!--                                android:textColor="@color/colorRed"-->
+    <!--                                android:textSize="14sp" />-->
+    <!--                        </LinearLayout>-->
+    <!--                    </LinearLayout>-->
+
+    <!--                </LinearLayout>-->
+    <!--            </androidx.cardview.widget.CardView>-->
 
     <LinearLayout
-        android:id="@+id/lyt_search_category"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/linear_rounded"
-        android:layout_above="@id/lty_btn_post"
-        android:layout_marginBottom="100dp">
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_above="@id/gifImageView"
+        android:layout_alignParentTop="true"
+        android:gravity="center">
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:clickable="true"
-            android:focusable="true"
-            android:tint="@color/grey_70"
-            app:srcCompat="@drawable/ic_search"
-            android:layout_gravity="center"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="14dp"
-            />
+            <com.jobtick.TextView.TextViewMedium
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:text="@string/what_do_you_need_to_get_done"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_20sp" />
 
-        <com.jobtick.TextView.TextViewRegular
-            android:id="@+id/edt_search_categories"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:clickable="false"
-            android:gravity="center_vertical"
-            android:hint="@string/search_categories"
-            android:imeOptions="actionSearch"
-            android:inputType="textEmailAddress|textNoSuggestions"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textColor="@color/grey_70"
-            android:textColorHint="@color/grey_70"
-            android:textSize="14sp"
-            android:layout_marginStart="8dp"/>
+
+            <LinearLayout
+                android:id="@+id/lyt_search_category"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/linear_rounded">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="14dp"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tint="@color/grey_70"
+                    app:srcCompat="@drawable/ic_search" />
+
+                <com.jobtick.TextView.TextViewRegular
+                    android:id="@+id/edt_search_categories"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:clickable="false"
+                    android:gravity="center_vertical"
+                    android:hint="@string/search_categories"
+                    android:imeOptions="actionSearch"
+                    android:inputType="textEmailAddress|textNoSuggestions"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/grey_70"
+                    android:textColorHint="@color/grey_70"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
     </LinearLayout>
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/spacing_large" />
+    <com.jobtick.TextView.TextViewRegular
+        android:id="@+id/txt_btn_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="?attr/selectableItemBackground"
+        android:drawableEnd="@drawable/ic_arrow_right"
+        android:drawablePadding="@dimen/spacing_large"
+        android:gravity="center"
+        android:text="Browse categories"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/_15sp"
+        android:visibility="gone" />
 
-            <com.jobtick.TextView.TextViewRegular
-                android:id="@+id/txt_btn_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="?attr/selectableItemBackground"
-                android:drawableEnd="@drawable/ic_arrow_right"
-                android:drawablePadding="@dimen/spacing_large"
-                android:gravity="center"
-                android:text="Browse categories"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/_15sp"
-                android:visibility="gone" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/lty_btn_post"
-                android:layout_width="174dp"
-                android:layout_height="56dp"
-                style="@style/materialButton._400"
-                android:layout_above="@id/gifImageView"
-                android:layout_marginStart="@dimen/spacing_medium"
-                android:layout_marginTop="@dimen/spacing_xxxlarge"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_large"
-                android:background="@color/blueButtons"
-                android:text="@string/post_a_job"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_16sp"
-                android:layout_centerHorizontal="true"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/lty_btn_post"
+        style="@style/materialButton._400"
+        android:layout_width="174dp"
+        android:layout_height="56dp"
+        android:layout_above="@id/gifImageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/spacing_xxxlarge"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:background="@color/blueButtons"
+        android:text="@string/post_a_job"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sp" />
 
 
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/gifImageView"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/ic_city_background" />
+    <include
+        android:id="@+id/gifImageView"
+        layout="@layout/view_city_anim" />
 
 
 </RelativeLayout>

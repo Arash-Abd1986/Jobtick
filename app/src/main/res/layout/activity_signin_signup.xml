@@ -42,8 +42,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/cityAnimation"
-        android:paddingStart="@dimen/_25sp"
-        android:paddingEnd="@dimen/_25sp"
+        android:paddingStart="@dimen/_30dp"
+        android:paddingEnd="@dimen/_30dp"
         android:orientation="vertical">
 
         <com.google.android.material.button.MaterialButton
@@ -70,39 +70,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/cityAnimation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        android:layout_alignParentBottom="true">
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:lottie_rawRes="@raw/city"
-            app:lottie_loop="true"
-            app:lottie_autoPlay="true"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:layout_weight="0.5"
-            android:layout_gravity="bottom"/>
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:lottie_rawRes="@raw/city"
-            app:lottie_loop="true"
-            android:scaleType="centerCrop"
-            app:lottie_autoPlay="true"
-            android:scaleX="-1"
-            android:adjustViewBounds="true"
-            android:layout_weight="0.5"
-            android:layoutDirection="rtl"
-            android:layout_gravity="bottom" />
-
-    </LinearLayout>
-
+    <include layout="@layout/view_city_anim"/>
 
 </RelativeLayout>

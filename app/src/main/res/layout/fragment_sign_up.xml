@@ -64,13 +64,12 @@
                 android:paddingEnd="@dimen/spacing_mlarge"
                 android:paddingBottom="@dimen/spacing_large">
 
-                <com.jobtick.TextView.TextViewRegular
+                <com.jobtick.TextView.TextViewSemiBold
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/email"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_12sp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/_12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -134,8 +133,7 @@
                 android:paddingBottom="@dimen/spacing_middle"
                 android:text="@string/by_joining_you_agree"
                 android:textColor="@color/grey_40"
-                android:textSize="@dimen/_13sp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/_12sp" />
 
 
             <com.jobtick.TextView.TextViewRegular
@@ -149,7 +147,7 @@
                 android:paddingBottom="@dimen/spacing_middle"
                 android:text="@string/terms_of_services"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_13sp" />
+                android:textSize="@dimen/_12sp" />
         </LinearLayout>
 
 
@@ -171,8 +169,7 @@
                 android:paddingBottom="@dimen/spacing_middle"
                 android:text="@string/already_have_an_account"
                 android:textColor="@color/grey_40"
-                android:textSize="@dimen/_13sp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/_12sp" />
 
             <com.jobtick.TextView.TextViewRegular
                 android:id="@+id/txt_btn_sign_in"
@@ -185,8 +182,7 @@
                 android:paddingBottom="@dimen/spacing_middle"
                 android:text="@string/log_in"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_13sp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/_12sp" />
 
 
         </LinearLayout>

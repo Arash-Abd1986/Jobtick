@@ -104,13 +104,16 @@
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/Splash.Apptheme">
+
+        </activity>
+        <activity android:name=".activities.AuthActivity"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.AuthActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

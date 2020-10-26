@@ -132,7 +132,7 @@
                 android:paddingEnd="1dp"
                 android:paddingBottom="@dimen/spacing_middle"
                 android:text="@string/by_joining_you_agree"
-                android:textColor="@color/grey_40"
+                android:textColor="@color/grey_70"
                 android:textSize="@dimen/_12sp" />
 
 

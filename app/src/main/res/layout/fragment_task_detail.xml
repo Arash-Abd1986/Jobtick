@@ -458,7 +458,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:background="@color/transparent">
 
 
             <androidx.cardview.widget.CardView

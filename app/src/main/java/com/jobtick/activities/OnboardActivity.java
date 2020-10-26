@@ -182,7 +182,7 @@ public class OnboardActivity extends ActivityBase {
             final int animAttachment = animItems.get(position);
             final int descAttachment = descItems.get(position);
             LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View v = inflater.inflate(R.layout.item_slider_image, container, false);
+            View v = inflater.inflate(R.layout.item_slider_image_onboarding, container, false);
 
             LottieAnimationView lottieAnimationView = v.findViewById(R.id.lottieAnimationView);
             TextViewRegular description = v.findViewById(R.id.description);

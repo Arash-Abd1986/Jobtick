@@ -183,10 +183,18 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="330dp"
                 android:visibility="visible"
-                app:cardCornerRadius="@dimen/spacing_smlarge"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="0dp">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="330dp"
+                    android:visibility="visible"
+                    android:layout_marginTop="4dp"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="0dp">
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -707,12 +715,8 @@
                         </LinearLayout>
                     </RelativeLayout>
                 </LinearLayout>
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="19dp"/>
             </androidx.cardview.widget.CardView>
-
+        </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_assignee_layout"
                 android:layout_width="match_parent"

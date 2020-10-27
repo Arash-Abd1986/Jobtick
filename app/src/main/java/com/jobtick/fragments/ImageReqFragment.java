@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,7 @@ import static android.app.Activity.RESULT_OK;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.jobtick.activities.DashboardActivity.onProfileupdatelistenerSideMenu;
 import static com.jobtick.fragments.ProfileFragment.onProfileupdatelistener;
+import static com.jobtick.utils.ConstantKey.TAG;
 
 
 public class ImageReqFragment extends Fragment {
@@ -161,7 +163,13 @@ public class ImageReqFragment extends Fragment {
     }
 
     private void setUpAvatar(UserAccountModel userAccountModel) {
-        ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getUrl(), null);
+        try {
+            ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getUrl(), null);
+
+        }catch(Exception ex) {
+            Log.e(TAG, "EXCEPTION CAUGHT WHILE EXECUTING DATABASE TRANSACTION");
+            ex.printStackTrace();
+        }
     }
 
     @OnClick({R.id.img_user_avatar})

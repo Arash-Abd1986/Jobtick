@@ -47,7 +47,7 @@
                             android:text="@string/view_all_offers"
                             android:textAllCaps="true"
                             android:textColor="@color/white"
-                            android:textSize="14sp" />
+                             android:textSize="14sp" />
                     </LinearLayout>
                 </androidx.viewpager.widget.ViewPager>
 
@@ -124,7 +124,7 @@
                     android:minWidth="@dimen/_50dp"
                     android:padding="4dp"
                     android:paddingBottom="@dimen/spacing_xsmall"
-                    android:text="@string/_200"
+                    tools:text="@string/_200"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14dp"
                     android:textStyle="bold"
@@ -707,6 +707,10 @@
                         </LinearLayout>
                     </RelativeLayout>
                 </LinearLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="19dp"/>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView

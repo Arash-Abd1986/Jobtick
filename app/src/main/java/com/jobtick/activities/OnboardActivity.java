@@ -9,17 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-//import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
-import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.models.AttachmentModel;
 
 import java.util.ArrayList;

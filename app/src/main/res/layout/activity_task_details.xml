@@ -530,7 +530,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_8dp"
                         android:background="@color/colorF0F0F0"
                         android:orientation="horizontal">
 
@@ -542,7 +541,7 @@
                         <com.jobtick.TextView.TextViewBold
                             android:id="@+id/txt_offer_count"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="50dp"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginEnd="@dimen/spacing_large"
                             android:text="@string/_4_offers"
@@ -717,6 +716,8 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </androidx.cardview.widget.CardView>
+
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_assignee_layout"
                 android:layout_width="match_parent"
@@ -733,8 +734,6 @@
                     <com.jobtick.TextView.TextViewBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_large"
-                        android:layout_marginTop="@dimen/spacing_mxlarge"
                         android:singleLine="true"
                         android:text="@string/assignee"
                         android:textColor="@color/colorPrimary"
@@ -823,7 +822,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_large"
-                        android:layout_marginTop="@dimen/spacing_large"
+                        android:layout_marginTop="@dimen/spacing_xxlarge"
                         android:singleLine="true"
                         android:text="@string/offer"
                         android:textColor="@color/colorPrimary"
@@ -832,18 +831,12 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:id="@+id/card_offer_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_middle"
-                android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_medium"
-                android:visibility="visible"
-                app:cardBackgroundColor="#f0f0f0"
-                app:cardCornerRadius="@dimen/spacing_middle"
-                app:cardElevation="0dp">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -856,7 +849,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/spacing_xlarge"
-                        android:layout_marginBottom="@dimen/spacing_xxlarge"
+                        android:layout_marginBottom="@dimen/spacing_xlarge"
                         android:gravity="center"
                         android:singleLine="true"
                         android:text="@string/waiting_for_offer"
@@ -877,12 +870,12 @@
                         android:id="@+id/card_view_all_offers"
                         android:layout_width="match_parent"
                         android:layout_height="46dp"
-                        android:layout_margin="@dimen/spacing_large"
+                        android:layout_margin="5dp"
                         android:backgroundTint="@color/colorPrimary"
-                        android:elevation="@dimen/spacing_middle"
-                        app:cardCornerRadius="@dimen/spacing_medium"/>
+                        android:elevation="0dp"
+                        app:cardCornerRadius="0dp"/>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/card_questions_layout"

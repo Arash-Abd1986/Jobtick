@@ -290,6 +290,10 @@
     <string name="enter_verification_code_sent">Enter verification code sent</string>
     <string name="please_enter_verification_code">Please enter verification code</string>
     <string name="sms_verification_code">SMS verification code</string>
+    <string name="withdrawal">Withdrawal</string>
+    <string name="add_billing_address">Add Billing Address</string>
+    <string name="payment_settings">Payment Settings</string>
+    <string name="back_button_of_title_bar">back button of titleBar</string>
 
 
 </resources>

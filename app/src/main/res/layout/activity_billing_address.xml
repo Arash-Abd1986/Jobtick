@@ -23,14 +23,7 @@
         android:layout_height="?attr/actionBarSize"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/ivBack"
-            android:layout_width="@dimen/_32sp"
-            android:layout_height="@dimen/_32sp"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_10sp"
-            android:padding="@dimen/_8sp"
-            android:src="@drawable/ic_back" />
+        <include layout="@layout/view_back_button"/>
 
         <com.jobtick.TextView.TextViewMedium
             android:id="@+id/toolbar_title"

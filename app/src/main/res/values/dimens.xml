@@ -144,6 +144,8 @@
     <dimen name="payment_entry_box_title_margin_top">15dp</dimen>
     <dimen name="payment_entry_box_spacing_middle">5dp</dimen>
     <dimen name="payment_entry_box_spacing">8dp</dimen>
+    <dimen name="payment_entry_box_padding_bottom">16dp</dimen>
+    <dimen name="payment_page_margin_top">16dp</dimen>
 
 
 </resources>

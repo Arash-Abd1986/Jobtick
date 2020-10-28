@@ -242,7 +242,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
             }
         });
 
-
         setComponent();
         txtSuburb.setOnClickListener(v -> {
             Intent intent = new PlaceAutocomplete.IntentBuilder()

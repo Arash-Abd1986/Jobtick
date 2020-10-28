@@ -395,4 +395,5 @@
     <color name="blueButtons">#586BF5</color>
     <color name="backgroundLightGrey">#E5E5E5</color>
     <color name="semiBlack">#562B3240</color>
+    <color name="colorPrimary_60">#995568FE</color>
 </resources>

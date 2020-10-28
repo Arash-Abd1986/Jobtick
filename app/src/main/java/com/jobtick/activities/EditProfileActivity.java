@@ -107,29 +107,38 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     MaterialToolbar toolbar;*/
     @BindView(R.id.edt_first_name)
     EditText edtFirstName;
+
     @BindView(R.id.edt_last_name)
     EditText edtLastName;
+
     @BindView(R.id.edt_payment_id)
     EditText edtPaymentId;
+
     @BindView(R.id.txt_suburb)
     TextView txtSuburb;
+
     @BindView(R.id.edt_tagline)
     EditText edtTagline;
+
     @BindView(R.id.edt_about_me)
     EditText edtAboutMe;
+
     @BindView(R.id.edt_email_address)
     EditText edtEmailAddress;
+
    @BindView(R.id.txt_birth_date)
    TextView txtBirthDate;
+
     @BindView(R.id.edt_business_number)
     EditText edtBusinessNumber;
+
     @BindView(R.id.img_transportation_back)
     ImageView imgTransportationBack;
+
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    AttachmentAdapterEditProfile adapter;
 
-    @BindView(R.id.txt_transportation)
+   @BindView(R.id.txt_transportation)
     TextView txtTransportation;
 
     @BindView(R.id.rlt_btn_transportation)
@@ -149,6 +158,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
     @BindView(R.id.img_education_back)
     ImageView imgEducationBack;
+
     @BindView(R.id.rlt_btn_education)
     RelativeLayout rltBtnEducation;
 
@@ -157,6 +167,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
     @BindView(R.id.img_experience_back)
     ImageView imgExperienceBack;
+
     @BindView(R.id.rlt_btn_experience)
     RelativeLayout rltBtnExperience;
 
@@ -165,28 +176,9 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
     @BindView(R.id.img_specialities_back)
     ImageView imgSpecialitiesBack;
+
     @BindView(R.id.rlt_btn_specialities)
     RelativeLayout rltBtnSpecialities;
-    private ArrayList<AttachmentModel> attachmentArrayList;
-    private UserAccountModel userAccountModel;
-
-    private GeocodeObject geoCodeObject;
-    private LatLng locationObject;
-
-    private String str_latitude = null;
-    private String str_longitude = null;
-    private BottomSheetBehavior mBehavior;
-    private BottomSheetDialog mBottomSheetDialog;
-
-
-
-    @BindView(R.id.img_user_avatar)
-    CircularImageView imgAvatar;
-
-    int year, month, day;
-    String str_DOB = null;
-    DatePickerDialog.OnDateSetListener mDateSetListener;
-    private static String imageStoragePath;
 
     @BindView(R.id.bottom_sheet)
     FrameLayout bottomSheet;
@@ -200,10 +192,26 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     @BindView(R.id.ivBack)
     ImageView ivBack;
 
+      @BindView(R.id.img_user_avatar)
+       CircularImageView imgAvatar;
+
+    private ArrayList<AttachmentModel> attachmentArrayList;
+    private UserAccountModel userAccountModel;
+    private GeocodeObject geoCodeObject;
+    private LatLng locationObject;
+    private String str_latitude = null;
+    private String str_longitude = null;
+    private BottomSheetBehavior mBehavior;
+    private BottomSheetDialog mBottomSheetDialog;
+    int year, month, day;
+    String str_DOB = null;
+    DatePickerDialog.OnDateSetListener mDateSetListener;
+    private static String imageStoragePath;
     public static final long MAX_VIDEO_DURATION = 30;
     public static final long MAX_VIDEO_SIZE = 20 * 1024 * 1024;
-
     boolean isUploadPortfolio=false;
+    boolean isFabHide = false;
+    AttachmentAdapterEditProfile adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -282,6 +290,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         getAllUserProfileDetails();
         initComponentScroll();
     }
+
     private void initComponentScroll() {
         NestedScrollView nested_content = (NestedScrollView) findViewById(R.id.nested_scroll_view);
         nested_content.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -296,8 +305,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
             }
         });
     }
-
-    boolean isFabHide = false;
 
     private void animateFab(final boolean hide) {
         if (isFabHide && hide || !isFabHide && !hide) return;
@@ -509,8 +516,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         Log.e(TAG, stringRequest.getUrl());
     }
 
-    private void setUpAllEditFields(UserAccountModel userAccountModel)
-    {
+    private void setUpAllEditFields(UserAccountModel userAccountModel) {
         transportationSetUp(userAccountModel);
         languagesSetUp(userAccountModel);
         educationSetUp(userAccountModel);
@@ -584,8 +590,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         }
     }
 
-    private void transportationSetUp(UserAccountModel userAccountModel)
-    {
+    private void transportationSetUp(UserAccountModel userAccountModel) {
         if (userAccountModel.getSkills().getTransportation() != null && userAccountModel.getSkills().getTransportation().size() != 0)
         {
             String str_tag = convertArrayToString(userAccountModel.getSkills().getTransportation());
@@ -615,7 +620,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     public void onBackPressed() {
         super.onBackPressed();
     }
-
 
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
@@ -721,7 +725,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         requestQueue.add(stringRequest);
         Log.e("AttachmentActivity", stringRequest.getUrl());
     }
-
 
     @OnClick({R.id.txt_suburb, R.id.txt_birth_date, R.id.rlt_btn_transportation, R.id.rlt_btn_languages,
             R.id.rlt_btn_education, R.id.rlt_btn_experience, R.id.rlt_btn_specialities, R.id.img_user_avatar, R.id.lytDeletePicture})
@@ -832,8 +835,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         }
     }
 
-    private void uploadDataInPortfolioMediaApi(File pictureFile)
-    {
+    private void uploadDataInPortfolioMediaApi(File pictureFile) {
         showProgressDialog();
         Call<String> call;
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
@@ -1095,8 +1097,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
     }
 
-    private void showBottomSheetDialog(boolean isUploadPortfolioOrPrfile)
-    {
+    private void showBottomSheetDialog(boolean isUploadPortfolioOrPrfile) {
         isUploadPortfolio=isUploadPortfolioOrPrfile;
 
         if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
@@ -1167,9 +1168,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         });
 
     }
-
-
-
     /**
      * Requesting permissions using Dexter library
      */
@@ -1200,8 +1198,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                     }
                 }).check();
     }
-
-
     /**
      * Capturing Camera Image will launch camera app requested image capture
      */
@@ -1216,7 +1212,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         // start the image capture Intent
         startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
     }
-
 
     private void uploadProfileAvtar(File pictureFile) {
         showProgressDialog();
@@ -1299,6 +1294,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         });
 
     }
+
     private void removeProfilePicture() {
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_PROFILE + URL_REMOVE_AVTAR,
@@ -1388,6 +1384,4 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         requestQueue.add(stringRequest);
         Log.e("AttachmentActivity", stringRequest.getUrl());
     }
-
-
 }

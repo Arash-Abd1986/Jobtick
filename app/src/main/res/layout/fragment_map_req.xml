@@ -40,7 +40,7 @@
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:layout_marginBottom="@dimen/spacing_medium"
                     android:background="@drawable/greay_border_bg">
 
 
@@ -74,9 +74,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:layout_marginBottom="@dimen/spacing_medium"
                     android:background="@drawable/greay_border_bg">
 
 
@@ -111,9 +110,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:layout_marginBottom="@dimen/spacing_medium"
                     android:background="@drawable/greay_border_bg">
 
 
@@ -147,9 +145,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:layout_marginBottom="@dimen/spacing_medium"
                     android:background="@drawable/greay_border_bg">
 
 
@@ -178,14 +175,12 @@
                     </LinearLayout>
                 </LinearLayout>
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:layout_marginBottom="@dimen/spacing_medium"
                     android:background="@drawable/greay_border_bg">
 
 
@@ -220,7 +215,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
                     android:layout_marginBottom="@dimen/spacing_middle"
                     android:background="@drawable/greay_border_bg">
@@ -258,10 +252,10 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/spacing_mlarge"
-                    android:padding="@dimen/spacing_large"
                     android:text="@string/next"
-                    android:background="@drawable/shape_tab_primary"
+                    android:layout_margin="15dp"
+                    android:padding="@dimen/spacing_large"
+                    android:background="@drawable/shape_tab_primary_60"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="14sp" />

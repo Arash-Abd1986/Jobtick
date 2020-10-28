@@ -27,7 +27,7 @@
             android:layout_marginStart="@dimen/spacing_large"
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_large"
-            android:layout_marginBottom="@dimen/spacing_medium"
+            android:layout_marginBottom="@dimen/spacing_xxlarge"
             android:background="@drawable/greay_border_bg"
             android:visibility="visible">
 
@@ -72,8 +72,8 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/calendar"
-                        android:tint="@color/colorTaskOffer" />
+                        android:src="@drawable/ic_calendar_primary"
+                        android:tint="@color/colorPrimary" />
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>
@@ -83,10 +83,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/spacing_mlarge"
-            android:background="@drawable/shape_tab_primary"
-            android:gravity="center"
+            android:layout_margin="15dp"
             android:padding="@dimen/spacing_large"
+            android:background="@drawable/shape_tab_primary_60"
+            android:gravity="center"
             android:text="@string/next"
             android:textAllCaps="true"
             android:textColor="@color/white"

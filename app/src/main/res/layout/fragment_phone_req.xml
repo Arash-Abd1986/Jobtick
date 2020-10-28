@@ -50,7 +50,7 @@
                     <com.jobtick.TextView.TextViewSemiBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Phone number"
+                        android:text="Mobile number"
                         android:textColor="@color/colorPrimary"
                         android:textSize="12sp" />
 
@@ -103,12 +103,15 @@
 
             </LinearLayout>
         </FrameLayout>
-        <com.jobtick.TextView.TextViewMedium
+        <com.jobtick.TextView.TextViewRegular
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/spacing_mlarge"
+            android:layout_marginTop="@dimen/spacing_mlarge"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_mlarge"
+            android:layout_marginStart="@dimen/spacing_mlarge"
             android:text="@string/enter_verification_code_sent"
             android:textColor="@color/textColor"
             android:textSize="@dimen/_14sp"/>
@@ -156,10 +159,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/spacing_mlarge"
+            android:layout_margin="15dp"
             android:padding="@dimen/spacing_large"
+            android:background="@drawable/shape_tab_primary_60"
             android:text="@string/submit"
-            android:background="@drawable/shape_tab_primary"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="14sp" />

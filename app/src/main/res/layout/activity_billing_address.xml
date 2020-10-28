@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/payment_entry_box_spacing_middle"
                     android:background="@null"
-                    android:hint="@string/address"
+                    tools:text="@string/address"
                     android:textSize="@dimen/_14sp" />
             </LinearLayout>
 
@@ -139,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/payment_entry_box_spacing_middle"
                     android:background="@null"
-                    android:hint="12 Commodore Dr"
+                    tools:text="Sydney"
                     android:textSize="@dimen/_14sp" />
             </LinearLayout>
 
@@ -200,7 +200,7 @@
                     android:background="@null"
                     android:textSize="@dimen/_14sp"
                     android:id="@+id/edt_postcode"
-                    android:hint="7874"
+                    tools:text="7874"
                     android:inputType="number" />
             </LinearLayout>
 

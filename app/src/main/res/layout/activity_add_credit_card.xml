@@ -94,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/payment_entry_box_spacing_middle"
                         android:background="@null"
-                        android:hint="@string/name"
+                        tools:text="@string/name"
                         android:textSize="@dimen/_14sp"
                         android:gravity="center_vertical"/>
                 </LinearLayout>
@@ -125,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/payment_entry_box_spacing_middle"
                         android:background="@null"
-                        android:hint="xxxx-xxxx-xxxx-xxxx"
+                        tools:text="xxxx-xxxx-xxxx-xxxx"
                         android:inputType="number"
                         android:textSize="@dimen/_14sp"
                         android:gravity="center_vertical"/>
@@ -194,7 +194,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/payment_entry_box_spacing_middle"
                         android:background="@null"
-                        android:hint="Security Number"
+                        tools:text="Security Number"
                         android:inputType="number"
                         android:maxLength="3"
                         android:textSize="@dimen/_14sp"

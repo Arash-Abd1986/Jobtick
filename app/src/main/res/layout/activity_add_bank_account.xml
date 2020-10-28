@@ -72,7 +72,7 @@
                     android:layout_marginTop="@dimen/payment_entry_box_spacing"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:hint="@string/account_name"
+                    tools:text="@string/account_name"
                     android:textSize="@dimen/_14sp" />
             </LinearLayout>
 
@@ -104,7 +104,7 @@
                     android:layout_marginTop="@dimen/payment_entry_box_spacing"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:hint="@string/bsb"
+                    tools:text="@string/bsb"
                     android:textSize="@dimen/_14sp" />
             </LinearLayout>
 
@@ -136,7 +136,7 @@
                     android:layout_marginTop="@dimen/payment_entry_box_spacing"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:hint="@string/account_number"
+                    tools:text="@string/account_number"
                     android:inputType="number"
                     android:textSize="@dimen/_14sp" />
 

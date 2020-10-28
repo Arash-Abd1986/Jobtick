@@ -5,11 +5,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/spacing_line"
-        android:background="@color/grey_10" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +13,6 @@
         android:paddingTop="@dimen/spacing_large"
         android:paddingEnd="@dimen/spacing_large"
         android:paddingBottom="@dimen/spacing_middle">
-
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -30,7 +24,6 @@
                 android:layout_height="45dp"
                 android:layout_alignParentStart="true"
                 android:src="@drawable/pic" />
-
 
             <LinearLayout
                 android:id="@+id/linear_user_profile"
@@ -55,7 +48,6 @@
                         android:textSize="@dimen/spacing_middle"
                         android:textStyle="bold" />
 
-
                     <com.jobtick.TextView.TextViewRegular
                         android:id="@+id/txt_created_date"
                         android:layout_width="wrap_content"
@@ -70,16 +62,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-
                         android:layout_gravity="center"
                         android:layout_alignParentTop="true"
                         android:paddingLeft="@dimen/spacing_medium"
                         android:paddingRight="@dimen/spacing_medium"
                         android:text="&#8942;"
-                        android:textAppearance="?android:textAppearanceLarge" />
+                        android:extAppearance="?android:textAppearanceLarge" />
 
                 </RelativeLayout>
-
 
                 <com.jobtick.TextView.TextViewRegular
                     android:id="@+id/txt_message"
@@ -88,7 +78,6 @@
                     android:text="adipisicing adipisicing commodo Lorem enim si adipis adipisicing commodo Lorem enim si..."
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/spacing_middle" />
-
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_question"
@@ -105,7 +94,6 @@
                     app:cardCornerRadius="@dimen/spacing_middle"
                     app:cardElevation="0dp">
 
-
                     <ImageView
                         android:id="@+id/img_file"
                         android:layout_width="match_parent"
@@ -114,13 +102,11 @@
                         android:background="?attr/selectableItemBackground"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_gallery" />
-
                 </androidx.cardview.widget.CardView>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
 
                     <LinearLayout
                         android:id="@+id/lyt_btn_reply"
@@ -148,9 +134,7 @@
                             android:textSize="@dimen/spacing_middle"
                             android:textStyle="bold" />
 
-
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:id="@+id/lyt_btn_more"
@@ -180,11 +164,9 @@
                             android:textSize="@dimen/spacing_middle"
                             android:textStyle="bold" />
 
-
                     </LinearLayout>
 
                 </RelativeLayout>
-
 
             </LinearLayout>
 
@@ -193,7 +175,6 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/spacing_middle" />
-
 
     </LinearLayout>
 
@@ -212,7 +193,6 @@
             android:layout_weight="4"
             android:gravity="center"
             android:orientation="vertical">
-
 
             <View
                 android:layout_width="@dimen/spacing_line"
@@ -240,17 +220,12 @@
                 android:textSize="@dimen/spacing_middle"
                 android:textStyle="bold" />
 
-
             <androidx.recyclerview.widget.RecyclerView
-
                 android:id="@+id/recycler_view_questions_chat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:overScrollMode="never" />
         </LinearLayout>
-
     </LinearLayout>
-
-
 </LinearLayout>

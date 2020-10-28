@@ -12,37 +12,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.gson.Gson;
 import com.jobtick.R;
-import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.BankAccountModel;
 import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.Constant;
-import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import timber.log.Timber;
-
-import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
-import static com.jobtick.utils.Constant.ADD_BILLING;
-import static com.jobtick.utils.Constant.BASE_URL;
 
 public class RequirementsBottomSheet extends BottomSheetDialogFragment {
 
@@ -125,6 +102,11 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
         credit.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         calender.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         phone.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        img.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_image_primary));
+        credit.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_credit_card));
+        calender.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_calendar));
+        phone.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_phone));
+        map.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_map_pin));
 
         ImageReqFragment fragment = ImageReqFragment.newInstance();
         getChildFragmentManager().
@@ -140,6 +122,11 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
         credit.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
         calender.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         phone.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        img.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_image));
+        credit.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_credit_card_primary));
+        calender.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_calendar));
+        phone.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_phone));
+        map.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_map_pin));
 
         CreditReqFragment fragment = CreditReqFragment.newInstance();
         getChildFragmentManager().
@@ -154,6 +141,11 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
         credit.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         calender.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         phone.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        img.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_image));
+        credit.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_credit_card));
+        calender.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_calendar));
+        phone.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_phone));
+        map.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_map_pin_primary));
 
 
         MapReqFragment fragment = MapReqFragment.newInstance();
@@ -169,6 +161,11 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
         credit.setBackground(ContextCompat.getDrawable(context, R.color.transparent));
         calender.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_white_shape));
         phone.setBackground(ContextCompat.getDrawable(context, R.color.transparent));
+        img.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_image));
+        credit.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_credit_card));
+        calender.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_calendar_primary));
+        phone.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_phone));
+        map.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_map_pin));
 
         CalenderReqFragment fragment = CalenderReqFragment.newInstance();
         getChildFragmentManager().
@@ -184,6 +181,11 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
         credit.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         calender.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         phone.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
+        img.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_image));
+        credit.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_credit_card));
+        calender.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_calendar));
+        phone.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_phone_primary));
+        map.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_map_pin));
 
         PhoneReqFragment fragment = PhoneReqFragment.newInstance();
         getChildFragmentManager().

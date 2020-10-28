@@ -172,7 +172,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(dashboardActivity);
         recyclerViewStatus.setLayoutManager(layoutManager);
-        taskListAdapter = new TaskListAdapter(dashboardActivity, new ArrayList<>());
+        taskListAdapter = new TaskListAdapter(new ArrayList<>());
         recyclerViewStatus.setAdapter(taskListAdapter);
         taskListAdapter.setOnItemClickListener(this);
         swipeRefresh.setRefreshing(true);

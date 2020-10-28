@@ -30,7 +30,7 @@
     <string name="google">GOOGLE</string>
     <string name="sign_up">Sign up</string>
     <string name="repeat_password">Repeat Password</string>
-    <string name="next">Next</string>
+    <string name="next">NEXT</string>
     <string name="finish">Finish</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
@@ -76,7 +76,7 @@
     <string name="back">Back</string>
     <string name="post_task">post the job</string>
     <string name="terms_condition"><![CDATA[Terms & Condition]]></string>
-    <string name="submit">Submit</string>
+    <string name="submit">SUBMIT</string>
     <string name="add_bank_account">Add Bank Account</string>
     <string name="add_credit_card">Add Credit Card</string>
     <string name="change_billing_address">Change Billing Address</string>
@@ -290,6 +290,7 @@
     <string name="enter_verification_code_sent">Enter verification code sent</string>
     <string name="please_enter_verification_code">Please enter verification code</string>
     <string name="sms_verification_code">SMS verification code</string>
+    <string name="explore">Explore</string>
 
 
 </resources>

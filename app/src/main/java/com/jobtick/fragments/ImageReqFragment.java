@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,11 +27,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.adapers.AttachmentAdapter;
+import com.jobtick.adapers.AttachmentAdapterEditProfile;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.retrofit.ApiClient;
@@ -56,6 +60,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.MediaType;
@@ -70,9 +75,10 @@ import static android.app.Activity.RESULT_OK;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.jobtick.activities.DashboardActivity.onProfileupdatelistenerSideMenu;
 import static com.jobtick.fragments.ProfileFragment.onProfileupdatelistener;
+import static com.jobtick.utils.ConstantKey.TAG;
 
 
-public class ImageReqFragment extends Fragment {
+public class ImageReqFragment extends Fragment implements AttachmentAdapterEditProfile.OnItemClickListener {
 
     private final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     private final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
@@ -81,8 +87,10 @@ public class ImageReqFragment extends Fragment {
 
     private UserAccountModel userAccountModel;
     private static String imageStoragePath;
-    //    private BottomSheetBehavior mBehavior;
+       private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
+    boolean isUploadPortfolio=false;
+    private FrameLayout btmSheet;
 
     public ImageReqFragment() {
     }
@@ -96,6 +104,8 @@ public class ImageReqFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sessionManager = new SessionManager(getContext());
+        btmSheet=view.findViewById(R.id.bottom_sheet);
+        mBehavior = BottomSheetBehavior.from(btmSheet);
         imgAvatar = view.findViewById(R.id.img_user_avatar);
         TextView btnNext = view.findViewById(R.id.txt_btn_nextI);
         btnNext.setOnClickListener(v -> ((RequirementsBottomSheet) getParentFragment()).changeFragment(1));
@@ -161,18 +171,28 @@ public class ImageReqFragment extends Fragment {
     }
 
     private void setUpAvatar(UserAccountModel userAccountModel) {
-        ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getUrl(), null);
+        try {
+            ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getUrl(), null);
+
+        }catch(Exception ex) {
+            Log.e(TAG, "EXCEPTION CAUGHT WHILE EXECUTING DATABASE TRANSACTION");
+            ex.printStackTrace();
+        }
     }
 
     @OnClick({R.id.img_user_avatar})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.img_user_avatar) {
-            showBottomSheetDialog();
+            showBottomSheetDialog(false);
         }
     }
 
-    private void showBottomSheetDialog() {
+    private void showBottomSheetDialog(boolean isUploadPortfolioOrPrfile) {
+        isUploadPortfolio=isUploadPortfolioOrPrfile;
 
+        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
         final View view = getLayoutInflater().inflate(R.layout.sheet_attachment, null);
         LinearLayout lytBtnCamera = view.findViewById(R.id.lyt_btn_camera);
         LinearLayout lytBtnImage = view.findViewById(R.id.lyt_btn_image);
@@ -370,8 +390,7 @@ public class ImageReqFragment extends Fragment {
                             attachment.setType(AttachmentAdapter.VIEW_TYPE_IMAGE);
 
                             sessionManager.getUserAccount().setAvatar(attachment);
-
-//                            ImageUtil.displayImage(imgAvatar, attachment.getThumbUrl(), null);
+                            ImageUtil.displayImage(imgAvatar, attachment.getThumbUrl(), null);
 
                             if (onProfileupdatelistener != null) {
                                 onProfileupdatelistener.updatedSuccesfully(attachment.getThumbUrl());
@@ -380,8 +399,8 @@ public class ImageReqFragment extends Fragment {
                                 onProfileupdatelistenerSideMenu.updatedSuccesfully(attachment.getThumbUrl());
                             }
                         }
-                        //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
-                        // showToast("attachment added", AttachmentActivity.this);
+                      //   adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
+                        ((ActivityBase) getActivity()).showToast("attachment added", getActivity());
                     } else {
                         if (getActivity() != null) {
                             ((ActivityBase) getActivity()).showToast("Something went wrong", getActivity());
@@ -415,5 +434,19 @@ public class ImageReqFragment extends Fragment {
                 .setPositiveButton("GOTO SETTINGS", (dialog, which) -> CameraUtils.openSettings(getActivity()))
                 .setNegativeButton("CANCEL", null)
                 .show();
+    }
+
+    @Override
+    public void onItemClick(View view, AttachmentModel obj, int position, String action) {
+        if (action.equalsIgnoreCase("add")) {
+           /* Intent intent = new Intent(EditProfileActivity.this, PortfolioActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList(ConstantKey.ATTACHMENT, attachmentArrayList);
+            intent.putExtras(bundle);
+            startActivityForResult(intent, 234);*/
+
+            showBottomSheetDialog(true);
+
+        }
     }
 }

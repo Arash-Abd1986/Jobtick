@@ -817,65 +817,79 @@
                             android:orientation="vertical"/>
                     </androidx.cardview.widget.CardView>
 
-                    <com.jobtick.TextView.TextViewSemiBold
-                        android:id="@+id/txt_offers_count"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_large"
-                        android:layout_marginTop="@dimen/spacing_xxlarge"
-                        android:singleLine="true"
-                        android:text="@string/offer"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_12sp"
-                        android:textStyle="bold" />
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical">
+    <com.jobtick.TextView.TextViewSemiBold
+        android:id="@+id/txt_offers_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_xxlarge"
+        android:singleLine="true"
+        android:text="@string/offer"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/_12sp"
+        android:textStyle="bold" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_offer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_middle"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_medium"
+        android:visibility="visible"
+        app:cardBackgroundColor="#f0f0f0"
+        app:cardCornerRadius="@dimen/spacing_middle"
+        app:cardElevation="0dp">
 
-            <LinearLayout
-                android:id="@+id/card_offer_layout"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.jobtick.TextView.TextViewBold
+                android:id="@+id/txt_waiting_for_offer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_medium"
-                android:visibility="visible">
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/spacing_xlarge"
+                android:layout_marginBottom="@dimen/spacing_xlarge"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/waiting_for_offer"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_12sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_offers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_offers" />
 
-                    <com.jobtick.TextView.TextViewBold
-                        android:id="@+id/txt_waiting_for_offer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/spacing_xlarge"
-                        android:layout_marginBottom="@dimen/spacing_xlarge"
-                        android:gravity="center"
-                        android:singleLine="true"
-                        android:text="@string/waiting_for_offer"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_12sp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_all_offers"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_margin="5dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:elevation="0dp"
+                app:cardCornerRadius="0dp"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_view_offers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:overScrollMode="never"
-                        tools:itemCount="1"
-                        tools:listitem="@layout/item_offers" />
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_view_all_offers"
-                        android:layout_width="match_parent"
-                        android:layout_height="46dp"
-                        android:layout_margin="5dp"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:elevation="0dp"
-                        app:cardCornerRadius="0dp"/>
-                </LinearLayout>
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/card_questions_layout"

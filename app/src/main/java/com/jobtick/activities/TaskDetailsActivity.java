@@ -168,7 +168,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.card_view_all_offers)
     CardView cardViewAllOffers;
     @BindView(R.id.card_offer_layout)
-    LinearLayout cardOfferLayout;
+    CardView cardOfferLayout;
     @BindView(R.id.txt_title)
     TextView txtTitle;
     @BindView(R.id.txt_waiting_for_offer)

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
@@ -50,8 +52,8 @@ import static com.jobtick.utils.ConstantKey.PUBLISHABLE_KEY;
 
 public class AddCreditCardActivity extends ActivityBase {
 
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+//    @BindView(R.id.toolbar)
+//    MaterialToolbar toolbar;
     @BindView(R.id.edt_full_name)
     EditTextRegular edtFullName;
     @BindView(R.id.edt_card_number)
@@ -59,18 +61,19 @@ public class AddCreditCardActivity extends ActivityBase {
     @BindView(R.id.txt_expiry_date)
     TextViewRegular txtExpiryDate;
     @BindView(R.id.lyt_btn_add_credit_card)
-    LinearLayout lytBtnAddCreditCard;
+    MaterialButton lytBtnAddCreditCard;
 
     int year, month, day;
     String str_expire_date = null;
     DatePickerDialog.OnDateSetListener mDateSetListener;
     @BindView(R.id.edt_security_number)
     EditTextRegular edtSecurityNumber;
-    @BindView(R.id.card_button)
-    CardView cardButton;
 
     @BindView(R.id.card_multiline_widget)
     CardMultilineWidget cardMultilineWidget;
+
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
 
     private Card card_xml;
 
@@ -92,10 +95,13 @@ public class AddCreditCardActivity extends ActivityBase {
 
 
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Add Credit Card");
+        ivBack.setOnClickListener(v -> {
+            finish();
+        });
+//        toolbar.setNavigationIcon(R.drawable.ic_back);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setTitle("Add Credit Card");
     }
 
 

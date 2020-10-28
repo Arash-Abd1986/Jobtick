@@ -13,6 +13,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.utils.HttpStatus;
@@ -47,7 +48,7 @@ public class AddBankAccountActivity extends ActivityBase {
     EditTextRegular edtAccountNumber;
 
     @BindView(R.id.lyt_btn_add_bank_account)
-    LinearLayout lytBtnAddBankAccount;
+    MaterialButton lytBtnAddBankAccount;
 
     @BindView(R.id.ivBack)
     ImageView ivBack;

@@ -3,6 +3,7 @@ package com.jobtick.activities;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -13,6 +14,9 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.utils.HttpStatus;
@@ -38,25 +42,25 @@ public class BillingAddressActivity extends ActivityBase {
     MaterialToolbar toolbar;*/
 
     @BindView(R.id.edt_address_line_1)
-    EditTextRegular edtAddressLine1;
+    EditText edtAddressLine1;
 
     @BindView(R.id.edt_address_line_2)
-    EditTextRegular edtAddressLine2;
+    EditText edtAddressLine2;
 
     @BindView(R.id.edt_suburs)
-    EditTextRegular edtSuburs;
+    EditText edtSuburs;
 
     @BindView(R.id.edt_state)
-    EditTextRegular edtState;
+    EditText edtState;
 
     @BindView(R.id.edt_postcode)
-    EditTextRegular edtPostcode;
+    EditText edtPostcode;
 
     @BindView(R.id.edt_Country)
-    EditTextRegular edtCountry;
+    EditText edtCountry;
 
     @BindView(R.id.lyt_btn_change_billing_address)
-    LinearLayout lytBtnChangeBillingAddress;
+    MaterialButton lytBtnChangeBillingAddress;
 
     @BindView(R.id.ivBack)
     ImageView ivBack;

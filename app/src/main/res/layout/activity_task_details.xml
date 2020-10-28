@@ -1059,4 +1059,10 @@
         android:layout_height="match_parent"
         android:background="@color/background"
         android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/bottom_sheet_behavior" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

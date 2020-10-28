@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="bottom"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/spacing_large"
+        android:src="@drawable/ic_down">
+
+    </ImageView>
+
+    <com.jobtick.TextView.TextViewMedium
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Requirements confirmation"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/_14sp" />
+
+    <com.jobtick.TextView.TextViewMedium
+        android:layout_marginStart="@dimen/_20sp"
+        android:layout_marginEnd="@dimen/_15sp"
+        android:layout_marginTop="@dimen/_15sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please check requirements for this job before you make an offer"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/_14sp" />
+
+    <LinearLayout
+        android:layout_marginEnd="@dimen/_10sp"
+        android:layout_marginStart="@dimen/_10sp"
+        android:paddingBottom="@dimen/_15sp"
+        android:layout_marginTop="@dimen/_15sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_make_an_offer"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/spacing_large"
+        android:backgroundTint="@color/colorAccent"
+        android:elevation="@dimen/spacing_middle"
+        app:cardCornerRadius="@dimen/spacing_medium">
+
+        <LinearLayout
+            android:id="@+id/lyt_btn_make_an_offer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center">
+
+            <com.jobtick.TextView.TextViewMedium
+                android:id="@+id/txt_btn_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Confirm"
+
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

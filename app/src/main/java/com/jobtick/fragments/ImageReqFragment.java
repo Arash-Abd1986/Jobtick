@@ -32,6 +32,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
+import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.AttachmentAdapterEditProfile;
 import com.jobtick.models.AttachmentModel;
@@ -87,9 +88,9 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
 
     private UserAccountModel userAccountModel;
     private static String imageStoragePath;
-       private BottomSheetBehavior mBehavior;
+    private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
-    boolean isUploadPortfolio=false;
+    boolean isUploadPortfolio = false;
     private FrameLayout btmSheet;
 
     public ImageReqFragment() {
@@ -104,12 +105,13 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sessionManager = new SessionManager(getContext());
-        btmSheet=view.findViewById(R.id.bottom_sheet);
+        btmSheet = view.findViewById(R.id.bottom_sheet);
         mBehavior = BottomSheetBehavior.from(btmSheet);
         imgAvatar = view.findViewById(R.id.img_user_avatar);
         TextView btnNext = view.findViewById(R.id.txt_btn_nextI);
         btnNext.setOnClickListener(v -> ((RequirementsBottomSheet) getParentFragment()).changeFragment(1));
-        getAllUserProfileDetails();
+        userAccountModel = ((TaskDetailsActivity) getActivity()).userAccountModel;
+        setUpAvatar(userAccountModel);
 
     }
 
@@ -121,60 +123,11 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         return view;
     }
 
-    private void getAllUserProfileDetails() {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
-                response -> {
-                    if (getActivity() != null) {
-                        ((ActivityBase) getActivity()).hideProgressDialog();
-                    }
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-
-                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-
-                            userAccountModel = new UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"));
-                            setUpAvatar(userAccountModel);
-                        } else {
-                            Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
-                        }
-
-                    } catch (JSONException e) {
-                        Toast.makeText(getActivity(), "JSONException", Toast.LENGTH_SHORT).show();
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    if (getActivity() != null) {
-                        ((ActivityBase) getActivity()).errorHandle1(error.networkResponse);
-                        ((ActivityBase) getActivity()).hideProgressDialog();
-                    }
-                }) {
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                // map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-        };
-
-        if (getActivity() != null) {
-            stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            requestQueue.add(stringRequest);
-        }
-    }
 
     private void setUpAvatar(UserAccountModel userAccountModel) {
         try {
             ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getUrl(), null);
-
-        }catch(Exception ex) {
+        } catch (Exception ex) {
             Log.e(TAG, "EXCEPTION CAUGHT WHILE EXECUTING DATABASE TRANSACTION");
             ex.printStackTrace();
         }
@@ -188,7 +141,7 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
     }
 
     private void showBottomSheetDialog(boolean isUploadPortfolioOrPrfile) {
-        isUploadPortfolio=isUploadPortfolioOrPrfile;
+        isUploadPortfolio = isUploadPortfolioOrPrfile;
 
         if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -329,10 +282,6 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
     }
 
     private void uploadProfileAvatar(File pictureFile) {
-        if (getActivity() != null) {
-            ((ActivityBase) getActivity()).showProgressDialog();
-        }
-
 
         Call<String> call;
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
@@ -343,10 +292,6 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
 
             @Override
             public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-
-                if (getActivity() != null) {
-                    ((ActivityBase) getActivity()).hideProgressDialog();
-                }
 
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     if (getActivity() != null) {
@@ -390,16 +335,16 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
                             attachment.setType(AttachmentAdapter.VIEW_TYPE_IMAGE);
 
                             sessionManager.getUserAccount().setAvatar(attachment);
-                            ImageUtil.displayImage(imgAvatar, attachment.getThumbUrl(), null);
+                            ImageUtil.displayImage(imgAvatar, attachment.getUrl(), null);
 
                             if (onProfileupdatelistener != null) {
-                                onProfileupdatelistener.updatedSuccesfully(attachment.getThumbUrl());
+                                onProfileupdatelistener.updatedSuccesfully(attachment.getUrl());
                             }
                             if (onProfileupdatelistenerSideMenu != null) {
-                                onProfileupdatelistenerSideMenu.updatedSuccesfully(attachment.getThumbUrl());
+                                onProfileupdatelistenerSideMenu.updatedSuccesfully(attachment.getUrl());
                             }
                         }
-                      //   adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
+                        //   adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
                         ((ActivityBase) getActivity()).showToast("attachment added", getActivity());
                     } else {
                         if (getActivity() != null) {
@@ -421,7 +366,6 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
                 }
             }
         });
-
     }
 
     public void showPermissionsAlert() {

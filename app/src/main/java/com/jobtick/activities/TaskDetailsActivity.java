@@ -45,6 +45,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.jobtick.EditText.EditTextRegular;
@@ -53,6 +55,7 @@ import com.jobtick.TextView.TextViewBold;
 import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.adapers.AttachmentAdapter;
+import com.jobtick.adapers.MustHaveListAdapter;
 import com.jobtick.adapers.OfferListAdapter;
 import com.jobtick.adapers.QuestionListAdapter;
 import com.jobtick.cancellations.CancellationPosterActivity;
@@ -70,6 +73,7 @@ import com.jobtick.models.BankAccountModel;
 import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.models.BookmarkTaskModel;
 import com.jobtick.models.DueTimeModel;
+import com.jobtick.models.MustHaveModel;
 import com.jobtick.models.OfferDeleteModel;
 import com.jobtick.models.OfferModel;
 import com.jobtick.models.QuestionModel;
@@ -205,20 +209,20 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     LinearLayout lytViewAllQuestions;
     @BindView(R.id.card_questions_layout)
     LinearLayout cardQuestionsLayout;
- //   @BindView(R.id.img_avatar)
- //   CircularImageView imgAvatar;
+    //   @BindView(R.id.img_avatar)
+    //   CircularImageView imgAvatar;
     @BindView(R.id.edt_comment)
     EditTextRegular edtComment;
     @BindView(R.id.lyt_btn_comment_send)
     ImageView lytBtnCommentSend;
- //   @BindView(R.id.lyt_comment)
-  //  LinearLayout lytComment;
+    //   @BindView(R.id.lyt_comment)
+    //  LinearLayout lytComment;
     @BindView(R.id.recycler_view_question_attachment)
     RecyclerView recyclerViewQuestionAttachment;
- //   @BindView(R.id.card_comment_send)
- //   CardView cardCommentSend;
- //   @BindView(R.id.rlt_question_add)
- //   RelativeLayout rltQuestionAdd;
+    //   @BindView(R.id.card_comment_send)
+    //   CardView cardCommentSend;
+    //   @BindView(R.id.rlt_question_add)
+    //   RelativeLayout rltQuestionAdd;
     @BindView(R.id.txt_status_cancelled)
     TextView txtStatusCancelled;
     @BindView(R.id.txt_status_overdue)
@@ -244,7 +248,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     LinearLayout liAssign;
     @BindView(R.id.linearUserProfile)
     LinearLayout linearUserProfile;
-   // @BindView(R.id.img_btn_image_select)
+
+    @BindView(R.id.bottom_sheet)
+    FrameLayout bottom_sheet;
+    // @BindView(R.id.img_btn_image_select)
     //ImageView addBtn;
     //  @BindView(R.id.card_view_request)
     //CardView card_view_request;
@@ -280,6 +287,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     public int pushOfferID;
     public int pushQuestionID;
 
+    private BottomSheetDialog mBottomSheetDialog;
+    private BottomSheetBehavior mBehavior;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -287,7 +298,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         ButterKnife.bind(this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-
+        mBehavior = BottomSheetBehavior.from(bottom_sheet);
 
         requestAcceptListener = this;
         widthDrawListener = this;
@@ -442,7 +453,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 //                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.VISIBLE);
                 if (taskModel.getQuestions() != null && taskModel.getQuestions().size() != 0) {
-                 //   rltQuestionAdd.setVisibility(View.GONE);
+                    //   rltQuestionAdd.setVisibility(View.GONE);
                 } else {
                     cardQuestionsLayout.setVisibility(View.GONE);
                 }
@@ -1494,13 +1505,17 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     case ConstantKey.BTN_MAKE_AN_OFFER:
                         int key = handleRequirementStrip();
                         if (key == 5) {
-                            intent = new Intent(TaskDetailsActivity.this, MakeAnOfferActivity.class);
-                            bundle = new Bundle();
-                            bundle.putInt("id", taskModel.getId());
-                            bundle.putInt("budget", taskModel.getBudget());
-                            //  bundle.putParcelable(ConstantKey.TASK, taskModel);
-                            intent.putExtras(bundle);
-                            startActivity(intent);
+                            if (taskModel.getMusthave().size() == 0) {
+                                intent = new Intent(TaskDetailsActivity.this, MakeAnOfferActivity.class);
+                                bundle = new Bundle();
+                                bundle.putInt("id", taskModel.getId());
+                                bundle.putInt("budget", taskModel.getBudget());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+
+                            } else {
+                                showRequirementDialog();
+                            }
                         } else {
                             RequirementsBottomSheet requirementsBottomSheet = RequirementsBottomSheet.newInstance(key);
                             requirementsBottomSheet.show(getSupportFragmentManager(), "");
@@ -2502,5 +2517,72 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(TaskDetailsActivity.this);
         requestQueue.add(stringRequest);
+    }
+
+    public void showRequirementDialog() {
+        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
+
+        final View view = getLayoutInflater().inflate(R.layout.sheet_requirement, null);
+
+        LinearLayout lyt_btn_make_an_offer = (LinearLayout) view.findViewById(R.id.lyt_btn_make_an_offer);
+        CardView card_make_an_offer = (CardView) view.findViewById(R.id.card_make_an_offer);
+
+        MustHaveListAdapter adapter;
+        ArrayList<MustHaveModel> addTagList = new ArrayList<>();
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(this, 5), true));
+        recyclerView.setHasFixedSize(true);
+
+
+        for (int i = 0; i < taskModel.getMusthave().size(); i++) {
+            MustHaveModel mustHaveModel = new MustHaveModel();
+            mustHaveModel.setMustHaveTitle(taskModel.getMusthave().get(i));
+            mustHaveModel.setChecked(false);
+            addTagList.add(mustHaveModel);
+        }
+        adapter = new MustHaveListAdapter(this, addTagList);
+        adapter.onCheckedAllItems(() -> {
+            if (adapter.isAllSelected()) {
+                card_make_an_offer.setBackgroundTintList(ContextCompat.getColorStateList(TaskDetailsActivity.this,
+                        R.color.colorPrimary));
+            } else {
+                card_make_an_offer.setBackgroundTintList(ContextCompat.getColorStateList(TaskDetailsActivity.this,
+                        R.color.colorAccent));
+            }
+        });
+
+
+        lyt_btn_make_an_offer.setOnClickListener(v -> {
+
+            if (adapter.isAllSelected()) {
+
+                Intent intent = new Intent(TaskDetailsActivity.this, MakeAnOfferActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", taskModel.getId());
+                bundle.putInt("budget", taskModel.getBudget());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            } else {
+                Toast.makeText(TaskDetailsActivity.this, "Please select all must-have requirement", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+        mBottomSheetDialog = new BottomSheetDialog(this);
+        mBottomSheetDialog.setContentView(view);
+        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        // set background transparent
+        ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
+
+        mBottomSheetDialog.show();
+        mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
 }

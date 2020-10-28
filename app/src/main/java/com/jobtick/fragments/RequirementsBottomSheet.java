@@ -2,6 +2,7 @@ package com.jobtick.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +13,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.jobtick.R;
+import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.BankAccountModel;
 import com.jobtick.models.BillingAdreessModel;
+import com.jobtick.models.TaskModel;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.SessionManager;
@@ -102,11 +106,11 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
         credit.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         calender.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         phone.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        img.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_image_primary));
-        credit.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_credit_card));
-        calender.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_calendar));
-        phone.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_phone));
-        map.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_map_pin));
+        img.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image_primary));
+        credit.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card));
+        calender.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar));
+        phone.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone));
+        map.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin));
 
         ImageReqFragment fragment = ImageReqFragment.newInstance();
         getChildFragmentManager().
@@ -122,11 +126,11 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
         credit.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
         calender.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         phone.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        img.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_image));
-        credit.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_credit_card_primary));
-        calender.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_calendar));
-        phone.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_phone));
-        map.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_map_pin));
+        img.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image));
+        credit.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card_primary));
+        calender.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar));
+        phone.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone));
+        map.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin));
 
         CreditReqFragment fragment = CreditReqFragment.newInstance();
         getChildFragmentManager().
@@ -141,11 +145,11 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
         credit.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         calender.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         phone.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        img.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_image));
-        credit.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_credit_card));
-        calender.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_calendar));
-        phone.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_phone));
-        map.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_map_pin_primary));
+        img.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image));
+        credit.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card));
+        calender.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar));
+        phone.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone));
+        map.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin_primary));
 
 
         MapReqFragment fragment = MapReqFragment.newInstance();
@@ -161,11 +165,11 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
         credit.setBackground(ContextCompat.getDrawable(context, R.color.transparent));
         calender.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_white_shape));
         phone.setBackground(ContextCompat.getDrawable(context, R.color.transparent));
-        img.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_image));
-        credit.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_credit_card));
-        calender.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_calendar_primary));
-        phone.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_phone));
-        map.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_map_pin));
+        img.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image));
+        credit.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card));
+        calender.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_primary));
+        phone.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone));
+        map.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin));
 
         CalenderReqFragment fragment = CalenderReqFragment.newInstance();
         getChildFragmentManager().
@@ -181,11 +185,11 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
         credit.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         calender.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         phone.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
-        img.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_image));
-        credit.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_credit_card));
-        calender.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_calendar));
-        phone.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_phone_primary));
-        map.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_map_pin));
+        img.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image));
+        credit.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card));
+        calender.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar));
+        phone.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone_primary));
+        map.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin));
 
         PhoneReqFragment fragment = PhoneReqFragment.newInstance();
         getChildFragmentManager().
@@ -211,8 +215,20 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
             case 4:
                 selectPhoneBtn();
                 break;
+            case 5:
+                TaskModel taskModel = ((TaskDetailsActivity) getActivity()).taskModel;
+                if (taskModel.getMusthave().size() == 0) {
+                    Intent intent = new Intent(getContext(), MakeAnOfferActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("id", taskModel.getId());
+                    bundle.putInt("budget", taskModel.getBudget());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+
+                } else {
+                    ((TaskDetailsActivity) getActivity()).showRequirementDialog();
+                }
+                break;
         }
-
     }
-
 }

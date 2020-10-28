@@ -35,13 +35,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".incrementbudget.IncreaseBudgetRequestToPosterActivity"></activity>
-        <activity android:name=".incrementbudget.IncrementBudgetRequestViewActivity"></activity>
-        <activity android:name=".incrementbudget.IncrementBudgetDeclineActivity"></activity>
-        <activity android:name=".incrementbudget.IncreaseBudgetActivity"></activity>
-        <activity android:name=".incrementbudget.IncreaseBudgetFromPosterActivity"></activity>
+        <activity android:name=".incrementbudget.IncreaseBudgetRequestToPosterActivity"/>
+        <activity android:name=".incrementbudget.IncrementBudgetRequestViewActivity"/>
+        <activity android:name=".incrementbudget.IncrementBudgetDeclineActivity"/>
+        <activity android:name=".incrementbudget.IncreaseBudgetActivity"/>
+        <activity android:name=".incrementbudget.IncreaseBudgetFromPosterActivity"/>
 
-        <activity android:name=".activities.NotificationSettings"></activity>
+        <activity android:name=".activities.NotificationSettings"/>
         <activity android:name=".activities.RequestForIncreaseBudgetActivity" />
         <activity android:name=".activities.AddCouponPaymentOverviewActivity" />
         <activity android:name=".activities.Dashboard2Activity" />
@@ -88,16 +88,16 @@
         <activity android:name=".activities.SettingActivity" />
         <activity android:name=".activities.CompleteRegistrationActivity" />
         <activity android:name=".activities.TaskCreateActivity" />
-        <activity android:name=".activities.SavedTaskActivity"></activity>
-        <activity android:name=".activities.UserProfileActivity"></activity>
-        <activity android:name=".activities.WebViewActivity"></activity>
-        <activity android:name=".activities.ReportActivity"></activity>
+        <activity android:name=".activities.SavedTaskActivity"/>
+        <activity android:name=".activities.UserProfileActivity"/>
+        <activity android:name=".activities.WebViewActivity"/>
+        <activity android:name=".activities.ReportActivity"/>
         <activity android:name=".activities.NotificationSubSettingsActivity">
 
         </activity>
-        <activity android:name=".activities.MobileOtpVerifyActivity"></activity>
-        <activity android:name=".activities.ZoomImageActivity"></activity>
-        <activity android:name=".activities.VideoPlayerActivity"></activity>
+        <activity android:name=".activities.MobileOtpVerifyActivity"/>
+        <activity android:name=".activities.ZoomImageActivity"/>
+        <activity android:name=".activities.VideoPlayerActivity"/>
         <activity
             android:name=".activities.DashboardActivity"
             android:label="@string/title_activity_dashboard" />
@@ -143,11 +143,11 @@
 
         <activity android:name=".activities.RescheduleReqFromWorkerActivity" />
 
-        <activity android:name=".activities.SinginSingupAcitivity"></activity>
-        <activity android:name=".activities.CategroyListActivity"></activity>
-        <activity android:name=".activities.RescheduleDeclineActivity"></activity>
-        <activity android:name=".activities.OnboardActivity"></activity>
-        <activity android:name=".activities.SearchCategoryActivity"></activity>
+        <activity android:name=".activities.SinginSingupAcitivity"/>
+        <activity android:name=".activities.CategroyListActivity"/>
+        <activity android:name=".activities.RescheduleDeclineActivity"/>
+        <activity android:name=".activities.OnboardActivity"/>
+        <activity android:name=".activities.SearchCategoryActivity"/>
 
         <activity android:name=".activities.SearchTaskActivity">
 
@@ -180,6 +180,4 @@
             android:required="false" />
 
     </application>
-
-
 </manifest>

@@ -63,7 +63,7 @@ public class PhoneReqFragment extends Fragment {
         verify = view.findViewById(R.id.edt_sms);
         btnNext = view.findViewById(R.id.txt_btn_submit);
         btnNext.setOnClickListener(v -> {
-            // ((RequirementsBottomSheet) getParentFragment()).changeFragment(3);
+            ((RequirementsBottomSheet) getParentFragment()).changeFragment(5);
 
         });
     }

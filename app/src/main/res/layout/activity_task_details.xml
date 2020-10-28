@@ -722,7 +722,6 @@
                 android:id="@+id/card_assignee_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_medium"
                 android:visibility="visible">
 
                 <LinearLayout

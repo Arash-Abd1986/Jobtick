@@ -53,7 +53,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="21 min. ago"
-                        android:layout_toLeftOf="@id/textViewOptions"
+                        android:layout_toStartOf="@id/textViewOptions"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:layout_marginEnd="@dimen/spacing_medium"
                         android:textColor="@color/grey_40"
                         android:textSize="@dimen/spacing_middle" />
 
@@ -66,8 +68,7 @@
                         android:layout_alignParentTop="true"
                         android:paddingLeft="@dimen/spacing_medium"
                         android:paddingRight="@dimen/spacing_medium"
-                        android:text="&#8942;"
-                        android:extAppearance="?android:textAppearanceLarge" />
+                        android:text="&#8942;" />
 
                 </RelativeLayout>
 

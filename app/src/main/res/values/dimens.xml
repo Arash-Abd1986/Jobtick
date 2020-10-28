@@ -139,5 +139,8 @@
     <dimen name="radio_button_height">52dp</dimen>
     <dimen name="post_requirements_item_height">30dp</dimen>
 
+    <dimen name="toolbar_text_size">18sp</dimen>
+    <dimen name="payment_entry_box_height">75dp</dimen>
+
 
 </resources>

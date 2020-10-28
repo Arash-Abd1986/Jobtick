@@ -246,5 +246,11 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="materialToolBar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:textSize">@dimen/toolbar_text_size</item>
+    </style>
+
 
 </resources>

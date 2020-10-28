@@ -278,7 +278,7 @@
     <string name="_0000_0000_0000_0000">0000 0000 0000 0000</string>
     <string name="bsb">BSB</string>
     <string name="xxx_xxx">XXX - XXX</string>
-    <string name="account_number">Account number</string>
+    <string name="account_number">Account Number</string>
     <string name="xxxxxxxxxx">XXXXXXXXXX</string>
     <string name="provide_a_billing_address">provide a billing address</string>
     <string name="address">Address</string>
@@ -294,6 +294,12 @@
     <string name="add_billing_address">Add Billing Address</string>
     <string name="payment_settings">Payment Settings</string>
     <string name="back_button_of_title_bar">back button of titleBar</string>
+    <string name="full_name">Full Name</string>
+    <string name="card_number">Card Number</string>
+    <string name="expiry_date">Expiry Date</string>
+    <string name="ccv">CCV</string>
+    <string name="address_line_1">Address Line 1</string>
+    <string name="address_line_2_optional">Address Line 2 (Optional)</string>
 
 
 </resources>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -48,7 +47,7 @@
                             android:text="@string/view_all_offers"
                             android:textAllCaps="true"
                             android:textColor="@color/white"
-                             android:textSize="14sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
                 </androidx.viewpager.widget.ViewPager>
 
@@ -125,11 +124,11 @@
                     android:minWidth="@dimen/_50dp"
                     android:padding="4dp"
                     android:paddingBottom="@dimen/spacing_xsmall"
-                    tools:text="@string/_200"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14dp"
                     android:textStyle="bold"
-                    tools:ignore="SpUsage" />
+                    tools:ignore="SpUsage"
+                    tools:text="@string/_200" />
             </LinearLayout>
 
             <androidx.appcompat.widget.Toolbar
@@ -158,9 +157,9 @@
                     android:id="@+id/layout_dots"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginBottom="@dimen/spacing_xmlarge"
                     android:orientation="horizontal" />
             </RelativeLayout>
@@ -487,8 +486,8 @@
                                         android:id="@+id/img_map_pin"
                                         android:layout_width="20dp"
                                         android:layout_height="20dp"
-                                        android:layout_marginEnd="8dp"
                                         android:layout_marginStart="8dp"
+                                        android:layout_marginEnd="8dp"
                                         android:contentDescription="@string/todo"
                                         android:src="@drawable/ic_map" />
 
@@ -502,18 +501,20 @@
                                         android:text="@string/_6386_spring_st"
                                         android:textColor="@color/colorPrimary"
                                         android:textSize="8dp" />
+
                                     <FrameLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"/>
+                                        android:layout_weight="1" />
+
                                     <com.jobtick.TextView.TextViewMedium
                                         android:id="@+id/txt_created_date"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:gravity="start"
                                         android:layout_marginStart="8dp"
                                         android:layout_marginEnd="8dp"
+                                        android:gravity="start"
                                         android:text="@string/posted_32_minutes_ago"
                                         android:textColor="@color/grey_70"
                                         android:textSize="8dp" />
@@ -534,12 +535,14 @@
                                 android:text="@string/excepteur_qui_qui_fugiat_et_esse_pariatur_voluptate_exercitation_esse_officia_cillum_occaecat_culpa_pariatur_nisi_in_ut_tempor_laborum_officia_dolore_ad_occaecat_anim_ad_voluptate_proident_ea_commodo_qui_velit_officia_minim"
                                 android:textColor="@color/textColor"
                                 android:textSize="@dimen/_14sp" />
+
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/spacing_line"
-                                android:background="@color/grey_10"
+                                android:layout_marginTop="@dimen/spacing_small"
                                 android:layout_marginBottom="@dimen/spacing_small"
-                                android:layout_marginTop="@dimen/spacing_small"/>
+                                android:background="@color/grey_10" />
+
                             <RelativeLayout
                                 android:id="@+id/postedByLyt"
                                 android:layout_width="match_parent"
@@ -650,13 +653,13 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
+                                        android:layout_margin="@dimen/spacing_small"
+                                        android:background="@drawable/greay_border_bg"
                                         android:orientation="horizontal"
+                                        android:padding="@dimen/spacing_small"
                                         android:paddingStart="@dimen/_8dp"
                                         android:paddingTop="4dp"
                                         android:paddingEnd="@dimen/_8dp"
-                                        android:background="@drawable/greay_border_bg"
-                                        android:padding="@dimen/spacing_small"
-                                        android:layout_margin="@dimen/spacing_small"
                                         android:paddingBottom="4dp">
 
                                         <ImageView
@@ -691,9 +694,10 @@
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/spacing_line"
-                                android:background="@color/grey_10"
+                                android:layout_marginTop="@dimen/spacing_medium"
                                 android:layout_marginBottom="@dimen/spacing_medium"
-                                android:layout_marginTop="@dimen/spacing_medium"/>
+                                android:background="@color/grey_10" />
+
                             <com.jobtick.TextView.TextViewBold
                                 android:id="@+id/txt_offer_count"
                                 android:layout_width="match_parent"
@@ -730,7 +734,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/spacing_line"
                                 android:background="@color/grey_10"
-                                android:visibility="gone"/>
+                                android:visibility="gone" />
 
                         </LinearLayout>
 
@@ -833,73 +837,147 @@
                             android:layout_height="match_parent"
                             android:background="?attr/selectableItemBackground"
                             android:gravity="center"
-                            android:orientation="vertical"/>
+                            android:orientation="vertical" />
                     </androidx.cardview.widget.CardView>
 
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
             <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:gravity="center"
-    android:orientation="vertical">
-    <com.jobtick.TextView.TextViewSemiBold
-        android:id="@+id/txt_offers_count"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_large"
-        android:layout_marginTop="@dimen/spacing_xxlarge"
-        android:singleLine="true"
-        android:text="@string/offer"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/_12sp"
-        android:textStyle="bold" />
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_offer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_large"
-        android:layout_marginTop="@dimen/spacing_middle"
-        android:layout_marginEnd="@dimen/spacing_large"
-        android:layout_marginBottom="@dimen/spacing_medium"
-        android:visibility="visible"
-        app:cardBackgroundColor="#f0f0f0"
-        app:cardCornerRadius="@dimen/spacing_middle"
-        app:cardElevation="0dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.jobtick.TextView.TextViewBold
-                android:id="@+id/txt_waiting_for_offer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/spacing_xlarge"
-                android:layout_marginBottom="@dimen/spacing_xlarge"
                 android:gravity="center"
-                android:singleLine="true"
-                android:text="@string/waiting_for_offer"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_12sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_view_all_offers"
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:layout_margin="5dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:elevation="0dp"
-                app:cardCornerRadius="0dp"/>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-</LinearLayout>
+                <com.jobtick.TextView.TextViewSemiBold
+                    android:id="@+id/txt_offers_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_xxlarge"
+                    android:singleLine="true"
+                    android:text="@string/offer"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_12sp"
+                    android:textStyle="bold" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_offer_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_middle"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    android:visibility="visible"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/txt_waiting_for_offer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/spacing_small"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_margin="@dimen/spacing_large"
+                                    android:background="@drawable/time"
+                                    android:padding="@dimen/spacing_small"
+                                    android:layout_gravity="center"
+                                    />
+
+                                <com.jobtick.TextView.TextViewBold
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:singleLine="true"
+                                    android:text="@string/waiting_for_offer"
+                                    android:textColor="@color/black"
+                                    android:textSize="12dp"
+                                    android:textStyle="bold" />
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_gravity="center"
+                                    android:gravity="center">
+
+
+                                    <com.jobtick.TextView.TextViewRegular
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="@dimen/spacing_small"
+                                        android:layout_marginBottom="@dimen/spacing_small"
+                                        android:gravity="center"
+                                        android:layout_marginStart="@dimen/spacing_line"
+                                        android:layout_marginEnd="@dimen/spacing_line"
+                                        android:singleLine="true"
+                                        android:text="Be the first to"
+                                        android:textColor="@color/textColor"
+                                        android:textSize="12dp" />
+                                    <com.jobtick.TextView.TextViewRegular
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="@dimen/spacing_small"
+                                        android:layout_marginBottom="@dimen/spacing_small"
+                                        android:layout_marginStart="@dimen/spacing_line"
+                                        android:layout_marginEnd="@dimen/spacing_line"
+                                        android:gravity="center"
+                                        android:singleLine="true"
+                                        android:text="make an offer"
+                                        android:textColor="@color/colorPrimary"
+                                        android:textSize="12dp" />
+                                    <com.jobtick.TextView.TextViewRegular
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="@dimen/spacing_small"
+                                        android:layout_marginBottom="@dimen/spacing_small"
+                                        android:layout_marginStart="@dimen/spacing_line"
+                                        android:layout_marginEnd="@dimen/spacing_line"
+                                        android:gravity="center"
+                                        android:singleLine="true"
+                                        android:text="on this job!"
+                                        android:textColor="@color/textColor"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </FrameLayout>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_view_all_offers"
+                            android:layout_width="match_parent"
+                            android:layout_height="46dp"
+                            android:layout_margin="5dp"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:elevation="0dp"
+                            app:cardCornerRadius="0dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/card_questions_layout"
                 android:layout_width="match_parent"

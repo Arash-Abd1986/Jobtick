@@ -176,7 +176,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.txt_title)
     TextView txtTitle;
     @BindView(R.id.txt_waiting_for_offer)
-    TextView txtWaitingForOffer;
+    FrameLayout txtWaitingForOffer;
     @BindView(R.id.img_avtar_worker)
     CircularImageView imgAvtarWorker;
     @BindView(R.id.txt_worker_name)

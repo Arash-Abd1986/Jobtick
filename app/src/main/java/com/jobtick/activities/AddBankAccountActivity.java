@@ -18,6 +18,8 @@ import com.google.android.material.button.MaterialButton;
 import com.jobtick.AppExecutors;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
+import com.jobtick.utils.Constant;
+import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
@@ -111,7 +113,7 @@ public class AddBankAccountActivity extends ActivityBase {
             @Override
             public void run() {
 
-                Stripe.apiKey = "pk_test_51DMC17EdCPjjZ7tOKFdshvLgwrNkjWFc4Q3tJT4QONjr8yy9BQt4xhoE5nxIOF1PUJm8W3MjU8kn9yNCsUCYbTa400kXtgexZK";
+                Stripe.apiKey = ConstantKey.PUBLISHABLE_KEY;
 
                 Map<String, Object> bankAccount = new HashMap<>();
                 bankAccount.put("country", "AU");

@@ -111,14 +111,9 @@ public class AddBankAccountActivity extends ActivityBase {
 
                 Stripe.apiKey = "pk_test_51DMC17EdCPjjZ7tOKFdshvLgwrNkjWFc4Q3tJT4QONjr8yy9BQt4xhoE5nxIOF1PUJm8W3MjU8kn9yNCsUCYbTa400kXtgexZK";
 
-                Map<String, String> specs = new HashMap<String, String>();
-                specs.put("account_name", edtAccountName.getText().toString());
-                specs.put("account_number", edtAccountNumber.getText().toString());
-                specs.put("bsb_code", edtBsb.getText().toString());
-
                 Map<String, Object> bankAccount = new HashMap<>();
                 bankAccount.put("country", "AU");
-                bankAccount.put("currency", "AUD");
+                bankAccount.put("currency", "aud");
                 bankAccount.put(
                         "account_holder_name",
                         edtAccountName.getText().toString()
@@ -134,9 +129,20 @@ public class AddBankAccountActivity extends ActivityBase {
 
                 try {
                     Token s = Token.create(params);
-                    Log.d("Token success",s.getId());
+                    System.out.println("Token success: id:" + s.getId());
+
+
+
+
                 } catch (StripeException e){
                     e.printStackTrace();
+
+                    AppExecutors.getInstance().getMainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            showToast(e.getMessage(), AddBankAccountActivity.this);
+                        }
+                    });
                 }
 
                 AppExecutors.getInstance().getMainThread().execute(new Runnable() {

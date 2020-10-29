@@ -16,10 +16,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
+import com.jobtick.AppExecutors;
 import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.utils.HttpStatus;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Token;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -158,12 +162,6 @@ public class BillingAddressActivity extends ActivityBase {
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-/*                                Intent intent = new Intent();
-                                Bundle bundle = new Bundle();
-                                bundle.putBoolean(ConstantKey.WRITE_REVIEW, true);
-                                intent.putExtras(bundle);
-                                setResult(ConstantKey.RESULTCODE_WRITE_REVIEW, intent);
-                                onBackPressed();*/
 
                                 showToast("Updated successfully ! ", BillingAddressActivity.this);
 
@@ -232,10 +230,9 @@ public class BillingAddressActivity extends ActivityBase {
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("line1", edtAddressLine1.getText().toString());
                 map1.put("line2", edtAddressLine2.getText().toString());
-                map1.put("location", edtSuburs.getText().toString());
+                map1.put("city", edtSuburs.getText().toString());
                 map1.put("post_code", edtPostcode.getText().toString());
                 map1.put("state", edtState.getText().toString());
-
                 map1.put("country", edtCountry.getText().toString());
                 return map1;
             }

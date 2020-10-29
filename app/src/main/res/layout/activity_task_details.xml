@@ -885,7 +885,8 @@
                             android:id="@+id/txt_waiting_for_offer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:visibility="gone">
+                            android:visibility="gone"
+                            android:layout_gravity="center">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"

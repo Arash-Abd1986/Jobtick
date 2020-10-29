@@ -60,6 +60,8 @@ public class AddBankAccountActivity extends ActivityBase {
     @BindView(R.id.ivBack)
     ImageView ivBack;
 
+    private String btoken;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,11 +130,11 @@ public class AddBankAccountActivity extends ActivityBase {
                 params.put("bank_account", bankAccount);
 
                 try {
-                    Token s = Token.create(params);
-                    System.out.println("Token success: id:" + s.getId());
+                    Token token = Token.create(params);
+                    System.out.println("Token success: id:" + token.getId());
 
-
-
+                    btoken = token.getId();
+                    addBankAccountDetails();
 
                 } catch (StripeException e){
                     e.printStackTrace();
@@ -140,7 +142,7 @@ public class AddBankAccountActivity extends ActivityBase {
                     AppExecutors.getInstance().getMainThread().execute(new Runnable() {
                         @Override
                         public void run() {
-                            showToast(e.getMessage(), AddBankAccountActivity.this);
+                            showToast("Your bank account information is not valid.", AddBankAccountActivity.this);
                         }
                     });
                 }
@@ -158,8 +160,6 @@ public class AddBankAccountActivity extends ActivityBase {
     }
 
     public void addBankAccountDetails() {
-
-        showProgressDialog();
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, BASE_URL + ADD_ACCOUNT_DETAILS,
                 response -> {
@@ -218,7 +218,6 @@ public class AddBankAccountActivity extends ActivityBase {
                         showToast("Something Went Wrong", AddBankAccountActivity.this);
                     }
                     Timber.e(error.toString());
-                    hideProgressDialog();
                 }) {
 
 
@@ -226,9 +225,7 @@ public class AddBankAccountActivity extends ActivityBase {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("account_name", edtAccountName.getText().toString());
-                map1.put("account_number", edtAccountNumber.getText().toString());
-                map1.put("bsb_code", edtBsb.getText().toString());
+                map1.put("btoken", btoken);
 
                 return map1;
             }

@@ -43,7 +43,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:text="Price"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/textColor"
                         android:textSize="@dimen/_12sp"
                         android:textStyle="bold" />
 

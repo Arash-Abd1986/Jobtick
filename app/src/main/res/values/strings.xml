@@ -214,7 +214,7 @@
     <string name="posted_32_minutes_ago">Posted 32 minutes ago.</string>
     <string name="excepteur_qui_qui_fugiat_et_esse_pariatur_voluptate_exercitation_esse_officia_cillum_occaecat_culpa_pariatur_nisi_in_ut_tempor_laborum_officia_dolore_ad_occaecat_anim_ad_voluptate_proident_ea_commodo_qui_velit_officia_minim">Excepteur qui fugiat et esse pariatur voluptate exercitation esse officia cillum occaecat culpa pariatur. Nisi in ut tempor laborum officia dolore ad occaecat. Anim ad voluptate proident ea commodo qui velit officia minim.</string>
     <string name="_4_offers">4 Offers</string>
-    <string name="posted_by">Posted By</string>
+    <string name="posted_by">Posted by</string>
     <string name="aaron_brooks">Aaron Brooks</string>
     <string name="surfers_paradise_australia">Surfers Paradise, Australia</string>
     <string name="active_13_min_ago">Active 13 min. ago</string>
@@ -227,7 +227,7 @@
     <string name="question">Question</string>
     <string name="my_comment">My Comment</string>
     <string name="send">Send</string>
-    <string name="view_all_questions">VIEW ALL QUESTIONS</string>
+    <string name="view_all_questions">View all question</string>
     <string name="make_an_offer">Make an offers</string>
     <string name="_22222">22222</string>
     <string name="no_date_set">No date set</string>

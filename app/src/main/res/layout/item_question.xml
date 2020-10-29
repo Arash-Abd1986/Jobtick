@@ -9,9 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingStart="@dimen/spacing_large"
         android:paddingTop="@dimen/spacing_large"
-        android:paddingEnd="@dimen/spacing_large"
         android:paddingBottom="@dimen/spacing_middle">
 
         <RelativeLayout
@@ -33,44 +31,58 @@
                 android:layout_toEndOf="@+id/img_avatar"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center">
 
                     <com.jobtick.TextView.TextViewBold
                         android:id="@+id/txt_name"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toStartOf="@+id/txt_created_date"
                         android:singleLine="true"
                         android:text="Nathan Fox"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/spacing_middle"
                         android:textStyle="bold" />
-
-                    <com.jobtick.TextView.TextViewRegular
-                        android:id="@+id/txt_created_date"
+<FrameLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"/>
+                    <LinearLayout
+                        android:id="@+id/lyt_btn_reply"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="21 min. ago"
-                        android:layout_toStartOf="@id/textViewOptions"
-                        android:layout_marginStart="@dimen/spacing_medium"
-                        android:layout_marginEnd="@dimen/spacing_medium"
-                        android:textColor="@color/grey_40"
-                        android:textSize="@dimen/spacing_middle" />
+                        android:gravity="right"
+                        android:layout_alignParentStart="true"
+                        android:background="?attr/selectableItemBackground"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/spacing_small">
 
-                    <TextView
-                        android:id="@+id/textViewOptions"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_gravity="center"
-                        android:layout_alignParentTop="true"
-                        android:paddingLeft="@dimen/spacing_medium"
-                        android:paddingRight="@dimen/spacing_medium"
-                        android:text="&#8942;" />
+                        <ImageView
+                            android:layout_width="@dimen/_16sp"
+                            android:layout_height="@dimen/_16sp"
+                            android:src="@drawable/ic_corner_up_left"
+                            android:tint="@color/colorPrimary" />
 
-                </RelativeLayout>
+                        <com.jobtick.TextView.TextViewBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/spacing_middle"
+                            android:gravity="center_vertical"
+                            android:text="Reply"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/spacing_middle"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
 
                 <com.jobtick.TextView.TextViewRegular
                     android:id="@+id/txt_message"
@@ -108,34 +120,17 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:id="@+id/lyt_btn_reply"
+                    <com.jobtick.TextView.TextViewRegular
+                        android:id="@+id/txt_created_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:background="?attr/selectableItemBackground"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/spacing_small">
+                        android:text="21 min. ago"
+                        android:layout_marginTop="@dimen/spacing_medium"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:layout_marginEnd="@dimen/spacing_medium"
+                        android:textColor="@color/grey_40"
+                        android:textSize="@dimen/spacing_middle" />
 
-                        <ImageView
-                            android:layout_width="@dimen/_16sp"
-                            android:layout_height="@dimen/_16sp"
-                            android:src="@drawable/ic_corner_up_left"
-                            android:tint="@color/colorPrimary" />
-
-                        <com.jobtick.TextView.TextViewBold
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/spacing_middle"
-                            android:gravity="center_vertical"
-                            android:text="Reply"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/spacing_middle"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/lyt_btn_more"
@@ -182,17 +177,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_large"
-        android:layout_marginEnd="@dimen/spacing_large"
         android:orientation="horizontal"
-        android:weightSum="5">
+        android:layout_marginEnd="@dimen/spacing_medium"
+        android:layout_marginStart="@dimen/spacing_medium">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="4"
-            android:gravity="center"
+            android:layout_weight="5"
+            android:gravity="end"
+            android:layout_marginEnd="@dimen/spacing_large"
             android:orientation="vertical">
 
             <View

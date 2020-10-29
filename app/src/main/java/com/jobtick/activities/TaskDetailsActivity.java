@@ -1194,7 +1194,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbar.setTitle("Task Details");
+                    collapsingToolbar.setTitle("Job Details");
+                    collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(getApplication(), R.color.black));
                     toolbar.getMenu().findItem(R.id.menu_share).setIcon(R.drawable.ic_share);
                     toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot);
 
@@ -1206,6 +1207,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     isShow = true;
                 } else if (isShow) {
                     collapsingToolbar.setTitle("");
+                    collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(getApplication(), R.color.white));
                     toolbar.getMenu().findItem(R.id.menu_share).setIcon(R.drawable.ic_share_white);
                     toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot_white);
 

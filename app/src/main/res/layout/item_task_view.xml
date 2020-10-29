@@ -111,7 +111,7 @@
                         android:layout_width="13dp"
                         android:layout_height="13dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_map_pin"
+                        android:src="@drawable/ic_map"
                         android:tint="@color/colorGrayC9C9C9" />
 
                     <com.jobtick.TextView.TextViewRegular

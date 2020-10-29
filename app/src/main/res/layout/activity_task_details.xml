@@ -488,7 +488,7 @@
                                         android:layout_height="@dimen/_18sp"
                                         android:layout_marginEnd="@dimen/_8sp"
                                         android:contentDescription="@string/todo"
-                                        android:src="@drawable/ic_map_gray" />
+                                        android:src="@drawable/ic_map" />
 
                                     <com.jobtick.TextView.TextViewMedium
                                         android:id="@+id/txt_location"

@@ -1,5 +1,6 @@
 package com.jobtick.activities;
 
+import android.net.IpSecManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,6 +15,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
+import com.jobtick.AppExecutors;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.utils.HttpStatus;
@@ -103,38 +105,50 @@ public class AddBankAccountActivity extends ActivityBase {
 
     private void addBankAccount() {
         showProgressDialog();
+        AppExecutors.getInstance().getNetworkIO().execute(new Runnable() {
+            @Override
+            public void run() {
 
-        Stripe.apiKey = "pk_test_51DMC17EdCPjjZ7tOKFdshvLgwrNkjWFc4Q3tJT4QONjr8yy9BQt4xhoE5nxIOF1PUJm8W3MjU8kn9yNCsUCYbTa400kXtgexZK";
+                Stripe.apiKey = "pk_test_51DMC17EdCPjjZ7tOKFdshvLgwrNkjWFc4Q3tJT4QONjr8yy9BQt4xhoE5nxIOF1PUJm8W3MjU8kn9yNCsUCYbTa400kXtgexZK";
 
-        Map<String, String> specs = new HashMap<String, String>();
-        specs.put("account_name", edtAccountName.getText().toString());
-        specs.put("account_number", edtAccountNumber.getText().toString());
-        specs.put("bsb_code", edtBsb.getText().toString());
+                Map<String, String> specs = new HashMap<String, String>();
+                specs.put("account_name", edtAccountName.getText().toString());
+                specs.put("account_number", edtAccountNumber.getText().toString());
+                specs.put("bsb_code", edtBsb.getText().toString());
 
-        Map<String, Object> bankAccount = new HashMap<>();
-        bankAccount.put("country", "AU");
-        bankAccount.put("currency", "AUD");
-        bankAccount.put(
-                "account_holder_name",
-                edtAccountName.getText().toString()
-        );
-        bankAccount.put(
-                "account_holder_type",
-                "individual"
-        );
-        bankAccount.put("routing_number", edtBsb.getText().toString());
-        bankAccount.put("account_number", edtAccountNumber.getText().toString());
-        Map<String, Object> params = new HashMap<>();
-        params.put("bank_account", bankAccount);
+                Map<String, Object> bankAccount = new HashMap<>();
+                bankAccount.put("country", "AU");
+                bankAccount.put("currency", "AUD");
+                bankAccount.put(
+                        "account_holder_name",
+                        edtAccountName.getText().toString()
+                );
+                bankAccount.put(
+                        "account_holder_type",
+                        "individual"
+                );
+                bankAccount.put("routing_number", edtBsb.getText().toString());
+                bankAccount.put("account_number", edtAccountNumber.getText().toString());
+                Map<String, Object> params = new HashMap<>();
+                params.put("bank_account", bankAccount);
 
-        try {
-            Token s = Token.create(params);
-            Log.d("Token",s.getId());
-        } catch (StripeException e){
-            e.printStackTrace();
-        }
+                try {
+                    Token s = Token.create(params);
+                    Log.d("Token success",s.getId());
+                } catch (StripeException e){
+                    e.printStackTrace();
+                }
 
-        hideProgressDialog();
+                AppExecutors.getInstance().getMainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideProgressDialog();
+                    }
+                });
+            }
+        });
+
+
     }
 
     public void addBankAccountDetails() {

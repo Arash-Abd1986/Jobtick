@@ -29,7 +29,6 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/background"
         android:fontFamily="@font/poppins_bold"
-
         app:contentInsetStartWithNavigation="0dp">
 
         <TextView

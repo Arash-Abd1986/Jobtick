@@ -170,8 +170,8 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.linear_user_profile)
         LinearLayout linearUserProfile;
 
-        @BindView(R.id.textViewOptions)
-        TextView textViewOptions;
+       // @BindView(R.id.textViewOptions)
+     //   TextView textViewOptions;
 
 
         ViewHolder(View itemView) {
@@ -243,7 +243,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     }
                 }
             });
-
+/*
             textViewOptions.setOnClickListener(view -> {
 
                 //creating a popup menutextViewOptions
@@ -267,7 +267,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 popup.show();
 
             });
-
+*/
             lytBtnMore.setOnClickListener(v -> {
                 if (item.getStrMore().equalsIgnoreCase("More")) {
                     txtMessage.setMaxLines(Integer.MAX_VALUE);

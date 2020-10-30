@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -185,12 +186,12 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 app:cardCornerRadius="18dp"
+                android:background="#ffffff"
                 app:cardElevation="0dp">
 
                 <androidx.cardview.widget.CardView
@@ -200,7 +201,6 @@
                     android:visibility="visible"
                     app:cardCornerRadius="0dp"
                     app:cardElevation="0dp">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -322,9 +322,6 @@
                                 tools:ignore="SpUsage" />
                         </LinearLayout>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spacing_medium" />
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/card_cancel_background"
@@ -526,7 +523,6 @@
 
                             </LinearLayout>
 
-
                             <com.jobtick.TextView.TextViewMedium
                                 android:id="@+id/txt_description"
                                 android:layout_width="match_parent"
@@ -681,7 +677,6 @@
                                 </LinearLayout>
                             </RelativeLayout>
 
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -693,7 +688,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/spacing_line"
                                 android:layout_marginTop="@dimen/spacing_medium"
-                                android:layout_marginBottom="@dimen/spacing_medium"
                                 android:background="@color/grey_10" />
 
                             <com.jobtick.TextView.TextViewBold
@@ -702,6 +696,7 @@
                                 android:layout_height="50dp"
                                 android:layout_marginStart="@dimen/spacing_large"
                                 android:layout_marginEnd="@dimen/spacing_large"
+                                android:layout_marginTop="@dimen/spacing_small"
                                 android:text="@string/_4_offers"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_10sp"
@@ -728,16 +723,16 @@
                                 android:textStyle="bold"
                                 android:visibility="gone" />
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/spacing_line"
-                                android:background="@color/grey_10"
-                                android:visibility="gone" />
-
                         </LinearLayout>
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_line"
+                    android:background="@color/grey_10"
+                    android:layout_marginTop="4dp"/>
+
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -854,7 +849,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_xxlarge"
                     android:singleLine="true"
                     android:text="@string/offer"
                     android:textColor="@color/colorPrimary"
@@ -967,6 +961,15 @@
                             </LinearLayout>
                         </FrameLayout>
 
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_view_offers"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:overScrollMode="never"
+                            app:layout_anchor="@+id/nested_scroll_view"
+                            app:layout_anchorGravity="bottom|center"
+                            tools:itemCount="1"
+                            tools:listitem="@layout/item_offers" />
                         <androidx.cardview.widget.CardView
                             android:id="@+id/card_view_all_offers"
                             android:layout_width="match_parent"
@@ -1150,14 +1153,5 @@
         android:layout_height="wrap_content"
         app:layout_behavior="@string/bottom_sheet_behavior" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_offers"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:overScrollMode="never"
-        app:layout_anchor="@+id/nested_scroll_view"
-        app:layout_anchorGravity="bottom|center"
-        tools:itemCount="1"
-        tools:listitem="@layout/item_offers" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

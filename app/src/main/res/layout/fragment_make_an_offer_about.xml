@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/backgroundLightGrey"
     android:orientation="vertical"
     tools:context=".fragments.MakeAnOfferAboutFragment">
 
@@ -334,11 +334,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:background="?attr/selectableItemBackground"
                                 android:gravity="center"
                                 android:orientation="vertical"
                                 android:padding="@dimen/spacing_xlarge"
-                                android:visibility="visible">
+                                android:visibility="visible"
+                                android:background="@color/backgroundLightGrey">
 
                                 <!--<ImageView
                                     android:layout_width="match_parent"

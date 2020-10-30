@@ -191,7 +191,7 @@ public class AddCreditCardActivity extends ActivityBase {
                         // Toast.makeText(MainActivity.this, " Selected year : " + selectedYear, Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setMaxYear(2030)
+                .setMaxYear(2040)
                 .build()
                 .show();
 
@@ -228,39 +228,6 @@ public class AddCreditCardActivity extends ActivityBase {
                 }
             });
         }
-    }
-
-    private boolean validation(){
-        if(edtFullName.getText().toString().isEmpty()){
-            edtFullName.setError("The card name must be filled.");
-            return false;
-        }
-        else if(edtCardNumber.getText().toString().isEmpty()){
-            edtCardNumber.setError("The card number must be filled.");
-            return false;
-        }
-        else if(edtExpiryDate.getText().toString().isEmpty()){
-            edtExpiryDate.setError("The card expiry date must be filled.");
-            return false;
-        }
-        else if(edtSecurityNumber.getText().toString().isEmpty()){
-            edtSecurityNumber.setError("The card CVC must be filled.");
-            return false;
-        }
-        else if (!card_xml.validateNumber()) {
-            edtCardNumber.setError("The card number that you entered is invalid");
-            return false;
-        } else if (!card_xml.validateExpiryDate()) {
-            edtExpiryDate.setError("The expiration date that you entered is invalid");
-            return false;
-        } else if (!card_xml.validateCVC()) {
-            edtSecurityNumber.setError("The CVC code that you entered is invalid");
-            return false;
-        } else if(!card_xml.validateCard()) {
-            showToast( "The card details that you entered are invalid", AddCreditCardActivity.this);
-            return false;
-        }
-        return true;
     }
 
     private void addPaymentTokenTOServer(String pm_token) {
@@ -328,5 +295,38 @@ public class AddCreditCardActivity extends ActivityBase {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(AddCreditCardActivity.this);
         requestQueue.add(stringRequest);
+    }
+
+    private boolean validation(){
+        if(edtFullName.getText().toString().isEmpty()){
+            edtFullName.setError("The card name must be filled.");
+            return false;
+        }
+        else if(edtCardNumber.getText().toString().isEmpty()){
+            edtCardNumber.setError("The card number must be filled.");
+            return false;
+        }
+        else if(edtExpiryDate.getText().toString().isEmpty()){
+            edtExpiryDate.setError("The card expiry date must be filled.");
+            return false;
+        }
+        else if(edtSecurityNumber.getText().toString().isEmpty()){
+            edtSecurityNumber.setError("The card CVC must be filled.");
+            return false;
+        }
+        else if (!card_xml.validateNumber()) {
+            edtCardNumber.setError("The card number that you entered is invalid");
+            return false;
+        } else if (!card_xml.validateExpiryDate()) {
+            edtExpiryDate.setError("The expiration date that you entered is invalid");
+            return false;
+        } else if (!card_xml.validateCVC()) {
+            edtSecurityNumber.setError("The CVC code that you entered is invalid");
+            return false;
+        } else if(!card_xml.validateCard()) {
+            showToast( "The card details that you entered are invalid", AddCreditCardActivity.this);
+            return false;
+        }
+        return true;
     }
 }

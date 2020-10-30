@@ -711,8 +711,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         switch (view.getId()) {
             case R.id.lyt_btn_save_profile:
 
-                System.out.println("save button clicked");
-
                 new MaterialAlertDialogBuilder(EditProfileActivity.this)
                         .setTitle("Update Profile")
                         .setMessage("Are you sure you want to update your Profile?")

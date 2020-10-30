@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -108,6 +109,11 @@ public class NewTaskFragment extends Fragment {
             ivNotification.setVisibility(View.VISIBLE);
             toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
             toolbar_title.setVisibility(View.VISIBLE);
+
+            toolbar.post(() -> {
+                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
+                toolbar.setNavigationIcon(d);
+            });
 
             //linearCustomeHeader = dashboardActivity.findViewById(R.id.linearCustomeHeader);
             //  linearCustomeHeader.setVisibility(View.VISIBLE);

@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +29,16 @@ public class MustHaveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private Context ctx;
     private OnItemClickListener mOnItemClickListener;
+    private onCheckedAllItem onCheckedAllItem;
+
+
+    public interface onCheckedAllItem {
+        void onCheckedAllItem();
+    }
+
+    public void onCheckedAllItems(final onCheckedAllItem onChecked) {
+        this.onCheckedAllItem = onChecked;
+    }
 
     public interface OnItemClickListener {
         void onItemClick(View view, MustHaveModel obj, int position, String action);
@@ -46,7 +58,10 @@ public class MustHaveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @BindView(R.id.cb_receive_alerts)
         CheckBox cbReceiveAlerts;
         @BindView(R.id.txt_btn_add_must_have)
-        TextViewRegular txtBtnAddMustHave;
+        TextView txtBtnAddMustHave;
+
+        @BindView(R.id.lytMain)
+        LinearLayout lytMain;
 
         public OriginalViewHolder(View v) {
             super(v);
@@ -77,8 +92,38 @@ public class MustHaveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });*/
 
-            view.cbReceiveAlerts.setOnCheckedChangeListener((buttonView, isChecked) -> items.get(position).setChecked(true));
+//            view.cbReceiveAlerts.setOnCheckedChangeListener((buttonView, isChecked) -> items.get(position).setChecked(true));
+            view.cbReceiveAlerts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        items.get(position).setChecked(true);
+                        view.lytMain.setBackgroundResource(R.drawable.bg_blue_border_requirement);
+                    } else {
+                        items.get(position).setChecked(false);
+                        view.lytMain.setBackgroundResource(R.drawable.bg_grey_border_requirement);
+                    }
+                    if (onCheckedAllItem != null) {
+                        onCheckedAllItem.onCheckedAllItem();
+                    }
+                }
+            });
 
+            view.lytMain.setOnClickListener(v -> {
+                if (view.cbReceiveAlerts.isChecked()) {
+                    view.cbReceiveAlerts.setChecked(false);
+                } else {
+                    view.cbReceiveAlerts.setChecked(true);
+                }
+            });
+
+            view.txtBtnAddMustHave.setOnClickListener(v -> {
+                if (view.cbReceiveAlerts.isChecked()) {
+                    view.cbReceiveAlerts.setChecked(false);
+                } else {
+                    view.cbReceiveAlerts.setChecked(true);
+                }
+            });
         }
     }
 
@@ -88,18 +133,16 @@ public class MustHaveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
-    public  boolean isAllSelected()
-    {
+    public boolean isAllSelected() {
 
-        for(int i=0;i<items.size();i++)
-        {
-            if(!items.get(i).isChecked())
-            {
+        for (int i = 0; i < items.size(); i++) {
+            if (!items.get(i).isChecked()) {
                 return false;
             }
         }
         return true;
     }
+
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
         this.onLoadMoreListener = onLoadMoreListener;
     }

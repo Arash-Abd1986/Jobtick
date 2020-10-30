@@ -1,95 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey_100"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:background="@color/background"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.BrowseFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-
-
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:layout_marginTop="@dimen/spacing_middle"
-            android:layout_marginBottom="@dimen/spacing_middle"
-            android:backgroundTint="@color/colorPrimary"
-            app:cardCornerRadius="@dimen/spacing_middle"
-            android:elevation="3dp"
-            >
-
-
-
+        android:background="@color/grey_100"
+        app:elevation="0dp">
 
         <LinearLayout
-            android:paddingStart="@dimen/spacing_middle"
-            android:paddingTop="@dimen/spacing_middle"
-            android:paddingBottom="@dimen/spacing_middle"
-            android:paddingEnd="@dimen/spacing_middle"
-            android:id="@+id/lyt_btn_filters"
-            android:background="?attr/selectableItemBackground"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_filter"
-                android:tint="@color/white"/>
-
-            <com.jobtick.TextView.TextViewRegular
+            <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/spacing_medium"
-                android:drawablePadding="@dimen/spacing_middle"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:text="FILTERS"
-                android:textColor="@color/white"
-                android:textSize="10sp" />
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:backgroundTint="@color/colorPrimary"
+                android:elevation="3dp"
+                app:cardCornerRadius="@dimen/spacing_xmedium">
+
+                <LinearLayout
+                    android:id="@+id/lyt_btn_filters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/spacing_middle"
+                    android:paddingTop="@dimen/spacing_xmedium"
+                    android:paddingEnd="@dimen/spacing_middle"
+                    android:paddingBottom="@dimen/spacing_xmedium">
+
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/todo"
+                        android:src="@drawable/ic_browse_filter"
+                        android:tint="@color/white" />
+
+                    <com.jobtick.TextView.TextViewRegular
+                        android:id="@+id/txt_filters"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:drawablePadding="@dimen/spacing_middle"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="@string/filters"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_filters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:overScrollMode="never" />
         </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:overScrollMode="never"
-            android:layout_marginEnd="@dimen/spacing_large"
-            android:layout_marginTop="@dimen/spacing_middle"
-            android:layout_marginBottom="@dimen/spacing_middle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/recycler_view_filters"/>
-
-
-    </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/recycler_view_browse"/>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </LinearLayout>
-</LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_browse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/ivMapView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_margin="16dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:src="@drawable/ic_map_white"
+                app:elevation="@dimen/_16sp"
+                app:fabSize="normal"
+                app:tint="@color/white" />
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

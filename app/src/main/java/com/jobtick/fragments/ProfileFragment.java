@@ -2,6 +2,7 @@ package com.jobtick.fragments;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -217,7 +218,6 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     TextView toolbar_title;
 
 
-
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -251,6 +251,10 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             params.gravity = Gravity.LEFT;
             toolbar_title.setLayoutParams(params);
 
+            toolbar.post(() -> {
+                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
+                toolbar.setNavigationIcon(d);
+            });
 
         }
         return view;
@@ -658,8 +662,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         } else {
             imgVerified.setVisibility(View.GONE);
 
-            if (userAccountModel.getSkills().getEducation() != null && userAccountModel.getSkills().getEducation().size() != 0)
-            {
+            if (userAccountModel.getSkills().getEducation() != null && userAccountModel.getSkills().getEducation().size() != 0) {
                 lytEducation.setVisibility(View.VISIBLE);
                 //tagEducation.setText(userAccountModel.getSkills().getEducation());
 
@@ -685,8 +688,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                 lytLanguage.setVisibility(View.GONE);
                 tagLanguage.setTags(new ArrayList<>());
             }
-            if (userAccountModel.getSkills().getSpecialities() != null && userAccountModel.getSkills().getSpecialities().size() != 0)
-            {
+            if (userAccountModel.getSkills().getSpecialities() != null && userAccountModel.getSkills().getSpecialities().size() != 0) {
                 lytSpecialities.setVisibility(View.VISIBLE);
                 tagSpecialities.setTags(userAccountModel.getSkills().getSpecialities());
 

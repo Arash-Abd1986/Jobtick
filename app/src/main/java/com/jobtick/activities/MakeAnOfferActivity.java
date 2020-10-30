@@ -72,20 +72,15 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
             makeAnOfferModel.setOffer_price(bugdet);
         }
         taskModel = TaskDetailsActivity.taskModel;
-        if (taskModel.getMusthave() != null && taskModel.getMusthave().size() > 0) {
-            Fragment fragment = MakeAnOfferMustHaveFragment.newInstance(makeAnOfferModel, MakeAnOfferActivity.this);
-            commit(fragment, MakeAnOfferMustHaveFragment.class.getSimpleName());
-        } else {
-            Fragment fragment = MakeAnOfferBudgetFragment.newInstance(makeAnOfferModel, MakeAnOfferActivity.this);
-            commit(fragment, MakeAnOfferBudgetFragment.class.getSimpleName());
-        }
+
+        Fragment fragment = MakeAnOfferBudgetFragment.newInstance(makeAnOfferModel, MakeAnOfferActivity.this);
+        commit(fragment, MakeAnOfferBudgetFragment.class.getSimpleName());
 
     }
 
     @Override
     public void backButtonBudget() {
-        Fragment fragment = MakeAnOfferMustHaveFragment.newInstance(makeAnOfferModel, MakeAnOfferActivity.this);
-        commit(fragment, MakeAnOfferMustHaveFragment.class.getSimpleName());
+        finish();
     }
 
     @Override

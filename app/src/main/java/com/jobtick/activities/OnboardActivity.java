@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.PagerAdapter;
@@ -223,7 +222,7 @@ public class OnboardActivity extends ActivityBase {
         if (dots.length > 0) {
             dots[current].setImageResource(R.drawable.shape_circle_blue);
         }
-        if (current == size -1)
+        if (current == size - 1)
             lytBtnNext.setText(R.string.get_started);
         else
             lytBtnNext.setText(R.string.next);

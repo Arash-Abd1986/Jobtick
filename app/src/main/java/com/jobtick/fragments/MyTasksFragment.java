@@ -3,6 +3,7 @@ package com.jobtick.fragments;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -156,6 +157,11 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             params.gravity = Gravity.LEFT;
             toolbar_title.setLayoutParams(params);
 
+            toolbar.post(() -> {
+                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
+                toolbar.setNavigationIcon(d);
+            });
+
         }
         setHasOptionsMenu(true);
         mBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -172,7 +178,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(dashboardActivity);
         recyclerViewStatus.setLayoutManager(layoutManager);
-        taskListAdapter = new TaskListAdapter(dashboardActivity, new ArrayList<>());
+        taskListAdapter = new TaskListAdapter(new ArrayList<>());
         recyclerViewStatus.setAdapter(taskListAdapter);
         taskListAdapter.setOnItemClickListener(this);
         swipeRefresh.setRefreshing(true);

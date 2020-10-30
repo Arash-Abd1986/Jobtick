@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,9 +14,9 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -30,7 +30,6 @@
                     android:layout_height="@dimen/_32sp"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_10sp"
-                    android:padding="@dimen/_5sp"
                     android:src="@drawable/ic_back" />
 
                 <com.jobtick.TextView.TextViewMedium
@@ -217,7 +216,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:background=" @drawable/bg_guideline_video"
+                            android:background="@drawable/bg_guideline_video"
                             android:gravity="center_vertical"
                             android:paddingLeft="@dimen/_15sp"
                             android:paddingRight="@dimen/_15sp"
@@ -245,6 +244,8 @@
                             android:orientation="vertical">
 
                             <RelativeLayout
+                                android:layout_marginEnd="@dimen/_10sp"
+                                android:layout_marginStart="@dimen/_10sp"
                                 android:id="@+id/LytVideoPlay"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -270,15 +271,15 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
                                     android:layout_centerHorizontal="true"
+                                    android:paddingBottom="@dimen/_20sp"
                                     android:background="?attr/selectableItemBackground"
                                     android:gravity="center"
-                                    android:orientation="horizontal"
-                                    android:paddingBottom="@dimen/_25sp">
+                                    android:orientation="horizontal">
 
                                     <LinearLayout
                                         android:id="@+id/lytRecord2"
-                                        android:layout_width="@dimen/_55dp"
-                                        android:layout_height="@dimen/_55dp"
+                                        android:layout_width="@dimen/_40sp"
+                                        android:layout_height="@dimen/_40sp"
                                         android:background="@drawable/bg_rounded_recording"
                                         android:gravity="center"
                                         android:orientation="vertical">
@@ -288,15 +289,16 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="REC"
+                                            android:layout_gravity="center"
                                             android:textColor="@color/white"
-                                            android:textSize="@dimen/_13sp" />
+                                            android:textSize="@dimen/_10sp" />
                                     </LinearLayout>
 
                                     <LinearLayout
                                         android:id="@+id/llPlayVideo"
-                                        android:layout_width="@dimen/_55dp"
-                                        android:layout_height="@dimen/_55dp"
-                                        android:layout_marginLeft="@dimen/_25sp"
+                                        android:layout_width="@dimen/_40sp"
+                                        android:layout_height="@dimen/_40sp"
+                                        android:layout_marginLeft="@dimen/_12sp"
                                         android:background="@drawable/bg_rounded_play"
                                         android:gravity="center"
                                         android:orientation="vertical">
@@ -308,7 +310,21 @@
 
                                     </LinearLayout>
 
+                                    <LinearLayout
+                                        android:id="@+id/llCancelVideo"
+                                        android:layout_width="@dimen/_40sp"
+                                        android:layout_height="@dimen/_40sp"
+                                        android:layout_marginLeft="@dimen/_12sp"
+                                        android:background="@drawable/bg_rounded_play"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
 
+                                        <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/ic_video_close" />
+
+                                    </LinearLayout>
                                 </LinearLayout>
 
                             </RelativeLayout>
@@ -367,7 +383,9 @@
                     </androidx.cardview.widget.CardView>
 
                     <LinearLayout
+
                         android:id="@+id/llJobDetails"
+                        android:layout_marginTop="@dimen/_20sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_mlarge"
@@ -387,6 +405,8 @@
             </androidx.core.widget.NestedScrollView>
 
         </LinearLayout>
+
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_continue"

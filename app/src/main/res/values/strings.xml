@@ -30,7 +30,7 @@
     <string name="google">GOOGLE</string>
     <string name="sign_up">Sign up</string>
     <string name="repeat_password">Repeat Password</string>
-    <string name="next">NEXT</string>
+    <string name="next">Next</string>
     <string name="finish">Finish</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
@@ -280,7 +280,7 @@
     <string name="xxx_xxx">XXX - XXX</string>
     <string name="account_number">Account number</string>
     <string name="xxxxxxxxxx">XXXXXXXXXX</string>
-    <string name="provide_a_billing_address">provide a billing address</string>
+    <string name="provide_a_billing_address">Provide a billing address</string>
     <string name="address">Address</string>
     <string name="provide_a_date_of_birth">Provide a date of birth</string>
     <string name="date_of_birth">Date of birth</string>

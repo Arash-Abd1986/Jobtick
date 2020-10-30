@@ -3,6 +3,7 @@ package com.jobtick.fragments;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -155,6 +156,11 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
             params.gravity = Gravity.LEFT;
             toolbar_title.setLayoutParams(params);
+
+            toolbar.post(() -> {
+                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
+                toolbar.setNavigationIcon(d);
+            });
 
         }
         setHasOptionsMenu(true);

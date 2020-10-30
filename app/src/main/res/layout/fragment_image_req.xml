@@ -5,95 +5,95 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ImageReqFragment">
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <com.jobtick.TextView.TextViewMedium
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/spacing_mlarge"
-            android:gravity="left"
-            android:text="@string/upload_a_profile_picture"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/_14sp" />
+            android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_large"
-            android:visibility="visible">
+            <com.jobtick.TextView.TextViewMedium
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacing_mlarge"
+                android:gravity="left"
+                android:text="@string/upload_a_profile_picture"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_14sp" />
 
-            <RelativeLayout
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center">
-
-                <com.mikhaellopez.circularimageview.CircularImageView
-                    android:id="@+id/img_user_avatar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_profile_image"
-                    app:civ_border_width="0dp" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_large"
+                android:visibility="visible">
 
                 <RelativeLayout
-                    android:id="@+id/lytDeletePicture"
-                    android:layout_width="@dimen/_27sp"
-                    android:layout_height="@dimen/_27sp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/_9sp"
-                    android:background="@drawable/bg_rounded_play"
-                    android:gravity="center"
-                    android:visibility="gone">
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center">
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/img_user_avatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_profile_image"
+                        app:civ_border_width="0dp" />
+
+                    <RelativeLayout
+                        android:id="@+id/lytDeletePicture"
+                        android:layout_width="@dimen/_27sp"
+                        android:layout_height="@dimen/_27sp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="@dimen/_9sp"
+                        android:background="@drawable/bg_rounded_play"
+                        android:gravity="center"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="@dimen/_25sp"
+                            android:layout_height="@dimen/_25sp"
+                            android:layout_margin="@dimen/spacing_medium"
+                            android:layout_weight="1"
+                            android:clickable="true"
+                            android:src="@drawable/ic_profile_remove"
+                            android:visibility="visible" />
+                    </RelativeLayout>
 
                     <ImageView
-                        android:layout_width="@dimen/_25sp"
-                        android:layout_height="@dimen/_25sp"
-                        android:layout_margin="@dimen/spacing_medium"
-                        android:layout_weight="1"
-                        android:clickable="true"
-                        android:src="@drawable/ic_profile_remove"
-                        android:visibility="visible" />
+                        android:id="@+id/img_verified_account"
+                        android:layout_width="@dimen/_40dp"
+                        android:layout_height="@dimen/_40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/ic_pick_camera"
+                        tools:ignore="ContentDescription" />
                 </RelativeLayout>
+            </FrameLayout>
 
-                <ImageView
-                    android:id="@+id/img_verified_account"
-                    android:layout_width="@dimen/_40dp"
-                    android:layout_height="@dimen/_40dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
-                    android:background="@drawable/ic_pick_camera"
-                    tools:ignore="ContentDescription" />
-            </RelativeLayout>
-        </FrameLayout>
+            <com.jobtick.TextView.TextViewMedium
+                android:id="@+id/txt_btn_nextI"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:background="@drawable/shape_tab_primary_60"
+                android:gravity="center"
+                android:padding="@dimen/spacing_large"
+                android:text="@string/next"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
 
-        <com.jobtick.TextView.TextViewMedium
-            android:id="@+id/txt_btn_nextI"
+        <FrameLayout
+            android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            android:padding="@dimen/spacing_large"
-            android:background="@drawable/shape_tab_primary_60"
-            android:gravity="center"
-            android:text="@string/next"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/bottom_sheet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/bottom_sheet_behavior" />
-
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            app:layout_behavior="@string/bottom_sheet_behavior" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </FrameLayout>

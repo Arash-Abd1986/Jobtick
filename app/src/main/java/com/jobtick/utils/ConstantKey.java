@@ -78,11 +78,11 @@ public class ConstantKey {
     public static final String MAKE_AN_OFFER_MODEL = "Make_an_offer_model";
 
 
-    public static final String BTN_OFFER_PENDING = "OFFER PENDING";
-    public static final String BTN_MAKE_AN_OFFER = "MAKE AN OFFER";
-    public static final String BTN_COMPLETED = "COMPLETED";
-    public static final String BTN_ASK_TO_RELEASE_MONEY = "ASK TO RELEASE MONEY";
-    public static final String BTN_WAIT_TO_RELEASE_MONEY = "WAITING FOR POSTER TO RELEASE MONEY";
+    public static final String BTN_OFFER_PENDING = "Offer pending";
+    public static final String BTN_MAKE_AN_OFFER = "Make an offer";
+    public static final String BTN_COMPLETED = "Completed";
+    public static final String BTN_ASK_TO_RELEASE_MONEY = "Ask to release money";
+    public static final String BTN_WAIT_TO_RELEASE_MONEY = "Waiting for poster to release money";
 
     public static final String BTN_CANCELLATION_REQUEST_SENT = "CANCELLATION REQUEST SENT";
     public static final String BTN_CANCELLATION_REQUEST_RECEIVED = "CANCELLATION REQUEST RECEIVED";

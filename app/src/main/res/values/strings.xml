@@ -303,6 +303,7 @@
     <string name="explore">Explore</string>
     <string name="enter_verification_code_sent_to">Enter verification code sent to</string>
     <string name="verify_mobile_number">Verify mobile number</string>
+    <string name="job_cost">Job Cost</string>
 
 
 </resources>

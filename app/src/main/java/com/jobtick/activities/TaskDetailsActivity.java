@@ -1513,7 +1513,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         break;
                     case ConstantKey.BTN_MAKE_AN_OFFER:
                         int key = handleRequirementStrip();
-                        if (key == 5) {
+                        if (true) {
                             if (taskModel.getMusthave().size() == 0) {
                                 intent = new Intent(TaskDetailsActivity.this, MakeAnOfferActivity.class);
                                 bundle = new Bundle();

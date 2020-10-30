@@ -138,7 +138,7 @@
     <string name="CANCEL">CANCEL</string>
     <string name="OK">OK</string>
     <string name="action_flag">Flag</string>
-    <string name="review_conditions"><![CDATA[By submitting your offer your agree to the Terms & Conditions and Community Guidelines\nService fee includes insurance and transaction costs.]]></string>
+    <string name="review_conditions">Offer submission means you agree to our Terms &amp; Condition and Community guidelines.</string>
     <string name="camera">Camera</string>
     <string name="action_submit">Submit</string>
     <string name="assignee">Assignee</string>

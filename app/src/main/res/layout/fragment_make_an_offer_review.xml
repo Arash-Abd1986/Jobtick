@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/backgroundLightGrey"
     android:orientation="vertical"
     tools:context=".fragments.MakeAnOfferReviewFragment">
 
@@ -83,7 +83,7 @@
                                     android:layout_height="@dimen/_24sp"
                                     android:layout_centerVertical="true"
                                     android:src="@drawable/ic_info2"
-                                    android:tint="@color/colorPrimary" />
+                                    app:tint="@color/colorPrimary" />
 
                                 <com.jobtick.TextView.TextViewRegular
                                     android:layout_width="wrap_content"
@@ -93,7 +93,8 @@
                                     android:layout_toEndOf="@+id/img_info"
                                     android:text="Once your offer is accepted, you agree to complete the job. Any cancellation may lead to deduction of cancellation fee."
                                     android:textColor="@color/textColor"
-                                    android:textSize="@dimen/_12sp" />
+                                    android:textSize="@dimen/_13sp"
+                                    android:lineHeight="20dp"/>
                             </RelativeLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -119,7 +120,7 @@
                             android:layout_weight="1"
                             android:text="Your Offer"
                             android:textColor="@color/grey_70"
-                            android:textSize="@dimen/_12sp" />
+                            android:textSize="@dimen/_14sp" />
 
                         <com.jobtick.TextView.TextViewBold
                             android:id="@+id/txt_total_budget"
@@ -129,7 +130,7 @@
                             android:layout_marginEnd="@dimen/_10sp"
                             android:text="$200"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_17sp" />
+                            android:textSize="@dimen/_18sp" />
 
                     </LinearLayout>
 
@@ -157,10 +158,9 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/_5sp"
-
                                     android:text="Service Fee:"
-                                    android:textColor="@color/_4f4f4f"
-                                    android:textSize="@dimen/_13sp" />
+                                    android:textColor="@color/grey_70"
+                                    android:textSize="@dimen/_14sp" />
 
                                 <com.jobtick.TextView.TextViewSemiBold
                                     android:id="@+id/txt_service_fee"
@@ -170,7 +170,7 @@
                                     android:layout_marginEnd="@dimen/_15sp"
                                     android:text="$20"
                                     android:textColor="@color/textColor"
-                                    android:textSize="@dimen/_17sp" />
+                                    android:textSize="@dimen/_18sp" />
 
                             </RelativeLayout>
 
@@ -190,7 +190,7 @@
                                     android:layout_marginStart="@dimen/_5sp"
                                     android:text="You’ll Receive:"
                                     android:textColor="@color/textColor"
-                                    android:textSize="@dimen/_13sp" />
+                                    android:textSize="@dimen/_14sp" />
 
                                 <com.jobtick.TextView.TextViewBold
                                     android:id="@+id/txt_receive_budget"
@@ -200,8 +200,7 @@
                                     android:layout_marginEnd="@dimen/_15sp"
                                     android:text="$180"
                                     android:textColor="@color/colorPrimary"
-                                    android:textSize="@dimen/_21sp"
-                                    android:textStyle="bold" />
+                                    android:textSize="@dimen/_22sp" />
                             </RelativeLayout>
                         </LinearLayout>
                     </FrameLayout>
@@ -214,7 +213,8 @@
                         android:layout_marginTop="@dimen/_15sp"
                         android:layout_marginEnd="@dimen/spacing_large"
                         android:layout_marginBottom="@dimen/spacing_middle"
-                        android:visibility="visible">
+                        android:visibility="visible"
+                        android:background="@color/backgroundLightGrey">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -231,7 +231,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="160dp"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/video_tubmnail_placeholder"
                                 app:cornerRadius="10dp" />
 
                             <ImageView
@@ -296,11 +295,13 @@
                     android:id="@+id/txt_review_conditions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_20sp"
-                    android:layout_marginEnd="@dimen/_30dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_marginBottom="@dimen/_12sp"
                     android:text="@string/review_conditions"
-                    android:textSize="@dimen/_11sp" />
+                    android:textSize="@dimen/_12sp"
+                    android:lineHeight="17dp"
+                    android:textColor="@color/grey_70"/>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_submit_offer"

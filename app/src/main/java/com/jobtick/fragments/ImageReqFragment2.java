@@ -1,6 +1,7 @@
 package com.jobtick.fragments;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,24 +11,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.adapers.AttachmentAdapter;
-import com.jobtick.adapers.AttachmentAdapterEditProfile;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.retrofit.ApiClient;
@@ -50,7 +47,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -65,7 +61,7 @@ import static com.jobtick.activities.DashboardActivity.onProfileupdatelistenerSi
 import static com.jobtick.fragments.ProfileFragment.onProfileupdatelistener;
 import static com.jobtick.utils.ConstantKey.TAG;
 
-class ImageReqFragment2 extends Fragment implements View.OnClickListener{
+class ImageReqFragment2 extends Fragment{
 
     private final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     private final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
@@ -126,7 +122,30 @@ class ImageReqFragment2 extends Fragment implements View.OnClickListener{
     }
 
     private void selectImage() {
-
+        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+        AlertDialog.Builder builder = new AlertDialog.Builder( (ActivityBase) getActivity());
+        builder.setTitle("Add Photo!");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("Take Photo"))
+                {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                    startActivityForResult(intent, 1);
+                }
+                else if (options[item].equals("Choose from Gallery"))
+                {
+                    Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, 2);
+                }
+                else if (options[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
     }
 
     private void requestCameraPermission(final int type) {
@@ -318,8 +337,5 @@ class ImageReqFragment2 extends Fragment implements View.OnClickListener{
     }
 
 
-    @Override
-    public void onClick(View view) {
 
-    }
 }

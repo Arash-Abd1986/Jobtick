@@ -120,6 +120,9 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     @BindView(R.id.edt_tagline)
     EditText edtTagline;
 
+    @BindView(R.id.edt_phone_number)
+    EditText edtPhoneNumber;
+
     @BindView(R.id.edt_about_me)
     EditText edtAboutMe;
 
@@ -706,9 +709,12 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
     @OnClick({R.id.txt_suburb, R.id.txt_birth_date, R.id.rlt_btn_transportation, R.id.rlt_btn_languages,
             R.id.rlt_btn_education, R.id.rlt_btn_experience, R.id.rlt_btn_specialities, R.id.img_user_avatar, R.id.lytDeletePicture,
-    R.id.lyt_btn_save_profile})
+    R.id.lyt_btn_save_profile, R.id.lyt_btn_close})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.lyt_btn_close:
+                verifyPhone();
+                break;
             case R.id.lyt_btn_save_profile:
 
                 new MaterialAlertDialogBuilder(EditProfileActivity.this)
@@ -826,6 +832,12 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                 break;
 
         }
+    }
+
+    private void verifyPhone() {
+        Intent intent = new Intent(this, MobileVerificationActivity.class);
+        intent.putExtra("phone_number", edtPhoneNumber.getText().toString());
+        startActivity(intent);
     }
 
     private void uploadDataInPortfolioMediaApi(File pictureFile) {

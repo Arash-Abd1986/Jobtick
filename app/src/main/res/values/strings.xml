@@ -301,6 +301,8 @@
     <string name="address_line_1">Address Line 1</string>
     <string name="address_line_2_optional">Address Line 2 (Optional)</string>
     <string name="explore">Explore</string>
+    <string name="enter_verification_code_sent_to">Enter verification code sent to</string>
+    <string name="verify_mobile_number">Verify mobile number</string>
 
 
 </resources>

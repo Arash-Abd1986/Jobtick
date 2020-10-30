@@ -2,6 +2,7 @@ package com.jobtick.fragments;
 
 import android.Manifest;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -26,6 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
+import com.jobtick.activities.EditProfileActivity;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.AttachmentAdapterEditProfile;
@@ -244,13 +246,17 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
                 if (resultCode == RESULT_OK) {
                     if (data.getData() != null && getActivity() != null) {
                         try {
-                            final Uri imageUri = data.getData();
-                            final InputStream imageStream;
-                            imageStream = getApplicationContext().getContentResolver().openInputStream(imageUri);
-                            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                            imgAvatar.setImageBitmap(selectedImage);
-                            uploadProfileAvatar(new File(imageUri.getPath()));
+                            imageStoragePath = CameraUtils.getPath(getActivity(), data.getData());
+                            File file = new File(imageStoragePath);
+                            Uri uri = Uri.parse("file://" + imageStoragePath);
+                            Bitmap bitmap = null;
+                            bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+
+                            imgAvatar.setImageBitmap(bitmap);
+                            uploadProfileAvatar(new File(uri.getPath()));
                         } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
@@ -269,9 +275,13 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
         call = ApiClient.getClient().uploadProfilePicture("XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
+        System.out.println("aaaaaaaaaaaaaaaa");
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                System.out.println("ccccccccccccccccccccccc");
+                String res = response.body();
+                System.out.println(res);
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     if (getActivity() != null) {
                         ((ActivityBase) getActivity()).showToast(response.message(), getActivity());
@@ -279,7 +289,7 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
                     return;
                 }
                 try {
-                    String strResponse = response.body();
+                    String strResponse = res;
                     if (response.code() == HttpStatus.NOT_FOUND) {
                         Toast.makeText(getActivity(), "not found", Toast.LENGTH_SHORT).show();
                         return;
@@ -334,11 +344,15 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                System.out.println("bbbbbbbbbbbbbbbbb");
+                System.out.println(t.toString());
                 if (getActivity() != null) {
                     ((ActivityBase) getActivity()).hideProgressDialog();
                 }
             }
         });
+
+
     }
 
     public void showPermissionsAlert() {

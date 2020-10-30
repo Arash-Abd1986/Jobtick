@@ -95,5 +95,4 @@
             android:layout_height="wrap_content"
             app:layout_behavior="@string/bottom_sheet_behavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 </FrameLayout>

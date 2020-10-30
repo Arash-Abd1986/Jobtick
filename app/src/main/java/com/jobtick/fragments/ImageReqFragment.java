@@ -3,10 +3,9 @@ package com.jobtick.fragments;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,11 +21,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -39,7 +33,6 @@ import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.retrofit.ApiClient;
 import com.jobtick.utils.CameraUtils;
-import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.ImageUtil;
@@ -50,18 +43,16 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
+import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.MediaType;
@@ -69,7 +60,6 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import timber.log.Timber;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -77,7 +67,6 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.jobtick.activities.DashboardActivity.onProfileupdatelistenerSideMenu;
 import static com.jobtick.fragments.ProfileFragment.onProfileupdatelistener;
 import static com.jobtick.utils.ConstantKey.TAG;
-
 
 public class ImageReqFragment extends Fragment implements AttachmentAdapterEditProfile.OnItemClickListener {
 
@@ -100,7 +89,6 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         return new ImageReqFragment();
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -112,7 +100,6 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         btnNext.setOnClickListener(v -> ((RequirementsBottomSheet) getParentFragment()).changeFragment(1));
         userAccountModel = ((TaskDetailsActivity) getActivity()).userAccountModel;
         setUpAvatar(userAccountModel);
-
     }
 
     @Override
@@ -122,7 +109,6 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         ButterKnife.bind(this, view);
         return view;
     }
-
 
     private void setUpAvatar(UserAccountModel userAccountModel) {
         try {
@@ -140,8 +126,8 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         }
     }
 
-    private void showBottomSheetDialog(boolean isUploadPortfolioOrPrfile) {
-        isUploadPortfolio = isUploadPortfolioOrPrfile;
+    private void showBottomSheetDialog(boolean isUploadPortfolioOrProfile) {
+        isUploadPortfolio = isUploadPortfolioOrProfile;
 
         if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -172,7 +158,6 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
             }
             mBottomSheetDialog.hide();
         });
-
 
         lytBtnImage.setOnClickListener(v -> {
             Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -258,18 +243,16 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
             } else if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
                 if (resultCode == RESULT_OK) {
                     if (data.getData() != null && getActivity() != null) {
-                        imageStoragePath = CameraUtils.getPath(getActivity(), data.getData());
-                        File file = new File(imageStoragePath);
-                        Uri uri = Uri.parse("file://" + imageStoragePath);
-                        Bitmap bitmap = null;
                         try {
-                            bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
-                        } catch (IOException e) {
+                            final Uri imageUri = data.getData();
+                            final InputStream imageStream;
+                            imageStream = getApplicationContext().getContentResolver().openInputStream(imageUri);
+                            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                            imgAvatar.setImageBitmap(selectedImage);
+                            uploadProfileAvatar(new File(imageUri.getPath()));
+                        } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
-
-                        imgAvatar.setImageBitmap(bitmap);
-                        uploadProfileAvatar(new File(uri.getPath()));
                     }
                 } else {
                     // failed to record video
@@ -282,17 +265,13 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
     }
 
     private void uploadProfileAvatar(File pictureFile) {
-
         Call<String> call;
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
         call = ApiClient.getClient().uploadProfilePicture("XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
-
         call.enqueue(new Callback<String>() {
-
             @Override
             public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     if (getActivity() != null) {
                         ((ActivityBase) getActivity()).showToast(response.message(), getActivity());
@@ -306,9 +285,7 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
                         return;
                     }
                     if (response.code() == HttpStatus.AUTH_FAILED) {
-                        if (getActivity() != null) {
-                            ((ActivityBase) getActivity()).unauthorizedUser();
-                        }
+                        ((ActivityBase) getActivity()).unauthorizedUser();
                         return;
                     }
                     if (response.code() == HttpStatus.SUCCESS) {
@@ -347,14 +324,10 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
                         //   adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
                         ((ActivityBase) getActivity()).showToast("attachment added", getActivity());
                     } else {
-                        if (getActivity() != null) {
-                            ((ActivityBase) getActivity()).showToast("Something went wrong", getActivity());
-                        }
-                    }
-                } catch (JSONException e) {
-                    if (getActivity() != null) {
                         ((ActivityBase) getActivity()).showToast("Something went wrong", getActivity());
                     }
+                } catch (JSONException e) {
+                    ((ActivityBase) getActivity()).showToast("Something went wrong", getActivity());
                     e.printStackTrace();
                 }
             }

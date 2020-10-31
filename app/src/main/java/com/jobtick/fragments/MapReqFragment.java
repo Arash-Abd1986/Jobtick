@@ -117,15 +117,14 @@ public class MapReqFragment extends Fragment {
             }
         };
 
-        //TODO: there is no such data, so we disable getting data for all fragments.
-//        BillingAdreessModel billingAdreessModel = ((TaskDetailsActivity) getActivity()).billingAdreessModel;
-//        if (billingAdreessModel != null && billingAdreessModel.getData() != null) {
-//            edtAddressLine1.setText(billingAdreessModel.getData().getLine1());
-//            edtSuburs.setText(billingAdreessModel.getData().getLocation());
-//            edtState.setText(billingAdreessModel.getData().getState());
-//            edtPostcode.setText(billingAdreessModel.getData().getPost_code());
-//            edtCountry.setText(billingAdreessModel.getData().getCountry());
-//        }
+        BillingAdreessModel billingAdreessModel = ((TaskDetailsActivity) getActivity()).billingAdreessModel;
+        if (billingAdreessModel != null && billingAdreessModel.getData() != null) {
+            edtAddressLine1.setText(billingAdreessModel.getData().getLine1());
+            edtSuburs.setText(billingAdreessModel.getData().getLocation());
+            edtState.setText(billingAdreessModel.getData().getState());
+            edtPostcode.setText(billingAdreessModel.getData().getPost_code());
+            edtCountry.setText(billingAdreessModel.getData().getCountry());
+        }
     }
 
     @Override

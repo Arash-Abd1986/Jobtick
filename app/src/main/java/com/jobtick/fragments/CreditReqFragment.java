@@ -58,13 +58,12 @@ public class CreditReqFragment extends Fragment {
         edtBsb = view.findViewById(R.id.edt_bsb);
         edtAccountNumber = view.findViewById(R.id.edt_account_number);
 
-        //TODO: there is no such data, so we disable getting data for all fragments.
-//        BankAccountModel bankAccountModel = ((TaskDetailsActivity) getActivity()).bankAccountModel;
-//        if (bankAccountModel != null && bankAccountModel.getData() != null) {
-//            edtAccountName.setText(bankAccountModel.getData().getAccount_name());
-//            edtBsb.setText(bankAccountModel.getData().getBsb_code());
-//            edtAccountNumber.setText(bankAccountModel.getData().getAccount_number());
-//        }
+        BankAccountModel bankAccountModel = ((TaskDetailsActivity) getActivity()).bankAccountModel;
+        if (bankAccountModel != null && bankAccountModel.getData() != null) {
+            edtAccountName.setText(bankAccountModel.getData().getAccount_name());
+            edtBsb.setText(bankAccountModel.getData().getBsb_code());
+            edtAccountNumber.setText(bankAccountModel.getData().getAccount_number());
+        }
 
         addBankAccount = new AddBankAccountImpl(requireContext(), sessionManager) {
             @Override

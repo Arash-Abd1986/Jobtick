@@ -100,7 +100,7 @@
                     android:singleLine="true"
                     android:text="Nathan Fox"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/spacing_middle"
+                    android:textSize="11dp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -151,26 +151,40 @@
                         android:textSize="@dimen/spacing_middle" />
                 </LinearLayout>
             </LinearLayout>
+<LinearLayout
+    android:id="@+id/ivFlag"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:padding="3dp">
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center"
+        android:padding="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/_8dp"
+        android:src="@drawable/ic_red_flag" />
+
+</LinearLayout>
 
             <LinearLayout
                 android:id="@+id/lyt_btn_reply"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:background="?attr/selectableItemBackground"
                 android:orientation="horizontal"
                 android:padding="@dimen/spacing_small">
 
-                <ImageView
-                    android:id="@+id/ivFlag"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginEnd="@dimen/_8dp"
-                    android:src="@drawable/ic_red_flag" />
 
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/spacing_small"
                     android:src="@drawable/ic_corner_up_left"
                     android:tint="@color/colorPrimary" />
 
@@ -182,7 +196,7 @@
                     android:gravity="center_vertical"
                     android:text="Reply"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/spacing_middle"
+                    android:textSize="11dp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>

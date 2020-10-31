@@ -83,7 +83,7 @@
                 android:background="@drawable/shape_tab_primary_60"
                 android:gravity="center"
                 android:padding="@dimen/spacing_large"
-                android:text="@string/next"
+                android:text="Next"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="14sp" />

@@ -209,45 +209,46 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         File file = CameraUtils.getOutputMediaFile(ConstantKey.MEDIA_TYPE_IMAGE);
         if (file != null) {
             imageStoragePath = file.getAbsolutePath();
+            Uri fileUri = CameraUtils.getOutputMediaFileUri(getContext(), file);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+            // start the image capture Intent
+            startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
         }
-        Uri fileUri = CameraUtils.getOutputMediaFileUri(getApplicationContext(), file);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        // start the image capture Intent
-        startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data != null & getContext() != null) {
-            if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
-                if (resultCode == RESULT_OK) {
-                    Uri uri = Uri.parse("file://" + imageStoragePath);
-                    Bitmap bitmap = null;
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    imgAvatar.setImageBitmap(bitmap);
-                    uploadProfileAvatar(new File(uri.getPath()));
-
-                } else if (resultCode == RESULT_CANCELED) {
-                    Toast.makeText(getApplicationContext(),
-                            "User cancelled image capture", Toast.LENGTH_SHORT)
-                            .show();
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
-                            .show();
+        if (getContext() != null && requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Uri uri = Uri.parse("file://" + imageStoragePath);
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } else if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
+
+                imgAvatar.setImageBitmap(bitmap);
+                uploadProfileAvatar(new File(uri.getPath()));
+
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(getApplicationContext(),
+                        "User cancelled image capture", Toast.LENGTH_SHORT)
+                        .show();
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+
+        if (data != null & getContext() != null) {
+            if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
                 if (resultCode == RESULT_OK) {
                     if (data.getData() != null && getActivity() != null) {
                         try {
                             imageStoragePath = CameraUtils.getPath(getActivity(), data.getData());
-                            File file = new File(imageStoragePath);
                             Uri uri = Uri.parse("file://" + imageStoragePath);
                             Bitmap bitmap = null;
                             bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);

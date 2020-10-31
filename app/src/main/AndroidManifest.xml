@@ -14,8 +14,6 @@
     <uses-feature
         android:name="android.hardware.camera.front"
         android:required="false" />
-
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -36,13 +34,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".incrementbudget.IncreaseBudgetRequestToPosterActivity"/>
-        <activity android:name=".incrementbudget.IncrementBudgetRequestViewActivity"/>
-        <activity android:name=".incrementbudget.IncrementBudgetDeclineActivity"/>
-        <activity android:name=".incrementbudget.IncreaseBudgetActivity"/>
-        <activity android:name=".incrementbudget.IncreaseBudgetFromPosterActivity"/>
-
-        <activity android:name=".activities.NotificationSettings"/>
+        <activity
+            android:name=".activities.PaymentStting_1"
+            android:label="@string/title_activity_payment_stting_1"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".incrementbudget.IncreaseBudgetRequestToPosterActivity" />
+        <activity android:name=".incrementbudget.IncrementBudgetRequestViewActivity" />
+        <activity android:name=".incrementbudget.IncrementBudgetDeclineActivity" />
+        <activity android:name=".incrementbudget.IncreaseBudgetActivity" />
+        <activity android:name=".incrementbudget.IncreaseBudgetFromPosterActivity" />
+        <activity android:name=".activities.NotificationSettings" />
         <activity android:name=".activities.RequestForIncreaseBudgetActivity" />
         <activity android:name=".activities.AddCouponPaymentOverviewActivity" />
         <activity android:name=".activities.Dashboard2Activity" />
@@ -89,16 +90,14 @@
         <activity android:name=".activities.SettingActivity" />
         <activity android:name=".activities.CompleteRegistrationActivity" />
         <activity android:name=".activities.TaskCreateActivity" />
-        <activity android:name=".activities.SavedTaskActivity"/>
-        <activity android:name=".activities.UserProfileActivity"/>
-        <activity android:name=".activities.WebViewActivity"/>
-        <activity android:name=".activities.ReportActivity"/>
-        <activity android:name=".activities.NotificationSubSettingsActivity">
-
-        </activity>
-        <activity android:name=".activities.MobileOtpVerifyActivity"/>
-        <activity android:name=".activities.ZoomImageActivity"/>
-        <activity android:name=".activities.VideoPlayerActivity"/>
+        <activity android:name=".activities.SavedTaskActivity" />
+        <activity android:name=".activities.UserProfileActivity" />
+        <activity android:name=".activities.WebViewActivity" />
+        <activity android:name=".activities.ReportActivity" />
+        <activity android:name=".activities.NotificationSubSettingsActivity"></activity>
+        <activity android:name=".activities.MobileOtpVerifyActivity" />
+        <activity android:name=".activities.ZoomImageActivity" />
+        <activity android:name=".activities.VideoPlayerActivity" />
         <activity
             android:name=".activities.DashboardActivity"
             android:label="@string/title_activity_dashboard" />
@@ -110,11 +109,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".activities.AuthActivity"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
+        <activity
+            android:name=".activities.AuthActivity"
+            android:windowSoftInputMode="adjustResize"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -141,18 +139,13 @@
         </activity>
         <activity android:name=".activities.ActivityBase" />
         <activity android:name=".activities.ViewAllQuestionsActivity" />
-
         <activity android:name=".activities.RescheduleReqFromWorkerActivity" />
-
-        <activity android:name=".activities.SinginSingupAcitivity"/>
-        <activity android:name=".activities.CategroyListActivity"/>
-        <activity android:name=".activities.RescheduleDeclineActivity"/>
-        <activity android:name=".activities.OnboardActivity"/>
-        <activity android:name=".activities.SearchCategoryActivity"/>
-
-        <activity android:name=".activities.SearchTaskActivity">
-
-        </activity>
+        <activity android:name=".activities.SinginSingupAcitivity" />
+        <activity android:name=".activities.CategroyListActivity" />
+        <activity android:name=".activities.RescheduleDeclineActivity" />
+        <activity android:name=".activities.OnboardActivity" />
+        <activity android:name=".activities.SearchCategoryActivity" />
+        <activity android:name=".activities.SearchTaskActivity"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -163,10 +156,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
         <meta-data
             android:name="com.onesignal.NotificationOpened.DEFAULT"
             android:value="DISABLE" />
-
 
         <service
             android:name=".utils.NotificationExtenderBareBonesExample"
@@ -176,9 +169,10 @@
                 <action android:name="com.onesignal.NotificationExtender" />
             </intent-filter>
         </service>
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-
     </application>
+
 </manifest>

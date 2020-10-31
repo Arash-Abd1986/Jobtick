@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_100">
+
+    <LinearLayout
+        android:id="@+id/linearToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="@dimen/_32sp"
+            android:layout_height="@dimen/_32sp"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_10sp"
+            android:padding="@dimen/_8sp"
+            android:src="@drawable/ic_back" />
+
+        <com.jobtick.TextView.TextViewMedium
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_5sp"
+            android:text="Payment Settings"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/_18sp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/linearToolbar"
+        android:layout_marginTop="49dp"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:background="@color/grey_100"
+                android:orientation="vertical">
+
+                <RadioGroup
+                    android:id="@+id/rg_payments_withdrawal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/shape_tab_white_f"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_5sp"
+                    android:weightSum="2">
+
+                    <RadioButton
+                        android:id="@+id/rb_payments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/spacing_middle"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_button_tab_f"
+                        android:button="@null"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:text="Payments"
+                        android:textColor="@color/radio_btn"
+                        android:textSize="14dp" />
+
+                    <RadioButton
+                        android:id="@+id/rb_withdrawal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_button_tab_f"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="Withdrawal"
+                        android:textColor="@color/radio_btn"
+                        android:textSize="14dp" />
+
+
+                </RadioGroup>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_middle" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_credit_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_large"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="true"
+                    android:elevation="1dp"
+                    android:visibility="visible"
+                    app:cardCornerRadius="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:background="#4D576A"
+                        android:gravity="left"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/spacing_medium"
+                            android:orientation="horizontal">
+
+                            <com.jobtick.TextView.TextViewBold
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/spacing_large"
+                                android:text="Mastercard"
+                                android:textColor="@color/white"
+                                android:textSize="18dp" />
+
+                            <FrameLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/spacing_small"
+                                android:layout_marginTop="@dimen/spacing_large"
+                                android:layout_marginEnd="@dimen/spacing_small"
+                                android:src="@drawable/ic_master_card" />
+                        </LinearLayout>
+
+                        <com.jobtick.TextView.TextViewRegular
+                            android:id="@+id/txtCardNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/spacing_large"
+                            android:layout_marginTop="@dimen/spacing_large"
+                            android:text="4728 7130 xxxx xxxx"
+                            android:textColor="@color/white"
+                            android:textSize="18dp" />
+
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/spacing_large"
+                            android:layout_marginTop="@dimen/spacing_large"
+                            android:text="Mahan Sharif"
+                            android:textColor="@color/white"
+                            android:textSize="18dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:orientation="horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_delete_credit_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="@dimen/spacing_medium"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/colorDeclineRed"
+                        android:elevation="@dimen/spacing_middle"
+                        app:cardCornerRadius="@dimen/spacing_middle">
+
+                        <com.jobtick.TextView.TextViewSemiBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Delete"
+                            android:textColor="@color/white"
+                            android:textSize="14dp" />
+                    </androidx.cardview.widget.CardView>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_border_btn_blue"
+                        android:elevation="@dimen/spacing_middle">
+
+                        <com.jobtick.TextView.TextViewSemiBold
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:background="@color/transparent"
+                            android:gravity="center"
+                            android:text="Edit"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14dp" />
+                    </FrameLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_bank_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_large"
+                android:backgroundTint="#E2E2E2"
+                android:elevation="@dimen/spacing_middle"
+                android:visibility="visible"
+                app:cardCornerRadius="@dimen/spacing_middle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_medium">
+
+                    <com.jobtick.TextView.TextViewRegular
+                        android:id="@+id/txt_account_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:layout_marginBottom="@dimen/spacing_small"
+                        android:inputType="number"
+                        android:text="Address"
+                        android:textColor="@color/textColor"
+                        android:textSize="14dp" />
+
+                    <com.jobtick.TextView.TextViewRegular
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:text="xxx street"
+                        android:textColor="@color/textColor"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_large"
+                        android:orientation="horizontal">
+
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:inputType="number"
+                            android:text="@string/suburb"
+                            android:textColor="@color/textColor"
+                            android:textSize="14dp" />
+
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:text="xxx"
+                            android:textColor="@color/textColor"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_medium"
+                        android:orientation="horizontal">
+
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:inputType="number"
+                            android:text="State"
+                            android:textColor="@color/textColor"
+                            android:textSize="14dp" />
+
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:text="xxx"
+                            android:textColor="@color/textColor"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_medium"
+                        android:orientation="horizontal">
+
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:inputType="number"
+                            android:text="Postcode"
+                            android:textColor="@color/textColor"
+                            android:textSize="14dp" />
+
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:text="xxx"
+                            android:textColor="@color/textColor"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_medium"
+                        android:orientation="horizontal">
+
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:inputType="number"
+                            android:text="Country"
+                            android:textColor="@color/textColor"
+                            android:textSize="14dp" />
+
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:text="xxx"
+                            android:textColor="@color/textColor"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_large"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="@dimen/spacing_medium"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorDeclineRed"
+                    android:elevation="@dimen/spacing_middle"
+                    app:cardCornerRadius="@dimen/spacing_middle">
+
+                    <com.jobtick.TextView.TextViewSemiBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Delete"
+                        android:textColor="@color/white"
+                        android:textSize="14dp" />
+                </androidx.cardview.widget.CardView>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="@dimen/spacing_medium"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_border_btn_blue"
+                    android:elevation="@dimen/spacing_middle">
+
+                    <com.jobtick.TextView.TextViewSemiBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:text="Edit"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14dp" />
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

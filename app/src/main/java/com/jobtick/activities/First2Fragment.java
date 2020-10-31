@@ -11,7 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.jobtick.R;
 
-public class FirstFragment extends Fragment {
+public class First2Fragment extends Fragment {
 
     @Override
     public View onCreateView(
@@ -19,7 +19,7 @@ public class FirstFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_first, container, false);
+        return inflater.inflate(R.layout.fragment_first2, container, false);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -28,8 +28,8 @@ public class FirstFragment extends Fragment {
         view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                NavHostFragment.findNavController(First2Fragment.this)
+                        .navigate(R.id.action_First2Fragment_to_Second2Fragment);
             }
         });
     }

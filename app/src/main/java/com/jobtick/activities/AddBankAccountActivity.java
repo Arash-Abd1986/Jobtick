@@ -1,10 +1,11 @@
 package com.jobtick.activities;
 
+import android.net.IpSecManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -13,9 +14,18 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.button.MaterialButton;
+import com.jobtick.AppExecutors;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
+import com.jobtick.utils.Constant;
+import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
+import com.stripe.model.Token;
+import com.stripe.net.RequestOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,10 +57,12 @@ public class AddBankAccountActivity extends ActivityBase {
     EditTextRegular edtAccountNumber;
 
     @BindView(R.id.lyt_btn_add_bank_account)
-    LinearLayout lytBtnAddBankAccount;
+    MaterialButton lytBtnAddBankAccount;
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
+
+    private String btoken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,13 +102,66 @@ public class AddBankAccountActivity extends ActivityBase {
     public void onViewClicked() {
 
         if (validate()) {
-            addBankAccountDetails();
+            addBankAccount();
+            //addBankAccountDetails();
         }
     }
 
-    public void addBankAccountDetails() {
-
+    private void addBankAccount() {
         showProgressDialog();
+        AppExecutors.getInstance().getNetworkIO().execute(new Runnable() {
+            @Override
+            public void run() {
+
+                Stripe.apiKey = ConstantKey.PUBLISHABLE_KEY;
+
+                Map<String, Object> bankAccount = new HashMap<>();
+                bankAccount.put("country", "AU");
+                bankAccount.put("currency", "aud");
+                bankAccount.put(
+                        "account_holder_name",
+                        edtAccountName.getText().toString()
+                );
+                bankAccount.put(
+                        "account_holder_type",
+                        "individual"
+                );
+                bankAccount.put("routing_number", edtBsb.getText().toString());
+                bankAccount.put("account_number", edtAccountNumber.getText().toString());
+                Map<String, Object> params = new HashMap<>();
+                params.put("bank_account", bankAccount);
+
+                try {
+                    Token token = Token.create(params);
+                    System.out.println("Token success: id:" + token.getId());
+
+                    btoken = token.getId();
+                    addBankAccountDetails();
+
+                } catch (StripeException e){
+                    e.printStackTrace();
+
+                    AppExecutors.getInstance().getMainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            showToast("Your bank account information is not valid.", AddBankAccountActivity.this);
+                        }
+                    });
+                }
+
+                AppExecutors.getInstance().getMainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideProgressDialog();
+                    }
+                });
+            }
+        });
+
+
+    }
+
+    public void addBankAccountDetails() {
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, BASE_URL + ADD_ACCOUNT_DETAILS,
                 response -> {
@@ -155,7 +220,6 @@ public class AddBankAccountActivity extends ActivityBase {
                         showToast("Something Went Wrong", AddBankAccountActivity.this);
                     }
                     Timber.e(error.toString());
-                    hideProgressDialog();
                 }) {
 
 
@@ -163,9 +227,7 @@ public class AddBankAccountActivity extends ActivityBase {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("account_name", edtAccountName.getText().toString());
-                map1.put("account_number", edtAccountNumber.getText().toString());
-                map1.put("bsb_code", edtBsb.getText().toString());
+                map1.put("btoken", btoken);
 
                 return map1;
             }

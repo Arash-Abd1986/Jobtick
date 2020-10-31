@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/backgroundLightGrey"
     android:orientation="vertical"
     tools:context=".activities.PaymentOverviewActivity">
 
@@ -13,7 +13,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/background"
+        android:background="@color/backgroundLightGrey"
         app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="@drawable/ic_back"
         app:title="Payment Overview" />
@@ -31,29 +31,28 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <androidx.cardview.widget.CardView
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_middle">
+                android:background="@drawable/rectangle_round_corners_red">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/rectangle_round_corners_grey"
                     android:orientation="horizontal"
                     android:padding="@dimen/spacing_large">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <com.rishabhharit.roundedimageview.RoundedImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_info"
-                        android:tint="@color/colorPrimary" />
+                        android:src="@drawable/ic_alert" />
 
                     <View
                         android:layout_width="@dimen/spacing_large"
@@ -68,146 +67,173 @@
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+            </FrameLayout>
 
-            <androidx.cardview.widget.CardView
+
+            <LinearLayout
+                android:id="@+id/card_view_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
-                android:id="@+id/card_view_user"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_middle">
+                android:background="@drawable/rectangle_round_corners"
+                android:orientation="horizontal"
+                android:padding="@dimen/spacing_large">
+
+                <RelativeLayout
+                    android:layout_width="@dimen/_60dp"
+                    android:layout_height="@dimen/_60dp">
+
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/img_avatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/pic" />
+
+
+                    <ImageView
+                        android:id="@+id/img_verified"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_weight="1"
+                        android:background="@drawable/ic_correct" />
+
+
+                </RelativeLayout>
+
+
+                <View
+                    android:layout_width="@dimen/spacing_large"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
+
+
+                    <com.jobtick.TextView.TextViewBold
+                        android:id="@+id/txt_user_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Julie Grantt"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_16sp"
+                        android:textStyle="bold" />
+
+                    <com.jobtick.TextView.TextViewRegular
+                        android:id="@+id/txt_post_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="Clean my two bedroom apartment"
+                        android:textSize="@dimen/_12sp" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:background="@drawable/rectangle_round_corners"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_large">
+
+                <com.jobtick.TextView.TextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Summary"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_13sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_7sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/spacing_large">
+                    android:orientation="vertical">
+
 
                     <RelativeLayout
-                        android:layout_width="@dimen/_60dp"
-                        android:layout_height="@dimen/_60dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-
-                        <com.mikhaellopez.circularimageview.CircularImageView
-                            android:id="@+id/img_avatar"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/pic" />
-
-
-                        <ImageView
-                            android:id="@+id/img_verified"
+                        <com.jobtick.TextView.TextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_weight="1"
-                            android:background="@drawable/ic_correct" />
-
-
-                    </RelativeLayout>
-
-
-                    <View
-                        android:layout_width="@dimen/spacing_large"
-                        android:layout_height="match_parent" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="vertical">
+                            android:layout_alignParentStart="true"
+                            android:singleLine="true"
+                            android:text="@string/job_cost"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_16sp" />
 
 
                         <com.jobtick.TextView.TextViewBold
-                            android:id="@+id/txt_user_name"
-                            android:layout_width="match_parent"
+                            android:id="@+id/txt_task_cost"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Julie Grantt"
-                            android:textColor="@color/textColor"
+                            android:layout_alignParentEnd="true"
+                            android:text="$ 175"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_16sp"
                             android:textStyle="bold" />
 
-                        <com.jobtick.TextView.TextViewRegular
-                            android:id="@+id/txt_post_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="Clean my two bedroom apartment"
-                            android:textSize="@dimen/_12sp" />
 
-
-                    </LinearLayout>
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_middle"
-                android:elevation="@dimen/spacing_middle">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_large">
-
-                    <com.jobtick.TextView.TextViewBold
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Summary"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_12sp"
-                        android:textStyle="bold" />
+                    </RelativeLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_7sp" />
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.jobtick.TextView.TextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:singleLine="true"
+                            android:text="Service Fee"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_16sp" />
+
+
+                        <com.jobtick.TextView.TextViewBold
+                            android:id="@+id/txt_service_fee"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="$ 25"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_16sp"
+                            android:textStyle="bold" />
+
+
+                    </RelativeLayout>
+
+
                     <LinearLayout
+                        android:id="@+id/lyt_discount_coupon"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <com.jobtick.TextView.TextViewMedium
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:singleLine="true"
-                                android:text="Task Cost"
-                                android:textColor="@color/textColor"
-                                android:textSize="@dimen/_16sp" />
-
-
-                            <com.jobtick.TextView.TextViewBold
-                                android:id="@+id/txt_task_cost"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:text="$ 175"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/_16sp"
-                                android:textStyle="bold" />
-
-
-                        </RelativeLayout>
-
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_7sp" />
@@ -217,106 +243,36 @@
                             android:layout_height="wrap_content">
 
                             <com.jobtick.TextView.TextViewMedium
+                                android:id="@+id/discount_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
                                 android:singleLine="true"
-                                android:text="Service Fee"
+                                android:text="Discount"
                                 android:textColor="@color/textColor"
                                 android:textSize="@dimen/_16sp" />
 
-
-                            <com.jobtick.TextView.TextViewBold
-                                android:id="@+id/txt_service_fee"
+                            <com.jobtick.TextView.TextViewMedium
+                                android:id="@+id/txt_btn_remove_coupon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:text="$ 25"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/_16sp"
-                                android:textStyle="bold" />
-
-
-                        </RelativeLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:id="@+id/lyt_discount_coupon"
-                            >
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_7sp" />
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <com.jobtick.TextView.TextViewMedium
-                                    android:id="@+id/discount_text"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentStart="true"
-                                    android:singleLine="true"
-                                    android:text="Discount"
-                                    android:textColor="@color/textColor"
-                                    android:textSize="@dimen/_16sp" />
-
-                                <com.jobtick.TextView.TextViewMedium
-                                    android:background="?attr/selectableItemBackground"
-                                    android:id="@+id/txt_btn_remove_coupon"
-                                    android:layout_marginStart="@dimen/spacing_large"
-                                    android:layout_toEndOf="@+id/discount_text"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:visibility="gone"
-                                    android:singleLine="true"
-                                    android:text="(Remove)"
-                                    android:textColor="@color/red_600"
-                                    android:textSize="@dimen/_16sp" />
-
-                                <com.jobtick.TextView.TextViewBold
-                                    android:id="@+id/txt_discount_amount"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true"
-                                    android:text="$ 0"
-                                    android:textColor="@color/colorPrimary"
-                                    android:textSize="@dimen/_16sp"
-                                    android:textStyle="bold" />
-
-
-                            </RelativeLayout>
-                        </LinearLayout>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_7sp" />
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <com.jobtick.TextView.TextViewBold
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
+                                android:layout_marginStart="@dimen/spacing_large"
+                                android:layout_toEndOf="@+id/discount_text"
+                                android:background="?attr/selectableItemBackground"
                                 android:singleLine="true"
-                                android:text="Total Cost"
-                                android:textColor="@color/textColor"
+                                android:text="(Remove)"
+                                android:textColor="@color/red_600"
                                 android:textSize="@dimen/_16sp"
-                                android:textStyle="bold" />
-
+                                android:visibility="gone" />
 
                             <com.jobtick.TextView.TextViewBold
-                                android:id="@+id/txt_total_cost"
+                                android:id="@+id/txt_discount_amount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
-                                android:text="$ 200"
+                                android:text="$ 0"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/_20sp"
+                                android:textSize="@dimen/_16sp"
                                 android:textStyle="bold" />
 
 
@@ -325,122 +281,150 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_30dp" />
+                        android:layout_height="@dimen/_7sp" />
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content">
 
                         <com.jobtick.TextView.TextViewBold
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Payment Method"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
+                            android:layout_alignParentStart="true"
+                            android:singleLine="true"
+                            android:text="Total Cost"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_16sp"
                             android:textStyle="bold" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_7sp" />
 
-                        <RelativeLayout
-                            android:id="@+id/rlt_payment_method"
+                        <com.jobtick.TextView.TextViewBold
+                            android:id="@+id/txt_total_cost"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="$ 200"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_20sp"
+                            android:textStyle="bold" />
+
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.jobtick.TextView.TextViewBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Payment Method"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_13sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_7sp" />
+
+                    <RelativeLayout
+                        android:id="@+id/rlt_payment_method"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/img_brand"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/visa" />
+
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="gone">
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/spacing_large"
+                            android:layout_marginEnd="@dimen/spacing_large"
+                            android:layout_toStartOf="@+id/card_update"
+                            android:layout_toEndOf="@id/img_brand"
+                            android:orientation="vertical">
 
-                            <ImageView
-                                android:id="@+id/img_brand"
+                            <com.jobtick.TextView.TextViewBold
+                                android:id="@+id/txt_account_number"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/visa" />
+                                android:singleLine="true"
+                                android:text="**** **** **** 4949"
+                                android:textColor="@color/textColor"
+                                android:textSize="@dimen/_16sp"
+                                android:textStyle="bold" />
 
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
+                            <com.jobtick.TextView.TextViewMedium
+                                android:id="@+id/txt_expires_date"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginStart="@dimen/spacing_large"
-                                android:layout_marginEnd="@dimen/spacing_large"
-                                android:layout_toStartOf="@+id/card_update"
-                                android:layout_toEndOf="@id/img_brand"
-                                android:orientation="vertical">
-
-                                <com.jobtick.TextView.TextViewBold
-                                    android:id="@+id/txt_account_number"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentStart="true"
-                                    android:singleLine="true"
-                                    android:text="**** **** **** 4949"
-                                    android:textColor="@color/textColor"
-                                    android:textSize="@dimen/_16sp"
-                                    android:textStyle="bold" />
-
-                                <com.jobtick.TextView.TextViewMedium
-                                    android:id="@+id/txt_expires_date"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentStart="true"
-                                    android:singleLine="true"
-                                    android:text="Expires 06/22"
-                                    android:textColor="@color/textColor"
-                                    android:textSize="@dimen/_16sp" />
+                                android:layout_alignParentStart="true"
+                                android:singleLine="true"
+                                android:text="Expires 06/22"
+                                android:textColor="@color/textColor"
+                                android:textSize="@dimen/_16sp" />
 
 
-                            </LinearLayout>
+                        </LinearLayout>
 
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/card_update"
-                                android:layout_width="@dimen/_70dp"
-                                android:layout_height="@dimen/_35sp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:layout_margin="@dimen/spacing_line"
-                                android:backgroundTint="@color/colorPrimary"
-                                android:elevation="@dimen/spacing_middle"
-                                app:cardCornerRadius="@dimen/spacing_middle">
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_update"
+                            android:layout_width="@dimen/_70dp"
+                            android:layout_height="@dimen/_35sp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/spacing_line"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:elevation="@dimen/spacing_middle"
+                            app:cardCornerRadius="@dimen/spacing_middle">
 
-                                <TextView
-                                    android:textSize="@dimen/_10sp"
-                                    android:id="@+id/txt_btn_update"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="center"
-                                    android:background="?attr/selectableItemBackground"
-                                    android:gravity="center"
-                                    android:text="UPDATE"
-                                    android:textColor="@color/white" />
-                            </androidx.cardview.widget.CardView>
-
-
-                        </RelativeLayout>
-
-                        <LinearLayout
-                            android:visibility="gone"
-                            android:id="@+id/lyt_card_details"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/txt_btn_update"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center"
+                                android:text="UPDATE"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_10sp" />
+                        </androidx.cardview.widget.CardView>
 
 
+                    </RelativeLayout>
 
+                    <LinearLayout
+                        android:id="@+id/lyt_card_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
 
                         <com.stripe.android.view.CardMultilineWidget
-                            android:visibility="visible"
                             android:id="@+id/card_multiline_widget"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                        </com.stripe.android.view.CardMultilineWidget>
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"></com.stripe.android.view.CardMultilineWidget>
 
-                       <View
+                        <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/spacing_large"/>
+                            android:layout_height="@dimen/spacing_large" />
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/card_add_payment_method"
@@ -469,77 +453,76 @@
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
 
-                        </LinearLayout>
                     </LinearLayout>
+                </LinearLayout>
 
 
-                    <LinearLayout
-                        android:id="@+id/lyt_remove_coupon"
-                        android:layout_marginTop="@dimen/_30dp"
-                        android:layout_width="match_parent"
-                        android:visibility="gone"
+                <LinearLayout
+                    android:id="@+id/lyt_remove_coupon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_30dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="@dimen/_30sp"
+                        android:layout_height="@dimen/_30sp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_minus_blue" />
+
+                    <View
+                        android:layout_width="@dimen/spacing_large"
+                        android:layout_height="match_parent" />
+
+                    <com.jobtick.TextView.TextViewMedium
+                        android:id="@+id/txt_coupon_code"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_alignParentStart="true"
+                        android:layout_gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="Add Coupon"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_14sp" />
 
-                        <ImageView
-                            android:layout_width="@dimen/_30sp"
-                            android:scaleType="centerCrop"
-                            android:layout_height="@dimen/_30sp"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_minus_blue" />
-
-                        <View
-                            android:layout_width="@dimen/spacing_large"
-                            android:layout_height="match_parent" />
-
-                        <com.jobtick.TextView.TextViewMedium
-                            android:layout_width="wrap_content"
-                            android:id="@+id/txt_coupon_code"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_gravity="center_vertical"
-                            android:singleLine="true"
-                            android:text="Add Coupon"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_14sp" />
-
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:id="@+id/lyt_add_coupon"
-                        android:layout_marginTop="@dimen/_30dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_add_primary" />
-
-                        <View
-                            android:layout_width="@dimen/spacing_large"
-                            android:layout_height="match_parent" />
-
-                        <com.jobtick.TextView.TextViewMedium
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_gravity="center_vertical"
-                            android:singleLine="true"
-                            android:text="Add Coupon"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_14sp" />
-
-
-                    </LinearLayout>
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:id="@+id/lyt_add_coupon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_30dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_add_primary" />
+
+                    <View
+                        android:layout_width="@dimen/spacing_large"
+                        android:layout_height="match_parent" />
+
+                    <com.jobtick.TextView.TextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="Add Coupon"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_14sp" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

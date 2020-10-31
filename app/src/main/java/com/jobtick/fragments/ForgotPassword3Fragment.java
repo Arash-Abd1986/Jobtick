@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 
@@ -32,7 +31,7 @@ public class ForgotPassword3Fragment extends FragmentBase {
     EditTextRegular edtNewPassword;
     @BindView(R.id.edt_repeat_password)
     EditTextRegular edtRepeatNewPassword;
-    @BindView(R.id.lyt_btn_update)
+    @BindView(R.id.lyt_btn_verify)
     MaterialButton lytBtnUpdate;
     @BindView(R.id.img_btn_password_toggle)
     ImageView imgBtnNewPasswordToggle;
@@ -68,7 +67,7 @@ public class ForgotPassword3Fragment extends FragmentBase {
         return view;
     }
 
-    @OnClick({R.id.img_btn_password_toggle, R.id.img_btn_repeat_password_toggle, R.id.lyt_btn_update,
+    @OnClick({R.id.img_btn_password_toggle, R.id.img_btn_repeat_password_toggle, R.id.lyt_btn_verify,
     R.id.lnr_password, R.id.lnr_confirm_password})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -78,7 +77,7 @@ public class ForgotPassword3Fragment extends FragmentBase {
             case R.id.img_btn_repeat_password_toggle:
                 repeat_new_password_toggle();
                 break;
-            case R.id.lyt_btn_update:
+            case R.id.lyt_btn_verify:
                 Log.i("forgotPass3", "email: " + email + " atp: " + otp);
                 if(verification())
                     authActivity.resetPassword(email,otp,edtNewPassword.getText().toString().trim());

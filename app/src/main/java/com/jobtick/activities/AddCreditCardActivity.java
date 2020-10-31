@@ -6,10 +6,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
-
-import androidx.cardview.widget.CardView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -18,7 +16,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
@@ -27,6 +25,7 @@ import com.jobtick.utils.Tools;
 import com.stripe.android.ApiResultCallback;
 import com.stripe.android.Stripe;
 import com.stripe.android.model.Card;
+import com.stripe.android.model.CardBrand;
 import com.stripe.android.model.PaymentMethod;
 import com.stripe.android.model.PaymentMethodCreateParams;
 import com.stripe.android.view.CardMultilineWidget;
@@ -50,29 +49,34 @@ import static com.jobtick.utils.ConstantKey.PUBLISHABLE_KEY;
 
 public class AddCreditCardActivity extends ActivityBase {
 
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+//    @BindView(R.id.toolbar)
+//    MaterialToolbar toolbar;
     @BindView(R.id.edt_full_name)
     EditTextRegular edtFullName;
     @BindView(R.id.edt_card_number)
     EditTextRegular edtCardNumber;
-    @BindView(R.id.txt_expiry_date)
-    TextViewRegular txtExpiryDate;
+    @BindView(R.id.edt_expiry_date)
+    TextViewRegular edtExpiryDate;
+    @BindView(R.id.edt_security_number)
+    EditTextRegular edtSecurityNumber;
+
     @BindView(R.id.lyt_btn_add_credit_card)
-    LinearLayout lytBtnAddCreditCard;
+    MaterialButton lytBtnAddCreditCard;
 
     int year, month, day;
     String str_expire_date = null;
     DatePickerDialog.OnDateSetListener mDateSetListener;
-    @BindView(R.id.edt_security_number)
-    EditTextRegular edtSecurityNumber;
-    @BindView(R.id.card_button)
-    CardView cardButton;
 
     @BindView(R.id.card_multiline_widget)
     CardMultilineWidget cardMultilineWidget;
 
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
+
     private Card card_xml;
+    private int expMonth;
+    private int expYear;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,17 +89,20 @@ public class AddCreditCardActivity extends ActivityBase {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month = month + 1;
                 str_expire_date = Tools.getExpireDateFormat(month + "/" + year);
-                txtExpiryDate.setText(str_expire_date);
+                edtExpiryDate.setText(str_expire_date);
             }
         };
     }
 
 
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Add Credit Card");
+        ivBack.setOnClickListener(v -> {
+            finish();
+        });
+//        toolbar.setNavigationIcon(R.drawable.ic_back);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setTitle("Add Credit Card");
     }
 
 
@@ -115,10 +122,10 @@ public class AddCreditCardActivity extends ActivityBase {
         super.onBackPressed();
     }
 
-    @OnClick({R.id.txt_expiry_date, R.id.lyt_btn_add_credit_card})
+    @OnClick({R.id.edt_expiry_date, R.id.lyt_btn_add_credit_card})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.txt_expiry_date:
+            case R.id.edt_expiry_date:
                /* Calendar calendar = Calendar.getInstance();
                 year = calendar.get(Calendar.YEAR);
                 month = calendar.get(Calendar.MONTH);
@@ -141,13 +148,8 @@ public class AddCreditCardActivity extends ActivityBase {
 
                 break;
             case R.id.lyt_btn_add_credit_card:
-                card_xml = cardMultilineWidget.getCard();
-                //  card.toParamMap("CARD",cardMultilineWidget.getCard());
-                if (card_xml == null) {
-                    showToast("Invalid Card Data", this);
-                } else {
-                    getToken();
-                }
+                card_xml = createCard();
+                getToken();
                 break;
         }
     }
@@ -159,14 +161,16 @@ public class AddCreditCardActivity extends ActivityBase {
         MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(AddCreditCardActivity.this, new MonthPickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(int selectedMonth, int selectedYear) {
-                txtExpiryDate.setText(selectedMonth + " /" + selectedYear);
+                expMonth = selectedMonth;
+                expYear = selectedYear;
+                edtExpiryDate.setText(selectedMonth + " /" + selectedYear);
                 Log.d("aa", "selectedMonth : " + selectedMonth + " selectedYear : " + selectedYear);
-                Toast.makeText(AddCreditCardActivity.this, "Date set with month" + selectedMonth + " year " + selectedYear, Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddCreditCardActivity.this, "Date set with month " + selectedMonth + " year " + selectedYear, Toast.LENGTH_SHORT).show();
             }
         }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
 
-        builder.setActivatedMonth(Calendar.JULY)
-                .setTitle("Select  month and year ")
+        builder.setActivatedMonth(today.get(Calendar.MONTH))
+                .setTitle("Select month and year ")
                 // .setMaxMonth(Calendar.OCTOBER)
                 // .setYearRange(1890, 1890)
                 // .setMonthAndYearRange(Calendar.FEBRUARY, Calendar.OCTOBER, 1890, 1890)
@@ -187,18 +191,23 @@ public class AddCreditCardActivity extends ActivityBase {
                         // Toast.makeText(MainActivity.this, " Selected year : " + selectedYear, Toast.LENGTH_SHORT).show();
                     }
                 })
+                .setMaxYear(2040)
                 .build()
                 .show();
 
     }
 
 
+    private Card createCard(){
+        return new Card.Builder(edtCardNumber.getText().toString(),
+                expMonth, expYear, edtSecurityNumber.getText().toString())
+                .name(edtFullName.getText().toString())
+                .build();
+    }
 
 
     private void getToken() {
-        boolean validation = card_xml.validateCard();
-
-        if (validation) {
+        if (validation()) {
             // startProgress("Validating Credit Card");
             showProgressDialog();
             Stripe stripe = new Stripe(getApplicationContext(),
@@ -218,17 +227,7 @@ public class AddCreditCardActivity extends ActivityBase {
                     Log.e("Stripe", e.toString());
                 }
             });
-
-        } else if (!card_xml.validateNumber()) {
-            Log.e("Stripe", "The card number that you entered is invalid");
-        } else if (!card_xml.validateExpiryDate()) {
-            Log.e("Stripe", "The expiration date that you entered is invalid");
-        } else if (!card_xml.validateCVC()) {
-            Log.e("Stripe", "The CVC code that you entered is invalid");
-        } else {
-            Log.e("Stripe", "The card details that you entered are invalid");
         }
-
     }
 
     private void addPaymentTokenTOServer(String pm_token) {
@@ -296,5 +295,38 @@ public class AddCreditCardActivity extends ActivityBase {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(AddCreditCardActivity.this);
         requestQueue.add(stringRequest);
+    }
+
+    private boolean validation(){
+        if(edtFullName.getText().toString().isEmpty()){
+            edtFullName.setError("The card name must be filled.");
+            return false;
+        }
+        else if(edtCardNumber.getText().toString().isEmpty()){
+            edtCardNumber.setError("The card number must be filled.");
+            return false;
+        }
+        else if(edtExpiryDate.getText().toString().isEmpty()){
+            edtExpiryDate.setError("The card expiry date must be filled.");
+            return false;
+        }
+        else if(edtSecurityNumber.getText().toString().isEmpty()){
+            edtSecurityNumber.setError("The card CVC must be filled.");
+            return false;
+        }
+        else if (!card_xml.validateNumber()) {
+            edtCardNumber.setError("The card number that you entered is invalid");
+            return false;
+        } else if (!card_xml.validateExpiryDate()) {
+            edtExpiryDate.setError("The expiration date that you entered is invalid");
+            return false;
+        } else if (!card_xml.validateCVC()) {
+            edtSecurityNumber.setError("The CVC code that you entered is invalid");
+            return false;
+        } else if(!card_xml.validateCard()) {
+            showToast( "The card details that you entered are invalid", AddCreditCardActivity.this);
+            return false;
+        }
+        return true;
     }
 }

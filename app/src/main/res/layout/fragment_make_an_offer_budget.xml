@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/backgroundLightGrey"
 
     tools:context=".fragments.MakeAnOfferBudgetFragment">
 
@@ -28,10 +28,10 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:clipToPadding="false"
-            android:layout_marginBottom="@dimen/_50dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_50dp"
+            android:clipToPadding="false"
             android:orientation="vertical">
 
             <LinearLayout
@@ -42,11 +42,11 @@
 
                 <ImageView
                     android:id="@+id/ivBack"
-                    android:padding="@dimen/_5sp"
                     android:layout_width="@dimen/_32sp"
                     android:layout_height="@dimen/_32sp"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_10sp"
+                    android:padding="@dimen/_5sp"
                     android:src="@drawable/ic_back" />
 
                 <com.jobtick.TextView.TextViewMedium
@@ -88,19 +88,19 @@
                         <com.jobtick.TextView.TextViewMedium
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:layout_marginStart="@dimen/_5sp"
                             android:layout_marginEnd="@dimen/_5sp"
                             android:layout_weight="1"
-                            android:layout_gravity="center"
                             android:text="Poster offer"
                             android:textColor="@color/grey_70"
-                            android:textSize="@dimen/_12sp" />
+                            android:textSize="@dimen/_14sp" />
 
                         <com.jobtick.TextView.TextViewBold
-                            android:layout_gravity="center"
                             android:id="@+id/tvOffer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:text="$200"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_17sp" />
@@ -130,7 +130,7 @@
                                 android:layout_marginTop="@dimen/_5sp"
                                 android:text="Your offer"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/_12sp" />
+                                android:textSize="@dimen/_13sp" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -176,11 +176,11 @@
                         android:visibility="visible">
 
                         <LinearLayout
-                            android:paddingRight="@dimen/_8sp"
-                            android:paddingLeft="@dimen/_8sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:paddingLeft="@dimen/_8sp"
+                            android:paddingRight="@dimen/_8sp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -195,7 +195,7 @@
                                     android:layout_weight="1"
                                     android:text="Service fee"
                                     android:textColor="@color/grey_70"
-                                    android:textSize="@dimen/_13sp" />
+                                    android:textSize="@dimen/_14sp" />
 
                                 <com.jobtick.TextView.TextViewSemiBold
                                     android:id="@+id/txt_service_fee"
@@ -205,7 +205,7 @@
                                     android:layout_marginTop="@dimen/_5sp"
                                     android:text="$00"
                                     android:textColor="@color/textColor"
-                                    android:textSize="@dimen/_17sp" />
+                                    android:textSize="@dimen/_18sp" />
 
                             </LinearLayout>
 
@@ -215,8 +215,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_10sp"
                                 android:layout_marginTop="@dimen/_3sp"
-                                android:paddingBottom="@dimen/_3sp"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:paddingBottom="@dimen/_3sp">
 
                                 <com.jobtick.TextView.TextViewSemiBold
                                     android:layout_width="match_parent"
@@ -224,7 +224,7 @@
                                     android:layout_weight="1"
                                     android:text="You’ll receive"
                                     android:textColor="@color/textColor"
-                                    android:textSize="@dimen/_15sp" />
+                                    android:textSize="@dimen/_14sp" />
 
                                 <com.jobtick.TextView.TextViewBold
                                     android:id="@+id/txt_final_budget"
@@ -234,7 +234,7 @@
                                     android:layout_marginTop="@dimen/_5sp"
                                     android:text="$00"
                                     android:textColor="@color/colorPrimary"
-                                    android:textSize="@dimen/_21sp" />
+                                    android:textSize="@dimen/_22sp" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -256,10 +256,10 @@
 
                             <!--Level shield design-->
                             <RelativeLayout
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
+                                android:layout_width="110dp"
+                                android:layout_height="110dp"
                                 android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_10sp">
+                                android:layout_marginTop="10dp">
 
                                 <ImageView
                                     android:layout_width="match_parent"
@@ -286,13 +286,13 @@
                             <!--assign level number-->
                             <com.jobtick.TextView.TextViewMedium
                                 android:id="@+id/txt_account_level"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="5dp"
+                                android:layout_height="1dp"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_10sp"
                                 android:text="Level 1"
                                 android:textColor="@color/grey_70"
-                                android:textSize="@dimen/_13sp" />
+                                android:textSize="@dimen/_14sp" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -308,7 +308,7 @@
                                     android:layout_weight="1"
                                     android:text="Service Fee (Currently)"
                                     android:textColor="@color/textColor"
-                                    android:textSize="@dimen/_12sp" />
+                                    android:textSize="@dimen/_13sp" />
 
                                 <com.jobtick.TextView.TextViewSemiBold
                                     android:id="@+id/txt_current_service_fee"
@@ -316,7 +316,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="10%"
                                     android:textColor="@color/textColor"
-                                    android:textSize="@dimen/_16sp" />
+                                    android:textSize="@dimen/_17sp" />
 
 
                             </LinearLayout>
@@ -334,17 +334,18 @@
                                     android:layout_height="wrap_content"
                                     android:text="Complete more Jobs in-order to upgrade your account and be eligible to pay minimum service fee."
                                     android:textColor="@color/grey_70"
-                                    android:textSize="@dimen/_13sp" />
+                                    android:textSize="@dimen/_14sp"
+                                    android:lineHeight="20dp"/>
 
-                                <com.jobtick.TextView.TextViewMedium
-                                    android:layout_marginBottom="@dimen/_5sp"
+                                <com.jobtick.TextView.TextViewRegular
                                     android:id="@+id/txt_learn_how_level_affects_service_fee"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/_10sp"
+                                    android:layout_marginBottom="@dimen/_5sp"
                                     android:text="More information about levels and service fees."
                                     android:textColor="@color/colorTaskOffer"
-                                    android:textSize="@dimen/_11sp" />
+                                    android:textSize="@dimen/_12sp" />
                             </LinearLayout>
 
                         </LinearLayout>

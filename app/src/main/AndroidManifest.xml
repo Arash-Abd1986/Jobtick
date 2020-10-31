@@ -43,6 +43,11 @@
         <activity android:name=".incrementbudget.IncreaseBudgetFromPosterActivity" />
 
         <activity android:name=".activities.NotificationSettings" />
+
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
+
         <activity android:name=".activities.RequestForIncreaseBudgetActivity" />
         <activity android:name=".activities.AddCouponPaymentOverviewActivity" />
         <activity android:name=".activities.Dashboard2Activity" />
@@ -80,9 +85,15 @@
         <activity android:name=".activities.AddTagActivity" />
         <activity android:name=".activities.AttachmentActivity" />
         <activity android:name=".activities.MobileVerificationActivity" />
-        <activity android:name=".activities.BillingAddressActivity" />
-        <activity android:name=".activities.AddCreditCardActivity" />
-        <activity android:name=".activities.AddBankAccountActivity" />
+        <activity
+            android:name=".activities.BillingAddressActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.AddCreditCardActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.AddBankAccountActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activities.PaymentSettingsActivity" />
         <activity android:name=".activities.ChangePasswordActivity" />
         <activity android:name=".activities.HelpActivity" />

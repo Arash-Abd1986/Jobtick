@@ -48,10 +48,9 @@ import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
 import static com.jobtick.utils.Constant.ADD_BILLING;
 import static com.jobtick.utils.Constant.BASE_URL;
 
-public class PaymentSettingsActivity extends ActivityBase implements OnBankAccountAdded {
-
- /*   @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;*/
+//TODO: implementing this interface should be changed because page of payment and add bank account is separated.
+public class PaymentSettingsActivity extends ActivityBase// implements OnBankAccountAdded {
+{
 
     @BindView(R.id.rb_payments)
     RadioButton rbPayments;
@@ -62,65 +61,15 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
     @BindView(R.id.rg_payments_withdrawal)
     RadioGroup rgPaymentsWithdrawal;
 
-    @BindView(R.id.img_add)
-    ImageView imgAdd;
+    @BindView(R.id.add_credit_card)
+    CardView addCreditCard;
 
-    @BindView(R.id.txt_add_credit_card)
-    TextViewSemiBold txtAddCreditCard;
+    @BindView(R.id.add_bank_account)
+    CardView addBankAccount;
 
-    @BindView(R.id.rlt_btn_add_credit_card)
-    RelativeLayout rltBtnAddCreditCard;
+    @BindView(R.id.add_billing_address)
+    CardView addBillingAddress;
 
-    @BindView(R.id.linear_bank_details)
-    LinearLayout linear_bank_details;
-
-    @BindView(R.id.linear_credit_card_view)
-    LinearLayout linear_credit_card_view;
-
-    @BindView(R.id.linear_bank)
-    LinearLayout linear_bank;
-
-    @BindView(R.id.card_add_billing_address)
-    CardView card_add_billing_address;
-
-    @BindView(R.id.card_add_bank_account)
-    CardView card_add_bank_account;
-
-    @BindView(R.id.card_view_bank_account)
-    CardView card_view_bank_account;
-
-    @BindView(R.id.txt_account_number)
-    TextViewSemiBold txtAccountNumber;
-
-    @BindView(R.id.card_view_billing_address)
-    CardView card_view_billing_address;
-
-    @BindView(R.id.txt_Billing_Address)
-    TextViewSemiBold txtBillingAddress;
-
-    @BindView(R.id.tvCardHolderName)
-    TextViewRegular tvCardHolderName;
-
-    @BindView(R.id.txtCardNumber)
-    TextViewRegular txtCardNumber;
-
-    @BindView(R.id.txtPrice)
-    TextViewBold txtPrice;
-
-    @BindView(R.id.rtl_credit_card_details)
-    LinearLayout rtl_credit_card_details;
-
-    @BindView(R.id.card_delete_credit_card)
-    CardView card_delete_credit_card;
-
-    @BindView(R.id.liner_no_payment_method)
-    LinearLayout liner_no_payment_method;
-
-    @BindView(R.id.ic_delete_bank_account)
-    ImageView ic_delete_bank_account;
-
-    @BindView(R.id.ic_delete_billing_account)
-    ImageView ic_delete_billing_account;
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -142,7 +91,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         // setSupportActionBar(toolbar);
       /*  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Payment Settings");*/
-        onBankaccountadded = this;
+//        onBankaccountadded = this;
         ivBack.setOnClickListener(v -> finish());
     }
 
@@ -165,14 +114,13 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         rbPayments.setChecked(true);
         rbPayments.setTextColor(getResources().getColor(R.color.white));
         rbWithdrawal.setTextColor(getResources().getColor(R.color.black));
-        linear_credit_card_view.setVisibility(View.VISIBLE);
-        linear_bank_details.setVisibility(View.GONE);
-        linear_bank.setVisibility(View.GONE);
-        liner_no_payment_method.setVisibility(View.VISIBLE);
-        rtl_credit_card_details.setVisibility(View.GONE);
-        getBillingAddress();
-        getPaymentMethod();
-        getBankAccountDetails();
+        addCreditCard.setVisibility(View.VISIBLE);
+        addBankAccount.setVisibility(View.GONE);
+        addBillingAddress.setVisibility(View.GONE);
+
+//        getBillingAddress();
+//        getPaymentMethod();
+//        getBankAccountDetails();
 
     }
 
@@ -181,525 +129,527 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton rb_btn = (RadioButton) findViewById(checkedId);
-                if (rb_btn.getText().equals("Payments")) {
+                if (rb_btn.getId() == R.id.rb_payments) {
                     rbPayments.setTextColor(getResources().getColor(R.color.white));
                     rbWithdrawal.setTextColor(getResources().getColor(R.color.black));
-                    linear_credit_card_view.setVisibility(View.VISIBLE);
-                    linear_bank_details.setVisibility(View.GONE);
+                    addCreditCard.setVisibility(View.VISIBLE);
+                    addBankAccount.setVisibility(View.GONE);
+                    addBillingAddress.setVisibility(View.GONE);
                 } else {
                     rbPayments.setTextColor(getResources().getColor(R.color.black));
                     rbWithdrawal.setTextColor(getResources().getColor(R.color.white));
-                    linear_credit_card_view.setVisibility(View.GONE);
-                    linear_bank_details.setVisibility(View.VISIBLE);
+                    addCreditCard.setVisibility(View.GONE);
+                    addBankAccount.setVisibility(View.VISIBLE);
+                    addBillingAddress.setVisibility(View.VISIBLE);
                 }
             }
         });
     }
 
-    public void getBankAccountDetails() {
-        showProgressDialog();
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_ACCOUNT_DETAILS,
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                String jsonString = jsonObject.toString(); //http request
-                                BankAccountModel data = new BankAccountModel();
-                                Gson gson = new Gson();
-                                data = gson.fromJson(jsonString, BankAccountModel.class);
+//    public void getBankAccountDetails() {
+//        showProgressDialog();
+//        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_ACCOUNT_DETAILS,
+//                response -> {
+//                    Timber.e(response);
+//                    hideProgressDialog();
+//                    try {
+//                        JSONObject jsonObject = new JSONObject(response);
+//                        Timber.e(jsonObject.toString());
+//                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+//                            if (jsonObject.getBoolean("success")) {
+//                                String jsonString = jsonObject.toString(); //http request
+//                                BankAccountModel data = new BankAccountModel();
+//                                Gson gson = new Gson();
+//                                data = gson.fromJson(jsonString, BankAccountModel.class);
+//
+//                                if (data != null) {
+//                                    if (data.isSuccess()) {
+//
+//                                        if (data.getData() != null && data.getData().getAccount_number() != null) {
+//                                            linear_bank.setVisibility(View.GONE);
+//                                            card_add_bank_account.setVisibility(View.GONE);
+//                                            card_view_bank_account.setVisibility(View.VISIBLE);
+//                                            txtAccountNumber.setText(data.getData().getAccount_number());
+//                                        }
+//                                    }
+//                                }
+//                            } else {
+//                                showToast("Something went Wrong", PaymentSettingsActivity.this);
+//                            }
+//                        }
+//                    } catch (JSONException e) {
+//                        Timber.e(String.valueOf(e));
+//                        e.printStackTrace();
+//
+//                    }
+//
+//
+//                },
+//                error -> {
+//                    NetworkResponse networkResponse = error.networkResponse;
+//                    if (networkResponse != null && networkResponse.data != null) {
+//                        String jsonError = new String(networkResponse.data);
+//                        // Print Error!
+//                        Timber.e(jsonError);
+//                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+//                            unauthorizedUser();
+//                            hideProgressDialog();
+//                            return;
+//                        }
+//                        try {
+//                            hideProgressDialog();
+//                            JSONObject jsonObject = new JSONObject(jsonError);
+//                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+//                            //  showCustomDialog(jsonObject_error.getString("message"));
+//                            if (jsonObject_error.has("message")) {
+//                                Toast.makeText(PaymentSettingsActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+//                            }
+//                            if (jsonObject_error.has("errors")) {
+//                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+//                            }
+//                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    } else {
+//                        showToast("Something Went Wrong", PaymentSettingsActivity.this);
+//                    }
+//                    Timber.e(error.toString());
+//                    hideProgressDialog();
+//                }) {
+//
+//
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> map1 = new HashMap<String, String>();
+//                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+//                map1.put("Content-Type", "application/x-www-form-urlencoded");
+//                map1.put("X-Requested-With", "XMLHttpRequest");
+//                return map1;
+//            }
+//
+//        };
+//
+//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        RequestQueue requestQueue = Volley.newRequestQueue(PaymentSettingsActivity.this);
+//        requestQueue.add(stringRequest);
+//
+//
+//    }
 
-                                if (data != null) {
-                                    if (data.isSuccess()) {
+//    public void getBillingAddress() {
+//
+//        showProgressDialog();
+//
+//        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_BILLING,
+//                response -> {
+//                    Timber.e(response);
+//                    hideProgressDialog();
+//                    try {
+//                        JSONObject jsonObject = new JSONObject(response);
+//                        Timber.e(jsonObject.toString());
+//                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+//                            if (jsonObject.getBoolean("success")) {
+//                                String jsonString = jsonObject.toString(); //http request
+//                                BillingAdreessModel data = new BillingAdreessModel();
+//                                Gson gson = new Gson();
+//                                data = gson.fromJson(jsonString, BillingAdreessModel.class);
+//
+//                                if (data != null) {
+//                                    if (data.isSuccess()) {
+//
+//                                        if (data.getData() != null && data.getData().getLine1() != null) {
+//                                            txtBillingAddress.setText(data.getData().getLine1());
+//                                            card_add_billing_address.setVisibility(View.GONE);
+//                                            linear_bank.setVisibility(View.GONE);
+//                                            card_view_billing_address.setVisibility(View.VISIBLE);
+//                                        }
+//                                    }
+//                                }
+//                            } else {
+//                                showToast("Something went Wrong", PaymentSettingsActivity.this);
+//                            }
+//                        }
+//                    } catch (JSONException e) {
+//                        Timber.e(String.valueOf(e));
+//                        e.printStackTrace();
+//
+//                    }
+//
+//
+//                },
+//                error -> {
+//                    NetworkResponse networkResponse = error.networkResponse;
+//                    if (networkResponse != null && networkResponse.data != null) {
+//                        String jsonError = new String(networkResponse.data);
+//                        // Print Error!
+//                        Timber.e(jsonError);
+//                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+//                            unauthorizedUser();
+//                            hideProgressDialog();
+//                            return;
+//                        }
+//                        try {
+//                            hideProgressDialog();
+//                            JSONObject jsonObject = new JSONObject(jsonError);
+//                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+//                            //  showCustomDialog(jsonObject_error.getString("message"));
+//                            if (jsonObject_error.has("message")) {
+//                                Toast.makeText(PaymentSettingsActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+//                            }
+//                            if (jsonObject_error.has("errors")) {
+//                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+//                            }
+//                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    } else {
+//                        showToast("Something Went Wrong", PaymentSettingsActivity.this);
+//                    }
+//                    Timber.e(error.toString());
+//                    hideProgressDialog();
+//                }) {
+//
+//
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> map1 = new HashMap<String, String>();
+//                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+//                map1.put("Content-Type", "application/x-www-form-urlencoded");
+//                map1.put("X-Requested-With", "XMLHttpRequest");
+//                return map1;
+//            }
+//
+//        };
+//
+//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        RequestQueue requestQueue = Volley.newRequestQueue(PaymentSettingsActivity.this);
+//        requestQueue.add(stringRequest);
+//
+//    }
 
-                                        if (data.getData() != null && data.getData().getAccount_number() != null) {
-                                            linear_bank.setVisibility(View.GONE);
-                                            card_add_bank_account.setVisibility(View.GONE);
-                                            card_view_bank_account.setVisibility(View.VISIBLE);
-                                            txtAccountNumber.setText(data.getData().getAccount_number());
-                                        }
-                                    }
-                                }
-                            } else {
-                                showToast("Something went Wrong", PaymentSettingsActivity.this);
-                            }
-                        }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
+//    private void getPaymentMethod() {
+//        showProgressDialog();
+//        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PAYMENTS_METHOD,
+//                response -> {
+//                    Timber.e(response);
+//                    hideProgressDialog();
+//                    try {
+//                        JSONObject jsonObject = new JSONObject(response);
+//                        Timber.e(jsonObject.toString());
+//                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+//                            if (jsonObject.getBoolean("success")) {
+//                                if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+//                                  /*  JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+//                                    if (jsonObject_data.has("card") && !jsonObject_data.isNull("card")) {
+//                                        JSONObject jsonObject_card = jsonObject_data.getJSONObject("card");
+//                                        PaymentMethodModel paymentMethodModel = new PaymentMethodModel().getJsonToModel(jsonObject_card);
+//                                       // setUpLayout(paymentMethodModel);
+//
+//                                        txtPrice.setText(paymentMethodModel.ba);
+//
+//                                    } else {
+//                                        showToast("card not Available", PaymentSettingsActivity.this);
+//                                    }*/
+//
+//
+//                                    String jsonString = jsonObject.toString(); //http request
+//                                    CreditCardModel data = new CreditCardModel();
+//                                    Gson gson = new Gson();
+//                                    data = gson.fromJson(jsonString, CreditCardModel.class);
+//
+//                                    if (data != null && data.getData() != null) {
+//                                        liner_no_payment_method.setVisibility(View.GONE);
+//                                        rtl_credit_card_details.setVisibility(View.VISIBLE);
+//                                        txtPrice.setText("$ " + data.getData().getBalance());
+//                                        txtCardNumber.setText("xxxx xxxx xxxx " + data.getData().getCard().getLast4());
+//                                        tvCardHolderName.setText("Expire :" + data.getData().getCard().getExp_month()
+//                                                + "/" + data.getData().getCard().getExp_year());
+//                                    } else {
+//                                        liner_no_payment_method.setVisibility(View.VISIBLE);
+//                                        rtl_credit_card_details.setVisibility(View.GONE);
+//                                    }
+//
+//                                }
+//                            } else {
+//                                showToast("Something went Wrong", PaymentSettingsActivity.this);
+//                            }
+//                        }
+//                    } catch (JSONException e) {
+//                        Timber.e(String.valueOf(e));
+//                        e.printStackTrace();
+//                    }
+//                },
+//                error -> {
+//                    NetworkResponse networkResponse = error.networkResponse;
+//                    if (networkResponse != null && networkResponse.data != null) {
+//                        String jsonError = new String(networkResponse.data);
+//                        // Print Error!
+//                        Timber.e(jsonError);
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(jsonError);
+//                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+//                            if (jsonObject_error.has("error_text") && !jsonObject_error.isNull("error_text")) {
+//                                if (ConstantKey.NO_PAYMENT_METHOD.equalsIgnoreCase(jsonObject_error.getString("error_text"))) {
+//                                    //  setUpAddPaymentLayout();
+//                                }
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    Timber.e(error.toString());
+//                    errorHandle1(error.networkResponse);
+//                    hideProgressDialog();
+//                }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> map1 = new HashMap<String, String>();
+//                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+//                map1.put("Content-Type", "application/x-www-form-urlencoded");
+//                // map1.put("X-Requested-With", "XMLHttpRequest");
+//                return map1;
+//            }
+//        };
+//
+//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        RequestQueue requestQueue = Volley.newRequestQueue(PaymentSettingsActivity.this);
+//        requestQueue.add(stringRequest);
+//    }
 
-                    }
-
-
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser();
-                            hideProgressDialog();
-                            return;
-                        }
-                        try {
-                            hideProgressDialog();
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            //  showCustomDialog(jsonObject_error.getString("message"));
-                            if (jsonObject_error.has("message")) {
-                                Toast.makeText(PaymentSettingsActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                            }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        showToast("Something Went Wrong", PaymentSettingsActivity.this);
-                    }
-                    Timber.e(error.toString());
-                    hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(PaymentSettingsActivity.this);
-        requestQueue.add(stringRequest);
-
-
-    }
-
-    public void getBillingAddress() {
-
-        showProgressDialog();
-
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_BILLING,
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                String jsonString = jsonObject.toString(); //http request
-                                BillingAdreessModel data = new BillingAdreessModel();
-                                Gson gson = new Gson();
-                                data = gson.fromJson(jsonString, BillingAdreessModel.class);
-
-                                if (data != null) {
-                                    if (data.isSuccess()) {
-
-                                        if (data.getData() != null && data.getData().getLine1() != null) {
-                                            txtBillingAddress.setText(data.getData().getLine1());
-                                            card_add_billing_address.setVisibility(View.GONE);
-                                            linear_bank.setVisibility(View.GONE);
-                                            card_view_billing_address.setVisibility(View.VISIBLE);
-                                        }
-                                    }
-                                }
-                            } else {
-                                showToast("Something went Wrong", PaymentSettingsActivity.this);
-                            }
-                        }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-
-                    }
-
-
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser();
-                            hideProgressDialog();
-                            return;
-                        }
-                        try {
-                            hideProgressDialog();
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            //  showCustomDialog(jsonObject_error.getString("message"));
-                            if (jsonObject_error.has("message")) {
-                                Toast.makeText(PaymentSettingsActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                            }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        showToast("Something Went Wrong", PaymentSettingsActivity.this);
-                    }
-                    Timber.e(error.toString());
-                    hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(PaymentSettingsActivity.this);
-        requestQueue.add(stringRequest);
-
-    }
-
-    private void getPaymentMethod() {
-        showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PAYMENTS_METHOD,
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                  /*  JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                                    if (jsonObject_data.has("card") && !jsonObject_data.isNull("card")) {
-                                        JSONObject jsonObject_card = jsonObject_data.getJSONObject("card");
-                                        PaymentMethodModel paymentMethodModel = new PaymentMethodModel().getJsonToModel(jsonObject_card);
-                                       // setUpLayout(paymentMethodModel);
-
-                                        txtPrice.setText(paymentMethodModel.ba);
-
-                                    } else {
-                                        showToast("card not Available", PaymentSettingsActivity.this);
-                                    }*/
-
-
-                                    String jsonString = jsonObject.toString(); //http request
-                                    CreditCardModel data = new CreditCardModel();
-                                    Gson gson = new Gson();
-                                    data = gson.fromJson(jsonString, CreditCardModel.class);
-
-                                    if (data != null && data.getData() != null) {
-                                        liner_no_payment_method.setVisibility(View.GONE);
-                                        rtl_credit_card_details.setVisibility(View.VISIBLE);
-                                        txtPrice.setText("$ " + data.getData().getBalance());
-                                        txtCardNumber.setText("xxxx xxxx xxxx " + data.getData().getCard().getLast4());
-                                        tvCardHolderName.setText("Expire :" + data.getData().getCard().getExp_month()
-                                                + "/" + data.getData().getCard().getExp_year());
-                                    } else {
-                                        liner_no_payment_method.setVisibility(View.VISIBLE);
-                                        rtl_credit_card_details.setVisibility(View.GONE);
-                                    }
-
-                                }
-                            } else {
-                                showToast("Something went Wrong", PaymentSettingsActivity.this);
-                            }
-                        }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            if (jsonObject_error.has("error_text") && !jsonObject_error.isNull("error_text")) {
-                                if (ConstantKey.NO_PAYMENT_METHOD.equalsIgnoreCase(jsonObject_error.getString("error_text"))) {
-                                    //  setUpAddPaymentLayout();
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    Timber.e(error.toString());
-                    errorHandle1(error.networkResponse);
-                    hideProgressDialog();
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                // map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(PaymentSettingsActivity.this);
-        requestQueue.add(stringRequest);
-    }
-
-    @OnClick({R.id.rlt_btn_add_credit_card, R.id.card_add_bank_account, R.id.card_add_billing_address, R.id.card_delete_credit_card, R.id.ic_delete_bank_account, R.id.ic_delete_billing_account})
+    @OnClick({R.id.add_credit_card, R.id.add_billing_address, R.id.add_bank_account, R.id.ic_delete_bank_account, R.id.ic_delete_billing_account})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.rlt_btn_add_credit_card:
+            case R.id.add_credit_card:
                 Intent add_credit_card = new Intent(PaymentSettingsActivity.this, AddCreditCardActivity.class);
                 startActivity(add_credit_card);
                 break;
-            case R.id.card_add_bank_account:
+            case R.id.add_bank_account:
                 Intent add_bank_account = new Intent(PaymentSettingsActivity.this, AddBankAccountActivity.class);
                 startActivity(add_bank_account);
                 break;
-            case R.id.card_add_billing_address:
+            case R.id.add_billing_address:
                 Intent add_billing_address = new Intent(PaymentSettingsActivity.this, BillingAddressActivity.class);
                 startActivity(add_billing_address);
                 break;
-            case R.id.card_delete_credit_card:
-                DeleteCard();
-                break;
-            case R.id.ic_delete_bank_account:
-                DeleteBankAccountDetails();
-                break;
-            case R.id.ic_delete_billing_account:
-                DeleteBillingAddress();
-                break;
+//            case R.id.card_delete_credit_card:
+//                DeleteCard();
+//                break;
+//            case R.id.ic_delete_bank_account:
+//                DeleteBankAccountDetails();
+//                break;
+//            case R.id.ic_delete_billing_account:
+//                DeleteBillingAddress();
+//                break;
         }
     }
 
-    @Override
-    public void bankAccountAdd() {
-        getBankAccountDetails();
-    }
-
-    @Override
-    public void billingAddressAdd() {
-        getBillingAddress();
-    }
-
-    @Override
-    public void creditCard() {
-        getPaymentMethod();
-
-    }
-
-
-    private void DeleteBankAccountDetails() {
-        showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_DELETE_BANK_ACCOUNT,
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                linear_bank.setVisibility(View.GONE);
-                                card_add_bank_account.setVisibility(View.VISIBLE);
-                                card_view_bank_account.setVisibility(View.GONE);
-
-                            } else {
-                                showToast("Something went Wrong", PaymentSettingsActivity.this);
-                            }
-                        }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            if (jsonObject_error.has("error_text") && !jsonObject_error.isNull("error_text")) {
-                                if (ConstantKey.NO_PAYMENT_METHOD.equalsIgnoreCase(jsonObject_error.getString("error_text"))) {
-                                    //  setUpAddPaymentLayout();
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    Timber.e(error.toString());
-                    errorHandle1(error.networkResponse);
-                    hideProgressDialog();
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                // map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(PaymentSettingsActivity.this);
-        requestQueue.add(stringRequest);
-
-    }
-
-    private void DeleteBillingAddress() {
-        showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_DELETE_BILLING_ADDRESS,
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                card_add_billing_address.setVisibility(View.VISIBLE);
-                                linear_bank.setVisibility(View.GONE);
-                                card_view_billing_address.setVisibility(View.GONE);
-                            } else {
-                                showToast("Something went Wrong", PaymentSettingsActivity.this);
-                            }
-                        }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            if (jsonObject_error.has("error_text") && !jsonObject_error.isNull("error_text")) {
-                                if (ConstantKey.NO_PAYMENT_METHOD.equalsIgnoreCase(jsonObject_error.getString("error_text"))) {
-                                    //  setUpAddPaymentLayout();
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    Timber.e(error.toString());
-                    errorHandle1(error.networkResponse);
-                    hideProgressDialog();
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                // map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(PaymentSettingsActivity.this);
-        requestQueue.add(stringRequest);
-
-    }
+//    @Override
+//    public void bankAccountAdd() {
+//        getBankAccountDetails();
+//    }
+//
+//    @Override
+//    public void billingAddressAdd() {
+//        getBillingAddress();
+//    }
+//
+//    @Override
+//    public void creditCard() {
+//        getPaymentMethod();
+//
+//    }
 
 
-    private void DeleteCard() {
-        showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_PAYMENTS_METHOD,
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                liner_no_payment_method.setVisibility(View.VISIBLE);
-                                rtl_credit_card_details.setVisibility(View.GONE);
-                            } else {
-                                showToast("Something went Wrong", PaymentSettingsActivity.this);
-                            }
-                        }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            if (jsonObject_error.has("error_text") && !jsonObject_error.isNull("error_text")) {
-                                if (ConstantKey.NO_PAYMENT_METHOD.equalsIgnoreCase(jsonObject_error.getString("error_text"))) {
-                                    //  setUpAddPaymentLayout();
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    Timber.e(error.toString());
-                    errorHandle1(error.networkResponse);
-                    hideProgressDialog();
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                // map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(PaymentSettingsActivity.this);
-        requestQueue.add(stringRequest);
-    }
+//    private void DeleteBankAccountDetails() {
+//        showProgressDialog();
+//        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_DELETE_BANK_ACCOUNT,
+//                response -> {
+//                    Timber.e(response);
+//                    hideProgressDialog();
+//                    try {
+//                        JSONObject jsonObject = new JSONObject(response);
+//                        Timber.e(jsonObject.toString());
+//                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+//                            if (jsonObject.getBoolean("success")) {
+//                                linear_bank.setVisibility(View.GONE);
+//                                card_add_bank_account.setVisibility(View.VISIBLE);
+//                                card_view_bank_account.setVisibility(View.GONE);
+//
+//                            } else {
+//                                showToast("Something went Wrong", PaymentSettingsActivity.this);
+//                            }
+//                        }
+//                    } catch (JSONException e) {
+//                        Timber.e(String.valueOf(e));
+//                        e.printStackTrace();
+//                    }
+//                },
+//                error -> {
+//                    NetworkResponse networkResponse = error.networkResponse;
+//                    if (networkResponse != null && networkResponse.data != null) {
+//                        String jsonError = new String(networkResponse.data);
+//                        // Print Error!
+//                        Timber.e(jsonError);
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(jsonError);
+//                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+//                            if (jsonObject_error.has("error_text") && !jsonObject_error.isNull("error_text")) {
+//                                if (ConstantKey.NO_PAYMENT_METHOD.equalsIgnoreCase(jsonObject_error.getString("error_text"))) {
+//                                    //  setUpAddPaymentLayout();
+//                                }
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    Timber.e(error.toString());
+//                    errorHandle1(error.networkResponse);
+//                    hideProgressDialog();
+//                }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> map1 = new HashMap<String, String>();
+//                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+//                map1.put("Content-Type", "application/x-www-form-urlencoded");
+//                // map1.put("X-Requested-With", "XMLHttpRequest");
+//                return map1;
+//            }
+//        };
+//
+//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        RequestQueue requestQueue = Volley.newRequestQueue(PaymentSettingsActivity.this);
+//        requestQueue.add(stringRequest);
+//
+//    }
+//
+//    private void DeleteBillingAddress() {
+//        showProgressDialog();
+//        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_DELETE_BILLING_ADDRESS,
+//                response -> {
+//                    Timber.e(response);
+//                    hideProgressDialog();
+//                    try {
+//                        JSONObject jsonObject = new JSONObject(response);
+//                        Timber.e(jsonObject.toString());
+//                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+//                            if (jsonObject.getBoolean("success")) {
+//                                card_add_billing_address.setVisibility(View.VISIBLE);
+//                                linear_bank.setVisibility(View.GONE);
+//                                card_view_billing_address.setVisibility(View.GONE);
+//                            } else {
+//                                showToast("Something went Wrong", PaymentSettingsActivity.this);
+//                            }
+//                        }
+//                    } catch (JSONException e) {
+//                        Timber.e(String.valueOf(e));
+//                        e.printStackTrace();
+//                    }
+//                },
+//                error -> {
+//                    NetworkResponse networkResponse = error.networkResponse;
+//                    if (networkResponse != null && networkResponse.data != null) {
+//                        String jsonError = new String(networkResponse.data);
+//                        // Print Error!
+//                        Timber.e(jsonError);
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(jsonError);
+//                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+//                            if (jsonObject_error.has("error_text") && !jsonObject_error.isNull("error_text")) {
+//                                if (ConstantKey.NO_PAYMENT_METHOD.equalsIgnoreCase(jsonObject_error.getString("error_text"))) {
+//                                    //  setUpAddPaymentLayout();
+//                                }
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    Timber.e(error.toString());
+//                    errorHandle1(error.networkResponse);
+//                    hideProgressDialog();
+//                }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> map1 = new HashMap<String, String>();
+//                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+//                map1.put("Content-Type", "application/x-www-form-urlencoded");
+//                // map1.put("X-Requested-With", "XMLHttpRequest");
+//                return map1;
+//            }
+//        };
+//
+//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        RequestQueue requestQueue = Volley.newRequestQueue(PaymentSettingsActivity.this);
+//        requestQueue.add(stringRequest);
+//
+//    }
+//
+//
+//    private void DeleteCard() {
+//        showProgressDialog();
+//        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_PAYMENTS_METHOD,
+//                response -> {
+//                    Timber.e(response);
+//                    hideProgressDialog();
+//                    try {
+//                        JSONObject jsonObject = new JSONObject(response);
+//                        Timber.e(jsonObject.toString());
+//                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+//                            if (jsonObject.getBoolean("success")) {
+//                                liner_no_payment_method.setVisibility(View.VISIBLE);
+//                                rtl_credit_card_details.setVisibility(View.GONE);
+//                            } else {
+//                                showToast("Something went Wrong", PaymentSettingsActivity.this);
+//                            }
+//                        }
+//                    } catch (JSONException e) {
+//                        Timber.e(String.valueOf(e));
+//                        e.printStackTrace();
+//                    }
+//                },
+//                error -> {
+//                    NetworkResponse networkResponse = error.networkResponse;
+//                    if (networkResponse != null && networkResponse.data != null) {
+//                        String jsonError = new String(networkResponse.data);
+//                        // Print Error!
+//                        Timber.e(jsonError);
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(jsonError);
+//                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+//                            if (jsonObject_error.has("error_text") && !jsonObject_error.isNull("error_text")) {
+//                                if (ConstantKey.NO_PAYMENT_METHOD.equalsIgnoreCase(jsonObject_error.getString("error_text"))) {
+//                                    //  setUpAddPaymentLayout();
+//                                }
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    Timber.e(error.toString());
+//                    errorHandle1(error.networkResponse);
+//                    hideProgressDialog();
+//                }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> map1 = new HashMap<String, String>();
+//                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+//                map1.put("Content-Type", "application/x-www-form-urlencoded");
+//                // map1.put("X-Requested-With", "XMLHttpRequest");
+//                return map1;
+//            }
+//        };
+//
+//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        RequestQueue requestQueue = Volley.newRequestQueue(PaymentSettingsActivity.this);
+//        requestQueue.add(stringRequest);
+//    }
 
 
 }

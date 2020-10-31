@@ -138,7 +138,7 @@
     <string name="CANCEL">CANCEL</string>
     <string name="OK">OK</string>
     <string name="action_flag">Flag</string>
-    <string name="review_conditions"><![CDATA[By submitting your offer your agree to the Terms & Conditions and Community Guidelines\nService fee includes insurance and transaction costs.]]></string>
+    <string name="review_conditions">Offer submission means you agree to our Terms &amp; Condition and Community guidelines.</string>
     <string name="camera">Camera</string>
     <string name="action_submit">Submit</string>
     <string name="assignee">Assignee</string>
@@ -278,7 +278,7 @@
     <string name="_0000_0000_0000_0000">0000 0000 0000 0000</string>
     <string name="bsb">BSB</string>
     <string name="xxx_xxx">XXX - XXX</string>
-    <string name="account_number">Account number</string>
+    <string name="account_number">Account Number</string>
     <string name="xxxxxxxxxx">XXXXXXXXXX</string>
     <string name="provide_a_billing_address">Provide a billing address</string>
     <string name="address">Address</string>
@@ -290,7 +290,20 @@
     <string name="enter_verification_code_sent">Enter verification code sent</string>
     <string name="please_enter_verification_code">Please enter verification code</string>
     <string name="sms_verification_code">SMS verification code</string>
+    <string name="withdrawal">Withdrawal</string>
+    <string name="add_billing_address">Add Billing Address</string>
+    <string name="payment_settings">Payment Settings</string>
+    <string name="back_button_of_title_bar">back button of titleBar</string>
+    <string name="full_name">Full Name</string>
+    <string name="card_number">Card Number</string>
+    <string name="expiry_date">Expiry Date</string>
+    <string name="ccv">CCV</string>
+    <string name="address_line_1">Address Line 1</string>
+    <string name="address_line_2_optional">Address Line 2 (Optional)</string>
     <string name="explore">Explore</string>
+    <string name="enter_verification_code_sent_to">Enter verification code sent to</string>
+    <string name="verify_mobile_number">Verify mobile number</string>
+    <string name="job_cost">Job Cost</string>
 
 
 </resources>

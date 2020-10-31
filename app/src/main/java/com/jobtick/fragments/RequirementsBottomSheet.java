@@ -72,31 +72,51 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
         map = view.findViewById(R.id.map_requirement);
         calender = view.findViewById(R.id.calender_requirement);
         phone = view.findViewById(R.id.phone_requirement);
-        img.setOnClickListener(v -> selectImageBtn());
-        credit.setOnClickListener(v -> selectCreditBtn());
-        map.setOnClickListener(v -> selectMapBtn());
-        calender.setOnClickListener(v -> selectCalenderBtn());
-        phone.setOnClickListener(v -> selectPhoneBtn());
+        img.setOnClickListener(v -> {
+            selectImageBtn();
+        });
+        credit.setOnClickListener(v -> {
+            if (handleState() > 0) {
+                selectCreditBtn();
+            }
+        });
+        map.setOnClickListener(v -> {
+            if (handleState() > 1) {
+                selectMapBtn();
+            }
+        });
+        calender.setOnClickListener(v -> {
+            if (handleState() > 2) {
+                selectCalenderBtn();
+            }
+        });
+        phone.setOnClickListener(v -> {
+            if (handleState() > 3) {
+                selectPhoneBtn();
+            }
+        });
 
 
         changeFragment(state);
     }
 
-    private void handleState() {
+    private int handleState() {
         if (userAccountModel != null) {
             if (userAccountModel.getAvatar() == null || userAccountModel.getAvatar().getUrl().equals("")) {
-                selectImageBtn();
+                return 0;
             } else if (bankAccountModel == null || bankAccountModel.getData() == null || bankAccountModel.getData().getAccount_name().equals("") || bankAccountModel.getData().getAccount_number().equals("")) {
-                selectCreditBtn();
-            } else if (userAccountModel.getDob() == null || userAccountModel.getDob().equals("")) {
-                selectCalenderBtn();
+                return 1;
             } else if (billingAdreessModel == null || billingAdreessModel.getData() == null || billingAdreessModel.getData().getLocation().equals("") || billingAdreessModel.getData().getPost_code().equals("")) {
-                selectMapBtn();
+                return 2;
+            } else if (userAccountModel.getDob() == null || userAccountModel.getDob().equals("")) {
+                return 3;
             } else if (userAccountModel.getMobile().equals("") || userAccountModel.getMobileVerifiedAt().equals("")) {
-                selectPhoneBtn();
+                return 4;
+            } else {
+                return 5;
             }
         } else {
-            selectImageBtn();
+            return 0;
         }
     }
 

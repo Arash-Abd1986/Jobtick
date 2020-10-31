@@ -69,7 +69,7 @@
                             android:layout_marginTop="@dimen/_5sp"
                             android:background="@null"
                             android:hint=""
-                            android:inputType="textMultiLine"
+                            android:inputType="phone"
                             android:textColor="@color/textColor"
                             android:textSize="14sp" />
 

@@ -14,15 +14,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
+import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.UserAccountModel;
+import com.jobtick.payment.AddBankAccountImpl;
 import com.jobtick.utils.Constant;
+import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.Tools;
 
@@ -34,6 +39,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import timber.log.Timber;
+
+import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
+import static com.jobtick.utils.Constant.BASE_URL;
+import static com.jobtick.utils.Constant.PROFILE_INFO;
 
 public class CalenderReqFragment extends Fragment {
 
@@ -79,9 +88,10 @@ public class CalenderReqFragment extends Fragment {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
         });
-        getAllUserProfileDetails();
+
         btnNext.setOnClickListener(v -> {
-            ((RequirementsBottomSheet) getParentFragment()).changeFragment(4);
+            System.out.println("btnNext Clicked");
+            updateBirthDate();
         });
 
         mDateSetListener = (view1, year, month, dayOfMonth) -> {
@@ -89,6 +99,11 @@ public class CalenderReqFragment extends Fragment {
             str_DOB = Tools.getDayMonthDateTimeFormat2(year + "-" + month + "-" + dayOfMonth);
             txtBirthDate.setText(str_DOB);
         };
+
+        UserAccountModel userAccountModel = ((TaskDetailsActivity) getActivity()).userAccountModel;
+        if (userAccountModel != null && userAccountModel.getDob() != null) {
+            txtBirthDate.setText(Tools.getDayMonthDateTimeFormat2(userAccountModel.getDob()));
+        }
     }
 
     @Override
@@ -97,56 +112,89 @@ public class CalenderReqFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_calender_req, container, false);
     }
 
-    private void getAllUserProfileDetails() {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
+    private void updateBirthDate() {
+
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, BASE_URL + PROFILE_INFO,
                 response -> {
-                    if (getActivity() != null) {
-                        ((ActivityBase) getActivity()).hideProgressDialog();
-                    }
+                    Timber.e(response);
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
-
-                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-
-                            userAccountModel = new UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"));
-                            setUpDate(userAccountModel);
-                        } else {
-                            Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+                                goNext();
+                            } else {
+                                ((ActivityBase) getActivity()).showToast("something went wrong.", requireContext());
+                            }
                         }
-
                     } catch (JSONException e) {
-                        Toast.makeText(getActivity(), "JSONException", Toast.LENGTH_SHORT).show();
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
+                        ((ActivityBase) getActivity()).showToast(e.getMessage(), requireContext());
                     }
+
+
                 },
                 error -> {
-                    if (getActivity() != null) {
-                        ((ActivityBase) getActivity()).errorHandle1(error.networkResponse);
-                        ((ActivityBase) getActivity()).hideProgressDialog();
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            ((ActivityBase) getActivity()).unauthorizedUser();
+                            return;
+                        }
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            //  showCustomDialog(jsonObject_error.getString("message"));
+                            if (jsonObject_error.has("message")) {
+                                ((ActivityBase) getActivity()).showToast(jsonObject_error.getString("message"), requireContext());
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                ((ActivityBase) getActivity()).showToast("something went wrong.", requireContext());
+                            }
+                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                        } catch (JSONException e) {
+                            ((ActivityBase) getActivity()).showToast(e.getMessage(), requireContext());
+                            e.printStackTrace();
+                        }
+                    } else {
+                        ((ActivityBase) getActivity()).showToast("something went wrong.", requireContext());
                     }
+                    Timber.e(error.toString());
                 }) {
 
+
             @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                // map1.put("X-Requested-With", "XMLHttpRequest");
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("dob", Tools.getApplicationFromatToServerFormat(txtBirthDate.getText().toString()));
+
                 return map1;
             }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+
         };
 
-        if (getActivity() != null) {
-            stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            requestQueue.add(stringRequest);
-        }
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+        requestQueue.add(stringRequest);
+
     }
 
-    private void setUpDate(UserAccountModel userAccountModel) {
-        txtBirthDate.setText(Tools.getDayMonthDateTimeFormat2(userAccountModel.getDob()));
+    private void goNext() {
+        ((RequirementsBottomSheet) getParentFragment()).changeFragment(4);
     }
 }

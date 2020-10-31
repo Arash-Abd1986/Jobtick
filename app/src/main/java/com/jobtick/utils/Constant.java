@@ -68,6 +68,7 @@ public class Constant {
     public static final String ADD_ACCOUNT_DETAILS = "account/bankaccount";
 
     public static final String URL_USER_PROFILE_INFO = BASE_URL + "profile/info";
+    public static final String PROFILE_INFO = "profile/info";
     public static final String URL_OFFERS = BASE_URL + "offers";
     public static final String URL_PROFILE = BASE_URL + "profile";
     public static final int MAX_LINE_TEXTVIEW_MORE_4 = 4;

@@ -1,5 +1,7 @@
 package com.jobtick.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class BankAccountModel {
 
     /**
@@ -37,8 +39,11 @@ public class BankAccountModel {
          */
 
         private int id;
+        @SerializedName("account_holder_name")
         private String account_name;
+        @SerializedName("account_number_last_four")
         private String account_number;
+        @SerializedName("routing_number")
         private String bsb_code;
         private String created_at;
         private String updated_at;

@@ -2,10 +2,12 @@ package com.jobtick.fragments;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -124,7 +127,15 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
     @OnClick({R.id.img_user_avatar})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.img_user_avatar) {
-            showBottomSheetDialog(false);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (getContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    showBottomSheetDialog(false);
+                } else {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1399);
+                }
+            } else {
+                showBottomSheetDialog(false);
+            }
         }
     }
 
@@ -181,6 +192,16 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
 
         mBottomSheetDialog.show();
         mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (requestCode == 13990) {
+                showBottomSheetDialog(false);
+            }
+        }
     }
 
     private void requestCameraPermission(final int type) {

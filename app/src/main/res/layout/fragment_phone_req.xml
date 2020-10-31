@@ -162,7 +162,7 @@
             android:layout_margin="15dp"
             android:padding="@dimen/spacing_large"
             android:background="@drawable/shape_tab_primary_60"
-            android:text="@string/submit"
+            android:text="Submit"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="14sp" />

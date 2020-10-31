@@ -20,10 +20,8 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/lyt_btn_reply"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
             android:orientation="horizontal"
             android:padding="@dimen/spacing_small">
 
@@ -31,10 +29,11 @@
                 android:id="@+id/txt_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_small"
                 android:singleLine="true"
                 android:text="@string/nathan_fox"
                 android:textColor="@color/textColor"
-                android:textSize="@dimen/spacing_middle"
+                android:textSize="11dp"
                 android:textStyle="bold" />
 
             <FrameLayout
@@ -42,29 +41,55 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <ImageView
+
+            <LinearLayout
                 android:id="@+id/ivFlag"
-                android:layout_width="@dimen/_16sp"
-                android:layout_height="@dimen/_16sp"
-                android:layout_marginEnd="@dimen/_8dp"
-                android:src="@drawable/ic_red_flag" />
-
-            <ImageView
-                android:layout_width="@dimen/_16sp"
-                android:layout_height="@dimen/_16sp"
-                android:src="@drawable/ic_corner_up_left"
-                android:tint="@color/colorPrimary" />
-
-            <com.jobtick.TextView.TextViewBold
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="3dp">
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/spacing_small"
+                    android:layout_marginEnd="@dimen/_8dp"
+                    android:src="@drawable/ic_red_flag" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lyt_btn_reply"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/spacing_middle"
-                android:gravity="center_vertical"
-                android:text="Reply"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/spacing_middle"
-                android:textStyle="bold" />
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:padding="@dimen/spacing_small">
+
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/spacing_small"
+                    android:src="@drawable/ic_corner_up_left"
+                    android:tint="@color/colorPrimary" />
+
+                <com.jobtick.TextView.TextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="1dp"
+                    android:gravity="center_vertical"
+                    android:text="Reply"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="11dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
 
         <TextView

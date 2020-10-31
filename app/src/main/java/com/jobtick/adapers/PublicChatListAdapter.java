@@ -184,7 +184,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         TextView textViewOptions;*/
 
         @BindView(R.id.ivFlag)
-        ImageView ivFlag;
+        LinearLayout ivFlag;
 
         ViewHolder(View itemView) {
             super(itemView);

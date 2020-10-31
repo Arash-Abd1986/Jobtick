@@ -59,42 +59,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="12 Commodore Dr"
                             android:textSize="@dimen/_14sp" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_medium"
-                    android:background="@drawable/greay_border_bg">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/spacing_large">
-
-                        <com.jobtick.TextView.TextViewSemiBold
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Address Line 2(Optional)"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
-                            android:textStyle="bold" />
-
-                        <com.jobtick.EditText.EditTextRegular
-                            android:id="@+id/edt_address_line_2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="Address"
-                            android:textSize="@dimen/_14sp" />
-                    </LinearLayout>
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -123,7 +91,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="Subfers Paradise"
                             android:textSize="@dimen/_14sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -155,7 +122,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="Qld"
                             android:textSize="@dimen/_14sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -187,7 +153,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="786574"
                             android:inputType="number"
                             android:maxLength="4"
                             android:textSize="@dimen/_14sp" />
@@ -221,7 +186,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="Australia"
                             android:textSize="@dimen/_14sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -235,7 +199,7 @@
                     android:background="@drawable/shape_tab_primary_60"
                     android:gravity="center"
                     android:padding="@dimen/spacing_large"
-                    android:text="@string/next"
+                    android:text="Next"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="14sp" />

@@ -2,11 +2,13 @@ package com.jobtick.fragments;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,18 +22,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
+import com.jobtick.activities.EditProfileActivity;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.AttachmentAdapterEditProfile;
@@ -39,7 +38,6 @@ import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.retrofit.ApiClient;
 import com.jobtick.utils.CameraUtils;
-import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.ImageUtil;
@@ -50,18 +48,16 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
+import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.MediaType;
@@ -69,7 +65,6 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import timber.log.Timber;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -77,7 +72,6 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.jobtick.activities.DashboardActivity.onProfileupdatelistenerSideMenu;
 import static com.jobtick.fragments.ProfileFragment.onProfileupdatelistener;
 import static com.jobtick.utils.ConstantKey.TAG;
-
 
 public class ImageReqFragment extends Fragment implements AttachmentAdapterEditProfile.OnItemClickListener {
 
@@ -100,7 +94,6 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         return new ImageReqFragment();
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -112,7 +105,6 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         btnNext.setOnClickListener(v -> ((RequirementsBottomSheet) getParentFragment()).changeFragment(1));
         userAccountModel = ((TaskDetailsActivity) getActivity()).userAccountModel;
         setUpAvatar(userAccountModel);
-
     }
 
     @Override
@@ -122,7 +114,6 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         ButterKnife.bind(this, view);
         return view;
     }
-
 
     private void setUpAvatar(UserAccountModel userAccountModel) {
         try {
@@ -136,12 +127,20 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
     @OnClick({R.id.img_user_avatar})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.img_user_avatar) {
-            showBottomSheetDialog(false);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (getContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    showBottomSheetDialog(false);
+                } else {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1399);
+                }
+            } else {
+                showBottomSheetDialog(false);
+            }
         }
     }
 
-    private void showBottomSheetDialog(boolean isUploadPortfolioOrPrfile) {
-        isUploadPortfolio = isUploadPortfolioOrPrfile;
+    private void showBottomSheetDialog(boolean isUploadPortfolioOrProfile) {
+        isUploadPortfolio = isUploadPortfolioOrProfile;
 
         if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -173,10 +172,13 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
             mBottomSheetDialog.hide();
         });
 
-
         lytBtnImage.setOnClickListener(v -> {
-            Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(Intent.createChooser(openGallery, "Open Gallery"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
+//            Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//            startActivityForResult(Intent.createChooser(openGallery, "Open Gallery"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
             mBottomSheetDialog.hide();
         });
         if (getActivity() != null) {
@@ -190,6 +192,16 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
 
         mBottomSheetDialog.show();
         mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (requestCode == 13990) {
+                showBottomSheetDialog(false);
+            }
+        }
     }
 
     private void requestCameraPermission(final int type) {
@@ -222,54 +234,58 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         File file = CameraUtils.getOutputMediaFile(ConstantKey.MEDIA_TYPE_IMAGE);
         if (file != null) {
             imageStoragePath = file.getAbsolutePath();
+            Uri fileUri = CameraUtils.getOutputMediaFileUri(getContext(), file);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+            // start the image capture Intent
+            startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
         }
-        Uri fileUri = CameraUtils.getOutputMediaFileUri(getApplicationContext(), file);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        // start the image capture Intent
-        startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data != null & getContext() != null) {
-            if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
-                if (resultCode == RESULT_OK) {
-                    Uri uri = Uri.parse("file://" + imageStoragePath);
-                    Bitmap bitmap = null;
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    imgAvatar.setImageBitmap(bitmap);
-                    uploadProfileAvatar(new File(uri.getPath()));
-
-                } else if (resultCode == RESULT_CANCELED) {
-                    Toast.makeText(getApplicationContext(),
-                            "User cancelled image capture", Toast.LENGTH_SHORT)
-                            .show();
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
-                            .show();
+        if (getContext() != null && requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Uri uri = Uri.parse("file://" + imageStoragePath);
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } else if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
+
+                imgAvatar.setImageBitmap(bitmap);
+                uploadProfileAvatar(new File(uri.getPath()));
+
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(getApplicationContext(),
+                        "User cancelled image capture", Toast.LENGTH_SHORT)
+                        .show();
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+
+        if (data != null & getContext() != null) {
+            if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
                 if (resultCode == RESULT_OK) {
                     if (data.getData() != null && getActivity() != null) {
-                        imageStoragePath = CameraUtils.getPath(getActivity(), data.getData());
-                        File file = new File(imageStoragePath);
-                        Uri uri = Uri.parse("file://" + imageStoragePath);
-                        Bitmap bitmap = null;
                         try {
+                            imageStoragePath = CameraUtils.getPath(getActivity(), data.getData());
+//                            Uri uri = Uri.parse("content:/" + imageStoragePath);
+                            Uri uri = Uri.fromFile(new File(imageStoragePath));
+                            Bitmap bitmap = null;
                             bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+
+                            imgAvatar.setImageBitmap(bitmap);
+                            uploadProfileAvatar(new File(uri.getPath()));
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
-                        imgAvatar.setImageBitmap(bitmap);
-                        uploadProfileAvatar(new File(uri.getPath()));
                     }
                 } else {
                     // failed to record video
@@ -282,17 +298,17 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
     }
 
     private void uploadProfileAvatar(File pictureFile) {
-
         Call<String> call;
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
         call = ApiClient.getClient().uploadProfilePicture("XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
-
+        System.out.println("aaaaaaaaaaaaaaaa");
         call.enqueue(new Callback<String>() {
-
             @Override
             public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-
+                System.out.println("ccccccccccccccccccccccc");
+                String res = response.body();
+                System.out.println(res);
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     if (getActivity() != null) {
                         ((ActivityBase) getActivity()).showToast(response.message(), getActivity());
@@ -300,15 +316,13 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
                     return;
                 }
                 try {
-                    String strResponse = response.body();
+                    String strResponse = res;
                     if (response.code() == HttpStatus.NOT_FOUND) {
                         Toast.makeText(getActivity(), "not found", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     if (response.code() == HttpStatus.AUTH_FAILED) {
-                        if (getActivity() != null) {
-                            ((ActivityBase) getActivity()).unauthorizedUser();
-                        }
+                        ((ActivityBase) getActivity()).unauthorizedUser();
                         return;
                     }
                     if (response.code() == HttpStatus.SUCCESS) {
@@ -347,25 +361,25 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
                         //   adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
                         ((ActivityBase) getActivity()).showToast("attachment added", getActivity());
                     } else {
-                        if (getActivity() != null) {
-                            ((ActivityBase) getActivity()).showToast("Something went wrong", getActivity());
-                        }
-                    }
-                } catch (JSONException e) {
-                    if (getActivity() != null) {
                         ((ActivityBase) getActivity()).showToast("Something went wrong", getActivity());
                     }
+                } catch (JSONException e) {
+                    ((ActivityBase) getActivity()).showToast("Something went wrong", getActivity());
                     e.printStackTrace();
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                System.out.println("bbbbbbbbbbbbbbbbb");
+                System.out.println(t.toString());
                 if (getActivity() != null) {
                     ((ActivityBase) getActivity()).hideProgressDialog();
                 }
             }
         });
+
+
     }
 
     public void showPermissionsAlert() {

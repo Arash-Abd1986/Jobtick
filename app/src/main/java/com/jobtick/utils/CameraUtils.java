@@ -157,7 +157,7 @@ public class CameraUtils {
         }
     }
 
-    public static String getPath(Activity activity,Uri uri) {
+    public static String getPath(Activity activity, Uri uri) {
         Cursor cursor = activity.getContentResolver().query(uri, null, null, null, null);
         cursor.moveToFirst();
         String document_id = cursor.getString(0);

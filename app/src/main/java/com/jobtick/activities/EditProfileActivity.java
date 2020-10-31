@@ -931,7 +931,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                 Log.e("Response", call.toString());
             }
         });
-
     }
 
     @Override
@@ -971,8 +970,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                     } else {
                         uploadProfileAvtar(new File(uri.getPath()));
                     }
-
-
                 } else if (resultCode == RESULT_CANCELED) {
                     // user cancelled Image capture
                     Toast.makeText(getApplicationContext(),
@@ -986,13 +983,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                 }
             } else if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
                 if (resultCode == RESULT_OK) {
-              /*  Uri filePath = data.getData();
-                Bitmap bitmap;
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
                     if (data.getData() != null) {
                         imageStoragePath = CameraUtils.getPath(EditProfileActivity.this, data.getData());
                         File file = new File(imageStoragePath);
@@ -1215,7 +1205,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
         call = ApiClient.getClient().uploadProfilePicture("XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
-
 
         call.enqueue(new Callback<String>() {
 

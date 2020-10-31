@@ -51,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:hint="@string/_0000_0000_0000_0000"
+
                     android:singleLine="true"
                     android:textColor="@color/textColor"
                     android:textSize="14sp" />
@@ -88,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:hint="@string/xxx_xxx"
+
                     android:singleLine="true"
                     android:textColor="@color/textColor"
                     android:textSize="14sp" />
@@ -125,7 +125,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:hint="@string/xxxxxxxxxx"
                     android:singleLine="true"
                     android:textColor="@color/textColor"
                     android:textSize="14sp" />
@@ -141,7 +140,7 @@
             android:layout_margin="15dp"
             android:padding="@dimen/spacing_large"
             android:background="@drawable/shape_tab_primary_60"
-            android:text="@string/next"
+            android:text="Next"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="14sp" />

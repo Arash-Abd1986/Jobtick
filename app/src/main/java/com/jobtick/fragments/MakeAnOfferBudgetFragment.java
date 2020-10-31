@@ -124,37 +124,47 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
         cardContinue.setClickable(false);
 
         //setupBudget(Integer.parseInt(edtBudget.getText().toString().trim()));
-        edtBudget.setFilters(new InputFilter[]{new MinMaxFilter(5, 9999)});
-        edtBudget.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                String currentText = editable.toString();
-                int currentLength = currentText.length();
-
-                if (currentLength >= 1) {
-                    cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorPrimary));
-                    cardContinue.setClickable(true);
-                } else {
-                    cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorAccent));
-                    cardContinue.setClickable(false);
+        final String number = edtBudget.getText().toString();
+        if (!number.matches("0\\d{0}") || number.length() <= 5 || Integer.parseInt(number) <= 5) {
+            //!number.matches("9\\d{9}") ||
+            // !number.matches("(\\+98|0)?9\\d{9}") ||
+            Toast.makeText(getActivity(), "between 5 - 9999!", Toast.LENGTH_LONG).show();
+        } else {
+            edtBudget.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 }
 
-                if (currentLength == 0) {
-                    //reset all data
-                } else {
-                    setupBudget(Integer.parseInt(editable.toString()));
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
                 }
-            }
-        });
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                    String currentText = editable.toString();
+                    int currentLength = currentText.length();
+
+                    if (currentLength >= 1) {
+                        cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorPrimary));
+                        cardContinue.setClickable(true);
+                    } else {
+                        cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorAccent));
+                        cardContinue.setClickable(false);
+                    }
+
+                    if (currentLength == 0) {
+                        //reset all data
+                    } else {
+                        setupBudget(Integer.parseInt(editable.toString()));
+                    }
+                }
+            });
+        }
+
+
+        // .setFilters(new InputFilter[]{new MinMaxFilter(5, 9999)});
+
         initComponentScroll();
     }
 

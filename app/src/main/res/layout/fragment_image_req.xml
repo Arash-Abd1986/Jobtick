@@ -83,7 +83,7 @@
                 android:background="@drawable/shape_tab_primary_60"
                 android:gravity="center"
                 android:padding="@dimen/spacing_large"
-                android:text="@string/next"
+                android:text="Next"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
@@ -95,5 +95,4 @@
             android:layout_height="wrap_content"
             app:layout_behavior="@string/bottom_sheet_behavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 </FrameLayout>

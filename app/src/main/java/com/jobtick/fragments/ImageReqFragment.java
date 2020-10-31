@@ -162,8 +162,12 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         });
 
         lytBtnImage.setOnClickListener(v -> {
-            Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(Intent.createChooser(openGallery, "Open Gallery"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
+//            Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//            startActivityForResult(Intent.createChooser(openGallery, "Open Gallery"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
             mBottomSheetDialog.hide();
         });
         if (getActivity() != null) {
@@ -249,7 +253,8 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
                     if (data.getData() != null && getActivity() != null) {
                         try {
                             imageStoragePath = CameraUtils.getPath(getActivity(), data.getData());
-                            Uri uri = Uri.parse("file://" + imageStoragePath);
+//                            Uri uri = Uri.parse("content:/" + imageStoragePath);
+                            Uri uri = Uri.fromFile(new File(imageStoragePath));
                             Bitmap bitmap = null;
                             bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
 

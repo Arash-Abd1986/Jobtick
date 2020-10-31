@@ -91,11 +91,6 @@ public abstract class AddCreditCardImpl implements AddCreditCard {
         return true;
     }
 
-    public abstract void onSuccess();
-    public abstract void onError(Exception e);
-    public abstract void onNetworkResponseError(NetworkResponse networkResponse);
-    public abstract void onValidationError(ValidationErrorType validationErrorType, String message);
-
 
     private void addPaymentTokenTOServer(String pm_token) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_PAYMENTS_METHOD,
@@ -157,6 +152,12 @@ public abstract class AddCreditCardImpl implements AddCreditCard {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
     }
+
+
+    public abstract void onSuccess();
+    public abstract void onError(Exception e);
+    public abstract void onNetworkResponseError(NetworkResponse networkResponse);
+    public abstract void onValidationError(ValidationErrorType validationErrorType, String message);
 
     public enum ValidationErrorType {
         CardNumber,

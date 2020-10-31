@@ -935,6 +935,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
+
                                 String jsonString = jsonObject.toString(); //http request
                                 BankAccountModel data = new BankAccountModel();
                                 Gson gson = new Gson();

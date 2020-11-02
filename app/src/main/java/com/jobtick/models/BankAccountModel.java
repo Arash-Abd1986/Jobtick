@@ -28,7 +28,7 @@ public class BankAccountModel {
         this.data = data;
     }
 
-    public static class DataBean {
+    public class DataBean {
         /**
          * id : 3
          * account_name : ptiyanka

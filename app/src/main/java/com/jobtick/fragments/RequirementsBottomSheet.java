@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.jobtick.R;
@@ -45,6 +46,12 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
         RequirementsBottomSheet fragment = new RequirementsBottomSheet();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialogStyle);
     }
 
     @Override

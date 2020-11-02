@@ -1,52 +1,26 @@
 package com.jobtick.fragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.jobtick.EditText.EditTextMedium;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
-import com.jobtick.activities.AddBankAccountActivity;
-import com.jobtick.activities.PaymentSettingsActivity;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.BankAccountModel;
-import com.jobtick.utils.HttpStatus;
+import com.jobtick.payment.AddBankAccount;
+import com.jobtick.payment.AddBankAccountImpl;
 import com.jobtick.utils.SessionManager;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import timber.log.Timber;
-
-import static com.jobtick.activities.PaymentSettingsActivity.onBankaccountadded;
-import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
-import static com.jobtick.utils.Constant.BASE_URL;
+import java.util.Objects;
 
 public class CreditReqFragment extends Fragment {
 
@@ -55,6 +29,8 @@ public class CreditReqFragment extends Fragment {
     private EditTextMedium edtBsb;
     private EditTextMedium edtAccountNumber;
     private SessionManager sessionManager;
+
+    private AddBankAccount addBankAccount;
 
     public CreditReqFragment() {
     }
@@ -81,12 +57,39 @@ public class CreditReqFragment extends Fragment {
         edtAccountName = view.findViewById(R.id.edt_account_name);
         edtBsb = view.findViewById(R.id.edt_bsb);
         edtAccountNumber = view.findViewById(R.id.edt_account_number);
+
         BankAccountModel bankAccountModel = ((TaskDetailsActivity) getActivity()).bankAccountModel;
         if (bankAccountModel != null && bankAccountModel.getData() != null) {
             edtAccountName.setText(bankAccountModel.getData().getAccount_name());
             edtBsb.setText(bankAccountModel.getData().getBsb_code());
             edtAccountNumber.setText(bankAccountModel.getData().getAccount_number());
         }
+
+        addBankAccount = new AddBankAccountImpl(requireContext(), sessionManager) {
+            @Override
+            public void onSuccess() {
+                ((ActivityBase) getActivity()).hideProgressDialog();
+                goNext();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                ((ActivityBase) getActivity()).hideProgressDialog();
+                if(Objects.equals(e.getMessage(), "Bank account already exist."))
+                    goNext();
+                else
+                    ((ActivityBase) getActivity()).showToast(e.getMessage(), requireContext());
+            }
+
+            @Override
+            public void onValidationError(ErrorType errorType, String message) {
+                ((ActivityBase) getActivity()).hideProgressDialog();
+                if (errorType == ErrorType.UnAuthenticatedUser)
+                    ((ActivityBase) getActivity()).unauthorizedUser();
+                else
+                    ((ActivityBase) getActivity()).showToast(message, requireContext());
+            }
+        };
     }
 
     @Override
@@ -95,95 +98,18 @@ public class CreditReqFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_credit_req, container, false);
     }
 
-    public void addBankAccountDetails() {
+    private void addBankAccountDetails() {
         ((ActivityBase) getActivity()).showProgressDialog();
 
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, BASE_URL + ADD_ACCOUNT_DETAILS,
-                response -> {
-                    Timber.e(response);
-                    ((ActivityBase) getActivity()).hideProgressDialog();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                Toast.makeText(getActivity(), "Updated successfully !", Toast.LENGTH_SHORT).show();
-                                ((RequirementsBottomSheet) getParentFragment()).changeFragment(2);
-                                if (onBankaccountadded != null) {
-                                    onBankaccountadded.bankAccountAdd();
-                                }
-                                ((ActivityBase) getActivity()).finish();
-                            } else {
-                                Toast.makeText(getActivity(), "Something went Wrong !", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            ((ActivityBase) getActivity()).unauthorizedUser();
-                            ((ActivityBase) getActivity()).hideProgressDialog();
-                            return;
-                        }
-                        try {
-                            ((ActivityBase) getActivity()).hideProgressDialog();
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            // showCustomDialog(jsonObject_error.getString("message"));
-                            if (jsonObject_error.has("message")) {
-                                Toast.makeText(getActivity(), jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                            }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            Toast.makeText(getActivity(), "errors", Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        Toast.makeText(getActivity(), "Something Went Wrong !", Toast.LENGTH_SHORT).show();
-
-                    }
-                    Timber.e(error.toString());
-                    ((ActivityBase) getActivity()).hideProgressDialog();
-                }) {
-
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("account_name", edtAccountName.getText().toString());
-                map1.put("account_number", edtAccountNumber.getText().toString());
-                map1.put("bsb_code", edtBsb.getText().toString());
-
-                return map1;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        requestQueue.add(stringRequest);
-
+        addBankAccount.add(edtAccountName.getText().toString(),
+                edtBsb.getText().toString(),
+                edtAccountNumber.getText().toString());
     }
+
+    private void goNext(){
+        ((RequirementsBottomSheet) getParentFragment()).changeFragment(2);
+    }
+
 
     public boolean validate() {
         if (TextUtils.isEmpty(edtAccountName.getText().toString())) {

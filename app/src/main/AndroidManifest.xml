@@ -75,7 +75,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activities.PortfolioActivity" />
         <activity android:name=".activities.MakeAnOfferActivity" />
-        <activity android:name=".activities.TaskDetailsActivity" />
+        <activity android:name=".activities.TaskDetailsActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".activities.NotificationActivity" />
         <activity android:name=".activities.CompleteMessageActivity" />
         <activity android:name=".activities.NewTaskAlertsActivity" />

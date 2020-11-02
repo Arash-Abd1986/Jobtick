@@ -70,6 +70,12 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
     @BindView(R.id.add_billing_address)
     CardView addBillingAddress;
 
+    @BindView(R.id.linear_payment_specs)
+    LinearLayout paymentSpecs;
+
+    @BindView(R.id.linear_withdrawal_specs)
+    LinearLayout withdrawalSpecs;
+
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -135,12 +141,16 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
                     addCreditCard.setVisibility(View.VISIBLE);
                     addBankAccount.setVisibility(View.GONE);
                     addBillingAddress.setVisibility(View.GONE);
+                    paymentSpecs.setVisibility(View.VISIBLE);
+                    withdrawalSpecs.setVisibility(View.GONE);
                 } else {
                     rbPayments.setTextColor(getResources().getColor(R.color.black));
                     rbWithdrawal.setTextColor(getResources().getColor(R.color.white));
                     addCreditCard.setVisibility(View.GONE);
                     addBankAccount.setVisibility(View.VISIBLE);
                     addBillingAddress.setVisibility(View.VISIBLE);
+                    paymentSpecs.setVisibility(View.GONE);
+                    withdrawalSpecs.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -421,7 +431,7 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
 //        requestQueue.add(stringRequest);
 //    }
 
-    @OnClick({R.id.add_credit_card, R.id.add_billing_address, R.id.add_bank_account, R.id.ic_delete_bank_account, R.id.ic_delete_billing_account})
+    @OnClick({R.id.add_credit_card, R.id.add_billing_address, R.id.add_bank_account})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.add_credit_card:

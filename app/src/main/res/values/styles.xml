@@ -11,7 +11,6 @@
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
         <item name="android:statusBarColor">@color/backgroundLightGrey</item>
         <item name="android:navigationBarColor">@color/gray</item>
-        <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
 
     </style>

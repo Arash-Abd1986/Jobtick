@@ -48,7 +48,7 @@ import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.adapers.AddTagAdapter;
-import com.jobtick.adapers.AttachmentAdapter;
+import com.jobtick.adapers.AttachmentAdapter1;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.GeocodeObject;
 import com.jobtick.models.PositionModel;
@@ -92,7 +92,7 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener {
+public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItemClickListener, AttachmentAdapter1.OnItemClickListener {
     @BindView(R.id.lyt_btn_details)
     LinearLayout lytBtnDetails;
     @BindView(R.id.lyt_bnt_date_time)
@@ -157,7 +157,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     private static final int PICK_VIDEO = 107;
 
     private Uri fileUri;
-    private AttachmentAdapter attachmentAdapter;
+    private AttachmentAdapter1 attachmentAdapter;
   //  private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
     private TaskCreateActivity taskCreateActivity;
@@ -382,7 +382,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         recyclerView.addItemDecoration(new SpacingItemDecoration(4, Tools.dpToPx(taskCreateActivity, 5), true));
         recyclerView.setHasFixedSize(true);
         //set data and list adapter
-        attachmentAdapter = new AttachmentAdapter(taskCreateActivity, attachmentArrayList, true);
+        attachmentAdapter = new AttachmentAdapter1(taskCreateActivity, attachmentArrayList, true);
         recyclerView.setAdapter(attachmentAdapter);
         attachmentAdapter.setOnItemClickListener(this);
 

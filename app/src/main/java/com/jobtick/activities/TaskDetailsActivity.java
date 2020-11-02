@@ -1423,7 +1423,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             txtOffersCount.setText(getString(R.string.offer));
             txtWaitingForOffer.setVisibility(View.VISIBLE);
         } else {
-            txtOffersCount.setText("OFFERS (" + offerCount + ")");
+            txtOffersCount.setText("Offers (" + offerCount + ")");
             txtWaitingForOffer.setVisibility(View.GONE);
         }
 

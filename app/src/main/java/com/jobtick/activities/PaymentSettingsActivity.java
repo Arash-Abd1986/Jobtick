@@ -28,6 +28,7 @@ import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.models.CreditCardModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.Helper;
 import com.jobtick.utils.HttpStatus;
 
 import butterknife.BindView;
@@ -189,20 +190,18 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
 
 
     @OnClick({R.id.add_credit_card, R.id.add_billing_address, R.id.add_bank_account,
-    R.id.delete_bank_account, R.id.delete_billing_address, R.id.delete_payment_card})
+    R.id.delete_bank_account, R.id.delete_billing_address, R.id.delete_payment_card,
+            R.id.edit_billing_address, R.id.edit_bank_account, R.id.edit_payment_card})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.add_credit_card:
-                Intent add_credit_card = new Intent(PaymentSettingsActivity.this, AddCreditCardActivity.class);
-                startActivity(add_credit_card);
+                editPaymentCard();
                 break;
             case R.id.add_bank_account:
-                Intent add_bank_account = new Intent(PaymentSettingsActivity.this, AddBankAccountActivity.class);
-                startActivity(add_bank_account);
+                editBankAccount();
                 break;
             case R.id.add_billing_address:
-                Intent add_billing_address = new Intent(PaymentSettingsActivity.this, BillingAddressActivity.class);
-                startActivity(add_billing_address);
+                editBillingAddress();
                 break;
             case R.id.delete_payment_card:
                 deleteCreditCard();
@@ -213,7 +212,31 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
             case R.id.delete_billing_address:
                 deleteBillingAddress();
                 break;
+            case R.id.edit_billing_address:
+                editBillingAddress();
+                break;
+            case R.id.edit_bank_account:
+                editBankAccount();
+                break;
+            case R.id.edit_payment_card:
+                editPaymentCard();
+                break;
         }
+    }
+
+    private void editPaymentCard() {
+        Intent add_credit_card = new Intent(PaymentSettingsActivity.this, AddCreditCardActivity.class);
+        startActivity(add_credit_card);
+    }
+
+    private void editBankAccount() {
+        Intent add_bank_account = new Intent(PaymentSettingsActivity.this, AddBankAccountActivity.class);
+        startActivity(add_bank_account);
+    }
+
+    private void editBillingAddress() {
+        Intent add_billing_address = new Intent(PaymentSettingsActivity.this, BillingAddressActivity.class);
+        startActivity(add_billing_address);
     }
 
     private void setupViewBankAccountDetails(boolean success){

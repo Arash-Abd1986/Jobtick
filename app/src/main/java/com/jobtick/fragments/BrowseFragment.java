@@ -79,7 +79,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
     @BindView(R.id.txt_filters)
-    TextViewRegular txtFilters;
+    TextView txtFilters;
     @BindView(R.id.appbar)
     AppBarLayout appbar;
     @BindView(R.id.ivMapView)

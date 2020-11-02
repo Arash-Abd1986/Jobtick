@@ -44,10 +44,15 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 //TODO: implementing this interface should be changed because page of payment and add bank account is separated.
 public class PaymentSettingsActivity extends ActivityBase// implements OnBankAccountAdded {
 {
+
+    private CreditCardModel creditCardModel;
+    private BankAccountModel bankAccountModel;
+    private BillingAdreessModel billingAdreessModel;
 
     @BindView(R.id.rb_payments)
     RadioButton rbPayments;
@@ -155,8 +160,9 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
         paymentSpecs.setVisibility(View.VISIBLE);
         withdrawalSpecs.setVisibility(View.GONE);
 
+
         getBillingAddress();
-    //    getPaymentMethod();
+        getPaymentMethod();
         getBankAccountDetails();
 
     }
@@ -256,19 +262,18 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 String jsonString = jsonObject.toString(); //http request
-                                BankAccountModel data = new BankAccountModel();
                                 Gson gson = new Gson();
-                                data = gson.fromJson(jsonString, BankAccountModel.class);
+                                bankAccountModel = gson.fromJson(jsonString, BankAccountModel.class);
 
-                                if (data != null) {
-                                    if (data.isSuccess()) {
+                                if (bankAccountModel != null) {
+                                    if (bankAccountModel.isSuccess()) {
 
-                                        if (data.getData() != null && data.getData().getAccount_number() != null) {
+                                        if (bankAccountModel.getData() != null && bankAccountModel.getData().getAccount_number() != null) {
 
                                             setupViewBankAccountDetails(true);
 
-                                            accountNumber.setText(data.getData().getAccount_number());
-                                            bsb.setText(data.getData().getBsb_code());
+                                            accountNumber.setText(bankAccountModel.getData().getAccount_number());
+                                            bsb.setText(bankAccountModel.getData().getBsb_code());
                                         }
                                     }
                                 }
@@ -354,22 +359,21 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 String jsonString = jsonObject.toString(); //http request
-                                BillingAdreessModel data = new BillingAdreessModel();
                                 Gson gson = new Gson();
-                                data = gson.fromJson(jsonString, BillingAdreessModel.class);
+                                billingAdreessModel = gson.fromJson(jsonString, BillingAdreessModel.class);
 
-                                if (data != null) {
-                                    if (data.isSuccess()) {
+                                if (billingAdreessModel != null) {
+                                    if (billingAdreessModel.isSuccess()) {
 
-                                        if (data.getData() != null && data.getData().getLine1() != null) {
+                                        if (billingAdreessModel.getData() != null && billingAdreessModel.getData().getLine1() != null) {
 
                                             setupViewBillingAddress(true);
 
-                                            address.setText(data.getData().getLine1());
-                                            suburb.setText(data.getData().getCity());
-                                            postCode.setText(data.getData().getPost_code());
-                                            country.setText(data.getData().getCountry());
-                                            state.setText(data.getData().getState());
+                                            address.setText(billingAdreessModel.getData().getLine1());
+                                            suburb.setText(billingAdreessModel.getData().getCity());
+                                            postCode.setText(billingAdreessModel.getData().getPost_code());
+                                            country.setText(billingAdreessModel.getData().getCountry());
+                                            state.setText(billingAdreessModel.getData().getState());
                                         }
                                     }
                                 }
@@ -444,41 +448,27 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PAYMENTS_METHOD,
                 response -> {
                     Timber.e(response);
-                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                  /*  JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                                    if (jsonObject_data.has("card") && !jsonObject_data.isNull("card")) {
-                                        JSONObject jsonObject_card = jsonObject_data.getJSONObject("card");
-                                        PaymentMethodModel paymentMethodModel = new PaymentMethodModel().getJsonToModel(jsonObject_card);
-                                       // setUpLayout(paymentMethodModel);
-
-                                        txtPrice.setText(paymentMethodModel.ba);
-
-                                    } else {
-                                        showToast("card not Available", PaymentSettingsActivity.this);
-                                    }*/
-
 
                                     String jsonString = jsonObject.toString(); //http request
-                                    CreditCardModel data = new CreditCardModel();
                                     Gson gson = new Gson();
-                                    data = gson.fromJson(jsonString, CreditCardModel.class);
+                                    creditCardModel = gson.fromJson(jsonString, CreditCardModel.class);
 
-                                    if (data != null && data.getData() != null) {
+                                    if (creditCardModel != null && creditCardModel.getData() != null) {
 
                                         setupViewCreditCard(true);
 
-                                        creditAccountName.setText(data.getData().getCard().getBrand());
-                                        creditAccountNumber.setText("xxxx xxxx xxxx " + data.getData().getCard().getLast4());
+                                        creditAccountName.setText(creditCardModel.getData().getCard().getBrand());
+                                        creditAccountNumber.setText("xxxx xxxx xxxx " + creditCardModel.getData().getCard().getLast4());
                                     } else {
                                         setupViewCreditCard(false);
                                     }
-
+                                    hideProgressDialog();
                                 }
                             } else {
                                 setupViewCreditCard(false);
@@ -492,6 +482,7 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
                     }
                 },
                 error -> {
+                    setupViewCreditCard(false);
                     NetworkResponse networkResponse = error.networkResponse;
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
@@ -500,9 +491,10 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            if (jsonObject_error.has("error_text") && !jsonObject_error.isNull("error_text")) {
-                                if (ConstantKey.NO_PAYMENT_METHOD.equalsIgnoreCase(jsonObject_error.getString("error_text"))) {
-                                    //  setUpAddPaymentLayout();
+                            if (jsonObject_error.has("error_code") && !jsonObject_error.isNull("error_code")) {
+                                if (Objects.equals(ConstantKey.NO_PAYMENT_METHOD, jsonObject_error.getString("error_code"))) {
+                                    hideProgressDialog();
+                                    return;
                                 }
                             }
                         } catch (JSONException e) {
@@ -529,10 +521,9 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
         requestQueue.add(stringRequest);
     }
 
-
     private void deleteBankAccountDetails() {
         showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_DELETE_BANK_ACCOUNT,
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_DELETE_BANK_ACCOUNT + "/bankaccount_id=" + bankAccountModel.getData().getId(),
                 response -> {
                     Timber.e(response);
                     hideProgressDialog();

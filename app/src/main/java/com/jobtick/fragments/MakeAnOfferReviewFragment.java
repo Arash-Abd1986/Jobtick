@@ -87,7 +87,8 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
         // Required empty public constructor
     }
 
-    public static MakeAnOfferReviewFragment newInstance(MakeAnOfferModel makeAnOfferModel, ReviewCallbackFunction reviewCallbackFunction) {
+    public static MakeAnOfferReviewFragment newInstance(MakeAnOfferModel makeAnOfferModel,
+                                                        ReviewCallbackFunction reviewCallbackFunction) {
         MakeAnOfferReviewFragment fragment = new MakeAnOfferReviewFragment();
         fragment.reviewCallbackFunction = reviewCallbackFunction;
         Bundle args = new Bundle();

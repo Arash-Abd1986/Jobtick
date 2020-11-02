@@ -1,5 +1,7 @@
 package com.jobtick.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -56,8 +58,10 @@ public class BillingAddressActivity extends ActivityBase {
         addBillingAddress = new AddBillingAddressImpl(this, sessionManager) {
             @Override
             public void onSuccess() {
-                showToast("Update Successfully.", BillingAddressActivity.this);
                 hideProgressDialog();
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
             }
 
             @Override

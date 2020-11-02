@@ -1,5 +1,6 @@
 package com.jobtick.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -28,7 +29,6 @@ import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.models.CreditCardModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
-import com.jobtick.utils.Helper;
 import com.jobtick.utils.HttpStatus;
 
 import butterknife.BindView;
@@ -226,17 +226,17 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
 
     private void editPaymentCard() {
         Intent add_credit_card = new Intent(PaymentSettingsActivity.this, AddCreditCardActivity.class);
-        startActivity(add_credit_card);
+        startActivityForResult(add_credit_card, 111);
     }
 
     private void editBankAccount() {
         Intent add_bank_account = new Intent(PaymentSettingsActivity.this, AddBankAccountActivity.class);
-        startActivity(add_bank_account);
+        startActivityForResult(add_bank_account, 222);
     }
 
     private void editBillingAddress() {
         Intent add_billing_address = new Intent(PaymentSettingsActivity.this, BillingAddressActivity.class);
-        startActivity(add_billing_address);
+        startActivityForResult(add_billing_address, 333);
     }
 
     private void setupViewBankAccountDetails(boolean success){
@@ -725,4 +725,17 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK) {
+            if (requestCode == 111) {
+                getPaymentMethod();
+            } else if (requestCode == 222) {
+                getBankAccountDetails();
+            } else if (requestCode == 333) {
+                getBillingAddress();
+            }
+        }
+    }
 }

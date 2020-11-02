@@ -1,5 +1,7 @@
 package com.jobtick.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -71,8 +73,10 @@ public class AddBankAccountActivity extends ActivityBase {
         this.addBankAccount = new AddBankAccountImpl(this, sessionManager) {
             @Override
             public void onSuccess() {
-                showToast("Bank account added successfully.", AddBankAccountActivity.this);
                 hideProgressDialog();
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
             }
 
             @Override

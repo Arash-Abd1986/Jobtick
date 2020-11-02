@@ -1,6 +1,8 @@
 package com.jobtick.activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -100,8 +102,10 @@ public class AddCreditCardActivity extends ActivityBase {
         addCreditCard = new AddCreditCardImpl(this, sessionManager) {
             @Override
             public void onSuccess() {
-                showToast("Update Successfully.", AddCreditCardActivity.this);
                 hideProgressDialog();
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
             }
 
             @Override

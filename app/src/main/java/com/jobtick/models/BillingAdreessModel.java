@@ -34,6 +34,8 @@ public class BillingAdreessModel {
         private String created_at;
         private String updated_at;
 
+        private String city;
+
         public int getId() {
             return id;
         }
@@ -88,6 +90,14 @@ public class BillingAdreessModel {
 
         public void setCountry(String country) {
             this.country = country;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
         }
 
         public String getCreated_at() {

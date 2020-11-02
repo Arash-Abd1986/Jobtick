@@ -190,6 +190,7 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
                                     startActivity(intent);
                                     finish();
                                 } else {
+                                    System.out.println("response is: " + response);
                                     showToast("Something went Wrong", MakeAnOfferActivity.this);
                                 }
                             }

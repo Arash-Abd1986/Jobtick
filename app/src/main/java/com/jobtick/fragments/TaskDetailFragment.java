@@ -485,7 +485,8 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
             positionModel.setLongitude(carmenFeature.center().longitude());
             task.setPosition(positionModel);
             locationObject = new LatLng(carmenFeature.center().latitude(), carmenFeature.center().longitude());
-        } else if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
+        }
+        else if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
             filePath = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(taskCreateActivity.getContentResolver(), filePath);
@@ -747,15 +748,18 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
             mBottomSheetDialog.hide();
         });
 
-        lytBtnImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkPermissionREAD_EXTERNAL_STORAGE(taskCreateActivity)) {
-                    Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), 1);
-                }
-                mBottomSheetDialog.hide();
+        lytBtnImage.setOnClickListener(v -> {
+            if (checkPermissionREAD_EXTERNAL_STORAGE(taskCreateActivity)) {
+
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+
+//                Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), 1);
             }
+            mBottomSheetDialog.hide();
         });
 
         mBottomSheetDialog = new BottomSheetDialog(taskCreateActivity);

@@ -62,9 +62,9 @@ public class AttachmentAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == VIEW_TYPE_IMAGE) {
-            ((AttachmentAdapter.IMAGEViewHolder) holder).onBind(holder.getAdapterPosition());
+            ((AttachmentAdapter1.IMAGEViewHolder) holder).onBind(holder.getAdapterPosition());
         } else {
-            ((AttachmentAdapter.ADDViewHolder) holder).onBind(holder.getAdapterPosition());
+            ((AttachmentAdapter1.ADDViewHolder) holder).onBind(holder.getAdapterPosition());
         }
     }
 

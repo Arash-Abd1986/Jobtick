@@ -108,7 +108,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     @BindView(R.id.edt_description)
     EditTextMedium edtDescription;
     @BindView(R.id.recycler_add_must_have)
-    RecyclerView recyclerAddMustHave;
+   RecyclerView recyclerAddMustHave;
     @BindView(R.id.img_add_white)
     ImageView imgAddWhite;
     @BindView(R.id.rlt_add_must_have)
@@ -634,10 +634,20 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
 
         TextViewMedium txtCount = view.findViewById(R.id.txt_count);
+        RecyclerView recyclerView2=view.findViewById(R.id.recycler_add_must_have2);
         TextViewRegular txtTotalCount = view.findViewById(R.id.txt_total_count);
 
         LinearLayout lytBtnNext = view.findViewById(R.id.lyt_btn_next);
         EditTextRegular edtAddTag = view.findViewById(R.id.edtAddTag);
+        recyclerView2.setLayoutManager(new GridLayoutManager(taskCreateActivity, 1));
+        recyclerView2.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true));
+        recyclerView2.setHasFixedSize(true);
+
+
+        //set data and list adapter
+        tagAdapter = new AddTagAdapter(taskCreateActivity, addTagList);
+        recyclerView2.setAdapter(tagAdapter);
+        tagAdapter.setOnItemClickListener(this);
 
         txtCount.setText(addTagList.size() + "");
         lytBtnNext.setOnClickListener(v -> {
@@ -662,9 +672,12 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                     //we change recycler view visibility to change size of it
                     recyclerAddMustHave.setVisibility(View.GONE);
                     recyclerAddMustHave.setVisibility(View.VISIBLE);
+                    recyclerView2.setVisibility(View.GONE);
+                    recyclerView2.setVisibility(View.VISIBLE);
                 } else {
-                    if (recyclerAddMustHave.getVisibility() == View.VISIBLE) {
+                    if (recyclerAddMustHave.getVisibility() == View.VISIBLE || recyclerView2.getVisibility()==View.VISIBLE) {
                         recyclerAddMustHave.setVisibility(View.GONE);
+                        recyclerView2.setVisibility(View.GONE);
                     }
                 }
             } else {

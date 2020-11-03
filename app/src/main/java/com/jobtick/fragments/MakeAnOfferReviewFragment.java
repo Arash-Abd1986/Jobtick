@@ -127,7 +127,7 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
             }
         });
 
-        Log.e("","");
+        Log.e("", "");
 
         // toolbar.setNavigationOnClickListener(MakeAnOfferReviewFragment.this);
         reviewConditions();
@@ -178,7 +178,7 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
     }
 
 
-    @OnClick({R.id.img_btn_close, R.id.img_btn_play, R.id.lyt_btn_submit_offer,R.id.lytRecord2})
+    @OnClick({R.id.img_btn_close, R.id.img_btn_play, R.id.lyt_btn_submit_offer, R.id.lytRecord2})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_btn_close:
@@ -188,8 +188,8 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
                 }
                 break;
             case R.id.img_btn_play:
-                Intent intent=new Intent(getActivity(), VideoPlayerActivity.class);
-                intent.putExtra(ConstantKey.VIDEO_PATH,""+makeAnOfferModel.getAttachment().getUrl());
+                Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+                intent.putExtra(ConstantKey.VIDEO_PATH, "" + makeAnOfferModel.getAttachment().getUrl());
                 getActivity().startActivity(intent);
                 break;
             case R.id.lytRecord2:

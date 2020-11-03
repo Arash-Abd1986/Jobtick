@@ -236,6 +236,9 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
 
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
+
+                map1.put("X-REQUESTED-WITH", "xmlhttprequest");
+//                headers.put("Accept", "application/json");
                 // map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
             }

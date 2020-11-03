@@ -84,7 +84,7 @@
                     android:visibility="gone"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/no_post"/>
+                    app:lottie_rawRes="@raw/no_message"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"

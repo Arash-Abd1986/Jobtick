@@ -507,7 +507,6 @@
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/_14sp" />
 
-
                     <androidx.cardview.widget.CardView
                         android:id="@+id/mustHaveLyt"
                         android:layout_width="match_parent"

@@ -10,12 +10,16 @@ import android.widget.ImageView;
 
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import com.jobtick.models.BillingAdreessModel;
+import com.jobtick.models.PushNotificationModel;
 import com.jobtick.payment.AddBillingAddress;
 import com.jobtick.payment.AddBillingAddressImpl;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.jobtick.utils.ConstantKey.PUSH_NOTIFICATION_MODEL;
 
 public class BillingAddressActivity extends ActivityBase {
 
@@ -54,6 +58,7 @@ public class BillingAddressActivity extends ActivityBase {
         setContentView(R.layout.activity_billing_address);
         ButterKnife.bind(this);
         initToolbar();
+        initUi();
 
         addBillingAddress = new AddBillingAddressImpl(this, sessionManager) {
             @Override
@@ -77,6 +82,21 @@ public class BillingAddressActivity extends ActivityBase {
                     showToast(message, BillingAddressActivity.this);
             }
         };
+    }
+
+    private void initUi(){
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) return;
+        if (bundle.getParcelable(BillingAdreessModel.class.getName()) == null) return;
+        BillingAdreessModel billingAdreessModel = bundle.getParcelable(BillingAdreessModel.class.getName());
+        if(!billingAdreessModel.isSuccess() || billingAdreessModel.getData() == null) return;
+
+        edtAddressLine1.setText(billingAdreessModel.getData().getLine1());
+        edtAddressLine2.setText(billingAdreessModel.getData().getLine2());
+        edtState.setText(billingAdreessModel.getData().getState());
+        edtSuburs.setText(billingAdreessModel.getData().getCity());
+        edtPostcode.setText(billingAdreessModel.getData().getPost_code());
+        edtCountry.setText(billingAdreessModel.getData().getCountry());
     }
 
 

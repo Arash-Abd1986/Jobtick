@@ -31,6 +31,13 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -40,16 +47,7 @@ import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
 import static com.jobtick.utils.Constant.ADD_BILLING;
 import static com.jobtick.utils.Constant.BASE_URL;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
-//TODO: implementing this interface should be changed because page of payment and add bank account is separated.
-public class PaymentSettingsActivity extends ActivityBase// implements OnBankAccountAdded {
-{
+public class PaymentSettingsActivity extends ActivityBase {
 
     private CreditCardModel creditCardModel;
     private BankAccountModel bankAccountModel;
@@ -190,18 +188,18 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
 
 
     @OnClick({R.id.add_credit_card, R.id.add_billing_address, R.id.add_bank_account,
-    R.id.delete_bank_account, R.id.delete_billing_address, R.id.delete_payment_card,
+            R.id.delete_bank_account, R.id.delete_billing_address, R.id.delete_payment_card,
             R.id.edit_billing_address, R.id.edit_bank_account, R.id.edit_payment_card})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.add_credit_card:
-                editPaymentCard();
+                editPaymentCard(false);
                 break;
             case R.id.add_bank_account:
-                editBankAccount();
+                editBankAccount(false);
                 break;
             case R.id.add_billing_address:
-                editBillingAddress();
+                editBillingAddress(false);
                 break;
             case R.id.delete_payment_card:
                 deleteCreditCard();
@@ -213,60 +211,82 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
                 deleteBillingAddress();
                 break;
             case R.id.edit_billing_address:
-                editBillingAddress();
+                editBillingAddress(true);
                 break;
             case R.id.edit_bank_account:
-                editBankAccount();
+                editBankAccount(true);
                 break;
             case R.id.edit_payment_card:
-                editPaymentCard();
+                editPaymentCard(true);
                 break;
         }
     }
 
-    private void editPaymentCard() {
-        Intent add_credit_card = new Intent(PaymentSettingsActivity.this, AddCreditCardActivity.class);
-        startActivityForResult(add_credit_card, 111);
+    private void editPaymentCard(boolean editMode) {
+        if(editMode){
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(CreditCardModel.class.getName(), creditCardModel);
+            Intent add_credit_card = new Intent(PaymentSettingsActivity.this, AddCreditCardActivity.class);
+            add_credit_card.putExtras(bundle);
+            startActivityForResult(add_credit_card, 111);
+        }else{
+            Intent add_credit_card = new Intent(PaymentSettingsActivity.this, AddCreditCardActivity.class);
+            startActivityForResult(add_credit_card, 111);
+        }
     }
 
-    private void editBankAccount() {
-        Intent add_bank_account = new Intent(PaymentSettingsActivity.this, AddBankAccountActivity.class);
-        startActivityForResult(add_bank_account, 222);
+    private void editBankAccount(boolean editMode) {
+        if(editMode){
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(BankAccountModel.class.getName(), bankAccountModel);
+            Intent add_bank_account = new Intent(PaymentSettingsActivity.this, AddBankAccountActivity.class);
+            add_bank_account.putExtras(bundle);
+            startActivityForResult(add_bank_account, 222);
+        }else {
+            Intent add_bank_account = new Intent(PaymentSettingsActivity.this, AddBankAccountActivity.class);
+            startActivityForResult(add_bank_account, 222);
+        }
+
     }
 
-    private void editBillingAddress() {
-        Intent add_billing_address = new Intent(PaymentSettingsActivity.this, BillingAddressActivity.class);
-        startActivityForResult(add_billing_address, 333);
+    private void editBillingAddress(boolean editMode) {
+        if (editMode) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(BillingAdreessModel.class.getName(), billingAdreessModel);
+            Intent add_billing_address = new Intent(PaymentSettingsActivity.this, BillingAddressActivity.class);
+            add_billing_address.putExtras(bundle);
+            startActivityForResult(add_billing_address, 333);
+        }else{
+            Intent add_billing_address = new Intent(PaymentSettingsActivity.this, BillingAddressActivity.class);
+            startActivityForResult(add_billing_address, 333);
+        }
     }
 
-    private void setupViewBankAccountDetails(boolean success){
-        if(success){
+    private void setupViewBankAccountDetails(boolean success) {
+        if (success) {
             addBankAccount.setVisibility(View.GONE);
             addBankAccountSpecs.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             addBankAccount.setVisibility(View.VISIBLE);
             addBankAccountSpecs.setVisibility(View.GONE);
         }
     }
 
-    private void setupViewBillingAddress(boolean success){
-        if(success){
+    private void setupViewBillingAddress(boolean success) {
+        if (success) {
             addBillingAddress.setVisibility(View.GONE);
             addBillingAddressSpecs.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             addBillingAddress.setVisibility(View.VISIBLE);
             addBillingAddressSpecs.setVisibility(View.GONE);
         }
     }
 
-    private void setupViewCreditCard(boolean success){
-        if(success){
+    private void setupViewCreditCard(boolean success) {
+        if (success) {
             addCreditCard.setVisibility(View.GONE);
             addCreditCardSpecs.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             addCreditCard.setVisibility(View.VISIBLE);
             addCreditCardSpecs.setVisibility(View.GONE);
         }
@@ -295,7 +315,7 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
 
                                             setupViewBankAccountDetails(true);
 
-                                            accountNumber.setText(bankAccountModel.getData().getAccount_number());
+                                            accountNumber.setText("xxxxx" + bankAccountModel.getData().getAccount_number());
                                             bsb.setText(bankAccountModel.getData().getBsb_code());
                                         }
                                     }
@@ -728,7 +748,7 @@ public class PaymentSettingsActivity extends ActivityBase// implements OnBankAcc
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 111) {
                 getPaymentMethod();
             } else if (requestCode == 222) {

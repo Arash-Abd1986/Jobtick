@@ -23,6 +23,8 @@ import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.models.BillingAdreessModel;
+import com.jobtick.models.CreditCardModel;
 import com.jobtick.payment.AddCreditCard;
 import com.jobtick.payment.AddCreditCardImpl;
 import com.jobtick.utils.Constant;
@@ -90,12 +92,11 @@ public class AddCreditCardActivity extends ActivityBase {
         setContentView(R.layout.activity_add_credit_card);
         ButterKnife.bind(this);
         initToolbar();
+        initUi();
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month = month + 1;
-                str_expire_date = Tools.getExpireDateFormat(month + "/" + year);
-                edtExpiryDate.setText(str_expire_date);
+                setEdtExpiryDate(year, month);
             }
         };
 
@@ -137,6 +138,23 @@ public class AddCreditCardActivity extends ActivityBase {
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setTitle("Add Credit Card");
+    }
+
+    private void initUi(){
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) return;
+        if (bundle.getParcelable(CreditCardModel.class.getName()) == null) return;
+        CreditCardModel creditCardModel = bundle.getParcelable(CreditCardModel.class.getName());
+        if(!creditCardModel.isSuccess() || creditCardModel.getData() == null) return;
+
+        edtCardNumber.setText("xxxx xxxx xxxx " + creditCardModel.getData().getCard().getLast4());
+        setEdtExpiryDate(creditCardModel.getData().getCard().getExp_year(), creditCardModel.getData().getCard().getExp_month());
+    }
+
+    private void setEdtExpiryDate(int year, int month){
+        month = month + 1;
+        str_expire_date = Tools.getExpireDateFormat(month + "/" + year);
+        edtExpiryDate.setText(str_expire_date);
     }
 
 

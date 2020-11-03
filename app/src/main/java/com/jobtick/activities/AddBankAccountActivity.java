@@ -18,6 +18,8 @@ import com.google.android.material.button.MaterialButton;
 import com.jobtick.AppExecutors;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
+import com.jobtick.models.BankAccountModel;
+import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.payment.AddBankAccount;
 import com.jobtick.payment.AddBankAccountImpl;
 import com.jobtick.utils.ConstantKey;
@@ -69,6 +71,7 @@ public class AddBankAccountActivity extends ActivityBase {
         setContentView(R.layout.activity_add_bank_account);
         ButterKnife.bind(this);
         initToolbar();
+        initUi();
 
         this.addBankAccount = new AddBankAccountImpl(this, sessionManager) {
             @Override
@@ -103,6 +106,18 @@ public class AddBankAccountActivity extends ActivityBase {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Add Bank Account");*/
+    }
+
+    private void initUi() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) return;
+        if (bundle.getParcelable(BankAccountModel.class.getName()) == null) return;
+        BankAccountModel bankAccountModel = bundle.getParcelable(BankAccountModel.class.getName());
+        if (!bankAccountModel.isSuccess() || bankAccountModel.getData() == null) return;
+
+        edtAccountName.setText(bankAccountModel.getData().getAccount_name());
+        edtAccountNumber.setText("xxxxx" + bankAccountModel.getData().getAccount_number());
+        edtBsb.setText(bankAccountModel.getData().getBsb_code());
     }
 
     @Override

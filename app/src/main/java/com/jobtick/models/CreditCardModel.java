@@ -1,8 +1,11 @@
 package com.jobtick.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class CreditCardModel {
+public class CreditCardModel implements Parcelable{
 
 
     /**
@@ -14,6 +17,36 @@ public class CreditCardModel {
     private boolean success;
     private String message;
     private DataBean data;
+
+    protected CreditCardModel(Parcel in) {
+        success = in.readByte() != 0;
+        message = in.readString();
+        data = in.readParcelable(DataBean.class.getClassLoader());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte((byte) (success ? 1 : 0));
+        dest.writeString(message);
+        dest.writeParcelable(data, flags);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<CreditCardModel> CREATOR = new Creator<CreditCardModel>() {
+        @Override
+        public CreditCardModel createFromParcel(Parcel in) {
+            return new CreditCardModel(in);
+        }
+
+        @Override
+        public CreditCardModel[] newArray(int size) {
+            return new CreditCardModel[size];
+        }
+    };
 
     public boolean isSuccess() {
         return success;
@@ -39,7 +72,7 @@ public class CreditCardModel {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Parcelable{
         /**
          * balance : 0
          * card : {"brand":"visa","checks":{"address_line1_check":null,"address_postal_code_check":null,"cvc_check":"pass"},"country":"US","exp_month":4,"exp_year":2026,"fingerprint":"mntOtik3A1oJyzit","funding":"credit","generated_from":null,"last4":"4242","networks":{"available":["visa"],"preferred":null},"three_d_secure_usage":{"supported":true},"wallet":null}
@@ -47,6 +80,38 @@ public class CreditCardModel {
 
         private String balance;
         private CardBean card;
+
+        public DataBean(){
+
+        }
+
+        protected DataBean(Parcel in) {
+            balance = in.readString();
+            card = in.readParcelable(CardBean.class.getClassLoader());
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(balance);
+            dest.writeParcelable(card, flags);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel in) {
+                return new DataBean(in);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
 
         public String getBalance() {
             return balance;
@@ -64,7 +129,7 @@ public class CreditCardModel {
             this.card = card;
         }
 
-        public static class CardBean {
+        public static class CardBean implements Parcelable {
             /**
              * brand : visa
              * checks : {"address_line1_check":null,"address_postal_code_check":null,"cvc_check":"pass"}
@@ -92,6 +157,48 @@ public class CreditCardModel {
             private NetworksBean networks;
             private ThreeDSecureUsageBean three_d_secure_usage;
             private Object wallet;
+
+            public CardBean(){
+
+            }
+
+            protected CardBean(Parcel in) {
+                brand = in.readString();
+                country = in.readString();
+                exp_month = in.readInt();
+                exp_year = in.readInt();
+                fingerprint = in.readString();
+                funding = in.readString();
+                last4 = in.readString();
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(brand);
+                dest.writeString(country);
+                dest.writeInt(exp_month);
+                dest.writeInt(exp_year);
+                dest.writeString(fingerprint);
+                dest.writeString(funding);
+                dest.writeString(last4);
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            public static final Creator<CardBean> CREATOR = new Creator<CardBean>() {
+                @Override
+                public CardBean createFromParcel(Parcel in) {
+                    return new CardBean(in);
+                }
+
+                @Override
+                public CardBean[] newArray(int size) {
+                    return new CardBean[size];
+                }
+            };
 
             public String getBrand() {
                 return brand;

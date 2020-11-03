@@ -181,13 +181,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <com.jobtick.TextView.TextViewRegular
+                            <com.jobtick.TextView.TextViewMedium
                                 android:id="@+id/txt_date"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_toStartOf="@id/img_location_pin"
                                 android:hint="Select a Date"
-                                android:textSize="@dimen/_14sp" />
+                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                android:textColor="@color/textColor"/>
 
 
                             <ImageView
@@ -332,7 +333,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_toRightOf="@+id/cb_midday">
 
-                                    <com.jobtick.TextView.TextViewRegular
+
+                                    <com.jobtick.TextView.TextViewMedium
                                         android:id="@+id/txt_title_midday"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -397,7 +399,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_toRightOf="@+id/cb_afternoon">
 
-                                    <com.jobtick.TextView.TextViewRegular
+                                    <com.jobtick.TextView.TextViewMedium
                                         android:id="@+id/txt_title_afternoon"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -458,7 +460,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_toRightOf="@+id/cb_evening">
 
-                                    <com.jobtick.TextView.TextViewRegular
+                                    <com.jobtick.TextView.TextViewMedium
                                         android:id="@+id/txt_title_evening"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -494,7 +496,6 @@
 
             </LinearLayout>
         </ScrollView>
-
 
         <LinearLayout
             android:id="@+id/lyt_button"
@@ -588,6 +589,7 @@
 
 
         </LinearLayout>
+
 
 
         <!--bottom sheet container-->

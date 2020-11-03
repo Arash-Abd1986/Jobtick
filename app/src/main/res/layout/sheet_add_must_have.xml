@@ -116,53 +116,71 @@
 
             </RelativeLayout>
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_add_must_have2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:visibility="gone"
+        android:nestedScrollingEnabled="false" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_middle"
+        android:background="@drawable/linear_rounded_white_fill_8dp">
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/spacing_mlarge"
+            android:paddingTop="@dimen/spacing_large"
+            android:paddingEnd="@dimen/spacing_mlarge"
+            android:paddingBottom="@dimen/spacing_large">
+
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:background="@drawable/linear_rounded_white_fill_8dp">
+                android:layout_height="wrap_content">
 
-                <LinearLayout
+                <com.jobtick.TextView.TextViewSemiBold
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingStart="@dimen/spacing_mlarge"
-                    android:paddingTop="@dimen/spacing_large"
-                    android:paddingEnd="@dimen/spacing_mlarge"
-                    android:paddingBottom="@dimen/spacing_large">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <com.jobtick.TextView.TextViewSemiBold
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Requirements"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
-                            android:textStyle="bold" />
+                    android:text="Requirements"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_12sp"
+                    android:textStyle="bold" />
 
 
-                    </RelativeLayout>
+            </RelativeLayout>
 
-                    <com.jobtick.EditText.EditTextRegular
-                        android:id="@+id/edtAddTag"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
+            <com.jobtick.EditText.EditTextRegular
+                android:id="@+id/edtAddTag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
 
-                        android:hint="What requirements they must have ?"
-                        android:inputType="textMultiLine"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_14sp" />
+                android:hint="What requirements they must have ?"
+                android:inputType="textMultiLine"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_14sp" />
 
-                </LinearLayout>
-            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>
+
 
 
             <androidx.cardview.widget.CardView
@@ -194,7 +212,7 @@
                     <com.jobtick.TextView.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Accept"
+                        android:text="Add"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_15sp" />
 

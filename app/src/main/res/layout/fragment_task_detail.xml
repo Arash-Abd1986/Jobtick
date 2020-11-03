@@ -8,10 +8,6 @@
     android:orientation="vertical"
     tools:context=".fragments.TaskDetailFragment">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/grey_100">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -24,7 +20,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -152,7 +147,6 @@
 
                 </androidx.cardview.widget.CardView>
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -269,7 +263,6 @@
                     </LinearLayout>
                 </LinearLayout>
 
-
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -312,7 +305,6 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_add_must_have"
                     android:layout_width="match_parent"
@@ -354,7 +346,6 @@
 
 
                 </RelativeLayout>
-
 
                 <View
                     android:layout_width="match_parent"
@@ -447,104 +438,94 @@
 
 
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/lyt_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_large"
+                        android:layout_marginTop="@dimen/spacing_large"
+                        android:layout_marginEnd="@dimen/spacing_medium"
+                        android:layout_marginBottom="@dimen/spacing_large"
+                        android:layout_weight="1"
+                        android:clipToPadding="false"
+                        android:visibility="gone"
+                        app:cardCornerRadius="@dimen/spacing_medium"
+                        app:cardElevation="0dp">
+
+                        <LinearLayout
+                            android:id="@+id/lyt_btn_back"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_large">
+
+                            <com.jobtick.TextView.TextViewRegular
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/back"
+                                android:textColor="@color/textColor"
+                                android:textSize="@dimen/_14sp" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <View
+                        android:layout_width="@dimen/spacing_medium"
+                        android:layout_height="match_parent" />
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="@dimen/spacing_large"
+                        android:layout_marginTop="@dimen/spacing_large"
+                        android:layout_marginEnd="@dimen/spacing_large"
+                        android:layout_marginBottom="@dimen/spacing_large"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:clipToPadding="false"
+                        app:cardCornerRadius="@dimen/spacing_medium"
+
+                        app:cardElevation="0dp">
+
+                        <LinearLayout
+                            android:id="@+id/lyt_btn_next"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_large">
+
+                            <com.jobtick.TextView.TextViewRegular
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/next"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_14sp" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
-
-        <LinearLayout
-            android:id="@+id/lyt_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            android:background="@color/transparent">
-
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:layout_marginEnd="@dimen/spacing_medium"
-                android:layout_marginBottom="@dimen/spacing_large"
-                android:layout_weight="1"
-                android:backgroundTint="@color/btn_grey"
-                android:clipToPadding="false"
-                android:visibility="gone"
-                app:cardCornerRadius="@dimen/spacing_medium"
-                app:cardElevation="0dp">
-
-                <LinearLayout
-                    android:id="@+id/lyt_btn_back"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_large">
-
-                    <com.jobtick.TextView.TextViewRegular
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/back"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_14sp" />
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <View
-                android:layout_width="@dimen/spacing_medium"
-                android:layout_height="match_parent" />
-
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_large"
-                android:layout_weight="1"
-                android:backgroundTint="@color/colorPrimary"
-                android:clipToPadding="false"
-                app:cardCornerRadius="@dimen/spacing_medium"
-
-                app:cardElevation="0dp">
-
-                <LinearLayout
-                    android:id="@+id/lyt_btn_next"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_large">
-
-                    <com.jobtick.TextView.TextViewRegular
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/next"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_14sp" />
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-
-        </LinearLayout>
-
-
-    </RelativeLayout>
 
     <!--bottom sheet container-->
     <FrameLayout

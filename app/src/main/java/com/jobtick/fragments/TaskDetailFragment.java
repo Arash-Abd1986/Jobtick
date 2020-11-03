@@ -108,7 +108,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     @BindView(R.id.edt_description)
     EditTextMedium edtDescription;
     @BindView(R.id.recycler_add_must_have)
-    RecyclerView recyclerAddMustHave;
+   RecyclerView recyclerAddMustHave;
     @BindView(R.id.img_add_white)
     ImageView imgAddWhite;
     @BindView(R.id.rlt_add_must_have)
@@ -485,7 +485,8 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
             positionModel.setLongitude(carmenFeature.center().longitude());
             task.setPosition(positionModel);
             locationObject = new LatLng(carmenFeature.center().latitude(), carmenFeature.center().longitude());
-        } else if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
+        }
+        else if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
             filePath = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(taskCreateActivity.getContentResolver(), filePath);
@@ -634,10 +635,20 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
 
         TextViewMedium txtCount = view.findViewById(R.id.txt_count);
+        RecyclerView recyclerView2=view.findViewById(R.id.recycler_add_must_have2);
         TextViewRegular txtTotalCount = view.findViewById(R.id.txt_total_count);
 
         LinearLayout lytBtnNext = view.findViewById(R.id.lyt_btn_next);
         EditTextRegular edtAddTag = view.findViewById(R.id.edtAddTag);
+        recyclerView2.setLayoutManager(new GridLayoutManager(taskCreateActivity, 1));
+        recyclerView2.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true));
+        recyclerView2.setHasFixedSize(true);
+
+
+        //set data and list adapter
+        tagAdapter = new AddTagAdapter(taskCreateActivity, addTagList);
+        recyclerView2.setAdapter(tagAdapter);
+        tagAdapter.setOnItemClickListener(this);
 
         txtCount.setText(addTagList.size() + "");
         lytBtnNext.setOnClickListener(v -> {
@@ -662,9 +673,12 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                     //we change recycler view visibility to change size of it
                     recyclerAddMustHave.setVisibility(View.GONE);
                     recyclerAddMustHave.setVisibility(View.VISIBLE);
+                    recyclerView2.setVisibility(View.GONE);
+                    recyclerView2.setVisibility(View.VISIBLE);
                 } else {
-                    if (recyclerAddMustHave.getVisibility() == View.VISIBLE) {
+                    if (recyclerAddMustHave.getVisibility() == View.VISIBLE || recyclerView2.getVisibility()==View.VISIBLE) {
                         recyclerAddMustHave.setVisibility(View.GONE);
+                        recyclerView2.setVisibility(View.GONE);
                     }
                 }
             } else {
@@ -734,15 +748,18 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
             mBottomSheetDialog.hide();
         });
 
-        lytBtnImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkPermissionREAD_EXTERNAL_STORAGE(taskCreateActivity)) {
-                    Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), 1);
-                }
-                mBottomSheetDialog.hide();
+        lytBtnImage.setOnClickListener(v -> {
+            if (checkPermissionREAD_EXTERNAL_STORAGE(taskCreateActivity)) {
+
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+
+//                Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), 1);
             }
+            mBottomSheetDialog.hide();
         });
 
         mBottomSheetDialog = new BottomSheetDialog(taskCreateActivity);

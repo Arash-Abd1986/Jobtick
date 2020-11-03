@@ -60,6 +60,7 @@ import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.MustHaveListAdapter;
 import com.jobtick.adapers.OfferListAdapter;
 import com.jobtick.adapers.QuestionListAdapter;
+import com.jobtick.adapers.ShowMustHaveListAdapter;
 import com.jobtick.cancellations.CancellationPosterActivity;
 import com.jobtick.cancellations.CancellationRequestActivity;
 import com.jobtick.cancellations.CancellationRequestSubmittedActivity;
@@ -226,8 +227,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     RecyclerView recyclerViewQuestionAttachment;
     //   @BindView(R.id.card_comment_send)
     //   CardView cardCommentSend;
-    //   @BindView(R.id.rlt_question_add)
-    //   RelativeLayout rltQuestionAdd;
+    @BindView(R.id.rlt_layout_action_data)
+    RelativeLayout rltQuestionAdd;
     @BindView(R.id.txt_status_cancelled)
     TextView txtStatusCancelled;
     @BindView(R.id.txt_status_overdue)
@@ -253,6 +254,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     LinearLayout liAssign;
     @BindView(R.id.linearUserProfile)
     LinearLayout linearUserProfile;
+    @BindView(R.id.mustHaveLyt)
+    CardView mustHaveLyt;
+    @BindView(R.id.mustHaveList)
+    RecyclerView mustHaveList;
 
     @BindView(R.id.bottom_sheet)
     FrameLayout bottom_sheet;
@@ -1157,6 +1162,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             txtDueTime.setText(dueTime);
         }
         txtDueDate.setText(taskModel.getDueDate() + " - ");
+
+        if (taskModel.getMusthave() != null && taskModel.getMusthave().size() > 0) {
+            mustHaveLyt.setVisibility(View.VISIBLE);
+            ShowMustHaveListAdapter showMustHaveListAdapter = new ShowMustHaveListAdapter(taskModel.getMusthave());
+            mustHaveList.setLayoutManager(new LinearLayoutManager(this));
+            mustHaveList.setAdapter(showMustHaveListAdapter);
+
+        } else {
+            mustHaveLyt.setVisibility(View.GONE);
+        }
     }
 
     private String convertObjectToString(DueTimeModel time, String dueTime) {
@@ -1408,6 +1423,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void setQuestionView(int questionCount) {
+        if (isMyTask) {
+            rltQuestionAdd.setVisibility(View.GONE);
+        } else {
+            rltQuestionAdd.setVisibility(View.VISIBLE);
+        }
+
         if (questionCount == 0) {
             txtQuestionsCount.setText("Question");
         } else {

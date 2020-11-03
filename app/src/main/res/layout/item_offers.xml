@@ -303,9 +303,9 @@
 
         <com.jobtick.TextView.TextViewRegular
             android:id="@+id/txt_message"
-            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:textColor="@color/textColor"
             android:textSize="@dimen/_14sp" />
 
@@ -450,7 +450,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:overScrollMode="never" />
+                android:overScrollMode="never"
+                tools:listitem="@layout/item_offer_chat" />
         </LinearLayout>
     </LinearLayout>
 

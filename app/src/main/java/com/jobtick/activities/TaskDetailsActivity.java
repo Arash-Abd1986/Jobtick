@@ -148,6 +148,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     TextView txtDescription;
     @BindView(R.id.txt_offer_count)
     TextViewBold txtOfferCount;
+    @BindView(R.id.first_offer)
+    TextView firstOffer;
+    @BindView(R.id.first_offer_lyt)
+    LinearLayout firstOfferLyt;
     @BindView(R.id.txt_budget)
     TextViewBold txtBudget;
     @BindView(R.id.lyt_btn_message)
@@ -1422,6 +1426,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (offerCount == 0) {
             txtOffersCount.setText(getString(R.string.offer));
             txtWaitingForOffer.setVisibility(View.VISIBLE);
+            if (isMyTask) {
+                firstOfferLyt.setVisibility(View.GONE);
+            } else {
+                firstOfferLyt.setVisibility(View.VISIBLE);
+            }
         } else {
             txtOffersCount.setText("Offers (" + offerCount + ")");
             txtWaitingForOffer.setVisibility(View.GONE);
@@ -1454,7 +1463,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
-    @OnClick({R.id.lyt_btn_view_all_questions, R.id.lyt_btn_comment_send, R.id.lyt_btn_message,
+    @OnClick({R.id.lyt_btn_view_all_questions, R.id.lyt_btn_comment_send, R.id.lyt_btn_message, R.id.first_offer,
             R.id.lyt_btn_private_chat, R.id.lyt_btn_view_all_offers, R.id.txt_btn_text, R.id.lyt_btn_make_an_offer,
             R.id.lyt_btn_view_reqeust, R.id.card_cancelled, R.id.li_repost, R.id.liAssign, R.id.linearUserProfile})
     public void onViewClicked(View view) {
@@ -1504,6 +1513,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 break;
 
             case R.id.txt_btn_text:
+            case R.id.first_offer:
             case R.id.lyt_btn_make_an_offer:
                 switch (txtBtnText.getText().toString().trim()) {
                     case ConstantKey.BTN_ASK_TO_RELEASE_MONEY:

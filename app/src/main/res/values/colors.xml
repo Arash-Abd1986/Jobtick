@@ -396,4 +396,6 @@
     <color name="backgroundLightGrey">#F5F5F5</color>
     <color name="semiBlack">#562B3240</color>
     <color name="colorPrimary_60">#995568FE</color>
+    <color name="quickOfferColor">#586BF5</color>
+    <color name="quickOfferColorDisable">#97a2f5</color>
 </resources>

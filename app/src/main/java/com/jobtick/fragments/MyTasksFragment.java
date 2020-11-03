@@ -138,9 +138,9 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_my_tasks, container, false);
+       View view = inflater.inflate(R.layout.fragment_my_tasks, container, false);
         ButterKnife.bind(this, view);
-        lottieAnim=getView().findViewById(R.id.lottieAnimationView);
+        lottieAnim=view.findViewById(R.id.lottieAnimationView);
         swipeRefresh.setOnRefreshListener(this);
         dashboardActivity = (DashboardActivity) getActivity();
         if (dashboardActivity != null) {

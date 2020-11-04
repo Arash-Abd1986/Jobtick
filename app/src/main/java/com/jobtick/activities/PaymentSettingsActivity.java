@@ -566,7 +566,7 @@ public class PaymentSettingsActivity extends ActivityBase {
 
     private void deleteBankAccountDetails() {
         showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_DELETE_BANK_ACCOUNT + "/bankaccount_id=" + bankAccountModel.getData().getId(),
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_DELETE_BANK_ACCOUNT + "/" + bankAccountModel.getData().getId(),
                 response -> {
                     Timber.e(response);
                     hideProgressDialog();

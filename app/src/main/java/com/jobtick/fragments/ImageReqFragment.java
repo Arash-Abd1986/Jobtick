@@ -173,8 +173,6 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         });
 
         lytBtnImage.setOnClickListener(v -> {
-//            Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//            startActivityForResult(Intent.createChooser(openGallery, "Open Gallery"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -302,11 +300,9 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
         call = ApiClient.getClient().uploadProfilePicture("XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
-        System.out.println("aaaaaaaaaaaaaaaa");
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-                System.out.println("ccccccccccccccccccccccc");
                 String res = response.body();
                 System.out.println(res);
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
@@ -371,8 +367,6 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                System.out.println("bbbbbbbbbbbbbbbbb");
-                System.out.println(t.toString());
                 if (getActivity() != null) {
                     ((ActivityBase) getActivity()).hideProgressDialog();
                 }

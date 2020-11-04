@@ -66,7 +66,7 @@ public class TaskDateTimeFragment extends Fragment {
     @BindView(R.id.lyt_btn_budget)
     LinearLayout lytBtnBudget;
     @BindView(R.id.txt_date)
-    TextViewRegular txtDate;
+    TextViewMedium txtDate;
     @BindView(R.id.img_location_pin)
     ImageView imgLocationPin;
     @BindView(R.id.cb_morning)
@@ -84,7 +84,7 @@ public class TaskDateTimeFragment extends Fragment {
     @BindView(R.id.img_midday)
     ImageView imgMidday;
     @BindView(R.id.txt_title_midday)
-    TextViewRegular txtTitleMidday;
+    TextViewMedium txtTitleMidday;
     @BindView(R.id.txt_subtitle_midday)
     TextViewRegular txtSubtitleMidday;
     @BindView(R.id.rlt_btn_midday)
@@ -94,7 +94,7 @@ public class TaskDateTimeFragment extends Fragment {
     @BindView(R.id.img_afternoon)
     ImageView imgAfternoon;
     @BindView(R.id.txt_title_afternoon)
-    TextViewRegular txtTitleAfternoon;
+    TextViewMedium txtTitleAfternoon;
     @BindView(R.id.txt_subtitle_afternoon)
     TextViewRegular txtSubtitleAfternoon;
     @BindView(R.id.rlt_btn_afternoon)
@@ -104,7 +104,7 @@ public class TaskDateTimeFragment extends Fragment {
     @BindView(R.id.img_evening)
     ImageView imgEvening;
     @BindView(R.id.txt_title_evening)
-    TextViewRegular txtTitleEvening;
+    TextViewMedium txtTitleEvening;
     @BindView(R.id.txt_subtitle_evening)
     TextViewRegular txtSubtitleEvening;
     @BindView(R.id.rlt_btn_evening)

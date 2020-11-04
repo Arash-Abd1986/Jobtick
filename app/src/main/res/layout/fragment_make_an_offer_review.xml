@@ -318,7 +318,7 @@
 
                     <LinearLayout
                         android:id="@+id/lyt_btn_submit_offer"
-                        android:layout_width="match_parent"
+                        android:layout_width="370dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:background="?attr/selectableItemBackground"

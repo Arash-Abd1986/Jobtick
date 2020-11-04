@@ -93,7 +93,6 @@ public class SessionManager {
     }
 
 
-
     public void setLatitude(String latitude) {
         editor.putString("latitude", latitude);
         editor.commit();
@@ -101,6 +100,15 @@ public class SessionManager {
 
     public String getLatitude() {
         return pref.getString("latitude", null);
+    }
+
+    public void setQuickOffer(String offer) {
+        editor.putString("quickOfferPref", offer);
+        editor.commit();
+    }
+
+    public String getQuickOffer() {
+        return pref.getString("quickOfferPref", "");
     }
 
     public void setLongitude(String longitude) {
@@ -111,7 +119,6 @@ public class SessionManager {
     public String getLongitude() {
         return pref.getString("longitude", null);
     }
-
 
 
     public void setBankDetailAccountNumber(String accountNumber) {

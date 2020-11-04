@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -17,6 +18,7 @@
         android:padding="@dimen/spacing_large">
 
         <com.jobtick.TextView.TextViewMedium
+            android:id="@+id/dateTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_middle"
@@ -26,7 +28,6 @@
             android:textColor="@color/grey_70"
             android:textSize="@dimen/_11sp" />
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,19 +35,22 @@
             android:orientation="horizontal">
 
             <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/ivAvatar"
                 android:layout_width="@dimen/_60dp"
                 android:layout_height="@dimen/_60dp"
-                android:src="@drawable/ic_place_holder" />
+                android:src="@drawable/ic_place_holder"
+                app:civ_border="false" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/spacing_middle"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
 
-
                 <com.jobtick.TextView.TextViewSemiBold
+                    android:id="@+id/descriptionTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="2"
@@ -56,28 +60,26 @@
                     android:textSize="@dimen/_15sp" />
 
                 <com.jobtick.TextView.TextViewRegular
+                    android:id="@+id/nameTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_3sp"
+                    android:layout_marginTop="5dp"
                     android:text="Cody Lane"
                     android:textColor="@color/grey_70"
                     android:textSize="@dimen/_10sp" />
-
-
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/spacing_middle"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
-
                 <com.jobtick.TextView.TextViewBold
+                    android:id="@+id/priceTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -89,6 +91,7 @@
                     android:textStyle="bold" />
 
                 <com.jobtick.TextView.TextViewSemiBold
+                    android:id="@+id/debitedTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -97,13 +100,7 @@
                     android:textColor="#80848c"
                     android:textSize="@dimen/_11sp"
                     android:textStyle="bold" />
-
-
             </LinearLayout>
-
-
         </LinearLayout>
-
     </LinearLayout>
-
 </LinearLayout>

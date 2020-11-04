@@ -87,6 +87,9 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
     @BindView(R.id.checkbox_save_as_template)
     CheckBox checkboxSaveAsTemplate;
 
+    @BindView(R.id.saveQuickOfferTxt)
+    TextView saveQuickOfferTxt;
+
     @BindView(R.id.lyt_btn_make_a_live_video)
     LinearLayout lytBtnMakeALiveVideo;
 
@@ -133,6 +136,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
     private MakeAnOfferModel makeAnOfferModel;
     private MakeAnOfferActivity makeAnOfferActivity;
     private AboutCallbackFunction aboutCallbackFunction;
+    private String quickOffer;
 
 
     // key to store image path in savedInstance state
@@ -164,7 +168,6 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -172,6 +175,11 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
         View view = inflater.inflate(R.layout.fragment_make_an_offer_about, container, false);
         ButterKnife.bind(this, view);
         mBehavior = BottomSheetBehavior.from(bottomSheet);
+        SessionManager sessionManager = new SessionManager(getContext());
+
+        quickOffer = sessionManager.getQuickOffer();
+
+        setQuickOffer(quickOffer, "");
 
         edtDescription.addTextChangedListener(new TextWatcher() {
 
@@ -188,23 +196,58 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
             @Override
             public void afterTextChanged(Editable editable) {
                 String currentText = editable.toString();
+                setQuickOffer(quickOffer, currentText);
                 int currentLength = currentText.length();
+
                 tvCount.setText("" + currentLength + "/300");
                 if (currentLength >= 1) {
                     tvCount.setTextColor(getResources().getColor(R.color.colorReleasedMoney));
-                    //cardContinue.setCardBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorPrimary));
                 } else {
                     tvCount.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
-                    //cardContinue.setCardBackgroundColor(Color.parseColor("#95a0fa"));
                     cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorAccent));
-
                 }
             }
         });
         LytVideoPlay.setVisibility(View.GONE);
 
         return view;
+    }
+
+    private void setQuickOffer(String quickOffer, String currentText) {
+        if (!quickOffer.equals("")) {
+            if (currentText.equals(quickOffer)) {
+                saveQuickOfferTxt.setEnabled(false);
+            } else if (currentText.equals("")) {
+                saveQuickOfferTxt.setEnabled(true);
+                saveQuickOfferTxt.setText("Use Quick Offer");
+                saveQuickOfferTxt.setOnClickListener(v -> edtDescription.setText(quickOffer));
+            } else {
+                saveQuickOfferTxt.setOnClickListener(v -> {
+                    Toast.makeText(getContext(), "Quick offer saved", Toast.LENGTH_SHORT).show();
+                    sessionManager.setQuickOffer(currentText);
+                });
+                saveQuickOfferTxt.setEnabled(true);
+                saveQuickOfferTxt.setText("Update Quick Offer");
+            }
+        } else {
+            saveQuickOfferTxt.setText("Save as a Quick Offer");
+
+            saveQuickOfferTxt.setOnClickListener(v -> {
+                Toast.makeText(getContext(), "Quick offer saved", Toast.LENGTH_SHORT).show();
+                sessionManager.setQuickOffer(currentText);
+            });
+
+            if (currentText.equals("")) {
+                saveQuickOfferTxt.setEnabled(false);
+                saveQuickOfferTxt.setTextColor(ContextCompat.getColor(getContext(), R.color.quickOfferColorDisable));
+                saveQuickOfferTxt.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_save_as_quick_offer_disabled));
+            } else {
+                saveQuickOfferTxt.setEnabled(true);
+                saveQuickOfferTxt.setTextColor(ContextCompat.getColor(getContext(), R.color.quickOfferColor));
+                saveQuickOfferTxt.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_save_as_quick_offer_enabled));
+            }
+        }
     }
 
     private void setLayoout() {
@@ -343,15 +386,14 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                 } else {
                     requestCameraPermission(ConstantKey.MEDIA_TYPE_VIDEO);
                 }
-
                 break;
             case R.id.lyt_btn_continue:
                 switch (validation()) {
                     case 1:
-                        edtDescription.setError("Please enter your task best part");
+                        edtDescription.setError("Please enter your description in video or text");
                         break;
                     case 2:
-                        checkboxSaveAsTemplate.setError("Without Live video please check this box");
+                        checkboxSaveAsTemplate.setError("Please enter only video or text");
                         break;
                     case 0:
                         if (aboutCallbackFunction != null) {
@@ -365,7 +407,6 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                         }
                         break;
                 }
-
                 break;
             case R.id.llJobDetails:
                 showJobDetailDialog();
@@ -381,12 +422,10 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
     }
 
     private int validation() {
-        if (TextUtils.isEmpty(edtDescription.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtDescription.getText().toString().trim()) && makeAnOfferModel.getAttachment() == null) {
             return 1;
-        } else if (!checkboxSaveAsTemplate.isChecked()) {
-            if (makeAnOfferModel.getAttachment() == null) {
-                return 2;
-            }
+        } else if (!TextUtils.isEmpty(edtDescription.getText().toString().trim()) && makeAnOfferModel.getAttachment() != null) {
+            return 2;
         }
         return 0;
     }

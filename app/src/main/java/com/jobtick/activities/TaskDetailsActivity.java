@@ -60,6 +60,7 @@ import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.MustHaveListAdapter;
 import com.jobtick.adapers.OfferListAdapter;
 import com.jobtick.adapers.QuestionListAdapter;
+import com.jobtick.adapers.ShowMustHaveListAdapter;
 import com.jobtick.cancellations.CancellationPosterActivity;
 import com.jobtick.cancellations.CancellationRequestActivity;
 import com.jobtick.cancellations.CancellationRequestSubmittedActivity;
@@ -148,6 +149,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     TextView txtDescription;
     @BindView(R.id.txt_offer_count)
     TextViewBold txtOfferCount;
+    @BindView(R.id.first_offer)
+    TextView firstOffer;
+    @BindView(R.id.first_offer_lyt)
+    LinearLayout firstOfferLyt;
     @BindView(R.id.txt_budget)
     TextViewBold txtBudget;
     @BindView(R.id.lyt_btn_message)
@@ -222,8 +227,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     RecyclerView recyclerViewQuestionAttachment;
     //   @BindView(R.id.card_comment_send)
     //   CardView cardCommentSend;
-    //   @BindView(R.id.rlt_question_add)
-    //   RelativeLayout rltQuestionAdd;
+    @BindView(R.id.rlt_layout_action_data)
+    RelativeLayout rltQuestionAdd;
     @BindView(R.id.txt_status_cancelled)
     TextView txtStatusCancelled;
     @BindView(R.id.txt_status_overdue)
@@ -249,6 +254,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     LinearLayout liAssign;
     @BindView(R.id.linearUserProfile)
     LinearLayout linearUserProfile;
+    @BindView(R.id.mustHaveLyt)
+    CardView mustHaveLyt;
+    @BindView(R.id.mustHaveList)
+    RecyclerView mustHaveList;
 
     @BindView(R.id.bottom_sheet)
     FrameLayout bottom_sheet;
@@ -423,7 +432,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     } else {
                         cardMakeAnOffer.setVisibility(View.VISIBLE);
                         txtBtnText.setText(ConstantKey.BTN_ASK_TO_RELEASE_MONEY);
-                        toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, true);
+                        toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_copy, true);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, true);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, true);
                         cardPrivateChat.setVisibility(View.VISIBLE);
@@ -1153,6 +1162,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             txtDueTime.setText(dueTime);
         }
         txtDueDate.setText(taskModel.getDueDate() + " - ");
+
+        if (taskModel.getMusthave() != null && taskModel.getMusthave().size() > 0) {
+            mustHaveLyt.setVisibility(View.VISIBLE);
+            ShowMustHaveListAdapter showMustHaveListAdapter = new ShowMustHaveListAdapter(taskModel.getMusthave());
+            mustHaveList.setLayoutManager(new LinearLayoutManager(this));
+            mustHaveList.setAdapter(showMustHaveListAdapter);
+
+        } else {
+            mustHaveLyt.setVisibility(View.GONE);
+        }
     }
 
     private String convertObjectToString(DueTimeModel time, String dueTime) {
@@ -1404,6 +1423,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void setQuestionView(int questionCount) {
+        if (isMyTask) {
+            rltQuestionAdd.setVisibility(View.GONE);
+        } else {
+            rltQuestionAdd.setVisibility(View.VISIBLE);
+        }
+
         if (questionCount == 0) {
             txtQuestionsCount.setText("Question");
         } else {
@@ -1422,6 +1447,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (offerCount == 0) {
             txtOffersCount.setText(getString(R.string.offer));
             txtWaitingForOffer.setVisibility(View.VISIBLE);
+            if (isMyTask) {
+                firstOfferLyt.setVisibility(View.GONE);
+            } else {
+                firstOfferLyt.setVisibility(View.VISIBLE);
+            }
         } else {
             txtOffersCount.setText("Offers (" + offerCount + ")");
             txtWaitingForOffer.setVisibility(View.GONE);
@@ -1454,7 +1484,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
-    @OnClick({R.id.lyt_btn_view_all_questions, R.id.lyt_btn_comment_send, R.id.lyt_btn_message,
+    @OnClick({R.id.lyt_btn_view_all_questions, R.id.lyt_btn_comment_send, R.id.lyt_btn_message, R.id.first_offer,
             R.id.lyt_btn_private_chat, R.id.lyt_btn_view_all_offers, R.id.txt_btn_text, R.id.lyt_btn_make_an_offer,
             R.id.lyt_btn_view_reqeust, R.id.card_cancelled, R.id.li_repost, R.id.liAssign, R.id.linearUserProfile})
     public void onViewClicked(View view) {
@@ -1504,6 +1534,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 break;
 
             case R.id.txt_btn_text:
+            case R.id.first_offer:
             case R.id.lyt_btn_make_an_offer:
                 switch (txtBtnText.getText().toString().trim()) {
                     case ConstantKey.BTN_ASK_TO_RELEASE_MONEY:
@@ -2160,8 +2191,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
         if (action.equalsIgnoreCase("add")) {
-            Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
         } else if (action.equalsIgnoreCase("delete")) {
             recyclerViewQuestionAttachment.removeViewAt(position);
             attachmentArrayList_question.remove(position);
@@ -2177,7 +2210,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
         call = ApiClient.getClient().getTaskTempAttachmentMediaData("XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
-
 
         call.enqueue(new Callback<String>() {
             @Override

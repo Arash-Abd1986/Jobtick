@@ -115,9 +115,7 @@
                         android:layout_width="13dp"
                         android:layout_height="13dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_map"
-                        android:tint="@color/colorGrayC9C9C9"
-                        app:tint="@color/colorGrayC9C9C9" />
+                        android:src="@drawable/ic_map_pin"/>
 
                     <com.jobtick.TextView.TextViewRegular
                         android:id="@+id/txt_location"
@@ -144,9 +142,7 @@
                         android:layout_width="13dp"
                         android:layout_height="13dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/calendar"
-                        android:tint="@color/colorGrayC9C9C9"
-                        app:tint="@color/colorGrayC9C9C9" />
+                        android:src="@drawable/ic_calendar" />
 
                     <com.jobtick.TextView.TextViewRegular
                         android:id="@+id/txt_due_date"
@@ -173,9 +169,7 @@
                         android:layout_width="13dp"
                         android:layout_height="13dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_clock"
-                        android:tint="@color/colorGrayC9C9C9"
-                        app:tint="@color/colorGrayC9C9C9" />
+                        android:src="@drawable/ic_clock_10" />
 
                     <com.jobtick.TextView.TextViewRegular
                         android:id="@+id/txt_due_time"

@@ -151,8 +151,8 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         RelativeLayout rltProfile;
         @BindView(R.id.txt_name)
         TextView txtName;
-        @BindView(R.id.ratingbar_worker)
-        AppCompatRatingBar ratingbarWorker;
+//        @BindView(R.id.ratingbar_worker)
+//        AppCompatRatingBar ratingbarWorker;
         @BindView(R.id.txt_rating_value)
         TextView txtRatingValue;
         @BindView(R.id.txt_completion_rate)
@@ -277,7 +277,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             txtName.setText(item.getWorker().getName());
             if (item.getWorker() != null && item.getWorker().getWorkerRatings() != null && item.getWorker().getWorkerRatings().getAvgRating() != null) {
                 txtRatingValue.setText("(" + item.getWorker().getWorkerRatings().getAvgRating() + ")");
-                ratingbarWorker.setProgress(item.getWorker().getWorkerRatings().getAvgRating());
+//                ratingbarWorker.setProgress(item.getWorker().getWorkerRatings().getAvgRating());
 
             }
             txtCompletionRate.setText(item.getWorker().getWorkTaskStatistics().getCompletionRate() + "%");

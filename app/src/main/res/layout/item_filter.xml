@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
 
-    <com.jobtick.TextView.TextViewSemiBold
-        android:id="@+id/txt_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_middle"
-        android:background="@drawable/shape_tab_primary_2dp"
-        android:backgroundTint="@color/white"
-        android:paddingStart="@dimen/spacing_middle"
-        android:paddingTop="@dimen/spacing_xmedium"
-        android:paddingBottom="@dimen/spacing_xmedium"
-        android:paddingEnd="@dimen/spacing_middle"
-        android:text="Remote"
-        android:textColor="@color/textColor"
-        android:textSize="@dimen/_10sp" />
-</LinearLayout>
+<com.jobtick.TextView.TextViewSemiBold xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/txt_data"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/spacing_middle"
+    android:background="@drawable/shape_tab_primary_2dp"
+    android:backgroundTint="@color/white"
+    android:paddingStart="@dimen/spacing_middle"
+    android:paddingTop="@dimen/spacing_xmedium"
+    android:paddingEnd="@dimen/spacing_middle"
+    android:paddingBottom="@dimen/spacing_xmedium"
+    android:text="Remote"
+    android:textColor="@color/textColor"
+    android:textSize="@dimen/_10sp" />

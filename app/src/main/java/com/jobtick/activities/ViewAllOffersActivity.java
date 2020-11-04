@@ -55,6 +55,7 @@ public class ViewAllOffersActivity extends ActivityBase implements SwipeRefreshL
     private boolean isLoading = false;
     private OfferListAdapter offerListAdapter;
     private String str_slug;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +63,7 @@ public class ViewAllOffersActivity extends ActivityBase implements SwipeRefreshL
         ButterKnife.bind(this);
 
         Bundle bundle = getIntent().getExtras();
-        if(bundle != null && bundle.getString(ConstantKey.SLUG) != null){
+        if (bundle != null && bundle.getString(ConstantKey.SLUG) != null) {
             str_slug = bundle.getString(ConstantKey.SLUG);
         }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -78,7 +79,7 @@ public class ViewAllOffersActivity extends ActivityBase implements SwipeRefreshL
         recyclerViewAllOfers.setLayoutManager(new LinearLayoutManager(ViewAllOffersActivity.this, LinearLayoutManager.VERTICAL, false));
         recyclerViewAllOfers.setHasFixedSize(true);
         sessionManager = new SessionManager(ViewAllOffersActivity.this);
-        offerListAdapter = new OfferListAdapter(ViewAllOffersActivity.this,false,new ArrayList<>());
+        offerListAdapter = new OfferListAdapter(ViewAllOffersActivity.this, false, new ArrayList<>());
         recyclerViewAllOfers.setAdapter(offerListAdapter);
         swipeRefresh.setOnRefreshListener(this);
 
@@ -115,7 +116,7 @@ public class ViewAllOffersActivity extends ActivityBase implements SwipeRefreshL
 
         ArrayList<OfferModel> items = new ArrayList<>();
         Helper.closeKeyboard(ViewAllOffersActivity.this);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS+"/"+ str_slug + "/offers?page=" + currentPage ,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS + "/" + str_slug + "/offers?page=" + currentPage,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

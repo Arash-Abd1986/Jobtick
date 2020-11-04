@@ -48,7 +48,7 @@ import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.adapers.AddTagAdapter;
-import com.jobtick.adapers.AttachmentAdapter;
+import com.jobtick.adapers.AttachmentAdapter1;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.GeocodeObject;
 import com.jobtick.models.PositionModel;
@@ -92,7 +92,7 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener {
+public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItemClickListener, AttachmentAdapter1.OnItemClickListener {
     @BindView(R.id.lyt_btn_details)
     LinearLayout lytBtnDetails;
     @BindView(R.id.lyt_bnt_date_time)
@@ -108,7 +108,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     @BindView(R.id.edt_description)
     EditTextMedium edtDescription;
     @BindView(R.id.recycler_add_must_have)
-    RecyclerView recyclerAddMustHave;
+   RecyclerView recyclerAddMustHave;
     @BindView(R.id.img_add_white)
     ImageView imgAddWhite;
     @BindView(R.id.rlt_add_must_have)
@@ -157,7 +157,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     private static final int PICK_VIDEO = 107;
 
     private Uri fileUri;
-    private AttachmentAdapter attachmentAdapter;
+    private AttachmentAdapter1 attachmentAdapter;
   //  private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
     private TaskCreateActivity taskCreateActivity;
@@ -221,7 +221,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         task.setTaskType(getArguments().getString("TASK_TYPE"));
         task.setLocation(getArguments().getString("LOCATION"));
         task.setPosition(getArguments().getParcelable("POSITION"));
-
         taskCreateActivity.setActionDraftTaskDetails(taskModel -> {
             if (taskModel.getTitle() != null && taskModel.getDescription() != null) {
                 operationsListener.draftTaskDetails(taskModel, true);
@@ -230,7 +229,8 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                     taskModel.setTitle(edtTitle.getText().toString().trim());
                 } else if (!TextUtils.isEmpty(edtDescription.getText().toString().trim()) || edtDescription.getText().toString().trim().length() >= 25) {
                     taskModel.setDescription(edtDescription.getText().toString().trim());
-                } else if (!TextUtils.isEmpty(txtSuburb.getText().toString().trim())) {
+                }
+                else if (!TextUtils.isEmpty(txtSuburb.getText().toString().trim())) {
                     taskModel.setLocation(txtSuburb.getText().toString().trim());
                     taskModel.setPosition(task.getPosition());
                 }
@@ -241,8 +241,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                 operationsListener.draftTaskDetails(taskModel, false);
             }
         });
-
-        setComponent();
         txtSuburb.setOnClickListener(v -> {
             Intent intent = new PlaceAutocomplete.IntentBuilder()
                     .accessToken(Mapbox.getAccessToken())
@@ -258,6 +256,8 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                     .build(getActivity());
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
+        setComponent();
+
         init();
 
         if (!edtTitle.getText().toString().equalsIgnoreCase("")) {
@@ -351,14 +351,19 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         if (task.getTaskType() != null) {
             if (task.getTaskType().equalsIgnoreCase("remote")) {
                 checkboxOnline.setChecked(true);
-                cardLocation.setVisibility(View.GONE);
+                txtSuburb.setVisibility(View.GONE);
+                cardLocation.setFocusable(false);
+                cardLocation.setClickable(false);
             } else {
                 checkboxOnline.setChecked(false);
                 cardLocation.setVisibility(View.VISIBLE);
+                txtSuburb.setVisibility(View.VISIBLE);
             }
         } else {
             checkboxOnline.setChecked(false);
-            cardLocation.setVisibility(View.VISIBLE);
+           txtSuburb.setVisibility(View.VISIBLE);
+            cardLocation.setFocusable(true);
+            cardLocation.setClickable(true);
         }
         if (task.getMusthave() != null && task.getMusthave().size() != 0) {
             addTagList.addAll(task.getMusthave());
@@ -382,7 +387,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         recyclerView.addItemDecoration(new SpacingItemDecoration(4, Tools.dpToPx(taskCreateActivity, 5), true));
         recyclerView.setHasFixedSize(true);
         //set data and list adapter
-        attachmentAdapter = new AttachmentAdapter(taskCreateActivity, attachmentArrayList, true);
+        attachmentAdapter = new AttachmentAdapter1(taskCreateActivity, attachmentArrayList, true);
         recyclerView.setAdapter(attachmentAdapter);
         attachmentAdapter.setOnItemClickListener(this);
 
@@ -390,7 +395,8 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     }
 
 
-    @OnClick({R.id.rlt_add_must_have, R.id.lyt_btn_details, R.id.lyt_bnt_date_time, R.id.lyt_btn_budget, R.id.checkbox_online, R.id.lyt_btn_next})
+    @OnClick({R.id.rlt_add_must_have, R.id.lyt_btn_details, R.id.lyt_bnt_date_time, R.id.lyt_btn_budget, R.id.checkbox_online, R.id.lyt_btn_next
+             })
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rlt_add_must_have:
@@ -414,9 +420,12 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                 break;
             case R.id.checkbox_online:
                 if (checkboxOnline.isChecked()) {
-                    cardLocation.setVisibility(View.GONE);
+                    txtSuburb.setVisibility(View.GONE);
+                    cardLocation.setClickable(false);
                 } else {
-                    cardLocation.setVisibility(View.VISIBLE);
+                   txtSuburb.setVisibility(View.VISIBLE);
+                    cardLocation.setClickable(true);
+
                 }
                 break;
             case R.id.lyt_btn_next:
@@ -432,6 +441,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                                 task.getPosition()
                         );
                         operationsListener.onValidDataFilled();
+
                         break;
                     case 1:
                         edtTitle.setError("Please enter the title");
@@ -485,7 +495,8 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
             positionModel.setLongitude(carmenFeature.center().longitude());
             task.setPosition(positionModel);
             locationObject = new LatLng(carmenFeature.center().latitude(), carmenFeature.center().longitude());
-        } else if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
+        }
+        else if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
             filePath = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(taskCreateActivity.getContentResolver(), filePath);
@@ -634,21 +645,35 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
 
         TextViewMedium txtCount = view.findViewById(R.id.txt_count);
+        RecyclerView recyclerView2=view.findViewById(R.id.recycler_add_must_have2);
         TextViewRegular txtTotalCount = view.findViewById(R.id.txt_total_count);
 
-        LinearLayout lytBtnNext = view.findViewById(R.id.lyt_btn_next);
+        CardView lytBtnNext = view.findViewById(R.id.lyt_btn_next);
         EditTextRegular edtAddTag = view.findViewById(R.id.edtAddTag);
+        recyclerView2.setLayoutManager(new GridLayoutManager(taskCreateActivity, 1));
+        recyclerView2.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true));
+        recyclerView2.setHasFixedSize(true);
 
+
+        //set data and list adapter
+        tagAdapter = new AddTagAdapter(taskCreateActivity, addTagList);
+        recyclerView2.setAdapter(tagAdapter);
+        tagAdapter.setOnItemClickListener(this);
+        tagAdapter.notifyDataSetChanged();
         txtCount.setText(addTagList.size() + "");
+
         lytBtnNext.setOnClickListener(v -> {
             if (TextUtils.isEmpty(edtAddTag.getText().toString().trim())) {
                 edtAddTag.setError("Text is empty");
                 return;
             }
 
+            if(3==addTagList.size()){
+                lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disclick));
 
-            if (3 > addTagList.size()) {
-
+            }else {
+                if (3 > addTagList.size()) {
+                    lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
                 txtCount.setText(addTagList.size() + 1 + "");
 
                 if (recyclerView.getVisibility() != View.VISIBLE) {
@@ -662,13 +687,19 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                     //we change recycler view visibility to change size of it
                     recyclerAddMustHave.setVisibility(View.GONE);
                     recyclerAddMustHave.setVisibility(View.VISIBLE);
+                    recyclerView2.setVisibility(View.GONE);
+                    recyclerView2.setVisibility(View.VISIBLE);
                 } else {
-                    if (recyclerAddMustHave.getVisibility() == View.VISIBLE) {
+                    if (recyclerAddMustHave.getVisibility() == View.VISIBLE || recyclerView2.getVisibility()==View.VISIBLE) {
                         recyclerAddMustHave.setVisibility(View.GONE);
+                        recyclerView2.setVisibility(View.GONE);
+
                     }
                 }
             } else {
                 taskCreateActivity.showToast("Max. 3 Tag you can add", taskCreateActivity);
+                    }
+
             }
 
 
@@ -734,15 +765,18 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
             mBottomSheetDialog.hide();
         });
 
-        lytBtnImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkPermissionREAD_EXTERNAL_STORAGE(taskCreateActivity)) {
-                    Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), 1);
-                }
-                mBottomSheetDialog.hide();
+        lytBtnImage.setOnClickListener(v -> {
+            if (checkPermissionREAD_EXTERNAL_STORAGE(taskCreateActivity)) {
+
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+
+//                Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), 1);
             }
+            mBottomSheetDialog.hide();
         });
 
         mBottomSheetDialog = new BottomSheetDialog(taskCreateActivity);

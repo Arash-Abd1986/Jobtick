@@ -196,7 +196,7 @@ public class TaskBudgetFragment extends Fragment {
                     showEstimatedBudget();
                 } else {
                     cardTime.setVisibility(View.GONE);
-                    showEstimatedBudget();
+                    ;
                 }
             }
         });

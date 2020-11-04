@@ -8,7 +8,6 @@
     android:orientation="vertical"
     tools:context=".activities.AttachmentActivity">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -42,27 +41,7 @@
                     android:text="Edit Profile"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/_18sp" />
-
             </LinearLayout>
-            <!-- <com.google.android.material.appbar.MaterialToolbar
-                 android:id="@+id/toolbar"
-                 android:layout_width="match_parent"
-                 android:layout_height="?attr/actionBarSize"
-                 android:background="@color/background"
-                 app:navigationIcon="@drawable/ic_back"
-                 app:contentInsetLeft="0dp"
-                 app:contentInsetStart="0dp"
-                 app:contentInsetStartWithNavigation="0dp"
-                 app:titleTextAppearance="@style/Toolbar.TitleText">
-
-                 <TextView
-                     android:textSize="@dimen/_16sp"
-                     android:textColor="@color/textColor"
-                     android:id="@+id/toolbar_title"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:text="Toolbar Title" />
-             </com.google.android.material.appbar.MaterialToolbar>-->
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/nested_scroll_view"
@@ -86,7 +65,6 @@
                         android:textColor="@color/textColor"
                         android:textSize="14sp" />
 
-
                     <LinearLayout
                         android:id="@+id/llSave"
                         android:layout_width="match_parent"
@@ -101,12 +79,10 @@
                             android:layout_margin="@dimen/spacing_large"
                             android:visibility="visible">
 
-
                             <RelativeLayout
                                 android:layout_width="120dp"
                                 android:layout_height="120dp"
                                 android:layout_gravity="center">
-
 
                                 <com.mikhaellopez.circularimageview.CircularImageView
                                     android:id="@+id/img_user_avatar"
@@ -114,15 +90,6 @@
                                     android:layout_height="match_parent"
                                     android:src="@drawable/ic_profile_image"
                                     app:civ_border_width="0dp" />
-
-
-                                <!-- <ImageView
-                                     android:id="@+id/img_account_level"
-                                     android:layout_width="24dp"
-                                     android:layout_height="24dp"
-
-                                     android:background="@drawable/ic_level_1" />-->
-
 
                                 <RelativeLayout
                                     android:id="@+id/lytDeletePicture"
@@ -135,7 +102,6 @@
                                     android:visibility="gone">
 
                                     <ImageView
-
                                         android:layout_width="@dimen/_25sp"
                                         android:layout_height="@dimen/_25sp"
                                         android:layout_margin="@dimen/spacing_medium"
@@ -143,7 +109,6 @@
                                         android:clickable="true"
                                         android:src="@drawable/ic_profile_remove"
                                         android:visibility="visible" />
-
                                 </RelativeLayout>
 
                                 <ImageView
@@ -154,11 +119,7 @@
                                     android:layout_alignParentBottom="true"
                                     android:layout_weight="1"
                                     android:background="@drawable/ic_pick_camera" />
-
-
                             </RelativeLayout>
-
-
                         </FrameLayout>
 
                         <View
@@ -201,7 +162,6 @@
                                     android:singleLine="true"
                                     android:textColor="@color/textColor"
                                     android:textSize="14sp" />
-
                             </LinearLayout>
                         </FrameLayout>
 
@@ -245,7 +205,6 @@
                                     android:singleLine="true"
                                     android:textColor="@color/textColor"
                                     android:textSize="14sp" />
-
                             </LinearLayout>
                         </FrameLayout>
 
@@ -276,7 +235,6 @@
                                 <com.jobtick.TextView.TextViewBold
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-
                                     android:text="Payment ID"
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="12sp"
@@ -292,10 +250,8 @@
                                     android:singleLine="true"
                                     android:textColor="@color/textColor"
                                     android:textSize="14sp" />
-
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
-
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -418,7 +374,6 @@
                                     android:inputType="textMultiLine"
                                     android:textColor="@color/textColor"
                                     android:textSize="14sp" />
-
                             </LinearLayout>
                         </FrameLayout>
 
@@ -478,8 +433,6 @@
                                         android:inputType="textMultiLine"
                                         android:textColor="@color/textColor"
                                         android:textSize="14sp" />
-
-
                                 </LinearLayout>
 
                                 <androidx.cardview.widget.CardView
@@ -511,10 +464,7 @@
                                             android:textColor="@color/white"
                                             android:textSize="14sp" />
                                     </LinearLayout>
-
-
                                 </androidx.cardview.widget.CardView>
-
                             </LinearLayout>
                         </FrameLayout>
 
@@ -559,7 +509,6 @@
                                     android:singleLine="true"
                                     android:textColor="@color/textColor"
                                     android:textSize="14sp" />
-
                             </LinearLayout>
                         </FrameLayout>
 
@@ -576,7 +525,6 @@
                             android:layout_marginBottom="@dimen/spacing_medium"
                             android:background="@drawable/greay_border_bg"
                             android:visibility="visible">
-
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -609,8 +557,6 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:background="@null"
-                                        android:hint=""
-
                                         android:singleLine="true"
                                         android:textColor="@color/textColor"
                                         android:textSize="14sp" />
@@ -624,7 +570,6 @@
                                 </LinearLayout>
                             </LinearLayout>
                         </FrameLayout>
-
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -699,7 +644,6 @@
                                 android:layout_marginBottom="@dimen/spacing_middle"
                                 android:orientation="vertical">
 
-
                                 <com.jobtick.TextView.TextViewSemiBold
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -710,12 +654,6 @@
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="12sp" />
 
-                                <!--changes by umesh share as per design figma
-                                please put recyclerview here and bind row layout
-                                as below recyclerview already.
-                                -->
-
-
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/recycler_view"
                                     android:layout_width="match_parent"
@@ -725,202 +663,7 @@
 
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
-
-
                     </LinearLayout>
-
-                    <!--    <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/spacing_large"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_marginBottom="@dimen/spacing_medium"
-                            android:elevation="@dimen/spacing_mlarge"
-                            app:cardCornerRadius="@dimen/spacing_middle">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <LinearLayout
-                                    android:id="@+id/rlt_btn_education"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/spacing_large"
-                                    android:layout_marginTop="@dimen/spacing_middle"
-                                    android:orientation="horizontal">
-
-                                    <com.jobtick.TextView.TextViewSemiBold
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_marginLeft="@dimen/_10sp"
-                                        android:layout_weight="1"
-                                        android:gravity="center_vertical"
-                                        android:text="Education"
-                                        android:textColor="@color/blue"
-                                        android:textSize="12sp" />
-
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:orientation="horizontal">
-
-                                        <com.jobtick.TextView.TextViewBold
-                                            android:id="@+id/txt_education"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_gravity="center_vertical"
-                                            android:background="@drawable/bg_badge_profile"
-                                            android:paddingLeft="@dimen/_10sp"
-                                            android:paddingRight="@dimen/_10sp"
-                                            android:text="0"
-                                            android:textStyle="bold"
-                                            android:textColor="@color/colorTaskCancelled"
-                                            android:textSize="@dimen/_10sp" />
-
-
-                                        <ImageView
-                                            android:id="@+id/img_education_back"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_gravity="center"
-                                            android:layout_marginLeft="@dimen/_10sp"
-                                            android:layout_marginRight="@dimen/_10sp"
-                                            android:rotation="180"
-                                            android:src="@drawable/ic_back"
-                                            android:tint="@color/grey_40" />
-                                    </LinearLayout>
-
-                                </LinearLayout>
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="#F5F5F5" />
-
-                                <LinearLayout
-                                    android:id="@+id/rlt_btn_languages"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/spacing_large"
-                                    android:layout_marginTop="@dimen/spacing_middle"
-                                    android:orientation="horizontal">
-
-                                    <com.jobtick.TextView.TextViewSemiBold
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_marginLeft="@dimen/_10sp"
-                                        android:layout_weight="1"
-                                        android:gravity="center_vertical"
-                                        android:text="language"
-                                        android:textColor="@color/blue"
-                                        android:textSize="12sp" />
-
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:orientation="horizontal">
-
-                                        <com.jobtick.TextView.TextViewBold
-                                            android:id="@+id/txt_languages"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_gravity="center_vertical"
-                                            android:background="@drawable/bg_badge_profile"
-                                            android:paddingLeft="@dimen/_10sp"
-                                            android:paddingRight="@dimen/_10sp"
-                                            android:text="0"
-                                            android:textStyle="bold"
-                                            android:textColor="@color/colorTaskCancelled"
-                                            android:textSize="@dimen/_10sp" />
-
-
-                                        <ImageView
-                                            android:id="@+id/img_languages_back"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_gravity="center"
-                                            android:layout_marginLeft="@dimen/_10sp"
-                                            android:layout_marginRight="@dimen/_10sp"
-                                            android:rotation="180"
-                                            android:src="@drawable/ic_back"
-                                            android:tint="@color/grey_40" />
-                                    </LinearLayout>
-
-                                </LinearLayout>
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="#F5F5F5" />
-
-
-                                <LinearLayout
-                                    android:id="@+id/rlt_btn_languages"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/spacing_large"
-                                    android:layout_marginTop="@dimen/spacing_middle"
-                                    android:orientation="horizontal">
-
-                                    <com.jobtick.TextView.TextViewSemiBold
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_marginLeft="@dimen/_10sp"
-                                        android:layout_weight="1"
-                                        android:gravity="center_vertical"
-                                        android:text="language"
-                                        android:textColor="@color/blue"
-                                        android:textSize="12sp" />
-
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:orientation="horizontal">
-
-                                        <com.jobtick.TextView.TextViewBold
-                                            android:id="@+id/txt_languages"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_gravity="center_vertical"
-                                            android:background="@drawable/bg_badge_profile"
-                                            android:paddingLeft="@dimen/_10sp"
-                                            android:paddingRight="@dimen/_10sp"
-                                            android:text="0"
-                                            android:textStyle="bold"
-                                            android:textColor="@color/colorTaskCancelled"
-                                            android:textSize="@dimen/_10sp" />
-
-
-                                        <ImageView
-                                            android:id="@+id/img_languages_back"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_gravity="center"
-                                            android:layout_marginLeft="@dimen/_10sp"
-                                            android:layout_marginRight="@dimen/_10sp"
-                                            android:rotation="180"
-                                            android:src="@drawable/ic_back"
-                                            android:tint="@color/grey_40" />
-                                    </LinearLayout>
-
-                                </LinearLayout>
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="#F5F5F5" />
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>-->
-
 
                     <!--Umesh shera hide this section -->
                     <com.jobtick.TextView.TextViewBold
@@ -996,10 +739,7 @@
                                         android:rotation="180"
                                         android:src="@drawable/ic_back"
                                         android:tint="@color/grey_40" />
-
                                 </LinearLayout>
-
-
                             </RelativeLayout>
 
                             <View
@@ -1054,10 +794,7 @@
                                         android:rotation="180"
                                         android:src="@drawable/ic_back"
                                         android:tint="@color/grey_40" />
-
                                 </LinearLayout>
-
-
                             </RelativeLayout>
 
                             <View
@@ -1112,10 +849,7 @@
                                         android:rotation="180"
                                         android:src="@drawable/ic_back"
                                         android:tint="@color/grey_40" />
-
                                 </LinearLayout>
-
-
                             </RelativeLayout>
 
                             <View
@@ -1170,10 +904,7 @@
                                         android:rotation="180"
                                         android:src="@drawable/ic_back"
                                         android:tint="@color/grey_40" />
-
                                 </LinearLayout>
-
-
                             </RelativeLayout>
 
                             <View
@@ -1214,7 +945,6 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
-
                                             android:background="@drawable/bg_badge_profile"
                                             android:paddingLeft="@dimen/_7sp"
                                             android:paddingTop="@dimen/_3sp"
@@ -1249,13 +979,8 @@
                                             android:src="@drawable/ic_back"
                                             android:tint="@color/grey_40" />
                                     </LinearLayout>
-
-
                                 </LinearLayout>
-
                             </RelativeLayout>
-
-
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -1263,12 +988,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_middle"
                         android:visibility="gone" />
-
-
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
-
-
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
@@ -1301,7 +1022,6 @@
                     android:textSize="14sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
     </RelativeLayout>
 
     <FrameLayout
@@ -1309,6 +1029,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/bottom_sheet_behavior" />
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

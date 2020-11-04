@@ -157,100 +157,78 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
     }
 
     private void submitOffer(MakeAnOfferModel makeAnOfferModel) {
-
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_OFFERS,
-                new com.android.volley.Response.Listener<String>() {
+                response -> {
+                    Timber.e(response);
+                    hideProgressDialog();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
 
-                    @Override
-                    public void onResponse(String response) {
-                        Timber.e(response);
-                        hideProgressDialog();
-                        try {
+                                Intent intent = new Intent();
+                                Bundle bundle = new Bundle();
+                                bundle.putBoolean(ConstantKey.MAKE_AN_OFFER, true);
+                                intent.putExtras(bundle);
+                                setResult(ConstantKey.RESULTCODE_MAKEANOFFER, intent);
 
-                            JSONObject jsonObject = new JSONObject(response);
-                            Timber.e(jsonObject.toString());
-                            if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                                if (jsonObject.getBoolean("success")) {
+                                intent = new Intent(MakeAnOfferActivity.this, CompleteMessageActivity.class);
+                                Bundle bundle1 = new Bundle();
+                                bundle1.putString(ConstantKey.COMPLETES_MESSAGE_TITLE, "Offer Sent Successfully");
+                                bundle1.putString(ConstantKey.COMPLETES_MESSAGE_SUBTITLE, "Wait for an answer or continue looking for more tasks!");
+                                bundle1.putInt(ConstantKey.COMPLETES_MESSAGE_FROM, ConstantKey.RESULTCODE_MAKEANOFFER);
 
-                                    Intent intent = new Intent();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putBoolean(ConstantKey.MAKE_AN_OFFER, true);
-                                    intent.putExtras(bundle);
-                                    setResult(ConstantKey.RESULTCODE_MAKEANOFFER, intent);
-
-
-                                    intent = new Intent(MakeAnOfferActivity.this, CompleteMessageActivity.class);
-                                    Bundle bundle1 = new Bundle();
-                                    bundle1.putString(ConstantKey.COMPLETES_MESSAGE_TITLE, "Offer Sent Successfully");
-                                    bundle1.putString(ConstantKey.COMPLETES_MESSAGE_SUBTITLE, "Wait for an answer or continue looking for more tasks!");
-                                    bundle1.putInt(ConstantKey.COMPLETES_MESSAGE_FROM, ConstantKey.RESULTCODE_MAKEANOFFER);
-
-                                    intent.putExtras(bundle1);
-                                    startActivity(intent);
-                                    finish();
-                                } else {
-                                    System.out.println("response is: " + response);
-                                    showToast("Something went Wrong", MakeAnOfferActivity.this);
-                                }
+                                intent.putExtras(bundle1);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                showToast("Something went Wrong", MakeAnOfferActivity.this);
                             }
-
-
-                        } catch (JSONException e) {
-                            Timber.e(String.valueOf(e));
-                            e.printStackTrace();
-
                         }
-
-
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
                     }
                 },
-                new com.android.volley.Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        NetworkResponse networkResponse = error.networkResponse;
-                        if (networkResponse != null && networkResponse.data != null) {
-                            String jsonError = new String(networkResponse.data);
-                            // Print Error!
-                            Timber.e(jsonError);
-                            if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                                unauthorizedUser();
-                                hideProgressDialog();
-                                return;
-                            }
-                            if (networkResponse.statusCode == 500) {
-                                showToast("Something Went Wrong", MakeAnOfferActivity.this);
-                                hideProgressDialog();
-                                return;
-                            }
-                            try {
-                                JSONObject jsonObject = new JSONObject(jsonError);
-
-                                JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                                if (jsonObject_error.has("message")) {
-                                    Toast.makeText(MakeAnOfferActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                                }
-                                if (jsonObject_error.has("errors")) {
-                                    JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-
-
-                                }
-
-                                //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            showToast("Something Went Wrong", MakeAnOfferActivity.this);
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
+                            hideProgressDialog();
+                            return;
                         }
-                        Timber.e(error.toString());
-                        hideProgressDialog();
-                    }
-                }) {
+                        if (networkResponse.statusCode == 500) {
+                            showToast("Something Went Wrong", MakeAnOfferActivity.this);
+                            hideProgressDialog();
+                            return;
+                        }
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
 
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+                            if (jsonObject_error.has("message")) {
+                                Toast.makeText(MakeAnOfferActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", MakeAnOfferActivity.this);
+                    }
+                    Timber.e(error.toString());
+                    hideProgressDialog();
+                }) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -258,6 +236,9 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
 
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
+
+                map1.put("X-REQUESTED-WITH", "xmlhttprequest");
+//                headers.put("Accept", "application/json");
                 // map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
             }

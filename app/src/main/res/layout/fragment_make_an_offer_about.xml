@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,15 +8,14 @@
     android:orientation="vertical"
     tools:context=".fragments.MakeAnOfferAboutFragment">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -128,15 +127,16 @@
 
 
                         <com.jobtick.TextView.TextViewMedium
+                            android:id="@+id/saveQuickOfferTxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:background="@drawable/bg_save_as_quick_offer"
+                            android:background="@drawable/bg_save_as_quick_offer_disabled"
                             android:gravity="center_vertical"
                             android:paddingLeft="@dimen/_15sp"
                             android:paddingRight="@dimen/_15sp"
                             android:text="Save as a Quick Offer"
-                            android:textColor="#97a2f5"
+                            android:textColor="@color/quickOfferColor"
                             android:textSize="@dimen/_11sp" />
 
                         <com.jobtick.TextView.TextViewMedium
@@ -244,11 +244,11 @@
                             android:orientation="vertical">
 
                             <RelativeLayout
-                                android:layout_marginEnd="@dimen/_10sp"
-                                android:layout_marginStart="@dimen/_10sp"
                                 android:id="@+id/LytVideoPlay"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10sp"
+                                android:layout_marginEnd="@dimen/_10sp"
                                 android:visibility="gone">
 
                                 <com.rishabhharit.roundedimageview.RoundedImageView
@@ -271,10 +271,10 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
                                     android:layout_centerHorizontal="true"
-                                    android:paddingBottom="@dimen/_20sp"
                                     android:background="?attr/selectableItemBackground"
                                     android:gravity="center"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:paddingBottom="@dimen/_20sp">
 
                                     <LinearLayout
                                         android:id="@+id/lytRecord2"
@@ -288,8 +288,8 @@
                                         <com.jobtick.TextView.TextViewSemiBold
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="REC"
                                             android:layout_gravity="center"
+                                            android:text="REC"
                                             android:textColor="@color/white"
                                             android:textSize="@dimen/_10sp" />
                                     </LinearLayout>
@@ -334,11 +334,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:background="@color/backgroundLightGrey"
                                 android:gravity="center"
                                 android:orientation="vertical"
                                 android:padding="@dimen/spacing_xlarge"
-                                android:visibility="visible"
-                                android:background="@color/backgroundLightGrey">
+                                android:visibility="visible">
 
                                 <!--<ImageView
                                     android:layout_width="match_parent"
@@ -385,10 +385,10 @@
                     <LinearLayout
 
                         android:id="@+id/llJobDetails"
-                        android:layout_marginTop="@dimen/_20sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_mlarge"
+                        android:layout_marginTop="@dimen/_20sp"
                         android:layout_marginEnd="@dimen/spacing_mlarge"
                         android:orientation="vertical">
 
@@ -405,7 +405,6 @@
             </androidx.core.widget.NestedScrollView>
 
         </LinearLayout>
-
 
 
         <androidx.cardview.widget.CardView

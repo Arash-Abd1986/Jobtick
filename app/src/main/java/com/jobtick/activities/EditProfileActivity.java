@@ -208,6 +208,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     private BottomSheetDialog mBottomSheetDialog;
     int year, month, day;
     String str_DOB = null;
+    String str_DOB_MODEL = "2020-11-3";
     DatePickerDialog.OnDateSetListener mDateSetListener;
     private static String imageStoragePath;
     public static final long MAX_VIDEO_DURATION = 30;
@@ -224,13 +225,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         attachmentArrayList = new ArrayList<>();
         mBehavior = BottomSheetBehavior.from(bottomSheet);
 
-       /* toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });*/
-
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -238,38 +232,12 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
             }
         });
 
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month = month + 1;
-                str_DOB = Tools.getDayMonthDateTimeFormat2(year + "-" + month + "-" + dayOfMonth);
-                txtBirthDate.setText(str_DOB);
-            }
+        mDateSetListener = (view, year, month, dayOfMonth) -> {
+            month = month + 1;
+            str_DOB = Tools.getDayMonthDateTimeFormat2(year + "-" + month + "-" + dayOfMonth);
+            str_DOB_MODEL = year + "-" + month + "-" + dayOfMonth;
+            txtBirthDate.setText(str_DOB);
         };
-
-     /*   toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item)
-            {
-                if (item.getItemId() == R.id.action_submit)
-                {
-                    new MaterialAlertDialogBuilder(EditProfileActivity.this)
-                            .setTitle("Update Profile")
-                            .setMessage("Are you sure you want to update your Profile?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (validation())
-                                        submitProfile();
-                                }
-                            })
-                            .setNegativeButton("No", null)
-                            .show();
-                }
-                return true;
-            }
-        });*/
-
 
         init();
         getAllUserProfileDetails();
@@ -335,7 +303,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         String str_tag = edtTagline.getText().toString().trim();
         String str_about_me = edtAboutMe.getText().toString().trim();
         String str_business_number = edtBusinessNumber.getText().toString().trim();
-        String str_dob = txtBirthDate.getText().toString().trim();
+//        String str_dob = txtBirthDate.getText().toString().trim();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_USER_PROFILE_INFO,
                 response -> {
@@ -352,13 +320,10 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                                     onProfileupdatelistener.updateProfile();
                                 }
                             }
-
                         }
 
                     } catch (JSONException e) {
                     }
-
-
                 },
                 error -> {
                     NetworkResponse networkResponse = error.networkResponse;
@@ -379,20 +344,15 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                             if (jsonObject_error.has("errors")) {
 
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-
                             }
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     } else {
                         showToast("Something Went Wrong", EditProfileActivity.this);
                     }
-
                     hideProgressDialog();
                 }) {
-
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -415,7 +375,9 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                 map1.put("tagline", str_tag);
                 map1.put("business_number", str_business_number);
                 map1.put("about", str_about_me);
-                map1.put("dob", Tools.getApplicationFromatToServerFormat(str_dob));
+                if (!str_DOB_MODEL.equals("")) {
+                    map1.put("dob", str_DOB_MODEL);
+                }
                 return map1;
             }
         };
@@ -520,7 +482,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         edtAboutMe.setText(userAccountModel.getAbout());
         edtBusinessNumber.setText(userAccountModel.getBusiness_number());
         edtEmailAddress.setText(userAccountModel.getEmail());
-        txtBirthDate.setText(Tools.getDayMonthDateTimeFormat2(userAccountModel.getDob()));
+        txtBirthDate.setText(userAccountModel.getDob());
         if (userAccountModel.getAvatar() != null) {
             ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getThumbUrl(), null);
             lytDeletePicture.setVisibility(View.VISIBLE);
@@ -688,7 +650,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                     }
                 }) {
 
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
@@ -709,7 +670,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
     @OnClick({R.id.txt_suburb, R.id.txt_birth_date, R.id.rlt_btn_transportation, R.id.rlt_btn_languages,
             R.id.rlt_btn_education, R.id.rlt_btn_experience, R.id.rlt_btn_specialities, R.id.img_user_avatar, R.id.lytDeletePicture,
-    R.id.lyt_btn_save_profile, R.id.lyt_btn_close})
+            R.id.lyt_btn_save_profile, R.id.lyt_btn_close})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_btn_close:

@@ -38,18 +38,11 @@
                     app:showAsAction="withText" />
             </group>
 
-            <group android:id="@+id/grp_copy">
-                <item
-                    android:id="@+id/action_copy"
-                    android:icon="@drawable/ic_menu_copy"
-                    android:title="@string/copy"
-                    app:showAsAction="withText" />
-            </group>
 
             <group android:id="@+id/grp_report">
                 <item
                     android:id="@+id/action_report"
-                    android:icon="@drawable/ic_flag"
+                    android:icon="@drawable/ic_flag_2"
                     android:title="@string/report"
                     app:showAsAction="withText" />
             </group>
@@ -65,11 +58,18 @@
             <group android:id="@+id/grp_cancellation">
                 <item
                     android:id="@+id/action_cancellation"
-                    android:icon="@drawable/ic_menu_report"
-                    android:title="@string/Cancellation"
+                    android:icon="@drawable/ic_x"
+                    android:title="Cancel the Job"
                     app:showAsAction="withText" />
             </group>
 
+            <group android:id="@+id/grp_copy">
+                <item
+                    android:id="@+id/action_copy"
+                    android:icon="@drawable/ic_copy"
+                    android:title="Copy the Job"
+                    app:showAsAction="withText" />
+            </group>
             <group android:id="@+id/grp_reschedule">
                 <item
                     android:id="@+id/action_rechedule"

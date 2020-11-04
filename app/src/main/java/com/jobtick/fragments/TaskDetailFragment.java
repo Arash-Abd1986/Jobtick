@@ -221,7 +221,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         task.setTaskType(getArguments().getString("TASK_TYPE"));
         task.setLocation(getArguments().getString("LOCATION"));
         task.setPosition(getArguments().getParcelable("POSITION"));
-
         taskCreateActivity.setActionDraftTaskDetails(taskModel -> {
             if (taskModel.getTitle() != null && taskModel.getDescription() != null) {
                 operationsListener.draftTaskDetails(taskModel, true);
@@ -230,7 +229,8 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                     taskModel.setTitle(edtTitle.getText().toString().trim());
                 } else if (!TextUtils.isEmpty(edtDescription.getText().toString().trim()) || edtDescription.getText().toString().trim().length() >= 25) {
                     taskModel.setDescription(edtDescription.getText().toString().trim());
-                } else if (!TextUtils.isEmpty(txtSuburb.getText().toString().trim())) {
+                }
+                else if (!TextUtils.isEmpty(txtSuburb.getText().toString().trim())) {
                     taskModel.setLocation(txtSuburb.getText().toString().trim());
                     taskModel.setPosition(task.getPosition());
                 }
@@ -241,8 +241,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                 operationsListener.draftTaskDetails(taskModel, false);
             }
         });
-
-        setComponent();
         txtSuburb.setOnClickListener(v -> {
             Intent intent = new PlaceAutocomplete.IntentBuilder()
                     .accessToken(Mapbox.getAccessToken())
@@ -258,6 +256,8 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                     .build(getActivity());
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
+        setComponent();
+
         init();
 
         if (!edtTitle.getText().toString().equalsIgnoreCase("")) {
@@ -351,14 +351,19 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         if (task.getTaskType() != null) {
             if (task.getTaskType().equalsIgnoreCase("remote")) {
                 checkboxOnline.setChecked(true);
-                cardLocation.setVisibility(View.GONE);
+                txtSuburb.setVisibility(View.GONE);
+                cardLocation.setFocusable(false);
+                cardLocation.setClickable(false);
             } else {
                 checkboxOnline.setChecked(false);
                 cardLocation.setVisibility(View.VISIBLE);
+                txtSuburb.setVisibility(View.VISIBLE);
             }
         } else {
             checkboxOnline.setChecked(false);
-            cardLocation.setVisibility(View.VISIBLE);
+           txtSuburb.setVisibility(View.VISIBLE);
+            cardLocation.setFocusable(true);
+            cardLocation.setClickable(true);
         }
         if (task.getMusthave() != null && task.getMusthave().size() != 0) {
             addTagList.addAll(task.getMusthave());
@@ -390,7 +395,8 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     }
 
 
-    @OnClick({R.id.rlt_add_must_have, R.id.lyt_btn_details, R.id.lyt_bnt_date_time, R.id.lyt_btn_budget, R.id.checkbox_online, R.id.lyt_btn_next})
+    @OnClick({R.id.rlt_add_must_have, R.id.lyt_btn_details, R.id.lyt_bnt_date_time, R.id.lyt_btn_budget, R.id.checkbox_online, R.id.lyt_btn_next
+             })
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rlt_add_must_have:
@@ -414,9 +420,12 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                 break;
             case R.id.checkbox_online:
                 if (checkboxOnline.isChecked()) {
-                    cardLocation.setVisibility(View.GONE);
+                    txtSuburb.setVisibility(View.GONE);
+                    cardLocation.setClickable(false);
                 } else {
-                    cardLocation.setVisibility(View.VISIBLE);
+                   txtSuburb.setVisibility(View.VISIBLE);
+                    cardLocation.setClickable(true);
+
                 }
                 break;
             case R.id.lyt_btn_next:
@@ -432,6 +441,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                                 task.getPosition()
                         );
                         operationsListener.onValidDataFilled();
+
                         break;
                     case 1:
                         edtTitle.setError("Please enter the title");
@@ -638,7 +648,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         RecyclerView recyclerView2=view.findViewById(R.id.recycler_add_must_have2);
         TextViewRegular txtTotalCount = view.findViewById(R.id.txt_total_count);
 
-        LinearLayout lytBtnNext = view.findViewById(R.id.lyt_btn_next);
+        CardView lytBtnNext = view.findViewById(R.id.lyt_btn_next);
         EditTextRegular edtAddTag = view.findViewById(R.id.edtAddTag);
         recyclerView2.setLayoutManager(new GridLayoutManager(taskCreateActivity, 1));
         recyclerView2.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true));
@@ -649,17 +659,21 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         tagAdapter = new AddTagAdapter(taskCreateActivity, addTagList);
         recyclerView2.setAdapter(tagAdapter);
         tagAdapter.setOnItemClickListener(this);
-
+        tagAdapter.notifyDataSetChanged();
         txtCount.setText(addTagList.size() + "");
+
         lytBtnNext.setOnClickListener(v -> {
             if (TextUtils.isEmpty(edtAddTag.getText().toString().trim())) {
                 edtAddTag.setError("Text is empty");
                 return;
             }
 
+            if(3==addTagList.size()){
+                lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disclick));
 
-            if (3 > addTagList.size()) {
-
+            }else {
+                if (3 > addTagList.size()) {
+                    lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
                 txtCount.setText(addTagList.size() + 1 + "");
 
                 if (recyclerView.getVisibility() != View.VISIBLE) {
@@ -679,10 +693,13 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                     if (recyclerAddMustHave.getVisibility() == View.VISIBLE || recyclerView2.getVisibility()==View.VISIBLE) {
                         recyclerAddMustHave.setVisibility(View.GONE);
                         recyclerView2.setVisibility(View.GONE);
+
                     }
                 }
             } else {
                 taskCreateActivity.showToast("Max. 3 Tag you can add", taskCreateActivity);
+                    }
+
             }
 
 

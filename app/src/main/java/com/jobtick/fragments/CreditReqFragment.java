@@ -62,7 +62,7 @@ public class CreditReqFragment extends Fragment {
         if (bankAccountModel != null && bankAccountModel.getData() != null) {
             edtAccountName.setText(bankAccountModel.getData().getAccount_name());
             edtBsb.setText(bankAccountModel.getData().getBsb_code());
-            edtAccountNumber.setText(bankAccountModel.getData().getAccount_number());
+            edtAccountNumber.setText("xxxxx" + bankAccountModel.getData().getAccount_number());
         }
 
         addBankAccount = new AddBankAccountImpl(requireContext(), sessionManager) {

@@ -129,7 +129,7 @@ public class PaymentOverviewActivity extends ActivityBase {
     String discountCoupon;
 
     @BindView(R.id.card_view_user)
-    CardView cardViewUser;
+    LinearLayout cardViewUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

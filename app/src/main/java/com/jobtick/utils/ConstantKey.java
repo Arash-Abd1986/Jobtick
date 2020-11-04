@@ -71,7 +71,7 @@ public class ConstantKey {
     public static final String ACTIONBAR_TITLE = "ACTIONBAR_TITLE";
     public static final String TAG_SIZE = "TAG_SIZE";
     public static final String TAG = "TAG";
-    public static final String NO_PAYMENT_METHOD = "NO_PAYMENT_METHOD";
+    public static final String NO_PAYMENT_METHOD = "400";
     public static final String INVALID_CARD_EXCEPTION = "INVALID_CARD_EXCEPTION";
     public static final String PHYSICAL = "physical";
 

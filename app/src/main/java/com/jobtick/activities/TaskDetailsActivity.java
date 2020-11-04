@@ -1601,7 +1601,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 key = 0;
             } else if (bankAccountModel == null || bankAccountModel.getData() == null || bankAccountModel.getData().getAccount_name().equals("") || bankAccountModel.getData().getAccount_number().equals("")) {
                 key = 1;
-            } else if (billingAdreessModel == null || billingAdreessModel.getData() == null || billingAdreessModel.getData().getLocation().equals("") || billingAdreessModel.getData().getPost_code().equals("")) {
+            } else if (billingAdreessModel == null || billingAdreessModel.getData() == null || billingAdreessModel.getData().getPost_code().equals("")) {
                 key = 2;
             } else if (userAccountModel.getDob() == null || userAccountModel.getDob().equals("")) {
                 key = 3;

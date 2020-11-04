@@ -1,150 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/credit_frame"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".fragments.CreditReqFragment">
 
-
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <com.jobtick.TextView.TextViewMedium
+        android:layout_alignParentTop="true"
+        android:scrollbars="none"
+        android:id="@+id/form">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/spacing_mlarge"
-            android:text="@string/provide_bank_account"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/_14sp"/>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:layout_marginEnd="@dimen/spacing_large"
-            android:layout_marginBottom="@dimen/spacing_medium"
-            android:background="@drawable/greay_border_bg"
-            android:visibility="visible">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <com.jobtick.TextView.TextViewMedium
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_middle"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:orientation="vertical">
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacing_mlarge"
+                android:gravity="left"
+                android:text="@string/provide_bank_account"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_14sp" />
 
-                <com.jobtick.TextView.TextViewSemiBold
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/account_name"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp" />
-
-                <com.jobtick.EditText.EditTextMedium
-                    android:id="@+id/edt_account_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-
-                    android:singleLine="true"
-                    android:textColor="@color/textColor"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:layout_marginEnd="@dimen/spacing_large"
-            android:layout_marginBottom="@dimen/spacing_medium"
-            android:background="@drawable/greay_border_bg"
-            android:visibility="visible">
-
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_middle"
+                android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:orientation="vertical">
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@drawable/greay_border_bg"
+                android:visibility="visible">
 
-                <com.jobtick.TextView.TextViewSemiBold
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/bsb"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp" />
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_middle"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:orientation="vertical">
 
-                <com.jobtick.EditText.EditTextMedium
-                    android:id="@+id/edt_bsb"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
+                    <com.jobtick.TextView.TextViewSemiBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/account_name"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp" />
 
-                    android:singleLine="true"
-                    android:textColor="@color/textColor"
-                    android:textSize="14sp" />
+                    <com.jobtick.EditText.EditTextMedium
+                        android:id="@+id/edt_account_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp" />
 
-            </LinearLayout>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:layout_marginEnd="@dimen/spacing_large"
-            android:layout_marginBottom="@dimen/spacing_medium"
-            android:background="@drawable/greay_border_bg"
-            android:visibility="visible">
+                </LinearLayout>
+            </FrameLayout>
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_middle"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:orientation="vertical">
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@drawable/greay_border_bg"
+                android:visibility="visible">
 
-                <com.jobtick.TextView.TextViewSemiBold
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/account_number"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp" />
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_middle"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:orientation="vertical">
 
-                <com.jobtick.EditText.EditTextMedium
-                    android:id="@+id/edt_account_number"
+                    <com.jobtick.TextView.TextViewSemiBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/bsb"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp" />
+
+                    <com.jobtick.EditText.EditTextMedium
+                        android:id="@+id/edt_bsb"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@drawable/greay_border_bg"
+                android:visibility="visible">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:singleLine="true"
-                    android:textColor="@color/textColor"
-                    android:textSize="14sp" />
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_middle"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:orientation="vertical">
 
-            </LinearLayout>
-        </FrameLayout>
-        <com.jobtick.TextView.TextViewMedium
-            android:id="@+id/txt_btn_next"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            android:padding="@dimen/spacing_large"
-            android:background="@drawable/shape_tab_primary_60"
-            android:text="Next"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
+                    <com.jobtick.TextView.TextViewSemiBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/account_number"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp" />
 
-    </LinearLayout>
+                    <com.jobtick.EditText.EditTextMedium
+                        android:id="@+id/edt_account_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:singleLine="true"
+                        android:inputType="number"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp" />
 
-</FrameLayout>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.jobtick.TextView.TextViewMedium
+        android:id="@+id/txt_btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:background="@drawable/shape_tab_primary_60"
+        android:gravity="center"
+        android:padding="@dimen/spacing_large"
+        android:text="Next"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:layout_below="@+id/form"/>
+
+</RelativeLayout>

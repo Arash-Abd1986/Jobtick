@@ -11,7 +11,6 @@
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
         <item name="android:statusBarColor">@color/backgroundLightGrey</item>
         <item name="android:navigationBarColor">@color/gray</item>
-        <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
 
     </style>
@@ -251,6 +250,13 @@
         <item name="android:fontFamily">@font/poppins_medium</item>
         <item name="android:textSize">@dimen/toolbar_text_size</item>
     </style>
+
+    <style name="BottomSheetDialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
 
 
 </resources>

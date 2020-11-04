@@ -1,35 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map_frame"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".fragments.MapReqFragment">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:scrollbars="none"
+        android:id="@+id/form"
+        android:layout_alignParentTop="true">
 
-        <com.jobtick.TextView.TextViewMedium
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/spacing_mlarge"
-            android:gravity="left"
-            android:text="@string/provide_a_billing_address"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/_14sp" />
+            android:orientation="vertical">
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none">
-
-            <LinearLayout
+            <com.jobtick.TextView.TextViewMedium
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacing_mlarge"
+                android:gravity="left"
+                android:text="@string/provide_a_billing_address"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_14sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -49,7 +46,7 @@
                         <com.jobtick.TextView.TextViewSemiBold
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Address Line 1"
+                            android:text="Address"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_12sp"
                             android:textStyle="bold" />
@@ -59,10 +56,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
+                            android:inputType="text"
                             android:textSize="@dimen/_14sp" />
                     </LinearLayout>
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -91,6 +88,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
+                            android:inputType="text"
                             android:textSize="@dimen/_14sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -122,6 +120,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
+                            android:inputType="text"
                             android:textSize="@dimen/_14sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -186,24 +185,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
+                            android:inputType="text"
                             android:textSize="@dimen/_14sp" />
                     </LinearLayout>
                 </LinearLayout>
-
-                <com.jobtick.TextView.TextViewMedium
-                    android:id="@+id/txt_btn_next"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="15dp"
-                    android:background="@drawable/shape_tab_primary_60"
-                    android:gravity="center"
-                    android:padding="@dimen/spacing_large"
-                    android:text="Next"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+            <com.jobtick.TextView.TextViewMedium
+                android:id="@+id/txt_btn_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/shape_tab_primary_60"
+                android:gravity="center"
+                android:padding="@dimen/spacing_large"
+                android:text="Next"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
-</FrameLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

@@ -9,196 +9,352 @@
     tools:context=".fragments.TaskDetailFragment">
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.TaskDateTimeFragment">
+        android:orientation="vertical">
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/lyt_button"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/lyt_button"
-            android:overScrollMode="never"
-            android:scrollbars="none">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
-                    android:elevation="@dimen/spacing_middle"
-                    android:visibility="gone"
-                    app:cardCornerRadius="@dimen/spacing_middle">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/spacing_large"
-                        android:weightSum="3">
-
-
-                        <LinearLayout
-                            android:id="@+id/lyt_btn_details"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:background="?attr/selectableItemBackground"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_info"
-                                android:tint="@color/black" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/spacing_middle" />
-
-                            <com.jobtick.TextView.TextViewSemiBold
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/details"
-                                android:textAllCaps="true"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                                android:textColor="@color/textColor"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_round_shape" />
-
-                        <LinearLayout
-                            android:id="@+id/lyt_btn_date_time"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:background="?attr/selectableItemBackground"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/calendar"
-                                android:tint="@color/colorPrimary" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/spacing_middle" />
-
-                            <com.jobtick.TextView.TextViewSemiBold
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/date_time"
-                                android:textAllCaps="true"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                                android:textColor="@color/colorPrimary" />
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_round_shape" />
-
-                        <LinearLayout
-                            android:id="@+id/lyt_btn_budget"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:background="?attr/selectableItemBackground"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_dollar_sign"
-                                android:tint="@color/grey_40" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/spacing_middle" />
-
-                            <com.jobtick.TextView.TextViewRegular
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/budget"
-                                android:textAllCaps="true"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                                android:textColor="@color/grey_40" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:elevation="@dimen/spacing_middle"
+                android:visibility="gone"
+                app:cardCornerRadius="@dimen/spacing_middle">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
-                    android:background="@drawable/linear_rounded_white_fill_7dp">
+                    android:orientation="horizontal"
+                    android:padding="@dimen/spacing_large"
+                    android:weightSum="3">
 
+
+                    <LinearLayout
+                        android:id="@+id/lyt_btn_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_info"
+                            android:tint="@color/black" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_middle" />
+
+                        <com.jobtick.TextView.TextViewSemiBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/details"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="@color/textColor"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_round_shape" />
+
+                    <LinearLayout
+                        android:id="@+id/lyt_btn_date_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/calendar"
+                            android:tint="@color/colorPrimary" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_middle" />
+
+                        <com.jobtick.TextView.TextViewSemiBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/date_time"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="@color/colorPrimary" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_round_shape" />
+
+                    <LinearLayout
+                        android:id="@+id/lyt_btn_budget"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_dollar_sign"
+                            android:tint="@color/grey_40" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_middle" />
+
+                        <com.jobtick.TextView.TextViewRegular
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/budget"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="@color/grey_40" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:background="@drawable/linear_rounded_white_fill_7dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_large">
+
+                    <com.jobtick.TextView.TextViewSemiBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Date"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_12sp"
+                        android:textStyle="bold" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.jobtick.TextView.TextViewMedium
+                            android:id="@+id/txt_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@id/img_location_pin"
+                            android:hint="Select a Date"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                            android:textColor="@color/textColor"/>
+
+
+                        <ImageView
+                            android:id="@+id/img_location_pin"
+                            android:layout_width="@dimen/_20sp"
+                            android:layout_height="@dimen/_20sp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_date_gray"
+                            android:tint="@color/colorPrimary" />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="@dimen/spacing_middle"
+                app:cardElevation="0dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_large">
+
+                    <com.jobtick.TextView.TextViewSemiBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Time"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_12sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spacing_middle" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/spacing_large">
-
-                        <com.jobtick.TextView.TextViewSemiBold
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Date"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
-                            android:textStyle="bold" />
+                        android:orientation="vertical">
 
                         <RelativeLayout
+                            android:id="@+id/rlt_btn_morning"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/spacing_middle">
 
-                            <com.jobtick.TextView.TextViewMedium
-                                android:id="@+id/txt_date"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_toStartOf="@id/img_location_pin"
-                                android:hint="Select a Date"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                android:textColor="@color/textColor"/>
 
+                            <CheckBox
+                                android:id="@+id/cb_morning"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/radio_button_selector"
+                                android:button="@null"
+                                android:gravity="center" />
 
                             <ImageView
-                                android:id="@+id/img_location_pin"
-                                android:layout_width="@dimen/_20sp"
-                                android:layout_height="@dimen/_20sp"
-                                android:layout_alignParentEnd="true"
+                                android:id="@+id/img_morning"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="@dimen/spacing_middle"
+                                android:layout_marginBottom="@dimen/spacing_medium"
+                                android:src="@drawable/ic_morning"
+                                android:visibility="gone" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_15sp"
+                                android:layout_toRightOf="@+id/cb_morning">
+
+                                <com.jobtick.TextView.TextViewMedium
+                                    android:id="@+id/txt_title_morning"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Morning"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                    android:textColor="@color/textColor" />
+
+                                <com.jobtick.TextView.TextViewRegular
+                                    android:id="@+id/txt_subtitle_morning"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/txt_title_morning"
+                                    android:text="From 05:00 AM to 12:00 PM"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                                    android:textColor="@color/grey_40" />
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            android:id="@+id/rlt_btn_midday"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/spacing_middle">
+
+                            <CheckBox
+                                android:id="@+id/cb_midday"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_alignParentStart="true"
                                 android:layout_centerVertical="true"
-                                android:src="@drawable/ic_date_gray"
-                                android:tint="@color/colorPrimary" />
+                                android:layout_marginEnd="@dimen/_15sp"
+                                android:background="@drawable/radio_button_selector"
+                                android:button="@null"
+                                android:gravity="center" />
+
+                            <ImageView
+                                android:id="@+id/img_midday"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="@dimen/spacing_middle"
+                                android:layout_marginBottom="@dimen/spacing_medium"
+                                android:src="@drawable/ic_midday"
+                                android:visibility="gone" />
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/cb_midday">
+
+
+                                <com.jobtick.TextView.TextViewMedium
+                                    android:id="@+id/txt_title_midday"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Afternoon"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                    android:textColor="@color/textColor" />
+
+                                <com.jobtick.TextView.TextViewRegular
+                                    android:id="@+id/txt_subtitle_midday"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/txt_title_midday"
+                                    android:text="From 12:00 PM to 06:00 PM"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                                    android:textColor="@color/grey_40" />
+
+                            </RelativeLayout>
+
 
                         </RelativeLayout>
 
@@ -206,297 +362,148 @@
                     </LinearLayout>
 
 
-                </LinearLayout>
-
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
-                    android:backgroundTint="@color/white"
-                    app:cardCornerRadius="@dimen/spacing_middle"
-                    app:cardElevation="0dp">
-
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/spacing_large">
+                        android:orientation="vertical">
 
-                        <com.jobtick.TextView.TextViewSemiBold
+                        <RelativeLayout
+                            android:id="@+id/rlt_btn_afternoon"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Time"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
-                            android:textStyle="bold" />
+
+                            android:padding="@dimen/spacing_middle">
+
+                            <CheckBox
+                                android:id="@+id/cb_afternoon"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/_15sp"
+
+                                android:background="@drawable/radio_button_selector"
+                                android:button="@null"
+                                android:gravity="center" />
+
+                            <ImageView
+                                android:id="@+id/img_afternoon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="@dimen/spacing_middle"
+                                android:layout_marginBottom="@dimen/spacing_medium"
+                                android:src="@drawable/ic_afternoon"
+                                android:visibility="gone" />
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/cb_afternoon">
+
+                                <com.jobtick.TextView.TextViewMedium
+                                    android:id="@+id/txt_title_afternoon"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Evening"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                    android:textColor="@color/textColor" />
+
+                                <com.jobtick.TextView.TextViewRegular
+                                    android:id="@+id/txt_subtitle_afternoon"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/txt_title_afternoon"
+                                    android:text="After 06:00 PM+"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                                    android:textColor="@color/grey_40" />
+
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
 
                         <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spacing_middle" />
+                            android:layout_width="@dimen/spacing_middle"
+                            android:layout_height="match_parent" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <RelativeLayout
-                                android:id="@+id/rlt_btn_morning"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="@dimen/spacing_middle">
-
-
-                                <CheckBox
-                                    android:id="@+id/cb_morning"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_centerVertical="true"
-                                    android:background="@drawable/radio_button_selector"
-                                    android:button="@null"
-                                    android:gravity="center" />
-
-                                <ImageView
-                                    android:id="@+id/img_morning"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerHorizontal="true"
-                                    android:layout_marginTop="@dimen/spacing_middle"
-                                    android:layout_marginBottom="@dimen/spacing_medium"
-                                    android:src="@drawable/ic_morning"
-                                    android:visibility="gone" />
-
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/_15sp"
-                                    android:layout_toRightOf="@+id/cb_morning">
-
-                                    <com.jobtick.TextView.TextViewMedium
-                                        android:id="@+id/txt_title_morning"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Morning"
-                                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                        android:textColor="@color/textColor" />
-
-                                    <com.jobtick.TextView.TextViewRegular
-                                        android:id="@+id/txt_subtitle_morning"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_below="@+id/txt_title_morning"
-                                        android:text="From 05:00 AM to 12:00 PM"
-                                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                                        android:textColor="@color/grey_40" />
-
-                                </RelativeLayout>
-
-
-                            </RelativeLayout>
-
-
-                            <RelativeLayout
-                                android:id="@+id/rlt_btn_midday"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="@dimen/spacing_middle">
-
-                                <CheckBox
-                                    android:id="@+id/cb_midday"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginEnd="@dimen/_15sp"
-                                    android:background="@drawable/radio_button_selector"
-                                    android:button="@null"
-                                    android:gravity="center" />
-
-                                <ImageView
-                                    android:id="@+id/img_midday"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerHorizontal="true"
-                                    android:layout_marginTop="@dimen/spacing_middle"
-                                    android:layout_marginBottom="@dimen/spacing_medium"
-                                    android:src="@drawable/ic_midday"
-                                    android:visibility="gone" />
-
-
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@+id/cb_midday">
-
-
-                                    <com.jobtick.TextView.TextViewMedium
-                                        android:id="@+id/txt_title_midday"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Afternoon"
-                                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                        android:textColor="@color/textColor" />
-
-                                    <com.jobtick.TextView.TextViewRegular
-                                        android:id="@+id/txt_subtitle_midday"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_below="@+id/txt_title_midday"
-                                        android:text="From 12:00 PM to 06:00 PM"
-                                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                                        android:textColor="@color/grey_40" />
-
-                                </RelativeLayout>
-
-
-                            </RelativeLayout>
-
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
+                        <RelativeLayout
+                            android:id="@+id/rlt_btn_evening"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:layout_weight="1"
+                            android:padding="@dimen/spacing_middle">
+
+                            <CheckBox
+                                android:id="@+id/cb_evening"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/_15sp"
+
+                                android:background="@drawable/radio_button_selector"
+                                android:button="@null"
+                                android:gravity="center" />
+
+                            <ImageView
+                                android:id="@+id/img_evening"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="@dimen/spacing_middle"
+                                android:layout_marginBottom="@dimen/spacing_medium"
+                                android:src="@drawable/ic_evening"
+                                android:visibility="gone" />
+
 
                             <RelativeLayout
-                                android:id="@+id/rlt_btn_afternoon"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/cb_evening">
 
-                                android:padding="@dimen/spacing_middle">
-
-                                <CheckBox
-                                    android:id="@+id/cb_afternoon"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginEnd="@dimen/_15sp"
-
-                                    android:background="@drawable/radio_button_selector"
-                                    android:button="@null"
-                                    android:gravity="center" />
-
-                                <ImageView
-                                    android:id="@+id/img_afternoon"
+                                <com.jobtick.TextView.TextViewMedium
+                                    android:id="@+id/txt_title_evening"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_centerHorizontal="true"
-                                    android:layout_marginTop="@dimen/spacing_middle"
-                                    android:layout_marginBottom="@dimen/spacing_medium"
-                                    android:src="@drawable/ic_afternoon"
-                                    android:visibility="gone" />
+                                    android:text="Anytime"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                    android:textColor="@color/textColor" />
 
-
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@+id/cb_afternoon">
-
-                                    <com.jobtick.TextView.TextViewMedium
-                                        android:id="@+id/txt_title_afternoon"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Evening"
-                                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                        android:textColor="@color/textColor" />
-
-                                    <com.jobtick.TextView.TextViewRegular
-                                        android:id="@+id/txt_subtitle_afternoon"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_below="@+id/txt_title_afternoon"
-                                        android:text="After 06:00 PM+"
-                                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                                        android:textColor="@color/grey_40" />
-
-
-                                </RelativeLayout>
-
-
-                            </RelativeLayout>
-
-                            <View
-                                android:layout_width="@dimen/spacing_middle"
-                                android:layout_height="match_parent" />
-
-                            <RelativeLayout
-                                android:id="@+id/rlt_btn_evening"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:padding="@dimen/spacing_middle">
-
-                                <CheckBox
-                                    android:id="@+id/cb_evening"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginEnd="@dimen/_15sp"
-
-                                    android:background="@drawable/radio_button_selector"
-                                    android:button="@null"
-                                    android:gravity="center" />
-
-                                <ImageView
-                                    android:id="@+id/img_evening"
+                                <com.jobtick.TextView.TextViewRegular
+                                    android:id="@+id/txt_subtitle_evening"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_centerHorizontal="true"
-                                    android:layout_marginTop="@dimen/spacing_middle"
-                                    android:layout_marginBottom="@dimen/spacing_medium"
-                                    android:src="@drawable/ic_evening"
-                                    android:visibility="gone" />
-
-
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@+id/cb_evening">
-
-                                    <com.jobtick.TextView.TextViewMedium
-                                        android:id="@+id/txt_title_evening"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Anytime"
-                                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                        android:textColor="@color/textColor" />
-
-                                    <com.jobtick.TextView.TextViewRegular
-                                        android:id="@+id/txt_subtitle_evening"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_below="@+id/txt_title_evening"
-                                        android:text="From 05:00 AM to 12:00 AM"
-                                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                                        android:textColor="@color/grey_40" />
-
-                                </RelativeLayout>
-
+                                    android:layout_below="@+id/txt_title_evening"
+                                    android:text="From 05:00 AM to 12:00 AM"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                                    android:textColor="@color/grey_40" />
 
                             </RelativeLayout>
 
 
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spacing_middle" />
+                        </RelativeLayout>
 
 
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spacing_middle" />
 
 
-            </LinearLayout>
-        </ScrollView>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>
+
+<FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    android:layout_weight="1"/>
         <LinearLayout
             android:id="@+id/lyt_button"
             android:layout_width="match_parent"
@@ -595,7 +602,7 @@
         <!--bottom sheet container-->
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/bottom_sheet"

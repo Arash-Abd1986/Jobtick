@@ -79,7 +79,7 @@
                         android:layout_gravity="bottom"
                         android:layout_marginStart="@dimen/spacing_middle"
                         android:layout_marginEnd="@dimen/spacing_middle"
-                        android:layout_marginBottom="@dimen/_60dp"
+                        android:layout_marginBottom="@dimen/_40dp"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -468,7 +468,7 @@
                                 android:layout_height="10dp"
                                 android:layout_marginEnd="8dp"
                                 android:contentDescription="@string/todo"
-                                android:src="@drawable/ic_map" />
+                                android:src="@drawable/ic_map_pin" />
 
                             <com.jobtick.TextView.TextViewMedium
                                 android:id="@+id/txt_location"

@@ -464,9 +464,8 @@
 
                             <ImageView
                                 android:id="@+id/img_map_pin"
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:layout_marginEnd="8dp"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
                                 android:contentDescription="@string/todo"
                                 android:src="@drawable/ic_map_pin" />
 
@@ -529,12 +528,6 @@
 
                     </androidx.cardview.widget.CardView>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_line"
-                        android:layout_marginTop="@dimen/spacing_small"
-                        android:layout_marginBottom="@dimen/spacing_small"
-                        android:background="@color/grey_10" />
 
                     <RelativeLayout
                         android:id="@+id/postedByLyt"
@@ -812,8 +805,6 @@
                             android:gravity="center"
                             android:orientation="vertical" />
                     </androidx.cardview.widget.CardView>
-
-
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -830,7 +821,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginEnd="18dp"
                     android:singleLine="true"
                     android:text="@string/offer"
@@ -855,13 +846,13 @@
 
                         <FrameLayout
                             android:id="@+id/txt_waiting_for_offer"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:visibility="gone">
+                            android:visibility="visible">
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_margin="@dimen/spacing_small"
@@ -884,7 +875,7 @@
                                     android:singleLine="true"
                                     android:text="@string/waiting_for_offer"
                                     android:textColor="@color/black"
-                                    android:textSize="12dp"
+                                    android:textSize="11dp"
                                     android:textStyle="bold" />
 
                                 <LinearLayout
@@ -963,7 +954,6 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
-
             <LinearLayout
                 android:id="@+id/card_questions_layout"
                 android:layout_width="match_parent"

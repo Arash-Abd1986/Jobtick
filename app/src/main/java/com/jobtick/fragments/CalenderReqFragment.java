@@ -52,6 +52,7 @@ public class CalenderReqFragment extends Fragment {
 
     int year, month, day;
     String str_DOB = null;
+    String str_DOB_MODEL = "";
     DatePickerDialog.OnDateSetListener mDateSetListener;
     TextView txtBirthDate;
 
@@ -96,6 +97,7 @@ public class CalenderReqFragment extends Fragment {
 
         mDateSetListener = (view1, year, month, dayOfMonth) -> {
             month = month + 1;
+            str_DOB_MODEL = year + "-" + month + "-" + dayOfMonth;
             str_DOB = Tools.getDayMonthDateTimeFormat2(year + "-" + month + "-" + dayOfMonth);
             txtBirthDate.setText(str_DOB);
         };
@@ -171,7 +173,9 @@ public class CalenderReqFragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("dob", Tools.getApplicationFromatToServerFormat(txtBirthDate.getText().toString()));
+                if (!str_DOB_MODEL.equals("")) {
+                    map1.put("dob", str_DOB_MODEL);
+                }
 
                 return map1;
             }

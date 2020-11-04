@@ -320,13 +320,10 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                                     onProfileupdatelistener.updateProfile();
                                 }
                             }
-
                         }
 
                     } catch (JSONException e) {
                     }
-
-
                 },
                 error -> {
                     NetworkResponse networkResponse = error.networkResponse;
@@ -347,20 +344,15 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                             if (jsonObject_error.has("errors")) {
 
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-
                             }
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     } else {
                         showToast("Something Went Wrong", EditProfileActivity.this);
                     }
-
                     hideProgressDialog();
                 }) {
-
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -383,7 +375,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                 map1.put("tagline", str_tag);
                 map1.put("business_number", str_business_number);
                 map1.put("about", str_about_me);
-                if(!str_DOB_MODEL.equals("")){
+                if (!str_DOB_MODEL.equals("")) {
                     map1.put("dob", str_DOB_MODEL);
                 }
                 return map1;
@@ -490,7 +482,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         edtAboutMe.setText(userAccountModel.getAbout());
         edtBusinessNumber.setText(userAccountModel.getBusiness_number());
         edtEmailAddress.setText(userAccountModel.getEmail());
-        txtBirthDate.setText(Tools.getDayMonthDateTimeFormat2(userAccountModel.getDob()));
+        txtBirthDate.setText(userAccountModel.getDob());
         if (userAccountModel.getAvatar() != null) {
             ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getThumbUrl(), null);
             lytDeletePicture.setVisibility(View.VISIBLE);

@@ -528,7 +528,6 @@
 
                     </androidx.cardview.widget.CardView>
 
-
                     <RelativeLayout
                         android:id="@+id/postedByLyt"
                         android:layout_width="match_parent"

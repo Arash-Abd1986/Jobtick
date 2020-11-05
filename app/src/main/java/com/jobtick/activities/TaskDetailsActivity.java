@@ -432,7 +432,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     } else {
                         cardMakeAnOffer.setVisibility(View.VISIBLE);
                         txtBtnText.setText(ConstantKey.BTN_ASK_TO_RELEASE_MONEY);
-                        toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_copy, true);
+                        toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_copy1
+                                , true);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, true);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, true);
                         cardPrivateChat.setVisibility(View.VISIBLE);

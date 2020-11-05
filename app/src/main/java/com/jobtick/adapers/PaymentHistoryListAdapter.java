@@ -1,16 +1,14 @@
 package com.jobtick.adapers;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.interfaces.PaymentOnClick;
 import com.jobtick.models.payments.PaymentHistory;
 import com.jobtick.utils.ImageUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -25,10 +23,12 @@ public class PaymentHistoryListAdapter extends RecyclerView.Adapter<PaymentHisto
 
     private List<PaymentHistory> items = new ArrayList<>();
     private boolean isPoster;
+    private PaymentOnClick onclick;
 
-    public PaymentHistoryListAdapter(List<PaymentHistory> items, boolean isPoster) {
+    public PaymentHistoryListAdapter(List<PaymentHistory> items, boolean isPoster, PaymentOnClick onclick) {
         this.items = items;
         this.isPoster = isPoster;
+        this.onclick = onclick;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -82,6 +82,13 @@ public class PaymentHistoryListAdapter extends RecyclerView.Adapter<PaymentHisto
         } else {
             holder.debitedTxt.setVisibility(View.GONE);
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onclick.onClick(temp);
+            }
+        });
 
     }
 

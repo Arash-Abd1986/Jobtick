@@ -21,13 +21,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.adapers.PaymentHistoryListAdapter;
+import com.jobtick.interfaces.PaymentOnClick;
 import com.jobtick.models.payments.PaymentHistory;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.SessionManager;
@@ -37,7 +35,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +42,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PaymentHistoryOutgoingFragment extends Fragment {
+public class PaymentPaidFragment extends Fragment {
 
     @BindView(R.id.txt_total_payment)
     TextView totalPayment;
@@ -60,12 +57,12 @@ public class PaymentHistoryOutgoingFragment extends Fragment {
 
     private SessionManager sessionManager;
 
-    private PaymentHistoryOutgoingFragment() {
+    private PaymentPaidFragment() {
         // Required empty public constructor
     }
 
-    public static PaymentHistoryOutgoingFragment newInstance() {
-        PaymentHistoryOutgoingFragment fragment = new PaymentHistoryOutgoingFragment();
+    public static PaymentPaidFragment newInstance() {
+        PaymentPaidFragment fragment = new PaymentPaidFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -144,7 +141,12 @@ public class PaymentHistoryOutgoingFragment extends Fragment {
         totalPayment.setText(total_amount);
         totalTransaction.setText(data.size() + " transactions");
         paymentHistoryList.setLayoutManager(new LinearLayoutManager(getContext()));
-        paymentHistoryList.setAdapter(new PaymentHistoryListAdapter(data, true));
+        paymentHistoryList.setAdapter(new PaymentHistoryListAdapter(data, true, paymentHistory -> {
+            System.out.println(paymentHistory.getAmount());
+            PaymentPaidBottomSheet paymentPaidBottomSheet = new PaymentPaidBottomSheet(paymentHistory);
+            paymentPaidBottomSheet.show(getParentFragmentManager(), "");
+
+        }));
 
     }
 }

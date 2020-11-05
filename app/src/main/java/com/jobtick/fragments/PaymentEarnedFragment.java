@@ -1,6 +1,5 @@
 package com.jobtick.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
@@ -26,11 +24,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
-import com.jobtick.activities.DashboardActivity;
-import com.jobtick.activities.MobileVerificationActivity;
-import com.jobtick.activities.SplashActivity;
 import com.jobtick.adapers.PaymentHistoryListAdapter;
-import com.jobtick.models.UserAccountModel;
+import com.jobtick.interfaces.PaymentOnClick;
 import com.jobtick.models.payments.PaymentHistory;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.SessionManager;
@@ -47,7 +42,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PaymentHistoryEarnedFragment extends Fragment {
+public class PaymentEarnedFragment extends Fragment {
 
     private SessionManager sessionManager;
 
@@ -64,12 +59,12 @@ public class PaymentHistoryEarnedFragment extends Fragment {
     @BindView(R.id.container)
     CardView container;
 
-    private PaymentHistoryEarnedFragment() {
+    private PaymentEarnedFragment() {
         // Required empty public constructor
     }
 
-    public static PaymentHistoryEarnedFragment newInstance() {
-        PaymentHistoryEarnedFragment fragment = new PaymentHistoryEarnedFragment();
+    public static PaymentEarnedFragment newInstance() {
+        PaymentEarnedFragment fragment = new PaymentEarnedFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -149,7 +144,14 @@ public class PaymentHistoryEarnedFragment extends Fragment {
         totalPayment.setText(total_amount);
         totalTransaction.setText(data.size() + " transactions");
         paymentHistoryList.setLayoutManager(new LinearLayoutManager(getContext()));
-        paymentHistoryList.setAdapter(new PaymentHistoryListAdapter(data,false));
+        paymentHistoryList.setAdapter(new PaymentHistoryListAdapter(data, true, new PaymentOnClick() {
+            @Override
+            public void onClick(PaymentHistory paymentHistory) {
+                System.out.println(paymentHistory.getAmount());
+                PaymentEarnedBottomSheet paymentEarnedBottomSheet = new  PaymentEarnedBottomSheet(paymentHistory);
+                paymentEarnedBottomSheet.show(getParentFragmentManager(), "");
+            }
+        }));
 
     }
 }

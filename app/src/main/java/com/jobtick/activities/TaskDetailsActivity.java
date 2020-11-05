@@ -1558,6 +1558,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 showRequirementDialog();
                             }
                         } else {
+
                             RequirementsBottomSheet requirementsBottomSheet = RequirementsBottomSheet.newInstance(key);
                             requirementsBottomSheet.show(getSupportFragmentManager(), "");
                         }

@@ -1,34 +1,17 @@
 package com.jobtick.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
 import com.jobtick.adapers.SectionsPagerAdapter;
-import com.jobtick.fragments.PaymentHistoryEarnedFragment;
-import com.jobtick.fragments.PaymentHistoryOutgoingFragment;
-import com.jobtick.fragments.SignInFragment;
-import com.jobtick.utils.Constant;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.jobtick.fragments.PaymentEarnedFragment;
+import com.jobtick.fragments.PaymentPaidFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -113,8 +96,8 @@ public class PaymentHistoryActivity extends ActivityBase {
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(PaymentHistoryOutgoingFragment.newInstance(), getResources().getString(R.string.date_time));
-        adapter.addFragment(PaymentHistoryEarnedFragment.newInstance(), getResources().getString(R.string.details));
+        adapter.addFragment(PaymentPaidFragment.newInstance(), getResources().getString(R.string.date_time));
+        adapter.addFragment(PaymentEarnedFragment.newInstance(), getResources().getString(R.string.details));
         viewPager.setAdapter(adapter);
     }
 }

@@ -24,15 +24,13 @@ import com.jobtick.models.TaskModel;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.SessionManager;
-import com.nimbusds.jose.Requirement;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class RequirementsBottomSheet extends BottomSheetDialogFragment {
 
     protected ProgressDialog pDialog;
-    private ImageView img, credit, map, calender, phone;
+    private ImageView profileBtn, bankAccountBtn, billingAddressBtn, birthDayBtn, phoneNumberBtn;
     private SessionManager sessionManager;
     private UserAccountModel userAccountModel;
     private BankAccountModel bankAccountModel;
@@ -77,51 +75,56 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
         userAccountModel = ((TaskDetailsActivity) getActivity()).userAccountModel;
         bankAccountModel = ((TaskDetailsActivity) getActivity()).bankAccountModel;
         billingAdreessModel = ((TaskDetailsActivity) getActivity()).billingAdreessModel;
-        img = view.findViewById(R.id.img_requirement);
-        credit = view.findViewById(R.id.credit_requirement);
-        map = view.findViewById(R.id.map_requirement);
-        calender = view.findViewById(R.id.calender_requirement);
-        phone = view.findViewById(R.id.phone_requirement);
-//        img.setOnClickListener(v -> {
-//            selectImageBtn();
-//        });
-//        credit.setOnClickListener(v -> {
-//            if (handleState() > 0) {
-//                selectCreditBtn();
-//            }
-//        });
-//        map.setOnClickListener(v -> {
-//            if (handleState() > 1) {
-//                selectMapBtn();
-//            }
-//        });
-//        calender.setOnClickListener(v -> {
-//            if (handleState() > 2) {
-//                selectCalenderBtn();
-//            }
-//        });
-//        phone.setOnClickListener(v -> {
-//            if (handleState() > 3) {
-//                selectPhoneBtn();
-//            }
-//        });
+        profileBtn = view.findViewById(R.id.img_requirement);
+        bankAccountBtn = view.findViewById(R.id.credit_requirement);
+        billingAddressBtn = view.findViewById(R.id.map_requirement);
+        birthDayBtn = view.findViewById(R.id.calender_requirement);
+        phoneNumberBtn = view.findViewById(R.id.phone_requirement);
 
 
+        initUi();
         changeFragment(0);
+    }
+
+    private void initUi(){
+        if(state.get(Requirement.Profile))
+            profileBtn.setVisibility(View.GONE);
+        else
+            profileBtn.setVisibility(View.VISIBLE);
+
+        if(state.get(Requirement.BankAccount))
+            bankAccountBtn.setVisibility(View.GONE);
+        else
+            bankAccountBtn.setVisibility(View.VISIBLE);
+
+        if(state.get(Requirement.BillingAddress))
+            billingAddressBtn.setVisibility(View.GONE);
+        else
+            billingAddressBtn.setVisibility(View.VISIBLE);
+
+        if(state.get(Requirement.BirthDate))
+            birthDayBtn.setVisibility(View.GONE);
+        else
+            birthDayBtn.setVisibility(View.VISIBLE);
+
+        if(state.get(Requirement.PhoneNumber))
+            phoneNumberBtn.setVisibility(View.GONE);
+        else
+            phoneNumberBtn.setVisibility(View.VISIBLE);
     }
 
 
     private void selectImageBtn() {
-        img.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
-        map.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        credit.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        calender.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        phone.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        img.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image_primary));
-        credit.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card));
-        calender.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar));
-        phone.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone));
-        map.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin));
+        profileBtn.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
+        billingAddressBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        bankAccountBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        birthDayBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        phoneNumberBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        profileBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image_primary));
+        bankAccountBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card_grey));
+        birthDayBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_grey));
+        phoneNumberBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone_grey));
+        billingAddressBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin_grey));
 
         ImageReqFragment fragment = ImageReqFragment.newInstance();
         getChildFragmentManager().
@@ -132,16 +135,16 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void selectCreditBtn() {
-        img.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        map.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        credit.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
-        calender.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        phone.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        img.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image));
-        credit.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card_primary));
-        calender.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar));
-        phone.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone));
-        map.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin));
+        profileBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        billingAddressBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        bankAccountBtn.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
+        birthDayBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        phoneNumberBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        profileBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image_cinereous));
+        bankAccountBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card_primary));
+        birthDayBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_grey));
+        phoneNumberBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone_grey));
+        billingAddressBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin_grey));
 
         CreditReqFragment fragment = CreditReqFragment.newInstance();
         getChildFragmentManager().
@@ -151,16 +154,16 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void selectMapBtn() {
-        img.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        map.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
-        credit.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        calender.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        phone.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        img.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image));
-        credit.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card));
-        calender.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar));
-        phone.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone));
-        map.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin_primary));
+        profileBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        billingAddressBtn.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
+        bankAccountBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        birthDayBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        phoneNumberBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        profileBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image_cinereous));
+        bankAccountBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card_cinereous));
+        birthDayBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_grey));
+        phoneNumberBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone_grey));
+        billingAddressBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin_primary));
 
 
         MapReqFragment fragment = MapReqFragment.newInstance();
@@ -171,16 +174,16 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void selectCalenderBtn() {
-        img.setBackground(ContextCompat.getDrawable(context, R.color.transparent));
-        map.setBackground(ContextCompat.getDrawable(context, R.color.transparent));
-        credit.setBackground(ContextCompat.getDrawable(context, R.color.transparent));
-        calender.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_white_shape));
-        phone.setBackground(ContextCompat.getDrawable(context, R.color.transparent));
-        img.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image));
-        credit.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card));
-        calender.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_primary));
-        phone.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone));
-        map.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin));
+        profileBtn.setBackground(ContextCompat.getDrawable(context, R.color.transparent));
+        billingAddressBtn.setBackground(ContextCompat.getDrawable(context, R.color.transparent));
+        bankAccountBtn.setBackground(ContextCompat.getDrawable(context, R.color.transparent));
+        birthDayBtn.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_white_shape));
+        phoneNumberBtn.setBackground(ContextCompat.getDrawable(context, R.color.transparent));
+        profileBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image_cinereous));
+        bankAccountBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card_cinereous));
+        birthDayBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_primary));
+        phoneNumberBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone_grey));
+        billingAddressBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin_cinereous));
 
         CalenderReqFragment fragment = CalenderReqFragment.newInstance();
         getChildFragmentManager().
@@ -191,16 +194,16 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
 
     private void selectPhoneBtn() {
 
-        img.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        map.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        credit.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        calender.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
-        phone.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
-        img.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image));
-        credit.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card));
-        calender.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar));
-        phone.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone_primary));
-        map.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin));
+        profileBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        billingAddressBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        bankAccountBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        birthDayBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
+        phoneNumberBtn.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
+        profileBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image_cinereous));
+        bankAccountBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card_cinereous));
+        birthDayBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_cinereous));
+        phoneNumberBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone_primary));
+        billingAddressBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin_cinereous));
 
         PhoneReqFragment fragment = PhoneReqFragment.newInstance();
         getChildFragmentManager().

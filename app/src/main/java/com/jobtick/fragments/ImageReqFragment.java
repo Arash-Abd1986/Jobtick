@@ -87,6 +87,8 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
     boolean isUploadPortfolio = false;
     private FrameLayout btmSheet;
 
+    private boolean canGoNext;
+
     public ImageReqFragment() {
     }
 
@@ -102,7 +104,12 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         mBehavior = BottomSheetBehavior.from(btmSheet);
         imgAvatar = view.findViewById(R.id.img_user_avatar);
         TextView btnNext = view.findViewById(R.id.txt_btn_nextI);
-        btnNext.setOnClickListener(v -> ((RequirementsBottomSheet) getParentFragment()).changeFragment(1));
+        btnNext.setOnClickListener(v -> {
+            if(canGoNext)
+                ((RequirementsBottomSheet) getParentFragment()).changeFragment(1);
+            else ((ActivityBase) getActivity()).showToast("Please wait to finish uploading.", getActivity());
+        });
+
         userAccountModel = ((TaskDetailsActivity) getActivity()).userAccountModel;
         setUpAvatar(userAccountModel);
     }
@@ -355,7 +362,8 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
                             }
                         }
                         //   adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
-                        ((ActivityBase) getActivity()).showToast("attachment added", getActivity());
+                        // ((ActivityBase) getActivity()).showToast("attachment added", getActivity());
+                        canGoNext = true;
                     } else {
                         ((ActivityBase) getActivity()).showToast("Something went wrong", getActivity());
                     }

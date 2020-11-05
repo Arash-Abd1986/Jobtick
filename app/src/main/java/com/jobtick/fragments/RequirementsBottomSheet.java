@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +24,10 @@ import com.jobtick.models.TaskModel;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.SessionManager;
+import com.nimbusds.jose.Requirement;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RequirementsBottomSheet extends BottomSheetDialogFragment {
 
@@ -34,15 +37,15 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
     private UserAccountModel userAccountModel;
     private BankAccountModel bankAccountModel;
     private BillingAdreessModel billingAdreessModel;
-    private int state = 0;
+    private HashMap<Requirement, Boolean> state;
     private Context context;
 
     public RequirementsBottomSheet() {
     }
 
-    public static RequirementsBottomSheet newInstance(int i) {
+    public static RequirementsBottomSheet newInstance(HashMap<Requirement, Boolean> state) {
         Bundle args = new Bundle();
-        args.putInt(Constant.STATE_STRIP, i);
+        args.putSerializable(Constant.STATE_STRIP, state);
         RequirementsBottomSheet fragment = new RequirementsBottomSheet();
         fragment.setArguments(args);
         return fragment;
@@ -69,7 +72,7 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
         }
         context = getContext();
         if (getArguments() != null) {
-            state = getArguments().getInt(Constant.STATE_STRIP);
+            state = (HashMap<Requirement, Boolean>) getArguments().getSerializable(Constant.STATE_STRIP);
         }
         userAccountModel = ((TaskDetailsActivity) getActivity()).userAccountModel;
         bankAccountModel = ((TaskDetailsActivity) getActivity()).bankAccountModel;
@@ -79,53 +82,34 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
         map = view.findViewById(R.id.map_requirement);
         calender = view.findViewById(R.id.calender_requirement);
         phone = view.findViewById(R.id.phone_requirement);
-        img.setOnClickListener(v -> {
-            selectImageBtn();
-        });
-        credit.setOnClickListener(v -> {
-            if (handleState() > 0) {
-                selectCreditBtn();
-            }
-        });
-        map.setOnClickListener(v -> {
-            if (handleState() > 1) {
-                selectMapBtn();
-            }
-        });
-        calender.setOnClickListener(v -> {
-            if (handleState() > 2) {
-                selectCalenderBtn();
-            }
-        });
-        phone.setOnClickListener(v -> {
-            if (handleState() > 3) {
-                selectPhoneBtn();
-            }
-        });
+//        img.setOnClickListener(v -> {
+//            selectImageBtn();
+//        });
+//        credit.setOnClickListener(v -> {
+//            if (handleState() > 0) {
+//                selectCreditBtn();
+//            }
+//        });
+//        map.setOnClickListener(v -> {
+//            if (handleState() > 1) {
+//                selectMapBtn();
+//            }
+//        });
+//        calender.setOnClickListener(v -> {
+//            if (handleState() > 2) {
+//                selectCalenderBtn();
+//            }
+//        });
+//        phone.setOnClickListener(v -> {
+//            if (handleState() > 3) {
+//                selectPhoneBtn();
+//            }
+//        });
 
 
-        changeFragment(state);
+        changeFragment(0);
     }
 
-    private int handleState() {
-        if (userAccountModel != null) {
-            if (userAccountModel.getAvatar() == null || userAccountModel.getAvatar().getUrl().equals("")) {
-                return 0;
-            } else if (bankAccountModel == null || bankAccountModel.getData() == null || bankAccountModel.getData().getAccount_name().equals("") || bankAccountModel.getData().getAccount_number().equals("")) {
-                return 1;
-            } else if (billingAdreessModel == null || billingAdreessModel.getData() == null || billingAdreessModel.getData().getLocation().equals("") || billingAdreessModel.getData().getPost_code().equals("")) {
-                return 2;
-            } else if (userAccountModel.getDob() == null || userAccountModel.getDob().equals("")) {
-                return 3;
-            } else if (userAccountModel.getMobile().equals("") || userAccountModel.getMobileVerifiedAt().equals("")) {
-                return 4;
-            } else {
-                return 5;
-            }
-        } else {
-            return 0;
-        }
-    }
 
     private void selectImageBtn() {
         img.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_white_shape));
@@ -228,19 +212,44 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
     public void changeFragment(int key) {
         switch (key) {
             case 0:
-                selectImageBtn();
+                if(!state.get(Requirement.Profile))
+                    selectImageBtn();
+                else {
+                    key++;
+                    changeFragment(key);
+                }
                 break;
             case 1:
-                selectCreditBtn();
+                if(!state.get(Requirement.BankAccount))
+                    selectCreditBtn();
+                else{
+                    key++;
+                    changeFragment(key);
+                }
                 break;
             case 2:
-                selectMapBtn();
+                if(!state.get(Requirement.BillingAddress))
+                    selectMapBtn();
+                else{
+                    key++;
+                    changeFragment(key);
+                }
                 break;
             case 3:
-                selectCalenderBtn();
+                if(!state.get(Requirement.BirthDate))
+                    selectCalenderBtn();
+                else{
+                    key++;
+                    changeFragment(key);
+                }
                 break;
             case 4:
-                selectPhoneBtn();
+                if(!state.get(Requirement.PhoneNumber))
+                    selectPhoneBtn();
+                else{
+                    key++;
+                    changeFragment(key);
+                }
                 break;
             case 5:
                 TaskModel taskModel = ((TaskDetailsActivity) getActivity()).taskModel;
@@ -257,5 +266,13 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
                 }
                 break;
         }
+    }
+
+    public enum Requirement{
+        Profile,
+        BankAccount,
+        BillingAddress,
+        BirthDate,
+        PhoneNumber
     }
 }

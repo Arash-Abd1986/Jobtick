@@ -178,26 +178,7 @@ public class AddCreditCardActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.edt_expiry_date:
-               /* Calendar calendar = Calendar.getInstance();
-                year = calendar.get(Calendar.YEAR);
-                month = calendar.get(Calendar.MONTH);
-                day = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog dialog = new DatePickerDialog(
-                        this,
-                        android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-                        mDateSetListener,
-                        year, month, day) {
-                    @Override
-                    protected void onCreate(Bundle savedInstanceState) {
-                        super.onCreate(savedInstanceState);
-                        getDatePicker().findViewById(getResources().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
-                    }
-                };
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();*/
-
                 displayDialog();
-
                 break;
             case R.id.lyt_btn_add_credit_card:
                 if(validation()){

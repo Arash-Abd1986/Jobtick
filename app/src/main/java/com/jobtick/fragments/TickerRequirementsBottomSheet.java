@@ -43,7 +43,7 @@ public class TickerRequirementsBottomSheet extends BottomSheetDialogFragment {
 
     public static TickerRequirementsBottomSheet newInstance(HashMap<Requirement, Boolean> state) {
         Bundle args = new Bundle();
-        args.putSerializable(Constant.STATE_STRIP, state);
+        args.putSerializable(Constant.STATE_STRIPE_TICKER, state);
         TickerRequirementsBottomSheet fragment = new TickerRequirementsBottomSheet();
         fragment.setArguments(args);
         return fragment;
@@ -70,7 +70,7 @@ public class TickerRequirementsBottomSheet extends BottomSheetDialogFragment {
         }
         context = getContext();
         if (getArguments() != null) {
-            state = (HashMap<Requirement, Boolean>) getArguments().getSerializable(Constant.STATE_STRIP);
+            state = (HashMap<Requirement, Boolean>) getArguments().getSerializable(Constant.STATE_STRIPE_TICKER);
         }
         userAccountModel = ((TaskDetailsActivity) getActivity()).userAccountModel;
         bankAccountModel = ((TaskDetailsActivity) getActivity()).bankAccountModel;
@@ -146,7 +146,7 @@ public class TickerRequirementsBottomSheet extends BottomSheetDialogFragment {
         phoneNumberBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone_grey));
         billingAddressBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin_grey));
 
-        CreditReqFragment fragment = CreditReqFragment.newInstance();
+        AddBankAccountReqFragment fragment = AddBankAccountReqFragment.newInstance();
         getChildFragmentManager().
                 beginTransaction().
                 replace(R.id.requirements_layout, fragment).

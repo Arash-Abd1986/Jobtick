@@ -183,7 +183,7 @@
                         android:layout_marginTop="@dimen/payment_entry_box_title_margin_top"
                         android:drawableEnd="@drawable/ic_info_sign"
                         android:drawablePadding="@dimen/spacing_large"
-                        android:text="@string/ccv"
+                        android:text="@string/cvc"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_13sp" />
 

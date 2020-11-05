@@ -1375,7 +1375,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private void setAttachmentAndSlider() {
         Log.e("Attachment", taskModel.getAttachments().size() + "");
         adapterImageSlider = new AdapterImageSlider(this, new ArrayList<>());
-
         if (taskModel.getAttachments() == null || taskModel.getAttachments().size() == 0) {
             AttachmentModel attachment = new AttachmentModel();
             if (taskModel.getTaskType().equalsIgnoreCase(ConstantKey.PHYSICAL)) {

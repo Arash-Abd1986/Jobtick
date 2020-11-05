@@ -64,7 +64,7 @@ import com.jobtick.cancellations.CancellationPosterActivity;
 import com.jobtick.cancellations.CancellationRequestActivity;
 import com.jobtick.cancellations.CancellationRequestSubmittedActivity;
 import com.jobtick.cancellations.CancellationWorkerActivity;
-import com.jobtick.fragments.RequirementsBottomSheet;
+import com.jobtick.fragments.TickerRequirementsBottomSheet;
 import com.jobtick.incrementbudget.IncreaseBudgetFromPosterActivity;
 import com.jobtick.incrementbudget.IncreaseBudgetRequestToPosterActivity;
 import com.jobtick.incrementbudget.IncrementBudgetRequestViewActivity;
@@ -111,7 +111,7 @@ import retrofit2.Callback;
 import timber.log.Timber;
 
 import static com.jobtick.activities.SavedTaskActivity.onRemoveSavedtasklistener;
-import static com.jobtick.fragments.RequirementsBottomSheet.*;
+import static com.jobtick.fragments.TickerRequirementsBottomSheet.*;
 import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
 import static com.jobtick.utils.Constant.ADD_BILLING;
 import static com.jobtick.utils.Constant.BASE_URL;
@@ -1559,8 +1559,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 showRequirementDialog();
                             }
                         } else {
-                            RequirementsBottomSheet requirementsBottomSheet = RequirementsBottomSheet.newInstance(requirementState);
-                            requirementsBottomSheet.show(getSupportFragmentManager(), "");
+                            TickerRequirementsBottomSheet tickerRequirementsBottomSheet = TickerRequirementsBottomSheet.newInstance(requirementState);
+                            tickerRequirementsBottomSheet.show(getSupportFragmentManager(), "");
                         }
                         break;
                     case ConstantKey.BTN_OFFER_PENDING:

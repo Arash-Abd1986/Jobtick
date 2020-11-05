@@ -312,6 +312,10 @@ public class PaymentOverviewActivity extends ActivityBase {
         }
     }
 
+    private void handleCreditCardRequirement(){
+
+    }
+
     private void payAcceptOffer() {
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_TASKS + "/" + taskModel.getSlug() + "/accept-offer",

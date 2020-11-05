@@ -10,47 +10,20 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
-import com.jobtick.activities.BillingAddressActivity;
-import com.jobtick.activities.PaymentSettingsActivity;
 import com.jobtick.activities.TaskDetailsActivity;
-import com.jobtick.models.BankAccountModel;
 import com.jobtick.models.BillingAdreessModel;
-import com.jobtick.payment.AddBankAccountImpl;
 import com.jobtick.payment.AddBillingAddress;
 import com.jobtick.payment.AddBillingAddressImpl;
-import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import timber.log.Timber;
-
-import static com.jobtick.activities.PaymentSettingsActivity.onBankaccountadded;
-import static com.jobtick.utils.Constant.ADD_BILLING;
-import static com.jobtick.utils.Constant.BASE_URL;
 
 
 public class MapReqFragment extends Fragment {
@@ -141,7 +114,7 @@ public class MapReqFragment extends Fragment {
     }
 
     private void goNext(){
-        ((RequirementsBottomSheet) getParentFragment()).changeFragment(3);
+        ((TickerRequirementsBottomSheet) getParentFragment()).changeFragment(3);
     }
 
     private void addBillingAddress() {

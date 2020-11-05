@@ -514,7 +514,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_gravity="center_vertical"
                         android:singleLine="true"
-                        android:text="Add Coupon"
+                        android:text="Add Credit Card"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_14sp" />
 

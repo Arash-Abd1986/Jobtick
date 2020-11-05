@@ -27,7 +27,7 @@ import com.jobtick.utils.SessionManager;
 
 import java.util.HashMap;
 
-public class RequirementsBottomSheet extends BottomSheetDialogFragment {
+public class TickerRequirementsBottomSheet extends BottomSheetDialogFragment {
 
     protected ProgressDialog pDialog;
     private ImageView profileBtn, bankAccountBtn, billingAddressBtn, birthDayBtn, phoneNumberBtn;
@@ -38,13 +38,13 @@ public class RequirementsBottomSheet extends BottomSheetDialogFragment {
     private HashMap<Requirement, Boolean> state;
     private Context context;
 
-    public RequirementsBottomSheet() {
+    public TickerRequirementsBottomSheet() {
     }
 
-    public static RequirementsBottomSheet newInstance(HashMap<Requirement, Boolean> state) {
+    public static TickerRequirementsBottomSheet newInstance(HashMap<Requirement, Boolean> state) {
         Bundle args = new Bundle();
         args.putSerializable(Constant.STATE_STRIP, state);
-        RequirementsBottomSheet fragment = new RequirementsBottomSheet();
+        TickerRequirementsBottomSheet fragment = new TickerRequirementsBottomSheet();
         fragment.setArguments(args);
         return fragment;
     }

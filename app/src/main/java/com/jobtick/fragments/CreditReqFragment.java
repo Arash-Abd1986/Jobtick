@@ -107,7 +107,7 @@ public class CreditReqFragment extends Fragment {
     }
 
     private void goNext(){
-        ((RequirementsBottomSheet) getParentFragment()).changeFragment(2);
+        ((TickerRequirementsBottomSheet) getParentFragment()).changeFragment(2);
     }
 
 

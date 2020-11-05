@@ -3,9 +3,7 @@ package com.jobtick.fragments;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,7 +28,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
-import com.jobtick.activities.EditProfileActivity;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.AttachmentAdapterEditProfile;
@@ -55,7 +52,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -106,7 +102,7 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         TextView btnNext = view.findViewById(R.id.txt_btn_nextI);
         btnNext.setOnClickListener(v -> {
             if(canGoNext)
-                ((RequirementsBottomSheet) getParentFragment()).changeFragment(1);
+                ((TickerRequirementsBottomSheet) getParentFragment()).changeFragment(1);
             else ((ActivityBase) getActivity()).showToast("Please wait to finish uploading.", getActivity());
         });
 

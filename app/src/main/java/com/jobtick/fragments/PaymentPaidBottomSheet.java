@@ -63,10 +63,8 @@ private PaymentHistory paymentHistory;
         String part1 = parts[0];
         String part2 = parts[1];
         date.setText(part1);
-        //TODO time is not ok
-       // time.setText(part2.split(".")[0]);
-        //TODO name not
-       // name.setText(paymentHistory.get);
+        time.setText(part2.split("\\.")[0]);
+        name.setText(paymentHistory.getTask().getWorker().getName());
         status.setText(paymentHistory.getStatus());
 
     }

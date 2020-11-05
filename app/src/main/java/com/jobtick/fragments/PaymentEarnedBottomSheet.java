@@ -56,8 +56,12 @@ public class PaymentEarnedBottomSheet extends BottomSheetDialogFragment {
         amount.setText("$ " + paymentHistory.getAmount());
         fee.setText("$ " + paymentHistory.getPlatformFee());
         gst.setText("$ " + paymentHistory.getTaxRate());
-        date.setText(paymentHistory.getCreatedAt());
-        time.setText(paymentHistory.getCreatedAt());
+        String times = paymentHistory.getCreatedAt();
+        String[] parts = times.split("T");
+        String part1 = parts[0];
+        String part2 = parts[1];
+        date.setText(part1);
+        time.setText(part2.split("\\.")[0]);
         status.setText(paymentHistory.getStatus());
     }
 

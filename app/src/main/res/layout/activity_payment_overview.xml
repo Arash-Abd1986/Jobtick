@@ -11,19 +11,19 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
+        style="@style/materialToolBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/backgroundLightGrey"
         app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="@drawable/ic_back"
-        app:title="Payment Overview"
-        style="@style/materialToolBar"/>
+        app:title="Payment Overview" />
 
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/card_pay"
+        android:layout_above="@+id/btn_pay"
         android:layout_below="@+id/toolbar"
         android:overScrollMode="never">
 
@@ -59,12 +59,13 @@
                         android:layout_width="@dimen/spacing_large"
                         android:layout_height="match_parent" />
 
-                    <com.jobtick.TextView.TextViewRegular
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Your payment will be securely held until you’re happy the task has been completed."
-                        android:textColor="@color/grey_40"
-                        android:textSize="@dimen/_12sp" />
+                        android:lineHeight="17dp"
+                        android:text="Your payment will be secured till gotting your job done."
+                        android:textAppearance="@style/materialText_400_12"
+                        android:textColor="@color/textColor" />
 
                 </LinearLayout>
 
@@ -92,8 +93,8 @@
                         android:id="@+id/img_avatar"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/pic"
-                        android:maxHeight="@dimen/_60dp"/>
+                        android:maxHeight="@dimen/_60dp"
+                        android:src="@drawable/pic" />
 
 
                     <ImageView
@@ -121,22 +122,22 @@
                     android:orientation="vertical">
 
 
-                    <com.jobtick.TextView.TextViewBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_user_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Julie Grantt"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_16sp"
-                        android:textStyle="bold" />
+                        android:textAppearance="@style/materialText_600_16"
+                        android:textColor="@color/textColor" />
 
-                    <com.jobtick.TextView.TextViewRegular
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_post_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="9dp"
                         android:singleLine="true"
                         android:text="Clean my two bedroom apartment"
-                        android:textSize="@dimen/_12sp" />
+                        android:textColor="@color/grey_70" />
 
 
                 </LinearLayout>
@@ -154,12 +155,13 @@
                 android:orientation="vertical"
                 android:padding="@dimen/spacing_large">
 
-                <com.jobtick.TextView.TextViewBold
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Summary"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_13sp" />
+                    android:textAppearance="@style/materialText_600_14"
+                    android:textColor="@color/colorPrimary" />
+
 
                 <View
                     android:layout_width="match_parent"
@@ -175,25 +177,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <com.jobtick.TextView.TextViewMedium
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:singleLine="true"
                             android:text="@string/job_cost"
-                            android:textColor="@color/textColor"
-                            android:textSize="@dimen/_16sp" />
+                            android:textAppearance="@style/materialText_400_14"
+                            android:textColor="@color/textColor" />
 
 
-                        <com.jobtick.TextView.TextViewBold
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_task_cost"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:text="$ 175"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_16sp"
-                            android:textStyle="bold" />
+                            android:textAppearance="@style/materialText_600_16"
+                            android:textColor="@color/colorPrimary" />
 
 
                     </RelativeLayout>
@@ -206,25 +207,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <com.jobtick.TextView.TextViewMedium
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:singleLine="true"
                             android:text="Service Fee"
-                            android:textColor="@color/textColor"
-                            android:textSize="@dimen/_16sp" />
+                            android:textAppearance="@style/materialText_400_14"
+                            android:textColor="@color/textColor" />
 
 
-                        <com.jobtick.TextView.TextViewBold
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_service_fee"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:text="$ 25"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_16sp"
-                            android:textStyle="bold" />
+                            android:textAppearance="@style/materialText_600_16"
+                            android:textColor="@color/colorPrimary" />
 
 
                     </RelativeLayout>
@@ -238,26 +238,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <com.jobtick.TextView.TextViewBold
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:singleLine="true"
                             android:text="Total Cost"
-                            android:textColor="@color/textColor"
-                            android:textSize="@dimen/_16sp"
-                            android:textStyle="bold" />
+                            android:textAppearance="@style/materialText_600_14"
+                            android:textColor="@color/textColor" />
 
 
-                        <com.jobtick.TextView.TextViewBold
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_total_cost"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:text="$ 200"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="20dp"
-                            android:textStyle="bold" />
+                            android:textAppearance="@style/materialText_500_20"
+                            android:textColor="@color/colorPrimary" />
 
 
                     </RelativeLayout>
@@ -273,12 +271,12 @@
                     android:orientation="vertical"
                     android:visibility="visible">
 
-                    <com.jobtick.TextView.TextViewBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Payment Method"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_13sp" />
+                        android:textAppearance="@style/materialText_600_14"
+                        android:textColor="@color/colorPrimary" />
 
                     <View
                         android:layout_width="match_parent"
@@ -309,7 +307,7 @@
                             android:layout_toEndOf="@id/img_brand"
                             android:orientation="vertical">
 
-                            <com.jobtick.TextView.TextViewBold
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_account_number"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -319,7 +317,7 @@
                                 android:textSize="@dimen/_16sp"
                                 android:textStyle="bold" />
 
-                            <com.jobtick.TextView.TextViewMedium
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_expires_date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -334,13 +332,13 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_new"
+                            style="@style/materialButton.outlined"
                             android:layout_width="70dp"
                             android:layout_height="30dp"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:layout_margin="@dimen/spacing_line"
-                            style="@style/materialButton.outlined"
-                            android:text="New"/>
+                            android:text="New" />
 
 
                     </RelativeLayout>
@@ -364,15 +362,15 @@
                         android:layout_width="@dimen/spacing_large"
                         android:layout_height="match_parent" />
 
-                    <com.jobtick.TextView.TextViewMedium
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_gravity="center_vertical"
                         android:singleLine="true"
                         android:text="Add Credit Card"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_14sp" />
+                        android:textAppearance="@style/materialText_500_14"
+                        android:textColor="@color/colorPrimary" />
 
 
                 </LinearLayout>
@@ -385,11 +383,11 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_pay"
+        style="@style/materialButton"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        style="@style/materialButton"
-        android:text="Pay"
+        android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/spacing_large"
-        android:layout_alignParentBottom="true"/>
+        android:text="Pay" />
 
 </RelativeLayout>

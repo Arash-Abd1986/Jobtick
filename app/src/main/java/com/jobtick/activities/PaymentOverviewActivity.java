@@ -7,9 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import androidx.cardview.widget.CardView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -21,10 +18,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewMedium;
-import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.fragments.PosterRequirementsBottomSheet;
 import com.jobtick.models.OfferModel;
 import com.jobtick.models.TaskModel;
@@ -57,21 +52,21 @@ public class PaymentOverviewActivity extends ActivityBase {
     @BindView(R.id.img_verified)
     ImageView imgVerified;
     @BindView(R.id.txt_user_name)
-    TextViewBold txtUserName;
+    MaterialTextView txtUserName;
     @BindView(R.id.txt_post_title)
-    TextViewRegular txtPostTitle;
+    MaterialTextView txtPostTitle;
     @BindView(R.id.txt_task_cost)
-    TextViewBold txtTaskCost;
+    MaterialTextView txtTaskCost;
     @BindView(R.id.txt_service_fee)
-    TextViewBold txtServiceFee;
+    MaterialTextView txtServiceFee;
     @BindView(R.id.txt_total_cost)
-    TextViewBold txtTotalCost;
+    MaterialTextView txtTotalCost;
     @BindView(R.id.img_brand)
     ImageView imgBrand;
     @BindView(R.id.txt_account_number)
-    TextViewBold txtAccountNumber;
+    MaterialTextView txtAccountNumber;
     @BindView(R.id.txt_expires_date)
-    TextViewMedium txtExpiresDate;
+    MaterialTextView txtExpiresDate;
     @BindView(R.id.btn_new)
     MaterialButton btnNew;
 

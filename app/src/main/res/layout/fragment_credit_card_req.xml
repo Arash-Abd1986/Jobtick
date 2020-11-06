@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.jobtick.TextView.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -47,7 +47,7 @@
                     android:layout_marginBottom="@dimen/spacing_middle"
                     android:orientation="vertical">
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/full_name"
@@ -85,7 +85,7 @@
                     android:layout_marginBottom="@dimen/spacing_middle"
                     android:orientation="vertical">
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/card_number"
@@ -123,14 +123,14 @@
                     android:layout_marginBottom="@dimen/spacing_middle"
                     android:orientation="vertical">
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/expiry_date"
                         android:textColor="@color/colorPrimary"
                         android:textSize="12sp" />
 
-                    <com.jobtick.TextView.TextViewMedium
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/edt_expiry_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
                         android:drawableTint="@color/colorPrimary"
                         android:gravity="center_vertical"
                         android:hint="March, 2024"
-                        android:textSize="@dimen/_14sp" />
+                        android:textAppearance="@style/materialText_400_14"/>
 
                 </LinearLayout>
             </FrameLayout>
@@ -164,12 +164,12 @@
                     android:layout_marginBottom="@dimen/spacing_middle"
                     android:orientation="vertical">
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/cvc"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="12sp" />
+                        android:textAppearance="@style/materialText_500_14"/>
 
                     <com.jobtick.EditText.EditTextMedium
                         android:id="@+id/edt_security_number"
@@ -186,7 +186,7 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.jobtick.TextView.TextViewMedium
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_btn_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

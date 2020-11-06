@@ -33,7 +33,7 @@ public class PaymentEarnedBottomSheet extends BottomSheetDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialogStyle);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.bottomSheetDialogStyle);
     }
 
     @Override

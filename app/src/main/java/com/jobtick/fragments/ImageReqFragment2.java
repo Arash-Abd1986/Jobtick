@@ -89,7 +89,7 @@ class ImageReqFragment2 extends Fragment{
         imgAvatar = view.findViewById(R.id.img_user_avatar);
         TextView btnNext = view.findViewById(R.id.txt_btn_nextI);
         btnNext.setOnClickListener(v -> (
-                (RequirementsBottomSheet) getParentFragment()).changeFragment(1)
+                (TickerRequirementsBottomSheet) getParentFragment()).changeFragment(1)
 
         );
         userAccountModel = ((TaskDetailsActivity) getActivity()).userAccountModel;

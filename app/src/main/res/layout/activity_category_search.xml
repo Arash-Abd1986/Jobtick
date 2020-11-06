@@ -92,7 +92,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/lyt_search_new"
-                    style="@style/materialButton.medium.outlined"
+                    style="@style/materialButton.outlined"
                     android:layout_width="245dp"
                     android:layout_height="46dp"
                     android:layout_marginTop="@dimen/spacing_large"
@@ -107,7 +107,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/lyt_categories"
-                    style="@style/materialButton.medium"
+                    style="@style/materialButton"
                     android:layout_width="245dp"
                     android:layout_height="46dp"
                     android:layout_marginTop="@dimen/_16sp"

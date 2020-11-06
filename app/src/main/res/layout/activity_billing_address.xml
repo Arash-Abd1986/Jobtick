@@ -239,7 +239,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/lyt_btn_change_billing_address"
-        style="@style/materialButton.medium"
+        style="@style/materialButton"
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:layout_alignParentBottom="true"

@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -25,8 +23,6 @@ import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.UserAccountModel;
-import com.jobtick.payment.AddBankAccountImpl;
-import com.jobtick.utils.Constant;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.Tools;
@@ -40,7 +36,6 @@ import java.util.Map;
 
 import timber.log.Timber;
 
-import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
 import static com.jobtick.utils.Constant.BASE_URL;
 import static com.jobtick.utils.Constant.PROFILE_INFO;
 
@@ -199,6 +194,6 @@ public class CalenderReqFragment extends Fragment {
     }
 
     private void goNext() {
-        ((RequirementsBottomSheet) getParentFragment()).changeFragment(4);
+        ((TickerRequirementsBottomSheet) getParentFragment()).changeFragment(4);
     }
 }

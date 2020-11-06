@@ -51,7 +51,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="16dp"
             android:id="@+id/lyt_btn_sign_up"
-            style="@style/materialButton.medium"
+            style="@style/materialButton"
             android:text="@string/sign_up"
             android:textColor="@color/white"
             />
@@ -61,7 +61,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="16dp"
             android:id="@+id/lyt_btn_sign_in"
-            style="@style/materialButton.medium.outlined"
+            style="@style/materialButton.outlined"
             android:text="@string/log_in"
             android:textColor="@color/blueButtons"
             app:strokeColor="@color/blueButtons"

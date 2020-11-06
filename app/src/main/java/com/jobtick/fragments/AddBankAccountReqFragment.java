@@ -22,7 +22,7 @@ import com.jobtick.utils.SessionManager;
 
 import java.util.Objects;
 
-public class CreditReqFragment extends Fragment {
+public class AddBankAccountReqFragment extends Fragment {
 
     private TextView btnNext;
     private EditTextMedium edtAccountName;
@@ -32,11 +32,11 @@ public class CreditReqFragment extends Fragment {
 
     private AddBankAccount addBankAccount;
 
-    public CreditReqFragment() {
+    public AddBankAccountReqFragment() {
     }
 
-    public static CreditReqFragment newInstance() {
-        return new CreditReqFragment();
+    public static AddBankAccountReqFragment newInstance() {
+        return new AddBankAccountReqFragment();
     }
 
     @Override
@@ -95,7 +95,7 @@ public class CreditReqFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_credit_req, container, false);
+        return inflater.inflate(R.layout.fragment_add_bank_account_req, container, false);
     }
 
     private void addBankAccountDetails() {
@@ -107,7 +107,7 @@ public class CreditReqFragment extends Fragment {
     }
 
     private void goNext(){
-        ((RequirementsBottomSheet) getParentFragment()).changeFragment(2);
+        ((TickerRequirementsBottomSheet) getParentFragment()).changeFragment(2);
     }
 
 

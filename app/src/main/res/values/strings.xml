@@ -297,7 +297,7 @@
     <string name="full_name">Full Name</string>
     <string name="card_number">Card Number</string>
     <string name="expiry_date">Expiry Date</string>
-    <string name="ccv">CCV</string>
+    <string name="cvc">CVC</string>
     <string name="address_line_1">Address Line 1</string>
     <string name="address_line_2_optional">Address Line 2 (Optional)</string>
     <string name="explore">Explore</string>

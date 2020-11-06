@@ -183,7 +183,7 @@
                         android:layout_marginTop="@dimen/payment_entry_box_title_margin_top"
                         android:drawableEnd="@drawable/ic_info_sign"
                         android:drawablePadding="@dimen/spacing_large"
-                        android:text="@string/ccv"
+                        android:text="@string/cvc"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_13sp" />
 
@@ -210,7 +210,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/lyt_btn_add_credit_card"
-        style="@style/materialButton.medium"
+        style="@style/materialButton"
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:layout_alignParentBottom="true"

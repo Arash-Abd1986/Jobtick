@@ -3,7 +3,6 @@ package com.jobtick.fragments;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -100,7 +99,7 @@ public class PhoneReqFragment extends Fragment {
     }
 
     private void goNext(){
-        ((RequirementsBottomSheet) getParentFragment()).changeFragment(5);
+        ((TickerRequirementsBottomSheet) getParentFragment()).changeFragment(5);
     }
 
 

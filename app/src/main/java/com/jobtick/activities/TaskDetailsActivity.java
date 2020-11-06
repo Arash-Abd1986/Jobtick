@@ -10,7 +10,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -65,7 +64,7 @@ import com.jobtick.cancellations.CancellationPosterActivity;
 import com.jobtick.cancellations.CancellationRequestActivity;
 import com.jobtick.cancellations.CancellationRequestSubmittedActivity;
 import com.jobtick.cancellations.CancellationWorkerActivity;
-import com.jobtick.fragments.RequirementsBottomSheet;
+import com.jobtick.fragments.TickerRequirementsBottomSheet;
 import com.jobtick.incrementbudget.IncreaseBudgetFromPosterActivity;
 import com.jobtick.incrementbudget.IncreaseBudgetRequestToPosterActivity;
 import com.jobtick.incrementbudget.IncrementBudgetRequestViewActivity;
@@ -112,6 +111,7 @@ import retrofit2.Callback;
 import timber.log.Timber;
 
 import static com.jobtick.activities.SavedTaskActivity.onRemoveSavedtasklistener;
+import static com.jobtick.fragments.TickerRequirementsBottomSheet.*;
 import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
 import static com.jobtick.utils.Constant.ADD_BILLING;
 import static com.jobtick.utils.Constant.BASE_URL;
@@ -300,6 +300,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     private BottomSheetDialog mBottomSheetDialog;
     private BottomSheetBehavior mBehavior;
+
+    private final HashMap<Requirement, Boolean> requirementState = new HashMap<>();
 
 
     @Override
@@ -1375,6 +1377,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private void setAttachmentAndSlider() {
         Log.e("Attachment", taskModel.getAttachments().size() + "");
         adapterImageSlider = new AdapterImageSlider(this, new ArrayList<>());
+
         if (taskModel.getAttachments() == null || taskModel.getAttachments().size() == 0) {
             AttachmentModel attachment = new AttachmentModel();
             if (taskModel.getTaskType().equalsIgnoreCase(ConstantKey.PHYSICAL)) {
@@ -1543,8 +1546,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         showCustomDialogReleaseMoney("Are you sure all work is done, and release to money?");
                         break;
                     case ConstantKey.BTN_MAKE_AN_OFFER:
-                        int key = handleRequirementStrip();
-                        if (key == 5) {
+                        if (!needRequirementSheet()) {
                             if (taskModel.getMusthave().size() == 0) {
                                 intent = new Intent(TaskDetailsActivity.this, MakeAnOfferActivity.class);
                                 bundle = new Bundle();
@@ -1557,9 +1559,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 showRequirementDialog();
                             }
                         } else {
-
-                            RequirementsBottomSheet requirementsBottomSheet = RequirementsBottomSheet.newInstance(key);
-                            requirementsBottomSheet.show(getSupportFragmentManager(), "");
+                            TickerRequirementsBottomSheet tickerRequirementsBottomSheet = TickerRequirementsBottomSheet.newInstance(requirementState);
+                            tickerRequirementsBottomSheet.show(getSupportFragmentManager(), "");
                         }
                         break;
                     case ConstantKey.BTN_OFFER_PENDING:
@@ -1625,26 +1626,37 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
-    private int handleRequirementStrip() {
-        int key = 0;
-        if (userAccountModel != null) {
-            if (userAccountModel.getAvatar() == null || userAccountModel.getAvatar().getUrl().equals("")) {
-                key = 0;
-            } else if (bankAccountModel == null || bankAccountModel.getData() == null || bankAccountModel.getData().getAccount_name().equals("") || bankAccountModel.getData().getAccount_number().equals("")) {
-                key = 1;
-            } else if (billingAdreessModel == null || billingAdreessModel.getData() == null || billingAdreessModel.getData().getPost_code().equals("")) {
-                key = 2;
-            } else if (userAccountModel.getDob() == null || userAccountModel.getDob().equals("")) {
-                key = 3;
-            } else if (userAccountModel.getMobile() == null || userAccountModel.getMobile().equals("") || userAccountModel.getMobileVerifiedAt().equals("")) {
-                key = 4;
-            } else {
-                key = 5;
-            }
-        } else {
-            key = 0;
+    private void handleState() {
+        requirementState.put(Requirement.Profile, false);
+        requirementState.put(Requirement.BankAccount, false);
+        requirementState.put(Requirement.BillingAddress, false);
+        requirementState.put(Requirement.BirthDate, false);
+        requirementState.put(Requirement.PhoneNumber, false);
+
+        if (userAccountModel != null && userAccountModel.getAvatar() != null && !userAccountModel.getAvatar().getUrl().equals("")) {
+            requirementState.put(Requirement.Profile, true);
         }
-        return key;
+        if (bankAccountModel != null && bankAccountModel.getData() != null && !bankAccountModel.getData().getAccount_name().equals("") && !bankAccountModel.getData().getAccount_number().equals("")) {
+            requirementState.put(Requirement.BankAccount, true);
+        }
+        if (billingAdreessModel != null && billingAdreessModel.getData() != null && !billingAdreessModel.getData().getPost_code().equals("")) {
+            requirementState.put(Requirement.BillingAddress, true);
+        }
+        if (userAccountModel != null && userAccountModel.getDob() != null && !userAccountModel.getDob().equals("")) {
+            requirementState.put(Requirement.BirthDate, true);
+        }
+        if (userAccountModel != null && !userAccountModel.getMobile().equals("") && !userAccountModel.getMobileVerifiedAt().equals("")) {
+            requirementState.put(Requirement.PhoneNumber, true);
+        }
+    }
+
+    private boolean needRequirementSheet(){
+        handleState();
+         return !(requirementState.get(Requirement.Profile) &&
+                requirementState.get(Requirement.BankAccount) &&
+                requirementState.get(Requirement.BillingAddress) &&
+                 requirementState.get(Requirement.BirthDate) &&
+                 requirementState.get(Requirement.PhoneNumber));
     }
 
     private void showCustomDialogAskToReleaseMoney(String message) {

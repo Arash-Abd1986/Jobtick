@@ -20,7 +20,8 @@ public class Constant {
     public static final String FILTER_IN_PERSON = "IN PERSON";
     public static final String FILTER_IN_PERSON_QUERY = "physical";
     public static final String FILTER = "Filter";
-    public static final String STATE_STRIP = "STATE_STRIP";
+    public static final String STATE_STRIPE_TICKER = "STATE_STRIPE_TICKER";
+    public static final String STATE_STRIPE_POSTER = "STATE_STRIPE_POSTER";
 
 
     public static final String TASK_CANCELLED = "cancelled";

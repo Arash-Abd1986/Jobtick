@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/credit_frame"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".fragments.AddBankAccountReqFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.jobtick.TextView.TextViewMedium
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacing_mlarge"
+                android:gravity="center_horizontal"
+                android:text="@string/add_credit_card"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_14sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@drawable/greay_border_bg"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_middle"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:orientation="vertical">
+
+                    <com.jobtick.TextView.TextViewSemiBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/full_name"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp" />
+
+                    <com.jobtick.EditText.EditTextMedium
+                        android:id="@+id/edt_full_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@drawable/greay_border_bg"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_middle"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:orientation="vertical">
+
+                    <com.jobtick.TextView.TextViewSemiBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/card_number"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp" />
+
+                    <com.jobtick.EditText.EditTextMedium
+                        android:id="@+id/edt_card_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@drawable/greay_border_bg"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_middle"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:orientation="vertical">
+
+                    <com.jobtick.TextView.TextViewSemiBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/expiry_date"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp" />
+
+                    <com.jobtick.TextView.TextViewMedium
+                        android:id="@+id/edt_expiry_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/payment_entry_box_spacing_middle"
+                        android:background="@null"
+                        android:drawableEnd="@drawable/calendar"
+                        android:drawableTint="@color/colorPrimary"
+                        android:gravity="center_vertical"
+                        android:hint="March, 2024"
+                        android:textSize="@dimen/_14sp" />
+
+                </LinearLayout>
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@drawable/greay_border_bg"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_middle"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:orientation="vertical">
+
+                    <com.jobtick.TextView.TextViewSemiBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cvc"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp" />
+
+                    <com.jobtick.EditText.EditTextMedium
+                        android:id="@+id/edt_security_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.jobtick.TextView.TextViewMedium
+        android:id="@+id/txt_btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/form"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:padding="@dimen/spacing_large"
+        android:text="Add credit card"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+</RelativeLayout>

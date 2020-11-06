@@ -11,6 +11,7 @@ import com.jobtick.R;
 import com.jobtick.interfaces.PaymentOnClick;
 import com.jobtick.models.payments.PaymentHistory;
 import com.jobtick.utils.ImageUtil;
+import com.jobtick.utils.StringUtils;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
@@ -66,17 +67,17 @@ public class PaymentHistoryListAdapter extends RecyclerView.Adapter<PaymentHisto
             holder.nameTxt.setText(temp.getTask().getWorker().getName());
 
             if (temp.getTask().getWorker().getAvatar() != null) {
-                ImageUtil.displayImage(holder.ivAvatar, temp.getTask().getWorker().getAvatar(), null);
+                ImageUtil.displayImage(holder.ivAvatar, temp.getTask().getWorker().getAvatar().getUrl(), null);
             }
         } else {
             holder.nameTxt.setText(temp.getTask().getPoster().getName());
 
             if (temp.getTask().getPoster().getAvatar() != null) {
-                ImageUtil.displayImage(holder.ivAvatar, temp.getTask().getPoster().getAvatar(), null);
+                ImageUtil.displayImage(holder.ivAvatar, temp.getTask().getPoster().getAvatar().getUrl(), null);
             }
         }
 
-        holder.priceTxt.setText("$ " + temp.getAmount());
+        holder.priceTxt.setText(StringUtils.getPriceTxt(temp.getAmount()));
         if (temp.getType().equals("debit")) {
             holder.debitedTxt.setVisibility(View.VISIBLE);
         } else {

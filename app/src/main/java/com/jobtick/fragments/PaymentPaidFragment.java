@@ -25,10 +25,10 @@ import com.google.gson.reflect.TypeToken;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.adapers.PaymentHistoryListAdapter;
-import com.jobtick.interfaces.PaymentOnClick;
 import com.jobtick.models.payments.PaymentHistory;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.utils.StringUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,7 +82,6 @@ public class PaymentPaidFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_payment_history_outgoing, container, false);
         ButterKnife.bind(this, view);
         return view;
-
     }
 
     public void getPoster() {
@@ -138,12 +137,11 @@ public class PaymentPaidFragment extends Fragment {
             lottieAnimationView.setVisibility(View.GONE);
             container.setVisibility(View.VISIBLE);
         }
-        totalPayment.setText(total_amount);
+        totalPayment.setText(StringUtils.getPriceTxt(total_amount));
         totalTransaction.setText(data.size() + " transactions");
         paymentHistoryList.setLayoutManager(new LinearLayoutManager(getContext()));
         paymentHistoryList.setAdapter(new PaymentHistoryListAdapter(data, true, paymentHistory -> {
-            System.out.println(paymentHistory.getAmount());
-            PaymentPaidBottomSheet paymentPaidBottomSheet = new PaymentPaidBottomSheet(paymentHistory);
+            PaymentHistoryBottomSheet paymentPaidBottomSheet = PaymentHistoryBottomSheet.newInstance(paymentHistory);
             paymentPaidBottomSheet.show(getParentFragmentManager(), "");
 
         }));

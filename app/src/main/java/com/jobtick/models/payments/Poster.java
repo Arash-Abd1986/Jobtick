@@ -2,6 +2,7 @@ package com.jobtick.models.payments;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.jobtick.models.AttachmentModel;
 
 public class Poster {
     @SerializedName("id")
@@ -15,7 +16,7 @@ public class Poster {
     private String name;
     @SerializedName("avatar")
     @Expose
-    private String avatar;
+    private AttachmentModel avatar;
     @SerializedName("is_verified_account")
     @Expose
     private Integer isVerifiedAccount;
@@ -65,11 +66,11 @@ public class Poster {
         this.name = name;
     }
 
-    public String getAvatar() {
+    public AttachmentModel getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(AttachmentModel avatar) {
         this.avatar = avatar;
     }
 

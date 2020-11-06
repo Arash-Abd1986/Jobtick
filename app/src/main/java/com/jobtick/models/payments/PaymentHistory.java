@@ -1,11 +1,15 @@
 package com.jobtick.models.payments;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PaymentHistory {
+public class PaymentHistory implements Serializable {
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -149,6 +153,5 @@ public class PaymentHistory {
     public void setTask(Task task) {
         this.task = task;
     }
-
 
 }

@@ -147,9 +147,8 @@ public class PaymentEarnedFragment extends Fragment {
         paymentHistoryList.setAdapter(new PaymentHistoryListAdapter(data, true, new PaymentOnClick() {
             @Override
             public void onClick(PaymentHistory paymentHistory) {
-                System.out.println(paymentHistory.getAmount());
-                PaymentEarnedBottomSheet paymentEarnedBottomSheet = new  PaymentEarnedBottomSheet(paymentHistory);
-                paymentEarnedBottomSheet.show(getParentFragmentManager(), "");
+                PaymentHistoryBottomSheet paymentPaidBottomSheet = PaymentHistoryBottomSheet.newInstance(paymentHistory);
+                paymentPaidBottomSheet.show(getParentFragmentManager(), "");
             }
         }));
 

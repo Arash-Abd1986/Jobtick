@@ -357,14 +357,10 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
             case R.id.nav_dashboard:
                 Intent dashboard = new Intent(DashboardActivity.this, Dashboard2Activity.class);
                 startActivity(dashboard);
-
                 return true;
-
 
             case R.id.nav_payment:
                 startActivity(new Intent(DashboardActivity.this, PaymentHistoryActivity.class));
-                Toast.makeText(this, "payment", Toast.LENGTH_SHORT).show();
-
                 return true;
 
             case R.id.nav_saved_tasks:
@@ -376,18 +372,12 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
             case R.id.nav_notifications:
                 Intent intent = new Intent(DashboardActivity.this, NotificationActivity.class);
                 startActivity(intent);
-                Toast.makeText(this, "notifications", Toast.LENGTH_SHORT).show();
-
-
                 return true;
 
             case R.id.nav_task_alerts:
                 Intent task_alerts = new Intent(DashboardActivity.this, TaskAlertsActivity.class);
                 startActivity(task_alerts);
-                //  Toast.makeText(this, "task alerts", Toast.LENGTH_SHORT).show();
-
                 return true;
-
 
             case R.id.nav_refer_a_friend:
                 Toast.makeText(this, "refer a friend", Toast.LENGTH_SHORT).show();

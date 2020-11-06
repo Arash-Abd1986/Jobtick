@@ -16,7 +16,8 @@
         android:background="@color/backgroundLightGrey"
         app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="@drawable/ic_back"
-        app:title="Payment Overview" />
+        app:title="Payment Overview"
+        style="@style/materialToolBar"/>
 
 
     <androidx.core.widget.NestedScrollView
@@ -255,7 +256,7 @@
                             android:layout_alignParentEnd="true"
                             android:text="$ 200"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_20sp"
+                            android:textSize="20dp"
                             android:textStyle="bold" />
 
 

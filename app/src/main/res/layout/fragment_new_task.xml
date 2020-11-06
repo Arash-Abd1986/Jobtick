@@ -181,7 +181,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/lty_btn_post"
-        style="@style/materialButton._400"
+        style="@style/materialButton"
         android:layout_width="174dp"
         android:layout_height="56dp"
         android:layout_above="@id/gifImageView"

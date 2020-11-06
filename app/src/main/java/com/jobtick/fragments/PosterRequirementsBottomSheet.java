@@ -1,7 +1,5 @@
 package com.jobtick.fragments;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,18 +7,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.jobtick.R;
-import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.activities.PaymentOverviewActivity;
-import com.jobtick.activities.TaskDetailsActivity;
-import com.jobtick.models.CreditCardModel;
-import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
-import com.jobtick.utils.SessionManager;
 
 import java.util.HashMap;
 
@@ -42,7 +34,7 @@ public class PosterRequirementsBottomSheet extends BottomSheetDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialogStyle);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.bottomSheetDialogStyle);
     }
 
     @Override

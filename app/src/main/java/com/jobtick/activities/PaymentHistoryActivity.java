@@ -53,7 +53,6 @@ public class PaymentHistoryActivity extends ActivityBase {
 
         @Override
         public void onPageScrollStateChanged(int arg0) {
-
         }
     };
 

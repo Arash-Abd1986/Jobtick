@@ -48,7 +48,7 @@ public class AddBankAccountReqFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sessionManager = new SessionManager(getContext());
-        btnNext = view.findViewById(R.id.txt_btn_next);
+        btnNext = view.findViewById(R.id.btn_add_card);
         btnNext.setOnClickListener(v -> {
             if (validate()) {
                 addBankAccountDetails();

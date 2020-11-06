@@ -59,7 +59,7 @@ public class MapReqFragment extends Fragment {
         edtState = view.findViewById(R.id.edt_state);
         edtPostcode = view.findViewById(R.id.edt_postcode);
         edtCountry = view.findViewById(R.id.edt_Country);
-        btnNext = view.findViewById(R.id.txt_btn_next);
+        btnNext = view.findViewById(R.id.btn_add_card);
         btnNext.setOnClickListener(v -> {
             if (!validation()) return;
             addBillingAddress();

@@ -68,7 +68,7 @@ public class CalenderReqFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sessionManager = new SessionManager(getContext());
-        btnNext = view.findViewById(R.id.txt_btn_next);
+        btnNext = view.findViewById(R.id.btn_add_card);
 
         txtBirthDate = view.findViewById(R.id.txt_birth_date);
         txtBirthDate.setOnClickListener(v -> {

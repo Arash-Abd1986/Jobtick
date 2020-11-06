@@ -1,7 +1,8 @@
 package com.jobtick.fragments;
 
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +16,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.NetworkResponse;
-import com.jobtick.EditText.EditTextRegular;
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.ActivityBase;
-import com.jobtick.activities.AddCreditCardActivity;
 import com.jobtick.payment.AddCreditCard;
 import com.jobtick.payment.AddCreditCardImpl;
 import com.jobtick.utils.SessionManager;
@@ -29,10 +28,10 @@ import java.util.Calendar;
 
 import butterknife.BindView;
 
-public class CreditCardReqFragment extends Fragment {
+public class CreditCardReqFragment extends Fragment implements TextWatcher {
 
-    @BindView(R.id.txt_btn_next)
-    TextView btnNext;
+    @BindView(R.id.btn_add_card)
+    MaterialButton btnAddCard;
 
     EditText edtFullName;
     EditText edtCardNumber;
@@ -61,8 +60,8 @@ public class CreditCardReqFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sessionManager = new SessionManager(getContext());
-        btnNext = view.findViewById(R.id.txt_btn_next);
-        btnNext.setOnClickListener(v -> {
+        btnAddCard = view.findViewById(R.id.btn_add_card);
+        btnAddCard.setOnClickListener(v -> {
             if(validation()){
                 ((ActivityBase) getActivity()).showProgressDialog();
                 addCreditCard.getToken(edtCardNumber.getText().toString(),
@@ -76,6 +75,11 @@ public class CreditCardReqFragment extends Fragment {
         edtCardNumber = view.findViewById(R.id.edt_card_number);
         edtExpiryDate = view.findViewById(R.id.edt_expiry_date);
         edtSecurityNumber = view.findViewById(R.id.edt_security_number);
+
+        edtFullName.addTextChangedListener(this);
+        edtCardNumber.addTextChangedListener(this);
+        edtSecurityNumber.addTextChangedListener(this);
+        edtExpiryDate.addTextChangedListener(this);
 
         edtExpiryDate.setOnClickListener(v -> {
             displayDialog();
@@ -107,7 +111,7 @@ public class CreditCardReqFragment extends Fragment {
                 ((ActivityBase) getActivity()).hideProgressDialog();
             }
         };
-
+        btnAddCard.setEnabled(false);
     }
 
     @Override
@@ -137,11 +141,6 @@ public class CreditCardReqFragment extends Fragment {
 
         builder.setActivatedMonth(today.get(Calendar.MONTH))
                 .setTitle("Select month and year ")
-                // .setMaxMonth(Calendar.OCTOBER)
-                // .setYearRange(1890, 1890)
-                // .setMonthAndYearRange(Calendar.FEBRUARY, Calendar.OCTOBER, 1890, 1890)
-                //.showMonthOnly()
-                // .showYearOnly()
                 .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
                     @Override
                     public void onMonthChanged(int selectedMonth) {
@@ -181,5 +180,24 @@ public class CreditCardReqFragment extends Fragment {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        boolean btnEnabled = edtCardNumber.getText().length() == 16 &&
+                edtFullName.getText().length() > 0 &&
+                edtSecurityNumber.getText().length() > 0 &&
+                edtExpiryDate.getText().length() > 0;
+            btnAddCard.setEnabled(btnEnabled);
     }
 }

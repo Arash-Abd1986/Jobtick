@@ -146,7 +146,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.jobtick.TextView.TextViewMedium
-        android:id="@+id/txt_btn_next"
+        android:id="@+id/btn_add_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

@@ -49,8 +49,6 @@ public class PaymentOverviewActivity extends ActivityBase {
     MaterialToolbar toolbar;
     @BindView(R.id.img_avatar)
     CircularImageView imgAvatar;
-    @BindView(R.id.img_verified)
-    ImageView imgVerified;
     @BindView(R.id.txt_user_name)
     MaterialTextView txtUserName;
     @BindView(R.id.txt_post_title)
@@ -98,20 +96,27 @@ public class PaymentOverviewActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_overview);
         ButterKnife.bind(this);
+        initToolbar();
         userAccountModel = sessionManager.getUserAccount();
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
         offerModel = new OfferModel();
         taskModel = TaskDetailsActivity.taskModel;
         offerModel = TaskDetailsActivity.offerModel;
 
         setUpData();
         getPaymentMethod();
+    }
+
+    private void initToolbar() {
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Payment Overview");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void setUpData() {
@@ -122,11 +127,6 @@ public class PaymentOverviewActivity extends ActivityBase {
         final_total_cost = (final_task_cost + final_service_fee) - final_discount_amount;
         finalCalculation();
 
-        if (taskModel.getPoster().getEmailVerifiedAt() != null) {
-            imgVerified.setVisibility(View.VISIBLE);
-        } else {
-            imgVerified.setVisibility(View.GONE);
-        }
         if (taskModel.getPoster().getAvatar() != null && taskModel.getPoster().getAvatar().getThumbUrl() != null) {
             ImageUtil.displayImage(imgAvatar, taskModel.getPoster().getAvatar().getThumbUrl(), null);
         } else {
@@ -282,7 +282,7 @@ public class PaymentOverviewActivity extends ActivityBase {
 
                                                 intent = new Intent(PaymentOverviewActivity.this, CompleteMessageActivity.class);
                                                 bundle = new Bundle();
-                                                bundle.putString(ConstantKey.COMPLETES_MESSAGE_TITLE, "Offer Accept Successfully");
+                                                bundle.putString(ConstantKey.COMPLETES_MESSAGE_TITLE, "Your payment is secured, and you will be requested to release it after completion!");
                                                 bundle.putString(ConstantKey.COMPLETES_MESSAGE_SUBTITLE, "Wait for an answer or continue looking for more tasks!");
                                                 intent.putExtras(bundle);
                                                 startActivity(intent);
@@ -344,22 +344,6 @@ public class PaymentOverviewActivity extends ActivityBase {
         Log.e(TAG, stringRequest.getUrl());
     }
 
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == ConstantKey.RESULTCODE_COUPON) {
-//            if (data != null) {
-//                Bundle bundle = data.getExtras();
-//                if (bundle != null) {
-//                    final_discount_amount = bundle.getFloat(ConstantKey.DISCOUNT_AMOUNT);
-//                    discountCoupon = bundle.getString(ConstantKey.DISCOUNT_COUPON);
-//
-//                    finalCalculation();
-//                }
-//            }
-//        }
-//    }
 
     private void finalCalculation() {
         final_total_cost = final_task_cost + final_service_fee;

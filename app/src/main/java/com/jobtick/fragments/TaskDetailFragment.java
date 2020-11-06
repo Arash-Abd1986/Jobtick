@@ -93,6 +93,7 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
  * A simple {@link Fragment} subclass.
  */
 public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItemClickListener, AttachmentAdapter1.OnItemClickListener {
+
     @BindView(R.id.lyt_btn_details)
     LinearLayout lytBtnDetails;
     @BindView(R.id.lyt_bnt_date_time)

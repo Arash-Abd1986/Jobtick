@@ -98,6 +98,8 @@ public class Constant {
     public static final String URL_LIST_USER_TASK = BASE_URL + "tasks";
     public static final String URL_GET_SINGLE_TASK = BASE_URL + "tasks";
     public static final String URL_GET_ACCOUNT = BASE_URL + "account";
+    public static final String URL_GET_PAYMENT_HISTORY_POSTER = BASE_URL + "payments/list?poster_payment_filter[]";
+    public static final String URL_GET_PAYMENT_HISTORY_WORKER = BASE_URL + "payments/list?worker_payment_filter[]";
 
     public static final String URL_CREATE_RESCHEDULE = "reschedule";
 

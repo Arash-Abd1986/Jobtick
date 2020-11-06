@@ -1,67 +1,41 @@
 package com.jobtick.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.TypedArray;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
-import com.jobtick.EditText.EditTextMedium;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.CategroyListActivity;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.SearchCategoryActivity;
-import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.adapers.TaskCategoryAdapter;
-import com.jobtick.models.TaskCategory;
 import com.jobtick.models.TaskModel;
-import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.SessionManager;
-import com.jobtick.widget.ExtendedButton;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import bolts.Task;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.jobtick.utils.Tools.compareTwoDate;
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class NewTaskFragment extends Fragment {
-
 
     @BindView(R.id.edt_search_categories)
     TextViewRegular edtSearchCategories;
-
     @BindView(R.id.lty_btn_post)
     MaterialButton lytBtnPost;
     @BindView(R.id.txt_btn_category)

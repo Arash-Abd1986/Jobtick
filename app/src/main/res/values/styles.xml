@@ -280,6 +280,19 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="materialTextBody2B" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/poppins_semi_bold</item>
+        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="materialTextBody1B" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/poppins_semi_bold</item>
+        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
     <style name="materialTextCap" parent="TextAppearance.MaterialComponents.Caption">
         <item name="fontFamily">@font/poppins_reg</item>
         <item name="android:fontFamily">@font/poppins_reg</item>

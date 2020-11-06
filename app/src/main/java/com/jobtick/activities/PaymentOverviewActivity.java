@@ -41,6 +41,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -148,7 +149,7 @@ public class PaymentOverviewActivity extends ActivityBase {
         return (final_task_cost * taskModel.getPoster().getPosterTier().getServiceFee()) / 100;
     }
 
-    private void getPaymentMethod() {
+    public void getPaymentMethod() {
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PAYMENTS_METHOD,
                 response -> {
@@ -188,8 +189,8 @@ public class PaymentOverviewActivity extends ActivityBase {
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            if (jsonObject_error.has("error_text") && !jsonObject_error.isNull("error_text")) {
-                                if (ConstantKey.NO_PAYMENT_METHOD.equalsIgnoreCase(jsonObject_error.getString("error_text"))) {
+                            if (jsonObject_error.has("error_code") && !jsonObject_error.isNull("error_code")) {
+                                if (Objects.equals(ConstantKey.NO_PAYMENT_METHOD, jsonObject_error.getString("error_code"))) {
                                     setUpAddPaymentLayout();
                                 }
                             }
@@ -227,10 +228,10 @@ public class PaymentOverviewActivity extends ActivityBase {
     private void setUpLayout(PaymentMethodModel paymentMethodModel) {
         lytBtnPay.setEnabled(true);
         cardPay.setAlpha(1.0f);
-        rltPaymentMethod.setVisibility(View.VISIBLE);
         lytAddCreditCard.setVisibility(View.GONE);
         txtAccountNumber.setText("**** **** **** " + paymentMethodModel.getLast4());
         txtExpiresDate.setText("Expires " + paymentMethodModel.getExpMonth() + "/" + paymentMethodModel.getExpYear());
+        rltPaymentMethod.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.lyt_add_credit_card, R.id.txt_btn_update, R.id.lyt_btn_pay, R.id.card_view_user})
@@ -240,6 +241,7 @@ public class PaymentOverviewActivity extends ActivityBase {
                 payAcceptOffer();
                 break;
             case R.id.txt_btn_update:
+                showCreditCardRequirementBottomSheet();
                 setUpAddPaymentLayout();
                 break;
             case R.id.lyt_add_credit_card:

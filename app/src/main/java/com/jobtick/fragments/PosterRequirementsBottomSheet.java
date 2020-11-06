@@ -15,6 +15,7 @@ import androidx.fragment.app.DialogFragment;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.jobtick.R;
 import com.jobtick.activities.MakeAnOfferActivity;
+import com.jobtick.activities.PaymentOverviewActivity;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.CreditCardModel;
 import com.jobtick.models.TaskModel;
@@ -25,10 +26,7 @@ import java.util.HashMap;
 
 public class PosterRequirementsBottomSheet extends BottomSheetDialogFragment {
 
-    private SessionManager sessionManager;
-    private CreditCardModel creditCardModel;
     private HashMap<Requirement, Boolean> state;
-    private Context context;
 
     public PosterRequirementsBottomSheet() {
     }
@@ -50,7 +48,6 @@ public class PosterRequirementsBottomSheet extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        sessionManager = new SessionManager(getContext());
         return inflater.inflate(R.layout.bottom_sheet_requirements_poster, container, false);
     }
 
@@ -60,13 +57,10 @@ public class PosterRequirementsBottomSheet extends BottomSheetDialogFragment {
         if (getActivity() == null) {
             return;
         }
-        context = getContext();
         if (getArguments() != null) {
             state = (HashMap<Requirement, Boolean>) getArguments().getSerializable(Constant.STATE_STRIPE_POSTER);
         }
 
-        //TODO: get creditCard
-       // creditCardModel = ((TaskDetailsActivity) getActivity()).creditcard;
 
 
         initUi();
@@ -116,18 +110,8 @@ public class PosterRequirementsBottomSheet extends BottomSheetDialogFragment {
                 break;
 
             case 1:
-                TaskModel taskModel = ((TaskDetailsActivity) getActivity()).taskModel;
-                if (taskModel.getMusthave().size() == 0) {
-                    Intent intent = new Intent(getContext(), MakeAnOfferActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("id", taskModel.getId());
-                    bundle.putInt("budget", taskModel.getBudget());
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-
-                } else {
-                    ((TaskDetailsActivity) getActivity()).showRequirementDialog();
-                }
+                ((PaymentOverviewActivity)requireActivity()).getPaymentMethod();
+                dismiss();
                 break;
         }
     }

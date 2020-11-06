@@ -126,7 +126,7 @@
                     <com.jobtick.TextView.TextViewSemiBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/cvc"
+                        android:text="@string/expiry_date"
                         android:textColor="@color/colorPrimary"
                         android:textSize="12sp" />
 

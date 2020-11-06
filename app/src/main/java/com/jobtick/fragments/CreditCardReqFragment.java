@@ -81,13 +81,6 @@ public class CreditCardReqFragment extends Fragment {
             displayDialog();
         });
 
-//        CreditCardModel creditCardModel = ((TaskDetailsActivity) getActivity()).creditCardModel;
-//        if (creditCardModel != null && creditCardModel.getData() != null) {
-//            edtFullName.setText(creditCardModel.getData().getCard().getExp_year());
-//            edtBsb.setText(creditCardModel.getData().getBsb_code());
-//            edtAccountNumber.setText("xxxxx" + creditCardModel.getData().getAccount_number());
-//        }
-
 
         addCreditCard = new AddCreditCardImpl(requireContext(), sessionManager) {
             @Override
@@ -124,7 +117,7 @@ public class CreditCardReqFragment extends Fragment {
     }
 
     private void goNext() {
-        ((TickerRequirementsBottomSheet) getParentFragment()).changeFragment(1);
+        ((PosterRequirementsBottomSheet) getParentFragment()).changeFragment(1);
     }
 
 

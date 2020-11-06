@@ -7,9 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import androidx.cardview.widget.CardView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -20,12 +17,10 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewMedium;
-import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.fragments.PosterRequirementsBottomSheet;
-import com.jobtick.fragments.TickerRequirementsBottomSheet;
 import com.jobtick.models.OfferModel;
 import com.jobtick.models.TaskModel;
 import com.jobtick.models.UserAccountModel;
@@ -34,7 +29,6 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.ImageUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.stripe.android.view.CardMultilineWidget;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,33 +52,29 @@ public class PaymentOverviewActivity extends ActivityBase {
     @BindView(R.id.img_verified)
     ImageView imgVerified;
     @BindView(R.id.txt_user_name)
-    TextViewBold txtUserName;
+    MaterialTextView txtUserName;
     @BindView(R.id.txt_post_title)
-    TextViewRegular txtPostTitle;
+    MaterialTextView txtPostTitle;
     @BindView(R.id.txt_task_cost)
-    TextViewBold txtTaskCost;
+    MaterialTextView txtTaskCost;
     @BindView(R.id.txt_service_fee)
-    TextViewBold txtServiceFee;
+    MaterialTextView txtServiceFee;
     @BindView(R.id.txt_total_cost)
-    TextViewBold txtTotalCost;
+    MaterialTextView txtTotalCost;
     @BindView(R.id.img_brand)
     ImageView imgBrand;
     @BindView(R.id.txt_account_number)
-    TextViewBold txtAccountNumber;
+    MaterialTextView txtAccountNumber;
     @BindView(R.id.txt_expires_date)
-    TextViewMedium txtExpiresDate;
-    @BindView(R.id.txt_btn_update)
-    TextView txtBtnUpdate;
-    @BindView(R.id.card_update)
-    CardView cardUpdate;
+    MaterialTextView txtExpiresDate;
+    @BindView(R.id.btn_new)
+    MaterialButton btnNew;
+
     @BindView(R.id.rlt_payment_method)
     RelativeLayout rltPaymentMethod;
 
-
-    @BindView(R.id.lyt_btn_pay)
-    LinearLayout lytBtnPay;
-    @BindView(R.id.card_pay)
-    CardView cardPay;
+    @BindView(R.id.btn_pay)
+    MaterialButton btnPay;
 
     @BindView(R.id.lyt_add_credit_card)
     LinearLayout lytAddCreditCard;
@@ -219,28 +209,28 @@ public class PaymentOverviewActivity extends ActivityBase {
     }
 
     private void setUpAddPaymentLayout() {
-        lytBtnPay.setEnabled(false);
-        cardPay.setAlpha(0.5f);
+        btnPay.setEnabled(false);
+        btnPay.setAlpha(0.5f);
         rltPaymentMethod.setVisibility(View.GONE);
         lytAddCreditCard.setVisibility(View.VISIBLE);
     }
 
     private void setUpLayout(PaymentMethodModel paymentMethodModel) {
-        lytBtnPay.setEnabled(true);
-        cardPay.setAlpha(1.0f);
+        btnPay.setEnabled(true);
+        btnPay.setAlpha(1.0f);
         lytAddCreditCard.setVisibility(View.GONE);
         txtAccountNumber.setText("**** **** **** " + paymentMethodModel.getLast4());
         txtExpiresDate.setText("Expires " + paymentMethodModel.getExpMonth() + "/" + paymentMethodModel.getExpYear());
         rltPaymentMethod.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.lyt_add_credit_card, R.id.txt_btn_update, R.id.lyt_btn_pay, R.id.card_view_user})
+    @OnClick({R.id.lyt_add_credit_card, R.id.btn_new, R.id.btn_pay, R.id.card_view_user})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.lyt_btn_pay:
+            case R.id.btn_pay:
                 payAcceptOffer();
                 break;
-            case R.id.txt_btn_update:
+            case R.id.btn_new:
                 showCreditCardRequirementBottomSheet();
                 setUpAddPaymentLayout();
                 break;

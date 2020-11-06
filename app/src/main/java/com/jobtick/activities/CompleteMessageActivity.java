@@ -129,7 +129,7 @@ public class CompleteMessageActivity extends AppCompatActivity {
                 break;
             case R.id.lyt_btn_new_job:
 
-                Intent creating_task = new Intent(CompleteMessageActivity.this, CategroyListActivity.class);
+                Intent creating_task = new Intent(CompleteMessageActivity.this, CategoryListActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("category", "");
                 creating_task.putExtras(bundle);

@@ -31,7 +31,7 @@ public class PaymentHistoryBottomSheet extends BottomSheetDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialogStyle);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.bottomSheetDialogStyle);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             paymentHistory = (PaymentHistory) bundle.getSerializable("paymentHistoryKEY");

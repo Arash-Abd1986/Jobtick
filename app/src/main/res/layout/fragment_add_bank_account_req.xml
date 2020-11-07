@@ -145,19 +145,14 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.jobtick.TextView.TextViewMedium
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_add_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_margin="15dp"
-        android:background="@drawable/shape_tab_primary_60"
-        android:gravity="center"
-        android:padding="@dimen/spacing_large"
-        android:text="Next"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="14sp"
+        style="@style/materialButton"
+        android:text="@string/next"
+        android:enabled="false"
         android:layout_below="@+id/form"/>
 
 </RelativeLayout>

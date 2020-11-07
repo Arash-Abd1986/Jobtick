@@ -19,6 +19,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.TaskDetailsActivity;
@@ -42,7 +43,7 @@ import static com.jobtick.utils.Constant.PROFILE_INFO;
 public class CalenderReqFragment extends Fragment {
 
     private UserAccountModel userAccountModel;
-    TextView btnNext;
+    MaterialButton btnNext;
     SessionManager sessionManager;
 
     int year, month, day;
@@ -86,7 +87,6 @@ public class CalenderReqFragment extends Fragment {
         });
 
         btnNext.setOnClickListener(v -> {
-            System.out.println("btnNext Clicked");
             updateBirthDate();
         });
 
@@ -95,6 +95,7 @@ public class CalenderReqFragment extends Fragment {
             str_DOB_MODEL = year + "-" + month + "-" + dayOfMonth;
             str_DOB = Tools.getDayMonthDateTimeFormat2(year + "-" + month + "-" + dayOfMonth);
             txtBirthDate.setText(str_DOB);
+            btnNext.setEnabled(true);
         };
 
         UserAccountModel userAccountModel = ((TaskDetailsActivity) getActivity()).userAccountModel;

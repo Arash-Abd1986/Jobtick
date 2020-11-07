@@ -74,19 +74,14 @@
                 </RelativeLayout>
             </FrameLayout>
 
-            <com.jobtick.TextView.TextViewMedium
-                android:id="@+id/txt_btn_nextI"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_next"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_margin="15dp"
-                android:background="@drawable/shape_tab_primary_60"
-                android:gravity="center"
-                android:padding="@dimen/spacing_large"
-                android:text="Next"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+                style="@style/materialButton"
+                android:text="@string/next"
+                android:enabled="false"/>
         </LinearLayout>
 
         <FrameLayout

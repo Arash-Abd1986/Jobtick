@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
@@ -82,8 +83,7 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
     private BottomSheetDialog mBottomSheetDialog;
     boolean isUploadPortfolio = false;
     private FrameLayout btmSheet;
-
-    private boolean canGoNext;
+    MaterialButton btnNext;
 
     public ImageReqFragment() {
     }
@@ -99,11 +99,9 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
         btmSheet = view.findViewById(R.id.bottom_sheet);
         mBehavior = BottomSheetBehavior.from(btmSheet);
         imgAvatar = view.findViewById(R.id.img_user_avatar);
-        TextView btnNext = view.findViewById(R.id.txt_btn_nextI);
+        btnNext = view.findViewById(R.id.btn_next);
         btnNext.setOnClickListener(v -> {
-            if(canGoNext)
-                ((TickerRequirementsBottomSheet) getParentFragment()).changeFragment(1);
-            else ((ActivityBase) getActivity()).showToast("Please wait to finish uploading.", getActivity());
+            ((TickerRequirementsBottomSheet) getParentFragment()).changeFragment(1);
         });
 
         userAccountModel = ((TaskDetailsActivity) getActivity()).userAccountModel;
@@ -359,7 +357,7 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
                         }
                         //   adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
                         // ((ActivityBase) getActivity()).showToast("attachment added", getActivity());
-                        canGoNext = true;
+                        btnNext.setEnabled(true);
                     } else {
                         ((ActivityBase) getActivity()).showToast("Something went wrong", getActivity());
                     }

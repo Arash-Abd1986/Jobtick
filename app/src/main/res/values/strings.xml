@@ -157,11 +157,10 @@
     <string name="reason_poster_3">User isn’t responding to my messages</string>
     <string name="reason_poster_4">User doesn’t wish to do the task</string>
     <string name="reason_poster_5">Due date is over</string>
-    <string name="reason_worker_1">I’m not able to complete this task</string>
-    <string name="reason_worker_2">I accidently made an offer on user’s task</string>
-    <string name="reason_worker_3">The scope of this task is different from what was initially described</string>
-    <string name="reason_worker_4">User isn’t responding or was absent when I arrived to complete the task</string>
-    <string name="reason_worker_5">User doesn’t wish to procede with the task</string>
+    <string name="reason_worker_1">Poster isn’t responding or present when I arrive to complete the job.</string>
+    <string name="reason_worker_2">Poster requested additional work which wasn’t in the scope of the orginal order</string>
+    <string name="reason_worker_3">Poster isn’t interested to have the job completed anymore</string>
+    <string name="reason_worker_4">I am not able to do the job</string>
     <string name="increase_budget">Increase Budget</string>
 
     <string-array name="array_name">
@@ -313,6 +312,8 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_payment_s">PaymentSActivity</string>
     <string name="paid">Paid</string>
+    <string name="select_one_reason_for_your_request">Select one reason for your request</string>
+    <string name="comments_optional">Comments (Optional)</string>
 
 
 </resources>

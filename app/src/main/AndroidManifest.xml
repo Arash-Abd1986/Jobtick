@@ -56,8 +56,8 @@
         <activity android:name=".cancellations.CancellationDeclineActivity" />
         <activity android:name=".cancellations.CancellationAcceptedActivity" />
         <activity android:name=".cancellations.CancellationRequestSubmittedActivity" />
-        <activity android:name=".cancellations.CancellationWorkerActivity" />
-        <activity android:name=".cancellations.CancellationPosterActivity" />
+        <activity android:name=".cancellations.CancellationWorkerActivity" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".cancellations.CancellationPosterActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".cancellations.CancellationDeclinedActivity" />
         <activity android:name=".cancellations.CancellationSubmitedActivity" />
         <activity android:name=".activities.LeaveReviewActivity" />

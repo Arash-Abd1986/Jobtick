@@ -5,17 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background"
+    android:background="@color/backgroundLightGrey"
     tools:context=".cancellations.CancellationSubmitedActivity">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_cancel"
-        app:title="Cancellation"
-        android:background="@color/background"
-        app:contentInsetStartWithNavigation="0dp"/>
+    <include layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,15 +27,14 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/spacing_xlarge"/>
 
-        <com.jobtick.TextView.TextViewBold
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cancellation Submited Succesfully"
-            android:textSize="14sp"
             android:gravity="center"
-            android:textStyle="bold"
-            android:textColor="@color/textColor"/>
+            android:textColor="@color/textColor"
+            style="@style/materialText_600_14"/>
 
 
 

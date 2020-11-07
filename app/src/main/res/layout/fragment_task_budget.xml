@@ -52,8 +52,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_info"
-                            android:tint="@color/textColor" />
+                            android:src="@drawable/ic_info"/>
 
                         <View
                             android:layout_width="match_parent"
@@ -89,8 +88,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/calendar"
-                            android:tint="@color/textColor" />
+                            android:src="@drawable/calendar"/>
 
                         <View
                             android:layout_width="match_parent"
@@ -125,8 +123,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_dollar_sign"
-                            android:tint="@color/colorPrimary" />
+                            android:src="@drawable/ic_dollar_sign"/>
 
                         <View
                             android:layout_width="match_parent"
@@ -235,6 +232,7 @@
                             android:layout_toStartOf="@id/img_btn_minus"
                             android:background="@null"
                             android:inputType="number"
+                            android:maxLength="3"
                             android:textColor="@color/textColor" />
 
                         <ImageView
@@ -303,16 +301,16 @@
                             android:textColor="@color/grey_40"
                             android:textSize="@dimen/_14sp" />
 
-                        <com.jobtick.EditText.EditTextRegular
+                        <com.jobtick.EditText.EditTextMedium
                             android:id="@+id/edt_budgetT"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_toEndOf="@+id/txt_doller_us_t"
+                            android:maxLength="7"
                             android:background="@null"
                             android:inputType="number"
-                            android:textColor="@color/textColor"
-                            android:textSize="@dimen/_14sp" />
+                            android:textColor="@color/textColor" />
 
                     </RelativeLayout>
 
@@ -356,7 +354,7 @@
                             android:textColor="@color/grey_40"
                             android:textSize="@dimen/_14sp" />
 
-                        <com.jobtick.EditText.EditTextRegular
+                        <com.jobtick.EditText.EditTextMedium
                             android:id="@+id/edt_budgetH"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -364,8 +362,8 @@
                             android:layout_toEndOf="@+id/txt_doller_us_h"
                             android:background="@null"
                             android:inputType="number"
-                            android:textColor="@color/textColor"
-                            android:textSize="@dimen/_14sp" />
+                            android:maxLength="7"
+                            android:textColor="@color/textColor" />
 
                     </RelativeLayout>
                 </LinearLayout>

@@ -620,7 +620,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                     if (addTagList.size() < 3) {
                         if (addTagList.size() == 2) {
                             lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disable));
-                            lytBtnNext.setEnabled(false);
+                            lytBtnNext.setEnabled(true);
                         } else {
                             lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
                             lytBtnNext.setEnabled(true);

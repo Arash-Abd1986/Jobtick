@@ -176,7 +176,6 @@ public class TaskBudgetFragment extends Fragment {
         });
     }
 
-
     private void edtText() {
         edtBudgetH.addTextChangedListener(new TextWatcher() {
             @Override

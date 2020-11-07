@@ -16,8 +16,6 @@ import android.widget.Toast;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.cardview.widget.CardView;
 import androidx.viewpager.widget.ViewPager;
-
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -55,7 +53,8 @@ import timber.log.Timber;
 import static com.jobtick.utils.ConstantKey.COMPLETES_MESSAGE_FROM;
 import static com.jobtick.utils.ConstantKey.RESULTCODE_CREATE_TASK;
 
-public class TaskCreateActivity extends ActivityBase implements TaskDetailFragment.OperationsListener, TaskDateTimeFragment.OperationsListener, TaskBudgetFragment.OperationsListener {
+public class TaskCreateActivity extends ActivityBase implements TaskDetailFragment.OperationsListener,
+        TaskDateTimeFragment.OperationsListener, TaskBudgetFragment.OperationsListener {
 
     private static final String TAG = "TaskCreateActivity";
     @BindView(R.id.creating_task_layout)
@@ -279,7 +278,8 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     }
 
     @Override
-    public void onNextClick(String title, String description, ArrayList<String> musthave, String task_type, String location, PositionModel positionModel) {
+    public void onNextClick(String title, String description, ArrayList<String> musthave, String task_type,
+                            String location, PositionModel positionModel) {
         taskModel.setTitle(title);
         taskModel.setDescription(description);
         taskModel.setMusthave(musthave);
@@ -457,7 +457,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                     hideProgressDialog();
                 }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
@@ -465,7 +465,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
             }
 
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("category_id", "1");
                 map1.put("title", taskModel.getTitle());

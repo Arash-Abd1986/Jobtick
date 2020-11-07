@@ -46,7 +46,7 @@ public class CancellationSubmitedActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_cancel);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Cancellation");
+        getSupportActionBar().setTitle("Cancellation Request");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

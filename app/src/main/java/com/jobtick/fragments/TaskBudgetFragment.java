@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -82,8 +83,9 @@ public class TaskBudgetFragment extends Fragment {
     LinearLayout lytBtnPostTask;
     @BindView(R.id.lyt_button)
     LinearLayout lytButton;
-    private LinearLayout cardBudget1,cardBudget,estimated;
+    private LinearLayout cardBudget1,cardBudget,estimated, estimated1;
     private EditText edtBudget1;
+    private TextView txtBudget1;
 
     public static TaskBudgetFragment newInstance(int budget, int hour_budget, int total_hours,
                                                  String payment_type, OperationsListener operationsListener) {
@@ -123,6 +125,8 @@ public class TaskBudgetFragment extends Fragment {
         cardBudget1=view.findViewById(R.id.card_budget1);
         cardBudget=view.findViewById(R.id.card_budget);
         estimated=view.findViewById(R.id.card_estimated);
+        estimated1=view.findViewById(R.id.card_estimated1);
+        txtBudget1=view.findViewById(R.id.txt_budget1);
         edtBudget1=view.findViewById(R.id.edt_budget1);
         radioBtnClick();
         edtText();
@@ -145,6 +149,7 @@ public class TaskBudgetFragment extends Fragment {
             cardBudget1.setVisibility(View.VISIBLE);
             cardBudget.setVisibility(View.GONE);
             estimated.setVisibility(View.GONE);
+            estimated1.setVisibility(View.VISIBLE);
             showEstimatedBudget();
         } else {
             rbHourly.setChecked(true);
@@ -155,6 +160,7 @@ public class TaskBudgetFragment extends Fragment {
             cardBudget1.setVisibility(View.GONE);
             cardBudget.setVisibility(View.VISIBLE);
            estimated.setVisibility(View.VISIBLE);
+            estimated1.setVisibility(View.GONE);
             showEstimatedBudget();
         }
 
@@ -200,12 +206,14 @@ public class TaskBudgetFragment extends Fragment {
                 cardBudget1.setVisibility(View.GONE);
                 cardBudget.setVisibility(View.VISIBLE);
                 estimated.setVisibility(View.VISIBLE);
+                estimated1.setVisibility(View.GONE);
                 showEstimatedBudget();
             } else {
                 cardTime.setVisibility(View.GONE);
                 cardBudget1.setVisibility(View.VISIBLE);
                 cardBudget.setVisibility(View.GONE);
                 estimated.setVisibility(View.GONE);
+                estimated1.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -219,9 +227,10 @@ public class TaskBudgetFragment extends Fragment {
         if (edtBudget.getText().toString().trim().length() != 0)
             budget = Integer.parseInt(edtBudget.getText().toString().trim());
         txtBudget.setText(String.valueOf(time * budget));
+        int budget1 = 0;
         if (edtBudget1.getText().toString().trim().length() != 0)
-            budget = Integer.parseInt(edtBudget1.getText().toString().trim());
-        txtBudget.setText(String.valueOf(budget));
+            budget1 = Integer.parseInt(edtBudget1.getText().toString().trim());
+        txtBudget1.setText(String.valueOf(budget1));
     }
 
     @OnClick({R.id.lyt_btn_details, R.id.lyt_btn_date_time, R.id.lyt_btn_budget, R.id.img_btn_minus,

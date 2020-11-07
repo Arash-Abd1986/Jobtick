@@ -169,7 +169,8 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
     private ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
 
-    public static TaskDetailFragment newInstance(String title, String description, ArrayList<String> musthave, String task_type, String location, PositionModel positionModel, OperationsListener operationsListener) {
+    public static TaskDetailFragment newInstance(String title, String description, ArrayList<String> musthave,
+                                                 String task_type, String location, PositionModel positionModel, OperationsListener operationsListener) {
         TaskDetailFragment fragment = new TaskDetailFragment();
         fragment.operationsListener = operationsListener;
         Bundle args = new Bundle();
@@ -346,7 +347,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
             } else {
                 checkboxOnline.setChecked(false);
                 cardLocation.setVisibility(View.VISIBLE);
-                txtSuburb.setVisibility(View.VISIBLE);
             }
         } else {
             checkboxOnline.setChecked(false);
@@ -364,8 +364,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         recyclerAddMustHave.setLayoutManager(new GridLayoutManager(taskCreateActivity, 1));
         recyclerAddMustHave.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true));
         recyclerAddMustHave.setHasFixedSize(true);
-
-
         //set data and list adapter
         tagAdapter = new AddTagAdapter(taskCreateActivity, addTagList);
         recyclerAddMustHave.setAdapter(tagAdapter);
@@ -627,45 +625,38 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         lytBtnNext.setOnClickListener(v -> {
             if (TextUtils.isEmpty(edtAddTag.getText().toString().trim())) {
                 edtAddTag.setError("Text is empty");
-                return;
-            }
-
-            if (3 == addTagList.size()) {
-                lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disclick));
-
-            } else {
+                return; }
                 if (3 > addTagList.size()) {
-                    lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
                     txtCount.setText(addTagList.size() + 1 + "");
-
+                    lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
                     if (recyclerView.getVisibility() != View.VISIBLE) {
                         recyclerView.setVisibility(View.VISIBLE);
+                        lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
                     }
                     addTagList.add(edtAddTag.getText().toString().trim());
                     tagAdapter.notifyItemInserted(tagAdapter.getItemCount());
                     edtAddTag.setText(null);
                     if (addTagList.size() != 0) {
-
                         //we change recycler view visibility to change size of it
                         recyclerAddMustHave.setVisibility(View.GONE);
                         recyclerAddMustHave.setVisibility(View.VISIBLE);
                         recyclerView2.setVisibility(View.GONE);
                         recyclerView2.setVisibility(View.VISIBLE);
+                        if (3 == addTagList.size()) {
+                            lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disclick));
+                        }else {  lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));}
                     } else {
                         if (recyclerAddMustHave.getVisibility() == View.VISIBLE || recyclerView2.getVisibility() == View.VISIBLE) {
                             recyclerAddMustHave.setVisibility(View.GONE);
                             recyclerView2.setVisibility(View.GONE);
-
+                            if (3 == addTagList.size()) {
+                                lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disclick));
+                            }else {  lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));}
                         }
                     }
-                } else {
-                    taskCreateActivity.showToast("Max. 3 Tag you can add", taskCreateActivity);
-                }
-
-            }
-
-
-        });
+                } else { taskCreateActivity.showToast("Max. 3 Tag you can add", taskCreateActivity); }
+                if (3 == addTagList.size()) { lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disclick)); } }
+       );
 
 
         // set background transparent

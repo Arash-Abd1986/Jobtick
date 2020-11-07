@@ -199,7 +199,7 @@ public class TaskBudgetFragment extends Fragment {
     }
 
     private void radioBtnClick() {
-        rgHourlyTotal.setOnCheckedChangeListener((RadioGroup.OnCheckedChangeListener) (group, checkedId) -> {
+        rgHourlyTotal.setOnCheckedChangeListener((group, checkedId) -> {
             RadioButton rb_btn = (RadioButton) view.findViewById(checkedId);
             if (rb_btn.getText().equals("Hourly")) {
                 cardTime.setVisibility(View.VISIBLE);

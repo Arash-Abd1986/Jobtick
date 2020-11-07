@@ -89,7 +89,7 @@ import retrofit2.Response;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
-public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItemClickListener, AttachmentAdapter1.OnItemClickListener {
+public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.OnItemClickListener {
 
     @BindView(R.id.lyt_btn_details)
     LinearLayout lytBtnDetails;
@@ -129,8 +129,8 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     LinearLayout lytButton;
     @BindView(R.id.bottom_sheet)
     FrameLayout bottomSheet;
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+    @BindView(R.id.rcAttachment)
+    RecyclerView rcAttachment;
 
     private String TAG = TaskDetailFragment.class.getName();
     private int PLACE_SELECTION_REQUEST_CODE = 21;
@@ -156,6 +156,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     private BottomSheetDialog mBottomSheetDialog;
     private TaskCreateActivity taskCreateActivity;
     private AddTagAdapter tagAdapter;
+    private AddTagAdapter tagAdapterBottomSheet;
     private ArrayList<String> addTagList;
     private GeocodeObject geoCodeObject;
     private LatLng locationObject;
@@ -364,18 +365,18 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         recyclerAddMustHave.setLayoutManager(new GridLayoutManager(taskCreateActivity, 1));
         recyclerAddMustHave.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true));
         recyclerAddMustHave.setHasFixedSize(true);
-        //set data and list adapter
-        tagAdapter = new AddTagAdapter(taskCreateActivity, addTagList);
+        tagAdapter = new AddTagAdapter(addTagList, data -> {
+            addTagList.remove(data);
+            tagAdapter.updateItem(addTagList);
+            tagAdapterBottomSheet.updateItem(addTagList);
+        });
+
         recyclerAddMustHave.setAdapter(tagAdapter);
-        tagAdapter.setOnItemClickListener(this);
-
-
-        recyclerView.setLayoutManager(new GridLayoutManager(taskCreateActivity, 4));
-        recyclerView.addItemDecoration(new SpacingItemDecoration(4, Tools.dpToPx(taskCreateActivity, 5), true));
-        recyclerView.setHasFixedSize(true);
-        //set data and list adapter
+        rcAttachment.setLayoutManager(new GridLayoutManager(taskCreateActivity, 4));
+        rcAttachment.addItemDecoration(new SpacingItemDecoration(4, Tools.dpToPx(taskCreateActivity, 5), true));
+        rcAttachment.setHasFixedSize(true);
         attachmentAdapter = new AttachmentAdapter1(attachmentArrayList, true);
-        recyclerView.setAdapter(attachmentAdapter);
+        rcAttachment.setAdapter(attachmentAdapter);
         attachmentAdapter.setOnItemClickListener(this);
     }
 
@@ -414,7 +415,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                                 task.getPosition()
                         );
                         operationsListener.onValidDataFilled();
-
                         break;
                     case 1:
                         edtTitle.setError("Please enter the title");
@@ -426,7 +426,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                         txtSuburb.setError("Please select your location");
                         break;
                 }
-
                 break;
         }
     }
@@ -437,16 +436,8 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         if (requestCode == 25) {
             addTagList.clear();
             addTagList.addAll(data.getStringArrayListExtra("TAG"));
-            if (addTagList.size() != 0) {
-                if (recyclerAddMustHave.getVisibility() != View.VISIBLE) {
-                    recyclerAddMustHave.setVisibility(View.VISIBLE);
-                }
-            } else {
-                if (recyclerAddMustHave.getVisibility() == View.VISIBLE) {
-                    recyclerAddMustHave.setVisibility(View.GONE);
-                }
-            }
             tagAdapter.notifyDataSetChanged();
+            tagAdapterBottomSheet.notifyDataSetChanged();
         }
 
         if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
@@ -495,17 +486,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         }
     }
 
-    @Override
-    public void onItemClick(View view, String obj, int position, String action) {
-        addTagList.remove(position);
-        tagAdapter.notifyItemRemoved(position);
-        tagAdapter.notifyItemRangeRemoved(position, addTagList.size());
-        recyclerAddMustHave.swapAdapter(tagAdapter, true);
-        if (addTagList.size() == 0) {
-            recyclerAddMustHave.setVisibility(View.GONE);
-        }
-    }
-
     private int getValidationCode() {
         if (TextUtils.isEmpty(edtTitle.getText().toString().trim()) || edtTitle.getText().toString().trim().length() < 10) {
             return 1;
@@ -524,7 +504,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         if (action.equalsIgnoreCase("add")) {
             showBottomSheetDialog();
         } else if (action.equalsIgnoreCase("delete")) {
-            recyclerView.removeViewAt(position);
+            rcAttachment.removeViewAt(position);
             attachmentArrayList.remove(position);
             attachmentAdapter.notifyItemRemoved(position);
             attachmentAdapter.notifyItemRangeRemoved(position, attachmentArrayList.size());
@@ -561,7 +541,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
         LinearLayout lyt_btn_delete = view.findViewById(R.id.lyt_btn_delete);
         lyt_btn_delete.setOnClickListener(v -> {
-            recyclerView.removeViewAt(currentPosition);
+            rcAttachment.removeViewAt(currentPosition);
             attachmentArrayList.remove(currentPosition);
             attachmentAdapter.notifyItemRemoved(currentPosition);
             attachmentAdapter.notifyItemRangeRemoved(currentPosition, attachmentArrayList.size());
@@ -585,81 +565,58 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     }
 
     private void showBottomSheetAddMustHave() {
-      /*  if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        }*/
 
         final View view = getLayoutInflater().inflate(R.layout.sheet_add_must_have, null);
-
-        //  new KeyboardUtil(getActivity(), view);
 
         mBottomSheetDialog = new BottomSheetDialog(taskCreateActivity);
         mBottomSheetDialog.setContentView(view);
         mBottomSheetDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-/*
-        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        mBottomSheetDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-*/
-
-
         TextViewMedium txtCount = view.findViewById(R.id.txt_count);
-        RecyclerView recyclerView2 = view.findViewById(R.id.recycler_add_must_have2);
+        RecyclerView recyclerAddMustHaveBottomSheet = view.findViewById(R.id.recycler_add_must_have_bottom_sheet);
         TextViewRegular txtTotalCount = view.findViewById(R.id.txt_total_count);
 
-        CardView lytBtnNext = view.findViewById(R.id.lyt_btn_next);
+        CardView addBtnNext = view.findViewById(R.id.lyt_btn_next);
         EditTextRegular edtAddTag = view.findViewById(R.id.edtAddTag);
-        recyclerView2.setLayoutManager(new GridLayoutManager(taskCreateActivity, 1));
-        recyclerView2.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true));
-        recyclerView2.setHasFixedSize(true);
+        recyclerAddMustHaveBottomSheet.setLayoutManager(new GridLayoutManager(taskCreateActivity, 1));
+        recyclerAddMustHaveBottomSheet.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true));
+        recyclerAddMustHaveBottomSheet.setHasFixedSize(true);
 
+        tagAdapterBottomSheet = new AddTagAdapter(addTagList, data -> {
+            addTagList.remove(data);
+            tagAdapterBottomSheet.updateItem(addTagList);
+            tagAdapter.updateItem(addTagList);
+        });
 
-        //set data and list adapter
-        tagAdapter = new AddTagAdapter(taskCreateActivity, addTagList);
-        recyclerView2.setAdapter(tagAdapter);
-        tagAdapter.setOnItemClickListener(this);
-        tagAdapter.notifyDataSetChanged();
+        recyclerAddMustHaveBottomSheet.setAdapter(tagAdapterBottomSheet);
         txtCount.setText(addTagList.size() + "");
 
-        lytBtnNext.setOnClickListener(v -> {
-            if (TextUtils.isEmpty(edtAddTag.getText().toString().trim())) {
-                edtAddTag.setError("Text is empty");
-                return; }
-                if (3 > addTagList.size()) {
-                    txtCount.setText(addTagList.size() + 1 + "");
-                    lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
-                    if (recyclerView.getVisibility() != View.VISIBLE) {
-                        recyclerView.setVisibility(View.VISIBLE);
-                        lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
+        addBtnNext.setOnClickListener(v -> {
+                    if (TextUtils.isEmpty(edtAddTag.getText().toString().trim())) {
+                        edtAddTag.setError("Text is empty");
+                        return;
                     }
-                    addTagList.add(edtAddTag.getText().toString().trim());
-                    tagAdapter.notifyItemInserted(tagAdapter.getItemCount());
-                    edtAddTag.setText(null);
-                    if (addTagList.size() != 0) {
-                        //we change recycler view visibility to change size of it
-                        recyclerAddMustHave.setVisibility(View.GONE);
-                        recyclerAddMustHave.setVisibility(View.VISIBLE);
-                        recyclerView2.setVisibility(View.GONE);
-                        recyclerView2.setVisibility(View.VISIBLE);
-                        if (3 == addTagList.size()) {
-                            lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disclick));
-                        }else {  lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));}
-                    } else {
-                        if (recyclerAddMustHave.getVisibility() == View.VISIBLE || recyclerView2.getVisibility() == View.VISIBLE) {
-                            recyclerAddMustHave.setVisibility(View.GONE);
-                            recyclerView2.setVisibility(View.GONE);
-                            if (3 == addTagList.size()) {
-                                lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disclick));
-                            }else {  lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));}
+
+                    if (addTagList.size() < 3) {
+                        if (addTagList.size() == 2) {
+                            lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disable));
+                            lytBtnNext.setEnabled(false);
+                        } else {
+                            lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
+                            lytBtnNext.setEnabled(true);
                         }
+
+                        txtCount.setText(addTagList.size() + 1 + "");
+                        addTagList.add(edtAddTag.getText().toString().trim());
+                        tagAdapterBottomSheet.updateItem(addTagList);
+                        tagAdapter.updateItem(addTagList);
+                        edtAddTag.setText("");
+                    } else {
+                        taskCreateActivity.showToast("Max. 3 Tag you can add", taskCreateActivity);
                     }
-                } else { taskCreateActivity.showToast("Max. 3 Tag you can add", taskCreateActivity); }
-                if (3 == addTagList.size()) { lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disclick)); } }
-       );
+                }
+        );
 
-
-        // set background transparent
         ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
         mBottomSheetDialog.show();

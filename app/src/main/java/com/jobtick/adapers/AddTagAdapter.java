@@ -11,85 +11,58 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddTagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AddTagAdapter extends RecyclerView.Adapter<AddTagAdapter.ViewHolder> {
 
-    private List<String> items = new ArrayList<>();
-    private OnLoadMoreListener onLoadMoreListener;
-
-    private Context ctx;
-    private OnItemClickListener mOnItemClickListener;
+    private List<String> items;
+    private final OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(View view, String obj, int position, String action);
+        void onItemClick(String data);
     }
 
-    public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
+    public AddTagAdapter(List<String> items, OnItemClickListener mItemClickListener) {
+        this.items = items;
         this.mOnItemClickListener = mItemClickListener;
     }
 
-    public AddTagAdapter(Context context, List<String> items) {
+    public void updateItem(List<String> items) {
         this.items = items;
-        ctx = context;
-
+        notifyDataSetChanged();
     }
 
-    public class OriginalViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.img_btn_remove)
         ImageView imgBtnRemove;
         @BindView(R.id.txt_btn_add_must_have)
         TextViewRegular txtBtnAddMustHave;
 
-        public OriginalViewHolder(View v) {
+        public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
         }
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder vh;
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_add_must_have, parent, false);
-        vh = new OriginalViewHolder(v);
-        return vh;
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_add_must_have, parent, false));
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof OriginalViewHolder) {
-            OriginalViewHolder view = (OriginalViewHolder) holder;
-            String string = items.get(position);
-
-            view.txtBtnAddMustHave.setText(string);
-
-            view.imgBtnRemove.setOnClickListener(v -> {
-                if (mOnItemClickListener != null) {
-                    mOnItemClickListener.onItemClick(v, items.get(view.getAdapterPosition()), view.getAdapterPosition(), "action");
-                }
-            });
-
-
-        }
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        String data = items.get(position);
+        holder.txtBtnAddMustHave.setText(data);
+        holder.imgBtnRemove.setOnClickListener(v -> {
+            mOnItemClickListener.onItemClick(data);
+        });
     }
 
     @Override
     public int getItemCount() {
         return items.size();
     }
-
-
-    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
-        this.onLoadMoreListener = onLoadMoreListener;
-    }
-
-    public interface OnLoadMoreListener {
-        void onLoadMore(int current_page);
-    }
-
 }

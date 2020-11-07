@@ -133,7 +133,7 @@ public class CancellationWorkerActivity extends ActivityBase implements RadioGro
         toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Cancellation");
+        getSupportActionBar().setTitle("Cancellation Request");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

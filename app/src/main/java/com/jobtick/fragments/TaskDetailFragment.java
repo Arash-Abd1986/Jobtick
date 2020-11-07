@@ -1,10 +1,10 @@
 package com.jobtick.fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -17,7 +17,6 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +65,7 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -86,54 +86,75 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
 public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.OnItemClickListener {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_details)
     LinearLayout lytBtnDetails;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_bnt_date_time)
     LinearLayout lytBntDateTime;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_budget)
     LinearLayout lytBtnBudget;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_title_counter)
     EditTextSemiBold edtTitleCounter;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_title)
     EditTextMedium edtTitle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_description_counter)
     EditTextSemiBold edtDescriptionCounter;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_description)
     EditTextMedium edtDescription;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_add_must_have)
     RecyclerView recyclerAddMustHave;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_add_white)
     ImageView imgAddWhite;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rlt_add_must_have)
     RelativeLayout rltAddMustHave;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.checkbox_online)
     CheckBox checkboxOnline;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_suburb)
     TextViewMedium txtSuburb;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_location_pin)
     ImageView imgLocationPin;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_location)
     LinearLayout cardLocation;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_back)
     LinearLayout lytBtnBack;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_button)
     CardView cardButton;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_next)
     LinearLayout lytBtnNext;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_button)
     LinearLayout lytButton;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bottom_sheet)
     FrameLayout bottomSheet;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rcAttachment)
     RecyclerView rcAttachment;
 
-    private String TAG = TaskDetailFragment.class.getName();
-    private int PLACE_SELECTION_REQUEST_CODE = 21;
+    private final String TAG = TaskDetailFragment.class.getName();
+    private final int PLACE_SELECTION_REQUEST_CODE = 21;
 
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
 
@@ -151,7 +172,6 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     public static final int MEDIA_TYPE_VIDEO = 2;
     private static final int PICK_VIDEO = 107;
 
-    private Uri fileUri;
     private AttachmentAdapter1 attachmentAdapter;
     private BottomSheetDialog mBottomSheetDialog;
     private TaskCreateActivity taskCreateActivity;
@@ -168,7 +188,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     private Uri filePath;
     private Bitmap bitmap;
 
-    private ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
+    private final ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
 
     public static TaskDetailFragment newInstance(String title, String description, ArrayList<String> musthave,
                                                  String task_type, String location, PositionModel positionModel, OperationsListener operationsListener) {
@@ -197,6 +217,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         return view;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -380,6 +401,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         attachmentAdapter.setOnItemClickListener(this);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick({R.id.rlt_add_must_have, R.id.lyt_btn_details, R.id.lyt_bnt_date_time, R.id.lyt_btn_budget, R.id.checkbox_online, R.id.lyt_btn_next
     })
     public void onViewClicked(View view) {
@@ -527,7 +549,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
 */
-        final View view = getLayoutInflater().inflate(R.layout.sheet_full_image, null);
+        @SuppressLint("InflateParams") final View view = getLayoutInflater().inflate(R.layout.sheet_full_image, null);
 
         mBottomSheetDialog = new BottomSheetDialog(taskCreateActivity);
         mBottomSheetDialog.setContentView(view);
@@ -547,7 +569,6 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             attachmentAdapter.notifyItemRangeRemoved(currentPosition, attachmentArrayList.size());
             taskCreateActivity.showToast("Deleted that attachment", taskCreateActivity);
             mBottomSheetDialog.dismiss();
-
         });
 
 
@@ -561,12 +582,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         mBottomSheetDialog.show();
         mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
-
     }
 
     private void showBottomSheetAddMustHave() {
 
-        final View view = getLayoutInflater().inflate(R.layout.sheet_add_must_have, null);
+        @SuppressLint("InflateParams") final View view = getLayoutInflater().inflate(R.layout.sheet_add_must_have, null);
 
         mBottomSheetDialog = new BottomSheetDialog(taskCreateActivity);
         mBottomSheetDialog.setContentView(view);
@@ -620,16 +640,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
         mBottomSheetDialog.show();
-        mBottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                mBottomSheetDialog = null;
-            }
-        });
+        mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
 
     private void showBottomSheetDialog() {
-        final View view = getLayoutInflater().inflate(R.layout.sheet_attachment, null);
+        @SuppressLint("InflateParams") final View view = getLayoutInflater().inflate(R.layout.sheet_attachment, null);
         LinearLayout lytBtnCamera = view.findViewById(R.id.lyt_btn_camera);
         LinearLayout lytBtnImage = view.findViewById(R.id.lyt_btn_image);
         LinearLayout lytBtnVideo = view.findViewById(R.id.lyt_btn_video);
@@ -683,17 +698,12 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
         mBottomSheetDialog.show();
-        mBottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                mBottomSheetDialog = null;
-            }
-        });
+        mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
 
     }
 
     private void getGalleryVideo() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+        @SuppressLint("IntentReset") Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
         intent.setType("video/*");
         startActivityForResult(intent, PICK_VIDEO);
 
@@ -701,9 +711,10 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
     private void recordVideo() {
 
+        Uri fileUri;
         try {
             Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-            fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
+            fileUri = getOutputMediaFileUri();
             intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, MAX_VIDEO_DURATION);
             intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
             intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, MAX_VIDEO_SIZE);
@@ -715,7 +726,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
             Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 
-            fileUri = getOutputMediaFileUri1(MEDIA_TYPE_VIDEO);
+            fileUri = getOutputMediaFileUri1();
 
             intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, MAX_VIDEO_DURATION);
             intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
@@ -769,15 +780,15 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         alert.show();
     }
 
-    private Uri getOutputMediaFileUri(int type) {
-        return Uri.fromFile(getOutputMediaFile(type));
+    private Uri getOutputMediaFileUri() {
+        return Uri.fromFile(getOutputMediaFile());
     }
 
-    private Uri getOutputMediaFileUri1(int type) {
-        return FileProvider.getUriForFile(taskCreateActivity, BuildConfig.APPLICATION_ID + ".provider", getOutputMediaFile(type));
+    private Uri getOutputMediaFileUri1() {
+        return FileProvider.getUriForFile(taskCreateActivity, BuildConfig.APPLICATION_ID + ".provider", getOutputMediaFile());
     }
 
-    private static File getOutputMediaFile(int type) {
+    private static File getOutputMediaFile() {
 
         File mediaStorageDir = new File(
                 Environment
@@ -792,7 +803,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
 
         File mediaFile;
-        if (type == MEDIA_TYPE_VIDEO) {
+        if (TaskDetailFragment.MEDIA_TYPE_VIDEO == MEDIA_TYPE_VIDEO) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
                     + VIDEO_SIGN + getTimeStamp() + VIDEO_FORMAT);
         } else {
@@ -815,7 +826,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
                 taskCreateActivity.hideProgressDialog();
                 if (response.code() == 422) {
                     taskCreateActivity.showToast(response.message(), taskCreateActivity);
@@ -841,7 +852,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
                 taskCreateActivity.hideProgressDialog();
             }
         });
@@ -862,7 +873,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
 
-        Log.e("path", path);
+        Timber.e(path);
         cursor.close();
 
         return path;

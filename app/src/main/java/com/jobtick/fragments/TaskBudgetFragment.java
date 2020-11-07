@@ -56,7 +56,7 @@ public class TaskBudgetFragment extends Fragment {
     @BindView(R.id.rg_hourly_total)
     RadioGroup rgHourlyTotal;
     @BindView(R.id.txt_hours)
-    EditTextMedium txtHours;
+    EditText txtHours;
     @BindView(R.id.img_btn_minus)
     ImageView imgBtnMinus;
     @BindView(R.id.img_btn_add)
@@ -64,9 +64,9 @@ public class TaskBudgetFragment extends Fragment {
     @BindView(R.id.card_time)
     LinearLayout cardTime;
     @BindView(R.id.txt_estimated_budget_h)
-    TextViewMedium txtEstimatedBudget;
+    TextView txtEstimatedBudget;
     @BindView(R.id.txt_us_h)
-    TextViewBold txtUs;
+    TextView txtUs;
     @BindView(R.id.lyt_btn_back)
     LinearLayout lytBtnBack;
     @BindView(R.id.card_button)
@@ -81,7 +81,6 @@ public class TaskBudgetFragment extends Fragment {
 
     public static TaskBudgetFragment newInstance(int budget, int hour_budget, int total_hours,
                                                  String payment_type, OperationsListener operationsListener) {
-
 
         Bundle args = new Bundle();
         args.putInt("BUDGET", budget);
@@ -125,7 +124,7 @@ public class TaskBudgetFragment extends Fragment {
         edtBudgetH = view.findViewById(R.id.edt_budgetH);
         estimatedH = view.findViewById(R.id.card_estimated_h);
         txtBudgetH = view.findViewById(R.id.txt_budget_h);
-        txtDollerH= view.findViewById(R.id.txt_doller_us_h);
+        txtDollerH = view.findViewById(R.id.txt_doller_us_h);
 
         radioBtnClick();
         edtText();
@@ -268,9 +267,9 @@ public class TaskBudgetFragment extends Fragment {
                 addBtnClick();
                 break;
             case R.id.lyt_btn_back:
-                if (edtBudgetH.getText().toString().trim().length() > 0) {
+                if (edtBudgetH.getText().toString().trim().length() > 0 || edtBudgetT.getText().toString().trim().length() > 0) {
                     operationsListener.onBackClickBudget(
-                            rbTotal.isChecked() ? Integer.parseInt(edtBudgetH.getText().toString().trim()) : 0,
+                            rbTotal.isChecked() ? Integer.parseInt(edtBudgetT.getText().toString().trim()) : 0,
                             rbHourly.isChecked() ? Integer.parseInt(edtBudgetH.getText().toString().trim()) : 0,
                             Integer.parseInt(txtHours.getText().toString().trim()),
                             rbHourly.isChecked() ? Constant.TASK_PAYMENT_TYPE_HOURLY : Constant.TASK_PAYMENT_TYPE_FIXED
@@ -284,9 +283,8 @@ public class TaskBudgetFragment extends Fragment {
             case R.id.lyt_btn_post_task:
                 switch (getValidationCode()) {
                     case 0:
-                        //success
                         operationsListener.onNextClickBudget(
-                                rbTotal.isChecked() ? Integer.parseInt(edtBudgetH.getText().toString().trim()) : 0,
+                                rbTotal.isChecked() ? Integer.parseInt(edtBudgetT.getText().toString().trim()) : 0,
                                 rbHourly.isChecked() ? Integer.parseInt(edtBudgetH.getText().toString().trim()) : 0,
                                 Integer.parseInt(txtHours.getText().toString().trim()),
                                 rbHourly.isChecked() ? "hourly " : "fixed"
@@ -294,10 +292,16 @@ public class TaskBudgetFragment extends Fragment {
                         operationsListener.onValidDataFilledBudgetNext();
                         break;
                     case 1:
-                        edtBudgetH.setError("Please enter your budget");
+                        edtBudgetH.setError("Please enter your budget in total or hourly");
+                        edtBudgetT.setError("Please enter your budget in total or hourly");
                         break;
                     case 2:
+                        edtBudgetH.setError("Please enter only your budget in total or hourly");
+                        edtBudgetT.setError("Please enter only your budget in total or hourly");
+                        break;
+                    case 3:
                         edtBudgetH.setError("Budget Greater or Equal than $10");
+                        edtBudgetT.setError("Budget Greater or Equal than $10");
                         break;
                 }
                 break;
@@ -321,10 +325,14 @@ public class TaskBudgetFragment extends Fragment {
     }
 
     private int getValidationCode() {
-        if (TextUtils.isEmpty(edtBudgetH.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtBudgetH.getText().toString().trim()) && TextUtils.isEmpty(edtBudgetT.getText().toString().trim())) {
             return 1;
-        } else if (Integer.parseInt(edtBudgetH.getText().toString().trim()) < 10) {
+        } else if (!TextUtils.isEmpty(edtBudgetH.getText().toString().trim()) && !TextUtils.isEmpty(edtBudgetT.getText().toString().trim())) {
             return 2;
+        } else if (!TextUtils.isEmpty(edtBudgetH.getText().toString().trim()) && Integer.parseInt(edtBudgetH.getText().toString().trim()) < 10) {
+            return 3;
+        } else if (!TextUtils.isEmpty(edtBudgetT.getText().toString().trim()) && Integer.parseInt(edtBudgetT.getText().toString().trim()) < 10) {
+            return 3;
         }
         return 0;
     }

@@ -22,10 +22,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,9 +41,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.BuildConfig;
-import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.EditText.EditTextRegular;
-import com.jobtick.EditText.EditTextSemiBold;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
@@ -49,7 +49,6 @@ import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.adapers.AddTagAdapter;
 import com.jobtick.adapers.AttachmentAdapter1;
 import com.jobtick.models.AttachmentModel;
-import com.jobtick.models.GeocodeObject;
 import com.jobtick.models.PositionModel;
 import com.jobtick.models.TaskModel;
 import com.jobtick.retrofit.ApiClient;
@@ -103,16 +102,16 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     LinearLayout lytBtnBudget;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_title_counter)
-    EditTextSemiBold edtTitleCounter;
+    TextView edtTitleCounter;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_title)
-    EditTextMedium edtTitle;
+    EditText edtTitle;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_description_counter)
-    EditTextSemiBold edtDescriptionCounter;
+    TextView edtDescriptionCounter;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_description)
-    EditTextMedium edtDescription;
+    EditText edtDescription;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_add_must_have)
     RecyclerView recyclerAddMustHave;
@@ -127,7 +126,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     CheckBox checkboxOnline;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_suburb)
-    TextViewMedium txtSuburb;
+    TextView txtSuburb;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_location_pin)
     ImageView imgLocationPin;
@@ -135,17 +134,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     @BindView(R.id.card_location)
     LinearLayout cardLocation;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_back)
-    LinearLayout lytBtnBack;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.card_button)
-    CardView cardButton;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_next)
     LinearLayout lytBtnNext;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_button)
-    LinearLayout lytButton;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bottom_sheet)
     FrameLayout bottomSheet;
@@ -166,8 +156,6 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     public static final long MAX_VIDEO_DURATION = 30;
     public static final long MAX_VIDEO_SIZE = 20 * 1024 * 1024;
     public static final String MEDIA_DIRECTORY_NAME = "Jobtick";
-    public static final String VIDEO_NAME = "video_name";
-    public static final String AD_THUMB = "thumb_name";
     public static final String TIME_STAMP_FORMAT = "yyyyMMdd_HHmmss";
     public static final int MEDIA_TYPE_VIDEO = 2;
     private static final int PICK_VIDEO = 107;
@@ -178,15 +166,9 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     private AddTagAdapter tagAdapter;
     private AddTagAdapter tagAdapterBottomSheet;
     private ArrayList<String> addTagList;
-    private GeocodeObject geoCodeObject;
-    private LatLng locationObject;
     private OperationsListener operationsListener;
     private TaskModel task;
     private SessionManager sessionManager;
-
-    private String imagePath;
-    private Uri filePath;
-    private Bitmap bitmap;
 
     private final ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
 
@@ -480,12 +462,12 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             positionModel.setLatitude(carmenFeature.center().latitude());
             positionModel.setLongitude(carmenFeature.center().longitude());
             task.setPosition(positionModel);
-            locationObject = new LatLng(carmenFeature.center().latitude(), carmenFeature.center().longitude());
+            LatLng locationObject = new LatLng(carmenFeature.center().latitude(), carmenFeature.center().longitude());
         }
 
         if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
-            filePath = data.getData();
-            imagePath = getPath(data.getData());
+            Uri filePath = data.getData();
+            String imagePath = getPath(data.getData());
             File file = new File(imagePath);
             uploadDataInTempApi(file);
         }
@@ -585,19 +567,18 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     }
 
     private void showBottomSheetAddMustHave() {
-
         @SuppressLint("InflateParams") final View view = getLayoutInflater().inflate(R.layout.sheet_add_must_have, null);
 
         mBottomSheetDialog = new BottomSheetDialog(taskCreateActivity);
         mBottomSheetDialog.setContentView(view);
         mBottomSheetDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-        TextViewMedium txtCount = view.findViewById(R.id.txt_count);
+        TextView txtCount = view.findViewById(R.id.txt_count);
         RecyclerView recyclerAddMustHaveBottomSheet = view.findViewById(R.id.recycler_add_must_have_bottom_sheet);
-        TextViewRegular txtTotalCount = view.findViewById(R.id.txt_total_count);
+        TextView txtTotalCount = view.findViewById(R.id.txt_total_count);
 
         CardView addBtnNext = view.findViewById(R.id.lyt_btn_next);
-        EditTextRegular edtAddTag = view.findViewById(R.id.edtAddTag);
+        EditText edtAddTag = view.findViewById(R.id.edtAddTag);
         recyclerAddMustHaveBottomSheet.setLayoutManager(new GridLayoutManager(taskCreateActivity, 1));
         recyclerAddMustHaveBottomSheet.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true));
         recyclerAddMustHaveBottomSheet.setHasFixedSize(true);
@@ -606,6 +587,14 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             addTagList.remove(data);
             tagAdapterBottomSheet.updateItem(addTagList);
             tagAdapter.updateItem(addTagList);
+
+            if (addTagList.size() < 3) {
+                addBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
+                addBtnNext.setEnabled(true);
+            } else {
+                addBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disable));
+                addBtnNext.setEnabled(false);
+            }
         });
 
         recyclerAddMustHaveBottomSheet.setAdapter(tagAdapterBottomSheet);
@@ -619,11 +608,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
                     if (addTagList.size() < 3) {
                         if (addTagList.size() == 2) {
-                            lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disable));
-                            lytBtnNext.setEnabled(true);
+                            addBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disable));
+                            addBtnNext.setEnabled(false);
                         } else {
-                            lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
-                            lytBtnNext.setEnabled(true);
+                            addBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
+                            addBtnNext.setEnabled(true);
                         }
 
                         txtCount.setText(addTagList.size() + 1 + "");

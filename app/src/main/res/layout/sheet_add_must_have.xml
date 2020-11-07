@@ -39,11 +39,12 @@
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:background="@drawable/ic_rounded_button_fill_withour_broder">
 
-                <com.jobtick.TextView.TextViewRegular
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_400_14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_16sp"
-                    android:text="Write maximum three things you expect from Ticker before he/she makes offer.\nFor example:\n · Licence required for doing the job. \n · Should have and bring required tools to complete the job."
+                    android:text="@string/write_maximum_three_things_you_expect_from_ticker_before_he_she_makes_offer_nfor_example_n_licence_required_for_doing_the_job_n_should_have_and_bring_required_tools_to_complete_the_job"
                     android:textColor="@color/grey_70" />
             </LinearLayout>
 
@@ -63,7 +64,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.jobtick.TextView.TextViewMedium
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_500_14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_16sp"
@@ -124,23 +126,22 @@
                         android:paddingEnd="@dimen/spacing_mlarge"
                         android:paddingBottom="@dimen/spacing_large">
 
-                        <com.jobtick.TextView.TextViewSemiBold
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/materialText_600_12"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/requirements"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
-                            android:textStyle="bold" />
+                            android:textColor="@color/colorPrimary" />
 
-                        <com.jobtick.EditText.EditTextRegular
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtAddTag"
+                            style="@style/materialText_500_14"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="What requirements they must have ?"
+                            android:hint="@string/what_requirements_they_must_have"
                             android:inputType="textMultiLine"
-                            android:textColor="@color/textColor"
-                            android:textSize="@dimen/_14sp" />
+                            android:textColor="@color/textColor" />
                     </LinearLayout>
                 </FrameLayout>
             </LinearLayout>
@@ -149,12 +150,10 @@
                 android:id="@+id/lyt_btn_next"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="120dp"
-                android:layout_weight="1"
+                android:layout_marginBottom="40dp"
                 android:background="?attr/selectableItemBackground"
                 android:backgroundTint="@color/colorPrimary"
                 android:clickable="true"
@@ -162,14 +161,14 @@
                 android:elevation="0dp"
                 app:cardCornerRadius="@dimen/spacing_medium">
 
-                <com.jobtick.TextView.TextViewRegular
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_500_14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="15dp"
                     android:text="Add"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_15sp" />
+                    android:textColor="@color/white" />
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

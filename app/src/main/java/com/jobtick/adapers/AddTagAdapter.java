@@ -1,10 +1,10 @@
 package com.jobtick.adapers;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +39,7 @@ public class AddTagAdapter extends RecyclerView.Adapter<AddTagAdapter.ViewHolder
         @BindView(R.id.img_btn_remove)
         ImageView imgBtnRemove;
         @BindView(R.id.txt_btn_add_must_have)
-        TextViewRegular txtBtnAddMustHave;
+        TextView txtBtnAddMustHave;
 
         public ViewHolder(View v) {
             super(v);
@@ -56,9 +56,7 @@ public class AddTagAdapter extends RecyclerView.Adapter<AddTagAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         String data = items.get(position);
         holder.txtBtnAddMustHave.setText(data);
-        holder.imgBtnRemove.setOnClickListener(v -> {
-            mOnItemClickListener.onItemClick(data);
-        });
+        holder.imgBtnRemove.setOnClickListener(v -> mOnItemClickListener.onItemClick(data));
     }
 
     @Override

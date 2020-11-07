@@ -142,8 +142,6 @@ public class TaskBudgetFragment extends Fragment {
         if (task.getPaymentType() == null || task.getPaymentType().equalsIgnoreCase("fixed")) {
             rbTotal.setChecked(true);
             rbHourly.setChecked(false);
-            //     rbHourly.setTextColor(taskCreateActivity.getResources().getColor(R.color.black));
-            //     rbTotal.setTextColor(taskCreateActivity.getResources().getColor(R.color.white));
             cardTime.setVisibility(View.GONE);
             cardBudgetT.setVisibility(View.VISIBLE);
             cardBudgetH.setVisibility(View.GONE);

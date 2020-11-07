@@ -163,7 +163,6 @@
                     android:orientation="horizontal"
                     android:weightSum="2">
 
-
                     <RadioButton
                         android:id="@+id/rb_total"
 
@@ -195,8 +194,6 @@
                         android:textColor="@color/radio_btn" />
 
                 </RadioGroup>
-
-
             </androidx.cardview.widget.CardView>
 
 
@@ -268,7 +265,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/card_budget1"
+                android:id="@+id/card_budgetT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
@@ -298,21 +295,20 @@
                         android:layout_height="wrap_content">
 
                         <com.jobtick.TextView.TextViewSemiBold
-                            android:id="@+id/txt_doller_us1"
+                            android:id="@+id/txt_doller_us_t"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
-
                             android:text="$"
                             android:textColor="@color/grey_40"
                             android:textSize="@dimen/_14sp" />
 
                         <com.jobtick.EditText.EditTextRegular
-                            android:id="@+id/edt_budget1"
+                            android:id="@+id/edt_budgetT"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_toEndOf="@+id/txt_doller_us1"
+                            android:layout_toEndOf="@+id/txt_doller_us_t"
                             android:background="@null"
                             android:inputType="number"
                             android:textColor="@color/textColor"
@@ -324,7 +320,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/card_budget"
+                android:id="@+id/card_budgetH"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
@@ -332,7 +328,6 @@
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:background="@drawable/linear_rounded_white_fill_7dp">
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -348,37 +343,33 @@
                         android:textSize="@dimen/_12sp"
                         android:textStyle="bold" />
 
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
                         <com.jobtick.TextView.TextViewSemiBold
-                            android:id="@+id/txt_doller_us"
+                            android:id="@+id/txt_doller_us_h"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
-
                             android:text="$"
                             android:textColor="@color/grey_40"
                             android:textSize="@dimen/_14sp" />
 
                         <com.jobtick.EditText.EditTextRegular
-                            android:id="@+id/edt_budget"
+                            android:id="@+id/edt_budgetH"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_toEndOf="@+id/txt_doller_us"
+                            android:layout_toEndOf="@+id/txt_doller_us_h"
                             android:background="@null"
                             android:inputType="number"
                             android:textColor="@color/textColor"
                             android:textSize="@dimen/_14sp" />
 
                     </RelativeLayout>
-
                 </LinearLayout>
             </LinearLayout>
-
 
         </LinearLayout>
     </ScrollView>
@@ -399,15 +390,15 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_large"
             android:layout_marginBottom="@dimen/spacing_middle"
-            android:background="@drawable/linear_rounded_white_fill_without_border">
+            android:background="@drawable/linear_rounded_white_fill_without_border"
+            android:orientation="vertical">
 
 
             <LinearLayout
-                android:id="@+id/card_estimated"
+                android:id="@+id/card_estimated_t"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone"
                 android:padding="@dimen/spacing_large">
 
                 <RelativeLayout
@@ -416,8 +407,7 @@
                     android:padding="@dimen/spacing_large">
 
                     <com.jobtick.TextView.TextViewMedium
-
-                        android:id="@+id/txt_estimated_budget"
+                        android:id="@+id/txt_estimated_budget_t"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
@@ -428,18 +418,18 @@
                         android:textStyle="bold" />
 
                     <com.jobtick.TextView.TextViewBold
-                        android:id="@+id/txt_us"
+                        android:id="@+id/txt_us_t"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/spacing_medium"
-                        android:layout_toStartOf="@id/txt_budget"
+                        android:layout_toStartOf="@id/txt_budget_t"
                         android:text="$"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_14sp"
                         android:textStyle="bold" />
 
                     <com.jobtick.TextView.TextViewBold
-                        android:id="@+id/txt_budget"
+                        android:id="@+id/txt_budget_t"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -451,8 +441,9 @@
                 </RelativeLayout>
 
             </LinearLayout>
+
             <LinearLayout
-                android:id="@+id/card_estimated1"
+                android:id="@+id/card_estimated_h"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -465,7 +456,7 @@
 
                     <com.jobtick.TextView.TextViewMedium
 
-                        android:id="@+id/txt_estimated_budget1"
+                        android:id="@+id/txt_estimated_budget_h"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
@@ -476,18 +467,18 @@
                         android:textStyle="bold" />
 
                     <com.jobtick.TextView.TextViewBold
-                        android:id="@+id/txt_us1"
+                        android:id="@+id/txt_us_h"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/spacing_medium"
-                        android:layout_toStartOf="@id/txt_budget1"
+                        android:layout_toStartOf="@id/txt_budget_h"
                         android:text="$"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_14sp"
                         android:textStyle="bold" />
 
                     <com.jobtick.TextView.TextViewBold
-                        android:id="@+id/txt_budget1"
+                        android:id="@+id/txt_budget_h"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -500,7 +491,6 @@
 
             </LinearLayout>
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"

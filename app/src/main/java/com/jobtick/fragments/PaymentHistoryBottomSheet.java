@@ -56,7 +56,7 @@ public class PaymentHistoryBottomSheet extends BottomSheetDialogFragment {
         TextView date = view.findViewById(R.id.tv_date);
         TextView time = view.findViewById(R.id.tv_time);
         TextView status = view.findViewById(R.id.tv_status);
-        TextView name = view.findViewById(R.id.credit_account_name);
+        TextView name = view.findViewById(R.id.credit_expiry_date);
         TextView creditCardNumber = view.findViewById(R.id.credit_account_number);
         TextView typeCardTxt = view.findViewById(R.id.typeCardTxt);
 

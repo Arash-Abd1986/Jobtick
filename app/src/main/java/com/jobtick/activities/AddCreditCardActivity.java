@@ -92,7 +92,7 @@ public class AddCreditCardActivity extends ActivityBase {
         setContentView(R.layout.activity_add_credit_card);
         ButterKnife.bind(this);
         initToolbar();
-        initUi();
+
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -138,17 +138,6 @@ public class AddCreditCardActivity extends ActivityBase {
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setTitle("Add Credit Card");
-    }
-
-    private void initUi(){
-        Bundle bundle = getIntent().getExtras();
-        if (bundle == null) return;
-        if (bundle.getParcelable(CreditCardModel.class.getName()) == null) return;
-        CreditCardModel creditCardModel = bundle.getParcelable(CreditCardModel.class.getName());
-        if(!creditCardModel.isSuccess() || creditCardModel.getData() == null) return;
-
-        edtCardNumber.setText("xxxx xxxx xxxx " + creditCardModel.getData().getCard().getLast4());
-        setEdtExpiryDate(creditCardModel.getData().getCard().getExp_year(), creditCardModel.getData().getCard().getExp_month());
     }
 
     private void setEdtExpiryDate(int year, int month){

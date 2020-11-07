@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 
 import butterknife.BindView;
@@ -19,8 +20,8 @@ public class CancellationSubmitedActivity extends AppCompatActivity {
     MaterialToolbar toolbar;
     @BindView(R.id.txt_title)
     TextView txtTitle;
-    @BindView(R.id.lyt_btn_finish)
-    LinearLayout lytBtnFinish;
+    @BindView(R.id.btn_done)
+    MaterialButton btnDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +30,11 @@ public class CancellationSubmitedActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initToolbar();
 
-        txtTitle.setText(getIntent().getExtras().getString(CANCELLATION));
+        String desc = getIntent().getExtras().getString(CANCELLATION);
+        if(desc != null && !desc.equals(""))
+            txtTitle.setText(desc);
 
-        lytBtnFinish.setOnClickListener(new View.OnClickListener() {
+        btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

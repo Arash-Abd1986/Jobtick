@@ -314,6 +314,7 @@
     <string name="paid">Paid</string>
     <string name="select_one_reason_for_your_request">Select one reason for your request</string>
     <string name="comments_optional">Comments (Optional)</string>
+    <string name="done">Done</string>
 
 
 </resources>

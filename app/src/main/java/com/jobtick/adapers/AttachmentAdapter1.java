@@ -39,30 +39,47 @@ public class AttachmentAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHo
     private Boolean delete_action;
     private List<AttachmentModel> items;
 
-    public AttachmentAdapter1(Context context, List<AttachmentModel> items, Boolean delete_action) {
+    public AttachmentAdapter1(List<AttachmentModel> items, Boolean delete_action) {
         this.items = items;
-        this.context = context;
         this.delete_action = delete_action;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case VIEW_TYPE_IMAGE:
-                return new AttachmentAdapter1.IMAGEViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_show_attachment_1, parent, false));
-            case VIEW_TYPE_ADD:
-            default:
-                return new AttachmentAdapter1.ADDViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_add_attachment_1, parent, false));
+        if (viewType == VIEW_TYPE_IMAGE) {
+            return new IMAGEViewHolder(
+                    LayoutInflater.from(parent.getContext()).inflate(R.layout.item_show_attachment_1, parent, false));
         }
+        return new ADDViewHolder(
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_add_attachment_1, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == VIEW_TYPE_IMAGE) {
-            ((AttachmentAdapter1.IMAGEViewHolder) holder).onBind(holder.getAdapterPosition());
+            AttachmentAdapter1.IMAGEViewHolder tempHolder = (AttachmentAdapter1.IMAGEViewHolder) holder;
+
+            AttachmentModel item = items.get(position);
+            if (item.getUrl() != null) {
+                ImageUtil.displayImage(tempHolder.imgView, item.getUrl(), null);
+            }
+            if (delete_action) {
+                tempHolder.imgBtnDelete.setVisibility(View.VISIBLE);
+            } else {
+                tempHolder.imgBtnDelete.setVisibility(View.GONE);
+            }
+            tempHolder.imgBtnDelete.setOnClickListener(view -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(view, items.get(position), position, "delete");
+                }
+            });
+            tempHolder.imgView.setOnClickListener(v -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(v, items.get(position), position, "show");
+                }
+            });
+
         } else {
             ((AttachmentAdapter1.ADDViewHolder) holder).onBind(holder.getAdapterPosition());
         }
@@ -78,11 +95,9 @@ public class AttachmentAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHo
         return items == null ? 0 : items.size();
     }
 
-
     public void addItems(List<AttachmentModel> items) {
         this.items.addAll(items);
         notifyDataSetChanged();
-        Log.e("AddItems", "call");
     }
 
     public void addLoading() {
@@ -90,7 +105,6 @@ public class AttachmentAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.items.add(new AttachmentModel());
         notifyItemInserted(this.items.size() - 1);
     }
-
 
     public void clear() {
         items.clear();
@@ -107,43 +121,9 @@ public class AttachmentAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHo
         @BindView(R.id.img_btn_delete)
         ImageView imgBtnDelete;
 
-
         IMAGEViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
-        }
-
-
-        public void onBind(int position) {
-            // super.onBind(position);
-            AttachmentModel item = items.get(position);
-            if (item.getThumbUrl() != null) {
-                ImageUtil.displayImage(imgView, item.getThumbUrl(), null);
-
-            }
-            if (delete_action) {
-                imgBtnDelete.setVisibility(View.VISIBLE);
-            } else {
-                imgBtnDelete.setVisibility(View.GONE);
-            }
-            imgBtnDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(view, items.get(position), position, "delete");
-                    }
-                }
-            });
-            imgView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(v, items.get(position), position, "show");
-                    }
-                }
-            });
-
         }
     }
 
@@ -151,27 +131,18 @@ public class AttachmentAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHo
         @BindView(R.id.rlt_add_attachment)
         RelativeLayout rltAddAttachment;
 
-
         ADDViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
         public void onBind(int position) {
-            // super.onBind(position);
             AttachmentModel item = items.get(position);
-            rltAddAttachment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(view, items.get(position), position, "add");
-                    }
+            rltAddAttachment.setOnClickListener(view -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(view, items.get(position), position, "add");
                 }
             });
-
-
         }
-
-
     }
 }

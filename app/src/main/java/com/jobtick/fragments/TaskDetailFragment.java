@@ -89,9 +89,6 @@ import retrofit2.Response;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItemClickListener, AttachmentAdapter1.OnItemClickListener {
 
     @BindView(R.id.lyt_btn_details)
@@ -109,7 +106,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     @BindView(R.id.edt_description)
     EditTextMedium edtDescription;
     @BindView(R.id.recycler_add_must_have)
-   RecyclerView recyclerAddMustHave;
+    RecyclerView recyclerAddMustHave;
     @BindView(R.id.img_add_white)
     ImageView imgAddWhite;
     @BindView(R.id.rlt_add_must_have)
@@ -132,16 +129,13 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     LinearLayout lytButton;
     @BindView(R.id.bottom_sheet)
     FrameLayout bottomSheet;
-
-
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+
     private String TAG = TaskDetailFragment.class.getName();
     private int PLACE_SELECTION_REQUEST_CODE = 21;
 
-
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
-
 
     public static final String VIDEO_FORMAT = ".mp4";
     public static final String VIDEO_SIGN = "VID_";
@@ -159,7 +153,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
     private Uri fileUri;
     private AttachmentAdapter1 attachmentAdapter;
-  //  private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
     private TaskCreateActivity taskCreateActivity;
     private AddTagAdapter tagAdapter;
@@ -174,7 +167,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     private Uri filePath;
     private Bitmap bitmap;
 
-    private ArrayList<AttachmentModel> attachmentArrayList;
+    private ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
 
     public static TaskDetailFragment newInstance(String title, String description, ArrayList<String> musthave, String task_type, String location, PositionModel positionModel, OperationsListener operationsListener) {
         TaskDetailFragment fragment = new TaskDetailFragment();
@@ -192,16 +185,13 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
     }
 
     public TaskDetailFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_task_detail, container, false);
         ButterKnife.bind(this, view);
-
         return view;
     }
 
@@ -212,9 +202,8 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         sessionManager = new SessionManager(taskCreateActivity);
 
         task = new TaskModel();
-        attachmentArrayList = new ArrayList<>();
         attachmentArrayList.add(new AttachmentModel());
-       // mBehavior = BottomSheetBehavior.from(bottomSheet);
+
         addTagList = new ArrayList<>();
         task.setTitle(getArguments().getString("TITLE"));
         task.setDescription(getArguments().getString("DESCRIPTION"));
@@ -222,6 +211,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         task.setTaskType(getArguments().getString("TASK_TYPE"));
         task.setLocation(getArguments().getString("LOCATION"));
         task.setPosition(getArguments().getParcelable("POSITION"));
+
         taskCreateActivity.setActionDraftTaskDetails(taskModel -> {
             if (taskModel.getTitle() != null && taskModel.getDescription() != null) {
                 operationsListener.draftTaskDetails(taskModel, true);
@@ -230,8 +220,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                     taskModel.setTitle(edtTitle.getText().toString().trim());
                 } else if (!TextUtils.isEmpty(edtDescription.getText().toString().trim()) || edtDescription.getText().toString().trim().length() >= 25) {
                     taskModel.setDescription(edtDescription.getText().toString().trim());
-                }
-                else if (!TextUtils.isEmpty(txtSuburb.getText().toString().trim())) {
+                } else if (!TextUtils.isEmpty(txtSuburb.getText().toString().trim())) {
                     taskModel.setLocation(txtSuburb.getText().toString().trim());
                     taskModel.setPosition(task.getPosition());
                 }
@@ -242,6 +231,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                 operationsListener.draftTaskDetails(taskModel, false);
             }
         });
+
         txtSuburb.setOnClickListener(v -> {
             Intent intent = new PlaceAutocomplete.IntentBuilder()
                     .accessToken(Mapbox.getAccessToken())
@@ -250,13 +240,11 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                             .backgroundColor(taskCreateActivity.getResources().getColor(R.color.background))
                             .limit(10)
                             .country("AU")
-
-                            /*.addInjectedFeature(home)
-                            .addInjectedFeature(work)*/
                             .build(PlaceOptions.MODE_FULLSCREEN))
                     .build(getActivity());
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
+
         setComponent();
 
         init();
@@ -362,7 +350,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
             }
         } else {
             checkboxOnline.setChecked(false);
-           txtSuburb.setVisibility(View.VISIBLE);
+            txtSuburb.setVisibility(View.VISIBLE);
             cardLocation.setFocusable(true);
             cardLocation.setClickable(true);
         }
@@ -388,30 +376,17 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         recyclerView.addItemDecoration(new SpacingItemDecoration(4, Tools.dpToPx(taskCreateActivity, 5), true));
         recyclerView.setHasFixedSize(true);
         //set data and list adapter
-        attachmentAdapter = new AttachmentAdapter1(taskCreateActivity, attachmentArrayList, true);
+        attachmentAdapter = new AttachmentAdapter1(attachmentArrayList, true);
         recyclerView.setAdapter(attachmentAdapter);
         attachmentAdapter.setOnItemClickListener(this);
-
-
     }
 
-
     @OnClick({R.id.rlt_add_must_have, R.id.lyt_btn_details, R.id.lyt_bnt_date_time, R.id.lyt_btn_budget, R.id.checkbox_online, R.id.lyt_btn_next
-             })
+    })
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rlt_add_must_have:
-                /*Intent intent = new Intent(taskCreateActivity, AddTagActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList(ConstantKey.TAG, addTagList);
-                bundle.putString(ConstantKey.ACTIONBAR_TITLE, "Must-haves");
-                bundle.putString(ConstantKey.TITLE, "Add up to 3 things the Tasker needs to have or do to make an offer -e.g.\n• Must be available on Saturday morning\n• Must have own van or truck");
-                bundle.putInt(ConstantKey.TAG_SIZE, 3);
-                intent.putExtras(bundle);
-                startActivityForResult(intent, 25);*/
-
                 showBottomSheetAddMustHave();
-                //  showBottomSheetDialog();
                 break;
             case R.id.lyt_btn_details:
                 break;
@@ -424,9 +399,8 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                     txtSuburb.setVisibility(View.GONE);
                     cardLocation.setClickable(false);
                 } else {
-                   txtSuburb.setVisibility(View.VISIBLE);
+                    txtSuburb.setVisibility(View.VISIBLE);
                     cardLocation.setClickable(true);
-
                 }
                 break;
             case R.id.lyt_btn_next:
@@ -497,23 +471,16 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
             task.setPosition(positionModel);
             locationObject = new LatLng(carmenFeature.center().latitude(), carmenFeature.center().longitude());
         }
-        else if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
+
+        if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
             filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(taskCreateActivity.getContentResolver(), filePath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             imagePath = getPath(data.getData());
-            //imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath));
-            //  uploadImageWithAmount();
             File file = new File(imagePath);
             uploadDataInTempApi(file);
+        }
 
-
-        } else if (requestCode == CAMERA_REQUEST && resultCode == getActivity().RESULT_OK) {
+        if (requestCode == CAMERA_REQUEST && resultCode == getActivity().RESULT_OK) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            //bitmap to convert into file
             File pictureFile = new File(taskCreateActivity.getExternalCacheDir(), "jobtick");
             FileOutputStream fos = null;
             try {
@@ -527,8 +494,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                 e.printStackTrace();
             }
             uploadDataInTempApi(pictureFile);
-
-
         }
     }
 
@@ -542,7 +507,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
             recyclerAddMustHave.setVisibility(View.GONE);
         }
     }
-
 
     private int getValidationCode() {
         if (TextUtils.isEmpty(edtTitle.getText().toString().trim()) || edtTitle.getText().toString().trim().length() < 10) {
@@ -572,7 +536,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         }
     }
 
-
     public interface OperationsListener {
         void onNextClick(String title, String description, ArrayList<String> musthave, String task_type, String location, PositionModel positionModel);
 
@@ -580,7 +543,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
         void draftTaskDetails(TaskModel taskModel, boolean moveForword);
     }
-
 
     private void showBottomSheetDialogViewFullImage(String url, int currentPosition) {
         /*if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
@@ -624,7 +586,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
     }
 
-
     private void showBottomSheetAddMustHave() {
       /*  if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -646,7 +607,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
 
         TextViewMedium txtCount = view.findViewById(R.id.txt_count);
-        RecyclerView recyclerView2=view.findViewById(R.id.recycler_add_must_have2);
+        RecyclerView recyclerView2 = view.findViewById(R.id.recycler_add_must_have2);
         TextViewRegular txtTotalCount = view.findViewById(R.id.txt_total_count);
 
         CardView lytBtnNext = view.findViewById(R.id.lyt_btn_next);
@@ -669,37 +630,37 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                 return;
             }
 
-            if(3==addTagList.size()){
+            if (3 == addTagList.size()) {
                 lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disclick));
 
-            }else {
+            } else {
                 if (3 > addTagList.size()) {
                     lytBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
-                txtCount.setText(addTagList.size() + 1 + "");
+                    txtCount.setText(addTagList.size() + 1 + "");
 
-                if (recyclerView.getVisibility() != View.VISIBLE) {
-                    recyclerView.setVisibility(View.VISIBLE);
-                }
-                addTagList.add(edtAddTag.getText().toString().trim());
-                tagAdapter.notifyItemInserted(tagAdapter.getItemCount());
-                edtAddTag.setText(null);
-                if (addTagList.size() != 0) {
+                    if (recyclerView.getVisibility() != View.VISIBLE) {
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+                    addTagList.add(edtAddTag.getText().toString().trim());
+                    tagAdapter.notifyItemInserted(tagAdapter.getItemCount());
+                    edtAddTag.setText(null);
+                    if (addTagList.size() != 0) {
 
-                    //we change recycler view visibility to change size of it
-                    recyclerAddMustHave.setVisibility(View.GONE);
-                    recyclerAddMustHave.setVisibility(View.VISIBLE);
-                    recyclerView2.setVisibility(View.GONE);
-                    recyclerView2.setVisibility(View.VISIBLE);
-                } else {
-                    if (recyclerAddMustHave.getVisibility() == View.VISIBLE || recyclerView2.getVisibility()==View.VISIBLE) {
+                        //we change recycler view visibility to change size of it
                         recyclerAddMustHave.setVisibility(View.GONE);
+                        recyclerAddMustHave.setVisibility(View.VISIBLE);
                         recyclerView2.setVisibility(View.GONE);
+                        recyclerView2.setVisibility(View.VISIBLE);
+                    } else {
+                        if (recyclerAddMustHave.getVisibility() == View.VISIBLE || recyclerView2.getVisibility() == View.VISIBLE) {
+                            recyclerAddMustHave.setVisibility(View.GONE);
+                            recyclerView2.setVisibility(View.GONE);
 
+                        }
                     }
+                } else {
+                    taskCreateActivity.showToast("Max. 3 Tag you can add", taskCreateActivity);
                 }
-            } else {
-                taskCreateActivity.showToast("Max. 3 Tag you can add", taskCreateActivity);
-                    }
 
             }
 
@@ -717,21 +678,9 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                 mBottomSheetDialog = null;
             }
         });
-
-       /* AddTagSheetFragment addPhotoBottomDialogFragment =
-                AddTagSheetFragment.newInstance();
-        addPhotoBottomDialogFragment.show(taskCreateActivity.getSupportFragmentManager(),
-                "add_photo_dialog_fragment");
-*/
-
     }
 
-
     private void showBottomSheetDialog() {
-     /*   if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        }*/
-
         final View view = getLayoutInflater().inflate(R.layout.sheet_attachment, null);
         LinearLayout lytBtnCamera = view.findViewById(R.id.lyt_btn_camera);
         LinearLayout lytBtnImage = view.findViewById(R.id.lyt_btn_image);
@@ -773,9 +722,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
-
-//                Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), 1);
             }
             mBottomSheetDialog.hide();
         });
@@ -798,14 +744,12 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
     }
 
-
     private void getGalleryVideo() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
         intent.setType("video/*");
         startActivityForResult(intent, PICK_VIDEO);
 
     }
-
 
     private void recordVideo() {
 
@@ -835,7 +779,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
             startActivityForResult(intent, VIDEO_CAPTURE);
         }
     }
-
 
     public boolean checkPermissionREAD_EXTERNAL_STORAGE(
             final Context context) {
@@ -907,10 +850,6 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
         } else {
             return null;
         }
-
-
-        Log.e("MEDIAFILE", String.valueOf(mediaFile));
-
         return mediaFile;
     }
 
@@ -919,26 +858,17 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                 Locale.getDefault()).format(new Date());
     }
 
-
     private void uploadDataInTempApi(File pictureFile) {
         taskCreateActivity.showProgressDialog();
-
         Call<String> call;
-
-        //    File file = new File(imagePath);
-        //    Log.e("AttachmentApi: ", file.getName());
-        //   Log.e("uploadProfile++:11 ", imagePath);
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
-        // MultipartBody.Part is used to send also the actual file name
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
         call = ApiClient.getClient().getTaskTempAttachmentMediaData(/*"application/x-www-form-urlencoded",*/ "XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
-
 
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 taskCreateActivity.hideProgressDialog();
-                Log.e("Response", response.toString());
                 if (response.code() == 422) {
                     taskCreateActivity.showToast(response.message(), taskCreateActivity);
                     return;
@@ -946,9 +876,7 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
                 try {
                     String strResponse = response.body();
-                    Log.e("body", strResponse);
                     JSONObject jsonObject = new JSONObject(strResponse);
-                    Log.e("json", jsonObject.toString());
                     if (jsonObject.has("data")) {
                         JSONObject jsonObject_data = jsonObject.getJSONObject("data");
                         AttachmentModel attachment = new AttachmentModel().getJsonToModel(jsonObject_data);
@@ -956,14 +884,10 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
                             attachmentArrayList.add(attachmentArrayList.size() - 1, attachment);
                         }
                     }
-
-                    //attachmentAdapter.addItems(attachmentArrayList);
                     attachmentAdapter.notifyItemInserted(0);
-                    //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
                     taskCreateActivity.showToast("attachment added", taskCreateActivity);
                 } catch (JSONException e) {
                     taskCreateActivity.showToast("Something went wrong", taskCreateActivity);
-
                     e.printStackTrace();
                 }
             }
@@ -971,10 +895,8 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 taskCreateActivity.hideProgressDialog();
-                Log.e("Response", call.toString());
             }
         });
-
     }
 
     public String getPath(Uri uri) {
@@ -997,6 +919,4 @@ public class TaskDetailFragment extends Fragment implements AddTagAdapter.OnItem
 
         return path;
     }
-
-
 }

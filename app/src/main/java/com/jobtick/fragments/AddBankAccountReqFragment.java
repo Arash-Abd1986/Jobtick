@@ -1,7 +1,9 @@
 package com.jobtick.fragments;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
@@ -22,9 +25,9 @@ import com.jobtick.utils.SessionManager;
 
 import java.util.Objects;
 
-public class AddBankAccountReqFragment extends Fragment {
+public class AddBankAccountReqFragment extends Fragment implements TextWatcher {
 
-    private TextView btnNext;
+    private MaterialButton btnNext;
     private EditTextMedium edtAccountName;
     private EditTextMedium edtBsb;
     private EditTextMedium edtAccountNumber;
@@ -48,7 +51,7 @@ public class AddBankAccountReqFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sessionManager = new SessionManager(getContext());
-        btnNext = view.findViewById(R.id.txt_btn_next);
+        btnNext = view.findViewById(R.id.btn_add_card);
         btnNext.setOnClickListener(v -> {
             if (validate()) {
                 addBankAccountDetails();
@@ -57,6 +60,10 @@ public class AddBankAccountReqFragment extends Fragment {
         edtAccountName = view.findViewById(R.id.edt_account_name);
         edtBsb = view.findViewById(R.id.edt_bsb);
         edtAccountNumber = view.findViewById(R.id.edt_account_number);
+
+        edtBsb.addTextChangedListener(this);
+        edtAccountNumber.addTextChangedListener(this);
+        edtAccountName.addTextChangedListener(this);
 
         BankAccountModel bankAccountModel = ((TaskDetailsActivity) getActivity()).bankAccountModel;
         if (bankAccountModel != null && bankAccountModel.getData() != null) {
@@ -127,5 +134,24 @@ public class AddBankAccountReqFragment extends Fragment {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        boolean enabled = edtAccountName.getText().length() > 0 &&
+                edtAccountNumber.getText().length() > 0 &&
+                edtBsb.getText().length() > 0;
+
+        btnNext.setEnabled(enabled);
     }
 }

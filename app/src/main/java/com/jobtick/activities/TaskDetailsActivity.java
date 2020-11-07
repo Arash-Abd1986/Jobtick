@@ -1633,19 +1633,31 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         requirementState.put(Requirement.BirthDate, false);
         requirementState.put(Requirement.PhoneNumber, false);
 
-        if (userAccountModel != null && userAccountModel.getAvatar() != null && !userAccountModel.getAvatar().getUrl().equals("")) {
+        if (userAccountModel != null && userAccountModel.getAvatar() != null &&
+                !userAccountModel.getAvatar().getUrl().equals("")) {
             requirementState.put(Requirement.Profile, true);
         }
-        if (bankAccountModel != null && bankAccountModel.getData() != null && !bankAccountModel.getData().getAccount_name().equals("") && !bankAccountModel.getData().getAccount_number().equals("")) {
+        //checking one field is enough
+        if (bankAccountModel != null && bankAccountModel.getData() != null &&
+                bankAccountModel.getData().getAccount_number() != null &&
+                !bankAccountModel.getData().getAccount_number().equals("")) {
             requirementState.put(Requirement.BankAccount, true);
         }
-        if (billingAdreessModel != null && billingAdreessModel.getData() != null && !billingAdreessModel.getData().getPost_code().equals("")) {
+        //checking one filed is enough
+        if (billingAdreessModel != null && billingAdreessModel.getData() != null &&
+                billingAdreessModel.getData().getPost_code() != null &&
+                !billingAdreessModel.getData().getPost_code().equals("")) {
+
             requirementState.put(Requirement.BillingAddress, true);
         }
-        if (userAccountModel != null && userAccountModel.getDob() != null && !userAccountModel.getDob().equals("")) {
+        if (userAccountModel != null && userAccountModel.getDob() != null &&
+                !userAccountModel.getDob().equals("")) {
             requirementState.put(Requirement.BirthDate, true);
         }
-        if (userAccountModel != null && !userAccountModel.getMobile().equals("") && !userAccountModel.getMobileVerifiedAt().equals("")) {
+        if (userAccountModel != null && userAccountModel.getMobile() != null &&
+                !userAccountModel.getMobile().equals("") &&
+                userAccountModel.getMobileVerifiedAt() != null &&
+                !userAccountModel.getMobileVerifiedAt().equals("")) {
             requirementState.put(Requirement.PhoneNumber, true);
         }
     }

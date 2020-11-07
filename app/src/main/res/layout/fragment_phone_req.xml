@@ -11,8 +11,8 @@
         android:id="@+id/form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:scrollbars="none">
 
 
         <LinearLayout
@@ -164,19 +164,14 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.jobtick.TextView.TextViewMedium
-        android:id="@+id/txt_btn_submit"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_submit"
+        style="@style/materialButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_below="@id/form"
         android:layout_margin="15dp"
-        android:background="@drawable/shape_tab_primary_60"
-        android:gravity="center"
-        android:padding="@dimen/spacing_large"
-        android:text="Submit"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:layout_below="@id/form"/>
+        android:enabled="false"
+        android:text="@string/submit" />
 
 </RelativeLayout>

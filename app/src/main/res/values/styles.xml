@@ -328,5 +328,11 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="materialText_600_20" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/poppins_semi_bold</item>
+        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
 
 </resources>

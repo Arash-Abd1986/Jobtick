@@ -6,12 +6,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
@@ -26,9 +29,9 @@ import java.util.Objects;
 import butterknife.OnClick;
 
 
-public class MapReqFragment extends Fragment {
+public class MapReqFragment extends Fragment implements TextWatcher {
 
-    TextView btnNext;
+    MaterialButton btnNext;
     EditTextRegular edtAddressLine1;
     EditTextRegular edtSuburs;
     EditTextRegular edtState;
@@ -59,7 +62,14 @@ public class MapReqFragment extends Fragment {
         edtState = view.findViewById(R.id.edt_state);
         edtPostcode = view.findViewById(R.id.edt_postcode);
         edtCountry = view.findViewById(R.id.edt_Country);
-        btnNext = view.findViewById(R.id.txt_btn_next);
+
+        edtState.addTextChangedListener(this);
+        edtSuburs.addTextChangedListener(this);
+        edtPostcode.addTextChangedListener(this);
+        edtAddressLine1.addTextChangedListener(this);
+        edtCountry.addTextChangedListener(this);
+
+        btnNext = view.findViewById(R.id.btn_add_card);
         btnNext.setOnClickListener(v -> {
             if (!validation()) return;
             addBillingAddress();
@@ -159,4 +169,24 @@ public class MapReqFragment extends Fragment {
     }
 
 
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        boolean enabled = edtAddressLine1.getText().length() > 0 &&
+                edtSuburs.getText().length() > 0 &&
+                edtCountry.getText().length() > 0 &&
+                edtPostcode.getText().length() == 4 &&
+                edtState.getText().length() > 0;
+
+        btnNext.setEnabled(enabled);
+    }
 }

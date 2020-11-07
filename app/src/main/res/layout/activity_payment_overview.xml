@@ -8,16 +8,7 @@
     android:orientation="vertical"
     tools:context=".activities.PaymentOverviewActivity">
 
-
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        style="@style/materialToolBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/backgroundLightGrey"
-        app:contentInsetStartWithNavigation="0dp"
-        app:navigationIcon="@drawable/ic_back"
-        app:title="Payment Overview" />
+    <include layout="@layout/toolbar"/>
 
 
     <androidx.core.widget.NestedScrollView
@@ -84,31 +75,13 @@
                 android:orientation="horizontal"
                 android:padding="@dimen/spacing_large">
 
-                <RelativeLayout
-                    android:layout_width="@dimen/_60dp"
-                    android:layout_height="@dimen/_60dp">
 
-
-                    <com.mikhaellopez.circularimageview.CircularImageView
-                        android:id="@+id/img_avatar"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:maxHeight="@dimen/_60dp"
-                        android:src="@drawable/pic" />
-
-
-                    <ImageView
-                        android:id="@+id/img_verified"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_weight="1"
-                        android:background="@drawable/ic_correct" />
-
-
-                </RelativeLayout>
-
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/img_avatar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/pic"
+                    android:layout_gravity="center_vertical"/>
 
                 <View
                     android:layout_width="@dimen/spacing_large"
@@ -254,7 +227,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:text="$ 200"
-                            android:textAppearance="@style/materialText_500_20"
+                            android:textAppearance="@style/materialText_600_20"
                             android:textColor="@color/colorPrimary" />
 
 
@@ -290,8 +263,8 @@
 
                         <ImageView
                             android:id="@+id/img_brand"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="60dp"
+                            android:layout_height="34dp"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
                             android:src="@drawable/visa" />
@@ -311,21 +284,22 @@
                                 android:id="@+id/txt_account_number"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
                                 android:singleLine="true"
                                 android:text="**** **** **** 4949"
-                                android:textColor="@color/textColor"
-                                android:textSize="@dimen/_16sp"
-                                android:textStyle="bold" />
+                                android:textAppearance="@style/materialText_400_12"
+                                android:textColor="@color/textColor" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_expires_date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
+                                android:layout_marginTop="4dp"
+                                android:gravity="center_vertical"
                                 android:singleLine="true"
                                 android:text="Expires 06/22"
-                                android:textColor="@color/textColor"
-                                android:textSize="@dimen/_16sp" />
+                                android:textAppearance="@style/materialText_400_12"
+                                android:textColor="@color/textColor" />
 
 
                         </LinearLayout>
@@ -365,7 +339,6 @@
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
                         android:layout_gravity="center_vertical"
                         android:singleLine="true"
                         android:text="Add Credit Card"

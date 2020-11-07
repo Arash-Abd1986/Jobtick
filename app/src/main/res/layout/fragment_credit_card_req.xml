@@ -25,8 +25,7 @@
                 android:layout_margin="@dimen/spacing_mlarge"
                 android:gravity="center_horizontal"
                 android:text="@string/add_credit_card"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/_14sp" />
+                android:textAppearance="@style/materialText_500_14"/>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -52,13 +51,14 @@
                         android:layout_height="wrap_content"
                         android:text="@string/full_name"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="12sp" />
+                        android:textAppearance="@style/materialText_600_14" />
 
                     <com.jobtick.EditText.EditTextMedium
                         android:id="@+id/edt_full_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
+                        android:layout_marginTop="5dp"
                         android:inputType="text"
                         android:singleLine="true"
                         android:textColor="@color/textColor"
@@ -90,13 +90,14 @@
                         android:layout_height="wrap_content"
                         android:text="@string/card_number"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="12sp" />
+                        android:textAppearance="@style/materialText_600_14" />
 
                     <com.jobtick.EditText.EditTextMedium
                         android:id="@+id/edt_card_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
+                        android:layout_marginTop="5dp"
                         android:inputType="number"
                         android:singleLine="true"
                         android:textColor="@color/textColor"
@@ -128,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/expiry_date"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="12sp" />
+                        android:textAppearance="@style/materialText_600_14" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/edt_expiry_date"
@@ -140,7 +141,7 @@
                         android:drawableTint="@color/colorPrimary"
                         android:gravity="center_vertical"
                         android:hint="March, 2024"
-                        android:textAppearance="@style/materialText_400_14"/>
+                        android:textAppearance="@style/materialText_500_14"/>
 
                 </LinearLayout>
             </FrameLayout>
@@ -169,7 +170,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/cvc"
                         android:textColor="@color/colorPrimary"
-                        android:textAppearance="@style/materialText_500_14"/>
+                        android:textAppearance="@style/materialText_600_14"/>
 
                     <com.jobtick.EditText.EditTextMedium
                         android:id="@+id/edt_security_number"
@@ -179,26 +180,24 @@
                         android:inputType="number"
                         android:singleLine="true"
                         android:textColor="@color/textColor"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:layout_marginTop="5dp"/>
 
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_btn_next"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_add_card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_below="@+id/form"
         android:layout_gravity="center"
         android:layout_margin="15dp"
-        android:background="@color/colorPrimary"
         android:gravity="center"
         android:padding="@dimen/spacing_large"
         android:text="Add credit card"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="14sp" />
+        style="@style/materialButton" />
 
 </RelativeLayout>

@@ -1,7 +1,9 @@
 package com.jobtick.fragments;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.models.UserAccountModel;
@@ -21,12 +24,15 @@ import com.jobtick.utils.SessionManager;
 
 import java.util.Objects;
 
-public class PhoneReqFragment extends Fragment {
+public class PhoneReqFragment extends Fragment implements TextWatcher {
 
     private UserAccountModel userAccountModel;
     private SessionManager sessionManager;
-    private TextView btnNext, phone, verify;
+    MaterialButton btnNext;
+    private TextView phone, verify;
     private LinearLayout btnVerify;
+
+    private boolean otpSent;
 
     private VerifyPhoneNumber verifyPhoneNumber;
 
@@ -54,8 +60,12 @@ public class PhoneReqFragment extends Fragment {
         sessionManager = new SessionManager(getContext());
         phone = view.findViewById(R.id.edt_phone_number);
         verify = view.findViewById(R.id.edt_sms);
-        btnNext = view.findViewById(R.id.txt_btn_submit);
+        btnNext = view.findViewById(R.id.btn_submit);
         btnVerify = view.findViewById(R.id.lyt_btn_close);
+
+        verify.addTextChangedListener(this);
+        phone.addTextChangedListener(this);
+
         btnNext.setOnClickListener(v -> {
             if(!validationPhone() || !validationVerify()) return;
 
@@ -72,10 +82,11 @@ public class PhoneReqFragment extends Fragment {
             @Override
             public void onSuccess(SuccessType successType) {
                 ((ActivityBase) getActivity()).hideProgressDialog();
-                if(successType == SuccessType.OTP)
+                if(successType == SuccessType.OTP){
                     ((ActivityBase) getActivity()).showToast("OTP is sent successfully.", requireContext());
+                    otpSent = true;
+                }
                 else if( successType == SuccessType.Verify){
-                    ((ActivityBase) getActivity()).showToast("Phone Number is verified successfully.", requireContext());
                     goNext();
                 }
             }
@@ -125,4 +136,22 @@ public class PhoneReqFragment extends Fragment {
 
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        boolean enabled = phone.getText().length() > 0 &&
+                verify.getText().length() > 0 &&
+                otpSent;
+
+        btnNext.setEnabled(enabled);
+    }
 }

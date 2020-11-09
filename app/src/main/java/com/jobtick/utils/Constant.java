@@ -20,7 +20,8 @@ public class Constant {
     public static final String FILTER_IN_PERSON = "IN PERSON";
     public static final String FILTER_IN_PERSON_QUERY = "physical";
     public static final String FILTER = "Filter";
-    public static final String STATE_STRIP = "STATE_STRIP";
+    public static final String STATE_STRIPE_TICKER = "STATE_STRIPE_TICKER";
+    public static final String STATE_STRIPE_POSTER = "STATE_STRIPE_POSTER";
 
 
     public static final String TASK_CANCELLED = "cancelled";
@@ -68,6 +69,7 @@ public class Constant {
     public static final String ADD_ACCOUNT_DETAILS = "account/bankaccount";
 
     public static final String URL_USER_PROFILE_INFO = BASE_URL + "profile/info";
+    public static final String PROFILE_INFO = "profile/info";
     public static final String URL_OFFERS = BASE_URL + "offers";
     public static final String URL_PROFILE = BASE_URL + "profile";
     public static final int MAX_LINE_TEXTVIEW_MORE_4 = 4;
@@ -96,6 +98,8 @@ public class Constant {
     public static final String URL_LIST_USER_TASK = BASE_URL + "tasks";
     public static final String URL_GET_SINGLE_TASK = BASE_URL + "tasks";
     public static final String URL_GET_ACCOUNT = BASE_URL + "account";
+    public static final String URL_GET_PAYMENT_HISTORY_POSTER = BASE_URL + "payments/list?poster_payment_filter[]";
+    public static final String URL_GET_PAYMENT_HISTORY_WORKER = BASE_URL + "payments/list?worker_payment_filter[]";
 
     public static final String URL_CREATE_RESCHEDULE = "reschedule";
 

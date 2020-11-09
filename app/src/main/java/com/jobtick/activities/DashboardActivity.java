@@ -2,6 +2,7 @@ package com.jobtick.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -53,6 +55,7 @@ import static com.jobtick.utils.ConstantKey.PUSH_TASK;
 public class DashboardActivity extends ActivityBase implements NavigationView.OnNavigationItemSelectedListener, onProfileUpdateListener {
 
     DrawerLayout drawerLayout;
+    Toolbar toolbar;
     AppBarConfiguration appBarConfiguration;
     SessionManager sessionManager;
     ImageView imgBtnClose;
@@ -68,7 +71,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         // Tools.clearSystemBarLight(this);
         toolbar.setElevation(0);
         sessionManager = new SessionManager(this);
@@ -320,6 +323,14 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         finish();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        toolbar.post(() -> {
+            Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
+            toolbar.setNavigationIcon(d);
+        });
+    }
 
     @Override
     public void onBackPressed() {
@@ -342,14 +353,10 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
             case R.id.nav_dashboard:
                 Intent dashboard = new Intent(DashboardActivity.this, Dashboard2Activity.class);
                 startActivity(dashboard);
-
                 return true;
-
 
             case R.id.nav_payment:
                 startActivity(new Intent(DashboardActivity.this, PaymentHistoryActivity.class));
-                Toast.makeText(this, "payment", Toast.LENGTH_SHORT).show();
-
                 return true;
 
             case R.id.nav_saved_tasks:
@@ -361,46 +368,32 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
             case R.id.nav_notifications:
                 Intent intent = new Intent(DashboardActivity.this, NotificationActivity.class);
                 startActivity(intent);
-                Toast.makeText(this, "notifications", Toast.LENGTH_SHORT).show();
-
-
                 return true;
 
             case R.id.nav_task_alerts:
                 Intent task_alerts = new Intent(DashboardActivity.this, TaskAlertsActivity.class);
                 startActivity(task_alerts);
-                //  Toast.makeText(this, "task alerts", Toast.LENGTH_SHORT).show();
-
                 return true;
-
 
             case R.id.nav_refer_a_friend:
                 Toast.makeText(this, "refer a friend", Toast.LENGTH_SHORT).show();
-
                 return true;
 
             case R.id.nav_settings:
                 Intent settings = new Intent(DashboardActivity.this, SettingActivity.class);
                 startActivity(settings);
-                // Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show();
-
                 return true;
 
 
             case R.id.nav_help_topics:
                 Intent help_topics = new Intent(DashboardActivity.this, HelpActivity.class);
                 startActivity(help_topics);
-                //  Toast.makeText(this, "help topics", Toast.LENGTH_SHORT).show();
-
                 return true;
-
 
             case R.id.nav_logout:
                 logout_dialog_box();
                 return true;
-
         }
-
         return false;
     }
 
@@ -416,6 +409,5 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
     @Override
     public void updateProfile() {
-
     }
 }

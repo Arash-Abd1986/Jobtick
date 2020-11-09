@@ -1,8 +1,6 @@
 package com.jobtick.fragments;
 
 import android.app.DatePickerDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,28 +10,21 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
-import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.models.DueTimeModel;
 import com.jobtick.models.TaskModel;
-import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.Tools;
 
 import java.text.SimpleDateFormat;
@@ -45,83 +36,28 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class TaskDateTimeFragment extends Fragment {
-
-
-    TaskCreateActivity taskCreateActivity;
-    int cyear, cmonth, cday;
-    String str_due_date = null;
-    DatePickerDialog.OnDateSetListener mDateSetListener;
-
 
     TaskModel task;
     OperationsListener operationsListener;
-    @BindView(R.id.lyt_btn_details)
-    LinearLayout lytBtnDetails;
-    @BindView(R.id.lyt_btn_date_time)
-    LinearLayout lytBtnDateTime;
-    @BindView(R.id.lyt_btn_budget)
-    LinearLayout lytBtnBudget;
     @BindView(R.id.txt_date)
-    TextViewRegular txtDate;
-    @BindView(R.id.img_location_pin)
-    ImageView imgLocationPin;
+    TextView txtDate;
     @BindView(R.id.cb_morning)
     CheckBox cbMorning;
-    @BindView(R.id.img_morning)
-    ImageView imgMorning;
-    @BindView(R.id.txt_title_morning)
-    TextViewMedium txtTitleMorning;
-    @BindView(R.id.txt_subtitle_morning)
-    TextViewRegular txtSubtitleMorning;
-    @BindView(R.id.rlt_btn_morning)
-    RelativeLayout rltBtnMorning;
     @BindView(R.id.cb_midday)
     CheckBox cbMidday;
-    @BindView(R.id.img_midday)
-    ImageView imgMidday;
-    @BindView(R.id.txt_title_midday)
-    TextViewRegular txtTitleMidday;
-    @BindView(R.id.txt_subtitle_midday)
-    TextViewRegular txtSubtitleMidday;
-    @BindView(R.id.rlt_btn_midday)
-    RelativeLayout rltBtnMidday;
     @BindView(R.id.cb_afternoon)
     CheckBox cbAfternoon;
-    @BindView(R.id.img_afternoon)
-    ImageView imgAfternoon;
-    @BindView(R.id.txt_title_afternoon)
-    TextViewRegular txtTitleAfternoon;
-    @BindView(R.id.txt_subtitle_afternoon)
-    TextViewRegular txtSubtitleAfternoon;
-    @BindView(R.id.rlt_btn_afternoon)
-    RelativeLayout rltBtnAfternoon;
     @BindView(R.id.cb_evening)
     CheckBox cbEvening;
-    @BindView(R.id.img_evening)
-    ImageView imgEvening;
-    @BindView(R.id.txt_title_evening)
-    TextViewRegular txtTitleEvening;
-    @BindView(R.id.txt_subtitle_evening)
-    TextViewRegular txtSubtitleEvening;
-    @BindView(R.id.rlt_btn_evening)
-    RelativeLayout rltBtnEvening;
-    @BindView(R.id.lyt_btn_back)
-    LinearLayout lytBtnBack;
-    @BindView(R.id.card_button)
-    CardView cardButton;
-    @BindView(R.id.lyt_btn_next)
-    LinearLayout lytBtnNext;
-    @BindView(R.id.lyt_button)
-    LinearLayout lytButton;
-    private BottomSheetBehavior mBehavior;
-    private BottomSheetDialog mBottomSheetDialog;
     @BindView(R.id.bottom_sheet)
     FrameLayout bottomSheet;
 
+
+    private TaskCreateActivity taskCreateActivity;
+    private int cyear, cmonth, cday;
+    private String str_due_date = null;
+    private BottomSheetDialog mBottomSheetDialog;
 
     public static TaskDateTimeFragment newInstance(String due_date, DueTimeModel due_time, OperationsListener operationsListener) {
 
@@ -149,7 +85,6 @@ public class TaskDateTimeFragment extends Fragment {
         task = new TaskModel();
         task.setDueDate(Tools.getDayMonthDateTimeFormat(getArguments().getString("DUE_DATE")));
         task.setDueTime(getArguments().getParcelable("DUE_TIME"));
-        mBehavior = BottomSheetBehavior.from(bottomSheet);
 
 
         return view;
@@ -158,7 +93,7 @@ public class TaskDateTimeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mDateSetListener = (view1, year, month, dayOfMonth) -> {
+        DatePickerDialog.OnDateSetListener mDateSetListener = (view1, year, month, dayOfMonth) -> {
             month = month + 1;
             str_due_date = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + dayOfMonth);
             txtDate.setText(str_due_date);
@@ -240,33 +175,18 @@ public class TaskDateTimeFragment extends Fragment {
 
     }
 
-
-    @OnClick({R.id.lyt_btn_details, R.id.lyt_btn_date_time, R.id.lyt_btn_budget, R.id.txt_date, R.id.img_morning, R.id.txt_title_morning, R.id.txt_subtitle_morning, R.id.rlt_btn_morning, R.id.img_midday, R.id.txt_title_midday, R.id.txt_subtitle_midday, R.id.rlt_btn_midday, R.id.img_afternoon, R.id.txt_title_afternoon, R.id.txt_subtitle_afternoon, R.id.rlt_btn_afternoon, R.id.img_evening, R.id.txt_title_evening, R.id.txt_subtitle_evening, R.id.rlt_btn_evening, R.id.lyt_btn_back, R.id.lyt_btn_next})
+    @OnClick({R.id.txt_date, R.id.img_morning, R.id.txt_title_morning, R.id.txt_subtitle_morning,
+            R.id.rlt_btn_morning, R.id.img_midday, R.id.txt_title_midday, R.id.txt_subtitle_midday,
+            R.id.rlt_btn_midday, R.id.img_afternoon, R.id.txt_title_afternoon, R.id.txt_subtitle_afternoon,
+            R.id.rlt_btn_afternoon, R.id.img_evening, R.id.txt_title_evening, R.id.txt_subtitle_evening,
+            R.id.rlt_btn_evening, R.id.lyt_btn_back, R.id.lyt_btn_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.lyt_btn_details:
-                taskCreateActivity.onBackPressed();
-                break;
-            case R.id.lyt_btn_date_time:
-                break;
-            case R.id.lyt_btn_budget:
-                break;
             case R.id.txt_date:
                 Calendar calendar = Calendar.getInstance();
                 cyear = calendar.get(Calendar.YEAR);
                 cmonth = calendar.get(Calendar.MONTH);
                 cday = calendar.get(Calendar.DAY_OF_MONTH);
-
-              /*  DatePickerDialog dialog = new DatePickerDialog(
-                        taskCreateActivity,
-                        android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-                        mDateSetListener,
-                        year, month, day);
-                //   dialog.getDatePicker().setMinDate(((System.currentTimeMillis() - 1000)+86400));
-                //  Toast.makeText(taskCreateActivity, "" + (System.currentTimeMillis() - 1000), Toast.LENGTH_SHORT).show();
-                dialog.getDatePicker().setMinDate(((System.currentTimeMillis() - 1000) + 86400000));
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();*/
                 showBottomSheetDialogDate();
                 break;
             case R.id.img_morning:
@@ -432,9 +352,6 @@ public class TaskDateTimeFragment extends Fragment {
 
 
     private void showBottomSheetDialogDate() {
-        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        }
 
         final View view = getLayoutInflater().inflate(R.layout.sheet_date, null);
 
@@ -481,9 +398,6 @@ public class TaskDateTimeFragment extends Fragment {
             cmonth = month + 1;
             cyear = year;
             cday = date;
-            //         str_due_date = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + date);
-            //       txtDate.setText(str_due_date);
-
         });
 
 

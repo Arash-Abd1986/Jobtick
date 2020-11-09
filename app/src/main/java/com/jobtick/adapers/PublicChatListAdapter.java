@@ -184,7 +184,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         TextView textViewOptions;*/
 
         @BindView(R.id.ivFlag)
-        ImageView ivFlag;
+        LinearLayout ivFlag;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -259,7 +259,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             if (item.getReply()) {
                 lytBtnReply.setVisibility(View.VISIBLE);
             } else {
-                lytBtnReply.setVisibility(View.GONE);
+                lytBtnReply.setVisibility(View.VISIBLE);
             }
 
             ivFlag.setOnClickListener(view -> {

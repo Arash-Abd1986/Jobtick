@@ -3,6 +3,7 @@ package com.jobtick.fragments;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -30,6 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -86,15 +88,16 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
 
     @BindView(R.id.recycler_view_status)
-    RecyclerView recyclerViewStatus;
+   RecyclerView recyclerViewStatus;
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
     private DashboardActivity dashboardActivity;
     private SessionManager sessionManager;
     private View view;
 
-    @BindView(R.id.ivNoPosst)
-    public GifImageView ivNoPost;
+   // @BindView(R.id.ivNoPosst)
+    //public GifImageView ivNoPost;
+
 
     private TaskListAdapter taskListAdapter;
     private int currentPage = PAGE_START;
@@ -125,7 +128,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     private String str_search = null;
     private String temp_str_search = null;
     private Toolbar toolbar;
-
+    private LottieAnimationView lottieAnim;
     public MyTasksFragment() {
         // Required empty public constructor
     }
@@ -135,8 +138,9 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_my_tasks, container, false);
+       View view = inflater.inflate(R.layout.fragment_my_tasks, container, false);
         ButterKnife.bind(this, view);
+        lottieAnim=view.findViewById(R.id.lottieAnimationView);
         swipeRefresh.setOnRefreshListener(this);
         dashboardActivity = (DashboardActivity) getActivity();
         if (dashboardActivity != null) {
@@ -156,6 +160,11 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             params.gravity = Gravity.LEFT;
             toolbar_title.setLayoutParams(params);
 
+            toolbar.post(() -> {
+                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
+                toolbar.setNavigationIcon(d);
+            });
+
         }
         setHasOptionsMenu(true);
         mBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -172,7 +181,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(dashboardActivity);
         recyclerViewStatus.setLayoutManager(layoutManager);
-        taskListAdapter = new TaskListAdapter(dashboardActivity, new ArrayList<>());
+        taskListAdapter = new TaskListAdapter(new ArrayList<>());
         recyclerViewStatus.setAdapter(taskListAdapter);
         taskListAdapter.setOnItemClickListener(this);
         swipeRefresh.setRefreshing(true);
@@ -290,10 +299,10 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                                 taskListAdapter.removeLoading();
 
                             if (items.size() <= 0) {
-                                ivNoPost.setVisibility(View.VISIBLE);
+                                lottieAnim.setVisibility(View.VISIBLE);
                                 recyclerViewStatus.setVisibility(View.GONE);
                             } else {
-                                ivNoPost.setVisibility(View.GONE);
+                                lottieAnim.setVisibility(View.GONE);
                                 recyclerViewStatus.setVisibility(View.VISIBLE);
 
                             }

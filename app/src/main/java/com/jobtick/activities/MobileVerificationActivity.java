@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
@@ -23,7 +24,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.fragments.SignInFragment;
@@ -34,7 +34,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,20 +43,33 @@ public class MobileVerificationActivity extends ActivityBase {
 
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
-    @BindView(R.id.edt_current_mobile_number)
-    EditTextRegular edtCurrentMobileNumber;
 
-    @BindView(R.id.lyt_btn_update)
+    @BindView(R.id.phone_verify_message)
+    TextView phoneVerifyMessage;
+
+    @BindView(R.id.lyt_btn_verify)
     LinearLayout lytBtnUpdate;
     @BindView(R.id.lyt_bottom)
     LinearLayout lytBottom;
+
+    private String phoneNumber;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mobile_verification);
         ButterKnife.bind(this);
+        phoneNumber = getIntent().getStringExtra("phone_number");
+        StringBuilder str = new StringBuilder();
+        str.append(phoneVerifyMessage.getText().toString());
+        str.append(phoneNumber);
+        phoneVerifyMessage.setText(str.toString());
         initToolbar();
+
+        getOTP(phoneNumber);
     }
 
 
@@ -65,7 +77,6 @@ public class MobileVerificationActivity extends ActivityBase {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Mobile Verification");
     }
 
 
@@ -86,14 +97,12 @@ public class MobileVerificationActivity extends ActivityBase {
     }
 
 
-    @OnClick({R.id.lyt_btn_update})
+    @OnClick({R.id.lyt_btn_verify})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
-            case R.id.lyt_btn_update:
-                if(Objects.requireNonNull(edtCurrentMobileNumber.getText()).length()>0) {
-                    getOTP(edtCurrentMobileNumber.getText().toString());
-                }
+            case R.id.lyt_btn_verify:
+
                 break;
         }
     }
@@ -166,7 +175,8 @@ public class MobileVerificationActivity extends ActivityBase {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("phone_number", mobileNumber);
+                map1.put("phone_number", mobileNumber.substring(3));
+                map1.put("dialing_code", mobileNumber.substring(0,3));
                 return map1;
             }
         };
@@ -193,7 +203,7 @@ public class MobileVerificationActivity extends ActivityBase {
         ((AppCompatButton) dialog.findViewById(R.id.btn_ok)).setOnClickListener(v -> {
             dialog.dismiss();
             Intent intent = new Intent(MobileVerificationActivity.this, MobileOtpVerifyActivity.class);
-            intent.putExtra("phone_number",edtCurrentMobileNumber.getText().toString());
+            intent.putExtra("phone_number", phoneNumber);
             startActivity(intent);
             finish();
         });

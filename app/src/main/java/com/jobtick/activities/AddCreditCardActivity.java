@@ -1,32 +1,38 @@
 package com.jobtick.activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
-
-import androidx.cardview.widget.CardView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.models.BillingAdreessModel;
+import com.jobtick.models.CreditCardModel;
+import com.jobtick.payment.AddCreditCard;
+import com.jobtick.payment.AddCreditCardImpl;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.Tools;
 import com.stripe.android.ApiResultCallback;
 import com.stripe.android.Stripe;
 import com.stripe.android.model.Card;
+import com.stripe.android.model.CardBrand;
 import com.stripe.android.model.PaymentMethod;
 import com.stripe.android.model.PaymentMethodCreateParams;
 import com.stripe.android.view.CardMultilineWidget;
@@ -50,29 +56,35 @@ import static com.jobtick.utils.ConstantKey.PUBLISHABLE_KEY;
 
 public class AddCreditCardActivity extends ActivityBase {
 
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
+//    @BindView(R.id.toolbar)
+//    MaterialToolbar toolbar;
     @BindView(R.id.edt_full_name)
     EditTextRegular edtFullName;
     @BindView(R.id.edt_card_number)
     EditTextRegular edtCardNumber;
-    @BindView(R.id.txt_expiry_date)
-    TextViewRegular txtExpiryDate;
+    @BindView(R.id.edt_expiry_date)
+    TextViewRegular edtExpiryDate;
+    @BindView(R.id.edt_security_number)
+    EditTextRegular edtSecurityNumber;
+
     @BindView(R.id.lyt_btn_add_credit_card)
-    LinearLayout lytBtnAddCreditCard;
+    MaterialButton lytBtnAddCreditCard;
 
     int year, month, day;
     String str_expire_date = null;
     DatePickerDialog.OnDateSetListener mDateSetListener;
-    @BindView(R.id.edt_security_number)
-    EditTextRegular edtSecurityNumber;
-    @BindView(R.id.card_button)
-    CardView cardButton;
 
     @BindView(R.id.card_multiline_widget)
     CardMultilineWidget cardMultilineWidget;
 
-    private Card card_xml;
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
+
+    private int expMonth;
+    private int expYear;
+
+    private AddCreditCard addCreditCard;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,22 +92,69 @@ public class AddCreditCardActivity extends ActivityBase {
         setContentView(R.layout.activity_add_credit_card);
         ButterKnife.bind(this);
         initToolbar();
+        initUi();
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month = month + 1;
-                str_expire_date = Tools.getExpireDateFormat(month + "/" + year);
-                txtExpiryDate.setText(str_expire_date);
+                setEdtExpiryDate(year, month);
+            }
+        };
+
+        addCreditCard = new AddCreditCardImpl(this, sessionManager) {
+            @Override
+            public void onSuccess() {
+                hideProgressDialog();
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                showToast(e.getMessage(), AddCreditCardActivity.this);
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onNetworkResponseError(NetworkResponse networkResponse) {
+                errorHandle1(networkResponse);
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onValidationError(ValidationErrorType validationErrorType, String message) {
+                showToast(message, AddCreditCardActivity.this);
+                hideProgressDialog();
             }
         };
     }
 
 
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Add Credit Card");
+        ivBack.setOnClickListener(v -> {
+            finish();
+        });
+//        toolbar.setNavigationIcon(R.drawable.ic_back);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setTitle("Add Credit Card");
+    }
+
+    private void initUi(){
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) return;
+        if (bundle.getParcelable(CreditCardModel.class.getName()) == null) return;
+        CreditCardModel creditCardModel = bundle.getParcelable(CreditCardModel.class.getName());
+        if(!creditCardModel.isSuccess() || creditCardModel.getData() == null) return;
+
+        edtCardNumber.setText("xxxx xxxx xxxx " + creditCardModel.getData().getCard().getLast4());
+        setEdtExpiryDate(creditCardModel.getData().getCard().getExp_year(), creditCardModel.getData().getCard().getExp_month());
+    }
+
+    private void setEdtExpiryDate(int year, int month){
+        month = month + 1;
+        str_expire_date = Tools.getExpireDateFormat(month + "/" + year);
+        edtExpiryDate.setText(str_expire_date);
     }
 
 
@@ -115,38 +174,19 @@ public class AddCreditCardActivity extends ActivityBase {
         super.onBackPressed();
     }
 
-    @OnClick({R.id.txt_expiry_date, R.id.lyt_btn_add_credit_card})
+    @OnClick({R.id.edt_expiry_date, R.id.lyt_btn_add_credit_card})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.txt_expiry_date:
-               /* Calendar calendar = Calendar.getInstance();
-                year = calendar.get(Calendar.YEAR);
-                month = calendar.get(Calendar.MONTH);
-                day = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog dialog = new DatePickerDialog(
-                        this,
-                        android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-                        mDateSetListener,
-                        year, month, day) {
-                    @Override
-                    protected void onCreate(Bundle savedInstanceState) {
-                        super.onCreate(savedInstanceState);
-                        getDatePicker().findViewById(getResources().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
-                    }
-                };
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();*/
-
+            case R.id.edt_expiry_date:
                 displayDialog();
-
                 break;
             case R.id.lyt_btn_add_credit_card:
-                card_xml = cardMultilineWidget.getCard();
-                //  card.toParamMap("CARD",cardMultilineWidget.getCard());
-                if (card_xml == null) {
-                    showToast("Invalid Card Data", this);
-                } else {
-                    getToken();
+                if(validation()){
+                    showProgressDialog();
+                    addCreditCard.getToken(edtCardNumber.getText().toString(),
+                            expMonth, expYear,
+                            edtSecurityNumber.getText().toString(),
+                            edtFullName.getText().toString());
                 }
                 break;
         }
@@ -159,14 +199,16 @@ public class AddCreditCardActivity extends ActivityBase {
         MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(AddCreditCardActivity.this, new MonthPickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(int selectedMonth, int selectedYear) {
-                txtExpiryDate.setText(selectedMonth + " /" + selectedYear);
+                expMonth = selectedMonth;
+                expYear = selectedYear;
+                edtExpiryDate.setText(selectedMonth + " /" + selectedYear);
                 Log.d("aa", "selectedMonth : " + selectedMonth + " selectedYear : " + selectedYear);
-                Toast.makeText(AddCreditCardActivity.this, "Date set with month" + selectedMonth + " year " + selectedYear, Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddCreditCardActivity.this, "Date set with month " + selectedMonth + " year " + selectedYear, Toast.LENGTH_SHORT).show();
             }
         }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
 
-        builder.setActivatedMonth(Calendar.JULY)
-                .setTitle("Select  month and year ")
+        builder.setActivatedMonth(today.get(Calendar.MONTH))
+                .setTitle("Select month and year ")
                 // .setMaxMonth(Calendar.OCTOBER)
                 // .setYearRange(1890, 1890)
                 // .setMonthAndYearRange(Calendar.FEBRUARY, Calendar.OCTOBER, 1890, 1890)
@@ -187,114 +229,29 @@ public class AddCreditCardActivity extends ActivityBase {
                         // Toast.makeText(MainActivity.this, " Selected year : " + selectedYear, Toast.LENGTH_SHORT).show();
                     }
                 })
+                .setMaxYear(2040)
                 .build()
                 .show();
 
     }
 
-
-
-
-    private void getToken() {
-        boolean validation = card_xml.validateCard();
-
-        if (validation) {
-            // startProgress("Validating Credit Card");
-            showProgressDialog();
-            Stripe stripe = new Stripe(getApplicationContext(),
-                    PUBLISHABLE_KEY);
-            PaymentMethodCreateParams paymentMethod = PaymentMethodCreateParams.create(card_xml.toPaymentMethodParamsCard());
-            stripe.createPaymentMethod(paymentMethod, new ApiResultCallback<PaymentMethod>() {
-                @Override
-                public void onSuccess(PaymentMethod paymentMethod) {
-                    addPaymentTokenTOServer(paymentMethod.id);
-                    Log.e("Stripe_token", String.valueOf(paymentMethod.id));
-                    //  hidepDialog();
-                }
-
-                @Override
-                public void onError(@NotNull Exception e) {
-                    hideProgressDialog();
-                    Log.e("Stripe", e.toString());
-                }
-            });
-
-        } else if (!card_xml.validateNumber()) {
-            Log.e("Stripe", "The card number that you entered is invalid");
-        } else if (!card_xml.validateExpiryDate()) {
-            Log.e("Stripe", "The expiration date that you entered is invalid");
-        } else if (!card_xml.validateCVC()) {
-            Log.e("Stripe", "The CVC code that you entered is invalid");
-        } else {
-            Log.e("Stripe", "The card details that you entered are invalid");
+    private boolean validation(){
+        if(edtFullName.getText().toString().isEmpty()){
+            edtFullName.setError("The card name must be filled.");
+            return false;
         }
-
-    }
-
-    private void addPaymentTokenTOServer(String pm_token) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_PAYMENTS_METHOD,
-                new Response.Listener<String>() {
-
-                    @Override
-                    public void onResponse(String response) {
-                        Timber.e(response);
-                        try {
-
-                            JSONObject jsonObject = new JSONObject(response);
-
-                            if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                                if (jsonObject.getBoolean("success")) {
-                                    showToast("Updated successfully ! ", AddCreditCardActivity.this);
-                                    if (onBankaccountadded != null) {
-                                        onBankaccountadded.creditCard();
-                                    }
-                                    finish();
-                                } else {
-                                    hideProgressDialog();
-                                    showToast("Something went Wrong", AddCreditCardActivity.this);
-                                }
-                            }
-
-
-                        } catch (JSONException e) {
-                            Timber.e(String.valueOf(e));
-                            e.printStackTrace();
-                            hideProgressDialog();
-                        }
-
-
-                    }
-                },
-                error -> {
-                    errorHandle1(error.networkResponse);
-                    hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                // map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("pm_token", pm_token);
-                Timber.e(String.valueOf(map1.size()));
-                Timber.e(map1.toString());
-                return map1;
-
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(AddCreditCardActivity.this);
-        requestQueue.add(stringRequest);
+        else if(edtCardNumber.getText().toString().isEmpty()){
+            edtCardNumber.setError("The card number must be filled.");
+            return false;
+        }
+        else if(edtExpiryDate.getText().toString().isEmpty()){
+            edtExpiryDate.setError("The card expiry date must be filled.");
+            return false;
+        }
+        else if(edtSecurityNumber.getText().toString().isEmpty()){
+            edtSecurityNumber.setError("The card CVC must be filled.");
+            return false;
+        }
+        return true;
     }
 }

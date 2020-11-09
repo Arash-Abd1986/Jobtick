@@ -1,31 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lytMain"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="start"
-    android:gravity="start"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_margin="@dimen/_5sp"
+    android:background="@drawable/bg_grey_border_requirement"
+    android:padding="@dimen/_5sp">
 
 
-    <CheckBox
-        android:id="@+id/cb_receive_alerts"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_gravity="center"
-        android:background="@drawable/radio_button_selector"
-        android:button="@null"
-        android:gravity="center" />
-    <com.jobtick.TextView.TextViewRegular
-        android:id="@+id/txt_btn_add_must_have"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="@dimen/spacing_middle"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:inputType="textMultiLine"
-        android:text="Hello"
-        android:textColor="@color/colorPrimary" />
+        android:orientation="horizontal">
 
+        <com.jobtick.TextView.TextViewSemiBold
+            android:id="@+id/txt_btn_add_must_have"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/_10sp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/_10sp"
+            android:text="This is a requirement"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/_14sp" />
+
+        <CheckBox
+            android:id="@+id/cb_receive_alerts"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/_15sp"
+            android:background="@drawable/radio_button_requirement"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center" />
+    </LinearLayout>
 
 </LinearLayout>

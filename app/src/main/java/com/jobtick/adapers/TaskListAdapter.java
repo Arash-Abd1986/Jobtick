@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -17,9 +17,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
-import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.TextView.TextViewSemiBold;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ImageUtil;
@@ -35,7 +32,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
 public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int VIEW_TYPE_LOADING = 0;
     private static final int VIEW_TYPE_NORMAL = 1;
@@ -50,28 +46,23 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         this.mOnItemClickListener = mItemClickListener;
     }
 
-
     private boolean isLoaderVisible = false;
     private List<TaskModel> mItems;
 
-    public TaskListAdapter(Context context, List<TaskModel> mItems) {
+    public TaskListAdapter(List<TaskModel> mItems) {
         this.mItems = mItems;
-        this.context = context;
     }
 
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case VIEW_TYPE_NORMAL:
-                return new ViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task_view, parent, false));
-            case VIEW_TYPE_LOADING:
-                return new ProgressHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false));
-            default:
-                return null;
+        context = parent.getContext();
+        if (viewType == VIEW_TYPE_LOADING) {
+            return new ProgressHolder(
+                    LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false));
         }
+        return new ViewHolder(
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task_view, parent, false));
     }
 
     @Override
@@ -127,55 +118,43 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.img_avatar)
         CircularImageView imgAvatar;
         @BindView(R.id.txt_offer_count)
-        TextViewSemiBold txtOfferCount;
-       // @BindView(R.id.lyt_offer_count)
-        //LinearLayout lytOfferCount;
+        TextView txtOfferCount;
         @BindView(R.id.lyt_task_profile)
         LinearLayout lytTaskProfile;
         @BindView(R.id.txt_title)
-        TextViewMedium txtTitle;
+        TextView txtTitle;
         @BindView(R.id.txt_location)
-        TextViewRegular txtLocation;
+        TextView txtLocation;
         @BindView(R.id.txt_due_date)
-        TextViewRegular txtDueDate;
+        TextView txtDueDate;
         @BindView(R.id.txt_due_time)
-        TextViewRegular txtDueTime;
+        TextView txtDueTime;
         @BindView(R.id.txt_budget)
-        TextViewSemiBold txtBudget;
+        TextView txtBudget;
         @BindView(R.id.txt_status)
-        TextViewSemiBold txtStatus;
-
+        TextView txtStatus;
         @BindView(R.id.tv_delete)
         ImageView tvDelete;
-
-        @BindView(R.id.lyt_btn_parent_layout)
-        RelativeLayout lytBtnParentLayout;
-
-
         @BindView(R.id.card_task_background)
         CardView cardTaskBackground;
 
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
         }
 
         protected void clear() {
         }
 
-
         @SuppressLint("SetTextI18n")
         public void onBind(int position) {
             super.onBind(position);
             TaskModel item = mItems.get(position);
-            if (item.getPoster() != null && item.getPoster().getAvatar() != null && item.getPoster().getAvatar().getThumbUrl() != null)
-                ImageUtil.displayImage(imgAvatar, item.getPoster().getAvatar().getThumbUrl(), null);
+            if (item.getPoster() != null && item.getPoster().getAvatar() != null && item.getPoster().getAvatar() != null)
+                ImageUtil.displayImage(imgAvatar, item.getPoster().getAvatar().getUrl(), null);
             txtTitle.setText(item.getTitle());
 
-
             if (item.getDueDate() != null && !item.getDueDate().equals("")) {
-
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 try {
                     Date date = format.parse(item.getDueDate());
@@ -184,17 +163,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     assert date != null;
                     String dayOfTheWeek = sdf.format(date);
                     txtDueDate.setText(dayOfTheWeek);
-
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
-
             }
 
-
             if (item.getDueTime() != null) {
-
                 txtDueTime.setText("");
                 if (item.getDueTime().getMorning()) {
                     if (TextUtils.isEmpty(txtDueTime.getText().toString())) {
@@ -224,12 +198,9 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         txtDueTime.append(", Midday");
                     }
                 }
-
-
                 if (!item.getDueTime().getMorning() && !item.getDueTime().getAfternoon() &&
                         !item.getDueTime().getEvening() && !item.getDueTime().getMidday()) {
                     txtDueTime.setText("No time set");
-
                 }
             } else {
                 txtDueTime.setText("No time set");
@@ -274,46 +245,26 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     tvDelete.setVisibility(View.VISIBLE);
                     break;
                 case "open":
-                    cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorTaskOffer));
-                    backgroundGradient.setColor(ContextCompat.getColor(context, R.color.colorTaskOfferTrans));
-                    txtStatus.setBackground(backgroundGradient);
-                    txtStatus.setTextColor(ContextCompat.getColor(context, R.color.colorTaskOffer));
-                    break;
                 case "offered":
                     cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorTaskOffer));
                     backgroundGradient.setColor(ContextCompat.getColor(context, R.color.colorTaskOfferTrans));
                     txtStatus.setBackground(backgroundGradient);
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.colorTaskOffer));
-
                     break;
                 case "assigned":
-
                     cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorTaskAssigned));
                     backgroundGradient.setColor(ContextCompat.getColor(context, R.color.colorTaskAssignedTrans));
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.colorTaskAssigned));
                     txtStatus.setBackground(backgroundGradient);
-
                     break;
                 case "completed":
-
-                    cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorTaskCompleted));
-                    backgroundGradient.setColor(ContextCompat.getColor(context, R.color.colorTaskCompletedTrans));
-
-                    txtStatus.setBackground(backgroundGradient);
-                    txtStatus.setTextColor(ContextCompat.getColor(context, R.color.colorTaskCompleted));
-                    break;
                 case "closed":
-
                     cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorTaskCompleted));
                     backgroundGradient.setColor(ContextCompat.getColor(context, R.color.colorTaskCompletedTrans));
-
                     txtStatus.setBackground(backgroundGradient);
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.colorTaskCompleted));
-
                     break;
-
                 case "cancelled":
-
                     cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorTaskCancelled));
                     backgroundGradient.setColor(ContextCompat.getColor(context, R.color.colorTaskCancelledTrans));
                     txtStatus.setBackground(backgroundGradient);
@@ -321,12 +272,11 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     break;
             }
 
-            lytBtnParentLayout.setOnClickListener(v -> {
+            cardTaskBackground.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemClick(v, item, getAdapterPosition(), "action");
                 }
             });
-
         }
     }
 

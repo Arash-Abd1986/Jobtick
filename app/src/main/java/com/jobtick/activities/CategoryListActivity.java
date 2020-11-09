@@ -2,16 +2,18 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
@@ -21,11 +23,6 @@ import com.jobtick.models.TaskModel;
 import com.jobtick.pagination.PaginationListener;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
-
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +38,7 @@ import butterknife.ButterKnife;
 
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
-public class CategroyListActivity extends ActivityBase implements TaskCategoryAdapter.OnItemClickListener {
+public class CategoryListActivity extends ActivityBase implements TaskCategoryAdapter.OnItemClickListener {
 
     @BindView(R.id.recyclerView_categories)
     RecyclerView recyclerViewCategories;
@@ -59,8 +56,6 @@ public class CategroyListActivity extends ActivityBase implements TaskCategoryAd
     private int totalPage = 10;
     private boolean isLoading = false;
 
-    // @BindView(R.id.toolbar)
-    //  MaterialToolbar toolbar;
     private String query = "";
 
     @Override
@@ -69,23 +64,18 @@ public class CategroyListActivity extends ActivityBase implements TaskCategoryAd
         setContentView(R.layout.activity_category_list);
         ButterKnife.bind(this);
         init();
-        setCaegoryData();
-        clickevent();
-        //toolbar.setNavigationOnClickListener(view -> onBackPressed());
+        setCategoryData();
+        clickEvent();
     }
 
-
-    public void clickevent() {
+    public void clickEvent() {
         ivBackButton.setOnClickListener(v -> finish());
-
         lytSearchCategories.setOnClickListener(v -> {
-
-            Intent categoryActivity = new Intent(CategroyListActivity.this, SearchCategoryActivity.class);
+            Intent categoryActivity = new Intent(CategoryListActivity.this, SearchCategoryActivity.class);
             startActivity(categoryActivity);
             finish();
         });
     }
-
 
     public void init() {
         Bundle bundle = getIntent().getExtras();
@@ -96,20 +86,15 @@ public class CategroyListActivity extends ActivityBase implements TaskCategoryAd
         }
     }
 
-    private void setCaegoryData() {
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(CategroyListActivity.this);
+    private void setCategoryData() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(CategoryListActivity.this);
         recyclerViewCategories.setLayoutManager(layoutManager);
-        //      recyclerViewCategories.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(dashboardActivity, 2), true));
         recyclerViewCategories.setHasFixedSize(true);
         List<TaskCategory> items = getTaskCategoryData();
-        //set data and list adapter
-        adapter = new TaskCategoryAdapter(CategroyListActivity.this, new ArrayList<>());
+        adapter = new TaskCategoryAdapter(CategoryListActivity.this, new ArrayList<>());
         recyclerViewCategories.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
-        /*
-         * add scroll listener while user reach in bottom load more will call
-         */
+
         recyclerViewCategories.addOnScrollListener(new PaginationListener(layoutManager) {
             @Override
             protected void loadMoreItems() {
@@ -128,25 +113,19 @@ public class CategroyListActivity extends ActivityBase implements TaskCategoryAd
                 return isLoading;
             }
         });
-
     }
 
     @Override
     public void onItemClick(View view, TaskCategory obj, int position) {
-
-        Intent creating_task = new Intent(CategroyListActivity.this, TaskCreateActivity.class);
+        Intent creating_task = new Intent(CategoryListActivity.this, TaskCreateActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("categoryID", obj.getId());
-        //  bundle.putParcelable(ConstantKey.TASK, taskModel);
         creating_task.putExtras(bundle);
         startActivityForResult(creating_task, ConstantKey.RESULTCODE_CATEGORY);
         finish();
-
     }
 
-
     public List<TaskCategory> getTaskCategoryData() {
-
         List<TaskCategory> items = new ArrayList<>();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.BASE_URL + Constant.TASK_CATEGORY + "?query=" + query + "&page=" + currentPage,
@@ -157,11 +136,11 @@ public class CategroyListActivity extends ActivityBase implements TaskCategoryAd
                             JSONArray jsonArray_data = jsonObject.getJSONArray("data");
                             for (int i = 0; jsonArray_data.length() > i; i++) {
                                 JSONObject jsonObject_taskModel_list = jsonArray_data.getJSONObject(i);
-                                TaskCategory taskModel = new TaskCategory().getJsonToModel(jsonObject_taskModel_list, CategroyListActivity.this);
+                                TaskCategory taskModel = new TaskCategory().getJsonToModel(jsonObject_taskModel_list, CategoryListActivity.this);
                                 items.add(taskModel);
                             }
                         } else {
-                            showToast("some went to wrong", CategroyListActivity.this);
+                            showToast("some went to wrong", CategoryListActivity.this);
                             return;
                         }
 
@@ -171,23 +150,15 @@ public class CategroyListActivity extends ActivityBase implements TaskCategoryAd
                             Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
                         }
 
-                        /*
-                         *manage progress view
-                         */
                         if (currentPage != PAGE_START)
                             adapter.removeLoading();
-
                         if (items.size() <= 0) {
-                            //ivNoPost.setVisibility(View.VISIBLE);
                             recyclerViewCategories.setVisibility(View.GONE);
                         } else {
-                            //  ivNoPost.setVisibility(View.GONE);
                             recyclerViewCategories.setVisibility(View.VISIBLE);
-
                         }
                         adapter.addItems(items);
 
-                        // check weather is last page or not
                         if (currentPage < totalPage) {
                             adapter.addLoading();
                         } else {
@@ -196,16 +167,10 @@ public class CategroyListActivity extends ActivityBase implements TaskCategoryAd
                         isLoading = false;
                     } catch (JSONException e) {
                         hideProgressDialog();
-                        Log.e("EXCEPTION", String.valueOf(e));
                         e.printStackTrace();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        errorHandle1(error.networkResponse);
-                    }
-                }) {
+                error -> errorHandle1(error.networkResponse)) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
@@ -217,12 +182,8 @@ public class CategroyListActivity extends ActivityBase implements TaskCategoryAd
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(CategroyListActivity.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(CategoryListActivity.this);
         requestQueue.add(stringRequest);
-        Log.e("url", stringRequest.getUrl());
-
         return items;
-
     }
-
 }

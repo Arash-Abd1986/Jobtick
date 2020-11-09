@@ -98,7 +98,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         recyclerViewFilters.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerViewFilters.setHasFixedSize(true);
         sessionManager = new SessionManager(this);
-        filterAdapter = new FilterAdapter(this, filters);
+        filterAdapter = new FilterAdapter(filters);
         recyclerViewFilters.setAdapter(filterAdapter);
         if (sessionManager.getFilter() != null) {
             filterModel = sessionManager.getFilter();
@@ -123,7 +123,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerViewTask.setLayoutManager(layoutManager);
-        taskListAdapter = new TaskListAdapter(this, new ArrayList<>());
+        taskListAdapter = new TaskListAdapter( new ArrayList<>());
         recyclerViewTask.setAdapter(taskListAdapter);
         taskListAdapter.setOnItemClickListener(this);
 
@@ -153,6 +153,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
 
 
     }
+
     @OnClick(R.id.lyt_btn_filters)
     public void onViewClicked() {
         Bundle bundle = new Bundle();
@@ -171,13 +172,12 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
                 filterModel = (FilterModel) bundle.getParcelable(Constant.FILTER);
                 sessionManager.setFilter(filterModel);
                 setFilterData();
-                currentPage=PAGE_START;
+                currentPage = PAGE_START;
                 taskListAdapter.clear();
                 doApiCall();
             }
         }
     }
-
 
 
     private void setFilterData() {

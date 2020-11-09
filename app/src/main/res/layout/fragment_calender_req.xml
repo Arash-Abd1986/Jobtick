@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/calender_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -27,7 +28,7 @@
             android:layout_marginStart="@dimen/spacing_large"
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_large"
-            android:layout_marginBottom="@dimen/spacing_medium"
+            android:layout_marginBottom="@dimen/spacing_xxlarge"
             android:background="@drawable/greay_border_bg"
             android:visibility="visible">
 
@@ -72,24 +73,20 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/calendar"
-                        android:tint="@color/colorTaskOffer" />
+                        android:src="@drawable/ic_calendar_primary"
+                        app:tint="@color/colorPrimary" />
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>
 
-        <com.jobtick.TextView.TextViewMedium
-            android:id="@+id/txt_btn_next"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_add_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/spacing_mlarge"
-            android:background="@drawable/shape_tab_primary"
-            android:gravity="center"
-            android:padding="@dimen/spacing_large"
+            android:layout_margin="15dp"
+            style="@style/materialButton"
             android:text="@string/next"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:enabled="false" />
+
     </LinearLayout>
 </FrameLayout>

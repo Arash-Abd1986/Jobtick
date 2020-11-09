@@ -7,13 +7,12 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.jobtick.TextView.TextViewSemiBold
+    <com.jobtick.TextView.TextViewRegular
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="- OR -"
         android:textColor="@color/grey_70"
-        android:textSize="@dimen/_12sp"
-        android:textStyle="bold" />
+        android:textSize="@dimen/_12sp" />
 
 
     <LinearLayout
@@ -42,7 +41,7 @@
                 android:layout_gravity="center"
                 android:gravity="center">
 
-                <com.jobtick.TextView.TextViewRegular
+                <com.jobtick.TextView.TextViewMedium
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -50,6 +49,7 @@
                     android:drawablePadding="@dimen/spacing_middle"
                     android:gravity="center_vertical"
                     android:text="GOOGLE"
+                    android:textSize="@dimen/_14sp"
                     android:textColor="@color/textColor" />
 
             </LinearLayout>
@@ -63,7 +63,7 @@
             android:layout_marginEnd="@dimen/spacing_middle"
             android:layout_marginBottom="@dimen/spacing_medium"
             android:layout_weight="1"
-            app:cardCornerRadius="@dimen/cardCorners"
+            app:cardCornerRadius="@dimen/buttonCorners"
             app:cardElevation="0dp">
 
             <LinearLayout
@@ -73,7 +73,7 @@
                 android:layout_gravity="center"
                 android:gravity="center">
 
-                <com.jobtick.TextView.TextViewRegular
+                <com.jobtick.TextView.TextViewMedium
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -81,7 +81,8 @@
                     android:drawablePadding="@dimen/spacing_middle"
                     android:gravity="center_vertical"
                     android:text="FACEBOOK"
-                    android:textColor="@color/textColor" />
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/_14sp"/>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

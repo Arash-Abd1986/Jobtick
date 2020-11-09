@@ -26,14 +26,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_10sp"
-            android:text="Lorem Ipsum is simply \ndummy printing."
+            android:text="It's where the job is done"
             android:textColor="@color/textColor"
             android:textSize="@dimen/_20sp" />
 
         <com.jobtick.TextView.TextViewRegular
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lorem Ipsum is simply dummy text of the typesetting industry." />
+            android:text="Create an account now" />
 
     </LinearLayout>
 
@@ -41,28 +41,27 @@
         android:id="@+id/lyt_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/jobTickExplaination"
-        android:paddingStart="@dimen/_25sp"
-        android:paddingEnd="@dimen/_25sp"
+        android:layout_above="@id/cityAnimation"
+        android:paddingStart="@dimen/_30dp"
+        android:paddingEnd="@dimen/_30dp"
         android:orientation="vertical">
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_marginTop="16dp"
             android:id="@+id/lyt_btn_sign_up"
-            style="@style/materialButton.medium"
+            style="@style/materialButton"
             android:text="@string/sign_up"
-            android:background="@color/blueButtons"
             android:textColor="@color/white"
             />
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_marginTop="16dp"
             android:id="@+id/lyt_btn_sign_in"
-            style="@style/materialButton.medium.outlined"
+            style="@style/materialButton.outlined"
             android:text="@string/log_in"
             android:textColor="@color/blueButtons"
             app:strokeColor="@color/blueButtons"
@@ -70,16 +69,6 @@
 
     </LinearLayout>
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:lottie_rawRes="@raw/city"
-        app:lottie_loop="true"
-        app:lottie_autoPlay="true"
-        android:scaleType="centerCrop"
-        android:adjustViewBounds="true"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/lyt_btn"/>
-
+    <include layout="@layout/view_city_anim"/>
 
 </RelativeLayout>

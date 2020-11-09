@@ -40,50 +40,28 @@ import butterknife.OnClick;
  */
 public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickListener {
 
-    /*@BindView(R.id.toolbar)
-    MaterialToolbar toolbar;*/
-
     @BindView(R.id.edt_budget)
     EditText edtBudget;
-
-    /*@BindView(R.id.img_btn_minus)
-    ImageView imgBtnMinus;
-
-    @BindView(R.id.img_btn_plus)
-    ImageView imgBtnPlus;*/
-
- /*   @BindView(R.id.lyt_button_minus_plus)
-    LinearLayout lytButtonMinusPlus;*/
-
     @BindView(R.id.txt_service_fee)
     TextView txtServiceFee;
-
     @BindView(R.id.txt_final_budget)
     TextView txtFinalBudget;
-
     @BindView(R.id.txt_account_level)
     TextView txtAccountLevel;
-
     @BindView(R.id.txt_current_service_fee)
     TextView txtCurrentServiceFee;
-
     @BindView(R.id.txt_learn_how_level_affects_service_fee)
     TextView txtLearnHowLevelAffectsServiceFee;
-
     @BindView(R.id.lyt_btn_continue)
     LinearLayout lytBtnContinue;
-
     @BindView(R.id.card_continue)
     CardView cardContinue;
-
     @BindView(R.id.img_level)
     ImageView imgLevel;
-
     @BindView(R.id.tvOffer)
     TextView tvOffer;
 
     private MakeAnOfferModel makeAnOfferModel;
-    // private TaskModel taskModel;
     private MakeAnOfferActivity makeAnOfferActivity;
     BudgetCallbackFunction budgetCallbackFunction;
     private UserAccountModel userAccountModel;
@@ -146,40 +124,47 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
         cardContinue.setClickable(false);
 
         //setupBudget(Integer.parseInt(edtBudget.getText().toString().trim()));
-        edtBudget.setFilters(new InputFilter[]{new MinMaxFilter("1", "9999")});
-        edtBudget.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                String currentText = editable.toString();
-                int currentLength = currentText.length();
-
-                if (currentLength >= 1) {
-                    cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorPrimary));
-                    cardContinue.setClickable(true);
-                } else {
-                    cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorAccent));
-                    cardContinue.setClickable(false);
+        final String number = edtBudget.getText().toString();
+        if (!number.matches("0\\d{0}") || number.length() <= 5 || Integer.parseInt(number) <= 5) {
+            //!number.matches("9\\d{9}") ||
+            // !number.matches("(\\+98|0)?9\\d{9}") ||
+            Toast.makeText(getActivity(), "between 5 - 9999!", Toast.LENGTH_LONG).show();
+        } else {
+            edtBudget.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 }
 
-                if (currentLength == 0) {
-                    //reset all data
-                } else {
-                    setupBudget(Integer.parseInt(editable.toString()));
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
                 }
-            }
-        });
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                    String currentText = editable.toString();
+                    int currentLength = currentText.length();
+
+                    if (currentLength >= 1) {
+                        cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorPrimary));
+                        cardContinue.setClickable(true);
+                    } else {
+                        cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorAccent));
+                        cardContinue.setClickable(false);
+                    }
+
+                    if (currentLength == 0) {
+                        //reset all data
+                    } else {
+                        setupBudget(Integer.parseInt(editable.toString()));
+                    }
+                }
+            });
+        }
+
+
+        // .setFilters(new InputFilter[]{new MinMaxFilter(5, 9999)});
+
         initComponentScroll();
     }
 
@@ -283,8 +268,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
         }
     }
 
-    private void budgetModification(String sign)
-    {
+    private void budgetModification(String sign) {
         try {
             int budget = Integer.parseInt(edtBudget.getText().toString().trim());
             if (sign.equalsIgnoreCase("-")) {

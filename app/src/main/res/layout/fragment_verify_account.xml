@@ -97,7 +97,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/lyt_btn_finish"
-        style="@style/materialButton.medium"
+        style="@style/materialButton"
         android:layout_width="match_parent"
         android:layout_height="@dimen/material_button_standard_height"
         android:layout_alignParentBottom="true"
@@ -105,7 +105,6 @@
         android:layout_marginTop="@dimen/spacing_medium"
         android:layout_marginEnd="@dimen/spacing_large"
         android:layout_marginBottom="@dimen/margin_bottom_button"
-        android:background="@color/blueButtons"
         android:text="@string/finish"
         android:textColor="@color/white" />
 

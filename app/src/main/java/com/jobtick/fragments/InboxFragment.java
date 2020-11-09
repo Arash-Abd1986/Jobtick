@@ -1,6 +1,7 @@
 package com.jobtick.fragments;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -107,6 +109,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
 
     ImageView ivNotification;
     TextView toolbar_title;
+    private LottieAnimationView lottieAnim;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,6 +117,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_inbox, container, false);
         ButterKnife.bind(this, view);
+        lottieAnim=view.findViewById(R.id.lottieAnimationView);
         dashboardActivity = (DashboardActivity) getActivity();
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -145,6 +149,11 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
             androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
             params.gravity = Gravity.LEFT;
             toolbar_title.setLayoutParams(params);
+
+            toolbar.post(() -> {
+                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
+                toolbar.setNavigationIcon(d);
+            });
 
         }
 
@@ -367,7 +376,17 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
                              *manage progress view
                              */
                             if (currentPage != PAGE_START)
+
                                 adapter.removeLoading();
+                            if (items.size() <= 0) {
+                                lottieAnim.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
+                            } else {
+                                lottieAnim.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+
+                            }
+
                             adapter.addItems(items);
 
                             conversationModelArrayList = items;

@@ -60,7 +60,7 @@ public class CancellationRequestActivity extends ActivityBase {
         if (bundle != null) {
             isMyTask = bundle.getBoolean(ConstantKey.IS_MY_TASK);
         }
-        taskModel= TaskDetailsActivity.taskModel;
+        taskModel = TaskDetailsActivity.taskModel;
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

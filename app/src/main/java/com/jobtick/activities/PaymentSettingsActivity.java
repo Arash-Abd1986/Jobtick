@@ -1,5 +1,6 @@
 package com.jobtick.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -8,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
@@ -22,9 +23,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.TextView.TextViewSemiBold;
 import com.jobtick.interfaces.OnBankAccountAdded;
 import com.jobtick.models.BankAccountModel;
 import com.jobtick.models.BillingAdreessModel;
@@ -38,6 +36,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,10 +47,11 @@ import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
 import static com.jobtick.utils.Constant.ADD_BILLING;
 import static com.jobtick.utils.Constant.BASE_URL;
 
-public class PaymentSettingsActivity extends ActivityBase implements OnBankAccountAdded {
+public class PaymentSettingsActivity extends ActivityBase {
 
- /*   @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;*/
+    private CreditCardModel creditCardModel;
+    private BankAccountModel bankAccountModel;
+    private BillingAdreessModel billingAdreessModel;
 
     @BindView(R.id.rb_payments)
     RadioButton rbPayments;
@@ -62,65 +62,56 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
     @BindView(R.id.rg_payments_withdrawal)
     RadioGroup rgPaymentsWithdrawal;
 
-    @BindView(R.id.img_add)
-    ImageView imgAdd;
+    @BindView(R.id.add_credit_card)
+    CardView addCreditCard;
 
-    @BindView(R.id.txt_add_credit_card)
-    TextViewSemiBold txtAddCreditCard;
+    @BindView(R.id.add_bank_account)
+    CardView addBankAccount;
 
-    @BindView(R.id.rlt_btn_add_credit_card)
-    RelativeLayout rltBtnAddCreditCard;
+    @BindView(R.id.add_billing_address)
+    CardView addBillingAddress;
 
-    @BindView(R.id.linear_bank_details)
-    LinearLayout linear_bank_details;
+    @BindView(R.id.linear_payment_specs)
+    LinearLayout paymentSpecs;
 
-    @BindView(R.id.linear_credit_card_view)
-    LinearLayout linear_credit_card_view;
+    @BindView(R.id.linear_withdrawal_specs)
+    LinearLayout withdrawalSpecs;
 
-    @BindView(R.id.linear_bank)
-    LinearLayout linear_bank;
+    @BindView(R.id.linear_add_credit_card)
+    LinearLayout addCreditCardSpecs;
 
-    @BindView(R.id.card_add_billing_address)
-    CardView card_add_billing_address;
+    @BindView(R.id.linear_add_bank_account)
+    LinearLayout addBankAccountSpecs;
 
-    @BindView(R.id.card_add_bank_account)
-    CardView card_add_bank_account;
+    @BindView(R.id.linear_add_billing_address)
+    LinearLayout addBillingAddressSpecs;
 
-    @BindView(R.id.card_view_bank_account)
-    CardView card_view_bank_account;
+    @BindView(R.id.tv_bsb)
+    TextView bsb;
 
-    @BindView(R.id.txt_account_number)
-    TextViewSemiBold txtAccountNumber;
+    @BindView(R.id.tv_account_number)
+    TextView accountNumber;
 
-    @BindView(R.id.card_view_billing_address)
-    CardView card_view_billing_address;
+    @BindView(R.id.tv_address)
+    TextView address;
 
-    @BindView(R.id.txt_Billing_Address)
-    TextViewSemiBold txtBillingAddress;
+    @BindView(R.id.tv_state)
+    TextView state;
 
-    @BindView(R.id.tvCardHolderName)
-    TextViewRegular tvCardHolderName;
+    @BindView(R.id.tv_suburb)
+    TextView suburb;
 
-    @BindView(R.id.txtCardNumber)
-    TextViewRegular txtCardNumber;
+    @BindView(R.id.tv_postcode)
+    TextView postCode;
 
-    @BindView(R.id.txtPrice)
-    TextViewBold txtPrice;
+    @BindView(R.id.tv_country)
+    TextView country;
 
-    @BindView(R.id.rtl_credit_card_details)
-    LinearLayout rtl_credit_card_details;
+    @BindView(R.id.credit_account_name)
+    TextView creditAccountName;
 
-    @BindView(R.id.card_delete_credit_card)
-    CardView card_delete_credit_card;
-
-    @BindView(R.id.liner_no_payment_method)
-    LinearLayout liner_no_payment_method;
-
-    @BindView(R.id.ic_delete_bank_account)
-    ImageView ic_delete_bank_account;
-
-    @BindView(R.id.ic_delete_billing_account)
-    ImageView ic_delete_billing_account;
+    @BindView(R.id.credit_account_number)
+    TextView creditAccountNumber;
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -142,7 +133,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         // setSupportActionBar(toolbar);
       /*  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Payment Settings");*/
-        onBankaccountadded = this;
+//        onBankaccountadded = this;
         ivBack.setOnClickListener(v -> finish());
     }
 
@@ -165,11 +156,10 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         rbPayments.setChecked(true);
         rbPayments.setTextColor(getResources().getColor(R.color.white));
         rbWithdrawal.setTextColor(getResources().getColor(R.color.black));
-        linear_credit_card_view.setVisibility(View.VISIBLE);
-        linear_bank_details.setVisibility(View.GONE);
-        linear_bank.setVisibility(View.GONE);
-        liner_no_payment_method.setVisibility(View.VISIBLE);
-        rtl_credit_card_details.setVisibility(View.GONE);
+        paymentSpecs.setVisibility(View.VISIBLE);
+        withdrawalSpecs.setVisibility(View.GONE);
+
+
         getBillingAddress();
         getPaymentMethod();
         getBankAccountDetails();
@@ -181,20 +171,127 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton rb_btn = (RadioButton) findViewById(checkedId);
-                if (rb_btn.getText().equals("Payments")) {
+                if (rb_btn.getId() == R.id.rb_payments) {
                     rbPayments.setTextColor(getResources().getColor(R.color.white));
                     rbWithdrawal.setTextColor(getResources().getColor(R.color.black));
-                    linear_credit_card_view.setVisibility(View.VISIBLE);
-                    linear_bank_details.setVisibility(View.GONE);
+                    paymentSpecs.setVisibility(View.VISIBLE);
+                    withdrawalSpecs.setVisibility(View.GONE);
                 } else {
                     rbPayments.setTextColor(getResources().getColor(R.color.black));
                     rbWithdrawal.setTextColor(getResources().getColor(R.color.white));
-                    linear_credit_card_view.setVisibility(View.GONE);
-                    linear_bank_details.setVisibility(View.VISIBLE);
+                    paymentSpecs.setVisibility(View.GONE);
+                    withdrawalSpecs.setVisibility(View.VISIBLE);
                 }
             }
         });
     }
+
+
+    @OnClick({R.id.add_credit_card, R.id.add_billing_address, R.id.add_bank_account,
+            R.id.delete_bank_account, R.id.delete_billing_address, R.id.delete_payment_card,
+            R.id.edit_billing_address, R.id.edit_bank_account, R.id.edit_payment_card})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.add_credit_card:
+                editPaymentCard(false);
+                break;
+            case R.id.add_bank_account:
+                editBankAccount(false);
+                break;
+            case R.id.add_billing_address:
+                editBillingAddress(false);
+                break;
+            case R.id.delete_payment_card:
+                deleteCreditCard();
+                break;
+            case R.id.delete_bank_account:
+                deleteBankAccountDetails();
+                break;
+            case R.id.delete_billing_address:
+                deleteBillingAddress();
+                break;
+            case R.id.edit_billing_address:
+                editBillingAddress(true);
+                break;
+            case R.id.edit_bank_account:
+                editBankAccount(true);
+                break;
+            case R.id.edit_payment_card:
+                editPaymentCard(true);
+                break;
+        }
+    }
+
+    private void editPaymentCard(boolean editMode) {
+        if(editMode){
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(CreditCardModel.class.getName(), creditCardModel);
+            Intent add_credit_card = new Intent(PaymentSettingsActivity.this, AddCreditCardActivity.class);
+            add_credit_card.putExtras(bundle);
+            startActivityForResult(add_credit_card, 111);
+        }else{
+            Intent add_credit_card = new Intent(PaymentSettingsActivity.this, AddCreditCardActivity.class);
+            startActivityForResult(add_credit_card, 111);
+        }
+    }
+
+    private void editBankAccount(boolean editMode) {
+        if(editMode){
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(BankAccountModel.class.getName(), bankAccountModel);
+            Intent add_bank_account = new Intent(PaymentSettingsActivity.this, AddBankAccountActivity.class);
+            add_bank_account.putExtras(bundle);
+            startActivityForResult(add_bank_account, 222);
+        }else {
+            Intent add_bank_account = new Intent(PaymentSettingsActivity.this, AddBankAccountActivity.class);
+            startActivityForResult(add_bank_account, 222);
+        }
+
+    }
+
+    private void editBillingAddress(boolean editMode) {
+        if (editMode) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(BillingAdreessModel.class.getName(), billingAdreessModel);
+            Intent add_billing_address = new Intent(PaymentSettingsActivity.this, BillingAddressActivity.class);
+            add_billing_address.putExtras(bundle);
+            startActivityForResult(add_billing_address, 333);
+        }else{
+            Intent add_billing_address = new Intent(PaymentSettingsActivity.this, BillingAddressActivity.class);
+            startActivityForResult(add_billing_address, 333);
+        }
+    }
+
+    private void setupViewBankAccountDetails(boolean success) {
+        if (success) {
+            addBankAccount.setVisibility(View.GONE);
+            addBankAccountSpecs.setVisibility(View.VISIBLE);
+        } else {
+            addBankAccount.setVisibility(View.VISIBLE);
+            addBankAccountSpecs.setVisibility(View.GONE);
+        }
+    }
+
+    private void setupViewBillingAddress(boolean success) {
+        if (success) {
+            addBillingAddress.setVisibility(View.GONE);
+            addBillingAddressSpecs.setVisibility(View.VISIBLE);
+        } else {
+            addBillingAddress.setVisibility(View.VISIBLE);
+            addBillingAddressSpecs.setVisibility(View.GONE);
+        }
+    }
+
+    private void setupViewCreditCard(boolean success) {
+        if (success) {
+            addCreditCard.setVisibility(View.GONE);
+            addCreditCardSpecs.setVisibility(View.VISIBLE);
+        } else {
+            addCreditCard.setVisibility(View.VISIBLE);
+            addCreditCardSpecs.setVisibility(View.GONE);
+        }
+    }
+
 
     public void getBankAccountDetails() {
         showProgressDialog();
@@ -208,34 +305,39 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 String jsonString = jsonObject.toString(); //http request
-                                BankAccountModel data = new BankAccountModel();
                                 Gson gson = new Gson();
-                                data = gson.fromJson(jsonString, BankAccountModel.class);
+                                bankAccountModel = gson.fromJson(jsonString, BankAccountModel.class);
 
-                                if (data != null) {
-                                    if (data.isSuccess()) {
+                                if (bankAccountModel != null) {
+                                    if (bankAccountModel.isSuccess()) {
 
-                                        if (data.getData() != null && data.getData().getAccount_number() != null) {
-                                            linear_bank.setVisibility(View.GONE);
-                                            card_add_bank_account.setVisibility(View.GONE);
-                                            card_view_bank_account.setVisibility(View.VISIBLE);
-                                            txtAccountNumber.setText(data.getData().getAccount_number());
+                                        if (bankAccountModel.getData() != null && bankAccountModel.getData().getAccount_number() != null) {
+
+                                            setupViewBankAccountDetails(true);
+
+                                            accountNumber.setText("xxxxx" + bankAccountModel.getData().getAccount_number());
+                                            bsb.setText(bankAccountModel.getData().getBsb_code());
                                         }
                                     }
                                 }
                             } else {
                                 showToast("Something went Wrong", PaymentSettingsActivity.this);
+                                setupViewBankAccountDetails(false);
                             }
                         }
                     } catch (JSONException e) {
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
-
+                        showToast(e.getMessage(), PaymentSettingsActivity.this);
+                        setupViewBankAccountDetails(false);
                     }
 
 
                 },
                 error -> {
+
+                    setupViewBankAccountDetails(false);
+
                     NetworkResponse networkResponse = error.networkResponse;
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
@@ -284,8 +386,6 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(PaymentSettingsActivity.this);
         requestQueue.add(stringRequest);
-
-
     }
 
     public void getBillingAddress() {
@@ -302,34 +402,39 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 String jsonString = jsonObject.toString(); //http request
-                                BillingAdreessModel data = new BillingAdreessModel();
                                 Gson gson = new Gson();
-                                data = gson.fromJson(jsonString, BillingAdreessModel.class);
+                                billingAdreessModel = gson.fromJson(jsonString, BillingAdreessModel.class);
 
-                                if (data != null) {
-                                    if (data.isSuccess()) {
+                                if (billingAdreessModel != null) {
+                                    if (billingAdreessModel.isSuccess()) {
 
-                                        if (data.getData() != null && data.getData().getLine1() != null) {
-                                            txtBillingAddress.setText(data.getData().getLine1());
-                                            card_add_billing_address.setVisibility(View.GONE);
-                                            linear_bank.setVisibility(View.GONE);
-                                            card_view_billing_address.setVisibility(View.VISIBLE);
+                                        if (billingAdreessModel.getData() != null && billingAdreessModel.getData().getLine1() != null) {
+
+                                            setupViewBillingAddress(true);
+
+                                            address.setText(billingAdreessModel.getData().getLine1());
+                                            suburb.setText(billingAdreessModel.getData().getCity());
+                                            postCode.setText(billingAdreessModel.getData().getPost_code());
+                                            country.setText(billingAdreessModel.getData().getCountry());
+                                            state.setText(billingAdreessModel.getData().getState());
                                         }
                                     }
                                 }
                             } else {
+                                setupViewBillingAddress(false);
                                 showToast("Something went Wrong", PaymentSettingsActivity.this);
                             }
                         }
                     } catch (JSONException e) {
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
-
+                        setupViewBillingAddress(false);
                     }
 
 
                 },
                 error -> {
+                    setupViewBillingAddress(false);
                     NetworkResponse networkResponse = error.networkResponse;
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
@@ -386,54 +491,41 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PAYMENTS_METHOD,
                 response -> {
                     Timber.e(response);
-                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                  /*  JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                                    if (jsonObject_data.has("card") && !jsonObject_data.isNull("card")) {
-                                        JSONObject jsonObject_card = jsonObject_data.getJSONObject("card");
-                                        PaymentMethodModel paymentMethodModel = new PaymentMethodModel().getJsonToModel(jsonObject_card);
-                                       // setUpLayout(paymentMethodModel);
-
-                                        txtPrice.setText(paymentMethodModel.ba);
-
-                                    } else {
-                                        showToast("card not Available", PaymentSettingsActivity.this);
-                                    }*/
-
 
                                     String jsonString = jsonObject.toString(); //http request
-                                    CreditCardModel data = new CreditCardModel();
                                     Gson gson = new Gson();
-                                    data = gson.fromJson(jsonString, CreditCardModel.class);
+                                    creditCardModel = gson.fromJson(jsonString, CreditCardModel.class);
 
-                                    if (data != null && data.getData() != null) {
-                                        liner_no_payment_method.setVisibility(View.GONE);
-                                        rtl_credit_card_details.setVisibility(View.VISIBLE);
-                                        txtPrice.setText("$ " + data.getData().getBalance());
-                                        txtCardNumber.setText("xxxx xxxx xxxx " + data.getData().getCard().getLast4());
-                                        tvCardHolderName.setText("Expire :" + data.getData().getCard().getExp_month()
-                                                + "/" + data.getData().getCard().getExp_year());
+                                    if (creditCardModel != null && creditCardModel.getData() != null) {
+
+                                        setupViewCreditCard(true);
+
+                                        creditAccountName.setText(creditCardModel.getData().getCard().getBrand());
+                                        creditAccountNumber.setText("xxxx xxxx xxxx " + creditCardModel.getData().getCard().getLast4());
                                     } else {
-                                        liner_no_payment_method.setVisibility(View.VISIBLE);
-                                        rtl_credit_card_details.setVisibility(View.GONE);
+                                        setupViewCreditCard(false);
                                     }
-
+                                    hideProgressDialog();
                                 }
                             } else {
+                                setupViewCreditCard(false);
                                 showToast("Something went Wrong", PaymentSettingsActivity.this);
                             }
                         }
                     } catch (JSONException e) {
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
+                        setupViewCreditCard(false);
                     }
                 },
                 error -> {
+                    setupViewCreditCard(false);
                     NetworkResponse networkResponse = error.networkResponse;
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
@@ -442,9 +534,10 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            if (jsonObject_error.has("error_text") && !jsonObject_error.isNull("error_text")) {
-                                if (ConstantKey.NO_PAYMENT_METHOD.equalsIgnoreCase(jsonObject_error.getString("error_text"))) {
-                                    //  setUpAddPaymentLayout();
+                            if (jsonObject_error.has("error_code") && !jsonObject_error.isNull("error_code")) {
+                                if (Objects.equals(ConstantKey.NO_PAYMENT_METHOD, jsonObject_error.getString("error_code"))) {
+                                    hideProgressDialog();
+                                    return;
                                 }
                             }
                         } catch (JSONException e) {
@@ -471,53 +564,9 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
         requestQueue.add(stringRequest);
     }
 
-    @OnClick({R.id.rlt_btn_add_credit_card, R.id.card_add_bank_account, R.id.card_add_billing_address, R.id.card_delete_credit_card, R.id.ic_delete_bank_account, R.id.ic_delete_billing_account})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.rlt_btn_add_credit_card:
-                Intent add_credit_card = new Intent(PaymentSettingsActivity.this, AddCreditCardActivity.class);
-                startActivity(add_credit_card);
-                break;
-            case R.id.card_add_bank_account:
-                Intent add_bank_account = new Intent(PaymentSettingsActivity.this, AddBankAccountActivity.class);
-                startActivity(add_bank_account);
-                break;
-            case R.id.card_add_billing_address:
-                Intent add_billing_address = new Intent(PaymentSettingsActivity.this, BillingAddressActivity.class);
-                startActivity(add_billing_address);
-                break;
-            case R.id.card_delete_credit_card:
-                DeleteCard();
-                break;
-            case R.id.ic_delete_bank_account:
-                DeleteBankAccountDetails();
-                break;
-            case R.id.ic_delete_billing_account:
-                DeleteBillingAddress();
-                break;
-        }
-    }
-
-    @Override
-    public void bankAccountAdd() {
-        getBankAccountDetails();
-    }
-
-    @Override
-    public void billingAddressAdd() {
-        getBillingAddress();
-    }
-
-    @Override
-    public void creditCard() {
-        getPaymentMethod();
-
-    }
-
-
-    private void DeleteBankAccountDetails() {
+    private void deleteBankAccountDetails() {
         showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_DELETE_BANK_ACCOUNT,
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_DELETE_BANK_ACCOUNT + "/" + bankAccountModel.getData().getId(),
                 response -> {
                     Timber.e(response);
                     hideProgressDialog();
@@ -526,9 +575,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                linear_bank.setVisibility(View.GONE);
-                                card_add_bank_account.setVisibility(View.VISIBLE);
-                                card_view_bank_account.setVisibility(View.GONE);
+                                setupViewBankAccountDetails(false);
 
                             } else {
                                 showToast("Something went Wrong", PaymentSettingsActivity.this);
@@ -578,7 +625,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
 
     }
 
-    private void DeleteBillingAddress() {
+    private void deleteBillingAddress() {
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_DELETE_BILLING_ADDRESS,
                 response -> {
@@ -589,9 +636,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                card_add_billing_address.setVisibility(View.VISIBLE);
-                                linear_bank.setVisibility(View.GONE);
-                                card_view_billing_address.setVisibility(View.GONE);
+                                setupViewBillingAddress(false);
                             } else {
                                 showToast("Something went Wrong", PaymentSettingsActivity.this);
                             }
@@ -640,8 +685,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
 
     }
 
-
-    private void DeleteCard() {
+    private void deleteCreditCard() {
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_PAYMENTS_METHOD,
                 response -> {
@@ -652,8 +696,7 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                liner_no_payment_method.setVisibility(View.VISIBLE);
-                                rtl_credit_card_details.setVisibility(View.GONE);
+                                setupViewCreditCard(false);
                             } else {
                                 showToast("Something went Wrong", PaymentSettingsActivity.this);
                             }
@@ -702,4 +745,17 @@ public class PaymentSettingsActivity extends ActivityBase implements OnBankAccou
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 111) {
+                getPaymentMethod();
+            } else if (requestCode == 222) {
+                getBankAccountDetails();
+            } else if (requestCode == 333) {
+                getBillingAddress();
+            }
+        }
+    }
 }

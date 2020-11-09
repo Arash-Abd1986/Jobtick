@@ -119,7 +119,7 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase {
     }
 
 
-    @OnClick({R.id.txt_date, R.id.lyt_btn_update, R.id.lyt_btn_decline})
+    @OnClick({R.id.txt_date, R.id.lyt_btn_verify, R.id.lyt_btn_decline})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.txt_date:
@@ -139,7 +139,7 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase {
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
                 break;
-            case R.id.lyt_btn_update:
+            case R.id.lyt_btn_verify:
                 CreateRequest();
                 break;
             case R.id.lyt_btn_decline:

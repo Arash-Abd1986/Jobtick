@@ -9,13 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-//import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
@@ -182,15 +181,16 @@ public class OnboardActivity extends ActivityBase {
             final int animAttachment = animItems.get(position);
             final int descAttachment = descItems.get(position);
             LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View v = inflater.inflate(R.layout.item_slider_image, container, false);
+            View v = inflater.inflate(R.layout.item_slider_image_onboarding, container, false);
 
-//            LottieAnimationView lottieAnimationView = v.findViewById(R.id.lottieAnimationView);
-//            TextViewRegular description = v.findViewById(R.id.description);
-//            lottieAnimationView.setVisibility(View.VISIBLE);
-//            description.setVisibility(View.VISIBLE);
-//            lottieAnimationView.setAnimation(animAttachment);
-//            description.setText(descAttachment);
-//            ((ViewPager) container).addView(v);
+            LottieAnimationView lottieAnimationView = v.findViewById(R.id.lottieAnimationView);
+            TextViewRegular description = v.findViewById(R.id.description);
+            lottieAnimationView.setVisibility(View.VISIBLE);
+            description.setVisibility(View.VISIBLE);
+            lottieAnimationView.setAnimation(animAttachment);
+            description.setText(descAttachment);
+            ((ViewPager) container).addView(v);
+
             return v;
         }
 
@@ -222,7 +222,7 @@ public class OnboardActivity extends ActivityBase {
         if (dots.length > 0) {
             dots[current].setImageResource(R.drawable.shape_circle_blue);
         }
-        if (current == size -1)
+        if (current == size - 1)
             lytBtnNext.setText(R.string.get_started);
         else
             lytBtnNext.setText(R.string.next);

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/lnr_email"
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:paddingTop="@dimen/padding_vertical_edit_text"

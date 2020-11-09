@@ -41,10 +41,21 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.jobtick.R;
+import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.AttachmentAdapterEditProfile;
+import com.jobtick.models.AttachmentModel;
+import com.jobtick.models.GeocodeObject;
+import com.jobtick.models.UserAccountModel;
 import com.jobtick.retrofit.ApiClient;
 import com.jobtick.utils.CameraUtils;
+import com.jobtick.utils.Constant;
+import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.Helper;
+import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.ImageUtil;
+import com.jobtick.utils.Tools;
+import com.jobtick.widget.SpacingItemDecoration;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -56,17 +67,6 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
-import com.jobtick.R;
-import com.jobtick.adapers.AttachmentAdapter;
-import com.jobtick.models.AttachmentModel;
-import com.jobtick.models.GeocodeObject;
-import com.jobtick.models.UserAccountModel;
-import com.jobtick.utils.Constant;
-import com.jobtick.utils.ConstantKey;
-import com.jobtick.utils.Helper;
-import com.jobtick.utils.HttpStatus;
-import com.jobtick.utils.Tools;
-import com.jobtick.widget.SpacingItemDecoration;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.json.JSONException;
@@ -107,27 +107,39 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     MaterialToolbar toolbar;*/
     @BindView(R.id.edt_first_name)
     EditText edtFirstName;
+
     @BindView(R.id.edt_last_name)
     EditText edtLastName;
+
     @BindView(R.id.edt_payment_id)
     EditText edtPaymentId;
+
     @BindView(R.id.txt_suburb)
     TextView txtSuburb;
+
     @BindView(R.id.edt_tagline)
     EditText edtTagline;
+
+    @BindView(R.id.edt_phone_number)
+    EditText edtPhoneNumber;
+
     @BindView(R.id.edt_about_me)
     EditText edtAboutMe;
+
     @BindView(R.id.edt_email_address)
     EditText edtEmailAddress;
-   @BindView(R.id.txt_birth_date)
-   TextView txtBirthDate;
+
+    @BindView(R.id.txt_birth_date)
+    TextView txtBirthDate;
+
     @BindView(R.id.edt_business_number)
     EditText edtBusinessNumber;
+
     @BindView(R.id.img_transportation_back)
     ImageView imgTransportationBack;
+
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    AttachmentAdapterEditProfile adapter;
 
     @BindView(R.id.txt_transportation)
     TextView txtTransportation;
@@ -149,6 +161,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
     @BindView(R.id.img_education_back)
     ImageView imgEducationBack;
+
     @BindView(R.id.rlt_btn_education)
     RelativeLayout rltBtnEducation;
 
@@ -157,6 +170,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
     @BindView(R.id.img_experience_back)
     ImageView imgExperienceBack;
+
     @BindView(R.id.rlt_btn_experience)
     RelativeLayout rltBtnExperience;
 
@@ -165,28 +179,9 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
     @BindView(R.id.img_specialities_back)
     ImageView imgSpecialitiesBack;
+
     @BindView(R.id.rlt_btn_specialities)
     RelativeLayout rltBtnSpecialities;
-    private ArrayList<AttachmentModel> attachmentArrayList;
-    private UserAccountModel userAccountModel;
-
-    private GeocodeObject geoCodeObject;
-    private LatLng locationObject;
-
-    private String str_latitude = null;
-    private String str_longitude = null;
-    private BottomSheetBehavior mBehavior;
-    private BottomSheetDialog mBottomSheetDialog;
-
-
-
-    @BindView(R.id.img_user_avatar)
-    CircularImageView imgAvatar;
-
-    int year, month, day;
-    String str_DOB = null;
-    DatePickerDialog.OnDateSetListener mDateSetListener;
-    private static String imageStoragePath;
 
     @BindView(R.id.bottom_sheet)
     FrameLayout bottomSheet;
@@ -200,10 +195,27 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     @BindView(R.id.ivBack)
     ImageView ivBack;
 
+    @BindView(R.id.img_user_avatar)
+    CircularImageView imgAvatar;
+
+    private ArrayList<AttachmentModel> attachmentArrayList;
+    private UserAccountModel userAccountModel;
+    private GeocodeObject geoCodeObject;
+    private LatLng locationObject;
+    private String str_latitude = null;
+    private String str_longitude = null;
+    private BottomSheetBehavior mBehavior;
+    private BottomSheetDialog mBottomSheetDialog;
+    int year, month, day;
+    String str_DOB = null;
+    String str_DOB_MODEL = "2020-11-3";
+    DatePickerDialog.OnDateSetListener mDateSetListener;
+    private static String imageStoragePath;
     public static final long MAX_VIDEO_DURATION = 30;
     public static final long MAX_VIDEO_SIZE = 20 * 1024 * 1024;
-
-    boolean isUploadPortfolio=false;
+    boolean isUploadPortfolio = false;
+    boolean isFabHide = false;
+    AttachmentAdapterEditProfile adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,13 +225,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         attachmentArrayList = new ArrayList<>();
         mBehavior = BottomSheetBehavior.from(bottomSheet);
 
-       /* toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });*/
-
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,61 +232,18 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
             }
         });
 
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month = month + 1;
-                str_DOB = Tools.getDayMonthDateTimeFormat2(year + "-" + month + "-" + dayOfMonth);
-                txtBirthDate.setText(str_DOB);
-            }
+        mDateSetListener = (view, year, month, dayOfMonth) -> {
+            month = month + 1;
+            str_DOB = Tools.getDayMonthDateTimeFormat2(year + "-" + month + "-" + dayOfMonth);
+            str_DOB_MODEL = year + "-" + month + "-" + dayOfMonth;
+            txtBirthDate.setText(str_DOB);
         };
-
-     /*   toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item)
-            {
-                if (item.getItemId() == R.id.action_submit)
-                {
-                    new MaterialAlertDialogBuilder(EditProfileActivity.this)
-                            .setTitle("Update Profile")
-                            .setMessage("Are you sure you want to update your Profile?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (validation())
-                                        submitProfile();
-                                }
-                            })
-                            .setNegativeButton("No", null)
-                            .show();
-                }
-                return true;
-            }
-        });*/
-
-        card_save_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                new MaterialAlertDialogBuilder(EditProfileActivity.this)
-                        .setTitle("Update Profile")
-                        .setMessage("Are you sure you want to update your Profile?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (validation())
-                                    submitProfile();
-                            }
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
-            }
-        });
 
         init();
         getAllUserProfileDetails();
         initComponentScroll();
     }
+
     private void initComponentScroll() {
         NestedScrollView nested_content = (NestedScrollView) findViewById(R.id.nested_scroll_view);
         nested_content.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -296,8 +258,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
             }
         });
     }
-
-    boolean isFabHide = false;
 
     private void animateFab(final boolean hide) {
         if (isFabHide && hide || !isFabHide && !hide) return;
@@ -343,7 +303,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         String str_tag = edtTagline.getText().toString().trim();
         String str_about_me = edtAboutMe.getText().toString().trim();
         String str_business_number = edtBusinessNumber.getText().toString().trim();
-        String str_dob = txtBirthDate.getText().toString().trim();
+//        String str_dob = txtBirthDate.getText().toString().trim();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_USER_PROFILE_INFO,
                 response -> {
@@ -360,13 +320,10 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                                     onProfileupdatelistener.updateProfile();
                                 }
                             }
-
                         }
 
                     } catch (JSONException e) {
                     }
-
-
                 },
                 error -> {
                     NetworkResponse networkResponse = error.networkResponse;
@@ -387,20 +344,15 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                             if (jsonObject_error.has("errors")) {
 
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-
                             }
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     } else {
                         showToast("Something Went Wrong", EditProfileActivity.this);
                     }
-
                     hideProgressDialog();
                 }) {
-
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -423,7 +375,9 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                 map1.put("tagline", str_tag);
                 map1.put("business_number", str_business_number);
                 map1.put("about", str_about_me);
-                map1.put("dob", Tools.getApplicationFromatToServerFormat(str_dob));
+                if (!str_DOB_MODEL.equals("")) {
+                    map1.put("dob", str_DOB_MODEL);
+                }
                 return map1;
             }
         };
@@ -509,8 +463,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         Log.e(TAG, stringRequest.getUrl());
     }
 
-    private void setUpAllEditFields(UserAccountModel userAccountModel)
-    {
+    private void setUpAllEditFields(UserAccountModel userAccountModel) {
         transportationSetUp(userAccountModel);
         languagesSetUp(userAccountModel);
         educationSetUp(userAccountModel);
@@ -529,12 +482,11 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         edtAboutMe.setText(userAccountModel.getAbout());
         edtBusinessNumber.setText(userAccountModel.getBusiness_number());
         edtEmailAddress.setText(userAccountModel.getEmail());
-        txtBirthDate.setText(Tools.getDayMonthDateTimeFormat2(userAccountModel.getDob()));
+        txtBirthDate.setText(userAccountModel.getDob());
         if (userAccountModel.getAvatar() != null) {
             ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getThumbUrl(), null);
             lytDeletePicture.setVisibility(View.VISIBLE);
-        }else
-        {
+        } else {
             lytDeletePicture.setVisibility(View.GONE);
         }
 
@@ -543,7 +495,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     private void specialitiesSetUp(UserAccountModel userAccountModel) {
         if (userAccountModel.getSkills().getSpecialities() != null && userAccountModel.getSkills().getSpecialities().size() != 0) {
             String str_tag = convertArrayToString(userAccountModel.getSkills().getSpecialities());
-            txtSpecialities.setText(""+userAccountModel.getSkills().getSpecialities().size());
+            txtSpecialities.setText("" + userAccountModel.getSkills().getSpecialities().size());
             txtSpecialities.setVisibility(View.VISIBLE);
         } else {
             txtSpecialities.setVisibility(View.VISIBLE);
@@ -554,7 +506,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     private void experienceSetUp(UserAccountModel userAccountModel) {
         if (userAccountModel.getSkills().getExperience() != null && userAccountModel.getSkills().getExperience().size() != 0) {
             String str_tag = convertArrayToString(userAccountModel.getSkills().getExperience());
-            txtExperience.setText(""+userAccountModel.getSkills().getExperience().size());
+            txtExperience.setText("" + userAccountModel.getSkills().getExperience().size());
             txtExperience.setVisibility(View.VISIBLE);
         } else {
             txtExperience.setVisibility(View.VISIBLE);
@@ -565,7 +517,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     private void educationSetUp(UserAccountModel userAccountModel) {
         if (userAccountModel.getSkills().getEducation() != null && userAccountModel.getSkills().getEducation().size() != 0) {
             String str_tag = convertArrayToString(userAccountModel.getSkills().getEducation());
-            txtEducation.setText(""+userAccountModel.getSkills().getEducation().size());
+            txtEducation.setText("" + userAccountModel.getSkills().getEducation().size());
             txtEducation.setVisibility(View.VISIBLE);
         } else {
             txtEducation.setVisibility(View.VISIBLE);
@@ -576,7 +528,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
     private void languagesSetUp(UserAccountModel userAccountModel) {
         if (userAccountModel.getSkills().getLanguage() != null && userAccountModel.getSkills().getLanguage().size() != 0) {
             String str_tag = convertArrayToString(userAccountModel.getSkills().getLanguage());
-            txtLanguages.setText(""+userAccountModel.getSkills().getLanguage().size());
+            txtLanguages.setText("" + userAccountModel.getSkills().getLanguage().size());
             txtLanguages.setVisibility(View.VISIBLE);
         } else {
             txtLanguages.setVisibility(View.VISIBLE);
@@ -584,12 +536,10 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         }
     }
 
-    private void transportationSetUp(UserAccountModel userAccountModel)
-    {
-        if (userAccountModel.getSkills().getTransportation() != null && userAccountModel.getSkills().getTransportation().size() != 0)
-        {
+    private void transportationSetUp(UserAccountModel userAccountModel) {
+        if (userAccountModel.getSkills().getTransportation() != null && userAccountModel.getSkills().getTransportation().size() != 0) {
             String str_tag = convertArrayToString(userAccountModel.getSkills().getTransportation());
-            txtTransportation.setText(""+userAccountModel.getSkills().getTransportation().size());
+            txtTransportation.setText("" + userAccountModel.getSkills().getTransportation().size());
             txtTransportation.setVisibility(View.VISIBLE);
 
         } else {
@@ -616,11 +566,9 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         super.onBackPressed();
     }
 
-
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
-        if (action.equalsIgnoreCase("add"))
-        {
+        if (action.equalsIgnoreCase("add")) {
            /* Intent intent = new Intent(EditProfileActivity.this, PortfolioActivity.class);
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(ConstantKey.ATTACHMENT, attachmentArrayList);
@@ -629,8 +577,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
             showBottomSheetDialog(true);
 
-        } else if (action.equalsIgnoreCase("delete"))
-        {
+        } else if (action.equalsIgnoreCase("delete")) {
             deleteMediaInAttachment(position, obj);
         }
     }
@@ -703,7 +650,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                     }
                 }) {
 
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
@@ -722,11 +668,29 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         Log.e("AttachmentActivity", stringRequest.getUrl());
     }
 
-
     @OnClick({R.id.txt_suburb, R.id.txt_birth_date, R.id.rlt_btn_transportation, R.id.rlt_btn_languages,
-            R.id.rlt_btn_education, R.id.rlt_btn_experience, R.id.rlt_btn_specialities, R.id.img_user_avatar, R.id.lytDeletePicture})
+            R.id.rlt_btn_education, R.id.rlt_btn_experience, R.id.rlt_btn_specialities, R.id.img_user_avatar, R.id.lytDeletePicture,
+            R.id.lyt_btn_save_profile, R.id.lyt_btn_close})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.lyt_btn_close:
+                verifyPhone();
+                break;
+            case R.id.lyt_btn_save_profile:
+
+                new MaterialAlertDialogBuilder(EditProfileActivity.this)
+                        .setTitle("Update Profile")
+                        .setMessage("Are you sure you want to update your Profile?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (validation())
+                                    submitProfile();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+                break;
             case R.id.txt_suburb:
                 Intent intent = new PlaceAutocomplete.IntentBuilder()
                         .accessToken(Mapbox.getAccessToken())
@@ -813,8 +777,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                         .setMessage("Remove profile photo?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id)
-                            {
+                            public void onClick(DialogInterface dialog, int id) {
                                 dialog.dismiss();
                                 removeProfilePicture();
                             }
@@ -832,8 +795,13 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         }
     }
 
-    private void uploadDataInPortfolioMediaApi(File pictureFile)
-    {
+    private void verifyPhone() {
+        Intent intent = new Intent(this, MobileVerificationActivity.class);
+        intent.putExtra("phone_number", edtPhoneNumber.getText().toString());
+        startActivity(intent);
+    }
+
+    private void uploadDataInPortfolioMediaApi(File pictureFile) {
         showProgressDialog();
         Call<String> call;
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
@@ -861,8 +829,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                         unauthorizedUser();
                         return;
                     }
-                    if (response.code() == HttpStatus.SUCCESS)
-                    {
+                    if (response.code() == HttpStatus.SUCCESS) {
                         Log.e("body", strResponse);
                         JSONObject jsonObject = new JSONObject(strResponse);
                         Log.e("json", jsonObject.toString());
@@ -887,8 +854,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                                 attachment.setCreatedAt(jsonObject_data.getString("created_at"));
                             attachment.setType(AttachmentAdapter.VIEW_TYPE_IMAGE);
 
-                            if (attachmentArrayList.size() != 0)
-                            {
+                            if (attachmentArrayList.size() != 0) {
 
                                 attachmentArrayList.add(attachmentArrayList.size() - 1, attachment);
 
@@ -896,7 +862,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                         }
 
 
-                        ArrayList<AttachmentModel> updateAttachment=new ArrayList<>();
+                        ArrayList<AttachmentModel> updateAttachment = new ArrayList<>();
                         updateAttachment.addAll(attachmentArrayList);
 
                         attachmentArrayList.clear();
@@ -926,7 +892,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                 Log.e("Response", call.toString());
             }
         });
-
     }
 
     @Override
@@ -961,15 +926,11 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
                     imgAvatar.setImageBitmap(bitmap);
 
-                    if(isUploadPortfolio)
-                    {
+                    if (isUploadPortfolio) {
                         uploadDataInPortfolioMediaApi(new File(uri.getPath()));
-                    }else
-                    {
+                    } else {
                         uploadProfileAvtar(new File(uri.getPath()));
                     }
-
-
                 } else if (resultCode == RESULT_CANCELED) {
                     // user cancelled Image capture
                     Toast.makeText(getApplicationContext(),
@@ -983,13 +944,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                 }
             } else if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
                 if (resultCode == RESULT_OK) {
-              /*  Uri filePath = data.getData();
-                Bitmap bitmap;
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
                     if (data.getData() != null) {
                         imageStoragePath = CameraUtils.getPath(EditProfileActivity.this, data.getData());
                         File file = new File(imageStoragePath);
@@ -1003,25 +957,21 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
                         imgAvatar.setImageBitmap(bitmap);
 
-                        if(isUploadPortfolio)
-                        {
+                        if (isUploadPortfolio) {
                             uploadDataInPortfolioMediaApi(new File(uri.getPath()));
 
-                        }else
-                        {
+                        } else {
                             uploadProfileAvtar(new File(uri.getPath()));
                         }
 
 
                         //// uploadDataInPortfolioMediaApi(file);
                     }
-                }
-                else if (requestCode == GALLERY_PICKUP_VIDEO_REQUEST_CODE)
-                {
+                } else if (requestCode == GALLERY_PICKUP_VIDEO_REQUEST_CODE) {
                     if (resultCode == RESULT_OK) {
                         imageStoragePath = CameraUtils.getImagePath(EditProfileActivity.this, data.getData());
                         Log.e("path", imageStoragePath);
-                        if(imageStoragePath != null) {
+                        if (imageStoragePath != null) {
                             MediaPlayer mpl = MediaPlayer.create(EditProfileActivity.this, Uri.parse(imageStoragePath));
                             int si = mpl.getDuration();
                             long duration = TimeUnit.MILLISECONDS.toSeconds(si);
@@ -1052,8 +1002,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                                 "Sorry! Failed to record video", Toast.LENGTH_SHORT)
                                 .show();
                     }
-                }
-                else {
+                } else {
                     // failed to record video
                     Toast.makeText(getApplicationContext(),
                             "Sorry! Failed to Pickup Image", Toast.LENGTH_SHORT)
@@ -1095,9 +1044,8 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
     }
 
-    private void showBottomSheetDialog(boolean isUploadPortfolioOrPrfile)
-    {
-        isUploadPortfolio=isUploadPortfolioOrPrfile;
+    private void showBottomSheetDialog(boolean isUploadPortfolioOrPrfile) {
+        isUploadPortfolio = isUploadPortfolioOrPrfile;
 
         if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -1110,13 +1058,11 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         LinearLayout lytBtnDoc = view.findViewById(R.id.lyt_btn_doc);
         LinearLayout lyrBtnVideoCamera = view.findViewById(R.id.lyt_btn_video_camera);
 
-        if(isUploadPortfolioOrPrfile)
-        {
+        if (isUploadPortfolioOrPrfile) {
             lytBtnVideo.setVisibility(View.VISIBLE);
             lytBtnDoc.setVisibility(View.VISIBLE);
             lyrBtnVideoCamera.setVisibility(View.VISIBLE);
-        }else
-        {
+        } else {
             lytBtnVideo.setVisibility(View.GONE);
             lytBtnDoc.setVisibility(View.INVISIBLE);
             lyrBtnVideoCamera.setVisibility(View.INVISIBLE);
@@ -1168,8 +1114,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
 
     }
 
-
-
     /**
      * Requesting permissions using Dexter library
      */
@@ -1201,7 +1145,6 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
                 }).check();
     }
 
-
     /**
      * Capturing Camera Image will launch camera app requested image capture
      */
@@ -1217,14 +1160,12 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
     }
 
-
     private void uploadProfileAvtar(File pictureFile) {
         showProgressDialog();
         Call<String> call;
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
         call = ApiClient.getClient().uploadProfilePicture("XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
-
 
         call.enqueue(new Callback<String>() {
 
@@ -1299,6 +1240,7 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         });
 
     }
+
     private void removeProfilePicture() {
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_PROFILE + URL_REMOVE_AVTAR,
@@ -1388,6 +1330,4 @@ public class EditProfileActivity extends ActivityBase implements AttachmentAdapt
         requestQueue.add(stringRequest);
         Log.e("AttachmentActivity", stringRequest.getUrl());
     }
-
-
 }

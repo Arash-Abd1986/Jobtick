@@ -45,7 +45,7 @@ public class SearchTaskActivity extends ActivityBase {
                 break;
             case R.id.lyt_categories:
 
-                Intent categoryActivity = new Intent(SearchTaskActivity.this, CategroyListActivity.class);
+                Intent categoryActivity = new Intent(SearchTaskActivity.this, CategoryListActivity.class);
                 startActivity(categoryActivity);
                 break;
             case R.id.iv_back:

@@ -7,9 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +28,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,6 +46,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.jobtick.EditText.EditTextRegular;
@@ -53,13 +56,15 @@ import com.jobtick.TextView.TextViewBold;
 import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.adapers.AttachmentAdapter;
+import com.jobtick.adapers.MustHaveListAdapter;
 import com.jobtick.adapers.OfferListAdapter;
 import com.jobtick.adapers.QuestionListAdapter;
+import com.jobtick.adapers.ShowMustHaveListAdapter;
 import com.jobtick.cancellations.CancellationPosterActivity;
 import com.jobtick.cancellations.CancellationRequestActivity;
 import com.jobtick.cancellations.CancellationRequestSubmittedActivity;
 import com.jobtick.cancellations.CancellationWorkerActivity;
-import com.jobtick.fragments.RequirementsBottomSheet;
+import com.jobtick.fragments.TickerRequirementsBottomSheet;
 import com.jobtick.incrementbudget.IncreaseBudgetFromPosterActivity;
 import com.jobtick.incrementbudget.IncreaseBudgetRequestToPosterActivity;
 import com.jobtick.incrementbudget.IncrementBudgetRequestViewActivity;
@@ -68,8 +73,8 @@ import com.jobtick.interfaces.OnWidthDrawListener;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.BankAccountModel;
 import com.jobtick.models.BillingAdreessModel;
-import com.jobtick.models.BookmarkTaskModel;
 import com.jobtick.models.DueTimeModel;
+import com.jobtick.models.MustHaveModel;
 import com.jobtick.models.OfferDeleteModel;
 import com.jobtick.models.OfferModel;
 import com.jobtick.models.QuestionModel;
@@ -93,7 +98,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -107,6 +111,7 @@ import retrofit2.Callback;
 import timber.log.Timber;
 
 import static com.jobtick.activities.SavedTaskActivity.onRemoveSavedtasklistener;
+import static com.jobtick.fragments.TickerRequirementsBottomSheet.*;
 import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
 import static com.jobtick.utils.Constant.ADD_BILLING;
 import static com.jobtick.utils.Constant.BASE_URL;
@@ -144,6 +149,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     TextView txtDescription;
     @BindView(R.id.txt_offer_count)
     TextViewBold txtOfferCount;
+    @BindView(R.id.first_offer)
+    TextView firstOffer;
+    @BindView(R.id.first_offer_lyt)
+    LinearLayout firstOfferLyt;
     @BindView(R.id.txt_budget)
     TextViewBold txtBudget;
     @BindView(R.id.lyt_btn_message)
@@ -173,7 +182,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.txt_title)
     TextView txtTitle;
     @BindView(R.id.txt_waiting_for_offer)
-    TextView txtWaitingForOffer;
+    FrameLayout txtWaitingForOffer;
     @BindView(R.id.img_avtar_worker)
     CircularImageView imgAvtarWorker;
     @BindView(R.id.txt_worker_name)
@@ -206,20 +215,20 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     LinearLayout lytViewAllQuestions;
     @BindView(R.id.card_questions_layout)
     LinearLayout cardQuestionsLayout;
- //   @BindView(R.id.img_avatar)
- //   CircularImageView imgAvatar;
+    //   @BindView(R.id.img_avatar)
+    //   CircularImageView imgAvatar;
     @BindView(R.id.edt_comment)
     EditTextRegular edtComment;
     @BindView(R.id.lyt_btn_comment_send)
     ImageView lytBtnCommentSend;
- //   @BindView(R.id.lyt_comment)
-  //  LinearLayout lytComment;
+    //   @BindView(R.id.lyt_comment)
+    //  LinearLayout lytComment;
     @BindView(R.id.recycler_view_question_attachment)
     RecyclerView recyclerViewQuestionAttachment;
- //   @BindView(R.id.card_comment_send)
- //   CardView cardCommentSend;
- //   @BindView(R.id.rlt_question_add)
- //   RelativeLayout rltQuestionAdd;
+    //   @BindView(R.id.card_comment_send)
+    //   CardView cardCommentSend;
+    @BindView(R.id.rlt_layout_action_data)
+    RelativeLayout rltQuestionAdd;
     @BindView(R.id.txt_status_cancelled)
     TextView txtStatusCancelled;
     @BindView(R.id.txt_status_overdue)
@@ -245,7 +254,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     LinearLayout liAssign;
     @BindView(R.id.linearUserProfile)
     LinearLayout linearUserProfile;
-   // @BindView(R.id.img_btn_image_select)
+    @BindView(R.id.mustHaveLyt)
+    CardView mustHaveLyt;
+    @BindView(R.id.mustHaveList)
+    RecyclerView mustHaveList;
+
+    @BindView(R.id.bottom_sheet)
+    FrameLayout bottom_sheet;
+    // @BindView(R.id.img_btn_image_select)
     //ImageView addBtn;
     //  @BindView(R.id.card_view_request)
     //CardView card_view_request;
@@ -270,6 +286,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private String str_slug = "";
     private boolean isMyTask = false;
     boolean isFabHide = false;
+    boolean isShowBookmarked = false;
     private OfferListAdapter offerListAdapter;
     private QuestionListAdapter questionListAdapter;
     private boolean noActionAvailable = false;
@@ -281,6 +298,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     public int pushOfferID;
     public int pushQuestionID;
 
+    private BottomSheetDialog mBottomSheetDialog;
+    private BottomSheetBehavior mBehavior;
+
+    private final HashMap<Requirement, Boolean> requirementState = new HashMap<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -288,7 +311,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         ButterKnife.bind(this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-
+        mBehavior = BottomSheetBehavior.from(bottom_sheet);
 
         requestAcceptListener = this;
         widthDrawListener = this;
@@ -411,7 +434,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     } else {
                         cardMakeAnOffer.setVisibility(View.VISIBLE);
                         txtBtnText.setText(ConstantKey.BTN_ASK_TO_RELEASE_MONEY);
-                        toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, true);
+                        toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_copy, true);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, true);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, true);
                         cardPrivateChat.setVisibility(View.VISIBLE);
@@ -443,7 +466,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 //                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.VISIBLE);
                 if (taskModel.getQuestions() != null && taskModel.getQuestions().size() != 0) {
-                 //   rltQuestionAdd.setVisibility(View.GONE);
+                    //   rltQuestionAdd.setVisibility(View.GONE);
                 } else {
                     cardQuestionsLayout.setVisibility(View.GONE);
                 }
@@ -671,8 +694,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_share:
-
-
                     Helper.shareTask(TaskDetailsActivity.this,
                             "Hey ! Checkout this task. \n " + "https://dev.jobtick.com/tasks/" + taskModel.getSlug());
                     break;
@@ -925,6 +946,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
+
                                 String jsonString = jsonObject.toString(); //http request
                                 BankAccountModel data = new BankAccountModel();
                                 Gson gson = new Gson();
@@ -1122,17 +1144,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             //TODO DUMMY IMAGE
         }
         txtPosterName.setText(taskModel.getPoster().getName());
-        if (taskModel.getLocation() != null && taskModel.getLocation().isEmpty()) {
+        if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
             txtLocation.setText(taskModel.getLocation());
         } else {
             txtLocation.setText("Remote Task");
         }
         if (taskModel.getPoster().getLocation() != null && taskModel.getPoster().getLocation().length() > 0) {
             txtPosterLocation.setVisibility(View.VISIBLE);
-            txtPosterLocation.setText(taskModel.getPoster().getLocation());
+            txtPosterLocation.setText(taskModel.getLocation());
         } else {
             txtPosterLocation.setVisibility(View.INVISIBLE);
-
         }
 
         txtPosterLastOnline.setText("Active " + taskModel.getPoster().getLastOnline());
@@ -1143,6 +1164,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             txtDueTime.setText(dueTime);
         }
         txtDueDate.setText(taskModel.getDueDate() + " - ");
+
+        if (taskModel.getMusthave() != null && taskModel.getMusthave().size() > 0) {
+            mustHaveLyt.setVisibility(View.VISIBLE);
+            ShowMustHaveListAdapter showMustHaveListAdapter = new ShowMustHaveListAdapter(taskModel.getMusthave());
+            mustHaveList.setLayoutManager(new LinearLayoutManager(this));
+            mustHaveList.setAdapter(showMustHaveListAdapter);
+
+        } else {
+            mustHaveLyt.setVisibility(View.GONE);
+        }
     }
 
     private String convertObjectToString(DueTimeModel time, String dueTime) {
@@ -1184,8 +1215,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbar.setTitle("Task Details");
+                    collapsingToolbar.setTitle("Job Details");
+                    collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(getApplication(), R.color.black));
                     toolbar.getMenu().findItem(R.id.menu_share).setIcon(R.drawable.ic_share);
+                    Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_back_black, null);
+                    toolbar.setNavigationIcon(d);
+                    toolbar.setTitleTextColor(Color.BLACK);
                     toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot);
 
                     if (taskModel.getBookmarkID() != null) {
@@ -1193,18 +1228,21 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     } else {
                         toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_black);
                     }
-                    isShow = true;
-                } else if (isShow) {
+                    isShowBookmarked = true;
+                } else if (isShowBookmarked) {
                     collapsingToolbar.setTitle("");
+                    collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(getApplication(), R.color.transparent));
                     toolbar.getMenu().findItem(R.id.menu_share).setIcon(R.drawable.ic_share_white);
                     toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot_white);
-
+                    Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_back_white, null);
+                    toolbar.setNavigationIcon(d);
+                    toolbar.setTitleTextColor(Color.WHITE);
                     if (taskModel.getBookmarkID() != null) {
                         toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_white);
                     } else {
                         toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white);
                     }
-                    isShow = false;
+                    isShowBookmarked = false;
                 }
             }
         });
@@ -1358,7 +1396,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         viewPager.setAdapter(adapterImageSlider);
         // displaying selected image first
         viewPager.setCurrentItem(0);
-        addBottomDots(layoutDots, adapterImageSlider.getCount(), 0);
+        if (taskModel.getAttachments() != null && taskModel.getAttachments().size() > 1) {
+            addBottomDots(layoutDots, adapterImageSlider.getCount(), 0);
+        }
+
         //  ((TextView) findViewById(R.id.title)).setText(items.get(0).name);
         // ((TextView) findViewById(R.id.brief)).setText(items.get(0).brief);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -1384,10 +1425,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void setQuestionView(int questionCount) {
-        if (questionCount == 0) {
-            txtQuestionsCount.setText("QUESTION");
+        if (isMyTask) {
+            rltQuestionAdd.setVisibility(View.GONE);
         } else {
-            txtQuestionsCount.setText("QUESTIONS (" + questionCount + ")");
+            rltQuestionAdd.setVisibility(View.VISIBLE);
+        }
+
+        if (questionCount == 0) {
+            txtQuestionsCount.setText("Question");
+        } else {
+            txtQuestionsCount.setText("Question (" + questionCount + ")");
         }
 
         //TODO taskModel.getQuestionCount() > 5
@@ -1402,8 +1449,13 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (offerCount == 0) {
             txtOffersCount.setText(getString(R.string.offer));
             txtWaitingForOffer.setVisibility(View.VISIBLE);
+            if (isMyTask) {
+                firstOfferLyt.setVisibility(View.GONE);
+            } else {
+                firstOfferLyt.setVisibility(View.VISIBLE);
+            }
         } else {
-            txtOffersCount.setText("OFFERS (" + offerCount + ")");
+            txtOffersCount.setText("Offers (" + offerCount + ")");
             txtWaitingForOffer.setVisibility(View.GONE);
         }
 
@@ -1434,7 +1486,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
-    @OnClick({R.id.lyt_btn_view_all_questions, R.id.lyt_btn_comment_send, R.id.lyt_btn_message,
+    @OnClick({R.id.lyt_btn_view_all_questions, R.id.lyt_btn_comment_send, R.id.lyt_btn_message, R.id.first_offer,
             R.id.lyt_btn_private_chat, R.id.lyt_btn_view_all_offers, R.id.txt_btn_text, R.id.lyt_btn_make_an_offer,
             R.id.lyt_btn_view_reqeust, R.id.card_cancelled, R.id.li_repost, R.id.liAssign, R.id.linearUserProfile})
     public void onViewClicked(View view) {
@@ -1484,6 +1536,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 break;
 
             case R.id.txt_btn_text:
+            case R.id.first_offer:
             case R.id.lyt_btn_make_an_offer:
                 switch (txtBtnText.getText().toString().trim()) {
                     case ConstantKey.BTN_ASK_TO_RELEASE_MONEY:
@@ -1493,18 +1546,21 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         showCustomDialogReleaseMoney("Are you sure all work is done, and release to money?");
                         break;
                     case ConstantKey.BTN_MAKE_AN_OFFER:
-                        int key = handleRequirementStrip();
-                        if (key == 5) {
-                            intent = new Intent(TaskDetailsActivity.this, MakeAnOfferActivity.class);
-                            bundle = new Bundle();
-                            bundle.putInt("id", taskModel.getId());
-                            bundle.putInt("budget", taskModel.getBudget());
-                            //  bundle.putParcelable(ConstantKey.TASK, taskModel);
-                            intent.putExtras(bundle);
-                            startActivity(intent);
+                        if (!needRequirementSheet()) {
+                            if (taskModel.getMusthave().size() == 0) {
+                                intent = new Intent(TaskDetailsActivity.this, MakeAnOfferActivity.class);
+                                bundle = new Bundle();
+                                bundle.putInt("id", taskModel.getId());
+                                bundle.putInt("budget", taskModel.getBudget());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+
+                            } else {
+                                showRequirementDialog();
+                            }
                         } else {
-                            RequirementsBottomSheet requirementsBottomSheet = RequirementsBottomSheet.newInstance(key);
-                            requirementsBottomSheet.show(getSupportFragmentManager(), "");
+                            TickerRequirementsBottomSheet tickerRequirementsBottomSheet = TickerRequirementsBottomSheet.newInstance(requirementState);
+                            tickerRequirementsBottomSheet.show(getSupportFragmentManager(), "");
                         }
                         break;
                     case ConstantKey.BTN_OFFER_PENDING:
@@ -1570,26 +1626,49 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
-    private int handleRequirementStrip() {
-        int key = 0;
-        if (userAccountModel != null) {
-            if (userAccountModel.getAvatar() == null || userAccountModel.getAvatar().getUrl().equals("")) {
-                key = 0;
-            } else if (bankAccountModel == null || bankAccountModel.getData() == null || bankAccountModel.getData().getAccount_name().equals("") || bankAccountModel.getData().getAccount_number().equals("")) {
-                key = 1;
-            } else if (billingAdreessModel == null || billingAdreessModel.getData() == null || billingAdreessModel.getData().getLocation().equals("") || billingAdreessModel.getData().getPost_code().equals("")) {
-                key = 2;
-            } else if (userAccountModel.getDob() == null || userAccountModel.getDob().equals("")) {
-                key = 3;
-            } else if (userAccountModel.getMobile() == null || userAccountModel.getMobile().equals("") || userAccountModel.getMobileVerifiedAt().equals("")) {
-                key = 4;
-            } else {
-                key = 5;
-            }
-        } else {
-            key = 0;
+    private void handleState() {
+        requirementState.put(Requirement.Profile, false);
+        requirementState.put(Requirement.BankAccount, false);
+        requirementState.put(Requirement.BillingAddress, false);
+        requirementState.put(Requirement.BirthDate, false);
+        requirementState.put(Requirement.PhoneNumber, false);
+
+        if (userAccountModel != null && userAccountModel.getAvatar() != null &&
+                !userAccountModel.getAvatar().getUrl().equals("")) {
+            requirementState.put(Requirement.Profile, true);
         }
-        return key;
+        //checking one field is enough
+        if (bankAccountModel != null && bankAccountModel.getData() != null &&
+                bankAccountModel.getData().getAccount_number() != null &&
+                !bankAccountModel.getData().getAccount_number().equals("")) {
+            requirementState.put(Requirement.BankAccount, true);
+        }
+        //checking one filed is enough
+        if (billingAdreessModel != null && billingAdreessModel.getData() != null &&
+                billingAdreessModel.getData().getPost_code() != null &&
+                !billingAdreessModel.getData().getPost_code().equals("")) {
+
+            requirementState.put(Requirement.BillingAddress, true);
+        }
+        if (userAccountModel != null && userAccountModel.getDob() != null &&
+                !userAccountModel.getDob().equals("")) {
+            requirementState.put(Requirement.BirthDate, true);
+        }
+        if (userAccountModel != null && userAccountModel.getMobile() != null &&
+                !userAccountModel.getMobile().equals("") &&
+                userAccountModel.getMobileVerifiedAt() != null &&
+                !userAccountModel.getMobileVerifiedAt().equals("")) {
+            requirementState.put(Requirement.PhoneNumber, true);
+        }
+    }
+
+    private boolean needRequirementSheet(){
+        handleState();
+         return !(requirementState.get(Requirement.Profile) &&
+                requirementState.get(Requirement.BankAccount) &&
+                requirementState.get(Requirement.BillingAddress) &&
+                 requirementState.get(Requirement.BirthDate) &&
+                 requirementState.get(Requirement.PhoneNumber));
     }
 
     private void showCustomDialogAskToReleaseMoney(String message) {
@@ -1978,7 +2057,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             ImageView image = (ImageView) v.findViewById(R.id.image);
             image.setAdjustViewBounds(true);
             if (attachment.getThumbUrl() != null) {
-                ImageUtil.displayImage(image, attachment.getModalUrl(), null);
+                ImageUtil.displayImage(image, attachment.getUrl(), null);
             } else {
                 Tools.displayImageOriginal(act, image, attachment.getDrawable());
             }
@@ -2136,8 +2215,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
         if (action.equalsIgnoreCase("add")) {
-            Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
         } else if (action.equalsIgnoreCase("delete")) {
             recyclerViewQuestionAttachment.removeViewAt(position);
             attachmentArrayList_question.remove(position);
@@ -2153,7 +2234,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
         call = ApiClient.getClient().getTaskTempAttachmentMediaData("XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
-
 
         call.enqueue(new Callback<String>() {
             @Override
@@ -2380,45 +2460,20 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     public void addToBookmark() {
-        //{{baseurl}}/task/clean-my-small-player-15965410804/bookmark
-        //  https://dev.jobtick.com/api/v1/tasks/move-my-sofa-ere-15965445892/bookmark
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/bookmark",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        hideProgressDialog();
-                        Log.e("responce_url", response);
-                        // categoryArrayList.clear();
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            BookmarkTaskModel data = new BookmarkTaskModel();
-                            Gson gson = new Gson();
-                            data = gson.fromJson(jsonObject.toString(), BookmarkTaskModel.class);
-                            toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_mark_filled);
-
-
-                            //   toolbar.getMenu().getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_launcher));
-
-                            showCustomDialog(data.getMessage());
-                            getData();
-
-
-                        } catch (JSONException e) {
-                            hideProgressDialog();
-                            Log.e("EXCEPTION", String.valueOf(e));
-                            e.printStackTrace();
-                        }
+                response -> {
+                    hideProgressDialog();
+                    if (isShowBookmarked) {
+                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_black);
+                    } else {
+                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_white);
                     }
+                    getData();
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        hideProgressDialog();
-
-                        //  swipeRefresh.setRefreshing(false);
-                        errorHandle1(error.networkResponse);
-                    }
+                error -> {
+                    hideProgressDialog();
+                    errorHandle1(error.networkResponse);
                 }) {
 
             @Override
@@ -2455,9 +2510,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_mark);
+                                if (isShowBookmarked) {
+                                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_black);
+                                } else {
+                                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white);
+                                }
 
-                                showToast("Task Removed From Saved Task !", TaskDetailsActivity.this);
                                 getData();
                                 if (onRemoveSavedtasklistener != null) {
                                     onRemoveSavedtasklistener.onRemoveSavedTask();
@@ -2503,5 +2561,72 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(TaskDetailsActivity.this);
         requestQueue.add(stringRequest);
+    }
+
+    public void showRequirementDialog() {
+        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
+
+        final View view = getLayoutInflater().inflate(R.layout.sheet_requirement, null);
+
+        LinearLayout lyt_btn_make_an_offer = (LinearLayout) view.findViewById(R.id.lyt_btn_make_an_offer);
+        CardView card_make_an_offer = (CardView) view.findViewById(R.id.card_make_an_offer);
+
+        MustHaveListAdapter adapter;
+        ArrayList<MustHaveModel> addTagList = new ArrayList<>();
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(this, 5), true));
+        recyclerView.setHasFixedSize(true);
+
+
+        for (int i = 0; i < taskModel.getMusthave().size(); i++) {
+            MustHaveModel mustHaveModel = new MustHaveModel();
+            mustHaveModel.setMustHaveTitle(taskModel.getMusthave().get(i));
+            mustHaveModel.setChecked(false);
+            addTagList.add(mustHaveModel);
+        }
+        adapter = new MustHaveListAdapter(this, addTagList);
+        adapter.onCheckedAllItems(() -> {
+            if (adapter.isAllSelected()) {
+                card_make_an_offer.setBackgroundTintList(ContextCompat.getColorStateList(TaskDetailsActivity.this,
+                        R.color.colorPrimary));
+            } else {
+                card_make_an_offer.setBackgroundTintList(ContextCompat.getColorStateList(TaskDetailsActivity.this,
+                        R.color.colorAccent));
+            }
+        });
+
+
+        lyt_btn_make_an_offer.setOnClickListener(v -> {
+
+            if (adapter.isAllSelected()) {
+
+                Intent intent = new Intent(TaskDetailsActivity.this, MakeAnOfferActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", taskModel.getId());
+                bundle.putInt("budget", taskModel.getBudget());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            } else {
+                Toast.makeText(TaskDetailsActivity.this, "Please select all must-have requirement", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+        mBottomSheetDialog = new BottomSheetDialog(this);
+        mBottomSheetDialog.setContentView(view);
+        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        // set background transparent
+        ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
+
+        mBottomSheetDialog.show();
+        mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
 }

@@ -81,12 +81,14 @@ import static android.app.Activity.RESULT_OK;
 public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickListener {
 
 
-
     @BindView(R.id.edt_description)
     EditText edtDescription;
 
     @BindView(R.id.checkbox_save_as_template)
     CheckBox checkboxSaveAsTemplate;
+
+    @BindView(R.id.saveQuickOfferTxt)
+    TextView saveQuickOfferTxt;
 
     @BindView(R.id.lyt_btn_make_a_live_video)
     LinearLayout lytBtnMakeALiveVideo;
@@ -124,6 +126,9 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
     @BindView(R.id.llJobDetails)
     LinearLayout llJobDetails;
 
+    @BindView(R.id.llCancelVideo)
+    LinearLayout llCancelVideo;
+
 
     public static final long MAX_VIDEO_DURATION = 30;
     public static final long MAX_VIDEO_SIZE = 20 * 1024 * 1024;
@@ -131,6 +136,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
     private MakeAnOfferModel makeAnOfferModel;
     private MakeAnOfferActivity makeAnOfferActivity;
     private AboutCallbackFunction aboutCallbackFunction;
+    private String quickOffer;
 
 
     // key to store image path in savedInstance state
@@ -162,7 +168,6 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -170,12 +175,16 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
         View view = inflater.inflate(R.layout.fragment_make_an_offer_about, container, false);
         ButterKnife.bind(this, view);
         mBehavior = BottomSheetBehavior.from(bottomSheet);
+        SessionManager sessionManager = new SessionManager(getContext());
+
+        quickOffer = sessionManager.getQuickOffer();
+
+        setQuickOffer(quickOffer, "");
 
         edtDescription.addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
@@ -185,28 +194,60 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
             }
 
             @Override
-            public void afterTextChanged(Editable editable)
-            {
+            public void afterTextChanged(Editable editable) {
                 String currentText = editable.toString();
+                setQuickOffer(quickOffer, currentText);
                 int currentLength = currentText.length();
-                tvCount.setText("" + currentLength+"/300");
-                if(currentLength>=1)
-                {
-                    tvCount.setTextColor(getResources().getColor(R.color.colorReleasedMoney));
-                    //cardContinue.setCardBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorPrimary));
-                }else
-                {
-                    tvCount.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
-                    //cardContinue.setCardBackgroundColor(Color.parseColor("#95a0fa"));
-                    cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorAccent));
 
+                tvCount.setText("" + currentLength + "/300");
+                if (currentLength >= 1) {
+                    tvCount.setTextColor(getResources().getColor(R.color.colorReleasedMoney));
+                    cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorPrimary));
+                } else {
+                    tvCount.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
+                    cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorAccent));
                 }
             }
         });
         LytVideoPlay.setVisibility(View.GONE);
 
         return view;
+    }
+
+    private void setQuickOffer(String quickOffer, String currentText) {
+        if (!quickOffer.equals("")) {
+            if (currentText.equals(quickOffer)) {
+                saveQuickOfferTxt.setEnabled(false);
+            } else if (currentText.equals("")) {
+                saveQuickOfferTxt.setEnabled(true);
+                saveQuickOfferTxt.setText("Use Quick Offer");
+                saveQuickOfferTxt.setOnClickListener(v -> edtDescription.setText(quickOffer));
+            } else {
+                saveQuickOfferTxt.setOnClickListener(v -> {
+                    Toast.makeText(getContext(), "Quick offer saved", Toast.LENGTH_SHORT).show();
+                    sessionManager.setQuickOffer(currentText);
+                });
+                saveQuickOfferTxt.setEnabled(true);
+                saveQuickOfferTxt.setText("Update Quick Offer");
+            }
+        } else {
+            saveQuickOfferTxt.setText("Save as a Quick Offer");
+
+            saveQuickOfferTxt.setOnClickListener(v -> {
+                Toast.makeText(getContext(), "Quick offer saved", Toast.LENGTH_SHORT).show();
+                sessionManager.setQuickOffer(currentText);
+            });
+
+            if (currentText.equals("")) {
+                saveQuickOfferTxt.setEnabled(false);
+                saveQuickOfferTxt.setTextColor(ContextCompat.getColor(getContext(), R.color.quickOfferColorDisable));
+                saveQuickOfferTxt.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_save_as_quick_offer_disabled));
+            } else {
+                saveQuickOfferTxt.setEnabled(true);
+                saveQuickOfferTxt.setTextColor(ContextCompat.getColor(getContext(), R.color.quickOfferColor));
+                saveQuickOfferTxt.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_save_as_quick_offer_enabled));
+            }
+        }
     }
 
     private void setLayoout() {
@@ -222,8 +263,8 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
         }
     }
-    private void showJobDetailDialog()
-    {
+
+    private void showJobDetailDialog() {
 
 
         if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
@@ -232,11 +273,11 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
         final View view = getLayoutInflater().inflate(R.layout.sheet_job_details, null);
 
-        TextView tvJobTitle=(TextView)view.findViewById(R.id.tvJobTitle);
-        TextView tvPosterName=(TextView)view.findViewById(R.id.tvPosterName);
-        TextView tvLocation=(TextView)view.findViewById(R.id.tvLocation);
-        TextView tvDate=(TextView)view.findViewById(R.id.tvDate);
-        TextView tvDesc=(TextView)view.findViewById(R.id.tvDesc);
+        TextView tvJobTitle = (TextView) view.findViewById(R.id.tvJobTitle);
+        TextView tvPosterName = (TextView) view.findViewById(R.id.tvPosterName);
+        TextView tvLocation = (TextView) view.findViewById(R.id.tvLocation);
+        TextView tvDate = (TextView) view.findViewById(R.id.tvDate);
+        TextView tvDesc = (TextView) view.findViewById(R.id.tvDesc);
 
         tvJobTitle.setText(TaskDetailsActivity.taskModel.getTitle());
         tvPosterName.setText(TaskDetailsActivity.taskModel.getPoster().getName());
@@ -246,7 +287,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
         //
         tvDate.setText(Tools.getDayMonthDateTimeFormat2(TaskDetailsActivity.taskModel.getDueDate()));
 
-        CircularImageView imgAvtarPoster=(CircularImageView)view.findViewById(R.id.ivAvatar);
+        CircularImageView imgAvtarPoster = (CircularImageView) view.findViewById(R.id.ivAvatar);
         if (TaskDetailsActivity.taskModel.getPoster().getAvatar() != null && TaskDetailsActivity.taskModel.getPoster().getAvatar().getThumbUrl() != null) {
             ImageUtil.displayImage(imgAvtarPoster, TaskDetailsActivity.taskModel.getPoster().getAvatar().getThumbUrl(), null);
         } else {
@@ -277,7 +318,6 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
         makeAnOfferActivity = (MakeAnOfferActivity) getActivity();
 
 
-
         if (makeAnOfferActivity != null) {
             sessionManager = new SessionManager(makeAnOfferActivity);
         }
@@ -299,12 +339,19 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                 }*/
             }
         });
+
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeAnOfferActivity.onBackPressed();
+            }
+        });
     }
 
-    @OnClick({R.id.lyt_btn_make_a_live_video, R.id.lyt_btn_continue,R.id.lytRecord2,R.id.llJobDetails})
+
+    @OnClick({R.id.lyt_btn_make_a_live_video, R.id.lyt_btn_continue, R.id.lytRecord2, R.id.llJobDetails, R.id.llCancelVideo})
     public void onViewClicked(View view) {
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.lytRecord2:
                 // Checking availability of the camera
                 if (!CameraUtils.isDeviceSupportCamera(makeAnOfferActivity)) {
@@ -339,15 +386,14 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                 } else {
                     requestCameraPermission(ConstantKey.MEDIA_TYPE_VIDEO);
                 }
-
                 break;
             case R.id.lyt_btn_continue:
                 switch (validation()) {
                     case 1:
-                        edtDescription.setError("Please enter your task best part");
+                        edtDescription.setError("Please enter your description in video or text");
                         break;
                     case 2:
-                        checkboxSaveAsTemplate.setError("Without Live video please check this box");
+                        checkboxSaveAsTemplate.setError("Please enter only video or text");
                         break;
                     case 0:
                         if (aboutCallbackFunction != null) {
@@ -361,22 +407,25 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                         }
                         break;
                 }
-
                 break;
             case R.id.llJobDetails:
                 showJobDetailDialog();
                 break;
+
+            case R.id.llCancelVideo:
+                lytBtnMakeALiveVideo.setVisibility(View.VISIBLE);
+                LytVideoPlay.setVisibility(View.GONE);
+                edtDescription.setText("");
+                imageStoragePath = "";
+                break;
         }
     }
 
-    private int validation()
-    {
-        if (TextUtils.isEmpty(edtDescription.getText().toString().trim())) {
+    private int validation() {
+        if (TextUtils.isEmpty(edtDescription.getText().toString().trim()) && makeAnOfferModel.getAttachment() == null) {
             return 1;
-        } else if (!checkboxSaveAsTemplate.isChecked()) {
-            if (makeAnOfferModel.getAttachment() == null) {
-                return 2;
-            }
+        } else if (!TextUtils.isEmpty(edtDescription.getText().toString().trim()) && makeAnOfferModel.getAttachment() != null) {
+            return 2;
         }
         return 0;
     }
@@ -384,8 +433,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
     /**
      * Requesting permissions using Dexter library
      */
-    private void requestCameraPermission(final int type)
-    {
+    private void requestCameraPermission(final int type) {
         Dexter.withContext(makeAnOfferActivity)
                 .withPermissions(Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -418,8 +466,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
     /**
      * Launching camera app to record video
      */
-    private void captureVideo()
-    {
+    private void captureVideo() {
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         File file = CameraUtils.getOutputMediaFile(ConstantKey.MEDIA_TYPE_VIDEO);
         if (file != null) {
@@ -433,18 +480,13 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
         intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, MAX_VIDEO_SIZE);
 
 
-
-        if(  Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 && Build.VERSION.SDK_INT < Build.VERSION_CODES.O )
-        {
-            intent.putExtra("android.intent.extras.CAMERA_FACING", CameraCharacteristics.LENS_FACING_FRONT) ;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            intent.putExtra("android.intent.extras.CAMERA_FACING", CameraCharacteristics.LENS_FACING_FRONT);
             intent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);// Tested on API 24 Android version 7.0(Samsung S6)
-        }
-        else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-        {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             intent.putExtra("android.intent.extras.CAMERA_FACING", CameraCharacteristics.LENS_FACING_FRONT); // Tested on API 27 Android version 8.0(Nexus 6P)
             intent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);
-        }
-        else {
+        } else {
             intent.putExtra("android.intent.extras.CAMERA_FACING", 1);
         }
         // Tested API 21 Android version 5.0.1(Samsung S4)
@@ -457,8 +499,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
      * Activity result method will be called after closing the camera
      */
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // if the result is capturing Image
         if (requestCode == CAMERA_CAPTURE_VIDEO_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
@@ -554,13 +595,12 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                     //ImageUtil.displayImage(imgThumbnail, "https://images.wallpaperscraft.com/image/road_asphalt_marking_130996_1280x720.jpg", null);
 
 
-
                     llPlayVideo.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
-                            Intent intent=new Intent(getActivity(), VideoPlayerActivity.class);
-                            intent.putExtra(ConstantKey.VIDEO_PATH,""+makeAnOfferModel.getAttachment().getUrl());
+                            Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+                            intent.putExtra(ConstantKey.VIDEO_PATH, "" + makeAnOfferModel.getAttachment().getUrl());
                             getActivity().startActivity(intent);
                         }
                     });

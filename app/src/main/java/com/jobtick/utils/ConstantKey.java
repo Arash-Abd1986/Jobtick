@@ -71,18 +71,18 @@ public class ConstantKey {
     public static final String ACTIONBAR_TITLE = "ACTIONBAR_TITLE";
     public static final String TAG_SIZE = "TAG_SIZE";
     public static final String TAG = "TAG";
-    public static final String NO_PAYMENT_METHOD = "NO_PAYMENT_METHOD";
+    public static final String NO_PAYMENT_METHOD = "400";
     public static final String INVALID_CARD_EXCEPTION = "INVALID_CARD_EXCEPTION";
     public static final String PHYSICAL = "physical";
 
     public static final String MAKE_AN_OFFER_MODEL = "Make_an_offer_model";
 
 
-    public static final String BTN_OFFER_PENDING = "OFFER PENDING";
-    public static final String BTN_MAKE_AN_OFFER = "MAKE AN OFFER";
-    public static final String BTN_COMPLETED = "COMPLETED";
-    public static final String BTN_ASK_TO_RELEASE_MONEY = "ASK TO RELEASE MONEY";
-    public static final String BTN_WAIT_TO_RELEASE_MONEY = "WAITING FOR POSTER TO RELEASE MONEY";
+    public static final String BTN_OFFER_PENDING = "Offer pending";
+    public static final String BTN_MAKE_AN_OFFER = "Make an offer";
+    public static final String BTN_COMPLETED = "Completed";
+    public static final String BTN_ASK_TO_RELEASE_MONEY = "Ask to release money";
+    public static final String BTN_WAIT_TO_RELEASE_MONEY = "Waiting for poster to release money";
 
     public static final String BTN_CANCELLATION_REQUEST_SENT = "CANCELLATION REQUEST SENT";
     public static final String BTN_CANCELLATION_REQUEST_RECEIVED = "CANCELLATION REQUEST RECEIVED";

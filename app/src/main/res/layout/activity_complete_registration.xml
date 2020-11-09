@@ -45,8 +45,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/first_name"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_12sp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/_12sp" />
 
 
                 <com.jobtick.EditText.EditTextRegular
@@ -75,8 +74,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/last_name"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_12sp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/_12sp" />
 
 
                 <com.jobtick.EditText.EditTextRegular
@@ -98,14 +96,13 @@
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:orientation="vertical">
 
-                <com.jobtick.TextView.TextViewSemiBold
+                <com.jobtick.TextView.TextViewMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/spacing_medium"
                     android:text="@string/what_would_you_like_to_do"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_12sp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/_14sp" />
 
 
                 <LinearLayout
@@ -127,23 +124,25 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/radio_button_height"
                             android:layout_marginBottom="@dimen/spacing_medium"
-                            android:background="@drawable/rectangle_card_round_corners_outlined"
+                            android:background="@drawable/radio_button_background"
                             android:button="@drawable/inset_radio_button"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
-                            android:text="@string/post_tasks" />
+                            android:text="@string/post_tasks"
+                            android:textSize="@dimen/_14sp" />
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/cb_worker"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/radio_button_height"
                             android:layout_marginTop="@dimen/spacing_medium"
-                            android:background="@drawable/rectangle_card_round_corners_outlined"
+                            android:background="@drawable/radio_button_background"
                             android:button="@drawable/inset_radio_button"
                             android:checked="true"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
-                            android:text="@string/complete_tasks" />
+                            android:text="@string/complete_tasks"
+                            android:textSize="@dimen/_14sp"/>
 
                     </RadioGroup>
 
@@ -192,14 +191,13 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/lyt_btn_complete_registration"
-        style="@style/materialButton.medium"
+        style="@style/materialButton"
         android:layout_width="match_parent"
         android:layout_height="@dimen/material_button_standard_height"
         android:layout_marginStart="@dimen/spacing_large"
         android:layout_marginTop="@dimen/spacing_medium"
         android:layout_marginEnd="@dimen/spacing_large"
         android:layout_marginBottom="@dimen/margin_bottom_button"
-        android:background="@color/blueButtons"
         android:text="@string/get_started"
         android:textColor="@color/white"
         android:layout_alignParentBottom="true"/>

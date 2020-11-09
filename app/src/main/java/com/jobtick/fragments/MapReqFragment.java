@@ -6,59 +6,40 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
-import com.jobtick.activities.BillingAddressActivity;
-import com.jobtick.activities.PaymentSettingsActivity;
 import com.jobtick.activities.TaskDetailsActivity;
-import com.jobtick.models.BankAccountModel;
 import com.jobtick.models.BillingAdreessModel;
-import com.jobtick.utils.HttpStatus;
+import com.jobtick.payment.AddBillingAddress;
+import com.jobtick.payment.AddBillingAddressImpl;
 import com.jobtick.utils.SessionManager;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.Objects;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import timber.log.Timber;
-
-import static com.jobtick.activities.PaymentSettingsActivity.onBankaccountadded;
-import static com.jobtick.utils.Constant.ADD_BILLING;
-import static com.jobtick.utils.Constant.BASE_URL;
 
 
-public class MapReqFragment extends Fragment {
+public class MapReqFragment extends Fragment implements TextWatcher {
 
-    TextView btnNext;
+    MaterialButton btnNext;
     EditTextRegular edtAddressLine1;
-    EditTextRegular edtAddressLine2;
     EditTextRegular edtSuburs;
     EditTextRegular edtState;
     EditTextRegular edtPostcode;
     EditTextRegular edtCountry;
     SessionManager sessionManager;
+
+    private AddBillingAddress addBillingAddress;
 
     public MapReqFragment() {
     }
@@ -77,22 +58,51 @@ public class MapReqFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         sessionManager = new SessionManager(getContext());
         edtAddressLine1 = view.findViewById(R.id.edt_address_line_1);
-        edtAddressLine2 = view.findViewById(R.id.edt_address_line_2);
         edtSuburs = view.findViewById(R.id.edt_suburs);
         edtState = view.findViewById(R.id.edt_state);
         edtPostcode = view.findViewById(R.id.edt_postcode);
         edtCountry = view.findViewById(R.id.edt_Country);
-        btnNext = view.findViewById(R.id.txt_btn_next);
+
+        edtState.addTextChangedListener(this);
+        edtSuburs.addTextChangedListener(this);
+        edtPostcode.addTextChangedListener(this);
+        edtAddressLine1.addTextChangedListener(this);
+        edtCountry.addTextChangedListener(this);
+
+        btnNext = view.findViewById(R.id.btn_add_card);
         btnNext.setOnClickListener(v -> {
-            if (validation()) {
-                AddBillingAddress();
-            }
+            if (!validation()) return;
+            addBillingAddress();
         });
+
+        addBillingAddress = new AddBillingAddressImpl(requireContext(), sessionManager) {
+            @Override
+            public void onSuccess() {
+                ((ActivityBase) getActivity()).hideProgressDialog();
+                goNext();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                ((ActivityBase) getActivity()).hideProgressDialog();
+                if(Objects.equals(e.getMessage(), "Billing address already exist."))
+                    goNext();
+                ((ActivityBase) getActivity()).showToast(e.getMessage(), requireContext());
+            }
+
+            @Override
+            public void onValidationError(ErrorType errorType, String message) {
+                ((ActivityBase) getActivity()).hideProgressDialog();
+                if (errorType == ErrorType.UnAuthenticatedUser)
+                    ((ActivityBase) getActivity()).unauthorizedUser();
+                else
+                    ((ActivityBase) getActivity()).showToast(message, requireContext());
+            }
+        };
 
         BillingAdreessModel billingAdreessModel = ((TaskDetailsActivity) getActivity()).billingAdreessModel;
         if (billingAdreessModel != null && billingAdreessModel.getData() != null) {
             edtAddressLine1.setText(billingAdreessModel.getData().getLine1());
-            edtAddressLine2.setText(billingAdreessModel.getData().getLine2());
             edtSuburs.setText(billingAdreessModel.getData().getLocation());
             edtState.setText(billingAdreessModel.getData().getState());
             edtPostcode.setText(billingAdreessModel.getData().getPost_code());
@@ -103,29 +113,37 @@ public class MapReqFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_map_req, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_billing_address_req, container, false);
         return view;
     }
 
     @OnClick(R.id.lyt_btn_change_billing_address)
     public void onViewClicked() {
-        if (validation()) {
-            AddBillingAddress();
-        }
+        if (validation()) return;
+        addBillingAddress();
+    }
+
+    private void goNext(){
+        ((TickerRequirementsBottomSheet) getParentFragment()).changeFragment(3);
+    }
+
+    private void addBillingAddress() {
+        ((ActivityBase) getActivity()).showProgressDialog();
+
+        addBillingAddress.add(edtAddressLine1.getText().toString(),"",
+                edtSuburs.getText().toString(),
+                edtState.getText().toString(),
+                edtPostcode.getText().toString(),
+                edtCountry.getText().toString());
 
     }
+
 
     private boolean validation() {
         if (TextUtils.isEmpty(edtAddressLine1.getText().toString().trim())) {
             edtAddressLine1.setError("Address is mandatory");
             return false;
         }
-
-        if (TextUtils.isEmpty(edtAddressLine2.getText().toString().trim())) {
-            edtAddressLine2.setError("Address is mandatory");
-            return false;
-        }
-
 
         if (TextUtils.isEmpty(edtSuburs.getText().toString().trim())) {
             edtSuburs.setError("Please enter Suburb");
@@ -150,100 +168,25 @@ public class MapReqFragment extends Fragment {
         return true;
     }
 
-    private void AddBillingAddress() {
-        ((ActivityBase) getActivity()).showProgressDialog();
 
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, BASE_URL + ADD_BILLING,
-                response -> {
-                    Timber.e(response);
-                    ((ActivityBase) getActivity()).hideProgressDialog();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                Toast.makeText(getActivity(), "Updated successfully !", Toast.LENGTH_SHORT).show();
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-
-                                if (onBankaccountadded != null) {
-                                    onBankaccountadded.billingAddressAdd();
-                                }
-                                ((RequirementsBottomSheet) getParentFragment()).changeFragment(3);
-                            } else {
-                                Toast.makeText(getActivity(), "Something went Wrong !", Toast.LENGTH_SHORT).show();
-
-                            }
-                        }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-
-                    }
-
-
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            ((ActivityBase) getActivity()).unauthorizedUser();
-                            ((ActivityBase) getActivity()).hideProgressDialog();
-                            return;
-                        }
-                        try {
-                            ((ActivityBase) getActivity()).hideProgressDialog();
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            //  showCustomDialog(jsonObject_error.getString("message"));
-                            if (jsonObject_error.has("message")) {
-                                Toast.makeText(getActivity(), jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                            }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        Toast.makeText(getActivity(), "Something went Wrong !", Toast.LENGTH_SHORT).show();
-                    }
-                    Timber.e(error.toString());
-                    ((ActivityBase) getActivity()).hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("line1", edtAddressLine1.getText().toString());
-                map1.put("line2", edtAddressLine2.getText().toString());
-                map1.put("location", edtSuburs.getText().toString());
-                map1.put("post_code", edtPostcode.getText().toString());
-                map1.put("state", edtState.getText().toString());
-
-                map1.put("country", edtCountry.getText().toString());
-                return map1;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        requestQueue.add(stringRequest);
     }
 
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        boolean enabled = edtAddressLine1.getText().length() > 0 &&
+                edtSuburs.getText().length() > 0 &&
+                edtCountry.getText().length() > 0 &&
+                edtPostcode.getText().length() == 4 &&
+                edtState.getText().length() > 0;
+
+        btnNext.setEnabled(enabled);
+    }
 }

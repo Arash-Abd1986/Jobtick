@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,109 +8,103 @@
     android:orientation="vertical"
     tools:context=".activities.NewTaskAlertsActivity">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/linearToolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_large"
-
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="15dp"
         android:orientation="horizontal">
 
+        <include layout="@layout/view_back_button" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_centerVertical="true"
-
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/ivBack"
-                android:layout_width="@dimen/_32sp"
-                android:layout_height="@dimen/_32sp"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/_10sp"
-                android:padding="@dimen/_8sp"
-                android:src="@drawable/ic_back" />
-
-            <com.jobtick.TextView.TextViewMedium
-                android:id="@+id/toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/_5sp"
-                android:text="Payment"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/_18sp" />
-
-        </LinearLayout>
-
+        <com.jobtick.TextView.TextViewMedium
+            android:id="@+id/toolbar_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_5sp"
+            android:layout_weight="1"
+            android:text="@string/payment"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/_18sp" />
 
         <ImageView
             android:layout_width="@dimen/_25sp"
             android:layout_height="@dimen/_25sp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:src="@drawable/ic_setting" />
-    </RelativeLayout>
+            android:src="@drawable/ic_setting"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="@dimen/spacing_large"
-        android:layout_marginTop="@dimen/spacing_large"
-        android:layout_marginEnd="@dimen/spacing_large"
-        android:layout_marginBottom="@dimen/spacing_medium"
-        android:background="@drawable/bg_white_shape"
-        android:padding="@dimen/_3sp">
-
-        <RadioGroup
-            android:id="@+id/rg_outgoing_earned"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <com.jobtick.radioButton.RadioButtonSemiBold
-                android:id="@+id/rb_outgoing"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/radio_button_left_tab"
-                android:button="@null"
-                android:checked="true"
-                android:gravity="center"
-                android:paddingStart="@dimen/spacing_xlarge"
-                android:paddingEnd="@dimen/spacing_xlarge"
-                android:text="Paid"
-                android:textColor="@color/radio_btn"
-                android:textSize="13sp" />
-
-            <com.jobtick.radioButton.RadioButtonSemiBold
-                android:id="@+id/rb_earned"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/radio_button_right_tab"
-                android:button="@null"
-                android:gravity="center"
-                android:paddingStart="@dimen/spacing_xlarge"
-                android:paddingEnd="@dimen/spacing_xlarge"
-                android:text="@string/earned"
-                android:textColor="@color/radio_btn"
-                android:textSize="13sp" />
-
-        </RadioGroup>
-
-
-    </FrameLayout>
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_below="@id/linearToolbar"
+        android:fillViewport="true">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-</LinearLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@drawable/bg_white_shape"
+                android:padding="4dp">
+
+                <RadioGroup
+                    android:id="@+id/rg_outgoing_earned"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    tools:ignore="UselessParent">
+
+                    <com.jobtick.radioButton.RadioButtonMedium
+                        android:id="@+id/rb_outgoing"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_button_left_tab"
+                        android:button="@null"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/spacing_large"
+                        android:paddingEnd="@dimen/spacing_large"
+                        android:text="@string/paid"
+                        android:textColor="@color/radio_btn"
+                        android:textSize="@dimen/_14sp" />
+
+                    <com.jobtick.radioButton.RadioButtonMedium
+                        android:id="@+id/rb_earned"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_button_right_tab"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/spacing_large"
+                        android:paddingEnd="@dimen/spacing_large"
+                        android:text="@string/earned"
+                        android:textColor="@color/radio_btn"
+                        android:textSize="@dimen/_14sp" />
+                </RadioGroup>
+            </FrameLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

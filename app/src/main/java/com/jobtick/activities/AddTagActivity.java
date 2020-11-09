@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AddTagActivity extends ActivityBase implements AddTagAdapter.OnItemClickListener {
+public class AddTagActivity extends ActivityBase {
 
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
@@ -52,16 +52,16 @@ public class AddTagActivity extends ActivityBase implements AddTagAdapter.OnItem
         addTagList = new ArrayList<>();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            if(bundle.getStringArrayList(ConstantKey.TAG) != null) {
+            if (bundle.getStringArrayList(ConstantKey.TAG) != null) {
                 addTagList = bundle.getStringArrayList(ConstantKey.TAG);
             }
-            if(bundle.getString(ConstantKey.ACTIONBAR_TITLE) != null) {
+            if (bundle.getString(ConstantKey.ACTIONBAR_TITLE) != null) {
                 action_bar_title = bundle.getString(ConstantKey.ACTIONBAR_TITLE);
             }
-            if(bundle.getString(ConstantKey.TITLE) != null) {
+            if (bundle.getString(ConstantKey.TITLE) != null) {
                 title = bundle.getString(ConstantKey.TITLE);
             }
-            if(bundle.getInt(ConstantKey.TAG_SIZE) != 0) {
+            if (bundle.getInt(ConstantKey.TAG_SIZE) != 0) {
                 tag_array_size = bundle.getInt(ConstantKey.TAG_SIZE);
             }
         }
@@ -90,21 +90,14 @@ public class AddTagActivity extends ActivityBase implements AddTagAdapter.OnItem
         recyclerView.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(AddTagActivity.this, 5), true));
         recyclerView.setHasFixedSize(true);
 
-        adapter = new AddTagAdapter(AddTagActivity.this, addTagList);
+        adapter = new AddTagAdapter(addTagList, data -> {
+            addTagList.remove(data);
+            adapter.updateItem(addTagList);
+            recyclerView.swapAdapter(adapter, true);
+        });
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
     }
 
-    @Override
-    public void onItemClick(View view, String obj, int position, String action) {
-        addTagList.remove(position);
-        adapter.notifyItemRemoved(position);
-        adapter.notifyItemRangeRemoved(position, addTagList.size());
-        recyclerView.swapAdapter(adapter, true);
-        if (addTagList.size() == 0) {
-            recyclerView.setVisibility(View.GONE);
-        }
-    }
 
     @OnClick(R.id.img_btn_add_tag)
     public void onViewClicked() {
@@ -112,15 +105,15 @@ public class AddTagActivity extends ActivityBase implements AddTagAdapter.OnItem
             edtAddTag.setError("Text is empty");
             return;
         } else {
-            if(tag_array_size > addTagList.size()) {
+            if (tag_array_size > addTagList.size()) {
                 if (recyclerView.getVisibility() != View.VISIBLE) {
                     recyclerView.setVisibility(View.VISIBLE);
                 }
                 addTagList.add(edtAddTag.getText().toString().trim());
                 adapter.notifyItemInserted(adapter.getItemCount());
                 edtAddTag.setText(null);
-            }else{
-                showToast("Max. 3 Tag you can add",AddTagActivity.this);
+            } else {
+                showToast("Max. 3 Tag you can add", AddTagActivity.this);
             }
         }
     }

@@ -3,7 +3,6 @@ package com.jobtick.activities;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,13 +16,10 @@ import android.widget.Toast;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.cardview.widget.CardView;
 import androidx.viewpager.widget.ViewPager;
-
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -57,7 +53,8 @@ import timber.log.Timber;
 import static com.jobtick.utils.ConstantKey.COMPLETES_MESSAGE_FROM;
 import static com.jobtick.utils.ConstantKey.RESULTCODE_CREATE_TASK;
 
-public class TaskCreateActivity extends ActivityBase implements TaskDetailFragment.OperationsListener, TaskDateTimeFragment.OperationsListener, TaskBudgetFragment.OperationsListener {
+public class TaskCreateActivity extends ActivityBase implements TaskDetailFragment.OperationsListener,
+        TaskDateTimeFragment.OperationsListener, TaskBudgetFragment.OperationsListener {
 
     private static final String TAG = "TaskCreateActivity";
     @BindView(R.id.creating_task_layout)
@@ -84,8 +81,6 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     TextViewMedium txtDateTime;
     @BindView(R.id.img_budget)
     ImageView imgBudget;
-
-
     @BindView(R.id.txt_budget)
     TextViewMedium txtBudget;
 
@@ -102,10 +97,9 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         setContentView(R.layout.activity_task_create);
         ButterKnife.bind(this);
 
-
         Bundle bundle = getIntent().getExtras();
         if (bundle != null && bundle.getParcelable(ConstantKey.TASK) != null) {
-            taskModel = (TaskModel) bundle.getParcelable(ConstantKey.TASK);
+            taskModel = bundle.getParcelable(ConstantKey.TASK);
         } else {
             taskModel = new TaskModel();
         }
@@ -152,7 +146,6 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         viewPager.setAdapter(adapter);
     }
 
-
     private void initToolbar(String title) {
         toolbar.setNavigationIcon(R.drawable.ic_cancel);
         setSupportActionBar(toolbar);
@@ -186,7 +179,6 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                 startActivityForResult(intent, ConstantKey.RESULTCODE_ATTACHMENT);
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -199,9 +191,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         }
     }
 
-    //  viewpager change listener
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-
         @Override
         public void onPageSelected(final int position) {
             switch (position) {
@@ -215,17 +205,14 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                     selectBudgetBtn();
                     break;
             }
-
         }
 
         @Override
         public void onPageScrolled(int arg0, float arg1, int arg2) {
-
         }
 
         @Override
         public void onPageScrollStateChanged(int arg0) {
-
         }
     };
 
@@ -272,7 +259,6 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         menu.setHeaderTitle("Select The Action");
     }
 
-
     @OnClick({R.id.lyt_btn_details, R.id.lyt_bnt_date_time, R.id.lyt_btn_budget})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -292,7 +278,8 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     }
 
     @Override
-    public void onNextClick(String title, String description, ArrayList<String> musthave, String task_type, String location, PositionModel positionModel) {
+    public void onNextClick(String title, String description, ArrayList<String> musthave, String task_type,
+                            String location, PositionModel positionModel) {
         taskModel.setTitle(title);
         taskModel.setDescription(description);
         taskModel.setMusthave(musthave);
@@ -332,7 +319,6 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         lytBtnBudget.setEnabled(false);
         lytBtnDetails.setSelected(true);
     }
-
 
     @Override
     public void onValidDataFilled() {
@@ -376,7 +362,6 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         uploadDataToServer(true);
     }
 
-
     @Override
     public void onNextClickBudget(int budget, int hour_budget, int total_hours, String payment_type) {
         taskModel.setBudget(budget);
@@ -402,7 +387,6 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                     Timber.e(response);
                     hideProgressDialog();
                     try {
-
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
@@ -440,70 +424,48 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                                 showToast("Something went Wrong", TaskCreateActivity.this);
                             }
                         }
-
-
                     } catch (JSONException e) {
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
-
                     }
-
-
                 },
-                new com.android.volley.Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        NetworkResponse networkResponse = error.networkResponse;
-                        if (networkResponse != null && networkResponse.data != null) {
-                            String jsonError = new String(networkResponse.data);
-                            // Print Error!
-                            Log.e("error", jsonError);
-                            if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                                unauthorizedUser();
-                                hideProgressDialog();
-                                return;
-                            }
-                            try {
-                                JSONObject jsonObject = new JSONObject(jsonError);
-
-                                JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                                if (jsonObject_error.has("message")) {
-                                    Toast.makeText(TaskCreateActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                                }
-                                if (jsonObject_error.has("errors")) {
-                                    JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-
-
-                                }
-
-                                //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            showToast("Something Went Wrong", TaskCreateActivity.this);
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
+                            hideProgressDialog();
+                            return;
                         }
-                        Timber.e(error.toString());
-                        hideProgressDialog();
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            if (jsonObject_error.has("message")) {
+                                Toast.makeText(TaskCreateActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", TaskCreateActivity.this);
                     }
+                    Timber.e(error.toString());
+                    hideProgressDialog();
                 }) {
-
-
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<String, String>();
-
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
-                // map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
             }
 
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("category_id", "1");
                 map1.put("title", taskModel.getTitle());
@@ -525,12 +487,10 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                             map1.put("budget", String.valueOf(taskModel.getBudget()));
                     } else {
                         if (((taskModel.getTotalHours()) * taskModel.getHourlyRate()) >= 10) {
-
                             map1.put("budget", String.valueOf((taskModel.getTotalHours()) * taskModel.getHourlyRate()));
                             map1.put("total_hours", String.valueOf(taskModel.getTotalHours()));
                             map1.put("hourly_rate", String.valueOf(taskModel.getHourlyRate()));
                         }
-
                     }
                 }
                 if (taskModel.getDueDate() != null)
@@ -541,13 +501,11 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                             map1.put("attachments[" + i + "]", String.valueOf(taskModel.getAttachments().get(i).getId()));
                         }
                     }
-
                 }
                 if (taskModel.getMusthave() != null && taskModel.getMusthave().size() != 0) {
                     for (int i = 0; taskModel.getMusthave().size() > i; i++) {
                         map1.put("musthave[" + i + "]", taskModel.getMusthave().get(i));
                     }
-
                 }
                 if (taskModel.getDueTime() != null) {
                     int count = 0;
@@ -567,7 +525,6 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                         map1.put("due_time[" + count + "]", "midday");
                         count = count + 1;
                     }
-
                 }
                 if (draft) {
                     map1.put("draft", "1");
@@ -575,7 +532,6 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                 Timber.e(String.valueOf(map1.size()));
                 Timber.e(map1.toString());
                 return map1;
-
             }
         };
 
@@ -583,7 +539,6 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(TaskCreateActivity.this);
         requestQueue.add(stringRequest);
-        Log.e(TAG, stringRequest.getUrl());
     }
 
     @Override
@@ -598,7 +553,6 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
 
     @Override
     public void onValidDataFilledBudgetNext() {
-
     }
 
     @Override
@@ -607,7 +561,6 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         lytBtnBudget.setEnabled(false);
         lytBtnDetails.setEnabled(true);
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -628,12 +581,9 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
 
     public interface ActionDraftDateTime {
         void callDraftTaskDateTime(TaskModel taskModel);
-
-
     }
 
     public interface ActionDraftTaskBudget {
         void callDraftTaskBudget(TaskModel taskModel);
     }
-
 }

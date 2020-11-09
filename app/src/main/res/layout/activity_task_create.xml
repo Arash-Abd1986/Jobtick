@@ -14,8 +14,8 @@
         android:background="@color/grey_100"
         app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="@drawable/ic_cancel"
-        app:titleTextColor="@color/textColor"
-        app:title="Post a Job" />
+        app:title="Post a Job"
+        app:titleTextColor="@color/textColor" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_selection_view"
@@ -31,13 +31,11 @@
         app:cardElevation="0dp">
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="@dimen/spacing_middle"
             android:weightSum="3">
-
 
             <LinearLayout
                 android:id="@+id/lyt_btn_details"
@@ -68,7 +66,6 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_12sp"
                     android:textStyle="bold" />
-
             </LinearLayout>
 
             <ImageView
@@ -91,8 +88,7 @@
                     android:id="@+id/img_date_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_date_gray"
-                     />
+                    android:src="@drawable/ic_date_gray" />
 
                 <View
                     android:layout_width="match_parent"
@@ -105,14 +101,14 @@
                     android:text="@string/date_time"
                     android:textColor="@color/colorGrayC9C9C9"
                     android:textSize="@dimen/_12sp" />
-
             </LinearLayout>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_round_shape" />
+                android:src="@drawable/ic_round_shape"
+                tools:ignore="ContentDescription" />
 
             <LinearLayout
                 android:id="@+id/lyt_btn_budget"
@@ -129,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_doller"
-                     />
+                    tools:ignore="ContentDescription" />
 
                 <View
                     android:layout_width="match_parent"
@@ -142,10 +138,8 @@
                     android:text="@string/budget"
                     android:textColor="@color/colorGrayC9C9C9"
                     android:textSize="@dimen/_12sp" />
-
             </LinearLayout>
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
 
     <com.jobtick.widget.NonSwipeableViewPager
@@ -155,11 +149,9 @@
         android:layout_below="@+id/card_selection_view"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
     <FrameLayout
         android:id="@+id/creating_task_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
-
 </RelativeLayout>

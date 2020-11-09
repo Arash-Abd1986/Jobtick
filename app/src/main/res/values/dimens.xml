@@ -34,10 +34,6 @@
     <dimen name="_40dp">40dp</dimen>
 
 
-
-
-
-
     <dimen name="_1sp">1sp</dimen>
     <dimen name="_2sp">2sp</dimen>
     <dimen name="_3sp">3sp</dimen>
@@ -125,6 +121,7 @@
 
     <!-- font sizes -->
     <dimen name="button_text_size_normal">14sp</dimen>
+    <dimen name="button_text_size_large">16sp</dimen>
     <dimen name="line_height">21dp</dimen>
     <dimen name="horizontal_margin_edit_text">16dp</dimen>
     <dimen name="vertical_margin_edit_text">6dp</dimen>
@@ -134,10 +131,20 @@
     <dimen name="title_text_size_edit_text">12sp</dimen>
     <dimen name="content_text_size_edit_text">14sp</dimen>
     <dimen name="margin_bottom_button">32dp</dimen>
-    <dimen name="material_button_standard_height">60dp</dimen>
+    <dimen name="material_button_standard_height">48dp</dimen>
     <dimen name="input_text_height">70dp</dimen>
     <dimen name="radio_button_height">52dp</dimen>
     <dimen name="post_requirements_item_height">30dp</dimen>
+
+    <dimen name="toolbar_text_size">18sp</dimen>
+    <dimen name="payment_entry_box_height">75dp</dimen>
+    <dimen name="payment_entry_box_title_margin_top">15dp</dimen>
+    <dimen name="payment_entry_box_spacing_middle">5dp</dimen>
+    <dimen name="payment_entry_box_spacing">8dp</dimen>
+    <dimen name="payment_entry_box_padding_bottom">16dp</dimen>
+    <dimen name="payment_page_margin_top">16dp</dimen>
+
+    <dimen name="textSizeH6">20sp</dimen>
 
 
 </resources>

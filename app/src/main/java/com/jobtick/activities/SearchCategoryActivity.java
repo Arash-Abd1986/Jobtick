@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
@@ -46,7 +45,7 @@ public class SearchCategoryActivity extends ActivityBase {
                 break;
             case R.id.lyt_categories:
 
-                Intent categoryActivity = new Intent(SearchCategoryActivity.this, CategroyListActivity.class);
+                Intent categoryActivity = new Intent(SearchCategoryActivity.this, CategoryListActivity.class);
                 startActivity(categoryActivity);
                 break;
             case R.id.iv_back:

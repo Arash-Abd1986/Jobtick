@@ -1,38 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map_frame"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".fragments.MapReqFragment">
 
-
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <com.jobtick.TextView.TextViewMedium
+        android:scrollbars="none"
+        android:id="@+id/form"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/spacing_mlarge"
-            android:text="@string/provide_a_billing_address"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/_14sp"/>
+            android:orientation="vertical">
 
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none">
-
-
-            <LinearLayout
+            <com.jobtick.TextView.TextViewMedium
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacing_mlarge"
+                android:gravity="left"
+                android:text="@string/provide_a_billing_address"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_14sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -40,9 +34,8 @@
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:layout_marginBottom="@dimen/spacing_medium"
                     android:background="@drawable/greay_border_bg">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -53,20 +46,18 @@
                         <com.jobtick.TextView.TextViewSemiBold
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Address Line 1"
+                            android:text="Address"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_12sp"
                             android:textStyle="bold" />
-
 
                         <com.jobtick.EditText.EditTextRegular
                             android:id="@+id/edt_address_line_1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="12 Commodore Dr"
+                            android:inputType="text"
                             android:textSize="@dimen/_14sp" />
-
                     </LinearLayout>
                 </LinearLayout>
 
@@ -74,48 +65,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:layout_marginBottom="@dimen/spacing_medium"
                     android:background="@drawable/greay_border_bg">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/spacing_large">
-
-                        <com.jobtick.TextView.TextViewSemiBold
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Address Line 2(Optional)"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
-                            android:textStyle="bold" />
-
-
-                        <com.jobtick.EditText.EditTextRegular
-                            android:id="@+id/edt_address_line_2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="Address"
-                            android:textSize="@dimen/_14sp" />
-
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
-                    android:background="@drawable/greay_border_bg">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -136,10 +88,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="Subfers Paradise"
+                            android:inputType="text"
                             android:textSize="@dimen/_14sp" />
-
-
                     </LinearLayout>
                 </LinearLayout>
 
@@ -147,11 +97,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:layout_marginBottom="@dimen/spacing_medium"
                     android:background="@drawable/greay_border_bg">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -172,22 +120,18 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="Qld"
+                            android:inputType="text"
                             android:textSize="@dimen/_14sp" />
-
                     </LinearLayout>
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:layout_marginBottom="@dimen/spacing_medium"
                     android:background="@drawable/greay_border_bg">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -208,11 +152,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="786574"
                             android:inputType="number"
                             android:maxLength="4"
                             android:textSize="@dimen/_14sp" />
-
                     </LinearLayout>
                 </LinearLayout>
 
@@ -220,18 +162,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
                     android:layout_marginBottom="@dimen/spacing_middle"
                     android:background="@drawable/greay_border_bg">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="@dimen/spacing_large">
-
 
                         <com.jobtick.TextView.TextViewSemiBold
                             android:layout_width="match_parent"
@@ -246,31 +185,20 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="Australia"
+                            android:inputType="text"
                             android:textSize="@dimen/_14sp" />
-
                     </LinearLayout>
                 </LinearLayout>
 
-                <com.jobtick.TextView.TextViewMedium
-                    android:id="@+id/txt_btn_next"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/spacing_mlarge"
-                    android:padding="@dimen/spacing_large"
-                    android:text="@string/next"
-                    android:background="@drawable/shape_tab_primary"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                style="@style/materialButton"
+                android:text="@string/next"
+                android:enabled="false" />
+
             </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
-
-
-
-    </LinearLayout>
-
-</FrameLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

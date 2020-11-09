@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -58,9 +59,10 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
 
-    @BindView(R.id.ivNoPosst)
-    public GifImageView ivNoPost;
+  //  @BindView(R.id.ivNoPosst)
+    //public GifImageView ivNoPost;
 
+    private LottieAnimationView lottieAnim;
 /*
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
@@ -78,12 +80,12 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
         setContentView(R.layout.activity_saved_task);
         ButterKnife.bind(this);
 
-
+        lottieAnim=findViewById(R.id.lottieAnimationView);
         onRemoveSavedtasklistener = this;
         sessionManager = new SessionManager(SavedTaskActivity.this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(SavedTaskActivity.this);
         recyclerViewStatus.setLayoutManager(layoutManager);
-        taskListAdapter = new TaskListAdapter(SavedTaskActivity.this, new ArrayList<>());
+        taskListAdapter = new TaskListAdapter(new ArrayList<>());
         recyclerViewStatus.setAdapter(taskListAdapter);
         taskListAdapter.setOnItemClickListener(this);
         swipeRefresh.setOnRefreshListener(this);
@@ -136,10 +138,10 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
                             taskListAdapter.removeLoading();
 
                         if (items.size() <= 0) {
-                            ivNoPost.setVisibility(View.VISIBLE);
+                            lottieAnim.setVisibility(View.VISIBLE);
                             recyclerViewStatus.setVisibility(View.GONE);
                         } else {
-                            ivNoPost.setVisibility(View.GONE);
+                            lottieAnim.setVisibility(View.GONE);
                             recyclerViewStatus.setVisibility(View.VISIBLE);
 
                         }

@@ -1,13 +1,12 @@
 package com.jobtick.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,8 +25,6 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -67,143 +64,137 @@ import timber.log.Timber;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment implements onProfileUpdateListener, AttachmentAdapter.OnItemClickListener {
-    private static final String TAG = ProfileFragment.class.getName();
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view_portfolio)
     RecyclerView recyclerViewPortfolio;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_avatar)
     CircularImageView imgAvatar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_about)
     TextView txtAbout;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvAboutHeading)
     TextView tvAboutHeading;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_verified)
     ImageView imgVerified;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tag_education)
     TagContainerLayout tagEducation;
 
-
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_education)
     LinearLayout lytEducation;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tag_specialities)
     TagContainerLayout tagSpecialities;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_specialities)
     LinearLayout lytSpecialities;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tag_language)
     TagContainerLayout tagLanguage;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_language)
     LinearLayout lytLanguage;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tag_experience)
     TagContainerLayout tagExperience;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_experience)
     LinearLayout lytExperience;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tag_transportation)
     TagContainerLayout tagTransportation;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_transportation)
     LinearLayout lytTransportation;
-    @BindView(R.id.lyt_skills)
-    LinearLayout lytSkills;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_level)
     ImageView imgLevel;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_full_name)
     TextView txtFullName;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_suburb)
     TextView txtSuburb;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_last_seen)
     TextView txtLastSeen;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvViewAllReviews)
     TextView tvViewAllReviews;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvSkills)
     TextView tvSkills;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_account_level)
     TextView txtAccountLevel;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ratingbarAsTicker)
     RatingBar ratingbarAsTicker;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ratingbarAsPoster)
     RatingBar ratingbarAsPoster;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvTickerReview)
     TextView tvTickerReview;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvPosterReview)
     TextView tvPosterReview;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvTickerCompletionRate)
     TextView tvTickerCompletionRate;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvPosterCompletionRate)
     TextView tvPosterCompletionRate;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rbPortfollio)
     RadioButton rbPortfollio;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rbSkills)
     RadioButton rbSkills;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_get_quote)
     CardView card_get_quote;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llEnlarge)
-    LinearLayout llEnlarge;
+   LinearLayout llEnlarge;
 
-
-    /*
-
-    @BindView(R.id.lyt_btn_get_a_quote)
-    LinearLayout lytBtnGetAQuote;
-    @BindView(R.id.rb_as_a_ticker)
-    RadioButton rbAsATicker;
-    @BindView(R.id.rb_as_a_poster)
-    RadioButton rbAsAPoster;
-    @BindView(R.id.rg_ticker_poster)
-    RadioGroup rgTickerPoster;
-    @BindView(R.id.rb_about)
-    RadioButton rbAbout;
-    @BindView(R.id.rb_skills)
-    RadioButton rbSkills;
-    @BindView(R.id.rb_badges)
-    RadioButton rbBadges;
-    @BindView(R.id.rb_portfolio)
-    RadioButton rbPortfolio;
-    @BindView(R.id.rg_about_skills_badges_portfolio)
-    RadioGroup rgAboutSkillsBadgesPortfolio;
-    @BindView(R.id.lyt_about)
-    LinearLayout lytAbout;
-
-
-    @BindView(R.id.recycler_view_badges)
-    RecyclerView recyclerViewBadges;
-    @BindView(R.id.relativeLayout)
-    RelativeLayout relativeLayout;
-
-
-    @BindView(R.id.ratingbar)
-    AppCompatRatingBar ratingbar;
-    @BindView(R.id.txt_completion_rate)
-    TextView txtCompletionRate;
-    @BindView(R.id.txt_rating_value)
-    TextView txtRatingValue;
-    @BindView(R.id.txt_reviews_count)
-    TextView txtReviewsCount;
-    @BindView(R.id.txt_btn_see_reviews)
-    TextView txtBtnSeeReviews;*/
-
-    private DashboardActivity dashboardActivity;
+            DashboardActivity dashboardActivity;
     private Toolbar toolbar;
     private SessionManager sessionManager;
     private UserAccountModel userAccountModel;
@@ -216,21 +207,22 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     Typeface poppins_medium;
     ImageView ivNotification;
     TextView toolbar_title;
-
-
+   LinearLayout lPort,lSkill,NoPortfolio;
     public ProfileFragment() {
-        // Required empty public constructor
+
     }
 
+    @SuppressLint({"SetTextI18n", "RtlHardcoded"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
 
         onProfileupdatelistener = this;
-
+        NoPortfolio=view.findViewById(R.id.no_port_folio);
+        lPort=view.findViewById(R.id.lyt_Port);
+        lSkill=view.findViewById(R.id.lyt_skills);
         dashboardActivity = (DashboardActivity) getActivity();
         poppins_medium = Typeface.createFromAsset(getActivity().getAssets(), "fonts/poppins_Medium.otf");
         onProfileupdatelistener = this;
@@ -261,6 +253,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     }
 
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -269,20 +262,17 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         userAccountModel = new UserAccountModel();
         attachmentArrayList = new ArrayList<>();
         badgesModelArrayList = new ArrayList<>();
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_flag:
+        toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_flag:
 
-                        break;
-                    case R.id.action_edit:
-                        startActivity(new Intent(dashboardActivity, EditProfileActivity.class));
+                    break;
+                case R.id.action_edit:
+                    startActivity(new Intent(dashboardActivity, EditProfileActivity.class));
 
-                        break;
-                }
-                return false;
+                    break;
             }
+            return false;
         });
 
         /*init();
@@ -303,15 +293,12 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
     private void initComponentScroll(View view) {
         NestedScrollView nested_content = (NestedScrollView) view.findViewById(R.id.nested_scroll_view);
-        nested_content.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY < oldScrollY) { // up
-                    animateFab(false);
-                }
-                if (scrollY > oldScrollY) { // down
-                    animateFab(true);
-                }
+        nested_content.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY < oldScrollY) { // up
+                animateFab(false);
+            }
+            if (scrollY > oldScrollY) { // down
+                animateFab(true);
             }
         });
     }
@@ -324,111 +311,13 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         int moveY = hide ? (2 * card_get_quote.getHeight()) : 0;
         card_get_quote.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
     }
-   /* public void init(View view)
-    {
-
-        Toolbar toolbar_title=(Toolbar)getActivity().findViewById(R.id.toolbar);
-
-        TextView title=(TextView) toolbar_title.findViewById(R.id.toolbar_title);
-        title.setVisibility(View.GONE);
-
-        ImageView ivNotification=(ImageView)toolbar_title.findViewById(R.id.ivNotification);
-        ivNotification.setImageResource(R.drawable.ic_edit_profile);
-
-        RadioButton rbPortfollio=(RadioButton)view.findViewById(R.id.rbPortfollio);
-        RadioButton rbSkills=(RadioButton)view.findViewById(R.id.rbSkills);
-
-        //LinearLayout llSkill=(LinearLayout)view.findViewById(R.id.llSkill);
-        //LinearLayout llPortfolloi=(LinearLayout)view.findViewById(R.id.llPortfolloi);
-
-        //TextView tvViewAll=(TextView)view.findViewById(R.id.tvViewAll);
-       // TextView tvSkills=(TextView)view.findViewById(R.id.tvSkills);
-        //tvSkills.setText(getResources().getString(R.string.skills));
-
-        //llSkill.setVisibility(View.VISIBLE);
-        //llPortfolloi.setVisibility(View.GONE);
-
-        rbPortfollio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                if(isChecked)
-                {
-                    rbPortfollio.setTextColor(getResources().getColor(R.color.blue));
-                    rbSkills.setTextColor(getResources().getColor(R.color.textColor));
-
-                   // llSkill.setVisibility(View.GONE);
-                    //llPortfolloi.setVisibility(View.VISIBLE);
-                    //tvViewAll.setVisibility(View.GONE);
-                    //tvSkills.setText(getResources().getString(R.string.portfolio));
-                }
-            }
-        });
-
-        rbSkills.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                if(isChecked)
-                {
-                    rbPortfollio.setTextColor(getResources().getColor(R.color.textColor));
-                    rbSkills.setTextColor(getResources().getColor(R.color.blue));
-
-                   // llSkill.setVisibility(View.VISIBLE);
-                    //llPortfolloi.setVisibility(View.GONE);
-                    //tvViewAll.setVisibility(View.VISIBLE);
-
-                    //tvSkills.setText(getResources().getString(R.string.skills));
-                }
-
-            }
-        });
-    }*/
-
 
     private void initComponent() {
-        rbPortfollio.setOnCheckedChangeListener((group, checkedId) -> {
-
-            onChangeTabBiography();
-
-
-        });
-
-        rbSkills.setOnCheckedChangeListener((group, checkedId) -> {
-
-            onChangeTabBiography();
-
-
-        });
-        /*rgTickerPoster.setOnCheckedChangeListener((group, checkedId) -> {
-
-            onChangeTabUser();
-
-
-        });
-
-
-
-        rgAboutSkillsBadgesPortfolio.setOnCheckedChangeListener((group, checkedId) -> {
-            switch (checkedId) {
-                case R.id.rb_about:
-                    onChangeTabBiography();
-                    break;
-                case R.id.rb_skills:
-                    onChangeTabBiography();
-                    break;
-                case R.id.rb_badges:
-                    onChangeTabBiography();
-                    break;
-                case R.id.rb_portfolio:
-                    onChangeTabBiography();
-                    break;
-            }
-        });*/
-
-
+        rbPortfollio.setOnCheckedChangeListener((group, checkedId) -> onChangeTabBiography());
+        rbSkills.setOnCheckedChangeListener((group, checkedId) -> onChangeTabBiography());
     }
 
+    @SuppressLint("SetTextI18n")
     private void onChangeTabUser() {
 
         if (userAccountModel.getPosterRatings() != null && userAccountModel.getPosterRatings().getAvgRating() != null) {
@@ -438,135 +327,36 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCompletionRate() != null) {
             tvTickerCompletionRate.setText(userAccountModel.getPostTaskStatistics().getCompletionRate() + "%");
         }
-
-        /*if (userAccountModel.getPosterRatings() != null &&
-                userAccountModel.getPosterRatings().getReceivedReviews() != null)
-        {
-            if (userAccountModel.getPosterRatings().getReceivedReviews() <= 1)
-            {
-                txtReviewsCount.setText(userAccountModel.getPosterRatings().getReceivedReviews() + " review");
-            } else {
-                txtReviewsCount.setText(userAccountModel.getPosterRatings().getReceivedReviews() + " reviews");
-            }
-        }*/
-
-
-
-
-        /*if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().getAvgRating() != null) {
-            ratingbarAsPoster.setProgress(userAccountModel.getWorkerRatings().getAvgRating());
-            tvPosterReview.setText("(" + userAccountModel.getWorkerRatings().getAvgRating() + ")");
-        }
-        if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getCompletionRate() != null) {
-            tvPosterCompletionRate.setText(userAccountModel.getWorkTaskStatistics().getCompletionRate() + "%");
-        }*/
-
-        /*if (userAccountModel.getWorkerRatings() != null
-                && userAccountModel.getWorkerRatings().getReceivedReviews() != null) {
-
-            if (userAccountModel.getWorkerRatings().getReceivedReviews() <= 1) {
-                txtReviewsCount.setText(userAccountModel.getWorkerRatings().getReceivedReviews() + " review");
-            } else {
-                txtReviewsCount.setText(userAccountModel.getWorkerRatings().getReceivedReviews() + " reviews");
-            }
-        }*/
-
-        /*if (rbAsAPoster.isChecked())
-        {
-            if (userAccountModel.getPosterRatings() != null && userAccountModel.getPosterRatings().getAvgRating() != null) {
-                ratingbar.setProgress(userAccountModel.getPosterRatings().getAvgRating());
-                txtRatingValue.setText("(" + userAccountModel.getPosterRatings().getAvgRating() + ")");
-            }
-            if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCompletionRate() != null) {
-                txtCompletionRate.setText(userAccountModel.getPostTaskStatistics().getCompletionRate() + "% Completion Rate");
-            }
-            if (userAccountModel.getPosterRatings() != null &&
-                    userAccountModel.getPosterRatings().getReceivedReviews() != null) {
-                if (userAccountModel.getPosterRatings().getReceivedReviews() <= 1) {
-                    txtReviewsCount.setText(userAccountModel.getPosterRatings().getReceivedReviews() + " review");
-                } else {
-                    txtReviewsCount.setText(userAccountModel.getPosterRatings().getReceivedReviews() + " reviews");
-                }
-            }
-        } else {
-
-            if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().getAvgRating() != null) {
-                ratingbar.setProgress(userAccountModel.getWorkerRatings().getAvgRating());
-                txtRatingValue.setText("(" + userAccountModel.getWorkerRatings().getAvgRating() + ")");
-            }
-            if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getCompletionRate() != null) {
-                txtCompletionRate.setText(userAccountModel.getWorkTaskStatistics().getCompletionRate() + "% Completion Rate");
-            }
-
-            if (userAccountModel.getWorkerRatings() != null
-                    && userAccountModel.getWorkerRatings().getReceivedReviews() != null) {
-
-                if (userAccountModel.getWorkerRatings().getReceivedReviews() <= 1) {
-                    txtReviewsCount.setText(userAccountModel.getWorkerRatings().getReceivedReviews() + " review");
-                } else {
-                    txtReviewsCount.setText(userAccountModel.getWorkerRatings().getReceivedReviews() + " reviews");
-                }
-            }
-
-        }*/
     }
 
     private void onChangeTabBiography() {
-
         if (rbPortfollio.isChecked()) {
             //lytAbout.setVisibility(View.VISIBLE);
-            recyclerViewPortfolio.setVisibility(View.VISIBLE);
-            lytSkills.setVisibility(View.GONE);
+            lPort.setVisibility(View.VISIBLE);
+            lSkill.setVisibility(View.GONE);
             rbPortfollio.setTextColor(getResources().getColor(R.color.blue));
             rbSkills.setTextColor(getResources().getColor(R.color.textColor));
-
-            tvSkills.setVisibility(View.GONE);
-
-            llEnlarge.setVisibility(View.VISIBLE);
-
+          //  tvSkills.setVisibility(View.GONE);
+           // llEnlarge.setVisibility(View.VISIBLE);
             //recyclerViewBadges.setVisibility(View.GONE);
         } else if (rbSkills.isChecked()) {
             // lytAbout.setVisibility(View.GONE);
-            recyclerViewPortfolio.setVisibility(View.GONE);
-            lytSkills.setVisibility(View.VISIBLE);
+            lPort.setVisibility(View.GONE);
+            lSkill.setVisibility(View.VISIBLE);
             // recyclerViewBadges.setVisibility(View.GONE);
 
             rbPortfollio.setTextColor(getResources().getColor(R.color.textColor));
             rbSkills.setTextColor(getResources().getColor(R.color.blue));
 
-            tvSkills.setVisibility(View.VISIBLE);
-            llEnlarge.setVisibility(View.GONE);
+          //  tvSkills.setVisibility(View.VISIBLE);
+         //   llEnlarge.setVisibility(View.GONE);
         }
-
-        /*if (rbAbout.isChecked()) {
-            lytAbout.setVisibility(View.VISIBLE);
-            recyclerViewPortfolio.setVisibility(View.GONE);
-            lytSkills.setVisibility(View.GONE);
-            recyclerViewBadges.setVisibility(View.GONE);
-        } else if (rbSkills.isChecked()) {
-            lytAbout.setVisibility(View.GONE);
-            recyclerViewPortfolio.setVisibility(View.GONE);
-            lytSkills.setVisibility(View.VISIBLE);
-            recyclerViewBadges.setVisibility(View.GONE);
-        } else if (rbBadges.isChecked()) {
-            lytAbout.setVisibility(View.GONE);
-            recyclerViewPortfolio.setVisibility(View.GONE);
-            lytSkills.setVisibility(View.GONE);
-            recyclerViewBadges.setVisibility(View.VISIBLE);
-
-        } else if (rbPortfolio.isChecked()) {
-            lytAbout.setVisibility(View.GONE);
-            recyclerViewPortfolio.setVisibility(View.VISIBLE);
-            lytSkills.setVisibility(View.GONE);
-            recyclerViewBadges.setVisibility(View.GONE);
-        }*/
     }
 
     private void init() {
         //lytBtnGetAQuote.setVisibility(View.GONE);
         recyclerViewPortfolio.setLayoutManager(new GridLayoutManager(dashboardActivity, 3));
         //recyclerViewPortfolio.setLayoutManager(new GridLayoutManager(dashboardActivity, 3));
-
         recyclerViewPortfolio.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(dashboardActivity, 8), true));
         recyclerViewPortfolio.setHasFixedSize(true);
         //set data and list adapter
@@ -588,7 +378,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         dashboardActivity.showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
                 response -> {
-                    Log.e("response", response);
+                    Timber.e(response);
                     dashboardActivity.hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
@@ -596,20 +386,26 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
 
                             userAccountModel = new UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"));
-
-
                             setUpAllEditFields(userAccountModel);
                             attachmentArrayList = userAccountModel.getPortfolio();
                             badgesModelArrayList = userAccountModel.getBadges();
-                            Log.e(TAG, attachmentArrayList.size() + "");
-                            if (attachmentArrayList.size() != 0) {
-
-                                // recyclerViewPortfolio.setVisibility(View.VISIBLE);
+                         //   Timber.e("%s", attachmentArrayList.size());
+                                 recyclerViewPortfolio.setVisibility(View.VISIBLE);
+                                if (attachmentArrayList.size() <= 0) {
+                                    NoPortfolio.setVisibility(View.VISIBLE);
+                                    lPort.setVisibility(View.GONE); } else {
+                                    NoPortfolio.setVisibility(View.GONE);
+                                    lPort.setVisibility(View.VISIBLE); }
                                 adapter.addItems(attachmentArrayList);
-                            }
-                            if (badgesModelArrayList.size() != 0) {
+
+
+                                if (badgesModelArrayList.size() <= 0) {
+                                    NoPortfolio.setVisibility(View.VISIBLE);
+                                    lSkill.setVisibility(View.GONE); } else {
+                                    NoPortfolio.setVisibility(View.GONE);
+                                    lSkill.setVisibility(View.VISIBLE); }
                                 badgesAdapter.addItems(badgesModelArrayList);
-                            }
+
                         } else {
                             dashboardActivity.showToast("Something went wrong", dashboardActivity);
                         }
@@ -627,8 +423,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 // map1.put("X-Requested-With", "XMLHttpRequest");
@@ -641,16 +437,27 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(dashboardActivity);
         requestQueue.add(stringRequest);
-        Log.e(TAG, stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void setUpAllEditFields(UserAccountModel userAccountModel) {
 
+        if (userAccountModel.getAbout() == null) {
+         //   NoPortfolio.setVisibility(View.VISIBLE);
+            txtAbout.setText("");
+            txtAbout.setVisibility(View.GONE);
+        } else {
+            //NoPortfolio.setVisibility(View.GONE);
+            txtAbout.setVisibility(View.VISIBLE);
+            txtAbout.setText("" + userAccountModel.getAbout());
+        }
 
-        txtAbout.setText("" + userAccountModel.getAbout());
+
+
+
         tvAboutHeading.setText("“" + userAccountModel.getTagline() + "”");
-
         tagEducation.setTagTypeface(poppins_medium);
         tagSpecialities.setTagTypeface(poppins_medium);
         tagLanguage.setTagTypeface(poppins_medium);
@@ -713,18 +520,15 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             txtLastSeen.setText("Last Seen  " + userAccountModel.getLastOnline());
 
 
-            tvViewAllReviews.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            tvViewAllReviews.setOnClickListener(v -> {
 
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constant.userID, userAccountModel.getId());
-                    bundle.putString("WhoIs", Constant.AS_A_WORKER);
-                    //      bundle.putParcelable(Constant.userAccount, userAccountModel);
+                Bundle bundle = new Bundle();
+                bundle.putInt(Constant.userID, userAccountModel.getId());
+                bundle.putString("WhoIs", Constant.AS_A_WORKER);
+                //      bundle.putParcelable(Constant.userAccount, userAccountModel);
 
-                    startActivity(new Intent(dashboardActivity, ReviewsActivity.class)
-                            .putExtras(bundle));
-                }
+                startActivity(new Intent(dashboardActivity, ReviewsActivity.class)
+                        .putExtras(bundle));
             });
 
             onChangeTabBiography();
@@ -735,7 +539,6 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
        */
         }
     }
-
 
     public void onViewClicked() {
         /*if (rbAsAPoster.isChecked()) {

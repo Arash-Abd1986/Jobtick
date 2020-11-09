@@ -9,17 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.jobtick.activities.ReportActivity;
 import com.jobtick.activities.UserProfileActivity;
-import com.jobtick.utils.ConstantKey;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewBold;
@@ -37,10 +32,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.jobtick.utils.ConstantKey.KEY_OFFER_REPORT;
-import static com.jobtick.utils.ConstantKey.KEY_QUESTION_REPORT;
-
-
 public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int VIEW_TYPE_LOADING = 0;
     private static final int VIEW_TYPE_NORMAL = 1;
@@ -51,7 +42,6 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public interface OnItemClickListener {
         void onItemQuestionClick(View view, QuestionModel obj, int position, String action);
 
-        //  void onItemClick(View view, OfferChatModel obj, int position, String action);
     }
 
     public void setOnItemClickListener(OnItemClickListener mItemClickListener) {

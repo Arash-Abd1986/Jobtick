@@ -328,5 +328,33 @@
     <string name="anyTime">Anytime</string>
     <string name="date">Date</string>
     <string name="selectDate">Select a Date</string>
+    <string name="jessie_albon">Jessie Albon</string>
+    <string name="last_seen_4_36_pm">Last Seen 4:36 PM</string>
+    <string name="_78">78%</string>
+    <string name="_546">(546)</string>
+    <string name="job_success">Job Success</string>
+    <string name="_5_star_website_and_graphic_designer">“5 Star website and graphic designer”</string>
+    <string name="education">Education</string>
+    <string name="certificates">Certificates</string>
+    <string name="occupation">Occupation</string>
+    <string name="language">Language</string>
+    <string name="transportation">Transportation</string>
+    <string name="click_to_enlarge">Click to enlarge</string>
+    <string name="no_portfolio_added_yet">No portfolio added yet</string>
+    <string name="increase_your_chance_to_get_a_job_by">Increase your chance to get a job by</string>
+    <string name="adding_portf">adding your portfolio</string>
+    <string name="general_information">General Information</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="payment_id">Payment ID</string>
+    <string name="unverified">Unverified</string>
+    <string name="tagline">Tagline</string>
+    <string name="about">About</string>
+    <string name="private_information">Private Information</string>
+    <string name="phone_number">Phone number</string>
+    <string name="abn">ABN</string>
+    <string name="_0">0</string>
+    <string name="languages">Languages</string>
+    <string name="save">Save</string>
+    <string name="portfolio_amp_skills"><![CDATA[Portfolio & Skills]]></string>
 
 </resources>

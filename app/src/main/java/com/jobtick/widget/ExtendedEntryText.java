@@ -2,7 +2,6 @@ package com.jobtick.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.media.Image;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
@@ -10,9 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -24,7 +21,7 @@ import com.jobtick.R;
 import com.jobtick.TextView.TextViewSemiBold;
 
 
-public class ExtendedEntryText extends FrameLayout implements View.OnClickListener {
+public class ExtendedEntryText extends RelativeLayout implements View.OnClickListener {
 
     private String mTitle;
     private String mContent;
@@ -35,19 +32,15 @@ public class ExtendedEntryText extends FrameLayout implements View.OnClickListen
     private boolean password_hide = true;
 
     public ExtendedEntryText(@NonNull Context context) {
-        super(context);
-        LayoutInflater.from(context).inflate(R.layout.view_extended_entry_text, this);
-        setListeners();
+        this(context, null, 0,0);
     }
 
     public ExtendedEntryText(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        initViews(context, attrs);
+        this(context, attrs, 0 , 0);
     }
 
     public ExtendedEntryText(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        initViews(context, attrs);
+        this(context, attrs, defStyleAttr, 0);
     }
 
     public ExtendedEntryText(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {

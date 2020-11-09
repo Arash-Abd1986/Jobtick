@@ -133,7 +133,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         }
     }
 
-    private void setError(CharSequence error){
+    public void setError(CharSequence error){
         editText.setError(error);
     }
 
@@ -146,11 +146,15 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     }
 
     public String geteContent() {
-        return eContent;
+        return editText.getText().toString();
+    }
+
+    public String getText() {
+        return editText.getText().toString();
     }
 
     public void seteContent(String eContent) {
-        this.eContent = eContent;
+        this.editText.setText(eContent);
     }
 
     public int geteInputType() {

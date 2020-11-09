@@ -50,6 +50,7 @@
 
 
             <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:eInputType="email"
@@ -59,7 +60,9 @@
                 android:layout_marginBottom="@dimen/spacing_middle"
                 app:eTitle="@string/email_address" />
 
+
             <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:eInputType="password"
@@ -69,49 +72,18 @@
                 android:layout_marginBottom="@dimen/spacing_middle"
                 app:eTitle="@string/password" />
 
-
-            <LinearLayout
-                android:id="@+id/lnr_email"
+            <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/confirm_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:eInputType="password"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:background="@drawable/rectangle_card_round_corners_outlined"
-                android:orientation="vertical"
-                android:paddingStart="@dimen/spacing_mlarge"
-                android:paddingTop="@dimen/spacing_large"
-                android:paddingEnd="@dimen/spacing_mlarge"
-                android:paddingBottom="@dimen/spacing_large">
-
-                <com.jobtick.TextView.TextViewSemiBold
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/email"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_12sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                app:eTitle="@string/confirm_password" />
 
 
-                    <com.jobtick.EditText.EditTextRegular
-                        android:id="@+id/edt_email_address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:background="@null"
-                        android:gravity="center_vertical"
-                        android:textSize="@dimen/_14sp" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-
-        <include layout="@layout/view_password_confirm_password"/>
 
 
         </LinearLayout>

@@ -20,6 +20,8 @@ import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.AuthActivity;
 import com.jobtick.utils.Helper;
+import com.jobtick.widget.ExtendedEntryText;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -31,14 +33,13 @@ import timber.log.Timber;
 public class SignUpFragment extends FragmentBase implements AuthActivity.EditTextError {
 
 
-    @BindView(R.id.edt_email_address)
-    EditTextRegular edtEmailAddress;
-    @BindView(R.id.edt_password)
-    EditTextRegular edtPassword;
-    @BindView(R.id.img_btn_password_toggle)
-    ImageView imgBtnPasswordToggle;
-    @BindView(R.id.edt_repeat_password)
-    EditTextRegular edtRepeatPassword;
+    @BindView(R.id.email)
+    ExtendedEntryText edtEmailAddress;
+    @BindView(R.id.password)
+    ExtendedEntryText edtPassword;
+    @BindView(R.id.confirm_password)
+    ExtendedEntryText edtRepeatPassword;
+
     @BindView(R.id.lyt_btn_sign_up)
     MaterialButton lytBtnSignUp;
     @BindView(R.id.lyt_btn_google)
@@ -47,18 +48,11 @@ public class SignUpFragment extends FragmentBase implements AuthActivity.EditTex
     LinearLayout lytBtnFacebook;
     @BindView(R.id.txt_btn_sign_in)
     TextViewRegular txtBtnSignIn;
-    @BindView(R.id.img_btn_repeat_password_toggle)
-    ImageView imgBtnRepeatPasswordToggle;
 
     @BindView(R.id.txt_btn_terms)
     TextViewRegular txtBtnTerms;
 
-    private boolean password_hide = true;
-    private boolean repeat_password_hide = true;
-
     private AuthActivity authActivity;
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,16 +93,9 @@ public class SignUpFragment extends FragmentBase implements AuthActivity.EditTex
     }
 
 
-    @OnClick({R.id.img_btn_password_toggle, R.id.img_btn_repeat_password_toggle, R.id.lyt_btn_sign_up, R.id.lyt_btn_google, R.id.lyt_btn_facebook, R.id.txt_btn_sign_in,
-    R.id.lnr_password, R.id.lnr_email, R.id.lnr_confirm_password, R.id.txt_btn_terms})
+    @OnClick({R.id.lyt_btn_sign_up, R.id.lyt_btn_google, R.id.lyt_btn_facebook, R.id.txt_btn_sign_in, R.id.txt_btn_terms})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.img_btn_password_toggle:
-                passowrd_toggle();
-                break;
-            case R.id.img_btn_repeat_password_toggle:
-                repeat_passowrd_toggle();
-                break;
             case R.id.lyt_btn_sign_up:
                 if (validation()) {
                     authActivity.Signup(edtEmailAddress.getText().toString().trim(), edtPassword.getText().toString().trim());
@@ -127,53 +114,11 @@ public class SignUpFragment extends FragmentBase implements AuthActivity.EditTex
                 ft.replace(R.id.auth_layout, fragment);
                 ft.commit();
                 break;
-
-                case R.id.lnr_password:
-                    editTextOnClick(edtPassword);
-                break;
-                case R.id.lnr_confirm_password:
-                    editTextOnClick(edtRepeatPassword);
-                break;
-                case R.id.lnr_email:
-                    editTextOnClick(edtEmailAddress);
-                break;
             case R.id.txt_btn_terms:
                 //TODO: should be implemented
                 break;
 
         }
-    }
-
-    private void passowrd_toggle() {
-        if (password_hide) {
-            password_hide = false;
-            edtPassword.setInputType(
-                    InputType.TYPE_CLASS_TEXT |
-                            InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            );
-            imgBtnPasswordToggle.setImageDrawable(authActivity.getResources().getDrawable(R.drawable.ic_eye));
-        } else {
-            password_hide = true;
-            edtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            imgBtnPasswordToggle.setImageDrawable(authActivity.getResources().getDrawable(R.drawable.ic_eye_off));
-        }
-    }
-
-
-    private void repeat_passowrd_toggle() {
-        if (repeat_password_hide) {
-            repeat_password_hide = false;
-            edtRepeatPassword.setInputType(
-                    InputType.TYPE_CLASS_TEXT |
-                            InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            );
-            imgBtnRepeatPasswordToggle.setImageDrawable(authActivity.getResources().getDrawable(R.drawable.ic_eye));
-        } else {
-            repeat_password_hide = true;
-            edtRepeatPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            imgBtnRepeatPasswordToggle.setImageDrawable(authActivity.getResources().getDrawable(R.drawable.ic_eye_off));
-        }
-
     }
 
 

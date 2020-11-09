@@ -18,7 +18,7 @@ import com.jobtick.R;
 import static android.text.InputType.TYPE_CLASS_TEXT;
 
 
-public class ExtendedEntryText extends RelativeLayout implements View.OnClickListener {
+public class ExtendedEntryText extends RelativeLayout implements View.OnClickListener, View.OnFocusChangeListener {
 
     private String eTitle;
     private String eContent;
@@ -58,7 +58,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         //Inflate and attach the content
         LayoutInflater.from(context).inflate(R.layout.view_extended_entry_text, this);
 
-        setBackgroundResource(R.drawable.rectangle_button_round_corners_outlined);
+        setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
 
         editText = (EditText) findViewById(R.id.content);
         textView = (TextView) findViewById(R.id.title);
@@ -67,6 +67,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         textView.setText(eTitle);
         editText.setText(eContent);
 
+        editText.setOnFocusChangeListener(this);
         setInputType();
         setListeners();
     }
@@ -136,12 +137,46 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         editText.setError(error);
     }
 
-    private interface EInputType {
+    public String geteTitle() {
+        return eTitle;
+    }
+
+    public void seteTitle(String eTitle) {
+        this.eTitle = eTitle;
+    }
+
+    public String geteContent() {
+        return eContent;
+    }
+
+    public void seteContent(String eContent) {
+        this.eContent = eContent;
+    }
+
+    public int geteInputType() {
+        return eInputType;
+    }
+
+    public void seteInputType(int eInputType) {
+        this.eInputType = eInputType;
+    }
+
+    @Override
+    public void onFocusChange(View view, boolean focused) {
+        if(focused)
+            setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_primary);
+        else
+            setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
+    }
+
+    public interface EInputType {
+
         int TEXT = 0;
         int INTEGER = 1;
         int EMAIL = 2;
         int PASSWORD = 3;
         int PHONE = 4;
     }
-}
 
+
+}

@@ -90,26 +90,12 @@
     <declare-styleable name="ExtendedEntryText">
         <attr name="eTitle" format="string"/>
         <attr name="eContent" format="string"/>
-        <attr name="eIsPassword" format="boolean"/>
-    </declare-styleable>
-
-    <declare-styleable name="ExtendedButton">
-        <attr name="eFont" format="enum">
-<!--            <enum name="montserratBlack" value="0"/>-->
-<!--            <enum name="montserratBold" value="1"/>-->
-<!--            <enum name="montserratExtraBold" value="2"/>-->
-<!--            <enum name="montserratHairline" value="3"/>-->
-<!--            <enum name="montserratLight" value="4"/>-->
-<!--            <enum name="montserratRegular" value="5"/>-->
-<!--            <enum name="montserratSemiBold" value="6"/>-->
-<!--            <enum name="montserratThin" value="7"/>-->
-<!--            <enum name="montserratUltraLight" value="8"/>-->
-            <enum name="poppinsBoldItalic" value="9"/>
-            <enum name="poppinsItalic" value="10"/>
-            <enum name="poppinsBold" value="11"/>
-            <enum name="poppinsMedium" value="12"/>
-            <enum name="poppinsRegular" value="13"/>
-            <enum name="poppinsSemiBold" value="14"/>
+        <attr name="eInputType" format="enum">
+            <enum name="text" value="0"/>
+            <enum name="integer" value="1"/>
+            <enum name="email" value="2"/>
+            <enum name="password" value="3"/>
+            <enum name="phone" value="4"/>
         </attr>
     </declare-styleable>
 

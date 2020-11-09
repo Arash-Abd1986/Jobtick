@@ -5,50 +5,40 @@ import android.content.res.TypedArray;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.jobtick.EditText.EditTextMedium;
-import com.jobtick.EditText.EditTextRegular;
+import android.widget.TextView;
+import androidx.core.content.ContextCompat;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewSemiBold;
+
+import static android.text.InputType.TYPE_CLASS_TEXT;
 
 
 public class ExtendedEntryText extends RelativeLayout implements View.OnClickListener {
 
-    private String mTitle;
-    private String mContent;
-    private boolean mIsPassword;
-    private EditTextMedium editText;
-    private TextViewSemiBold textView;
+    private String eTitle;
+    private String eContent;
+    private TextView textView;
+    private EditText editText;
     private ImageView imageView;
+    private boolean eIsPassword;
+    private int eInputType;
     private boolean password_hide = true;
 
-    public ExtendedEntryText(@NonNull Context context) {
-        this(context, null, 0,0);
+    public ExtendedEntryText(Context context) {
+        this(context, null);
     }
 
-    public ExtendedEntryText(@NonNull Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, 0 , 0);
+    public ExtendedEntryText(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
     }
 
-    public ExtendedEntryText(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
-    }
-
-    public ExtendedEntryText(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        initViews(context, attrs);
-    }
-
-    public void initViews(Context context, @Nullable AttributeSet attrs) {
+    public ExtendedEntryText(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
 
         TypedArray sharedAttribute = context.getTheme().obtainStyledAttributes(
                 attrs,
@@ -56,105 +46,41 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
                 0, 0);
 
         try {
-            mTitle = sharedAttribute.getString(R.styleable.ExtendedEntryText_eTitle);
-            mContent = sharedAttribute.getString(R.styleable.ExtendedEntryText_eContent);
-            mIsPassword = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eIsPassword, false);
+            eTitle = sharedAttribute.getString(R.styleable.ExtendedEntryText_eTitle);
+            eContent = sharedAttribute.getString(R.styleable.ExtendedEntryText_eContent);
+            String inputType = sharedAttribute.getString(R.styleable.ExtendedEntryText_eInputType);
+            if(inputType != null && !inputType.isEmpty())
+                eInputType = Integer.parseInt(inputType);
         } finally {
-             sharedAttribute.recycle();
+            sharedAttribute.recycle();
         }
 
+        //Inflate and attach the content
         LayoutInflater.from(context).inflate(R.layout.view_extended_entry_text, this);
 
-        editText = (EditTextMedium) findViewById(R.id.content);
-        textView = (TextViewSemiBold) findViewById(R.id.title);
+        setBackgroundResource(R.drawable.rectangle_button_round_corners_outlined);
+
+        editText = (EditText) findViewById(R.id.content);
+        textView = (TextView) findViewById(R.id.title);
         imageView = (ImageView) findViewById(R.id.img_btn_password_toggle);
 
-        textView.setText(mTitle);
-        editText.setText(mContent);
+        textView.setText(eTitle);
+        editText.setText(eContent);
 
-        if(mIsPassword){
-            imageView.setVisibility(VISIBLE);
-            editText.setInputType(
-                    InputType.TYPE_CLASS_TEXT |
-                            InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        }
-        else
-            imageView.setVisibility(GONE);
-
+        setInputType();
         setListeners();
-    }
-
-    public String getTitle() {
-        return mTitle;
-    }
-
-    public void setTitle(String title) {
-        this.mTitle = title;
-        textView.setText(title);
-        invalidate();
-        requestLayout();
-    }
-
-    public String getContent(){
-        return mContent;
-    }
-
-    public String getText(){
-        return mContent;
-    }
-
-    public void setContent(String content) {
-        this.mContent = content;
-        editText.setText(content);
-        invalidate();
-        requestLayout();
-    }
-
-
-
-    public void setError(CharSequence error){
-        editText.setError(error);
-    }
-
-    private void setListeners(){
-
-        Log.i("extendedEntryText", "setting listeners");
-        setOnClickListener(this);
-
-        if(mIsPassword) {
-            Log.i("extendedEntryText", "setting listeners 2");
-            imageView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (password_hide) {
-                        Log.i("ExtendedEntry", "hide");
-                        password_hide = false;
-                        editText.setInputType(
-                                InputType.TYPE_CLASS_TEXT |
-                                        InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                        );
-                        imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_eye));
-                    } else {
-                        Log.i("ExtendedEntry", "show");
-                        password_hide = true;
-                        editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                        imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_eye_off));
-                    }
-                }
-            });
-        }
     }
 
     @Override
     public void onClick(View v) {
-        Log.i("extendedEditText", "clicked");
-        //       editText.requestFocusFromTouch();
-//        InputMethodManager imm = (InputMethodManager) getContext()
-//                .getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.showSoftInput(editText, 0);
+
+        editText.requestFocus();
+        editText.performClick();
+
+        showKeyboard(editText);
     }
 
-    private void showKeyboard(EditTextRegular editText) {
+    private void showKeyboard(EditText editText) {
         editText.post(new Runnable() {
             @Override
             public void run() {
@@ -165,11 +91,57 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         });
     }
 
-//    private float pxFromDp(float dp) {
-//        return dp * getContext().getResources().getDisplayMetrics().density;
-//    }
-//
-//    private int dpFromPx(float px){
-//        return (int) (px / getResources().getDisplayMetrics().density);
-//    }
+    private void setInputType() {
+        imageView.setVisibility(GONE);
+
+        if (eInputType == EInputType.INTEGER) {
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        } else if (eInputType == EInputType.EMAIL)
+            editText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        else if (eInputType ==  EInputType.PASSWORD) {
+            eIsPassword = true;
+            imageView.setVisibility(VISIBLE);
+
+        } else if (eInputType == EInputType.PHONE)
+            editText.setInputType(InputType.TYPE_CLASS_PHONE);
+        else
+            editText.setInputType(TYPE_CLASS_TEXT);
+    }
+
+    private void setListeners() {
+        setOnClickListener(this);
+
+        if (eIsPassword) {
+            imageView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (password_hide) {
+                        password_hide = false;
+                        editText.setInputType(
+                                TYPE_CLASS_TEXT |
+                                        InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                        );
+                        imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_eye));
+                    } else {
+                        password_hide = true;
+                        editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_eye_off));
+                    }
+                }
+            });
+        }
+    }
+
+    private void setError(CharSequence error){
+        editText.setError(error);
+    }
+
+    private interface EInputType {
+        int TEXT = 0;
+        int INTEGER = 1;
+        int EMAIL = 2;
+        int PASSWORD = 3;
+        int PHONE = 4;
+    }
 }
+

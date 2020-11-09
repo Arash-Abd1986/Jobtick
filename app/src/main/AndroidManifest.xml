@@ -156,7 +156,7 @@
         <activity android:name=".activities.RescheduleReqFromWorkerActivity" />
 
         <activity android:name=".activities.SinginSingupAcitivity" />
-        <activity android:name=".activities.CategroyListActivity" />
+        <activity android:name=".activities.CategoryListActivity" />
         <activity android:name=".activities.RescheduleDeclineActivity" />
         <activity android:name=".activities.OnboardActivity" />
         <activity android:name=".activities.SearchCategoryActivity" />

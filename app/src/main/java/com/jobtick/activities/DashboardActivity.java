@@ -326,13 +326,9 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     @Override
     public void onResume() {
         super.onResume();
-
-        toolbar.post(new Runnable() {
-            @Override
-            public void run() {
-                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
-                toolbar.setNavigationIcon(d);
-            }
+        toolbar.post(() -> {
+            Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
+            toolbar.setNavigationIcon(d);
         });
     }
 
@@ -381,31 +377,23 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
             case R.id.nav_refer_a_friend:
                 Toast.makeText(this, "refer a friend", Toast.LENGTH_SHORT).show();
-
                 return true;
 
             case R.id.nav_settings:
                 Intent settings = new Intent(DashboardActivity.this, SettingActivity.class);
                 startActivity(settings);
-                // Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show();
-
                 return true;
 
 
             case R.id.nav_help_topics:
                 Intent help_topics = new Intent(DashboardActivity.this, HelpActivity.class);
                 startActivity(help_topics);
-                //  Toast.makeText(this, "help topics", Toast.LENGTH_SHORT).show();
-
                 return true;
-
 
             case R.id.nav_logout:
                 logout_dialog_box();
                 return true;
-
         }
-
         return false;
     }
 
@@ -421,6 +409,5 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
     @Override
     public void updateProfile() {
-
     }
 }

@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/post_requirements_item_height"
-    android:layout_gravity="start"
-    android:gravity="start">
-
+    android:layout_gravity="center_vertical|start"
+    android:gravity="center_vertical|start"
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/img_btn_remove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:background="?attr/selectableItemBackground"
         android:src="@drawable/ic_minus"
-        android:layout_gravity="center_vertical"/>
+        tools:ignore="ContentDescription" />
 
-    <com.jobtick.TextView.TextViewRegular
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_btn_add_must_have"
+        style="@style/materialText_500_14"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="@dimen/spacing_middle"
         android:background="?attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:inputType="textMultiLine"
-        android:text="Hello"
-        android:textColor="@color/textColor" />
-
-
+        android:textColor="@color/textColor"
+        tools:text="Hello" />
 </LinearLayout>

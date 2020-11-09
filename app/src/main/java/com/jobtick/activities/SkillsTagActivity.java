@@ -41,7 +41,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class SkillsTagActivity extends ActivityBase implements AddTagAdapter.OnItemClickListener {
+public class SkillsTagActivity extends ActivityBase {
 
 
     @BindView(R.id.recycler_view)
@@ -77,7 +77,7 @@ public class SkillsTagActivity extends ActivityBase implements AddTagAdapter.OnI
                 action_bat_title = bundle.getString(ConstantKey.TOOLBAR_TITLE);
                 title = bundle.getString(ConstantKey.TITLE);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         init();
@@ -112,18 +112,18 @@ public class SkillsTagActivity extends ActivityBase implements AddTagAdapter.OnI
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             Timber.e(jsonObject.toString());
-                            Intent intent=new Intent();
-                            intent.putExtra(ConstantKey.SKILLS,addTagList);
-                            if(action_bat_title.equalsIgnoreCase(ConstantKey.TRANSPORTATION))
-                                setResult(1,intent);
-                            if(action_bat_title.equalsIgnoreCase(ConstantKey.LANGUAGE))
-                                setResult(2,intent);
-                            if(action_bat_title.equalsIgnoreCase(ConstantKey.EDUCATION))
-                                setResult(3,intent);
-                            if(action_bat_title.equalsIgnoreCase(ConstantKey.EXPERIENCE))
-                                setResult(4,intent);
-                            if(action_bat_title.equalsIgnoreCase(ConstantKey.SPECIALITIES))
-                                setResult(5,intent);
+                            Intent intent = new Intent();
+                            intent.putExtra(ConstantKey.SKILLS, addTagList);
+                            if (action_bat_title.equalsIgnoreCase(ConstantKey.TRANSPORTATION))
+                                setResult(1, intent);
+                            if (action_bat_title.equalsIgnoreCase(ConstantKey.LANGUAGE))
+                                setResult(2, intent);
+                            if (action_bat_title.equalsIgnoreCase(ConstantKey.EDUCATION))
+                                setResult(3, intent);
+                            if (action_bat_title.equalsIgnoreCase(ConstantKey.EXPERIENCE))
+                                setResult(4, intent);
+                            if (action_bat_title.equalsIgnoreCase(ConstantKey.SPECIALITIES))
+                                setResult(5, intent);
                             SkillsTagActivity.super.onBackPressed();
                         } catch (JSONException e) {
                             Timber.e(String.valueOf(e));
@@ -174,14 +174,14 @@ public class SkillsTagActivity extends ActivityBase implements AddTagAdapter.OnI
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<>();
-                if(addTagList != null && addTagList.size() != 0) {
+                if (addTagList != null && addTagList.size() != 0) {
                     for (int i = 0; addTagList.size() > i; i++) {
                         map1.put(action_bat_title.toLowerCase() + "[" + i + "]", addTagList.get(i));
                     }
-                }else{
+                } else {
                     map1.put(action_bat_title.toLowerCase() + "[]", "");
                 }
-                Log.e("MAP",String.valueOf(map1.size()));
+                Log.e("MAP", String.valueOf(map1.size()));
                 Timber.e(map1.toString());
                 return map1;
 
@@ -198,9 +198,9 @@ public class SkillsTagActivity extends ActivityBase implements AddTagAdapter.OnI
 
     @Override
     public void onBackPressed() {
-        if(hasUpdate) {
+        if (hasUpdate) {
             updateSkillsTag();
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -212,25 +212,22 @@ public class SkillsTagActivity extends ActivityBase implements AddTagAdapter.OnI
         recyclerView.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(SkillsTagActivity.this, 5), true));
         recyclerView.setHasFixedSize(true);
 
-        adapter = new AddTagAdapter(SkillsTagActivity.this, addTagList);
+        adapter = new AddTagAdapter(addTagList, new AddTagAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String data) {
+                addTagList.remove(data);
+                adapter.updateItem(addTagList);
+                hasUpdate = true;
+                recyclerView.swapAdapter(adapter, true);
+                if (addTagList.size() == 0) {
+                    recyclerView.setVisibility(View.GONE);
+                }
+            }
+        });
 
-        adapter.setOnItemClickListener(this);
-
-        if(addTagList != null && addTagList.size() != 0){
+        if (addTagList != null && addTagList.size() != 0) {
             recyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void onItemClick(View view, String obj, int position, String action) {
-        addTagList.remove(position);
-        hasUpdate = true;
-        adapter.notifyItemRemoved(position);
-        adapter.notifyItemRangeRemoved(position, addTagList.size());
-        recyclerView.swapAdapter(adapter, true);
-        if (addTagList.size() == 0) {
-            recyclerView.setVisibility(View.GONE);
         }
     }
 
@@ -246,7 +243,7 @@ public class SkillsTagActivity extends ActivityBase implements AddTagAdapter.OnI
             if (recyclerView.getVisibility() != View.VISIBLE) {
                 recyclerView.setVisibility(View.VISIBLE);
             }
-            if(addTagList.size() == 1){
+            if (addTagList.size() == 1) {
                 recyclerView.setAdapter(adapter);
             }
             adapter.notifyItemInserted(adapter.getItemCount());

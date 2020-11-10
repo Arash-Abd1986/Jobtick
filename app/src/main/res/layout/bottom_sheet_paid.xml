@@ -64,7 +64,7 @@
                 android:id="@+id/credit_account_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/credit_account_name"
+                android:layout_above="@id/credit_expiry_date"
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="8dp"
                 android:text="**** **** **** 1234"
@@ -72,7 +72,7 @@
                 android:textSize="@dimen/_14sp" />
 
             <com.jobtick.TextView.TextViewMedium
-                android:id="@+id/credit_account_name"
+                android:id="@+id/credit_expiry_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"

@@ -14,5 +14,6 @@
         android:layout_centerInParent="true"
         android:layout_centerVertical="true"
         android:padding="@dimen/spacing_medium"
-        android:src="@drawable/ic_paperclip" />
+        android:src="@drawable/ic_paperclip"
+        android:contentDescription="@string/todo" />
 </RelativeLayout>

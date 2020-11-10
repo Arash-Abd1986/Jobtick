@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/linear_add_bank_account"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/spacing_large"
-    android:layout_marginEnd="@dimen/spacing_large"
-    android:layout_marginBottom="@dimen/spacing_large"
-    android:layout_marginTop="28dp"
-    android:orientation="vertical"
-    android:visibility="visible"
+<merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -83,42 +75,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/spacing_large"
         android:orientation="horizontal">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/delete_bank_account"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginEnd="@dimen/spacing_medium"
+            style="@style/materialButton.outlined"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/colorDeclineRed"
-            app:cardCornerRadius="@dimen/buttonCorners">
+            android:text="@string/delete"
+            android:textColor="@color/strokeRed"
+            app:strokeColor="@color/strokeRed" />
 
-            <com.jobtick.TextView.TextViewMedium
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/delete"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_14sp" />
-        </androidx.cardview.widget.CardView>
 
-        <FrameLayout
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_bank_account"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginStart="@dimen/spacing_medium"
+            style="@style/materialButton.outlined"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_border_btn_blue">
+            android:text="@string/edit" />
 
-            <com.jobtick.TextView.TextViewMedium
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/edit"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_14sp" />
-        </FrameLayout>
     </LinearLayout>
-</LinearLayout>
+</merge>

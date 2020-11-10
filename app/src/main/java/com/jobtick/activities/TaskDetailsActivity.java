@@ -1122,7 +1122,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         recyclerViewQuestionAttachment.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(TaskDetailsActivity.this, 5), true));
         recyclerViewQuestionAttachment.setHasFixedSize(true);
         //set data and list adapter
-        adapter = new AttachmentAdapter(TaskDetailsActivity.this, attachmentArrayList_question, true);
+        adapter = new AttachmentAdapter(attachmentArrayList_question, true);
         recyclerViewQuestionAttachment.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         adapter.setOnItemClickListener(this);

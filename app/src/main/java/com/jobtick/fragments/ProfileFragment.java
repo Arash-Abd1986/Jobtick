@@ -200,7 +200,6 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     private UserAccountModel userAccountModel;
     private ArrayList<AttachmentModel> attachmentArrayList;
     private ArrayList<BadgesModel> badgesModelArrayList;
-
     private AttachmentAdapter adapter;
     private BadgesAdapter badgesAdapter;
     public static onProfileUpdateListener onProfileupdatelistener;
@@ -275,19 +274,11 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             return false;
         });
 
-        /*init();
-        getAllProfileData();
-        initComponent();*/
-
-        init();
+       init();
 
         getAllProfileData();
         initComponent();
         initComponentScroll(view);
-
-      /*  initComponent();
-        init(view);*/
-        //init(view);
 
     }
 
@@ -343,34 +334,23 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             // lytAbout.setVisibility(View.GONE);
             lPort.setVisibility(View.GONE);
             lSkill.setVisibility(View.VISIBLE);
-            // recyclerViewBadges.setVisibility(View.GONE);
-
             rbPortfollio.setTextColor(getResources().getColor(R.color.textColor));
             rbSkills.setTextColor(getResources().getColor(R.color.blue));
 
-          //  tvSkills.setVisibility(View.VISIBLE);
-         //   llEnlarge.setVisibility(View.GONE);
         }
     }
 
     private void init() {
-        //lytBtnGetAQuote.setVisibility(View.GONE);
+
         recyclerViewPortfolio.setLayoutManager(new GridLayoutManager(dashboardActivity, 3));
-        //recyclerViewPortfolio.setLayoutManager(new GridLayoutManager(dashboardActivity, 3));
         recyclerViewPortfolio.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(dashboardActivity, 8), true));
         recyclerViewPortfolio.setHasFixedSize(true);
-        //set data and list adapter
-        adapter = new AttachmentAdapter(dashboardActivity, attachmentArrayList, false);
+
+        adapter = new AttachmentAdapter(attachmentArrayList, false);
         recyclerViewPortfolio.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
 
-        badgesAdapter = new BadgesAdapter(dashboardActivity, badgesModelArrayList, false);
-
-        /*recyclerViewBadges.setLayoutManager(new LinearLayoutManager(dashboardActivity));
-        recyclerViewBadges.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(dashboardActivity, 5), true));
-        recyclerViewBadges.setHasFixedSize(true);
-        recyclerViewBadges.setAdapter(badgesAdapter);*/
-
+        badgesAdapter = new BadgesAdapter(badgesModelArrayList);
     }
 
     private void getAllProfileData() {
@@ -389,21 +369,26 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                             setUpAllEditFields(userAccountModel);
                             attachmentArrayList = userAccountModel.getPortfolio();
                             badgesModelArrayList = userAccountModel.getBadges();
-                         //   Timber.e("%s", attachmentArrayList.size());
-                                 recyclerViewPortfolio.setVisibility(View.VISIBLE);
+
+
                                 if (attachmentArrayList.size() <= 0) {
                                     NoPortfolio.setVisibility(View.VISIBLE);
-                                    lPort.setVisibility(View.GONE); } else {
+                                    lPort.setVisibility(View.GONE);
+                                } else {
+                                    recyclerViewPortfolio.setVisibility(View.VISIBLE);
                                     NoPortfolio.setVisibility(View.GONE);
-                                    lPort.setVisibility(View.VISIBLE); }
+                                    lPort.setVisibility(View.VISIBLE);
+                                }
                                 adapter.addItems(attachmentArrayList);
 
 
                                 if (badgesModelArrayList.size() <= 0) {
                                     NoPortfolio.setVisibility(View.VISIBLE);
-                                    lSkill.setVisibility(View.GONE); } else {
+                                    lSkill.setVisibility(View.GONE);
+                                } else {
                                     NoPortfolio.setVisibility(View.GONE);
-                                    lSkill.setVisibility(View.VISIBLE); }
+                                    lSkill.setVisibility(View.VISIBLE);
+                                }
                                 badgesAdapter.addItems(badgesModelArrayList);
 
                         } else {
@@ -445,19 +430,18 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     private void setUpAllEditFields(UserAccountModel userAccountModel) {
 
         if (userAccountModel.getAbout() == null) {
-         //   NoPortfolio.setVisibility(View.VISIBLE);
-            txtAbout.setText("");
             txtAbout.setVisibility(View.GONE);
         } else {
-            //NoPortfolio.setVisibility(View.GONE);
             txtAbout.setVisibility(View.VISIBLE);
             txtAbout.setText("" + userAccountModel.getAbout());
         }
+        if (userAccountModel.getTagline() == null) {
+            tvAboutHeading.setVisibility(View.GONE);
+        } else {
+            tvAboutHeading.setVisibility(View.VISIBLE);
+            tvAboutHeading.setText("" + userAccountModel.getTagline());
+        }
 
-
-
-
-        tvAboutHeading.setText("“" + userAccountModel.getTagline() + "”");
         tagEducation.setTagTypeface(poppins_medium);
         tagSpecialities.setTagTypeface(poppins_medium);
         tagLanguage.setTagTypeface(poppins_medium);

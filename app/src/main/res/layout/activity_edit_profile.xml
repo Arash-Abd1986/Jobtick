@@ -132,257 +132,77 @@
                             android:layout_height="@dimen/spacing_medium"
                             android:visibility="visible" />
 
-                        <FrameLayout
+                        <com.jobtick.widget.ExtendedEntryText
+                            android:id="@+id/edt_first_name"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+                            app:eInputType="text"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_marginBottom="@dimen/spacing_medium"
-                            android:background="@drawable/greay_border_bg"
-                            android:visibility="visible">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_large"
-                                android:layout_marginTop="@dimen/spacing_middle"
-                                android:layout_marginEnd="@dimen/spacing_large"
-                                android:layout_marginBottom="@dimen/spacing_middle"
-                                android:orientation="vertical"
-                                tools:ignore="UselessParent">
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    style="@style/materialText_600_12"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/first_name"
-                                    android:textColor="@color/colorPrimary"/>
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    style="@style/materialText_500_14"
-                                    android:id="@+id/edt_first_name"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@null"
-                                    android:hint=""
-                                    android:singleLine="true"
-                                    android:textColor="@color/textColor"/>
-                            </LinearLayout>
-                        </FrameLayout>
+                            android:layout_marginBottom="@dimen/spacing_middle"
+                            app:eTitle="@string/first_name" />
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/spacing_medium"
                             android:visibility="visible" />
 
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/spacing_large"
-                            android:layout_marginTop="@dimen/spacing_medium"
-                            android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_marginBottom="@dimen/spacing_medium"
-                            android:background="@drawable/greay_border_bg"
-                            android:visibility="visible">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_large"
-                                android:layout_marginTop="@dimen/spacing_middle"
-                                android:layout_marginEnd="@dimen/spacing_large"
-                                android:layout_marginBottom="@dimen/spacing_middle"
-                                android:orientation="vertical"
-                                tools:ignore="UselessParent">
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    style="@style/materialText_600_12"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/last_name"
-                                    android:textColor="@color/colorPrimary"/>
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    style="@style/materialText_500_14"
-                                    android:id="@+id/edt_last_name"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@null"
-                                    android:hint=""
-                                    android:singleLine="true"
-                                    android:textColor="@color/textColor"/>
-                            </LinearLayout>
-                        </FrameLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spacing_medium" />
-
-                        <androidx.cardview.widget.CardView
+                        <com.jobtick.widget.ExtendedEntryText
+                            android:id="@+id/edt_last_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:eInputType="text"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_marginBottom="@dimen/spacing_medium"
-                            android:elevation="@dimen/spacing_mlarge"
-                            android:visibility="gone"
-                            app:cardCornerRadius="@dimen/spacing_middle">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_large"
-                                android:layout_marginTop="@dimen/spacing_middle"
-                                android:layout_marginEnd="@dimen/spacing_large"
-                                android:layout_marginBottom="@dimen/spacing_middle"
-                                android:orientation="vertical">
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    style="@style/materialText_600_12"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/payment_id"
-                                    android:textColor="@color/colorPrimary"/>
-
-                                <com.jobtick.EditText.EditTextRegular
-                                    android:id="@+id/edt_payment_id"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@null"
-                                    android:hint="@string/unverified"
-                                    android:singleLine="true"
-                                    android:textColor="@color/textColor"/>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/spacing_large"
-                            android:layout_marginTop="@dimen/spacing_medium"
-                            android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_marginBottom="@dimen/spacing_medium"
-                            android:background="@drawable/greay_border_bg"
-                            android:visibility="visible">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_large"
-                                android:layout_marginTop="@dimen/spacing_middle"
-                                android:layout_marginEnd="@dimen/spacing_large"
-                                android:layout_marginBottom="@dimen/spacing_middle"
-                                android:orientation="vertical"
-                                tools:ignore="UselessParent">
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    style="@style/materialText_600_12"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/suburb"
-                                    android:textColor="@color/colorPrimary"/>
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    style="@style/materialText_500_14"
-                                    android:id="@+id/txt_suburb"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@null"
-                                    android:hint=""
-                                    android:inputType="textMultiLine"
-                                    android:textColor="@color/textColor"/>
-
-                            </LinearLayout>
-                        </FrameLayout>
+                            android:layout_marginBottom="@dimen/spacing_middle"
+                            app:eTitle="@string/last_name" />
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/spacing_medium" />
 
-                        <FrameLayout
+                        <com.jobtick.widget.ExtendedEntryText
+                            android:id="@+id/txt_suburb"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+                            app:eInputType="text"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_marginBottom="@dimen/spacing_medium"
-                            android:background="@drawable/greay_border_bg"
-                            android:visibility="visible">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_large"
-                                android:layout_marginTop="@dimen/spacing_middle"
-                                android:layout_marginEnd="@dimen/spacing_large"
-                                android:layout_marginBottom="@dimen/spacing_middle"
-                                android:orientation="vertical"
-                                tools:ignore="UselessParent">
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    style="@style/materialText_600_12"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/tagline"
-                                    android:textColor="@color/colorPrimary"/>
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    style="@style/materialText_500_14"
-                                    android:id="@+id/edt_tagline"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@null"
-                                    android:hint=""
-                                    android:singleLine="true"
-                                    android:textColor="@color/textColor"/>
-
-                            </LinearLayout>
-                        </FrameLayout>
+                            android:layout_marginBottom="@dimen/spacing_middle"
+                            app:eTitle="@string/suburb" />
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/spacing_medium" />
 
-                        <FrameLayout
+                        <com.jobtick.widget.ExtendedEntryText
+                            android:id="@+id/edt_tagline"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+                            app:eInputType="text"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_marginBottom="@dimen/spacing_medium"
-                            android:background="@drawable/greay_border_bg"
-                            android:visibility="visible">
+                            android:layout_marginBottom="@dimen/spacing_middle"
+                            app:eTitle="@string/tagline"/>
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_large"
-                                android:layout_marginTop="@dimen/spacing_middle"
-                                android:layout_marginEnd="@dimen/spacing_large"
-                                android:layout_marginBottom="@dimen/spacing_middle"
-                                android:orientation="vertical"
-                                tools:ignore="UselessParent">
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_medium" />
 
-                                <com.google.android.material.textview.MaterialTextView
-                                    style="@style/materialText_600_12"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/about"
-                                    android:textColor="@color/colorPrimary"/>
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    style="@style/materialText_500_14"
-                                    android:id="@+id/edt_about_me"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@null"
-                                    android:hint=""
-                                    android:inputType="textMultiLine"
-                                    android:textColor="@color/textColor"/>
-                            </LinearLayout>
-                        </FrameLayout>
+                        <com.jobtick.widget.ExtendedEntryText
+                            android:id="@+id/edt_about_me"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:eInputType="text"
+                            android:layout_marginStart="@dimen/spacing_large"
+                            android:layout_marginTop="@dimen/spacing_medium"
+                            android:layout_marginEnd="@dimen/spacing_large"
+                            android:layout_marginBottom="@dimen/spacing_middle"
+                            app:eTitle="@string/about"/>
 
                         <View
                             android:layout_width="match_parent"
@@ -441,6 +261,7 @@
                                         android:hint=""
                                         android:inputType="textMultiLine"
                                         android:textColor="@color/textColor"/>
+
                                 </LinearLayout>
 
                                 <androidx.cardview.widget.CardView
@@ -471,56 +292,29 @@
                                             android:text="@string/verify"
                                             android:textAllCaps="false"
                                             android:textColor="@color/white"/>
+
                                     </LinearLayout>
+
                                 </androidx.cardview.widget.CardView>
+
                             </LinearLayout>
+
                         </FrameLayout>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_5sp" />
 
-                        <FrameLayout
+                        <com.jobtick.widget.ExtendedEntryText
+                            android:id="@+id/edt_email_address"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+                            app:eInputType="email"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_marginBottom="@dimen/spacing_medium"
-                            android:background="@drawable/greay_border_bg"
-                            android:visibility="visible">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_large"
-                                android:layout_marginTop="@dimen/spacing_middle"
-                                android:layout_marginEnd="@dimen/spacing_large"
-                                android:layout_marginBottom="@dimen/spacing_middle"
-                                android:orientation="vertical"
-                                tools:ignore="UselessParent">
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    style="@style/materialText_600_12"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/email"
-                                    android:textColor="@color/colorPrimary"
-                                    android:textSize="12sp" />
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    style="@style/materialText_500_14"
-                                    android:id="@+id/edt_email_address"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@null"
-                                    android:enabled="false"
-                                    android:hint=""
-                                    android:inputType="textEmailAddress"
-                                    android:singleLine="true"
-                                    android:textColor="@color/textColor"/>
-                            </LinearLayout>
-                        </FrameLayout>
+                            android:layout_marginBottom="@dimen/spacing_middle"
+                            app:eTitle="@string/email"/>
 
                         <View
                             android:layout_width="match_parent"
@@ -578,55 +372,28 @@
                                         android:src="@drawable/calendar"
                                         android:contentDescription="@string/todo"
                                         app:tint="@color/colorTaskOffer" />
+
                                 </LinearLayout>
+
                             </LinearLayout>
+
                         </FrameLayout>
 
-                        <FrameLayout
+                        <com.jobtick.widget.ExtendedEntryText
+                            android:id="@+id/edt_business_number"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+                            app:eInputType="text"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_marginBottom="@dimen/spacing_medium"
-                            android:background="@drawable/greay_border_bg"
-                            android:visibility="visible">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_large"
-                                android:layout_marginTop="@dimen/spacing_middle"
-                                android:layout_marginEnd="@dimen/spacing_large"
-                                android:layout_marginBottom="@dimen/spacing_middle"
-                                android:orientation="vertical"
-                                tools:ignore="UselessParent">
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    style="@style/materialText_600_12"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/abn"
-                                    android:textColor="@color/colorPrimary"/>
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    style="@style/materialText_500_14"
-                                    android:id="@+id/edt_business_number"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@null"
-                                    android:hint=""
-                                    android:inputType="text"
-                                    android:singleLine="true"
-                                    android:textColor="@color/textColor"/>
-                            </LinearLayout>
-                        </FrameLayout>
+                            android:layout_marginBottom="@dimen/spacing_middle"
+                            app:eTitle="@string/abn"/>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/spacing_medium" />
 
-                        <!--umesh shera put new design here update in figma same as-->
                         <com.google.android.material.textview.MaterialTextView
                             style="@style/materialText_500_14"
                             android:layout_width="wrap_content"
@@ -672,11 +439,10 @@
                                     android:overScrollMode="never" />
 
                             </LinearLayout>
+
                         </androidx.cardview.widget.CardView>
+
                     </LinearLayout>
-
-                    <!--Umesh shera hide this section -->
-
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
@@ -744,7 +510,9 @@
                                         android:src="@drawable/ic_back"
                                         android:contentDescription="@string/todo"
                                         app:tint="@color/grey_40" />
+
                                 </LinearLayout>
+
                             </RelativeLayout>
 
                             <View
@@ -801,7 +569,9 @@
                                         android:src="@drawable/ic_back"
                                         android:contentDescription="@string/todo"
                                         app:tint="@color/grey_40" />
+
                                 </LinearLayout>
+
                             </RelativeLayout>
 
                             <View
@@ -858,7 +628,9 @@
                                         android:src="@drawable/ic_back"
                                         android:contentDescription="@string/todo"
                                         app:tint="@color/grey_40" />
+
                                 </LinearLayout>
+
                             </RelativeLayout>
 
                             <View
@@ -915,7 +687,9 @@
                                         android:src="@drawable/ic_back"
                                         android:contentDescription="@string/todo"
                                         app:tint="@color/grey_40" />
+
                                 </LinearLayout>
+
                             </RelativeLayout>
 
                             <View
@@ -935,7 +709,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentStart="true"
                                     android:orientation="horizontal"
-                                    tools:ignore="UselessParent">
+                                    tools:ignore="TooManyViews,UselessParent">
 
                                     <com.google.android.material.textview.MaterialTextView
                                         style="@style/materialText_600_12"
@@ -967,20 +741,7 @@
                                             android:textColor="@color/colorTaskCancelled"
                                             android:visibility="visible" />
 
-                                        <!-- <com.jobtick.TextView.TextViewBold
-                                             android:layout_width="wrap_content"
-                                             android:layout_height="wrap_content"
-                                             android:layout_gravity="center_vertical"
-                                             android:background="@drawable/bg_badge_profile"
-                                             android:paddingLeft="@dimen/_10sp"
-                                             android:paddingRight="@dimen/_10sp"
-                                             android:text="0"
-                                             android:textColor="@color/colorTaskCancelled"
-                                             android:textSize="@dimen/_10sp"
-                                             android:textStyle="bold" />-->
-
-
-                                        <ImageView
+                                         <ImageView
                                             android:id="@+id/img_transportation_back"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
@@ -991,18 +752,21 @@
                                             android:src="@drawable/ic_back"
                                             android:contentDescription="@string/todo"
                                             app:tint="@color/grey_40" />
+
                                     </LinearLayout>
+
                                 </LinearLayout>
+
                             </RelativeLayout>
+
                         </LinearLayout>
+
                     </androidx.cardview.widget.CardView>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_middle"
-                        android:visibility="gone" />
                 </LinearLayout>
+
             </androidx.core.widget.NestedScrollView>
+
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
@@ -1034,8 +798,11 @@
                     android:text="@string/save"
                     android:textAllCaps="true"
                     android:textColor="@color/white"/>
+
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
+
     </RelativeLayout>
 
     <FrameLayout
@@ -1043,4 +810,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/bottom_sheet_behavior" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

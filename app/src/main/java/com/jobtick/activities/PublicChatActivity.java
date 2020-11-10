@@ -284,7 +284,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
             txtMessageQuestion.setText(questionModel.getQuestionText());
             if (questionModel.getAttachments() != null && questionModel.getAttachments().size() != 0) {
                 recyclerViewQuestion.setVisibility(View.VISIBLE);
-                AttachmentAdapter attachmentAdapter = new AttachmentAdapter(PublicChatActivity.this, questionModel.getAttachments(), false);
+                AttachmentAdapter attachmentAdapter = new AttachmentAdapter(questionModel.getAttachments(), false);
                 recyclerViewQuestion.setHasFixedSize(true);
                 recyclerViewQuestion.setLayoutManager(new LinearLayoutManager(PublicChatActivity.this, LinearLayoutManager.HORIZONTAL, false));
                 recyclerViewQuestion.setAdapter(attachmentAdapter);

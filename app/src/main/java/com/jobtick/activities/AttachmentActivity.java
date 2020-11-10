@@ -176,7 +176,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
         recyclerView.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(AttachmentActivity.this, 5), true));
         recyclerView.setHasFixedSize(true);
         //set data and list adapter
-        adapter = new AttachmentAdapter(AttachmentActivity.this, attachmentArrayList,true);
+        adapter = new AttachmentAdapter(attachmentArrayList,true);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         adapter.setOnItemClickListener(this);

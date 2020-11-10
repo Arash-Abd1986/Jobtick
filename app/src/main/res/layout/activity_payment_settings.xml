@@ -142,9 +142,21 @@
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
-                <include
-                    layout="@layout/view_add_credit_card"
-                    android:visibility="gone" />
+                <LinearLayout
+                    android:id="@+id/linear_add_credit_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_large"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <include layout="@layout/view_add_credit_card" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
@@ -246,19 +258,35 @@
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
+                <LinearLayout
+                    android:id="@+id/linear_add_bank_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_large"
+                    android:orientation="vertical"
+                    android:visibility="visible">
 
-                <include
-                    layout="@layout/view_add_bank_account"
-                    android:visibility="gone" />
+                    <include layout="@layout/view_add_bank_account" />
+                </LinearLayout>
 
-                <include
-                    layout="@layout/view_add_billing_address"
-                    android:visibility="gone" />
+                <LinearLayout
+                    android:id="@+id/linear_add_billing_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_large"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <include layout="@layout/view_add_billing_address" />
+                </LinearLayout>
 
             </LinearLayout>
 
-
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
 

@@ -1304,7 +1304,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<String, String>();
+                Map<String, String> map1 = new HashMap<>();
 
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");

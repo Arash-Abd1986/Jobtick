@@ -69,6 +69,7 @@
                                     android:src="@drawable/ic_shield" />
 
                             </RelativeLayout>
+
                         </RelativeLayout>
 
                         <LinearLayout
@@ -165,8 +166,11 @@
                                     android:src="@drawable/ic_info" />
 
                             </LinearLayout>
+
                         </LinearLayout>
+
                     </LinearLayout>
+
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
@@ -287,7 +291,9 @@
                                 android:src="@drawable/ic_medal4" />
 
                         </LinearLayout>
+
                     </LinearLayout>
+
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout
@@ -395,7 +401,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/green"
-                                    android:textSize="@dimen/_14sp"
                                     tools:text="@string/_78" />
 
                                 <com.google.android.material.textview.MaterialTextView
@@ -407,7 +412,9 @@
                                     android:textColor="@color/black" />
 
                             </LinearLayout>
+
                         </LinearLayout>
+
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
@@ -474,7 +481,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/green"
-                                    android:textSize="@dimen/_14sp"
                                     tools:text="78%" />
 
                                 <com.google.android.material.textview.MaterialTextView
@@ -486,8 +492,11 @@
                                     android:textColor="@color/black" />
 
                             </LinearLayout>
+
                         </LinearLayout>
+
                     </androidx.cardview.widget.CardView>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -535,17 +544,24 @@
                             android:textColor="@android:color/black"
                             app:trimLines="5"
                             app:trimMode="trimModeLine"
-                            tools:text="Let me help you stand out! I have over 20 years’ experience in all areas, including responsibility for recruitment at a senior level. Whatever area you're pitching for Let me help you stand out! I have over 20 years’ experienceLet me help you stand out! I have over 20 years’ experience in all areas, including responsibility for recruitment at a senior level. Whatever area you're pitching for Let me help you stand out! I have over 20 years’ experience ..." />
+                            tools:text="Let me help you stand out! I have over 20 years’ experience
+                             in all areas, including responsibility for recruitment at a senior level.
+                              Whatever area you're pitching for Let me help you stand out! I have over 20 years’
+                               experienceLet me help you stand out! I have over 20 years’ experience in all areas,
+                               including responsibility for recruitment at a senior level.
+                                Whatever area you're pitching for Let me help you stand out! I have over
+                                 20 years’ experience ..." />
 
                     </LinearLayout>
+
                 </LinearLayout>
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
-                    android:layout_marginEnd="@dimen/_8dp"
                     android:layout_marginTop="@dimen/_20sp"
+                    android:layout_marginEnd="@dimen/_8dp"
                     android:background="@drawable/bg_profile">
 
                     <LinearLayout
@@ -600,316 +616,320 @@
                                     android:textColor="@color/blue" />
 
                             </RadioGroup>
+
                         </RelativeLayout>
 
-                            <LinearLayout
-                                android:id="@+id/lyt_skills"
+                        <LinearLayout
+                            android:id="@+id/lyt_skills"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sp"
+                            android:layout_marginTop="@dimen/_5sp"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_10sp"
+                            android:visibility="visible">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tvSkills"
+                                style="@style/materialText_600_14"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:singleLine="true"
+                                android:text="@string/skills"
+                                android:textColor="@color/blue" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_view_badges"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_10sp"
+                                android:overScrollMode="never" />
+
+                            <LinearLayout
+                                android:id="@+id/lyt_education"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_5sp"
-                                android:orientation="vertical"
-                                android:padding="@dimen/_10sp"
-                                android:visibility="visible">
+                                android:orientation="vertical">
 
                                 <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/tvSkills"
-                                    style="@style/materialText_600_14"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="1"
-                                    android:singleLine="true"
-                                    android:text="@string/skills"
-                                    android:textColor="@color/blue" />
-
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/recycler_view_badges"
-                                    android:layout_width="match_parent"
+                                    style="@style/materialText_500_12"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:overScrollMode="never" />
+                                    android:layout_marginTop="@dimen/_5sp"
+                                    android:text="@string/education"
+                                    android:textColor="@color/colorNavyBlue" />
 
-                                <LinearLayout
-                                    android:id="@+id/lyt_education"
+                                <co.lujun.androidtagview.TagContainerLayout
+                                    android:id="@+id/tag_education"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/_5sp"
-                                    android:orientation="vertical">
-
-                                    <com.google.android.material.textview.MaterialTextView
-                                        style="@style/materialText_500_12"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_5sp"
-                                        android:text="@string/education"
-                                        android:textColor="@color/colorNavyBlue" />
-
-                                    <co.lujun.androidtagview.TagContainerLayout
-                                        android:id="@+id/tag_education"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_5sp"
-                                        app:container_background_color="@android:color/transparent"
-                                        app:container_border_color="@android:color/transparent"
-                                        app:container_border_radius="0dp"
-                                        app:container_border_width="0dp"
-                                        app:container_enable_drag="false"
-                                        app:horizontal_interval="8dp"
-                                        app:tag_background_color="#F4F4F5"
-                                        app:tag_border_color="@android:color/transparent"
-                                        app:tag_border_width="0dp"
-                                        app:tag_clickable="false"
-                                        app:tag_corner_radius="5dp"
-                                        app:tag_text_color="#1A1848"
-                                        app:tag_text_size="@dimen/_12sp"
-                                        app:tag_theme="none"
-                                        app:vertical_interval="8dp" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/lyt_specialities"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/_5sp"
-                                    android:orientation="vertical">
-
-                                    <com.google.android.material.textview.MaterialTextView
-                                        style="@style/materialText_500_12"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_5sp"
-                                        android:text="@string/certificates"
-                                        android:textColor="@color/textColor" />
-
-
-                                    <co.lujun.androidtagview.TagContainerLayout
-                                        android:id="@+id/tag_specialities"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_5sp"
-                                        app:container_background_color="@android:color/transparent"
-                                        app:container_border_color="@android:color/transparent"
-                                        app:container_border_radius="0dp"
-                                        app:container_border_width="0dp"
-                                        app:container_enable_drag="false"
-                                        app:horizontal_interval="8dp"
-                                        app:tag_background_color="#F4F4F5"
-                                        app:tag_border_color="@android:color/transparent"
-                                        app:tag_border_width="0dp"
-                                        app:tag_clickable="false"
-                                        app:tag_corner_radius="5dp"
-                                        app:tag_text_color="#1A1848"
-                                        app:tag_text_size="@dimen/_12sp"
-                                        app:tag_theme="none"
-                                        app:vertical_interval="8dp" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/lyt_experience"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/_5sp"
-                                    android:orientation="vertical">
-
-                                    <com.google.android.material.textview.MaterialTextView
-                                        style="@style/materialText_500_12"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_5sp"
-                                        android:text="@string/occupation"
-                                        android:textColor="@color/textColor" />
-
-                                    <co.lujun.androidtagview.TagContainerLayout
-                                        android:id="@+id/tag_experience"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_5sp"
-                                        app:container_background_color="@android:color/transparent"
-                                        app:container_border_color="@android:color/transparent"
-                                        app:container_border_radius="0dp"
-                                        app:container_border_width="0dp"
-                                        app:container_enable_drag="false"
-                                        app:horizontal_interval="8dp"
-                                        app:tag_background_color="#F4F4F5"
-                                        app:tag_border_color="@android:color/transparent"
-                                        app:tag_border_width="0dp"
-                                        app:tag_clickable="false"
-                                        app:tag_corner_radius="5dp"
-                                        app:tag_text_color="#1A1848"
-                                        app:tag_text_size="@dimen/_12sp"
-                                        app:tag_theme="none"
-                                        app:vertical_interval="8dp" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/lyt_language"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/_5sp"
-                                    android:orientation="vertical">
-
-                                    <com.google.android.material.textview.MaterialTextView
-                                        style="@style/materialText_500_12"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_5sp"
-                                        android:text="@string/language"
-                                        android:textColor="@color/textColor" />
-
-                                    <co.lujun.androidtagview.TagContainerLayout
-                                        android:id="@+id/tag_language"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_5sp"
-                                        app:container_background_color="@android:color/transparent"
-                                        app:container_border_color="@android:color/transparent"
-                                        app:container_border_radius="0dp"
-                                        app:container_border_width="0dp"
-                                        app:container_enable_drag="false"
-                                        app:horizontal_interval="8dp"
-                                        app:tag_background_color="#F4F4F5"
-                                        app:tag_border_color="@android:color/transparent"
-                                        app:tag_border_width="0dp"
-                                        app:tag_clickable="false"
-                                        app:tag_corner_radius="5dp"
-                                        app:tag_text_color="#1A1848"
-                                        app:tag_text_size="@dimen/_12sp"
-                                        app:tag_theme="none"
-                                        app:vertical_interval="8dp"
-                                        tools:ignore="TooManyViews" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/lyt_transportation"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/_5sp"
-                                    android:orientation="vertical">
-
-                                    <com.google.android.material.textview.MaterialTextView
-                                        style="@style/materialText_500_12"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_5sp"
-                                        android:text="@string/transportation"
-                                        android:textColor="@color/textColor" />
-
-                                    <co.lujun.androidtagview.TagContainerLayout
-                                        android:id="@+id/tag_transportation"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_5sp"
-                                        app:container_background_color="@android:color/transparent"
-                                        app:container_border_color="@android:color/transparent"
-                                        app:container_border_radius="0dp"
-                                        app:container_border_width="0dp"
-                                        app:container_enable_drag="false"
-                                        app:horizontal_interval="8dp"
-                                        app:tag_background_color="#F4F4F5"
-                                        app:tag_border_color="@android:color/transparent"
-                                        app:tag_border_width="0dp"
-                                        app:tag_clickable="false"
-                                        app:tag_corner_radius="5dp"
-                                        app:tag_text_color="#1A1848"
-                                        app:tag_text_size="@dimen/_12sp"
-                                        app:tag_theme="none"
-                                        app:vertical_interval="8dp" />
-                                </LinearLayout>
+                                    app:container_background_color="@android:color/transparent"
+                                    app:container_border_color="@android:color/transparent"
+                                    app:container_border_radius="0dp"
+                                    app:container_border_width="0dp"
+                                    app:container_enable_drag="false"
+                                    app:horizontal_interval="8dp"
+                                    app:tag_background_color="#F4F4F5"
+                                    app:tag_border_color="@android:color/transparent"
+                                    app:tag_border_width="0dp"
+                                    app:tag_clickable="false"
+                                    app:tag_corner_radius="5dp"
+                                    app:tag_text_color="#1A1848"
+                                    app:tag_text_size="@dimen/_12sp"
+                                    app:tag_theme="none"
+                                    app:vertical_interval="8dp" />
 
                             </LinearLayout>
 
                             <LinearLayout
-                                android:id="@+id/lyt_Port"
+                                android:id="@+id/lyt_specialities"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:paddingLeft="@dimen/_10sp"
-                                android:paddingRight="@dimen/_10sp"
-                                android:visibility="visible"
-                                tools:ignore="TooManyViews">
+                                android:layout_marginTop="@dimen/_5sp"
+                                android:orientation="vertical">
 
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/recycler_view_portfolio"
+                                <com.google.android.material.textview.MaterialTextView
+                                    style="@style/materialText_500_12"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_5sp"
+                                    android:text="@string/certificates"
+                                    android:textColor="@color/textColor" />
+
+
+                                <co.lujun.androidtagview.TagContainerLayout
+                                    android:id="@+id/tag_specialities"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:overScrollMode="never" />
-
-                                <LinearLayout
-                                    android:id="@+id/llEnlarge"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
-                                    android:layout_marginTop="@dimen/_10sp"
-                                    android:layout_marginBottom="@dimen/_10sp"
-                                    android:orientation="horizontal">
-
-                                    <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="@dimen/_5sp"
-                                        android:layout_marginRight="@dimen/_5sp"
-                                        android:contentDescription="@string/todo"
-                                        android:padding="8dp"
-                                        android:src="@drawable/ic_info" />
-
-                                    <com.google.android.material.textview.MaterialTextView
-                                        style="@style/materialText_500_12"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:layout_marginTop="@dimen/_2sp"
-                                        android:text="@string/click_to_enlarge"
-                                        android:textColor="@color/textColor" />
-
-                                </LinearLayout>
+                                    android:layout_marginTop="@dimen/_5sp"
+                                    app:container_background_color="@android:color/transparent"
+                                    app:container_border_color="@android:color/transparent"
+                                    app:container_border_radius="0dp"
+                                    app:container_border_width="0dp"
+                                    app:container_enable_drag="false"
+                                    app:horizontal_interval="8dp"
+                                    app:tag_background_color="#F4F4F5"
+                                    app:tag_border_color="@android:color/transparent"
+                                    app:tag_border_width="0dp"
+                                    app:tag_clickable="false"
+                                    app:tag_corner_radius="5dp"
+                                    app:tag_text_color="#1A1848"
+                                    app:tag_text_size="@dimen/_12sp"
+                                    app:tag_theme="none"
+                                    app:vertical_interval="8dp" />
 
                             </LinearLayout>
 
                             <LinearLayout
-                                android:id="@+id/no_port_folio"
+                                android:id="@+id/lyt_experience"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:paddingLeft="@dimen/_10sp"
-                                android:paddingRight="@dimen/_10sp"
-                                android:visibility="visible"
-                                tools:ignore="TooManyViews">
+                                android:layout_marginTop="@dimen/_5sp"
+                                android:orientation="vertical">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    style="@style/materialText_500_12"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_5sp"
+                                    android:text="@string/occupation"
+                                    android:textColor="@color/textColor" />
+
+                                <co.lujun.androidtagview.TagContainerLayout
+                                    android:id="@+id/tag_experience"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_5sp"
+                                    app:container_background_color="@android:color/transparent"
+                                    app:container_border_color="@android:color/transparent"
+                                    app:container_border_radius="0dp"
+                                    app:container_border_width="0dp"
+                                    app:container_enable_drag="false"
+                                    app:horizontal_interval="8dp"
+                                    app:tag_background_color="#F4F4F5"
+                                    app:tag_border_color="@android:color/transparent"
+                                    app:tag_border_width="0dp"
+                                    app:tag_clickable="false"
+                                    app:tag_corner_radius="5dp"
+                                    app:tag_text_color="#1A1848"
+                                    app:tag_text_size="@dimen/_12sp"
+                                    app:tag_theme="none"
+                                    app:vertical_interval="8dp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lyt_language"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sp"
+                                android:orientation="vertical">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    style="@style/materialText_500_12"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_5sp"
+                                    android:text="@string/language"
+                                    android:textColor="@color/textColor" />
+
+                                <co.lujun.androidtagview.TagContainerLayout
+                                    android:id="@+id/tag_language"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_5sp"
+                                    app:container_background_color="@android:color/transparent"
+                                    app:container_border_color="@android:color/transparent"
+                                    app:container_border_radius="0dp"
+                                    app:container_border_width="0dp"
+                                    app:container_enable_drag="false"
+                                    app:horizontal_interval="8dp"
+                                    app:tag_background_color="#F4F4F5"
+                                    app:tag_border_color="@android:color/transparent"
+                                    app:tag_border_width="0dp"
+                                    app:tag_clickable="false"
+                                    app:tag_corner_radius="5dp"
+                                    app:tag_text_color="#1A1848"
+                                    app:tag_text_size="@dimen/_12sp"
+                                    app:tag_theme="none"
+                                    app:vertical_interval="8dp"
+                                    tools:ignore="TooManyViews" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lyt_transportation"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sp"
+                                android:orientation="vertical">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    style="@style/materialText_500_12"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_5sp"
+                                    android:text="@string/transportation"
+                                    android:textColor="@color/textColor" />
+
+                                <co.lujun.androidtagview.TagContainerLayout
+                                    android:id="@+id/tag_transportation"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_5sp"
+                                    app:container_background_color="@android:color/transparent"
+                                    app:container_border_color="@android:color/transparent"
+                                    app:container_border_radius="0dp"
+                                    app:container_border_width="0dp"
+                                    app:container_enable_drag="false"
+                                    app:horizontal_interval="8dp"
+                                    app:tag_background_color="#F4F4F5"
+                                    app:tag_border_color="@android:color/transparent"
+                                    app:tag_border_width="0dp"
+                                    app:tag_clickable="false"
+                                    app:tag_corner_radius="5dp"
+                                    app:tag_text_color="#1A1848"
+                                    app:tag_text_size="@dimen/_12sp"
+                                    app:tag_theme="none"
+                                    app:vertical_interval="8dp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lyt_Port"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingLeft="@dimen/_10sp"
+                            android:paddingRight="@dimen/_10sp"
+                            android:visibility="visible"
+                            tools:ignore="TooManyViews">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_view_portfolio"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:overScrollMode="never" />
+
+                            <LinearLayout
+                                android:id="@+id/llEnlarge"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/_10sp"
+                                android:layout_marginBottom="@dimen/_10sp"
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
                                 <ImageView
-                                    android:layout_width="@dimen/_50dp"
-                                    android:layout_height="@dimen/_50dp"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
                                     android:layout_gravity="center"
-                                    android:layout_margin="@dimen/spacing_large"
+                                    android:layout_marginLeft="@dimen/_5sp"
+                                    android:layout_marginRight="@dimen/_5sp"
                                     android:contentDescription="@string/todo"
-                                    android:padding="@dimen/_8dp"
-                                    android:src="@drawable/ic_group_10749" />
+                                    android:padding="8dp"
+                                    android:src="@drawable/ic_info" />
 
                                 <com.google.android.material.textview.MaterialTextView
-                                    style="@style/materialText_600_14"
+                                    style="@style/materialText_500_12"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:text="@string/no_portfolio_added_yet" />
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    style="@style/materialText_400_14"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:text="@string/increase_your_chance_to_get_a_job_by" />
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    style="@style/materialText_400_14"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:text="@string/adding_portf"
-                                    android:textColor="@color/colorPrimary" />
+                                    android:layout_marginTop="@dimen/_2sp"
+                                    android:text="@string/click_to_enlarge"
+                                    android:textColor="@color/textColor" />
 
                             </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/no_port_folio"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingLeft="@dimen/_10sp"
+                            android:paddingRight="@dimen/_10sp"
+                            android:visibility="visible"
+                            tools:ignore="TooManyViews">
+
+                            <ImageView
+                                android:layout_width="@dimen/_50dp"
+                                android:layout_height="@dimen/_50dp"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/spacing_large"
+                                android:contentDescription="@string/todo"
+                                android:padding="@dimen/_8dp"
+                                android:src="@drawable/ic_group_10749" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                style="@style/materialText_600_14"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/no_portfolio_added_yet" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                style="@style/materialText_400_14"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/increase_your_chance_to_get_a_job_by" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                style="@style/materialText_400_14"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/adding_portf"
+                                android:textColor="@color/colorPrimary" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -927,10 +947,10 @@
         android:layout_height="46dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_10sp"
-        android:layout_marginBottom="@dimen/_10sp"
         android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/_10sp"
         android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/_10sp"
         android:backgroundTint="@color/colorReleasedMoney"
         android:elevation="@dimen/spacing_middle"
         app:cardCornerRadius="@dimen/spacing_medium">
@@ -939,23 +959,24 @@
             android:id="@+id/lyt_btn_get_a_quote"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/spacing_large"
             android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_large"
             android:background="?attr/selectableItemBackground"
             android:gravity="center">
 
             <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_600_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/materialText_600_14"
                 android:gravity="center"
                 android:paddingLeft="@dimen/_20sp"
                 android:paddingRight="@dimen/_20sp"
                 android:text="@string/get_quote"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textColor="@color/white" />
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
 </RelativeLayout>

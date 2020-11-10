@@ -7,12 +7,11 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.cardview.widget.CardView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -21,10 +20,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextMedium;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.CancellationReasonModel;
@@ -45,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class CancellationPosterActivity extends ActivityBase {
+public class CancellationPosterActivity extends ActivityBase implements RadioGroup.OnCheckedChangeListener{
 
     private String TAG = CancellationPosterActivity.class.getName();
     @BindView(R.id.toolbar)
@@ -63,28 +61,29 @@ public class CancellationPosterActivity extends ActivityBase {
     @BindView(R.id.rg_reason_message)
     RadioGroup rgReasonMessage;
     @BindView(R.id.edt_comments)
-    EditTextMedium edtComments;
+    EditText edtComments;
     @BindView(R.id.txt_cancellation_fee)
-    TextViewBold txtCancellationFee;
-    @BindView(R.id.lyt_btn_submit)
-    LinearLayout lytBtnSubmit;
-    @BindView(R.id.card_btn_submit)
-    CardView cardBtnSubmit;
+    TextView txtCancellationFee;
+
+    @BindView(R.id.btn_submit)
+    MaterialButton btnSubmit;
 
     @BindView(R.id.edt_description_counter)
-    EditTextRegular edtDescriptionCounter;
+    EditText edtDescriptionCounter;
 
 
     private String str_SLUG = null;
     private TaskModel taskModel;
     private SessionManager sessionManager;
 
+    private String reason;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cancellation_poster);
         ButterKnife.bind(this);
-
+        initToolbar();
         sessionManager = new SessionManager(this);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,17 +118,29 @@ public class CancellationPosterActivity extends ActivityBase {
             public void afterTextChanged(Editable s) {
                 if (!s.toString().equalsIgnoreCase("")) {
                     int length = s.length();
-                    if (length <= 24) {
-                        edtDescriptionCounter.setText(s.length() + "/25+");
-                        edtDescriptionCounter.setTextColor(getResources().getColor(R.color.red_600));
-                    } else {
+                    if (length <= 100) {
                         edtDescriptionCounter.setText(s.length() + "/100");
                         edtDescriptionCounter.setTextColor(getResources().getColor(R.color.green));
+                    }else{
+                        edtComments.setText(s.subSequence(0, 100));
+                        edtComments.setSelection(100);
                     }
-                } else {
-                    edtDescriptionCounter.setText("0/25+");
-                    edtDescriptionCounter.setTextColor(getResources().getColor(R.color.red_600));
                 }
+            }
+        });
+
+        rgReasonMessage.setOnCheckedChangeListener(this);
+    }
+
+    private void initToolbar() {
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Cancellation Request");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
     }
@@ -326,28 +337,14 @@ public class CancellationPosterActivity extends ActivityBase {
         super.onBackPressed();
     }
 
-    @OnClick(R.id.lyt_btn_submit)
+    @OnClick(R.id.btn_submit)
     public void onViewClicked() {
         String str_comment = null;
         if (TextUtils.isEmpty(edtComments.getText().toString().trim())) {
             str_comment = edtComments.getText().toString().trim();
         }
-        String str_reason = null;
-        if (rbReason1.isChecked()) {
-            str_reason = rbReason1.getText().toString().trim();
-        } else if (rbReason2.isChecked()) {
-            str_reason = rbReason2.getText().toString().trim();
-        } else if (rbReason3.isChecked()) {
-            str_reason = rbReason3.getText().toString().trim();
-        } else if (rbReason4.isChecked()) {
-            str_reason = rbReason4.getText().toString().trim();
-        } else if (rbReason5.isChecked()) {
-            str_reason = rbReason5.getText().toString().trim();
-        }
 
-        cancellationSubmit(str_reason, str_comment);
-
-
+        cancellationSubmit(reason, str_comment);
     }
 
     private void cancellationSubmit(String str_reason, String str_comment) {
@@ -454,4 +451,13 @@ public class CancellationPosterActivity extends ActivityBase {
     }
 
 
+    @Override
+    public void onCheckedChanged(RadioGroup group, int id) {
+        RadioButton radioButton = (RadioButton) group.findViewById(id);
+
+        if (radioButton.isChecked()) {
+            reason = radioButton.getText().toString().trim();
+            btnSubmit.setEnabled(true);
+        }
+    }
 }

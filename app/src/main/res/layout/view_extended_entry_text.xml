@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/lnr_email"
-    android:layout_width="match_parent"
-    android:layout_height="70dp"
-    android:paddingTop="@dimen/padding_vertical_edit_text"
-    android:paddingBottom="@dimen/padding_vertical_edit_text"
-    android:paddingStart="@dimen/padding_horizontal_edit_text"
-    android:paddingEnd="@dimen/padding_horizontal_edit_text"
-    android:background="@drawable/rectangle_card_round_corners_outlined">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.jobtick.TextView.TextViewSemiBold
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/title_text_size_edit_text"
-        tools:text="email Address:"
-        android:textStyle="bold"
-        android:layout_marginBottom="@dimen/vertical_spacing_edit_text"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:focusable="false"
+        android:text="First Name"
+        android:textAppearance="@style/materialText_600_12"
+        android:textColor="@color/colorPrimary" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_below="@id/title"
+        android:layout_alignStart="@id/title"
+        android:layout_gravity="center"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"
+        android:layout_toStartOf="@id/img_btn_password_toggle"
+        android:background="@null"
+        android:gravity="center_vertical"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:textAppearance="@style/materialText_500_14"
+        android:textColor="@color/textColor"
+        tools:text="sedighi.66@gmail.com"
+        android:minHeight="22dp"
+        android:layout_marginEnd="8dp"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_btn_password_toggle"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignTop="@id/content"
+        android:layout_alignBottom="@id/content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="13dp"
+        android:src="@drawable/password_selector" />
 
 
-        <com.jobtick.EditText.EditTextMedium
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:background="@null"
-            android:gravity="center_vertical"
-            tools:text="sedighi.66@gmail.com"
-            android:textSize="@dimen/content_text_size_edit_text" />
-
-        <ImageView
-            android:id="@+id/img_btn_password_toggle"
-            android:layout_width="@dimen/_20sp"
-            android:layout_height="@dimen/_20sp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_centerVertical="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/password_selector" />
-
-
-</RelativeLayout>
+</merge>

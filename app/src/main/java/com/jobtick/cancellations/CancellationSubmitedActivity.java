@@ -3,12 +3,13 @@ package com.jobtick.cancellations;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,33 +19,41 @@ public class CancellationSubmitedActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
     @BindView(R.id.txt_title)
-    TextViewBold txtTitle;
-    @BindView(R.id.lyt_btn_finish)
-    LinearLayout lytBtnFinish;
+    TextView txtTitle;
+    @BindView(R.id.btn_done)
+    MaterialButton btnDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cancellation_submited);
         ButterKnife.bind(this);
+        initToolbar();
 
+        String desc = getIntent().getExtras().getString(CANCELLATION);
+        if(desc != null && !desc.equals(""))
+            txtTitle.setText(desc);
+
+        btnDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+    private void initToolbar() {
+        toolbar.setNavigationIcon(R.drawable.ic_cancel);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Cancellation Request");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-
-        lytBtnFinish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
+    public static final String CANCELLATION = "cancellation";
 }

@@ -1,11 +1,11 @@
 package com.jobtick.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -15,8 +15,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
-
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -38,24 +36,26 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class MobileVerificationActivity extends ActivityBase {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.phone_verify_message)
     TextView phoneVerifyMessage;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_verify)
     LinearLayout lytBtnUpdate;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_bottom)
     LinearLayout lytBottom;
-
     private String phoneNumber;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +63,9 @@ public class MobileVerificationActivity extends ActivityBase {
         setContentView(R.layout.activity_mobile_verification);
         ButterKnife.bind(this);
         phoneNumber = getIntent().getStringExtra("phone_number");
-        StringBuilder str = new StringBuilder();
-        str.append(phoneVerifyMessage.getText().toString());
-        str.append(phoneNumber);
-        phoneVerifyMessage.setText(str.toString());
+        String str = phoneVerifyMessage.getText().toString() +
+                phoneNumber;
+        phoneVerifyMessage.setText(str);
         initToolbar();
 
         getOTP(phoneNumber);
@@ -82,10 +81,8 @@ public class MobileVerificationActivity extends ActivityBase {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
         }
 
         return super.onOptionsItemSelected(item);
@@ -97,14 +94,10 @@ public class MobileVerificationActivity extends ActivityBase {
     }
 
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick({R.id.lyt_btn_verify})
     public void onViewClicked(View view) {
-        switch (view.getId()) {
-
-            case R.id.lyt_btn_verify:
-
-                break;
-        }
+        view.getId();
     }
 
     public void getOTP(String mobileNumber) {
@@ -119,12 +112,12 @@ public class MobileVerificationActivity extends ActivityBase {
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                showCustomDialog("We have send OTP to your mobile number");
+                                showCustomDialog();
                             }
                         }
 
                     } catch (JSONException e) {
-                        Log.e("EXCEPTION", String.valueOf(e));
+                        Timber.e(String.valueOf(e));
                         e.printStackTrace();
 
                     }
@@ -135,7 +128,7 @@ public class MobileVerificationActivity extends ActivityBase {
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
                         // Print Error!
-                        Log.e("intent22", jsonError);
+                        Timber.e(jsonError);
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
@@ -162,23 +155,20 @@ public class MobileVerificationActivity extends ActivityBase {
                     hideProgressDialog();
                 }) {
 
-
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
+                return map1;}
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<String, String>();
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("phone_number", mobileNumber.substring(3));
                 map1.put("dialing_code", mobileNumber.substring(0,3));
-                return map1;
-            }
+                return map1; }
         };
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
@@ -187,7 +177,8 @@ public class MobileVerificationActivity extends ActivityBase {
         requestQueue.add(stringRequest);
     }
 
-    private void showCustomDialog(String message) {
+    @SuppressLint("SetTextI18n")
+    private void showCustomDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
         dialog.setContentView(R.layout.dialog_show_warning);
@@ -198,7 +189,7 @@ public class MobileVerificationActivity extends ActivityBase {
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
-        txtMessage.setText(message);
+        txtMessage.setText("We have send OTP to your mobile number");
 
         ((AppCompatButton) dialog.findViewById(R.id.btn_ok)).setOnClickListener(v -> {
             dialog.dismiss();

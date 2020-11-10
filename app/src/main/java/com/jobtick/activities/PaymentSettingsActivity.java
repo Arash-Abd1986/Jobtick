@@ -107,11 +107,14 @@ public class PaymentSettingsActivity extends ActivityBase {
     @BindView(R.id.tv_country)
     TextView country;
 
-    @BindView(R.id.credit_account_name)
-    TextView creditAccountName;
+    @BindView(R.id.credit_expiry_date)
+    TextView edtExpiryDate;
 
     @BindView(R.id.credit_account_number)
     TextView creditAccountNumber;
+
+    @BindView(R.id.card_type)
+    TextView cardType;
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -129,11 +132,7 @@ public class PaymentSettingsActivity extends ActivityBase {
     }
 
     private void initToolbar() {
-        //  toolbar.setNavigationIcon(R.drawable.ic_back);
-        // setSupportActionBar(toolbar);
-      /*  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Payment Settings");*/
-//        onBankaccountadded = this;
+
         ivBack.setOnClickListener(v -> finish());
     }
 
@@ -188,12 +187,12 @@ public class PaymentSettingsActivity extends ActivityBase {
 
 
     @OnClick({R.id.add_credit_card, R.id.add_billing_address, R.id.add_bank_account,
-            R.id.delete_bank_account, R.id.delete_billing_address, R.id.delete_payment_card,
-            R.id.edit_billing_address, R.id.edit_bank_account, R.id.edit_payment_card})
+            R.id.delete_bank_account, R.id.delete_billing_address, R.id.delete_card,
+            R.id.edit_billing_address, R.id.edit_bank_account})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.add_credit_card:
-                editPaymentCard(false);
+                addPaymentCard();
                 break;
             case R.id.add_bank_account:
                 editBankAccount(false);
@@ -201,7 +200,7 @@ public class PaymentSettingsActivity extends ActivityBase {
             case R.id.add_billing_address:
                 editBillingAddress(false);
                 break;
-            case R.id.delete_payment_card:
+            case R.id.delete_card:
                 deleteCreditCard();
                 break;
             case R.id.delete_bank_account:
@@ -216,33 +215,23 @@ public class PaymentSettingsActivity extends ActivityBase {
             case R.id.edit_bank_account:
                 editBankAccount(true);
                 break;
-            case R.id.edit_payment_card:
-                editPaymentCard(true);
-                break;
         }
     }
 
-    private void editPaymentCard(boolean editMode) {
-        if(editMode){
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(CreditCardModel.class.getName(), creditCardModel);
-            Intent add_credit_card = new Intent(PaymentSettingsActivity.this, AddCreditCardActivity.class);
-            add_credit_card.putExtras(bundle);
-            startActivityForResult(add_credit_card, 111);
-        }else{
-            Intent add_credit_card = new Intent(PaymentSettingsActivity.this, AddCreditCardActivity.class);
-            startActivityForResult(add_credit_card, 111);
-        }
+    private void addPaymentCard() {
+
+        Intent add_credit_card = new Intent(PaymentSettingsActivity.this, AddCreditCardActivity.class);
+        startActivityForResult(add_credit_card, 111);
     }
 
     private void editBankAccount(boolean editMode) {
-        if(editMode){
+        if (editMode) {
             Bundle bundle = new Bundle();
             bundle.putParcelable(BankAccountModel.class.getName(), bankAccountModel);
             Intent add_bank_account = new Intent(PaymentSettingsActivity.this, AddBankAccountActivity.class);
             add_bank_account.putExtras(bundle);
             startActivityForResult(add_bank_account, 222);
-        }else {
+        } else {
             Intent add_bank_account = new Intent(PaymentSettingsActivity.this, AddBankAccountActivity.class);
             startActivityForResult(add_bank_account, 222);
         }
@@ -256,7 +245,7 @@ public class PaymentSettingsActivity extends ActivityBase {
             Intent add_billing_address = new Intent(PaymentSettingsActivity.this, BillingAddressActivity.class);
             add_billing_address.putExtras(bundle);
             startActivityForResult(add_billing_address, 333);
-        }else{
+        } else {
             Intent add_billing_address = new Intent(PaymentSettingsActivity.this, BillingAddressActivity.class);
             startActivityForResult(add_billing_address, 333);
         }
@@ -308,17 +297,16 @@ public class PaymentSettingsActivity extends ActivityBase {
                                 Gson gson = new Gson();
                                 bankAccountModel = gson.fromJson(jsonString, BankAccountModel.class);
 
-                                if (bankAccountModel != null) {
-                                    if (bankAccountModel.isSuccess()) {
 
-                                        if (bankAccountModel.getData() != null && bankAccountModel.getData().getAccount_number() != null) {
+                                if (bankAccountModel != null && bankAccountModel.isSuccess() && bankAccountModel.getData() != null && bankAccountModel.getData().getAccount_number() != null) {
 
-                                            setupViewBankAccountDetails(true);
+                                    setupViewBankAccountDetails(true);
 
-                                            accountNumber.setText("xxxxx" + bankAccountModel.getData().getAccount_number());
-                                            bsb.setText(bankAccountModel.getData().getBsb_code());
-                                        }
-                                    }
+                                    accountNumber.setText("xxxxx" + bankAccountModel.getData().getAccount_number());
+                                    bsb.setText(bankAccountModel.getData().getBsb_code());
+                                }
+                                else{
+                                    setupViewBankAccountDetails(false);
                                 }
                             } else {
                                 showToast("Something went Wrong", PaymentSettingsActivity.this);
@@ -502,12 +490,13 @@ public class PaymentSettingsActivity extends ActivityBase {
                                     Gson gson = new Gson();
                                     creditCardModel = gson.fromJson(jsonString, CreditCardModel.class);
 
-                                    if (creditCardModel != null && creditCardModel.getData() != null) {
+                                    if (creditCardModel != null && creditCardModel.getData() != null && creditCardModel.getData().get(0).card != null) {
 
                                         setupViewCreditCard(true);
 
-                                        creditAccountName.setText(creditCardModel.getData().getCard().getBrand());
-                                        creditAccountNumber.setText("xxxx xxxx xxxx " + creditCardModel.getData().getCard().getLast4());
+                                        cardType.setText(creditCardModel.getData().get(0).card.brand);
+                                        edtExpiryDate.setText("Expiry Date:" + creditCardModel.getData().get(0).card.exp_month + "/" + creditCardModel.getData().get(0).card.exp_year);
+                                        creditAccountNumber.setText("xxxx xxxx xxxx " + creditCardModel.getData().get(0).card.last4);
                                     } else {
                                         setupViewCreditCard(false);
                                     }

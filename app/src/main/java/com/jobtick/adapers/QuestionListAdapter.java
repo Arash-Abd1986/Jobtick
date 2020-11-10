@@ -205,7 +205,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             txtMessage.setText(item.getQuestionText());
             if (item.getAttachments().size() != 0) {
                 recyclerViewQuestion.setVisibility(View.VISIBLE);
-                AttachmentAdapter attachmentAdapter = new AttachmentAdapter(context, item.getAttachments(), false);
+                AttachmentAdapter attachmentAdapter = new AttachmentAdapter(item.getAttachments(), false);
                 recyclerViewQuestion.setHasFixedSize(true);
                 recyclerViewQuestion.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                 recyclerViewQuestion.setAdapter(attachmentAdapter);

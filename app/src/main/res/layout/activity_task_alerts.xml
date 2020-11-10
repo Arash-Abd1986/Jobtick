@@ -4,50 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_100"
+    android:background="@color/backgroundLightGrey"
     android:orientation="vertical"
     tools:context=".activities.TaskAlertsActivity">
 
-    <!--
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/background"
-            app:contentInsetStartWithNavigation="0dp"
-            app:navigationIcon="@drawable/ic_back"
-            app:title="Job Alerts"
-            app:titleTextAppearance="@style/Toolbar.TitleText" />
-    -->
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_centerVertical="true"
-
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/ivBack"
-            android:layout_width="@dimen/_32sp"
-            android:layout_height="@dimen/_32sp"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_10sp"
-            android:padding="@dimen/_8sp"
-            android:src="@drawable/ic_back" />
-
-        <com.jobtick.TextView.TextViewMedium
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_5sp"
-            android:text="Job Alerts"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/_18sp" />
-
-    </LinearLayout>
+    <include layout="@layout/toolbar"/>
 
 
     <RelativeLayout
@@ -74,12 +35,12 @@
                     android:layout_marginBottom="@dimen/spacing_large"
                     android:orientation="vertical">
 
-                    <com.jobtick.TextView.TextViewMedium
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Turn on job alerts to receive notification about any jobs meeting your skills."
-                        android:textColor="@color/grey_70"
-                        android:textSize="@dimen/_13sp" />
+                        android:textColor="@color/textColor"
+                        android:textAppearance="@style/materialText_500_14" />
 
                     <LinearLayout
 
@@ -90,7 +51,7 @@
                         android:orientation="horizontal">
 
 
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -99,7 +60,7 @@
                             android:padding="@dimen/_5sp"
                             android:text="Receive Alerts?"
                             android:textColor="@color/textColor"
-                            android:textSize="14sp" />
+                            android:textAppearance="@style/materialText_400_14" />
 
 
                         <CheckBox
@@ -143,28 +104,27 @@
                             android:paddingBottom="@dimen/spacing_middle">
 
 
-                            <com.jobtick.TextView.TextViewSemiBold
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Set Custom Job Alerts"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
+                                android:textAppearance="@style/materialText_600_14"/>
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/spacing_medium" />
 
-                            <com.jobtick.TextView.TextViewRegular
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Set a custom job alert to get notified when a match pop-ups."
-                                android:textColor="@color/grey_70"
-                                android:textSize="@dimen/_14sp" />
+                                android:textColor="@color/textColor"
+                                android:textAppearance="@style/materialText_400_14" />
 
                         </LinearLayout>
 
-                        <com.jobtick.TextView.TextViewSemiBold
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_btn_add_custom_alert"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -175,16 +135,16 @@
                             android:gravity="center_vertical"
                             android:inputType="textMultiLine"
                             android:paddingStart="@dimen/spacing_mlarge"
-                            android:paddingTop="@dimen/_10sp"
+                            android:paddingTop="10dp"
                             android:paddingEnd="@dimen/spacing_mlarge"
                             android:paddingBottom="@dimen/spacing_large"
                             android:text="Add Custom Alert"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="13sp" />
+                            android:textAppearance="@style/materialText_500_14" />
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="0.50dp"
+                            android:layout_height="1dp"
                             android:layout_marginTop="@dimen/_5sp"
                             android:background="#F0F0F0" />
 
@@ -195,14 +155,11 @@
                             android:layout_marginTop="@dimen/_3sp"
                             tools:listitem="@layout/item_task_alert"
                             android:overScrollMode="never"
-
                             android:visibility="visible" />
+
                     </LinearLayout>
-
                 </androidx.cardview.widget.CardView>
-
             </LinearLayout>
-
         </androidx.core.widget.NestedScrollView>
 
         <ImageView
@@ -212,6 +169,7 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/_15sp"
             android:src="@drawable/floating_blue_button" />
+
     </RelativeLayout>
 
 

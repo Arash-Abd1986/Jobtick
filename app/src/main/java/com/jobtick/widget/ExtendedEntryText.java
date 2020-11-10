@@ -173,6 +173,8 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
     }
 
+
+
     public interface EInputType {
 
         int TEXT = 0;

@@ -49,6 +49,7 @@
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
+                app:eInputType="integer"
                 android:layout_marginBottom="@dimen/spacing_middle"
                 app:eTitle="@string/sms_verification_code" />
 

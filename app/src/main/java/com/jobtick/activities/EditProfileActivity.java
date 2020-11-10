@@ -50,6 +50,7 @@ import com.jobtick.utils.Helper;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.Tools;
+import com.jobtick.widget.ExtendedEntryText;
 import com.jobtick.widget.SpacingItemDecoration;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -103,23 +104,19 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     MaterialToolbar toolbar;*/
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_first_name)
-    EditText edtFirstName;
+    ExtendedEntryText edtFirstName;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_last_name)
-    EditText edtLastName;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_payment_id)
-    EditText edtPaymentId;
+    ExtendedEntryText edtLastName;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_suburb)
-    TextView txtSuburb;
+    ExtendedEntryText txtSuburb;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_tagline)
-    EditText edtTagline;
+    ExtendedEntryText edtTagline;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_phone_number)
@@ -127,11 +124,11 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_about_me)
-    EditText edtAboutMe;
+    ExtendedEntryText edtAboutMe;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_email_address)
-    EditText edtEmailAddress;
+    ExtendedEntryText edtEmailAddress;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_birth_date)
@@ -139,7 +136,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_business_number)
-    EditText edtBusinessNumber;
+    ExtendedEntryText edtBusinessNumber;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_transportation_back)
@@ -321,7 +318,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         String str_tag = edtTagline.getText().toString().trim();
         String str_about_me = edtAboutMe.getText().toString().trim();
         String str_business_number = edtBusinessNumber.getText().toString().trim();
-//        String str_dob = txtBirthDate.getText().toString().trim();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_USER_PROFILE_INFO,
                 response -> {
@@ -482,18 +478,18 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         experienceSetUp(userAccountModel);
         specialitiesSetUp(userAccountModel);
 
-        edtFirstName.setText(userAccountModel.getFname());
-        edtLastName.setText(userAccountModel.getLname());
+        edtFirstName.seteContent(userAccountModel.getFname());
+        edtLastName.seteContent(userAccountModel.getLname());
         //edtPaymentId.setText(userAccountModel.get());
         if (userAccountModel.getLocation() != null) {
-            txtSuburb.setText(userAccountModel.getLocation());
+            txtSuburb.seteContent(userAccountModel.getLocation());
             str_latitude = String.valueOf(userAccountModel.getLatitude());
             str_longitude = String.valueOf(userAccountModel.getLongitude());
         }
-        edtTagline.setText(userAccountModel.getTagline());
-        edtAboutMe.setText(userAccountModel.getAbout());
-        edtBusinessNumber.setText(userAccountModel.getBusiness_number());
-        edtEmailAddress.setText(userAccountModel.getEmail());
+        edtTagline.seteContent(userAccountModel.getTagline());
+        edtAboutMe.seteContent(userAccountModel.getAbout());
+        edtBusinessNumber.seteContent(userAccountModel.getBusiness_number());
+        edtEmailAddress.seteContent(userAccountModel.getEmail());
         txtBirthDate.setText(userAccountModel.getDob());
         if (userAccountModel.getAvatar() != null) {
             ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getThumbUrl(), null);
@@ -586,11 +582,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
         if (action.equalsIgnoreCase("add")) {
-           /* Intent intent = new Intent(EditProfileActivity.this, PortfolioActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList(ConstantKey.ATTACHMENT, attachmentArrayList);
-            intent.putExtras(bundle);
-            startActivityForResult(intent, 234);*/
+
 
             showBottomSheetDialog(true);
 
@@ -648,7 +640,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
                             }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
 
 
                         } catch (JSONException e) {
@@ -910,7 +901,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                 Helper.Logger("THIS", "CarmenFeature = " + carmenFeature.toJson());
                 GeocodeObject geocodeObject = Helper.getGeoCodeObject(this, carmenFeature.center().latitude()
                         , carmenFeature.center().longitude());
-                txtSuburb.setText(carmenFeature.placeName());
+                txtSuburb.seteContent(carmenFeature.placeName());
                 // editArea.setText(geocodeObject.getKnownName());
                 str_latitude = String.valueOf(carmenFeature.center().latitude());
                 str_longitude = String.valueOf(carmenFeature.center().longitude());
@@ -918,8 +909,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             }
             if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
                 if (resultCode == RESULT_OK) {
-                    // Refreshing the gallery
-                    // CameraUtils.refreshGallery(getApplicationContext(), imageStoragePath);
                     Uri uri = Uri.parse("file://" + imageStoragePath);
                     Bitmap bitmap = null;
                     try {
@@ -1102,7 +1091,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
 
-        // set background transparent
         ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
         mBottomSheetDialog.show();
@@ -1288,7 +1276,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
                             }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
 
 
                         } catch (JSONException e) {

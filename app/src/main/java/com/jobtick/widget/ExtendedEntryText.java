@@ -2,6 +2,7 @@ package com.jobtick.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.renderscript.ScriptGroup;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
@@ -28,6 +29,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     private boolean eIsPassword;
     private int eInputType;
     private boolean password_hide = true;
+    private OnClickSuburbListener onClickSuburbListener;
 
     public ExtendedEntryText(Context context) {
         this(context, null);
@@ -74,6 +76,14 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        if(eInputType == EInputType.SUBURB){
+            if(onClickSuburbListener == null)
+                throw new IllegalStateException("Suburb type selected, but OnClickSuburbListener is not implemented.");
+
+            onClickSuburbListener.onClick();
+            return;
+        }
+
 
         editText.requestFocus();
         editText.performClick();
@@ -105,6 +115,15 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
         } else if (eInputType == EInputType.PHONE)
             editText.setInputType(InputType.TYPE_CLASS_PHONE);
+        else if(eInputType == EInputType.SUBURB){
+            editText.setFocusable(false);
+            editText.setOnClickListener(v -> {
+                onClickSuburbListener.onClick();
+            });
+            editText.setInputType(InputType.TYPE_NULL);
+            editText.setClickable(true);
+            editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.ic_pin_blue), null);
+        }
         else
             editText.setInputType(TYPE_CLASS_TEXT);
     }
@@ -133,6 +152,10 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         }
     }
 
+    public void setOnClickSuburbListener(OnClickSuburbListener onClickSuburbListener){
+        this.onClickSuburbListener = onClickSuburbListener;
+    }
+
     public void setError(CharSequence error){
         editText.setError(error);
     }
@@ -151,6 +174,10 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
     public String getText() {
         return editText.getText().toString();
+    }
+
+    public void setText(String content) {
+        this.editText.setText(content);
     }
 
     public void seteContent(String eContent) {
@@ -180,6 +207,11 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         int EMAIL = 2;
         int PASSWORD = 3;
         int PHONE = 4;
+        int SUBURB = 5;
+    }
+
+    public interface OnClickSuburbListener{
+        public void onClick();
     }
 
 

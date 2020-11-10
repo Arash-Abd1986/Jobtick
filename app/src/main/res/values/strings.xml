@@ -330,5 +330,6 @@
     <string name="anyTime">Anytime</string>
     <string name="date">Date</string>
     <string name="selectDate">Select a Date</string>
+    <string name="update_alert">Update Alert</string>
 
 </resources>

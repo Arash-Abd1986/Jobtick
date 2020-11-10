@@ -316,7 +316,13 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <style name="materialText_500_20" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="materialText_500_20" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="materialText_500_30" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="fontFamily">@font/poppins_medium</item>
         <item name="android:fontFamily">@font/poppins_medium</item>
         <item name="android:textSize">20sp</item>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_task_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        card_view:cardBackgroundColor="@color/colorTaskOffer"
+        card_view:cardCornerRadius="@dimen/spacing_middle"
+        card_view:cardElevation="0dp"
+        android:elevation="0dp"/>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="3dp"
+        card_view:cardCornerRadius="@dimen/spacing_middle"
+        card_view:cardElevation="0dp"
+        android:elevation="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_above="@id/title"
+                android:layout_centerHorizontal="true"
+                android:text="25"
+                android:textColor="@color/textColor"
+                android:textAppearance="@style/materialText_500_20" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:text="Awaiting\nfor offer"
+                android:textColor="@color/textColor"
+                android:lines="2"
+                android:textAppearance="@style/materialText_500_12"/>
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</merge>

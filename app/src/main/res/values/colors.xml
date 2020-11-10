@@ -386,10 +386,10 @@
     <color name="colorReleasedMoney">#2ED174</color>
     <color name="colorReleasedMoneyTrans">#1A2ED174</color>
 
-    <color name="colorTaskCompleted">#C9C9C9</color>
+    <color name="colorTaskCompleted">#2B3240</color>
     <color name="colorTaskCompletedTrans">#1AC9C9C9</color>
 
-    <color name="colorTaskCancelled">#2B3240</color>
+    <color name="colorTaskCancelled">#C9C9C9</color>
     <color name="colorTaskCancelledTrans">#1A2B3240</color>
     <color name="rating_card_bg">#EAEBEC</color>
     <color name="accent">#5568FE</color>

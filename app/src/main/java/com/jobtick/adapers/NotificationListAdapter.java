@@ -1,30 +1,20 @@
 package com.jobtick.adapers;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.models.NotificationModel;
 import com.jobtick.models.PushNotificationModel;
-import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
-import com.jobtick.utils.TimeAgo;
-import com.jobtick.utils.Tools;
-import com.mikhaellopez.circularimageview.CircularImageView;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -129,14 +119,14 @@ public class NotificationListAdapter extends RecyclerView.Adapter<BaseViewHolder
     public class ViewHolder extends BaseViewHolder {
 
 
-        @BindView(R.id.webviewNotificationTitle)
-        WebView webViewNotification;
+        @BindView(R.id.notification_title)
+        TextView notificationTitle;
 
         @BindView(R.id.row_item)
         RelativeLayout rowItem;
 
-        @BindView(R.id.txtStatus)
-        TextViewRegular txtStatus;
+        @BindView(R.id.notification_time)
+        TextView notificationTime;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -151,9 +141,8 @@ public class NotificationListAdapter extends RecyclerView.Adapter<BaseViewHolder
         public void onBind(int position) {
             super.onBind(position);
             PushNotificationModel item = mItems.get(position);
-            webViewNotification.loadData(item.getTitle(),
-                    "text/html", "UTF-8");
-            txtStatus.setText(item.getStatus());
+            notificationTitle.setText(Html.fromHtml(item.getTitle()));
+            notificationTime.setText(item.getStatus());
             rowItem.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemClick(v, item, getAdapterPosition(), "action");

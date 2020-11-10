@@ -19,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
 import com.jobtick.adapers.NotificationListAdapter;
 import com.jobtick.models.NotificationModel;
@@ -53,16 +54,14 @@ import static com.jobtick.utils.ConstantKey.PUSH_TRIGGER;
 
 public class NotificationActivity extends ActivityBase implements NotificationListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    /*    @BindView(R.id.toolbar)
-        MaterialToolbar toolbar;*/
+    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
 
 
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
     private int totalPage = 10;
@@ -115,17 +114,12 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
 
 
     private void initToolbar() {
-      /*  toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setTitle(getResources().getString(R.string.notifications));
+        toolbar.inflateMenu(R.menu.menu_notification);
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getResources().getString(R.string.notifications));*/
-
-        ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
 
@@ -147,13 +141,6 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
         super.onBackPressed();
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_notification, menu);
-        return true;
-    }
 
 
     private void getNotificationList() {

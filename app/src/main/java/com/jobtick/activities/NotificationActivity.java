@@ -56,11 +56,12 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
 
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
-
 
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
@@ -115,11 +116,14 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
 
     private void initToolbar() {
         toolbar.setNavigationIcon(R.drawable.ic_back);
-        toolbar.setTitle(getResources().getString(R.string.notifications));
-        toolbar.inflateMenu(R.menu.menu_notification);
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_notification, menu);
+        return true;
     }
 
 
@@ -130,7 +134,7 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
                 onBackPressed();
                 break;
             case R.id.nav_setting:
-                startActivity(new Intent(this, NotificationActivity.class));
+                startActivity(new Intent(this, NotificationSettings.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

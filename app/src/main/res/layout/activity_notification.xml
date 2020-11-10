@@ -37,10 +37,6 @@
                 android:visibility="visible"
                 tools:listitem="@layout/item_notification_row" />
 
-
         </LinearLayout>
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
 </LinearLayout>

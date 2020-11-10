@@ -231,7 +231,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private BottomSheetDialog mBottomSheetDialog;
     int year, month, day;
     String str_DOB = null;
-    String str_DOB_MODEL = "2020-11-3";
+    String str_DOB_MODEL = "";
     DatePickerDialog.OnDateSetListener mDateSetListener;
     private static String imageStoragePath;
     public static final long MAX_VIDEO_DURATION = 30;
@@ -249,14 +249,26 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         mBehavior = BottomSheetBehavior.from(bottomSheet);
 
         ivBack.setOnClickListener(v -> onBackPressed());
+        txtBirthDate.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        mDateSetListener = (view, year, month, dayOfMonth) -> {
+            DatePickerDialog dialog = new DatePickerDialog(this,
+                    android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+                    mDateSetListener,
+                    year, month, day);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+        });
+
+        mDateSetListener = (view1, year, month, dayOfMonth) -> {
             month = month + 1;
-            str_DOB = Tools.getDayMonthDateTimeFormat2(year + "-" + month + "-" + dayOfMonth);
             str_DOB_MODEL = year + "-" + month + "-" + dayOfMonth;
+            str_DOB = Tools.getDayMonthDateTimeFormat2(year + "-" + month + "-" + dayOfMonth);
             txtBirthDate.setText(str_DOB);
         };
-
         init();
         getAllUserProfileDetails();
         initComponentScroll();

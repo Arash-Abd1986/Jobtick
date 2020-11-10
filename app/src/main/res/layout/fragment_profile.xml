@@ -106,7 +106,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_2sp"
-                                android:textColor="@color/textColor"
+                                android:textColor="@color/grey_70"
                                 tools:text="@string/last_seen_4_36_pm" />
 
                             <LinearLayout
@@ -141,8 +141,9 @@
                                     android:layout_gravity="center"
                                     android:layout_marginLeft="@dimen/_5sp"
                                     android:layout_marginRight="@dimen/_5sp"
-                                    android:contentDescription="@string/todo"
-                                    android:src="@drawable/ic_credit_card" />
+                                    android:src="@drawable/ic_credit_card_w"
+                                    android:background="@color/colorGrayC9C9C9"
+                                    android:contentDescription="@string/todo" />
 
                                 <ImageView
                                     android:id="@+id/ivId"

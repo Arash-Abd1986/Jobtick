@@ -360,10 +360,8 @@
                                         android:layout_weight="1"
                                         android:background="@null"
                                         android:hint="@string/select_a_date"
-
                                         android:singleLine="true"
-                                        android:textColor="@color/textColor"
-                                        android:textSize="14sp" />
+                                        android:textColor="@color/textColor"/>
 
                                     <ImageView
                                         android:layout_width="25dp"

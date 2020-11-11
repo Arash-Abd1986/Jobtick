@@ -75,7 +75,7 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_new_task_alerts_in_person, container, false);
         ButterKnife.bind(this, view);
-        txtSuburb.setOnClickSuburbListener(() -> {
+        txtSuburb.setExtendedViewOnClickListener(() -> {
             Intent intent = new PlaceAutocomplete.IntentBuilder()
                     .accessToken(Mapbox.getAccessToken())
                     .placeOptions(PlaceOptions.builder()

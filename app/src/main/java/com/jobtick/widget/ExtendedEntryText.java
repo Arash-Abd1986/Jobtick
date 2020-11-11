@@ -2,7 +2,6 @@ package com.jobtick.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.renderscript.ScriptGroup;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
@@ -29,7 +28,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     private boolean eIsPassword;
     private int eInputType;
     private boolean password_hide = true;
-    private OnClickSuburbListener onClickSuburbListener;
+    private ExtendedViewOnClickListener extendedViewOnClickListener;
 
     public ExtendedEntryText(Context context) {
         this(context, null);
@@ -76,11 +75,11 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if(eInputType == EInputType.SUBURB){
-            if(onClickSuburbListener == null)
-                throw new IllegalStateException("Suburb type selected, but OnClickSuburbListener is not implemented.");
+        if(eInputType == EInputType.SUBURB || eInputType == EInputType.EXPIRY_DATE){
+            if(extendedViewOnClickListener == null)
+                throw new IllegalStateException("Suburb type selected, but ExtendedViewOnClickListener is not implemented.");
 
-            onClickSuburbListener.onClick();
+            extendedViewOnClickListener.onClick();
             return;
         }
 
@@ -115,24 +114,32 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
         } else if (eInputType == EInputType.PHONE)
             editText.setInputType(InputType.TYPE_CLASS_PHONE);
-        else if(eInputType == EInputType.SUBURB){
+        else if(eInputType == EInputType.SUBURB || eInputType == EInputType.EXPIRY_DATE){
             editText.setFocusable(false);
             editText.setOnClickListener(v -> {
-                onClickSuburbListener.onClick();
+                extendedViewOnClickListener.onClick();
             });
             editText.setInputType(InputType.TYPE_NULL);
             editText.setClickable(true);
-            editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.ic_pin_blue), null);
         }
         else
             editText.setInputType(TYPE_CLASS_TEXT);
+
+
+        if(eInputType == EInputType.SUBURB){
+            editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.ic_pin_blue), null);
+        }
+        if(eInputType == EInputType.EXPIRY_DATE){
+            editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_blue), null);
+        }
+
     }
 
     private void setListeners() {
         setOnClickListener(this);
 
         if (eIsPassword) {
-            imageView.setOnClickListener(new OnClickListener() {
+            imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (password_hide) {
@@ -152,8 +159,8 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         }
     }
 
-    public void setOnClickSuburbListener(OnClickSuburbListener onClickSuburbListener){
-        this.onClickSuburbListener = onClickSuburbListener;
+    public void setExtendedViewOnClickListener(ExtendedViewOnClickListener extendedViewOnClickListener){
+        this.extendedViewOnClickListener = extendedViewOnClickListener;
     }
 
     public void setError(CharSequence error){
@@ -208,9 +215,10 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         int PASSWORD = 3;
         int PHONE = 4;
         int SUBURB = 5;
+        int EXPIRY_DATE = 6;
     }
 
-    public interface OnClickSuburbListener{
+    public interface ExtendedViewOnClickListener {
         public void onClick();
     }
 

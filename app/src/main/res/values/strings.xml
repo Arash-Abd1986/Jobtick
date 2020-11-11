@@ -337,5 +337,6 @@
     <string name="push_notifications">Push Notifications</string>
     <string name="old_password">Old Password</string>
     <string name="my_personal_balance">My Personal Balance</string>
+    <string name="delete_credit_card">Delete Credit Card</string>
 
 </resources>

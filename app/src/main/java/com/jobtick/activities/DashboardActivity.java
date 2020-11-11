@@ -239,6 +239,10 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 startActivity(new Intent(DashboardActivity.this, EditProfileActivity.class));
                 return true;
             case R.id.action_logout:
+                drawerLayout.close();
+                //TODO: Implementing bottom sheet of logout
+//                LogoutBottomSheet logoutBottomSheet = LogoutBottomSheet.newInstance();
+//                logoutBottomSheet.show(getSupportFragmentManager(), "");
                 logout_dialog_box();
                 return true;
             case R.id.action_rate_us:

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -56,14 +55,14 @@
                                 android:background="?attr/selectableItemBackground"
                                 android:gravity="center">
 
-                                <com.jobtick.TextView.TextViewMedium
+                                <com.google.android.material.textview.MaterialTextView
+                                    style="@style/materialText_500_12"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:text="@string/view_all_offers"
                                     android:textAllCaps="true"
-                                    android:textColor="@color/white"
-                                    android:textSize="14sp" />
+                                    android:textColor="@color/white" />
                             </LinearLayout>
                         </androidx.viewpager.widget.ViewPager>
 
@@ -96,8 +95,9 @@
                             android:paddingBottom="@dimen/spacing_medium"
                             app:srcCompat="@drawable/ic_clock_task_details" />
 
-                        <com.jobtick.TextView.TextViewMedium
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_due_date"
+                            style="@style/materialText_500_10"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
@@ -105,12 +105,11 @@
                             android:gravity="center"
                             android:paddingTop="@dimen/spacing_medium"
                             android:paddingBottom="@dimen/spacing_medium"
-                            android:textColor="@color/textColor"
-                            android:textSize="10dp"
-                            tools:ignore="SpUsage" />
+                            android:textColor="@color/textColor" />
 
-                        <com.jobtick.TextView.TextViewMedium
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_due_time"
+                            style="@style/materialText_500_10"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
@@ -120,17 +119,11 @@
                             android:paddingTop="@dimen/spacing_medium"
                             android:paddingEnd="@dimen/spacing_middle"
                             android:paddingBottom="@dimen/spacing_medium"
-                            android:textColor="@color/textColor"
-                            android:textSize="10dp"
-                            tools:ignore="SpUsage" />
+                            android:textColor="@color/textColor" />
 
-                        <FrameLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                        <com.jobtick.TextView.TextViewBold
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_budgets"
+                            style="@style/materialText_500_18"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/shape_tab_primary"
@@ -139,9 +132,6 @@
                             android:padding="4dp"
                             android:paddingBottom="@dimen/spacing_xsmall"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_14dp"
-                            android:textStyle="bold"
-                            tools:ignore="SpUsage"
                             tools:text="@string/_200" />
                     </LinearLayout>
 
@@ -198,8 +188,9 @@
                     android:layout_marginBottom="@dimen/spacing_middle"
                     android:orientation="horizontal">
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_status_open"
+                        style="@style/materialText_600_10"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -211,12 +202,11 @@
                         android:gravity="center"
                         android:singleLine="true"
                         android:text="@string/open"
-                        android:textColor="@color/white_black_selected"
-                        android:textSize="10dp"
-                        tools:ignore="SpUsage" />
+                        android:textColor="@color/white_black_selected" />
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_status_assigned"
+                        style="@style/materialText_600_10"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -228,12 +218,11 @@
                         android:gravity="center"
                         android:singleLine="true"
                         android:text="@string/assigned"
-                        android:textColor="@color/white_black_selected"
-                        android:textSize="10dp"
-                        tools:ignore="SpUsage" />
+                        android:textColor="@color/white_black_selected" />
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_status_cancelled"
+                        style="@style/materialText_600_10"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -246,12 +235,11 @@
                         android:singleLine="true"
                         android:text="@string/cancelled"
                         android:textColor="@color/white_black_selected"
-                        android:textSize="10dp"
-                        android:visibility="gone"
-                        tools:ignore="SpUsage" />
+                        android:visibility="gone" />
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_status_overdue"
+                        style="@style/materialText_600_10"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -264,12 +252,11 @@
                         android:singleLine="true"
                         android:text="@string/overdue"
                         android:textColor="@color/white_black_selected"
-                        android:textSize="10dp"
-                        android:visibility="gone"
-                        tools:ignore="SpUsage" />
+                        android:visibility="gone" />
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_status_completed"
+                        style="@style/materialText_600_10"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -281,12 +268,11 @@
                         android:gravity="center"
                         android:singleLine="true"
                         android:text="@string/completed"
-                        android:textColor="@color/white_black_selected"
-                        android:textSize="10dp"
-                        tools:ignore="SpUsage" />
+                        android:textColor="@color/white_black_selected" />
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_status_reviewed"
+                        style="@style/materialText_600_10"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -299,9 +285,7 @@
                         android:singleLine="true"
                         android:text="@string/reviewed"
                         android:textColor="@color/white_black_selected"
-                        android:textSize="10dp"
-                        android:visibility="gone"
-                        tools:ignore="SpUsage" />
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <androidx.cardview.widget.CardView
@@ -349,15 +333,14 @@
                                 android:contentDescription="@string/todo"
                                 android:src="@drawable/ic_alert_cancellation" />
 
-                            <com.jobtick.TextView.TextViewRegular
+                            <com.google.android.material.textview.MaterialTextView
+                                style="@style/materialText_500_14"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/spacing_large"
                                 android:layout_marginEnd="@dimen/spacing_large"
                                 android:text="@string/this_job_has_been_cancelled_please_contact_customer_support_if_you_need_further_help"
-                                android:textColor="@color/textColor"
-                                android:textSize="@dimen/_13sp"
-                                android:textStyle="bold" />
+                                android:textColor="@color/textColor" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -377,13 +360,13 @@
                                 android:focusable="true"
                                 android:gravity="center">
 
-                                <com.jobtick.TextView.TextViewMedium
+                                <com.google.android.material.textview.MaterialTextView
+                                    style="@style/materialText_500_14"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:text="@string/repost_this_job"
                                     android:textColor="@color/colorRed"
-                                    android:textSize="14sp"
                                     tools:ignore="TooDeepLayout" />
                             </LinearLayout>
                         </LinearLayout>
@@ -401,17 +384,16 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center">
 
-                        <com.jobtick.TextView.TextViewBold
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_titles"
+                            style="@style/materialText_700_18"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_large"
                             android:layout_marginEnd="@dimen/spacing_large"
                             android:text="@string/request_for_increase_budget"
-                            android:textColor="@color/textColor"
-                            android:textSize="@dimen/_13sp"
-                            android:textStyle="bold" />
+                            android:textColor="@color/textColor" />
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/lyt_btn_view_reqeust"
@@ -424,28 +406,27 @@
                             android:visibility="gone"
                             app:cardCornerRadius="@dimen/spacing_large">
 
-                            <com.jobtick.TextView.TextViewMedium
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_view_budget_request"
+                                style="@style/materialText_500_14"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:text="@string/view_request"
                                 android:textAllCaps="true"
-                                android:textColor="@color/white"
-                                android:textSize="14sp" />
+                                android:textColor="@color/white" />
                         </androidx.cardview.widget.CardView>
                     </FrameLayout>
 
-                    <com.jobtick.TextView.TextViewBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_title"
+                        style="@style/materialText_700_18"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_smlarge"
                         android:layout_marginEnd="@dimen/spacing_smlarge"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_18sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/textColor" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -460,7 +441,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            tools:ignore="UselessParent">
 
                             <ImageView
                                 android:id="@+id/img_map_pin"
@@ -469,21 +451,21 @@
                                 android:contentDescription="@string/todo"
                                 android:src="@drawable/ic_map_pin" />
 
-                            <com.jobtick.TextView.TextViewMedium
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_location"
-                                android:layout_width="0dp"
+                                style="@style/materialText_500_10"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_weight="1"
                                 android:ellipsize="end"
                                 android:gravity="start"
                                 android:maxLines="1"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="10dp" />
+                                tools:text="123" />
 
-
-                            <com.jobtick.TextView.TextViewMedium
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_created_date"
+                                style="@style/materialText_400_10"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -491,20 +473,20 @@
                                 android:layout_marginEnd="8dp"
                                 android:gravity="start"
                                 android:textColor="@color/grey_70"
-                                android:textSize="10dp" />
+                                tools:text="123" />
                         </LinearLayout>
                     </LinearLayout>
 
-                    <com.jobtick.TextView.TextViewMedium
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_description"
+                        style="@style/materialText_500_14"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:layout_marginStart="@dimen/spacing_smlarge"
                         android:layout_marginEnd="@dimen/spacing_smlarge"
                         android:layout_marginBottom="@dimen/spacing_medium"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_14sp" />
+                        android:textColor="@color/textColor" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/mustHaveLyt"
@@ -534,8 +516,9 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <com.jobtick.TextView.TextViewSemiBold
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txtPostedBy"
+                            style="@style/materialText_600_14"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
@@ -552,6 +535,7 @@
                             android:layout_marginTop="@dimen/spacing_middle"
                             android:layout_marginEnd="@dimen/spacing_smlarge"
                             android:layout_marginBottom="@dimen/spacing_middle"
+                            android:baselineAligned="false"
                             android:orientation="horizontal">
 
                             <RelativeLayout
@@ -599,27 +583,27 @@
                                 android:gravity="center_vertical"
                                 android:orientation="vertical">
 
-                                <com.jobtick.TextView.TextViewSemiBold
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_poster_name"
+                                    style="@style/materialText_600_12"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/textColor"
-                                    android:textSize="@dimen/_13sp" />
+                                    android:textColor="@color/textColor" />
 
-                                <com.jobtick.TextView.TextViewRegular
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_poster_location"
+                                    style="@style/materialText_400_10"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:singleLine="true"
-                                    android:textColor="@color/grey_40"
-                                    android:textSize="@dimen/_10sp" />
+                                    android:textColor="@color/grey_40" />
 
-                                <com.jobtick.TextView.TextViewRegular
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_poster_last_online"
+                                    style="@style/materialText_400_10"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/grey_40"
-                                    android:textSize="@dimen/_10sp"
                                     app:layout_anchor="@+id/nested_scroll_view"
                                     app:layout_anchorGravity="center" />
                             </LinearLayout>
@@ -646,15 +630,14 @@
                                     android:contentDescription="@string/todo"
                                     android:src="@drawable/ic_message" />
 
-                                <com.jobtick.TextView.TextViewSemiBold
+                                <com.google.android.material.textview.MaterialTextView
+                                    style="@style/materialText_600_14"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginStart="4dp"
                                     android:text="@string/chat"
-                                    android:textColor="#4D576A"
-                                    android:textSize="10dp"
-                                    tools:ignore="SpUsage" />
+                                    android:textColor="#4D576A" />
                             </LinearLayout>
                         </LinearLayout>
                     </RelativeLayout>
@@ -671,8 +654,9 @@
                         android:layout_marginTop="@dimen/spacing_medium"
                         android:background="@color/grey_10" />
 
-                    <com.jobtick.TextView.TextViewBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_offer_count"
+                        style="@style/materialText_600_14"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginStart="@dimen/spacing_large"
@@ -680,18 +664,11 @@
                         android:layout_marginEnd="@dimen/spacing_large"
                         android:text="@string/_4_offers"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_10sp"
-                        android:textStyle="bold"
                         android:visibility="gone" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_line"
-                        android:background="@color/grey_E2E2E2"
-                        android:visibility="gone" />
-
-                    <com.jobtick.TextView.TextViewBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_budget"
+                        style="@style/materialText_700_28"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -700,8 +677,6 @@
                         android:gravity="center"
                         android:text="@string/_200"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_36sp"
-                        android:textStyle="bold"
                         android:visibility="gone" />
 
                 </LinearLayout>
@@ -721,10 +696,10 @@
                     android:orientation="vertical"
                     tools:ignore="TooManyViews">
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/materialText_600_14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
                         android:layout_marginTop="@dimen/spacing_smlarge"
                         android:layout_marginBottom="@dimen/spacing_middle"
                         android:singleLine="true"
@@ -757,35 +732,34 @@
                                 android:id="@+id/txt_worker_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/_14sp" />
+                                android:textColor="@color/colorPrimary" />
 
-                            <com.jobtick.TextView.TextViewRegular
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_worker_location"
+                                style="@style/materialText_500_10"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:textColor="@color/grey_40"
-                                android:textSize="@dimen/_12sp" />
+                                android:textColor="@color/grey_40" />
 
-                            <com.jobtick.TextView.TextViewRegular
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_worker_last_online"
+                                style="@style/materialText_600_12"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/grey_40"
-                                android:textSize="10dp"
                                 tools:ignore="SpUsage" />
                         </LinearLayout>
                     </RelativeLayout>
 
-                    <com.jobtick.TextView.TextViewMedium
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/materialText_600_12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/private_chat"
                         android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
+                        android:textColor="@color/white" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_private_chat"
@@ -813,10 +787,12 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="TooManyViews">
 
-                <com.jobtick.TextView.TextViewSemiBold
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_offers_count"
+                    style="@style/materialText_600_14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
@@ -856,7 +832,8 @@
                                 android:layout_gravity="center"
                                 android:layout_margin="@dimen/spacing_small"
                                 android:gravity="center"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                tools:ignore="UselessParent">
 
                                 <ImageView
                                     android:layout_width="50dp"
@@ -864,18 +841,18 @@
                                     android:layout_gravity="center"
                                     android:layout_margin="@dimen/spacing_large"
                                     android:background="@drawable/ic_no_offer_holder"
+                                    android:contentDescription="@string/todo"
                                     android:padding="@dimen/spacing_small" />
 
-                                <com.jobtick.TextView.TextViewBold
+                                <com.google.android.material.textview.MaterialTextView
+                                    style="@style/materialText_600_14"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:gravity="center"
                                     android:singleLine="true"
                                     android:text="@string/waiting_for_offer"
-                                    android:textColor="@color/black"
-                                    android:textSize="11dp"
-                                    android:textStyle="bold" />
+                                    android:textColor="@color/black" />
 
                                 <LinearLayout
                                     android:id="@+id/first_offer_lyt"
@@ -886,7 +863,8 @@
                                     android:orientation="horizontal">
 
 
-                                    <com.jobtick.TextView.TextViewRegular
+                                    <com.google.android.material.textview.MaterialTextView
+                                        style="@style/materialText_400_14"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -896,12 +874,13 @@
                                         android:layout_marginBottom="@dimen/spacing_small"
                                         android:gravity="center"
                                         android:singleLine="true"
-                                        android:text="Be the first to"
+                                        android:text="@string/be_the_first_to"
                                         android:textColor="@color/textColor"
-                                        android:textSize="12dp" />
+                                        tools:ignore="TooDeepLayout" />
 
-                                    <com.jobtick.TextView.TextViewRegular
+                                    <com.google.android.material.textview.MaterialTextView
                                         android:id="@+id/first_offer"
+                                        style="@style/materialText_400_14"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -911,11 +890,11 @@
                                         android:layout_marginBottom="@dimen/spacing_small"
                                         android:gravity="center"
                                         android:singleLine="true"
-                                        android:text="make an offer"
-                                        android:textColor="@color/colorPrimary"
-                                        android:textSize="12dp" />
+                                        android:text="@string/make_an_offer"
+                                        android:textColor="@color/colorPrimary" />
 
-                                    <com.jobtick.TextView.TextViewRegular
+                                    <com.google.android.material.textview.MaterialTextView
+                                        style="@style/materialText_400_14"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -925,9 +904,8 @@
                                         android:layout_marginBottom="@dimen/spacing_small"
                                         android:gravity="center"
                                         android:singleLine="true"
-                                        android:text="on this job!"
-                                        android:textColor="@color/textColor"
-                                        android:textSize="12dp" />
+                                        android:text="@string/on_this_job"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
                             </LinearLayout>
                         </FrameLayout>
@@ -987,7 +965,8 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="18dp"
                         android:layout_marginBottom="@dimen/spacing_middle"
-                        android:background="@drawable/shape_border">
+                        android:background="@drawable/shape_border"
+                        tools:ignore="UselessParent">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -1004,8 +983,9 @@
                                 android:layout_margin="@dimen/spacing_small"
                                 android:overScrollMode="never" />
 
-                            <com.jobtick.EditText.EditTextRegular
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edt_comment"
+                                style="@style/materialText_400_14"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
@@ -1013,10 +993,9 @@
                                 android:layout_toStartOf="@id/lyt_btn_comment_send"
                                 android:layout_toEndOf="@+id/recycler_view_question_attachment"
                                 android:background="@null"
-                                android:hint="Ask a question"
+                                android:hint="@string/ask_a_question"
                                 android:inputType="textMultiLine"
-                                android:maxLines="5"
-                                android:textSize="@dimen/_12sp" />
+                                android:maxLines="5" />
 
                             <ImageView
                                 android:id="@+id/lyt_btn_comment_send"
@@ -1066,21 +1045,19 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.jobtick.TextView.TextViewMedium
+                            <com.google.android.material.textview.MaterialTextView
+                                style="@style/materialText_500_12"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="@string/view_all_questions"
                                 android:textAllCaps="true"
-                                android:textColor="@color/white"
-                                android:textSize="14sp" />
+                                android:textColor="@color/white" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
-
     </androidx.core.widget.NestedScrollView>
 
     <androidx.cardview.widget.CardView
@@ -1104,14 +1081,14 @@
             android:focusable="true"
             android:gravity="center">
 
-            <com.jobtick.TextView.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_btn_text"
+                style="@style/materialText_500_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/make_an_offer"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textColor="@color/white" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

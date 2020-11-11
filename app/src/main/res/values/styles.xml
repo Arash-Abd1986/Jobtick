@@ -266,7 +266,11 @@
         <item name="android:fontFamily">@font/poppins_medium</item>
         <item name="android:textSize">12sp</item>
     </style>
-
+    <style name="materialText_500_10" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:textSize">10sp</item>
+    </style>
     <style name="materialText_500_16" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="fontFamily">@font/poppins_medium</item>
         <item name="android:fontFamily">@font/poppins_medium</item>
@@ -320,7 +324,16 @@
         <item name="android:fontFamily">@font/poppins_bold</item>
         <item name="android:textSize">16sp</item>
     </style>
-
+    <style name="materialText_700_18" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="materialText_700_28" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">28sp</item>
+    </style>
     <style name="materialText_400_14" parent="TextAppearance.MaterialComponents.Body2">
         <item name="fontFamily">@font/poppins_reg</item>
         <item name="android:fontFamily">@font/poppins_reg</item>

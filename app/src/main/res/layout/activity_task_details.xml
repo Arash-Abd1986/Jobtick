@@ -62,14 +62,9 @@
                                     android:gravity="center"
                                     android:text="@string/view_all_offers"
                                     android:textAllCaps="true"
-                                    android:textColor="@color/white" />
+                                    android:textColor="@color/white"/>
                             </LinearLayout>
                         </androidx.viewpager.widget.ViewPager>
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="#40888888" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -96,8 +91,8 @@
                             app:srcCompat="@drawable/ic_clock_task_details" />
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/txt_due_date"
                             style="@style/materialText_500_10"
+                            android:id="@+id/txt_due_date"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
@@ -108,8 +103,8 @@
                             android:textColor="@color/textColor" />
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/txt_due_time"
                             style="@style/materialText_500_10"
+                            android:id="@+id/txt_due_time"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
@@ -119,11 +114,17 @@
                             android:paddingTop="@dimen/spacing_medium"
                             android:paddingEnd="@dimen/spacing_middle"
                             android:paddingBottom="@dimen/spacing_medium"
-                            android:textColor="@color/textColor" />
+                            android:textColor="@color/textColor"/>
+
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            tools:ignore="UselessLeaf" />
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/txt_budgets"
                             style="@style/materialText_500_18"
+                            android:id="@+id/txt_budgets"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/shape_tab_primary"
@@ -385,15 +386,15 @@
                         android:layout_gravity="center">
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/txt_titles"
                             style="@style/materialText_700_18"
+                            android:id="@+id/txt_titles"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_large"
                             android:layout_marginEnd="@dimen/spacing_large"
                             android:text="@string/request_for_increase_budget"
-                            android:textColor="@color/textColor" />
+                            android:textColor="@color/textColor"/>
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/lyt_btn_view_reqeust"
@@ -407,21 +408,21 @@
                             app:cardCornerRadius="@dimen/spacing_large">
 
                             <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/txt_view_budget_request"
                                 style="@style/materialText_500_14"
+                                android:id="@+id/txt_view_budget_request"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:text="@string/view_request"
                                 android:textAllCaps="true"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"/>
                         </androidx.cardview.widget.CardView>
                     </FrameLayout>
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/txt_title"
                         style="@style/materialText_700_18"
+                        android:id="@+id/txt_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_smlarge"
@@ -463,6 +464,12 @@
                                 android:textColor="@color/colorPrimary"
                                 tools:text="123" />
 
+                            <FrameLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                tools:ignore="UselessLeaf" />
+
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_created_date"
                                 style="@style/materialText_400_10"
@@ -478,15 +485,15 @@
                     </LinearLayout>
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/txt_description"
                         style="@style/materialText_500_14"
+                        android:id="@+id/txt_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:layout_marginStart="@dimen/spacing_smlarge"
                         android:layout_marginEnd="@dimen/spacing_smlarge"
                         android:layout_marginBottom="@dimen/spacing_medium"
-                        android:textColor="@color/textColor" />
+                        android:textColor="@color/textColor"/>
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/mustHaveLyt"
@@ -535,8 +542,8 @@
                             android:layout_marginTop="@dimen/spacing_middle"
                             android:layout_marginEnd="@dimen/spacing_smlarge"
                             android:layout_marginBottom="@dimen/spacing_middle"
-                            android:baselineAligned="false"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:baselineAligned="false">
 
                             <RelativeLayout
                                 android:id="@+id/relativProfile"
@@ -584,23 +591,23 @@
                                 android:orientation="vertical">
 
                                 <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/txt_poster_name"
                                     style="@style/materialText_600_12"
+                                    android:id="@+id/txt_poster_name"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/textColor" />
+                                    android:textColor="@color/textColor"/>
 
                                 <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/txt_poster_location"
                                     style="@style/materialText_400_10"
+                                    android:id="@+id/txt_poster_location"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:singleLine="true"
-                                    android:textColor="@color/grey_40" />
+                                    android:textColor="@color/grey_40"/>
 
                                 <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/txt_poster_last_online"
                                     style="@style/materialText_400_10"
+                                    android:id="@+id/txt_poster_last_online"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/grey_40"
@@ -637,7 +644,7 @@
                                     android:layout_gravity="center"
                                     android:layout_marginStart="4dp"
                                     android:text="@string/chat"
-                                    android:textColor="#4D576A" />
+                                    android:textColor="#4D576A"/>
                             </LinearLayout>
                         </LinearLayout>
                     </RelativeLayout>
@@ -655,8 +662,8 @@
                         android:background="@color/grey_10" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/txt_offer_count"
                         style="@style/materialText_600_14"
+                        android:id="@+id/txt_offer_count"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginStart="@dimen/spacing_large"
@@ -667,8 +674,8 @@
                         android:visibility="gone" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/txt_budget"
                         style="@style/materialText_700_28"
+                        android:id="@+id/txt_budget"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -732,19 +739,19 @@
                                 android:id="@+id/txt_worker_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/colorPrimary" />
+                                android:textColor="@color/colorPrimary"/>
 
-                            <com.google.android.material.textview.MaterialTextView
+                           <com.google.android.material.textview.MaterialTextView
+                               style="@style/materialText_500_10"
                                 android:id="@+id/txt_worker_location"
-                                style="@style/materialText_500_10"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:textColor="@color/grey_40" />
+                                android:textColor="@color/grey_40"/>
 
                             <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/txt_worker_last_online"
                                 style="@style/materialText_600_12"
+                                android:id="@+id/txt_worker_last_online"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/grey_40"
@@ -759,7 +766,7 @@
                         android:gravity="center"
                         android:text="@string/private_chat"
                         android:textAllCaps="true"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"/>
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_private_chat"
@@ -787,12 +794,11 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:orientation="vertical"
-                tools:ignore="TooManyViews">
+                android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_offers_count"
                     style="@style/materialText_600_14"
+                    android:id="@+id/txt_offers_count"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
@@ -841,8 +847,8 @@
                                     android:layout_gravity="center"
                                     android:layout_margin="@dimen/spacing_large"
                                     android:background="@drawable/ic_no_offer_holder"
-                                    android:contentDescription="@string/todo"
-                                    android:padding="@dimen/spacing_small" />
+                                    android:padding="@dimen/spacing_small"
+                                    android:contentDescription="@string/todo" />
 
                                 <com.google.android.material.textview.MaterialTextView
                                     style="@style/materialText_600_14"
@@ -852,7 +858,7 @@
                                     android:gravity="center"
                                     android:singleLine="true"
                                     android:text="@string/waiting_for_offer"
-                                    android:textColor="@color/black" />
+                                    android:textColor="@color/black"/>
 
                                 <LinearLayout
                                     android:id="@+id/first_offer_lyt"
@@ -879,8 +885,8 @@
                                         tools:ignore="TooDeepLayout" />
 
                                     <com.google.android.material.textview.MaterialTextView
-                                        android:id="@+id/first_offer"
                                         style="@style/materialText_400_14"
+                                        android:id="@+id/first_offer"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -891,7 +897,7 @@
                                         android:gravity="center"
                                         android:singleLine="true"
                                         android:text="@string/make_an_offer"
-                                        android:textColor="@color/colorPrimary" />
+                                        android:textColor="@color/colorPrimary"/>
 
                                     <com.google.android.material.textview.MaterialTextView
                                         style="@style/materialText_400_14"
@@ -905,7 +911,7 @@
                                         android:gravity="center"
                                         android:singleLine="true"
                                         android:text="@string/on_this_job"
-                                        android:textColor="@color/textColor" />
+                                        android:textColor="@color/textColor"/>
                                 </LinearLayout>
                             </LinearLayout>
                         </FrameLayout>
@@ -984,8 +990,8 @@
                                 android:overScrollMode="never" />
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_comment"
                                 style="@style/materialText_400_14"
+                                android:id="@+id/edt_comment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
@@ -995,7 +1001,7 @@
                                 android:background="@null"
                                 android:hint="@string/ask_a_question"
                                 android:inputType="textMultiLine"
-                                android:maxLines="5" />
+                                android:maxLines="5"/>
 
                             <ImageView
                                 android:id="@+id/lyt_btn_comment_send"
@@ -1052,7 +1058,7 @@
                                 android:gravity="center"
                                 android:text="@string/view_all_questions"
                                 android:textAllCaps="true"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
@@ -1082,13 +1088,13 @@
             android:gravity="center">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_btn_text"
                 style="@style/materialText_500_14"
+                android:id="@+id/txt_btn_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/make_an_offer"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

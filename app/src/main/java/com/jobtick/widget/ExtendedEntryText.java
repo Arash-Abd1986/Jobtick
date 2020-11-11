@@ -3,6 +3,7 @@ package com.jobtick.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -168,6 +169,10 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
     public void setError(CharSequence error){
         editText.setError(error);
+    }
+
+    public void addTextChangedListener(TextWatcher textWatcher){
+        editText.addTextChangedListener(textWatcher);
     }
 
     public String geteTitle() {

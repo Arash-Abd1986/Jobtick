@@ -104,9 +104,9 @@
         <activity android:name=".activities.UserProfileActivity" />
         <activity android:name=".activities.WebViewActivity" />
         <activity android:name=".activities.ReportActivity" />
-        <activity android:name=".activities.NotificationSubSettingsActivity">
-
-        </activity>
+        <activity android:name=".activities.EmailNotificationsSettingsActivity"/>
+        <activity android:name=".activities.PushNotificationsSettingsActivity"/>
+        <activity android:name=".activities.SMSNotificationsSettingsActivity"/>
         <activity android:name=".activities.MobileOtpVerifyActivity" />
         <activity android:name=".activities.ZoomImageActivity" />
         <activity android:name=".activities.VideoPlayerActivity" />

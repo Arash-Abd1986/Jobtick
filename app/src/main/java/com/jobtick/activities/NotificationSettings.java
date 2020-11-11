@@ -4,13 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import com.jobtick.widget.ExtendedSettingItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,46 +18,17 @@ import butterknife.OnClick;
 public class NotificationSettings extends ActivityBase {
 
 
-/*
-    @BindView(R.id.rtl_transactional)
-    RelativeLayout rtlTranssactional;
+    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;
 
+    @BindView(R.id.email_notifications)
+    ExtendedSettingItem rtlBtnEmailNotification;
 
-    @BindView(R.id.rtl_task_updates)
-    RelativeLayout rtlTaskUpdates;
+    @BindView(R.id.push_notifications)
+    ExtendedSettingItem rtlBtnPushNotifications;
 
-    @BindView(R.id.rtl_task_reminder)
-    RelativeLayout rtlTaskReminder;
-
-    @BindView(R.id.rtl_task_job_alert)
-    RelativeLayout rtlTaskJobAlert;
-
-    @BindView(R.id.rtl_task_recommendation)
-    RelativeLayout rtlTaskRecommendation;
-
-    @BindView(R.id.rtl_helpful_info)
-    RelativeLayout rtlHelpfulInfo;
-
-
-    @BindView(R.id.rtl_update_newteller)
-    RelativeLayout rtlUpdateNewteller;
-*/
-
-
-/*    @BindView(R.id.toolbars)
-    MaterialToolbar toolbar;*/
-
-    @BindView(R.id.rtl_btn_email_notification)
-    RelativeLayout rtlBtnEmailNotification;
-
-    @BindView(R.id.rtl_btn_push_notifications)
-    RelativeLayout rtlBtnPushNotifications;
-
-    @BindView(R.id.rtl_btn_sms_notifications)
-    RelativeLayout rtlBtnSMSNotifications;
-
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
+    @BindView(R.id.sms_notifications)
+    ExtendedSettingItem rtlBtnSMSNotifications;
 
 
     @Override
@@ -67,39 +37,45 @@ public class NotificationSettings extends ActivityBase {
 
         setContentView(R.layout.activity_notification_settings);
         ButterKnife.bind(this);
-        //    initToolbar();
-        ivBack.setOnClickListener(v -> {
-            finish();
-        });
+        initToolbar();
     }
 
-/*
     private void initToolbar() {
-        toolbar.setNavigationOnClickListener(view -> onBackPressed());
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Notification Settings");
     }
-*/
 
 
-    @OnClick({R.id.rtl_btn_email_notification, R.id.rtl_btn_push_notifications, R.id.rtl_btn_sms_notifications})
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @OnClick({R.id.email_notifications, R.id.push_notifications, R.id.sms_notifications})
     public void onViewClicked(View view) {
+        Intent intent;
         switch (view.getId()) {
-            case R.id.rtl_btn_email_notification:
-                startSubSettings("Email Notifications");
+            case R.id.email_notifications:
+                intent = new Intent(NotificationSettings.this, EmailNotificationsSettingsActivity.class);
+                startActivity(intent);
                 break;
-            case R.id.rtl_btn_push_notifications:
-                startSubSettings("Push Notification");
+            case R.id.push_notifications:
+                intent = new Intent(NotificationSettings.this, PushNotificationsSettingsActivity.class);
+                startActivity(intent);
                 break;
-            case R.id.rtl_btn_sms_notifications:
-                startSubSettings("SMS Notifications");
+            case R.id.sms_notifications:
+                intent = new Intent(NotificationSettings.this, SMSNotificationsSettingsActivity.class);
+                startActivity(intent);
                 break;
-
         }
     }
-
-    public void startSubSettings(String title) {
-        Intent intent = new Intent(NotificationSettings.this, NotificationSubSettingsActivity.class);
-        intent.putExtra("title", title);
-        startActivity(intent);
-    }
-
 }

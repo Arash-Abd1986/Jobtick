@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -66,20 +67,20 @@ public class ReviewsActivity extends ActivityBase {
     private UserAccountModel userAccountModel;
 
 
-    @BindView(R.id.txt_name)
-    TextViewBold txtName;
+    @BindView(R.id.txt_full_name)
+    TextView txtName;
 
     @BindView(R.id.txt_reviews_counts)
-    TextViewRegular txtReviewCounts;
+    TextView txtReviewCounts;
 
     @BindView(R.id.recyclerview_review)
     RecyclerView recyclerReview;
 
-    @BindView(R.id.txt_completion_rate)
-    TextViewRegular txtComplettionRate;
+    //@BindView(R.id.txt_completion_rate)
+    //TextView txtComplettionRate;
 
     @BindView(R.id.txt_rating_values)
-    TextViewBold txtRatingValue;
+    TextView txtRatingValue;
 
 
     @BindView(R.id.ratingbar)
@@ -99,33 +100,30 @@ public class ReviewsActivity extends ActivityBase {
     @BindView(R.id.progress_bar_2_star)
     ProgressBar progress_bar_2_star;
 
-    @BindView(R.id.ratingbar_1_star)
-    ProgressBar ratingbar_1_star;
-
     @BindView(R.id.progress_bar_1_star)
     ProgressBar progress_bar_1_star;
 
     public String WhoIs;
 
     @BindView(R.id.txt_review_count_5_star)
-    TextViewRegular txt_review_count_5_star;
+    TextView txt_review_count_5_star;
 
     @BindView(R.id.txt_review_count_4_star)
-    TextViewRegular txt_review_count_4_star;
+    TextView txt_review_count_4_star;
 
 
     @BindView(R.id.txt_review_count_3_star)
-    TextViewRegular txt_review_count_3_star;
+    TextView txt_review_count_3_star;
 
 
     @BindView(R.id.txt_review_count_2_star)
-    TextViewRegular txt_review_count_2_star;
+    TextView txt_review_count_2_star;
 
     @BindView(R.id.txt_review_count_1_star)
-    TextViewRegular txt_review_count_1_star;
+    TextView txt_review_count_1_star;
 
-    @BindView(R.id.img_verified_account)
-    ImageView img_verified_account;
+    @BindView(R.id.img_verified)
+   ImageView img_verified_account;
 
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
@@ -201,7 +199,7 @@ public class ReviewsActivity extends ActivityBase {
                 txtRatingValue.setText("(" + userAccountModel.getPosterRatings().getAvgRating() + ")");
             }
             if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCompletionRate() != null) {
-                txtComplettionRate.setText(userAccountModel.getPostTaskStatistics().getCompletionRate() + "% Completion Rate");
+                //txtComplettionRate.setText(userAccountModel.getPostTaskStatistics().getCompletionRate() + "% Completion Rate");
             }
 
             if (userAccountModel.getPosterRatings() != null &&
@@ -269,7 +267,7 @@ public class ReviewsActivity extends ActivityBase {
                 txtRatingValue.setText("(" + userAccountModel.getWorkerRatings().getAvgRating() + ")");
             }
             if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getCompletionRate() != null) {
-                txtComplettionRate.setText(userAccountModel.getWorkTaskStatistics().getCompletionRate() + "% Completion Rate");
+                //txtComplettionRate.setText(userAccountModel.getWorkTaskStatistics().getCompletionRate() + "% Completion Rate");
             }
             if (userAccountModel.getWorkerRatings() != null
                     && userAccountModel.getWorkerRatings().getReceivedReviews() != null) {

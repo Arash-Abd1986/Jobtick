@@ -1,5 +1,6 @@
 package com.jobtick.adapers;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +36,11 @@ public class AddTagAdapter extends RecyclerView.Adapter<AddTagAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_btn_remove)
         ImageView imgBtnRemove;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_btn_add_must_have)
         TextView txtBtnAddMustHave;
 

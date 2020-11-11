@@ -80,7 +80,7 @@
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_full_name"
-                                style="@style/materialText_600_20"
+                                style="@style/materialText_600_16"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"

@@ -1043,10 +1043,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                     adapter.addItems(attachmentArrayList);
                 }
             }
-
         }
-
-
     }
 
     private void showBottomSheetDialog(boolean isUploadPortfolioOrPrfile) {

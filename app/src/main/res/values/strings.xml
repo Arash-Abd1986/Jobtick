@@ -358,5 +358,14 @@
     <string name="languages">Languages</string>
     <string name="save">Save</string>
     <string name="portfolio_amp_skills"><![CDATA[Portfolio & Skills]]></string>
+    <string name="_5">5</string>
+    <string name="_4">4</string>
+    <string name="_3">3</string>
+    <string name="_2">2</string>
+    <string name="_1">1</string>
+    <string name="_33_reviews">33 Reviews</string>
+    <string name="as_a_poster">As a poster</string>
+    <string name="as_a_ticker">As a Ticker</string>
+    <string name="more">More</string>
 
 </resources>

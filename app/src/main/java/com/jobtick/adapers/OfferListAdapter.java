@@ -241,7 +241,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (item.getReply()) {
                 lytBtnReply.setVisibility(View.VISIBLE);
             } else {
-                lytBtnReply.setVisibility(View.GONE);
+                lytBtnReply.setVisibility(View.VISIBLE);
             }
 
             if (item.getCommentsTotal() > 3) {

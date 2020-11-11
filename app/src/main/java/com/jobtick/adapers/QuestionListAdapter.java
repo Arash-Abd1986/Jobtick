@@ -1,5 +1,6 @@
 package com.jobtick.adapers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -129,14 +131,17 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class ViewHolder extends BaseViewHolder implements PublicChatListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_avatar)
         CircularImageView imgAvatar;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_name)
-        TextViewBold txtName;
+        TextView txtName;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_created_date)
-        TextViewRegular txtCreatedDate;
+        TextView txtCreatedDate;
         @BindView(R.id.txt_message)
-        TextViewRegular txtMessage;
+        TextView txtMessage;
         @BindView(R.id.recycler_view_question)
         RecyclerView recyclerViewQuestion;
         @BindView(R.id.img_file)
@@ -148,11 +153,11 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.img_more_less_arrow)
         ImageView imgMoreLessArrow;
         @BindView(R.id.txt_more_less)
-        TextViewBold txtMoreLess;
+        TextView txtMoreLess;
         @BindView(R.id.lyt_btn_more)
         LinearLayout lytBtnMore;
         @BindView(R.id.txt_more_reply_question)
-        TextViewBold txtMoreReplyQuestion;
+        TextView txtMoreReplyQuestion;
         @BindView(R.id.recycler_view_questions_chat)
         RecyclerView recyclerViewQuestionsChat;
 

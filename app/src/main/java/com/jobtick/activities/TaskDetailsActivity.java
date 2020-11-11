@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -148,13 +149,13 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.txt_description)
     TextView txtDescription;
     @BindView(R.id.txt_offer_count)
-    TextViewBold txtOfferCount;
+    TextView txtOfferCount;
     @BindView(R.id.first_offer)
     TextView firstOffer;
     @BindView(R.id.first_offer_lyt)
     LinearLayout firstOfferLyt;
     @BindView(R.id.txt_budget)
-    TextViewBold txtBudget;
+    TextView txtBudget;
     @BindView(R.id.lyt_btn_message)
     LinearLayout lytBtnMessage;
     //    @BindView(R.id.card_message)
@@ -218,7 +219,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     //   @BindView(R.id.img_avatar)
     //   CircularImageView imgAvatar;
     @BindView(R.id.edt_comment)
-    EditTextRegular edtComment;
+    EditText edtComment;
     @BindView(R.id.lyt_btn_comment_send)
     ImageView lytBtnCommentSend;
     //   @BindView(R.id.lyt_comment)

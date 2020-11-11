@@ -348,7 +348,7 @@
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/materialText_500_14"
+            style="@style/materialText_500_12"
             android:id="@+id/txt_created_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

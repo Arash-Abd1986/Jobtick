@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,40 +18,25 @@ import static com.jobtick.utils.Constant.URL_privacy_policy;
 
 public class HelpActivity extends AppCompatActivity {
 
-/*    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;*/
-    @BindView(R.id.rlt_btn_support)
-    RelativeLayout rltBtnSupport;
-    @BindView(R.id.rlt_btn_terms_condition)
-    RelativeLayout rltBtnTermsCondition;
-    @BindView(R.id.rlt_privacy_policy)
-    RelativeLayout rltPrivacyPolicy;
-    @BindView(R.id.rlt_btn_guidelines_for_poster)
-    RelativeLayout rltBtnGuidelinesForPoster;
-    @BindView(R.id.rlt_btn_guidelines_for_tickers)
-    RelativeLayout rltBtnGuidelinesForTickers;
-
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
+    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
         ButterKnife.bind(this);
-       // initToolbar();
-        ivBack.setOnClickListener(v->{finish();});
-
+        initToolbar();
     }
 
 
-    /*private void initToolbar() {
+    private void initToolbar() {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Help");
     }
-*/
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -71,24 +54,24 @@ public class HelpActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    @OnClick({R.id.rlt_btn_support, R.id.rlt_btn_terms_condition, R.id.rlt_privacy_policy, R.id.rlt_btn_guidelines_for_poster, R.id.rlt_btn_guidelines_for_tickers})
+    @OnClick({R.id.btn_support, R.id.btn_terms, R.id.btn_privacy, R.id.btn_guidelines_poster, R.id.btn_guidelines_ticker})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.rlt_btn_support:
+            case R.id.btn_support:
 
                 StartActivity("Support", URL_privacy_policy);
                 break;
-            case R.id.rlt_btn_terms_condition:
+            case R.id.btn_terms:
                 StartActivity("Terms and Condition", URL_privacy_policy);
                 break;
-            case R.id.rlt_privacy_policy:
+            case R.id.btn_privacy:
                 StartActivity("Privacy Policy", URL_privacy_policy);
                 break;
-            case R.id.rlt_btn_guidelines_for_poster:
+            case R.id.btn_guidelines_poster:
                 StartActivity("Guideline for poster", URL_privacy_policy);
 
                 break;
-            case R.id.rlt_btn_guidelines_for_tickers:
+            case R.id.btn_guidelines_ticker:
                 StartActivity("Guideline for Ticker", URL_privacy_policy);
 
                 break;

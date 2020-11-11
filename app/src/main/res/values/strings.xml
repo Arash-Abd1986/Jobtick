@@ -331,5 +331,7 @@
     <string name="date">Date</string>
     <string name="selectDate">Select a Date</string>
     <string name="update_alert">Update Alert</string>
+    <string name="edit_account">Edit Account</string>
+    <string name="change_password">Change Password</string>
 
 </resources>

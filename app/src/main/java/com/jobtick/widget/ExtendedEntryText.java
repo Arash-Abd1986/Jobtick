@@ -22,6 +22,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
     private String eTitle;
     private String eContent;
+    private String eHint;
     private TextView textView;
     private EditText editText;
     private ImageView imageView;
@@ -49,6 +50,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         try {
             eTitle = sharedAttribute.getString(R.styleable.ExtendedEntryText_eTitle);
             eContent = sharedAttribute.getString(R.styleable.ExtendedEntryText_eContent);
+            eHint = sharedAttribute.getString(R.styleable.ExtendedEntryText_eHint);
             String inputType = sharedAttribute.getString(R.styleable.ExtendedEntryText_eInputType);
             if(inputType != null && !inputType.isEmpty())
                 eInputType = Integer.parseInt(inputType);
@@ -67,6 +69,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
         textView.setText(eTitle);
         editText.setText(eContent);
+        editText.setHint(eHint);
 
         editText.setOnFocusChangeListener(this);
         setInputType();
@@ -77,7 +80,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     public void onClick(View v) {
         if(eInputType == EInputType.SUBURB || eInputType == EInputType.EXPIRY_DATE){
             if(extendedViewOnClickListener == null)
-                throw new IllegalStateException("Suburb type selected, but ExtendedViewOnClickListener is not implemented.");
+                throw new IllegalStateException(eInputType + " type selected, but ExtendedViewOnClickListener is not implemented.");
 
             extendedViewOnClickListener.onClick();
             return;

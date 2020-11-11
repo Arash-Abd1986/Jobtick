@@ -371,5 +371,16 @@
     <string name="be_the_first_to">Be the first to</string>
     <string name="on_this_job">on this job!</string>
     <string name="ask_a_question">Ask a question</string>
+    <string name="_7_more_replies">7 more replies</string>
+    <string name="reply">Reply</string>
+    <string name="more">More</string>
+    <string name="_00">0%</string>
+    <string name="_4_4_20">4.4(20)</string>
+    <string name="accept_offer">Accept Offer</string>
+    <string name="withdraw_offer">withdraw offer</string>
+    <string name="_8942">⋮</string>
+    <string name="more_replies">more replies</string>
+    <string name="_8942">⋮</string>
+    <string name="see_more">See More</string>
 
 </resources>

@@ -25,6 +25,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -173,7 +174,6 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     @BindView(R.id.tvTickerCompletionRate)
     TextView tvTickerCompletionRate;
 
-
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvPosterCompletionRate)
     TextView tvPosterCompletionRate;
@@ -192,9 +192,9 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llEnlarge)
-   LinearLayout llEnlarge;
+    LinearLayout llEnlarge;
 
-            DashboardActivity dashboardActivity;
+    private DashboardActivity dashboardActivity;
     private Toolbar toolbar;
     private SessionManager sessionManager;
     private UserAccountModel userAccountModel;
@@ -203,12 +203,12 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     private AttachmentAdapter adapter;
     private BadgesAdapter badgesAdapter;
     public static onProfileUpdateListener onProfileupdatelistener;
-    Typeface poppins_medium;
-    ImageView ivNotification;
-    TextView toolbar_title;
-   LinearLayout lPort,lSkill,NoPortfolio;
-    public ProfileFragment() {
+    private Typeface poppins_medium;
+    private ImageView ivNotification;
+    private TextView toolbar_title;
+    private LinearLayout lPort, lSkill, NoPortfolio;
 
+    public ProfileFragment() {
     }
 
     @SuppressLint({"SetTextI18n", "RtlHardcoded"})
@@ -219,9 +219,9 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         ButterKnife.bind(this, view);
 
         onProfileupdatelistener = this;
-        NoPortfolio=view.findViewById(R.id.no_port_folio);
-        lPort=view.findViewById(R.id.lyt_Port);
-        lSkill=view.findViewById(R.id.lyt_skills);
+        NoPortfolio = view.findViewById(R.id.no_port_folio);
+        lPort = view.findViewById(R.id.lyt_Port);
+        lSkill = view.findViewById(R.id.lyt_skills);
         dashboardActivity = (DashboardActivity) getActivity();
         poppins_medium = Typeface.createFromAsset(getActivity().getAssets(), "fonts/poppins_Medium.otf");
         onProfileupdatelistener = this;
@@ -274,7 +274,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             return false;
         });
 
-       init();
+        init();
 
         getAllProfileData();
         initComponent();
@@ -334,8 +334,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             lSkill.setVisibility(View.GONE);
             rbPortfollio.setTextColor(getResources().getColor(R.color.blue));
             rbSkills.setTextColor(getResources().getColor(R.color.textColor));
-          //  tvSkills.setVisibility(View.GONE);
-           // llEnlarge.setVisibility(View.VISIBLE);
+            //  tvSkills.setVisibility(View.GONE);
+            // llEnlarge.setVisibility(View.VISIBLE);
             //recyclerViewBadges.setVisibility(View.GONE);
         } else if (rbSkills.isChecked()) {
             // lytAbout.setVisibility(View.GONE);
@@ -384,25 +384,25 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                             badgesModelArrayList = userAccountModel.getBadges();
 
 
-                                if (attachmentArrayList.size() <= 0) {
-                                    NoPortfolio.setVisibility(View.VISIBLE);
-                                    lPort.setVisibility(View.GONE);
-                                } else {
-                                    recyclerViewPortfolio.setVisibility(View.VISIBLE);
-                                    NoPortfolio.setVisibility(View.GONE);
-                                    lPort.setVisibility(View.VISIBLE);
-                                }
-                                adapter.addItems(attachmentArrayList);
+                            if (attachmentArrayList.size() <= 0) {
+                                NoPortfolio.setVisibility(View.VISIBLE);
+                                lPort.setVisibility(View.GONE);
+                            } else {
+                                recyclerViewPortfolio.setVisibility(View.VISIBLE);
+                                NoPortfolio.setVisibility(View.GONE);
+                                lPort.setVisibility(View.VISIBLE);
+                            }
+                            adapter.addItems(attachmentArrayList);
 
 
-                                if (badgesModelArrayList.size() <= 0) {
-                                    NoPortfolio.setVisibility(View.VISIBLE);
-                                    lSkill.setVisibility(View.GONE);
-                                } else {
-                                    NoPortfolio.setVisibility(View.GONE);
-                                    lSkill.setVisibility(View.VISIBLE);
-                                }
-                                badgesAdapter.addItems(badgesModelArrayList);
+                            if (badgesModelArrayList.size() <= 0) {
+                                NoPortfolio.setVisibility(View.VISIBLE);
+                                lSkill.setVisibility(View.GONE);
+                            } else {
+                                NoPortfolio.setVisibility(View.GONE);
+                                lSkill.setVisibility(View.VISIBLE);
+                            }
+                            badgesAdapter.addItems(badgesModelArrayList);
 
                         } else {
                             dashboardActivity.showToast("Something went wrong", dashboardActivity);

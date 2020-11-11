@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -30,9 +29,9 @@
                     android:layout_height="@dimen/_32sp"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_10sp"
+                    android:contentDescription="@string/todo"
                     android:padding="5dp"
-                    android:src="@drawable/ic_back"
-                    android:contentDescription="@string/todo" />
+                    android:src="@drawable/ic_back" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/toolbar_title"
@@ -42,7 +41,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_5sp"
                     android:text="@string/edit_profile"
-                    android:textColor="@color/textColor"/>
+                    android:textColor="@color/textColor" />
             </LinearLayout>
 
             <androidx.core.widget.NestedScrollView
@@ -59,13 +58,13 @@
                     android:paddingBottom="@dimen/_100dp">
 
                     <com.google.android.material.textview.MaterialTextView
+                        style="@style/materialText_500_14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/materialText_500_14"
                         android:layout_marginStart="@dimen/spacing_large"
                         android:layout_marginTop="@dimen/_15sp"
                         android:text="@string/general_information"
-                        android:textColor="@color/textColor"/>
+                        android:textColor="@color/textColor" />
 
                     <LinearLayout
                         android:id="@+id/llSave"
@@ -82,8 +81,8 @@
                             android:visibility="visible">
 
                             <RelativeLayout
-                                android:layout_width="120dp"
-                                android:layout_height="120dp"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
                                 android:layout_gravity="center"
                                 tools:ignore="UselessParent">
 
@@ -92,7 +91,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:src="@drawable/ic_profile_image"
-                                    app:civ_border_width="0dp" />
+                                    app:civ_border="false" />
 
                                 <RelativeLayout
                                     android:id="@+id/lytDeletePicture"
@@ -101,18 +100,17 @@
                                     android:layout_alignParentBottom="true"
                                     android:layout_marginBottom="@dimen/_9sp"
                                     android:background="@drawable/bg_rounded_play"
-                                    android:gravity="center"
-                                    android:visibility="gone">
+                                    android:gravity="center">
 
                                     <ImageView
                                         android:layout_width="@dimen/_25sp"
                                         android:layout_height="@dimen/_25sp"
                                         android:layout_margin="@dimen/spacing_medium"
                                         android:clickable="true"
+                                        android:contentDescription="@string/todo"
+                                        android:focusable="true"
                                         android:src="@drawable/ic_profile_remove"
                                         android:visibility="visible"
-                                        android:focusable="true"
-                                        android:contentDescription="@string/todo"
                                         tools:ignore="TooDeepLayout" />
                                 </RelativeLayout>
 
@@ -136,73 +134,52 @@
                             android:id="@+id/edt_first_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:eInputType="text"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_marginBottom="@dimen/spacing_middle"
+                            android:layout_marginBottom="8dp"
+                            app:eInputType="text"
                             app:eTitle="@string/first_name" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spacing_medium"
-                            android:visibility="visible" />
 
                         <com.jobtick.widget.ExtendedEntryText
                             android:id="@+id/edt_last_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:eInputType="text"
                             android:layout_marginStart="@dimen/spacing_large"
-                            android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_marginBottom="@dimen/spacing_middle"
+                            android:layout_marginBottom="8dp"
+                            app:eInputType="text"
                             app:eTitle="@string/last_name" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spacing_medium" />
 
                         <com.jobtick.widget.ExtendedEntryText
                             android:id="@+id/txt_suburb"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:eInputType="text"
                             android:layout_marginStart="@dimen/spacing_large"
-                            android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_marginBottom="@dimen/spacing_middle"
+                            android:layout_marginBottom="8dp"
+                            app:eInputType="text"
                             app:eTitle="@string/suburb" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spacing_medium" />
 
                         <com.jobtick.widget.ExtendedEntryText
                             android:id="@+id/edt_tagline"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:eInputType="text"
                             android:layout_marginStart="@dimen/spacing_large"
-                            android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_marginBottom="@dimen/spacing_middle"
-                            app:eTitle="@string/tagline"/>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spacing_medium" />
+                            android:layout_marginBottom="8dp"
+                            app:eInputType="text"
+                            app:eTitle="@string/tagline" />
 
                         <com.jobtick.widget.ExtendedEntryText
                             android:id="@+id/edt_about_me"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:eInputType="text"
                             android:layout_marginStart="@dimen/spacing_large"
-                            android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_marginBottom="@dimen/spacing_middle"
-                            app:eTitle="@string/about"/>
+                            android:layout_marginBottom="8dp"
+                            app:eInputType="text"
+                            app:eTitle="@string/about" />
 
                         <View
                             android:layout_width="match_parent"
@@ -216,7 +193,7 @@
                             android:layout_marginTop="@dimen/_10sp"
                             android:layout_marginBottom="@dimen/_5sp"
                             android:text="@string/private_information"
-                            android:textColor="@color/textColor"/>
+                            android:textColor="@color/textColor" />
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -249,18 +226,18 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:text="@string/phone_number"
-                                        android:textColor="@color/colorPrimary"/>
+                                        android:textColor="@color/colorPrimary" />
 
                                     <com.google.android.material.textfield.TextInputEditText
-                                        style="@style/materialText_500_14"
                                         android:id="@+id/edt_phone_number"
+                                        style="@style/materialText_500_14"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_5sp"
                                         android:background="@null"
                                         android:hint=""
                                         android:inputType="textMultiLine"
-                                        android:textColor="@color/textColor"/>
+                                        android:textColor="@color/textColor" />
 
                                 </LinearLayout>
 
@@ -291,32 +268,27 @@
                                             android:paddingBottom="@dimen/_5sp"
                                             android:text="@string/verify"
                                             android:textAllCaps="false"
-                                            android:textColor="@color/white"/>
+                                            android:textColor="@color/white" />
 
                                     </LinearLayout>
                                 </androidx.cardview.widget.CardView>
                             </LinearLayout>
                         </FrameLayout>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_5sp" />
-
                         <com.jobtick.widget.ExtendedEntryText
                             android:id="@+id/edt_email_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:eInputType="email"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
                             android:layout_marginBottom="@dimen/spacing_middle"
-                            app:eTitle="@string/email"/>
+                            app:eInputType="email"
+                            app:eTitle="@string/email" />
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/spacing_medium" />
-
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -352,8 +324,8 @@
                                     android:orientation="horizontal">
 
                                     <com.google.android.material.textview.MaterialTextView
-                                        style="@style/materialText_500_14"
                                         android:id="@+id/txt_birth_date"
+                                        style="@style/materialText_500_14"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -361,7 +333,7 @@
                                         android:background="@null"
                                         android:hint="@string/select_a_date"
                                         android:singleLine="true"
-                                        android:textColor="@color/textColor"/>
+                                        android:textColor="@color/textColor" />
 
                                     <ImageView
                                         android:layout_width="25dp"
@@ -381,12 +353,12 @@
                             android:id="@+id/edt_business_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:eInputType="text"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
                             android:layout_marginBottom="@dimen/spacing_middle"
-                            app:eTitle="@string/abn"/>
+                            app:eInputType="text"
+                            app:eTitle="@string/abn" />
 
                         <View
                             android:layout_width="match_parent"
@@ -400,7 +372,7 @@
                             android:layout_marginTop="@dimen/_10sp"
                             android:layout_marginBottom="@dimen/_5sp"
                             android:text="@string/portfolio_amp_skills"
-                            android:textColor="@color/textColor"/>
+                            android:textColor="@color/textColor" />
 
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
@@ -427,7 +399,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/_8sp"
                                     android:text="@string/portfolio"
-                                    android:textColor="@color/colorPrimary"/>
+                                    android:textColor="@color/colorPrimary" />
 
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/recycler_view"
@@ -435,11 +407,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/_5sp"
                                     android:overScrollMode="never" />
-
                             </LinearLayout>
-
                         </androidx.cardview.widget.CardView>
-
                     </LinearLayout>
 
                     <androidx.cardview.widget.CardView
@@ -480,11 +449,11 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:text="@string/education"
-                                        android:textColor="@color/colorPrimary"/>
+                                        android:textColor="@color/colorPrimary" />
 
                                     <com.google.android.material.textview.MaterialTextView
-                                        style="@style/materialText_600_10"
                                         android:id="@+id/txt_education"
+                                        style="@style/materialText_600_10"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -504,19 +473,19 @@
                                         android:layout_gravity="center"
                                         android:layout_marginLeft="@dimen/_10sp"
                                         android:layout_marginRight="@dimen/_10sp"
+                                        android:contentDescription="@string/todo"
                                         android:rotation="180"
                                         android:src="@drawable/ic_back"
-                                        android:contentDescription="@string/todo"
                                         app:tint="@color/grey_40" />
 
                                 </LinearLayout>
 
                             </RelativeLayout>
 
-                            <View
+                            <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/spacing_line"
-                                android:background="@color/background" />
+                                android:background="#f5f5f5" />
 
                             <RelativeLayout
                                 android:id="@+id/rlt_btn_specialities"
@@ -539,11 +508,11 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:text="@string/certificates"
-                                        android:textColor="@color/colorPrimary"/>
+                                        android:textColor="@color/colorPrimary" />
 
                                     <com.google.android.material.textview.MaterialTextView
-                                        style="@style/materialText_600_10"
                                         android:id="@+id/txt_specialities"
+                                        style="@style/materialText_600_10"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -563,19 +532,19 @@
                                         android:layout_gravity="center"
                                         android:layout_marginLeft="@dimen/_10sp"
                                         android:layout_marginRight="@dimen/_10sp"
+                                        android:contentDescription="@string/todo"
                                         android:rotation="180"
                                         android:src="@drawable/ic_back"
-                                        android:contentDescription="@string/todo"
                                         app:tint="@color/grey_40" />
 
                                 </LinearLayout>
 
                             </RelativeLayout>
 
-                            <View
+                            <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/spacing_line"
-                                android:background="@color/background" />
+                                android:background="#f5f5f5" />
 
                             <RelativeLayout
                                 android:id="@+id/rlt_btn_experience"
@@ -598,11 +567,11 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:text="@string/occupation"
-                                        android:textColor="@color/colorPrimary"/>
+                                        android:textColor="@color/colorPrimary" />
 
                                     <com.google.android.material.textview.MaterialTextView
-                                        style="@style/materialText_600_10"
                                         android:id="@+id/txt_experience"
+                                        style="@style/materialText_600_10"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -622,19 +591,19 @@
                                         android:layout_gravity="center"
                                         android:layout_marginLeft="@dimen/_10sp"
                                         android:layout_marginRight="@dimen/_10sp"
+                                        android:contentDescription="@string/todo"
                                         android:rotation="180"
                                         android:src="@drawable/ic_back"
-                                        android:contentDescription="@string/todo"
                                         app:tint="@color/grey_40" />
 
                                 </LinearLayout>
 
                             </RelativeLayout>
 
-                            <View
+                            <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/spacing_line"
-                                android:background="@color/background" />
+                                android:background="#f5f5f5" />
 
                             <RelativeLayout
                                 android:id="@+id/rlt_btn_languages"
@@ -657,11 +626,11 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:text="@string/languages"
-                                        android:textColor="@color/colorPrimary"/>
+                                        android:textColor="@color/colorPrimary" />
 
                                     <com.google.android.material.textview.MaterialTextView
-                                        style="@style/materialText_600_10"
                                         android:id="@+id/txt_languages"
+                                        style="@style/materialText_600_10"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -681,19 +650,19 @@
                                         android:layout_gravity="center"
                                         android:layout_marginLeft="@dimen/_10sp"
                                         android:layout_marginRight="@dimen/_10sp"
+                                        android:contentDescription="@string/todo"
                                         android:rotation="180"
                                         android:src="@drawable/ic_back"
-                                        android:contentDescription="@string/todo"
                                         app:tint="@color/grey_40" />
 
                                 </LinearLayout>
 
                             </RelativeLayout>
 
-                            <View
+                            <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/spacing_line"
-                                android:background="@color/background" />
+                                android:background="#f5f5f5" />
 
                             <RelativeLayout
                                 android:id="@+id/rlt_btn_transportation"
@@ -716,7 +685,7 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:text="@string/transportation"
-                                        android:textColor="@color/colorPrimary"/>
+                                        android:textColor="@color/colorPrimary" />
 
                                     <LinearLayout
                                         android:layout_width="wrap_content"
@@ -725,8 +694,8 @@
                                         android:orientation="horizontal">
 
                                         <com.google.android.material.textview.MaterialTextView
-                                            style="@style/materialText_600_10"
                                             android:id="@+id/txt_transportation"
+                                            style="@style/materialText_600_10"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
@@ -739,16 +708,16 @@
                                             android:textColor="@color/colorTaskCancelled"
                                             android:visibility="visible" />
 
-                                         <ImageView
+                                        <ImageView
                                             android:id="@+id/img_transportation_back"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
                                             android:layout_marginLeft="@dimen/_10sp"
                                             android:layout_marginRight="@dimen/_10sp"
+                                            android:contentDescription="@string/todo"
                                             android:rotation="180"
                                             android:src="@drawable/ic_back"
-                                            android:contentDescription="@string/todo"
                                             app:tint="@color/grey_40" />
 
                                     </LinearLayout>
@@ -756,15 +725,10 @@
                                 </LinearLayout>
 
                             </RelativeLayout>
-
                         </LinearLayout>
-
                     </androidx.cardview.widget.CardView>
-
                 </LinearLayout>
-
             </androidx.core.widget.NestedScrollView>
-
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
@@ -784,18 +748,18 @@
                 android:layout_height="match_parent"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:gravity="center"
-                android:focusable="true">
+                android:focusable="true"
+                android:gravity="center">
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_500_14"
                     android:id="@+id/txt_btn_text"
+                    style="@style/materialText_500_14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/save"
                     android:textAllCaps="true"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 

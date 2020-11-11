@@ -52,7 +52,8 @@
                                 android:layout_width="90dp"
                                 android:layout_height="90dp"
                                 android:paddingBottom="8dp"
-                                android:src="@drawable/ic_place_holder" />
+                                android:src="@drawable/ic_place_holder"
+                                app:civ_border="false" />
 
                             <RelativeLayout
                                 android:layout_width="wrap_content"
@@ -67,9 +68,7 @@
                                     android:layout_gravity="center"
                                     android:contentDescription="@string/todo"
                                     android:src="@drawable/ic_shield" />
-
                             </RelativeLayout>
-
                         </RelativeLayout>
 
                         <LinearLayout
@@ -117,63 +116,61 @@
 
                                 <ImageView
                                     android:id="@+id/ivFb"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
                                     android:layout_gravity="center"
-                                    android:layout_marginEnd="5dp"
+                                    android:layout_marginEnd="2dp"
+                                    android:background="@drawable/bg_rounded_profile_badge_disable"
                                     android:contentDescription="@string/todo"
                                     android:src="@drawable/ic_facebook_badges" />
 
                                 <ImageView
                                     android:id="@+id/ivCall"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
                                     android:layout_gravity="center"
-                                    android:layout_marginLeft="5dp"
-                                    android:layout_marginRight="5dp"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginRight="2dp"
+                                    android:background="@drawable/bg_rounded_profile_badge_disable"
                                     android:contentDescription="@string/todo"
                                     android:src="@drawable/ic_call_dialor" />
 
-                                <com.rishabhharit.roundedimageview.RoundedImageView
+                                <ImageView
                                     android:id="@+id/ivCard"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
                                     android:layout_gravity="center"
-                                    android:layout_marginLeft="5dp"
-                                    android:layout_marginRight="5dp"
-                                    android:padding="5dp"
-                                    app:roundedCorners="all"
-                                    android:src="@drawable/ic_credit_card_w"
-                                    android:background="@color/colorGrayC9C9C9"
-                                    android:contentDescription="@string/todo" />
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginRight="2dp"
+                                    android:background="@drawable/bg_rounded_profile_badge_disable"
+                                    android:contentDescription="@string/todo"
+                                    android:scaleType="center"
+                                    android:src="@drawable/ic_credit_card_w" />
 
                                 <ImageView
                                     android:id="@+id/ivId"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
                                     android:layout_gravity="center"
-                                    android:layout_marginLeft="5dp"
-                                    android:layout_marginRight="5dp"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginRight="2dp"
+                                    android:background="@drawable/bg_rounded_profile_badge_disable"
                                     android:contentDescription="@string/todo"
                                     android:src="@drawable/ic_id_profile" />
 
                                 <ImageView
                                     android:id="@+id/ivProfileInfo"
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
                                     android:layout_gravity="center"
-                                    android:layout_marginLeft="5dp"
-                                    android:layout_marginRight="5dp"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginRight="2dp"
                                     android:contentDescription="@string/todo"
                                     android:padding="8dp"
                                     android:src="@drawable/ic_info" />
-
                             </LinearLayout>
-
                         </LinearLayout>
-
                     </LinearLayout>
-
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
@@ -206,11 +203,11 @@
 
                         <ImageView
                             android:id="@+id/ivLevelInfo"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
                             android:layout_gravity="center"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="15dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
                             android:contentDescription="@string/todo"
                             android:padding="8dp"
                             android:src="@drawable/ic_info" />
@@ -232,7 +229,6 @@
                                 android:adjustViewBounds="true"
                                 android:contentDescription="@string/todo"
                                 android:src="@drawable/ic_medal1" />
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -252,7 +248,6 @@
                                 android:adjustViewBounds="true"
                                 android:contentDescription="@string/todo"
                                 android:src="@drawable/ic_medal2" />
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -272,7 +267,6 @@
                                 android:adjustViewBounds="true"
                                 android:contentDescription="@string/todo"
                                 android:src="@drawable/ic_medal3" />
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -292,11 +286,8 @@
                                 android:adjustViewBounds="true"
                                 android:contentDescription="@string/todo"
                                 android:src="@drawable/ic_medal4" />
-
                         </LinearLayout>
-
                     </LinearLayout>
-
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout
@@ -311,7 +302,6 @@
                         style="@style/materialText_600_14"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_15sp"
                         android:layout_marginTop="@dimen/_10sp"
                         android:layout_marginBottom="@dimen/_10sp"
                         android:layout_weight="1"
@@ -331,7 +321,6 @@
                         android:singleLine="true"
                         android:text="@string/view_all"
                         android:textColor="@color/blue" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -389,7 +378,6 @@
                                     android:layout_marginStart="@dimen/_5sp"
                                     android:textColor="@color/black"
                                     tools:text="@string/_546" />
-
                             </LinearLayout>
 
                             <LinearLayout
@@ -413,11 +401,8 @@
                                     android:layout_marginStart="@dimen/_5sp"
                                     android:text="@string/job_success"
                                     android:textColor="@color/black" />
-
                             </LinearLayout>
-
                         </LinearLayout>
-
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
@@ -469,7 +454,6 @@
                                     android:layout_marginStart="@dimen/_5sp"
                                     android:textColor="@color/black"
                                     tools:text="@string/_546" />
-
                             </LinearLayout>
 
                             <LinearLayout
@@ -493,13 +477,9 @@
                                     android:layout_marginStart="@dimen/_5sp"
                                     android:text="@string/job_success"
                                     android:textColor="@color/black" />
-
                             </LinearLayout>
-
                         </LinearLayout>
-
                     </androidx.cardview.widget.CardView>
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -547,10 +527,8 @@
                             android:textColor="@android:color/black"
                             app:trimLines="5"
                             app:trimMode="trimModeLine"
-                            tools:text="Let me help you stand out!Whatever area you're pitching for Let me help you stand out! I have over"/>
-
+                            tools:text="Let me help you stand out!Whatever area you're pitching for Let me help you stand out! I have over" />
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <FrameLayout
@@ -611,9 +589,7 @@
                                     android:gravity="center"
                                     android:text="@string/skills"
                                     android:textColor="@color/blue" />
-
                             </RadioGroup>
-
                         </RelativeLayout>
 
                         <LinearLayout
@@ -676,7 +652,6 @@
                                     app:tag_text_size="@dimen/_12sp"
                                     app:tag_theme="none"
                                     app:vertical_interval="8dp" />
-
                             </LinearLayout>
 
                             <LinearLayout
@@ -693,7 +668,6 @@
                                     android:layout_marginTop="@dimen/_5sp"
                                     android:text="@string/certificates"
                                     android:textColor="@color/textColor" />
-
 
                                 <co.lujun.androidtagview.TagContainerLayout
                                     android:id="@+id/tag_specialities"
@@ -715,7 +689,6 @@
                                     app:tag_text_size="@dimen/_12sp"
                                     app:tag_theme="none"
                                     app:vertical_interval="8dp" />
-
                             </LinearLayout>
 
                             <LinearLayout
@@ -753,7 +726,6 @@
                                     app:tag_text_size="@dimen/_12sp"
                                     app:tag_theme="none"
                                     app:vertical_interval="8dp" />
-
                             </LinearLayout>
 
                             <LinearLayout
@@ -792,7 +764,6 @@
                                     app:tag_theme="none"
                                     app:vertical_interval="8dp"
                                     tools:ignore="TooManyViews" />
-
                             </LinearLayout>
 
                             <LinearLayout
@@ -830,9 +801,7 @@
                                     app:tag_text_size="@dimen/_12sp"
                                     app:tag_theme="none"
                                     app:vertical_interval="8dp" />
-
                             </LinearLayout>
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -879,9 +848,7 @@
                                     android:layout_marginTop="@dimen/_2sp"
                                     android:text="@string/click_to_enlarge"
                                     android:textColor="@color/textColor" />
-
                             </LinearLayout>
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -924,17 +891,11 @@
                                 android:layout_gravity="center"
                                 android:text="@string/adding_portf"
                                 android:textColor="@color/colorPrimary" />
-
                         </LinearLayout>
-
                     </LinearLayout>
-
                 </FrameLayout>
-
             </LinearLayout>
-
         </androidx.core.widget.NestedScrollView>
-
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
@@ -946,7 +907,7 @@
         android:layout_marginStart="@dimen/spacing_large"
         android:layout_marginTop="@dimen/_10sp"
         android:layout_marginEnd="@dimen/spacing_large"
-        android:layout_marginBottom="@dimen/_10sp"
+        android:layout_marginBottom="@dimen/spacing_middle"
         android:backgroundTint="@color/colorReleasedMoney"
         android:elevation="@dimen/spacing_middle"
         app:cardCornerRadius="@dimen/spacing_medium">
@@ -972,7 +933,5 @@
                 android:textColor="@color/white" />
 
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
-
 </RelativeLayout>

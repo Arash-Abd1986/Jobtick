@@ -229,16 +229,16 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private String str_longitude = null;
     private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
-    int year, month, day;
-    String str_DOB = null;
-    String str_DOB_MODEL = "";
-    DatePickerDialog.OnDateSetListener mDateSetListener;
+    private int year, month, day;
+    private String str_DOB = null;
+    private String str_DOB_MODEL = "";
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
     private static String imageStoragePath;
     public static final long MAX_VIDEO_DURATION = 30;
     public static final long MAX_VIDEO_SIZE = 20 * 1024 * 1024;
-    boolean isUploadPortfolio = false;
-    boolean isFabHide = false;
-    AttachmentAdapterEditProfile adapter;
+    private boolean isUploadPortfolio = false;
+    private boolean isFabHide = false;
+    private AttachmentAdapterEditProfile adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -335,9 +335,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                 response -> {
                     hideProgressDialog();
                     try {
-
                         if (response != null) {
-
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject != null) {
                                 JSONObject jsonObject_data = jsonObject.getJSONObject("data");
@@ -911,10 +909,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
                 CarmenFeature carmenFeature = PlacePicker.getPlace(data);
                 Helper.Logger("THIS", "CarmenFeature = " + carmenFeature.toJson());
-                GeocodeObject geocodeObject = Helper.getGeoCodeObject(this, carmenFeature.center().latitude()
-                        , carmenFeature.center().longitude());
                 txtSuburb.seteContent(carmenFeature.placeName());
-                // editArea.setText(geocodeObject.getKnownName());
                 str_latitude = String.valueOf(carmenFeature.center().latitude());
                 str_longitude = String.valueOf(carmenFeature.center().longitude());
                 LatLng locationObject = new LatLng(carmenFeature.center().latitude(), carmenFeature.center().longitude());

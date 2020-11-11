@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -67,33 +68,41 @@ public class ReviewsActivity extends ActivityBase {
     private UserAccountModel userAccountModel;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_full_name)
     TextView txtName;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_reviews_counts)
     TextView txtReviewCounts;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recyclerview_review)
     RecyclerView recyclerReview;
 
     //@BindView(R.id.txt_completion_rate)
     //TextView txtComplettionRate;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_rating_values)
     TextView txtRatingValue;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ratingbar)
     AppCompatRatingBar ratingBar;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.progress_bar_5_star)
     ProgressBar progress_bar_5_star;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.progress_bar_4_star)
     ProgressBar progress_bar_4_star;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.progress_bar_3_star)
     ProgressBar progress_bar_3_star;
 

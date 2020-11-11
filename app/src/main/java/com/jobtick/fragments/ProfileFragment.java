@@ -323,7 +323,14 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     private void onChangeTabBiography() {
         if (rbPortfollio.isChecked()) {
             //lytAbout.setVisibility(View.VISIBLE);
-            lPort.setVisibility(View.VISIBLE);
+            if (attachmentArrayList.size() <= 0) {
+                NoPortfolio.setVisibility(View.VISIBLE);
+                lPort.setVisibility(View.GONE);
+            } else {
+                recyclerViewPortfolio.setVisibility(View.VISIBLE);
+                NoPortfolio.setVisibility(View.GONE);
+                lPort.setVisibility(View.VISIBLE);
+            }
             lSkill.setVisibility(View.GONE);
             rbPortfollio.setTextColor(getResources().getColor(R.color.blue));
             rbSkills.setTextColor(getResources().getColor(R.color.textColor));
@@ -332,8 +339,14 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             //recyclerViewBadges.setVisibility(View.GONE);
         } else if (rbSkills.isChecked()) {
             // lytAbout.setVisibility(View.GONE);
+            if (badgesModelArrayList.size() <= 0) {
+                NoPortfolio.setVisibility(View.VISIBLE);
+                lSkill.setVisibility(View.GONE);
+            } else {
+                NoPortfolio.setVisibility(View.GONE);
+                lSkill.setVisibility(View.VISIBLE);
+            }
             lPort.setVisibility(View.GONE);
-            lSkill.setVisibility(View.VISIBLE);
             rbPortfollio.setTextColor(getResources().getColor(R.color.textColor));
             rbSkills.setTextColor(getResources().getColor(R.color.blue));
 

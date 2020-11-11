@@ -39,17 +39,19 @@
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
                 android:orientation="horizontal"
-                android:padding="@dimen/_10sp">
+                android:padding="@dimen/_10sp"
+                android:weightSum="4">
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/img_avatar"
                         android:layout_width="100sp"
                         android:layout_height="100sp"
-                        android:paddingBottom="@dimen/_10sp"
+                        android:paddingBottom="10dp"
                         android:src="@drawable/ic_place_holder" />
 
                     <RelativeLayout
@@ -70,10 +72,11 @@
                 </RelativeLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_weight="2">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_full_name"
@@ -107,10 +110,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sp"
-                    android:layout_weight="1"
                     android:background="@drawable/bg_profile_rate"
                     android:gravity="center"
-                    android:padding="@dimen/_5sp">
+                    android:padding="@dimen/_5sp"
+                    android:layout_weight="1">
 
                     <ImageView
                         android:id="@+id/ivMedal3"
@@ -185,7 +188,7 @@
                     android:id="@+id/ratingbar"
                     style="@style/CustumRatingBar"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:numStars="5"
                     android:rating="4"
@@ -198,16 +201,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:gravity="center"
                     android:layout_marginStart="@dimen/_5sp"
-                    tools:text="4.6"
+                    android:text="@string/_4_6"
                     android:textColor="@color/colorTaskAssigned" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_reviews_counts"
                     style="@style/materialText_700_12"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:gravity="center"
                     android:layout_marginStart="@dimen/_5sp"
                     android:text="@string/_33_reviews"
                     android:textColor="@color/black" />
@@ -217,7 +222,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="5dp">
 
 
                 <RelativeLayout
@@ -466,7 +472,8 @@
         android:id="@+id/recyclerview_review"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_review">
+        tools:listitem="@layout/item_review"
+        android:layout_margin="5dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

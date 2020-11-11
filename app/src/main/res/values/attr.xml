@@ -90,13 +90,26 @@
     <declare-styleable name="ExtendedEntryText">
         <attr name="eTitle" format="string"/>
         <attr name="eContent" format="string"/>
+        <attr name="eHint" format="string"/>
         <attr name="eInputType" format="enum">
             <enum name="text" value="0"/>
             <enum name="integer" value="1"/>
             <enum name="email" value="2"/>
             <enum name="password" value="3"/>
             <enum name="phone" value="4"/>
+            <enum name="suburb" value="5"/>
+            <enum name="expiryDate" value="6"/>
         </attr>
+    </declare-styleable>
+
+    <declare-styleable name="ExtendedJobInfo">
+        <attr name="eJobTitle" format="string"/>
+        <attr name="eJobValue" format="string"/>
+        <attr name="eJobBottomColor" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="ExtendedSettingItem">
+        <attr name="eSettingTitle" format="string"/>
     </declare-styleable>
 
 

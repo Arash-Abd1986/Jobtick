@@ -5,14 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.models.TaskCategory;
 import com.jobtick.models.task.TaskAlert;
 
 import java.util.ArrayList;
@@ -48,11 +48,11 @@ public class TaskAlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @BindView(R.id.img_minus)
         ImageView imgMinus;
         @BindView(R.id.txt_keyword)
-        TextViewMedium txtKeyword;
+        TextView txtKeyword;
         @BindView(R.id.txt_type_detail)
-        TextViewRegular txtTypeDetail;
-        @BindView(R.id.lyt_item_keyword)
-        LinearLayout lytItemKeyword;
+        TextView txtTypeDetail;
+        @BindView(R.id.item_keyword)
+        RelativeLayout itemKeyword;
 
         public OriginalViewHolder(View v) {
             super(v);
@@ -89,7 +89,7 @@ public class TaskAlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
 
-            view.lytItemKeyword.setOnClickListener(v -> {
+            view.itemKeyword.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemClick(v, items.get(view.getAdapterPosition()), view.getAdapterPosition(), "update");
                 }

@@ -431,8 +431,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
-
-
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
 
                             userAccountModel = new UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"));

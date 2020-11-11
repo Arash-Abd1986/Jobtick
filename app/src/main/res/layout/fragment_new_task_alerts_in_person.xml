@@ -19,140 +19,29 @@
             android:layout_marginTop="@dimen/_10sp"
             android:orientation="vertical">
 
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/edt_keyword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:eTitle="Add a Keyword or Phrase"
+                app:eInputType="text"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_medium"
-                android:background="@drawable/greay_border_bg"
-                android:visibility="visible">
+                android:layout_marginBottom="@dimen/spacing_medium"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingStart="@dimen/spacing_mlarge"
-                    android:paddingTop="@dimen/spacing_large"
-                    android:paddingEnd="@dimen/spacing_mlarge"
-                    android:paddingBottom="@dimen/spacing_large">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
-
-                        <com.jobtick.TextView.TextViewSemiBold
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tip: "
-                            android:textColor="@color/grey_70"
-                            android:textSize="12sp" />
-
-                        <com.jobtick.TextView.TextViewRegular
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=" Create a new alert for each keyword or phrase"
-                            android:textColor="@color/grey_40"
-                            android:textSize="12sp" />
-
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_xlarge"
-                        android:visibility="gone" />
-
-                    <com.jobtick.TextView.TextViewSemiBold
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Add a Keyword or Phrase"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_12sp"
-                        android:textStyle="bold" />
-
-
-                    <com.jobtick.EditText.EditTextRegular
-                        android:id="@+id/edt_keyword"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:hint=""
-                        android:singleLine="true"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_small" />
-                </LinearLayout>
-
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/txt_suburb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:eTitle="Suburb"
+                app:eInputType="suburb"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_medium"
-                android:background="@drawable/greay_border_bg"
-                android:visibility="visible">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingStart="@dimen/spacing_mlarge"
-                    android:paddingTop="@dimen/spacing_large"
-                    android:paddingEnd="@dimen/spacing_mlarge"
-                    android:paddingBottom="@dimen/spacing_large">
+                android:layout_marginBottom="@dimen/spacing_medium"/>
 
 
-                    <com.jobtick.TextView.TextViewSemiBold
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Suburb"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_12sp"
-                        android:textStyle="bold" />
-
-
-                    <RelativeLayout
-                        android:id="@+id/rlt_suburb"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-
-                        <com.jobtick.TextView.TextViewMedium
-                            android:id="@+id/txt_suburb"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_toStartOf="@+id/img_map_pin"
-                            android:hint=""
-                            android:textColor="@color/textColor"
-                            android:textColorHint="@color/textColor"
-                            android:textSize="14sp" />
-
-                        <ImageView
-                            android:id="@+id/img_map_pin"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_map_pin"
-                            android:tint="@color/colorPrimary" />
-                    </RelativeLayout>
-                </LinearLayout>
-
-
-            </FrameLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -176,24 +65,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <com.jobtick.TextView.TextViewSemiBold
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:text="Distance"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
-                            android:textStyle="bold" />
+                            android:textAppearance="@style/materialText_600_12" />
 
-                        <com.jobtick.TextView.TextViewSemiBold
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_distance_km"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:text="15 KM"
                             android:textColor="@color/textColor"
-                            android:textSize="@dimen/_12sp"
-                            android:textStyle="bold" />
+                            android:textAppearance="@style/materialText_600_14" />
 
                     </RelativeLayout>
 
@@ -207,8 +94,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginStart="-5dp"
-                        android:layout_marginEnd="-5dp"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="0dp"
                         android:layoutDirection="ltr"
                         android:max="100"
                         android:minHeight="5dip"
@@ -227,39 +114,14 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_button"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_update_alert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/materialButton"
+        android:text="@string/update_alert"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/spacing_large"
-        android:backgroundTint="@color/colorPrimary"
-        app:cardCornerRadius="@dimen/spacing_medium"
-        app:cardElevation="0dp">
-
-        <LinearLayout
-            android:id="@+id/lyt_btn_save_alert"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="@dimen/spacing_large">
-
-            <com.jobtick.TextView.TextViewRegular
-                android:id="@+id/txt_save_update_alert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Update alert"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_14sp" />
-
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        android:layout_margin="@dimen/spacing_large"/>
 
 
 </RelativeLayout>

@@ -1,25 +1,20 @@
 package com.jobtick.activities;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
-import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
-import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.TextView.TextViewSemiBold;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.widget.ExtendedJobInfo;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,80 +28,44 @@ public class Dashboard2Activity extends ActivityBase {
     @BindView(R.id.txt_account_level)
     TextView txtAccountLevel;
 
-    @BindView(R.id.txt_awaiting_for_offer)
-    TextView txtAwaitingOffer;
+    @BindView(R.id.awaiting_for_offer)
+    ExtendedJobInfo txtAwaitingOffer;
 
-    @BindView(R.id.txt_assigned)
-    TextView txtAssigend;
+    @BindView(R.id.assigned)
+    ExtendedJobInfo txtAssigend;
 
-    @BindView(R.id.txt_overdue)
-    TextView txtOverDue;
+    @BindView(R.id.overdue)
+    ExtendedJobInfo txtOverDue;
 
-    @BindView(R.id.txt_released_money)
-    TextView txtReleasedMoney;
+    @BindView(R.id.released_money)
+    ExtendedJobInfo txtReleasedMoney;
 
-    @BindView(R.id.txt_completed)
-    TextView txtCompleted;
+    @BindView(R.id.complete)
+    ExtendedJobInfo txtCompleted;
+
+    @BindView(R.id.cancelled)
+    ExtendedJobInfo extCancelled;
 
     @BindView(R.id.rb_as_ticker)
-    RadioButton rbAsATicker;
+    MaterialRadioButton rbAsATicker;
 
     @BindView(R.id.rb_as_poster)
-    RadioButton rbAsAPoster;
+    MaterialRadioButton rbAsAPoster;
 
     @BindView(R.id.rg_ticker_poster)
     RadioGroup rgTickerPoster;
 
-    @BindView(R.id.view_account1)
-    View view_account1;
-
-    @BindView(R.id.view_account2)
-    View view_account2;
-
     @BindView(R.id.iv_green_account)
     ImageView iv_green_account;
-
-    @BindView(R.id.txt_account)
-    TextView txt_account;
-
-    @BindView(R.id.txt_payment)
-    TextView txt_payment;
-
-    @BindView(R.id.txt_skills)
-    TextView txt_skills;
-
-    @BindView(R.id.txt_badges)
-    TextView txt_badges;
-
-    @BindView(R.id.view_payment1)
-    View view_payment1;
-
-    @BindView(R.id.view_payment2)
-    View view_payment2;
 
     @BindView(R.id.iv_payment)
     ImageView iv_payment;
 
-
-    @BindView(R.id.view_skills_1)
-    View view_skills_1;
-
-    @BindView(R.id.view_skills_2)
-    View view_skills_2;
-
     @BindView(R.id.iv_skills)
     ImageView iv_skills;
 
-
     @BindView(R.id.iv_badges)
     ImageView iv_badges;
-
-
-    @BindView(R.id.view_badges2)
-    View view_badges2;
-
-    @BindView(R.id.view_badges1)
-    View view_badges1;
 
     private String greenColor = "#38C88A";
     private String grayColor = "#EFEFEF";
@@ -170,123 +129,88 @@ public class Dashboard2Activity extends ActivityBase {
     private void onChangeTabUser() {
         if (rbAsAPoster.isChecked()) {
             if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getAssigned() != null) {
-                txtAwaitingOffer.setText(userAccountModel.getPostTaskStatistics().getAssigned().toString());
+                txtAwaitingOffer.setValue(userAccountModel.getPostTaskStatistics().getAssigned().toString());
             } else {
-                txtAwaitingOffer.setText("0");
+                txtAwaitingOffer.setValue("0");
             }
 
             if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getOverdue() != null) {
-                txtOverDue.setText(userAccountModel.getPostTaskStatistics().getOverdue().toString());
+                txtOverDue.setValue(userAccountModel.getPostTaskStatistics().getOverdue().toString());
             } else {
-                txtOverDue.setText("0");
+                txtOverDue.setValue("0");
             }
             if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCompleted() != null) {
-                txtCompleted.setText(userAccountModel.getPostTaskStatistics().getCompleted().toString());
+                txtCompleted.setValue(userAccountModel.getPostTaskStatistics().getCompleted().toString());
             } else {
-                txtCompleted.setText("0");
+                txtCompleted.setValue("0");
             }
             if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCurrentBids() != null) {
-                txtAwaitingOffer.setText(userAccountModel.getPostTaskStatistics().getCurrentBids().toString());
+                txtAwaitingOffer.setValue(userAccountModel.getPostTaskStatistics().getCurrentBids().toString());
             } else {
-                txtAwaitingOffer.setText("0");
+                txtAwaitingOffer.setValue("0");
             }
         } else {
 
             if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getAssigned() != null) {
-                txtAwaitingOffer.setText(userAccountModel.getWorkTaskStatistics().getAssigned().toString());
+                txtAwaitingOffer.setValue(userAccountModel.getWorkTaskStatistics().getAssigned().toString());
             } else {
-                txtAwaitingOffer.setText("0");
+                txtAwaitingOffer.setValue("0");
 
             }
 
             if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getOverdue() != null) {
-                txtOverDue.setText(userAccountModel.getWorkTaskStatistics().getOverdue().toString());
+                txtOverDue.setValue(userAccountModel.getWorkTaskStatistics().getOverdue().toString());
             } else {
-                txtOverDue.setText("0");
+                txtOverDue.setValue("0");
             }
             if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getCompleted() != null) {
-                txtCompleted.setText(userAccountModel.getWorkTaskStatistics().getCompleted().toString());
+                txtCompleted.setValue(userAccountModel.getWorkTaskStatistics().getCompleted().toString());
             } else {
-                txtCompleted.setText("0");
+                txtCompleted.setValue("0");
             }
             if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getCurrentBids() != null) {
-                txtAwaitingOffer.setText(userAccountModel.getWorkTaskStatistics().getCurrentBids().toString());
+                txtAwaitingOffer.setValue(userAccountModel.getWorkTaskStatistics().getCurrentBids().toString());
             } else {
-                txtAwaitingOffer.setText("0");
+                txtAwaitingOffer.setValue("0");
             }
         }
 
 
         if (userAccountModel.getAccount_status() != null) {
             if (userAccountModel.getAccount_status().isPortfolio()) {
-                view_account1.setBackgroundColor(Color.parseColor(greenColor));
-                view_account2.setBackgroundColor(Color.parseColor(greenColor));
-                iv_green_account.setColorFilter(ContextCompat.getColor(Dashboard2Activity.this, R.color.greenActive), android.graphics.PorterDuff.Mode.SRC_IN);
-                txt_account.setTextColor(Color.parseColor(greenColor));
+                iv_green_account.setImageResource(R.drawable.ic_progress_checked);
 
             } else {
-                view_account1.setBackgroundColor(Color.parseColor(grayColor));
-                view_account2.setBackgroundColor(Color.parseColor(grayColor));
-                txt_account.setTextColor(Color.parseColor(grayColor));
                 iv_green_account.setColorFilter(ContextCompat.getColor(Dashboard2Activity.this, R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
             }
 
             if (rbAsAPoster.isChecked()) {
                 if (userAccountModel.getAccount_status().isCredit_card()) {
-                    view_payment1.setBackgroundColor(Color.parseColor(greenColor));
-                    view_payment2.setBackgroundColor(Color.parseColor(greenColor));
-                    iv_payment.setColorFilter(ContextCompat.getColor(Dashboard2Activity.this, R.color.greenActive), android.graphics.PorterDuff.Mode.SRC_IN);
-                    txt_payment.setTextColor(Color.parseColor(greenColor));
+                    iv_payment.setImageResource(R.drawable.ic_progress_checked);
                 } else {
-                    view_payment1.setBackgroundColor(Color.parseColor(grayColor));
-                    view_payment2.setBackgroundColor(Color.parseColor(grayColor));
                     iv_payment.setColorFilter(ContextCompat.getColor(Dashboard2Activity.this, R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
-                    txt_payment.setTextColor(Color.parseColor(grayColor));
                 }
             } else {
                 if (userAccountModel.getAccount_status().isBank_account()) {
-
-                    view_payment1.setBackgroundColor(Color.parseColor(greenColor));
-                    view_payment2.setBackgroundColor(Color.parseColor(greenColor));
-                    iv_payment.setColorFilter(ContextCompat.getColor(Dashboard2Activity.this, R.color.greenActive), android.graphics.PorterDuff.Mode.SRC_IN);
-                    txt_payment.setTextColor(Color.parseColor(greenColor));
+                    iv_payment.setImageResource(R.drawable.ic_progress_checked);
 
                 } else {
-
-                    view_payment1.setBackgroundColor(Color.parseColor(grayColor));
-                    view_payment2.setBackgroundColor(Color.parseColor(grayColor));
                     iv_payment.setColorFilter(ContextCompat.getColor(Dashboard2Activity.this, R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
-                    txt_payment.setTextColor(Color.parseColor(grayColor));
-
                 }
 
 
             }
 
             if (userAccountModel.getAccount_status().isSkills()) {
-
-                view_skills_1.setBackgroundColor(Color.parseColor(greenColor));
-                view_skills_2.setBackgroundColor(Color.parseColor(greenColor));
-                iv_skills.setColorFilter(ContextCompat.getColor(Dashboard2Activity.this, R.color.greenActive), android.graphics.PorterDuff.Mode.SRC_IN);
-                txt_skills.setTextColor(Color.parseColor(greenColor));
-
+                iv_skills.setImageResource(R.drawable.ic_progress_checked);
             } else {
-                view_skills_1.setBackgroundColor(Color.parseColor(grayColor));
-                view_skills_2.setBackgroundColor(Color.parseColor(grayColor));
                 iv_skills.setColorFilter(ContextCompat.getColor(Dashboard2Activity.this, R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
-                txt_skills.setTextColor(Color.parseColor(grayColor));
             }
             if (userAccountModel.getAccount_status().isBadges()) {
-                view_badges1.setBackgroundColor(Color.parseColor(greenColor));
-                view_badges2.setBackgroundColor(Color.parseColor(greenColor));
-                iv_badges.setColorFilter(ContextCompat.getColor(Dashboard2Activity.this, R.color.greenActive), android.graphics.PorterDuff.Mode.SRC_IN);
-                txt_badges.setTextColor(Color.parseColor(greenColor));
+                iv_badges.setImageResource(R.drawable.ic_progress_checked);
 
             } else {
-                view_badges1.setBackgroundColor(Color.parseColor(grayColor));
-                view_badges2.setBackgroundColor(Color.parseColor(grayColor));
                 iv_badges.setColorFilter(ContextCompat.getColor(Dashboard2Activity.this, R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
-                txt_badges.setTextColor(Color.parseColor(grayColor));
             }
         }
 

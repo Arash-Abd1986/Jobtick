@@ -495,7 +495,7 @@ public class PaymentSettingsActivity extends ActivityBase {
                                         setupViewCreditCard(true);
 
                                         cardType.setText(creditCardModel.getData().get(0).card.brand);
-                                        edtExpiryDate.setText("Expiry Date:" + creditCardModel.getData().get(0).card.exp_month + "/" + creditCardModel.getData().get(0).card.exp_year);
+                                        edtExpiryDate.setText("Expiry Date: " + creditCardModel.getData().get(0).card.exp_month + "/" + creditCardModel.getData().get(0).card.exp_year);
                                         creditAccountNumber.setText("xxxx xxxx xxxx " + creditCardModel.getData().get(0).card.last4);
                                     } else {
                                         setupViewCreditCard(false);

@@ -5,23 +5,21 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.jobtick.TextView.TextViewMedium;
+import com.google.android.material.button.MaterialButton;
+import com.jobtick.widget.ExtendedEntryText;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.TextView.TextViewSemiBold;
 import com.jobtick.activities.NewTaskAlertsActivity;
 import com.jobtick.models.GeocodeObject;
 import com.jobtick.models.task.TaskAlert;
@@ -36,20 +34,17 @@ import butterknife.OnClick;
  * A simple {@link Fragment} subclass.
  */
 public class NewTaskAlertsInPersonFragment extends Fragment {
-    @BindView(R.id.lyt_btn_save_alert)
-    LinearLayout lytBtnSaveAlert;
-    @BindView(R.id.txt_save_update_alert)
-    TextViewRegular txtSaveUpdateAlert;
+    @BindView(R.id.btn_update_alert)
+    MaterialButton btnUpdate;
     private int PLACE_SELECTION_REQUEST_CODE = 1;
     private String TAG = TaskDetailFragment.class.getName();
     @BindView(R.id.edt_keyword)
-    EditTextRegular edtKeyword;
+    ExtendedEntryText edtKeyword;
     @BindView(R.id.txt_suburb)
-    TextViewMedium txtSuburb;
-    @BindView(R.id.img_map_pin)
-    ImageView imgMapPin;
+    ExtendedEntryText txtSuburb;
+
     @BindView(R.id.txt_distance_km)
-    TextViewSemiBold txtDistanceKm;
+    TextView txtDistanceKm;
     @BindView(R.id.sk_distance)
     SeekBar skDistance;
 
@@ -80,6 +75,21 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_new_task_alerts_in_person, container, false);
         ButterKnife.bind(this, view);
+        txtSuburb.setExtendedViewOnClickListener(() -> {
+            Intent intent = new PlaceAutocomplete.IntentBuilder()
+                    .accessToken(Mapbox.getAccessToken())
+                    .placeOptions(PlaceOptions.builder()
+                            // .backgroundColor(Helper.getAttrColor(taskCreateActivity, R.attr.colorBackground))
+                            .backgroundColor(newTaskAlertsActivity.getResources().getColor(R.color.background))
+                            .limit(10)
+                            .country("AU")
+
+                            /*.addInjectedFeature(home)
+                            .addInjectedFeature(work)*/
+                            .build(PlaceOptions.MODE_FULLSCREEN))
+                    .build(getActivity());
+            startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
+        });
         return view;
     }
 
@@ -99,7 +109,7 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
             edtKeyword.setText(taskAlert.getKetword());
             skDistance.setProgress(taskAlert.getDistance());
             txtDistanceKm.setText(taskAlert.getDistance() + " KM");
-            txtSaveUpdateAlert.setText("Update alert");
+            btnUpdate.setText("Update alert");
         } else {
          //   txtSaveUpdateAlert.setText("save alert");
         }
@@ -145,26 +155,10 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
     }
 
 
-    @OnClick({R.id.txt_suburb, R.id.rlt_suburb, R.id.lyt_btn_save_alert})
+    @OnClick({R.id.btn_update_alert})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.txt_suburb:
-            case R.id.rlt_suburb:
-                Intent intent = new PlaceAutocomplete.IntentBuilder()
-                        .accessToken(Mapbox.getAccessToken())
-                        .placeOptions(PlaceOptions.builder()
-                                // .backgroundColor(Helper.getAttrColor(taskCreateActivity, R.attr.colorBackground))
-                                .backgroundColor(newTaskAlertsActivity.getResources().getColor(R.color.background))
-                                .limit(30)
-                                .country("AU")
-
-                                /*.addInjectedFeature(home)
-                                .addInjectedFeature(work)*/
-                                .build(PlaceOptions.MODE_FULLSCREEN))
-                        .build(getActivity());
-                startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
-                break;
-            case R.id.lyt_btn_save_alert:
+            case R.id.btn_update_alert:
                 switch (getValidationCode()) {
                     case 0:
                         taskAlert.setAlert_type("physical");

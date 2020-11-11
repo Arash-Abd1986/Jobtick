@@ -11,12 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.activities.NewTaskAlertsActivity;
 import com.jobtick.models.task.TaskAlert;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.widget.ExtendedEntryText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,15 +30,13 @@ import butterknife.OnClick;
 public class NewTaskAlertsRemoteFragment extends Fragment {
 
     @BindView(R.id.edt_keyword)
-    EditTextRegular edtKeyword;
-    @BindView(R.id.lyt_btn_save_alert)
-    LinearLayout lytBtnSaveAlert;
+    ExtendedEntryText edtKeyword;
+    @BindView(R.id.btn_update_alert)
+    MaterialButton btnUpdate;
     NewTaskAlertsActivity newTaskAlertsActivity;
     SessionManager sessionManager;
     TaskAlert taskAlert;
     int position;
-    @BindView(R.id.txt_save_update_alert)
-    TextViewMedium txtSaveUpdateAlert;
     private OperationRemoteListener operationRemoteListener;
 
 
@@ -77,14 +77,14 @@ public class NewTaskAlertsRemoteFragment extends Fragment {
         }
         if (taskAlert.isValid()) {
             edtKeyword.setText(taskAlert.getKetword());
-            txtSaveUpdateAlert.setText("Update alert");
+            btnUpdate.setText("Update alert");
         } else {
             //  txtSaveUpdateAlert.setText("save alert");
         }
 
     }
 
-    @OnClick(R.id.lyt_btn_save_alert)
+    @OnClick(R.id.btn_update_alert)
     public void onViewClicked() {
         switch (getValidationCode()) {
             case 0:

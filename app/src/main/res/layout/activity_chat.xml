@@ -46,7 +46,8 @@
                     android:layout_marginStart="@dimen/spacing_large"
                     android:orientation="vertical">
 
-                    <com.jobtick.TextView.TextViewRegular
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/materialText_600_12"
                         android:id="@+id/txt_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -732,14 +732,13 @@
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_next"
+            android:id="@+id/card_save_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             style="@style/materialButton.colorPrimary"
             android:text="@string/save"
-            android:layout_alignParentBottom="true"
-            android:enabled="false"/>
+            android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
 

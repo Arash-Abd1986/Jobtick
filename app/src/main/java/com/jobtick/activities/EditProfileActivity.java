@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -21,8 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.cardview.widget.CardView;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -212,7 +211,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_save_profile)
-    CardView card_save_profile;
+    Button card_save_profile;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ivBack)
@@ -681,13 +680,13 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     @SuppressLint("NonConstantResourceId")
     @OnClick({R.id.txt_suburb, R.id.txt_birth_date, R.id.rlt_btn_transportation, R.id.rlt_btn_languages,
             R.id.rlt_btn_education, R.id.rlt_btn_experience, R.id.rlt_btn_specialities, R.id.img_user_avatar, R.id.lytDeletePicture,
-            R.id.lyt_btn_save_profile, R.id.lyt_btn_close})
+            R.id.card_save_profile, R.id.lyt_btn_close})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_btn_close:
                 verifyPhone();
                 break;
-            case R.id.lyt_btn_save_profile:
+            case R.id.card_save_profile:
 
                 new MaterialAlertDialogBuilder(EditProfileActivity.this)
                         .setTitle("Update Profile")

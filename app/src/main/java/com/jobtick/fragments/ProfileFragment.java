@@ -336,24 +336,15 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             //recyclerViewBadges.setVisibility(View.GONE);
         } else if (rbSkills.isChecked()) {
             // lytAbout.setVisibility(View.GONE);
-            if (badgesModelArrayList.size() <= 0) {
+            if (tagEducation.size()<=0 && tagExperience.size()<=0 && tagLanguage.size() <= 0
+            && tagSpecialities.size()<=0&& tagTransportation.size()<=0) {
                 NoPortfolio.setVisibility(View.VISIBLE);
                 lSkill.setVisibility(View.GONE);
                 tvSkills.setVisibility(View.GONE);
-                lytEducation.setVisibility(View.GONE);
-                lytExperience.setVisibility(View.GONE);
-                lytLanguage.setVisibility(View.GONE);
-                lytSpecialities.setVisibility(View.GONE);
-                lytTransportation.setVisibility(View.GONE);
             } else {
                 NoPortfolio.setVisibility(View.GONE);
                 lSkill.setVisibility(View.VISIBLE);
                 tvSkills.setVisibility(View.VISIBLE);
-                lytEducation.setVisibility(View.VISIBLE);
-                lytExperience.setVisibility(View.VISIBLE);
-                lytLanguage.setVisibility(View.VISIBLE);
-                lytSpecialities.setVisibility(View.VISIBLE);
-                lytTransportation.setVisibility(View.VISIBLE);
             }
             lPort.setVisibility(View.GONE);
             rbPortfollio.setTextColor(getResources().getColor(R.color.textColor));

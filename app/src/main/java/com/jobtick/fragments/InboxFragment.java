@@ -1,9 +1,9 @@
 package com.jobtick.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,12 +25,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.EditText.EditTextMedium;
@@ -69,6 +66,7 @@ import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 import static com.jobtick.utils.ConstantKey.PUSH_CONVERSATION_ID;
@@ -76,24 +74,25 @@ import static com.jobtick.utils.ConstantKey.PUSH_CONVERSATION_ID;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InboxFragment extends Fragment implements InboxListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener, SearchView.OnCloseListener {
+public class InboxFragment extends Fragment implements InboxListAdapter.OnItemClickListener,
+        SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
     DashboardActivity dashboardActivity;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_search_categories)
     EditTextMedium edtSearchCategories;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
-
     private SessionManager sessionManager;
-
     private InboxListAdapter adapter;
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
     private int totalPage = 10;
     private boolean isLoading = false;
-    private ArrayList<ConversationModel> conversationModelArrayList;
     private Toolbar toolbar;
     private SearchView searchView;
     private String queryParameter = "";
@@ -103,8 +102,6 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
     }
 
     private Pusher pusher;
-    private PrivateChannel channel;
-    private PresenceChannel presenceChannel;
     private int conversationId;
 
     ImageView ivNotification;
@@ -126,6 +123,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
         return view;
     }
 
+    @SuppressLint({"SetTextI18n", "RtlHardcoded"})
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -146,7 +144,8 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
 
             toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_medium));
             toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.grey_100));
-            androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+            androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT,
+                    Toolbar.LayoutParams.WRAP_CONTENT);
             params.gravity = Gravity.LEFT;
             toolbar_title.setLayoutParams(params);
 
@@ -158,13 +157,12 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
         }
 
         toolbar.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.action_search:
-                    Menu menu = toolbar.getMenu();
-                    searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-                    searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-                    searchView.setOnQueryTextListener(InboxFragment.this);
-                    searchView.setOnCloseListener(InboxFragment.this);
+            if (item.getItemId() == R.id.action_search) {
+                Menu menu = toolbar.getMenu();
+                searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+                searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                searchView.setOnQueryTextListener(InboxFragment.this);
+                searchView.setOnCloseListener(InboxFragment.this);
 
                 /*    searchView.findViewById(R.id.search_close_btn)
                             .setOnClickListener(new View.OnClickListener() {
@@ -179,15 +177,12 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
                                 }
                             });*/
 
-                    if (item.collapseActionView()) {
-                        Log.e("Close", "Called");
-                    }
-                    break;
+                if (item.collapseActionView()) {
+                    Timber.e("Called");
+                }
             }
             return false;
         });
-
-        conversationModelArrayList = new ArrayList<>();
 
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
@@ -198,7 +193,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
 
         authorizer.setHeaders(headers);
         PusherOptions options = new PusherOptions()
-                .setEncrypted(true)
+                //.setEncrypted(true)
                 .setCluster("us2")
                 .setAuthorizer(authorizer);
 
@@ -221,8 +216,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
             protected void loadMoreItems() {
                 isLoading = true;
                 currentPage++;
-                doApiCall();
-            }
+                doApiCall(); }
 
             @Override
             public boolean isLastPage() {
@@ -240,7 +234,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
         pusher.connect(new ConnectionEventListener() {
             @Override
             public void onConnectionStateChange(ConnectionStateChange change) {
-                Log.e("connection", change.getCurrentState() + "");
+                Timber.e("%s", change.getCurrentState());
                 System.out.println("State changed to " + change.getCurrentState() +
                         " from " + change.getPreviousState());
                 if (change.getCurrentState() == ConnectionState.CONNECTED) {
@@ -258,7 +252,8 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
 
     private void subscribeToPresence() {
         try {
-            presenceChannel = pusher.subscribePresence("presence-userStatus", new PresenceChannelEventListener() {
+            PresenceChannel presenceChannel = pusher.subscribePresence("presence-userStatus",
+                    new PresenceChannelEventListener() {
                 @Override
                 public void onUsersInformationReceived(String channelName, Set<User> users) {
                     ArrayList<Integer> integerArrayList = new ArrayList<>();
@@ -266,38 +261,38 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
                         integerArrayList.add(Integer.parseInt(user.getId()));
                     }
                     adapter.setOnlineStatus(integerArrayList);
-                    Log.e("user_sub", integerArrayList.size() + "");
+                    Timber.e("%s", integerArrayList.size());
                 }
 
                 @Override
                 public void userSubscribed(String channelName, User user) {
                     adapter.addNewSubscribe(Integer.parseInt(user.getId()));
-                    Log.e("new_user_sub", user.toString());
+                    Timber.e(user.toString());
                 }
 
                 @Override
                 public void userUnsubscribed(String channelName, User user) {
                     adapter.addNewUnSubscribe(Integer.parseInt(user.getId()));
-                    Log.e("old_user_unsub", user.toString());
+                    Timber.e(user.toString());
                 }
 
                 @Override
                 public void onAuthenticationFailure(String message, Exception e) {
-                    Log.e("presence_auth", message);
+                    Timber.e(message);
                 }
 
                 @Override
                 public void onSubscriptionSucceeded(String channelName) {
-                    Log.e("succeeded", channelName);
+                    Timber.e(channelName);
                 }
 
                 @Override
                 public void onEvent(PusherEvent event) {
-                    Log.e("Call", event.toString());
+                    Timber.e(event.toString());
                 }
             });
 
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
@@ -305,28 +300,31 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
     protected void subscribeToChannel() {
 
         try {
-            channel = pusher.subscribePrivate("private-user." + sessionManager.getUserAccount().getId(), new PrivateChannelEventListener() {
+            //its json response not string
+            PrivateChannel channel = pusher.subscribePrivate("private-user." + sessionManager.getUserAccount().getId(),
+                    new PrivateChannelEventListener() {
                 @Override
                 public void onAuthenticationFailure(String message, Exception e) {
                     Connection cpm = pusher.getConnection();
-                    Log.e("auth", message);
-                    Log.e("auth", e.toString());
-                    Log.e("SS : ", cpm.getSocketId());
+                    Timber.e(message);
+                    Timber.e(e.toString());
+                    Timber.e(cpm.getSocketId());
                 }
 
                 @Override
                 public void onSubscriptionSucceeded(String channelName) {
-                    Log.e("succeeded", channelName); //its json response not string
+                    Timber.e(channelName); //its json response not string
                 }
 
                 @Override
                 public void onEvent(PusherEvent event) {
-                    Log.e("Call", event.toString());
+                    Timber.e(event.toString());
                     try {
                         JSONObject jsonObject = new JSONObject(event.getData());
-                        ConversationModel conversationModel = new ConversationModel(dashboardActivity).getJsonToModel(jsonObject, dashboardActivity);
+                        ConversationModel conversationModel = new ConversationModel(dashboardActivity).getJsonToModel(jsonObject,
+                                dashboardActivity);
                         adapter.getEventCall(conversationModel);
-                        Log.e("json", jsonObject.toString());
+                        Timber.e(jsonObject.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -335,7 +333,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
 
                 }
             }, "message.sent");
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
 
@@ -346,85 +344,78 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
 
         ArrayList<ConversationModel> items = new ArrayList<>();
         Helper.closeKeyboard(dashboardActivity);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_CHAT + "/conversations" + "?page=" + currentPage + "&query=" + queryParameter,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.e("responce_url", response);
-                        // categoryArrayList.clear();
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            Log.e("json", jsonObject.toString());
-                            if (!jsonObject.has("data")) {
-                                dashboardActivity.showToast("some went to wrong", dashboardActivity);
-                                return;
-                            }
-                            JSONArray jsonArray_data = jsonObject.getJSONArray("data");
-                            for (int i = 0; jsonArray_data.length() > i; i++) {
-                                JSONObject jsonObject_conversation = jsonArray_data.getJSONObject(i);
-                                ConversationModel conversationModel = new ConversationModel(dashboardActivity).getJsonToModel(jsonObject_conversation, dashboardActivity);
-                                items.add(conversationModel);
-                            }
-
-                            if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
-                                JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
-                                totalPage = jsonObject_meta.getInt("last_page");
-                                Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
-                            }
-
-                            /*
-                             *manage progress view
-                             */
-                            if (currentPage != PAGE_START)
-
-                                adapter.removeLoading();
-                            if (items.size() <= 0) {
-                                lottieAnim.setVisibility(View.VISIBLE);
-                                recyclerView.setVisibility(View.GONE);
-                            } else {
-                                lottieAnim.setVisibility(View.GONE);
-                                recyclerView.setVisibility(View.VISIBLE);
-
-                            }
-
-                            adapter.addItems(items);
-
-                            conversationModelArrayList = items;
-
-                            searchHint:
-                            for (int i = 0; i < items.size(); i++) {
-                                if (items.get(i).getId() == conversationId) {
-                                    onItemClick(null
-                                            , items.get(i), i, "parent_layout");
-                                    conversationId = 0;
-                                    break searchHint;
-                                }
-                            }
-                            swipeRefresh.setRefreshing(false);
-                            // check weather is last page or not
-                            if (currentPage < totalPage) {
-                                adapter.addLoading();
-                            } else {
-                                isLastPage = true;
-                            }
-                            isLoading = false;
-                        } catch (JSONException e) {
-                            dashboardActivity.hideProgressDialog();
-                            Log.e("EXCEPTION", String.valueOf(e));
-                            e.printStackTrace();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_CHAT +
+                "/conversations" + "?page=" + currentPage + "&query=" + queryParameter,
+                response -> {
+                    Timber.e(response);
+                    // categoryArrayList.clear();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (!jsonObject.has("data")) {
+                            dashboardActivity.showToast("some went to wrong", dashboardActivity);
+                            return;
                         }
+                        JSONArray jsonArray_data = jsonObject.getJSONArray("data");
+                        for (int i = 0; jsonArray_data.length() > i; i++) {
+                            JSONObject jsonObject_conversation = jsonArray_data.getJSONObject(i);
+                            ConversationModel conversationModel = new ConversationModel(dashboardActivity).getJsonToModel(jsonObject_conversation,
+                                    dashboardActivity);
+                            items.add(conversationModel);
+                        }
+
+                        if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
+                            JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
+                            totalPage = jsonObject_meta.getInt("last_page");
+                            Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
+                        }
+
+                        /*
+                         *manage progress view
+                         */
+                        if (currentPage != PAGE_START)
+
+                            adapter.removeLoading();
+                        if (items.size() <= 0) {
+                            lottieAnim.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                        } else {
+                            lottieAnim.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+
+                        }
+
+                        adapter.addItems(items);
+
+                        for (int i = 0; i < items.size(); i++) {
+                            if (items.get(i).getId() == conversationId) {
+                                onItemClick(null
+                                        , items.get(i), i, "parent_layout");
+                                conversationId = 0;
+                                break;
+                            }
+                        }
+                        swipeRefresh.setRefreshing(false);
+                        // check weather is last page or not
+                        if (currentPage < totalPage) {
+                            adapter.addLoading();
+                        } else {
+                            isLastPage = true;
+                        }
+                        isLoading = false;
+                    } catch (JSONException e) {
+                        dashboardActivity.hideProgressDialog();
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        swipeRefresh.setRefreshing(false);
-                        dashboardActivity.errorHandle1(error.networkResponse);
-                    }
+                error -> {
+                    swipeRefresh.setRefreshing(false);
+                    dashboardActivity.errorHandle1(error.networkResponse);
                 }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
                 return map1;
@@ -435,7 +426,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(dashboardActivity);
         requestQueue.add(stringRequest);
-        Log.e("url", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
     @Override
@@ -459,8 +450,6 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
             bundle.putParcelable(ConstantKey.CONVERSATION, obj);
             intent.putExtras(bundle);
             startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT);
-        } else if (action.equalsIgnoreCase("avatar")) {
-
         }
     }
 

@@ -1,33 +1,28 @@
 package com.jobtick.adapers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.jobtick.TextView.TextViewSemiBold;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.models.ConversationModel;
-import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.TimeAgo;
 import com.jobtick.utils.Tools;
-
+import org.jetbrains.annotations.NotNull;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,9 +33,9 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int VIEW_TYPE_NORMAL = 1;
 
 
-    private SessionManager sessionManager;
+    private final SessionManager sessionManager;
 
-    private Context context;
+    private final Context context;
     private OnItemClickListener mOnItemClickListener;
 
 
@@ -54,7 +49,7 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
 
     private boolean isLoaderVisible = false;
-    private List<ConversationModel> mItems;
+    private final List<ConversationModel> mItems;
 
     public InboxListAdapter(Context context, List<ConversationModel> mItems) {
         this.mItems = mItems;
@@ -64,7 +59,7 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @NonNull
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_NORMAL:
                 return new ViewHolder(
@@ -231,24 +226,34 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class ViewHolder extends BaseViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_avatar)
         CircularImageView imgAvatar;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_title)
-        TextViewSemiBold txtTitle;
+        TextView txtTitle;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_status)
-        TextViewRegular txtStatus;
+        TextView txtStatus;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_user_name)
-        TextViewRegular txtUserName;
+        TextView txtUserName;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_gallery)
         ImageView imgGallery;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_last_message)
-        TextViewRegular txtLastMessage;
+        TextView txtLastMessage;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_unseen_count)
-        TextViewRegular txtUnseenCount;
+        TextView txtUnseenCount;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_time_status)
-        TextViewRegular txtTimeStatus;
+        TextView txtTimeStatus;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.rlt_last_message)
         RelativeLayout rltLastMessage;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lyt_parent_layout)
         LinearLayout lytParentLayout;
 
@@ -262,6 +267,7 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
 
 
+        @SuppressLint("SetTextI18n")
         public void onBind(int position) {
             super.onBind(position);
             ConversationModel item = mItems.get(position);
@@ -269,9 +275,8 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (!item.getReceiver().getId().equals(sessionManager.getUserAccount().getId())) {
                 if (item.getReceiver().getAvatar() != null && item.getReceiver().getAvatar().getThumbUrl() != null) {
                     ImageUtil.displayImage(imgAvatar, item.getReceiver().getAvatar().getThumbUrl(), null);
-                } else {
-                    //TODO DEFAULT IMAGE
-                }
+                }  //TODO DEFAULT IMAGE
+
                 txtUserName.setText(item.getReceiver().getName());
                 if (item.getReceiver().getIsOnline()) {
                     txtStatus.setVisibility(View.VISIBLE);
@@ -313,18 +318,15 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
             });
 
-            imgAvatar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(v, item, getAdapterPosition(), "avatar");
-                    }
+            imgAvatar.setOnClickListener(v -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(v, item, getAdapterPosition(), "avatar");
                 }
             });
         }
     }
 
-    public class ProgressHolder extends BaseViewHolder {
+    public static class ProgressHolder extends BaseViewHolder {
         ProgressHolder(View itemView) {
             super(itemView);
         }

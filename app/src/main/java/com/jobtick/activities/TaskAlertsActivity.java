@@ -114,16 +114,16 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
             adapter.removeItems(position);
             removeTaskAlert(obj.getId());
 
-            /*if (taskAlertArrayList.size() == 0) {
+            if (taskAlertArrayList.size() == 0) {
                 recyclerView.setVisibility(View.GONE);
-            }*/
+            }
         } else {
-          /*  Intent newTaskAlerts = new Intent(TaskAlertsActivity.this, NewTaskAlertsActivity.class);
+            Intent newTaskAlerts = new Intent(TaskAlertsActivity.this, NewTaskAlertsActivity.class);
             Bundle bundle = new Bundle();
             bundle.putParcelable("TASK_ALERT", obj);
             bundle.putInt("POSITION", position);
             newTaskAlerts.putExtras(bundle);
-            startActivityForResult(newTaskAlerts, 1);*/
+            startActivityForResult(newTaskAlerts, 1);
         }
     }
 

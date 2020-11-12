@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;

@@ -682,16 +682,9 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.card_save_profile:
+                if (validation())
+                    submitProfile();
 
-                new MaterialAlertDialogBuilder(EditProfileActivity.this)
-                        .setTitle("Update Profile")
-                        .setMessage("Are you sure you want to update your Profile?")
-                        .setPositiveButton("Yes", (dialog, which) -> {
-                            if (validation())
-                                submitProfile();
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
                 break;
             case R.id.txt_suburb:
                 Intent intent = new PlaceAutocomplete.IntentBuilder()

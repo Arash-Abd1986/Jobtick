@@ -1,7 +1,6 @@
 package com.jobtick.adapers;
 
-import android.content.Context;
-import android.util.Log;
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +14,19 @@ import com.jobtick.R;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.utils.ImageUtil;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 
 public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int VIEW_TYPE_ADD = 0;
     public static final int VIEW_TYPE_IMAGE = 1;
 
-    private Context context;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
@@ -36,19 +37,17 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.mOnItemClickListener = mItemClickListener;
     }
 
-    private boolean isLoaderVisible = true;
-    private Boolean delete_action;
-    private List<AttachmentModel> items;
+    private final Boolean delete_action;
+    private final List<AttachmentModel> items;
 
-    public AttachmentAdapter(Context context, List<AttachmentModel> items, Boolean delete_action) {
+    public AttachmentAdapter(List<AttachmentModel> items, Boolean delete_action) {
         this.items = items;
-        this.context = context;
         this.delete_action = delete_action;
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_IMAGE:
                 return new IMAGEViewHolder(
@@ -83,11 +82,10 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void addItems(List<AttachmentModel> items) {
         this.items.addAll(items);
         notifyDataSetChanged();
-        Log.e("AddItems", "call");
+        Timber.e("call");
     }
 
     public void addLoading() {
-        isLoaderVisible = true;
         this.items.add(new AttachmentModel());
         notifyItemInserted(this.items.size() - 1);
     }
@@ -103,8 +101,10 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public class IMAGEViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_view)
         ImageView imgView;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_btn_delete)
         ImageView imgBtnDelete;
 
@@ -128,20 +128,14 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             } else {
                 imgBtnDelete.setVisibility(View.GONE);
             }
-            imgBtnDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(view, items.get(position), position, "delete");
-                    }
+            imgBtnDelete.setOnClickListener(view -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(view, items.get(position), position, "delete");
                 }
             });
-            imgView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(v, items.get(position), position, "show");
-                    }
+            imgView.setOnClickListener(v -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(v, items.get(position), position, "show");
                 }
             });
 
@@ -149,6 +143,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public class ADDViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.rlt_add_attachment)
         RelativeLayout rltAddAttachment;
 
@@ -161,12 +156,9 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public void onBind(int position) {
             // super.onBind(position);
             AttachmentModel item = items.get(position);
-            rltAddAttachment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(view, items.get(position), position, "add");
-                    }
+            rltAddAttachment.setOnClickListener(view -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(view, items.get(position), position, "add");
                 }
             });
 

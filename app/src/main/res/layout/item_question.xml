@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -15,12 +16,11 @@
             android:id="@+id/img_avatar"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_alignParentStart="true"
             android:src="@drawable/pic"
             app:civ_border="false" />
 
-
-        <com.jobtick.TextView.TextViewBold
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/materialText_600_12"
             android:id="@+id/txt_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -28,9 +28,7 @@
             android:layout_weight="1"
             android:singleLine="true"
             android:text="@string/nathan_fox"
-            android:textColor="@color/textColor"
-            android:textSize="11dp"
-            android:textStyle="bold" />
+            android:textColor="@color/textColor"/>
 
         <LinearLayout
             android:id="@+id/ivFlag"
@@ -48,7 +46,8 @@
                 android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/_8dp"
                 android:padding="@dimen/spacing_small"
-                android:src="@drawable/ic_red_flag" />
+                android:src="@drawable/ic_red_flag"
+                android:contentDescription="@string/todo" />
         </LinearLayout>
 
         <LinearLayout
@@ -65,19 +64,18 @@
                 android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:padding="@dimen/spacing_small"
-                android:src="@drawable/ic_corner_up_left"
-                android:tint="@color/colorPrimary" />
+                android:src="@drawable/ic_corner_blue"
+                android:contentDescription="@string/todo" />
 
-            <com.jobtick.TextView.TextViewBold
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_500_12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="1dp"
                 android:gravity="center_vertical"
-                android:text="Reply"
-                android:textColor="@color/colorPrimary"
-                android:textSize="11dp"
-                android:textStyle="bold" />
+                android:text="@string/reply"
+                android:textColor="@color/colorPrimary"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -88,13 +86,13 @@
         android:layout_marginTop="15dp"
         android:orientation="vertical">
 
-        <com.jobtick.TextView.TextViewRegular
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/materialText_500_14"
             android:id="@+id/txt_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="adipisicing adipisicing commodo Lorem enim si adipis adipisicing commodo Lorem enim si..."
-            android:textColor="@color/textColor"
-            android:textSize="14sp" />
+            tools:text="adipisicing adipisicing commodo Lorem enim si adipis adipisicing commodo Lorem enim si..."
+            android:textColor="@color/textColor"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_question"
@@ -119,7 +117,8 @@
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:background="?attr/selectableItemBackground"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_gallery" />
+                android:src="@drawable/ic_gallery"
+                android:contentDescription="@string/todo" />
         </androidx.cardview.widget.CardView>
 
         <RelativeLayout
@@ -127,7 +126,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp">
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.google.android.material.textview.MaterialTextView
+            style="@style/materialText_500_12"
                 android:id="@+id/txt_created_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
                 android:layout_marginEnd="@dimen/spacing_medium"
                 android:text="21 min. ago"
                 android:textColor="@color/grey_40"
-                android:textSize="@dimen/spacing_middle" />
+                tools:ignore="HardcodedText" />
 
 
             <LinearLayout
@@ -146,26 +146,26 @@
                 android:layout_alignParentEnd="true"
                 android:background="?attr/selectableItemBackground"
                 android:orientation="horizontal"
-                android:padding="@dimen/spacing_small">
+                android:padding="@dimen/spacing_small"
+                tools:ignore="RelativeOverlap">
 
                 <ImageView
                     android:id="@+id/img_more_less_arrow"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/ic_arrow_down"
-                    android:tint="@color/colorPrimary" />
+                    android:src="@drawable/ic_arrow_down_blue"
+                    android:contentDescription="@string/todo" />
 
-                <com.jobtick.TextView.TextViewBold
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_500_12"
                     android:id="@+id/txt_more_less"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/spacing_middle"
                     android:gravity="center_vertical"
-                    android:text="More"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/spacing_middle"
-                    android:textStyle="bold" />
+                    android:text="@string/more"
+                    android:textColor="@color/colorPrimary"/>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
@@ -197,10 +197,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_weight="1"
             android:orientation="vertical">
 
-            <com.jobtick.TextView.TextViewBold
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_500_12"
                 android:id="@+id/txt_more_reply_question"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -208,10 +208,8 @@
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:padding="@dimen/spacing_small"
-                android:text="7 more replies"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/spacing_middle"
-                android:textStyle="bold" />
+                android:text="@string/_7_more_replies"
+                android:textColor="@color/colorPrimary"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_questions_chat"

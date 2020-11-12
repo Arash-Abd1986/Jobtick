@@ -148,7 +148,7 @@ public class  PortfolioActivity extends ActivityBase implements AttachmentAdapte
         recyclerView.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(PortfolioActivity.this, 5), true));
         recyclerView.setHasFixedSize(true);
         //set data and list adapter
-        adapter = new AttachmentAdapter(PortfolioActivity.this, attachmentArrayList,true);
+        adapter = new AttachmentAdapter(attachmentArrayList,true);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         adapter.setOnItemClickListener(this);

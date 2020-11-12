@@ -83,9 +83,6 @@
                 android:layout_marginBottom="@dimen/spacing_middle"
                 app:eTitle="@string/confirm_password" />
 
-
-
-
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton

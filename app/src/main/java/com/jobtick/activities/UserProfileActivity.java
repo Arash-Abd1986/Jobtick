@@ -305,7 +305,7 @@ public class UserProfileActivity extends ActivityBase implements AttachmentAdapt
         recyclerViewPortfolio.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(UserProfileActivity.this, 5), true));
         recyclerViewPortfolio.setHasFixedSize(true);
         //set data and list adapter
-        adapter = new AttachmentAdapter(UserProfileActivity.this, attachmentArrayList, false);
+        adapter = new AttachmentAdapter(attachmentArrayList, false);
         recyclerViewPortfolio.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
 

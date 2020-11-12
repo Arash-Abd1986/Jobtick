@@ -1,19 +1,16 @@
 package com.jobtick.adapers;
 
-import android.content.Context;
-import android.util.Log;
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewBold;
-import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.BadgesModel;
 import com.jobtick.utils.ImageUtil;
 
@@ -24,32 +21,11 @@ import butterknife.ButterKnife;
 
 
 public class BadgesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public static final int VIEW_TYPE_ADD = 0;
-    public static final int VIEW_TYPE_IMAGE = 1;
 
-    private Context context;
+    private final List<BadgesModel> items;
 
-
-/*
-    private OnItemClickListener mOnItemClickListener;
-
-    public interface OnItemClickListener {
-        void onItemClick(View view, AttachmentModel obj, int position, String action);
-    }
-
-    public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
-        this.mOnItemClickListener = mItemClickListener;
-    }
-*/
-
-    private boolean isLoaderVisible = true;
-    private Boolean delete_action;
-    private List<BadgesModel> items;
-
-    public BadgesAdapter(Context context, List<BadgesModel> items, Boolean delete_action) {
+    public BadgesAdapter(List<BadgesModel> items) {
         this.items = items;
-        this.context = context;
-        this.delete_action =    delete_action;
     }
 
     @NonNull
@@ -88,9 +64,11 @@ public class BadgesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public class IMAGEViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.imgView)
         ImageView imgView;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_post_title)
         TextViewBold txtPostTitle;
 

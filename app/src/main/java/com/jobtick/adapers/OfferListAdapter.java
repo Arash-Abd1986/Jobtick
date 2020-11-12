@@ -35,6 +35,8 @@ import com.jobtick.models.QuestionModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ImageUtil;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +84,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @NonNull
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_NORMAL:
                 return new ViewHolder(
@@ -239,7 +241,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (item.getReply()) {
                 lytBtnReply.setVisibility(View.VISIBLE);
             } else {
-                lytBtnReply.setVisibility(View.GONE);
+                lytBtnReply.setVisibility(View.VISIBLE);
             }
 
             if (item.getCommentsTotal() > 3) {

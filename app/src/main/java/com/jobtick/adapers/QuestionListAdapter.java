@@ -1,5 +1,6 @@
 package com.jobtick.adapers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,14 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.jobtick.activities.ReportActivity;
 import com.jobtick.activities.UserProfileActivity;
-import com.jobtick.utils.ConstantKey;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewBold;
@@ -37,10 +34,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.jobtick.utils.ConstantKey.KEY_OFFER_REPORT;
-import static com.jobtick.utils.ConstantKey.KEY_QUESTION_REPORT;
-
-
 public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int VIEW_TYPE_LOADING = 0;
     private static final int VIEW_TYPE_NORMAL = 1;
@@ -51,7 +44,6 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public interface OnItemClickListener {
         void onItemQuestionClick(View view, QuestionModel obj, int position, String action);
 
-        //  void onItemClick(View view, OfferChatModel obj, int position, String action);
     }
 
     public void setOnItemClickListener(OnItemClickListener mItemClickListener) {
@@ -139,14 +131,17 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class ViewHolder extends BaseViewHolder implements PublicChatListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_avatar)
         CircularImageView imgAvatar;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_name)
-        TextViewBold txtName;
+        TextView txtName;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_created_date)
-        TextViewRegular txtCreatedDate;
+        TextView txtCreatedDate;
         @BindView(R.id.txt_message)
-        TextViewRegular txtMessage;
+        TextView txtMessage;
         @BindView(R.id.recycler_view_question)
         RecyclerView recyclerViewQuestion;
         @BindView(R.id.img_file)
@@ -158,11 +153,11 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.img_more_less_arrow)
         ImageView imgMoreLessArrow;
         @BindView(R.id.txt_more_less)
-        TextViewBold txtMoreLess;
+        TextView txtMoreLess;
         @BindView(R.id.lyt_btn_more)
         LinearLayout lytBtnMore;
         @BindView(R.id.txt_more_reply_question)
-        TextViewBold txtMoreReplyQuestion;
+        TextView txtMoreReplyQuestion;
         @BindView(R.id.recycler_view_questions_chat)
         RecyclerView recyclerViewQuestionsChat;
 
@@ -215,7 +210,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             txtMessage.setText(item.getQuestionText());
             if (item.getAttachments().size() != 0) {
                 recyclerViewQuestion.setVisibility(View.VISIBLE);
-                AttachmentAdapter attachmentAdapter = new AttachmentAdapter(context, item.getAttachments(), false);
+                AttachmentAdapter attachmentAdapter = new AttachmentAdapter(item.getAttachments(), false);
                 recyclerViewQuestion.setHasFixedSize(true);
                 recyclerViewQuestion.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                 recyclerViewQuestion.setAdapter(attachmentAdapter);

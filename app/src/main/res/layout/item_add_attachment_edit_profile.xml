@@ -1,55 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/_65dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/_65dp"
+    android:layout_height="@dimen/_65dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_attachment"
-        android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerInParent="true"
         android:backgroundTint="@color/grey_5"
         app:cardCornerRadius="@dimen/_5sp">
-
 
         <RelativeLayout
             android:id="@+id/rlt_add_attachment"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
             <com.rishabhharit.roundedimageview.RoundedImageView
-                app:cornerRadius="6dp"
                 android:id="@+id/img_view"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
                 android:layout_width="@dimen/_25sp"
                 android:layout_height="@dimen/_25sp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_plus"
-                android:visibility="visible" />
+                android:visibility="visible"
+                app:cornerRadius="6dp" />
 
             <ImageView
-
-                android:layout_margin="@dimen/spacing_medium"
-                android:padding="@dimen/spacing_medium"
-                android:clickable="true"
-                android:visibility="gone"
+                android:id="@+id/img_btn_delete"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/spacing_medium"
+                android:background="@drawable/ic_close_portfollio"
+                android:clickable="true"
+                android:padding="@dimen/spacing_medium"
                 android:src="@drawable/ic_cancel"
                 android:tint="@color/red"
-                android:background="@drawable/ic_close_portfollio"
-                android:id="@+id/img_btn_delete"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"/>
-
-
+                android:visibility="gone"
+                tools:ignore="ContentDescription" />
         </RelativeLayout>
-
-
     </androidx.cardview.widget.CardView>
-
 </RelativeLayout>

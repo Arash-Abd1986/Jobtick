@@ -43,7 +43,24 @@ public class PushNotificationModel2 implements Parcelable
         this.meta = ((Meta) in.readValue((Meta.class.getClassLoader())));
     }
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
     public PushNotificationModel2() {
+    }
+
+    /**
+     * 
+     * @param data
+     * @param meta
+     * @param links
+     */
+    public PushNotificationModel2(List<NotifDatum> data, Links links, Meta meta) {
+        super();
+        this.data = data;
+        this.links = links;
+        this.meta = meta;
     }
 
     public List<NotifDatum> getData() {

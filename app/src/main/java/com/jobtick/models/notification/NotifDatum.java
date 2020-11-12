@@ -19,6 +19,9 @@ public class NotifDatum implements Parcelable
     @SerializedName("created_at")
     @Expose
     private String createdAt;
+    @SerializedName("user")
+    @Expose
+    private User user;
     public final static Creator<NotifDatum> CREATOR = new Creator<NotifDatum>() {
 
 
@@ -40,9 +43,29 @@ public class NotifDatum implements Parcelable
         this.id = ((String) in.readValue((String.class.getClassLoader())));
         this.data = ((Data) in.readValue((Data.class.getClassLoader())));
         this.createdAt = ((String) in.readValue((String.class.getClassLoader())));
+        this.user = ((User) in.readValue((User.class.getClassLoader())));
     }
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
     public NotifDatum() {
+    }
+
+    /**
+     * 
+     * @param createdAt
+     * @param data
+     * @param id
+     * @param user
+     */
+    public NotifDatum(String id, Data data, String createdAt, User user) {
+        super();
+        this.id = id;
+        this.data = data;
+        this.createdAt = createdAt;
+        this.user = user;
     }
 
     public String getId() {
@@ -69,10 +92,19 @@ public class NotifDatum implements Parcelable
         this.createdAt = createdAt;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(id);
         dest.writeValue(data);
         dest.writeValue(createdAt);
+        dest.writeValue(user);
     }
 
     public int describeContents() {

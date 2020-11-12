@@ -34,7 +34,20 @@ public class Offer implements Parcelable
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
     }
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
     public Offer() {
+    }
+
+    /**
+     * 
+     * @param id
+     */
+    public Offer(Integer id) {
+        super();
+        this.id = id;
     }
 
     public Integer getId() {

@@ -4,12 +4,14 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.jobtick.R;
 import com.jobtick.models.notification.NotifDatum;
 
@@ -121,6 +123,9 @@ public class NotificationListAdapter extends RecyclerView.Adapter<BaseViewHolder
         @BindView(R.id.notification_time)
         TextView notificationTime;
 
+        @BindView(R.id.ivProfile)
+        ImageView profileAvatar;
+
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -134,8 +139,13 @@ public class NotificationListAdapter extends RecyclerView.Adapter<BaseViewHolder
         public void onBind(int position) {
             super.onBind(position);
             NotifDatum item = mItems.get(position);
+
+            if(item.getUser() != null && item.getUser().getAvatar() != null && item.getUser().getAvatar().getUrl() != null)
+                Glide.with(profileAvatar).load(item.getUser().getAvatar().getUrl()).into(profileAvatar);
+
             notificationTitle.setText(Html.fromHtml(item.getData().getTitle()));
             notificationTime.setText(item.getCreatedAt());
+
             rowItem.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemClick(v, item, getAdapterPosition(), "action");

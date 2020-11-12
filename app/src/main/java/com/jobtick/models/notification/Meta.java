@@ -1,6 +1,7 @@
 
 package com.jobtick.models.notification;
 
+import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
@@ -19,6 +20,9 @@ public class Meta implements Parcelable
     @SerializedName("last_page")
     @Expose
     private Integer lastPage;
+    @SerializedName("links")
+    @Expose
+    private List<Link> links = null;
     @SerializedName("path")
     @Expose
     private String path;
@@ -52,13 +56,41 @@ public class Meta implements Parcelable
         this.currentPage = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.from = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.lastPage = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        in.readList(this.links, (Link.class.getClassLoader()));
         this.path = ((String) in.readValue((String.class.getClassLoader())));
         this.perPage = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.to = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.total = ((Integer) in.readValue((Integer.class.getClassLoader())));
     }
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
     public Meta() {
+    }
+
+    /**
+     * 
+     * @param path
+     * @param total
+     * @param perPage
+     * @param lastPage
+     * @param from
+     * @param links
+     * @param to
+     * @param currentPage
+     */
+    public Meta(Integer currentPage, Integer from, Integer lastPage, List<Link> links, String path, Integer perPage, Integer to, Integer total) {
+        super();
+        this.currentPage = currentPage;
+        this.from = from;
+        this.lastPage = lastPage;
+        this.links = links;
+        this.path = path;
+        this.perPage = perPage;
+        this.to = to;
+        this.total = total;
     }
 
     public Integer getCurrentPage() {
@@ -83,6 +115,14 @@ public class Meta implements Parcelable
 
     public void setLastPage(Integer lastPage) {
         this.lastPage = lastPage;
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
     }
 
     public String getPath() {
@@ -121,6 +161,7 @@ public class Meta implements Parcelable
         dest.writeValue(currentPage);
         dest.writeValue(from);
         dest.writeValue(lastPage);
+        dest.writeList(links);
         dest.writeValue(path);
         dest.writeValue(perPage);
         dest.writeValue(to);

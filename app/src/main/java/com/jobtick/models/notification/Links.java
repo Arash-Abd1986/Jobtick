@@ -46,7 +46,26 @@ public class Links implements Parcelable
         this.next = ((String) in.readValue((String.class.getClassLoader())));
     }
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
     public Links() {
+    }
+
+    /**
+     * 
+     * @param next
+     * @param last
+     * @param prev
+     * @param first
+     */
+    public Links(String first, String last, Object prev, String next) {
+        super();
+        this.first = first;
+        this.last = last;
+        this.prev = prev;
+        this.next = next;
     }
 
     public String getFirst() {

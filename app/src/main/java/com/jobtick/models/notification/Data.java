@@ -58,7 +58,32 @@ public class Data implements Parcelable
         this.offer = ((Offer) in.readValue((Offer.class.getClassLoader())));
     }
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
     public Data() {
+    }
+
+    /**
+     * 
+     * @param offer
+     * @param trigger
+     * @param title
+     * @param userId
+     * @param taskSlug
+     * @param taskId
+     * @param taskStatus
+     */
+    public Data(String trigger, String title, Integer userId, Integer taskId, String taskSlug, String taskStatus, Offer offer) {
+        super();
+        this.trigger = trigger;
+        this.title = title;
+        this.userId = userId;
+        this.taskId = taskId;
+        this.taskSlug = taskSlug;
+        this.taskStatus = taskStatus;
+        this.offer = offer;
     }
 
     public String getTrigger() {

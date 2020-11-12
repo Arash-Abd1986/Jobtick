@@ -29,13 +29,7 @@
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/no_notification"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never"
-                android:visibility="visible"
-                tools:listitem="@layout/item_notification_row" />
+            <include layout="@layout/view_notification_list"/>
 
         </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

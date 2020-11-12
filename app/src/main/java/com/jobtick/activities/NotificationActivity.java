@@ -103,6 +103,7 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
 
 
     private void initToolbar() {
+        toolbar.setTitle("Notifications");
         toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -181,6 +182,7 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
                         hideProgressDialog();
                         Log.e("EXCEPTION", String.valueOf(e));
                         e.printStackTrace();
+                        checkList();
                     }
                 },
                 error -> {

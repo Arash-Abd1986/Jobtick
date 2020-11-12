@@ -8,48 +8,7 @@
     android:orientation="vertical"
     tools:context=".activities.Dashboard2Activity">
 
-    <!--
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/grey_100"
-            app:contentInsetStart="0dp"
-            app:contentInsetStartWithNavigation="0dp"
-            app:navigationIcon="@drawable/ic_back"
-            app:title="Dashboard"
-            app:titleTextAppearance="@style/Toolbar.TitleText" />
-    -->
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:orientation="horizontal">
-
-
-        <ImageView
-            android:id="@+id/ivBack"
-            android:layout_width="@dimen/_32sp"
-            android:layout_height="@dimen/_32sp"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_10sp"
-            android:padding="@dimen/_8sp"
-            android:src="@drawable/ic_back" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_5sp"
-            android:text="Dashboard"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/_18sp" />
-
-
-    </LinearLayout>
-
+    <include layout="@layout/toolbar"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -597,12 +556,6 @@
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:orientation="vertical">
 
-
-                <!--Design by umesh shera
-                put recyclerview here complete with item row layout
-                i have create new new item_notification-->
-
-
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -612,12 +565,7 @@
                     android:textAppearance="@style/materialText_500_14"
                      />
 
-                <!--<androidx.recyclerview.widget.RecyclerView
-                    tools:listitem="@layout/item_notification"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>-->
-
-
+                <include layout="@layout/view_notification_list" />
             </LinearLayout>
 
 

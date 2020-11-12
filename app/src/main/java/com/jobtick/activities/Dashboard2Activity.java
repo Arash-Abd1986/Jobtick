@@ -2,24 +2,48 @@ package com.jobtick.activities;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.gson.Gson;
 import com.jobtick.R;
+import com.jobtick.adapers.NotificationListAdapter;
 import com.jobtick.models.UserAccountModel;
+import com.jobtick.models.notification.NotifDatum;
+import com.jobtick.models.notification.PushNotificationModel2;
+import com.jobtick.utils.Constant;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.widget.ExtendedJobInfo;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
-public class Dashboard2Activity extends ActivityBase {
+public class Dashboard2Activity extends ActivityBase implements NotificationListAdapter.OnItemClickListener {
 
 
     @BindView(R.id.txt_user_name)
@@ -67,20 +91,21 @@ public class Dashboard2Activity extends ActivityBase {
     @BindView(R.id.iv_badges)
     ImageView iv_badges;
 
-    private String greenColor = "#38C88A";
-    private String grayColor = "#EFEFEF";
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+
+    NotificationListAdapter notificationListAdapter;
+    private PushNotificationModel2 pushNotificationModel2;
+
 
     private UserAccountModel userAccountModel;
     private SessionManager sessionManager;
 
     @BindView(R.id.img_user_avatar)
     ImageView imgUserAvatar;
-/*
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;*/
 
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
+    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,25 +114,18 @@ public class Dashboard2Activity extends ActivityBase {
         ButterKnife.bind(this);
         sessionManager = new SessionManager(Dashboard2Activity.this);
         userAccountModel = sessionManager.getUserAccount();
-        init();
         initToolbar();
         initComponent();
         setData();
         onChangeTabUser();
+        initNotificationList();
     }
 
     private void initToolbar() {
-/*        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setTitle("Dashboard");
+        toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
-        ivBack.setOnClickListener(v -> {
-            finish();
-        });
-    }
-
-
-    public void init() {
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void setData() {
@@ -213,8 +231,75 @@ public class Dashboard2Activity extends ActivityBase {
                 iv_badges.setColorFilter(ContextCompat.getColor(Dashboard2Activity.this, R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
             }
         }
+    }
 
+    @Override
+    public void onItemClick(View view, NotifDatum obj, int position, String action) {
 
+    }
+
+    //we just get last 10 notifications
+    private void getNotificationList() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_NOTIFICATION_LIST + "?page=1",
+                response -> {
+                    Timber.e(response);
+                    hideProgressDialog();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                            String jsonString = jsonObject.toString(); //http request
+                            Gson gson = new Gson();
+                            pushNotificationModel2 = gson.fromJson(jsonString, PushNotificationModel2.class);
+                        } else {
+                            showToast("something went wrong.", this);
+                            checkList();
+                            return;
+                        }
+
+                        notificationListAdapter.addItems(pushNotificationModel2.getData());
+                        checkList();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        checkList();
+                    }
+                },
+                error -> {
+                    checkList();
+                    errorHandle1(error.networkResponse);
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(Dashboard2Activity.this);
+        requestQueue.add(stringRequest);
+        Log.e("url", stringRequest.getUrl());
+
+    }
+
+    private void checkList() {
+    }
+
+    private void initNotificationList() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(Dashboard2Activity.this);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        notificationListAdapter = new NotificationListAdapter(new ArrayList<>());
+        notificationListAdapter.setOnItemClickListener(this);
+        recyclerView.setAdapter(notificationListAdapter);
+
+        getNotificationList();
     }
 
     @Override

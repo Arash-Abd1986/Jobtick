@@ -23,155 +23,162 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/app_bar_layout"
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:elevation="0dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@color/semiBlack">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/background"
+            android:background="@color/semiBlack"
+            app:titleEnabled="false">
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/semiBlack"
-                app:elevation="0dp">
+                android:layout_height="match_parent">
 
-                <com.google.android.material.appbar.CollapsingToolbarLayout
-                    android:id="@+id/collapsing_toolbar"
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/pager"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/semiBlack"
-                    app:contentScrim="?attr/background"
-                    app:titleEnabled="false">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <androidx.viewpager.widget.ViewPager
-                            android:id="@+id/pager"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/semiBlack">
-
-                            <LinearLayout
-                                android:id="@+id/lyt_btn_view_all_offers"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="?attr/selectableItemBackground"
-                                android:gravity="center">
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    style="@style/materialText_500_12"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:text="@string/view_all_offers"
-                                    android:textAllCaps="true"
-                                    android:textColor="@color/white"/>
-                            </LinearLayout>
-                        </androidx.viewpager.widget.ViewPager>
-                    </FrameLayout>
+                    android:layout_height="match_parent">
 
                     <LinearLayout
+                        android:id="@+id/lyt_btn_view_all_offers"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginStart="@dimen/spacing_middle"
-                        android:layout_marginEnd="@dimen/spacing_middle"
-                        android:layout_marginBottom="@dimen/_40dp"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:background="@drawable/shape_tab_left_white"
-                            android:contentDescription="@string/todo"
-                            android:gravity="center"
-                            android:paddingStart="@dimen/spacing_middle"
-                            android:paddingTop="@dimen/spacing_medium"
-                            android:paddingEnd="@dimen/spacing_medium"
-                            android:paddingBottom="@dimen/spacing_medium"
-                            app:srcCompat="@drawable/ic_clock_task_details" />
+                        android:layout_height="match_parent"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center">
 
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/materialText_500_10"
-                            android:id="@+id/txt_due_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:background="@color/white"
-                            android:gravity="center"
-                            android:paddingTop="@dimen/spacing_medium"
-                            android:paddingBottom="@dimen/spacing_medium"
-                            android:textColor="@color/textColor" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            style="@style/materialText_500_10"
-                            android:id="@+id/txt_due_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:background="@drawable/shape_tab_right_white"
-                            android:gravity="center"
-                            android:paddingStart="@dimen/spacing_medium"
-                            android:paddingTop="@dimen/spacing_medium"
-                            android:paddingEnd="@dimen/spacing_middle"
-                            android:paddingBottom="@dimen/spacing_medium"
-                            android:textColor="@color/textColor"/>
-
-                        <FrameLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            tools:ignore="UselessLeaf" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            style="@style/materialText_500_18"
-                            android:id="@+id/txt_budgets"
+                            style="@style/materialText_500_12"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/shape_tab_primary"
                             android:gravity="center"
-                            android:minWidth="@dimen/_50dp"
-                            android:padding="4dp"
-                            android:paddingBottom="@dimen/spacing_xsmall"
+                            android:text="@string/view_all_offers"
+                            android:textAllCaps="true"
                             android:textColor="@color/white"
-                            tools:text="@string/_200" />
+                            tools:ignore="TooDeepLayout" />
                     </LinearLayout>
+                </androidx.viewpager.widget.ViewPager>
+            </FrameLayout>
 
-                    <RelativeLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="@dimen/spacing_middle"
+                android:layout_marginEnd="@dimen/spacing_middle"
+                android:layout_marginBottom="@dimen/_40dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:id="@+id/layout_dots"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="@dimen/spacing_medium"
-                            android:layout_marginBottom="@dimen/spacing_xmlarge"
-                            android:orientation="horizontal" />
-                    </RelativeLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shape_tab_left_white"
+                    android:contentDescription="@string/todo"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/spacing_middle"
+                    android:paddingTop="@dimen/spacing_medium"
+                    android:paddingEnd="@dimen/spacing_medium"
+                    android:paddingBottom="@dimen/spacing_medium"
+                    app:srcCompat="@drawable/ic_clock_task_details" />
 
-                    <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:layout_gravity="top"
-                        android:layout_marginTop="@dimen/spacing_xlarge"
-                        android:layout_marginBottom="@dimen/spacing_mlarge"
-                        app:contentInsetLeft="0dp"
-                        app:contentInsetStart="0dp"
-                        app:contentInsetStartWithNavigation="0dp"
-                        app:layout_collapseMode="pin"
-                        app:menu="@menu/menu_task_details"
-                        app:navigationIcon="@drawable/ic_back_white"
-                        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
-                        app:title="Job Details"
-                        app:titleMarginStart="-25dp"
-                        app:titleTextColor="@color/white" />
-                </com.google.android.material.appbar.CollapsingToolbarLayout>
-            </com.google.android.material.appbar.AppBarLayout>
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_500_10"
+                    android:id="@+id/txt_due_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/spacing_medium"
+                    android:paddingBottom="@dimen/spacing_medium"
+                    android:textColor="@color/textColor" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_500_10"
+                    android:id="@+id/txt_due_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shape_tab_right_white"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/spacing_medium"
+                    android:paddingTop="@dimen/spacing_medium"
+                    android:paddingEnd="@dimen/spacing_middle"
+                    android:paddingBottom="@dimen/spacing_medium"
+                    android:textColor="@color/textColor"/>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    tools:ignore="UselessLeaf" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_500_18"
+                    android:id="@+id/txt_budgets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_tab_primary"
+                    android:gravity="center"
+                    android:minWidth="@dimen/_50dp"
+                    android:padding="4dp"
+                    android:paddingBottom="@dimen/spacing_xsmall"
+                    android:textColor="@color/white"
+                    tools:text="@string/_200" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true">
+
+                <LinearLayout
+                    android:id="@+id/layout_dots"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginBottom="@dimen/spacing_xmlarge"
+                    android:orientation="horizontal" />
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="top"
+                android:layout_marginTop="@dimen/spacing_xlarge"
+                android:layout_marginBottom="@dimen/spacing_mlarge"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
+                app:contentInsetStartWithNavigation="0dp"
+                app:layout_collapseMode="pin"
+                app:menu="@menu/menu_task_details"
+                app:navigationIcon="@drawable/ic_back_white"
+                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+                app:title="Job Details"
+                app:titleMarginStart="-25dp"
+                app:titleTextColor="@color/white" />
+
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </RelativeLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -459,7 +466,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:ellipsize="end"
-                                android:gravity="start"
                                 android:maxLines="1"
                                 android:textColor="@color/colorPrimary"
                                 tools:text="123" />
@@ -476,9 +482,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginStart="8dp"
+                                android:layout_marginStart="2dp"
                                 android:layout_marginEnd="8dp"
-                                android:gravity="start"
                                 android:textColor="@color/grey_70"
                                 tools:text="123" />
                         </LinearLayout>
@@ -625,9 +630,9 @@
                                 android:orientation="horizontal"
                                 android:padding="@dimen/spacing_small"
                                 android:paddingStart="@dimen/_8dp"
-                                android:paddingTop="4dp"
+                                android:paddingTop="8dp"
                                 android:paddingEnd="@dimen/_8dp"
-                                android:paddingBottom="4dp">
+                                android:paddingBottom="8dp">
 
                                 <ImageView
                                     android:layout_width="18dp"
@@ -644,7 +649,7 @@
                                     android:layout_gravity="center"
                                     android:layout_marginStart="4dp"
                                     android:text="@string/chat"
-                                    android:textColor="#4D576A"/>
+                                    android:textColor="#C9C9C9"/>
                             </LinearLayout>
                         </LinearLayout>
                     </RelativeLayout>

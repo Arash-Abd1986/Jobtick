@@ -1,5 +1,6 @@
 package com.jobtick.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -1130,6 +1131,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void setDataInLayout(TaskModel taskModel) {
         txtTitle.setText(taskModel.getTitle());
         txtCreatedDate.setText("Posted " + taskModel.getCreatedAt());
@@ -1164,7 +1166,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             String dueTime = convertObjectToString(taskModel.getDueTime(), "");
             txtDueTime.setText(dueTime);
         }
-        txtDueDate.setText(taskModel.getDueDate() + " - ");
+        if (taskModel.getDueTime() != null) {
+            txtDueDate.setText(taskModel.getDueDate() + " - ");
+        }
+
 
         if (taskModel.getMusthave() != null && taskModel.getMusthave().size() > 0) {
             mustHaveLyt.setVisibility(View.VISIBLE);
@@ -1382,9 +1387,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (taskModel.getAttachments() == null || taskModel.getAttachments().size() == 0) {
             AttachmentModel attachment = new AttachmentModel();
             if (taskModel.getTaskType().equalsIgnoreCase(ConstantKey.PHYSICAL)) {
-                attachment.setDrawable(R.drawable.banner_person);
+                attachment.setDrawable(R.drawable.banner_red);
             } else {
-                attachment.setDrawable(R.drawable.banner_remotely);
+                attachment.setDrawable(R.drawable.banner_green);
             }
             ArrayList<AttachmentModel> attachments = new ArrayList<>();
             attachments.add(attachment);
@@ -2061,22 +2066,25 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 ImageUtil.displayImage(image, attachment.getUrl(), null);
             } else {
                 Tools.displayImageOriginal(act, image, attachment.getDrawable());
-            }
+
             image.setAdjustViewBounds(true);
-            image.setBackgroundResource(R.drawable.banner_person);
-            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                 /*   if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(v, attachment);
-                    }*/
-                    Intent intent = new Intent(act, ZoomImageActivity.class);
-                    intent.putExtra("url", items);
-                    intent.putExtra("title", "");
-                    intent.putExtra("pos", position);
-                    act.startActivity(intent);
-                }
+            if(taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()){
+                image.setBackgroundResource(R.drawable.banner_red);
+                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            }
+             image.setBackgroundResource(R.drawable.banner_green);
+                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            }
+            image.setOnClickListener(v1 -> {
+             /*   if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(v, attachment);
+                }*/
+                Intent intent = new Intent(act, ZoomImageActivity.class);
+                intent.putExtra("url", items);
+                intent.putExtra("title", "");
+                intent.putExtra("pos", position);
+                act.startActivity(intent);
             });
 
             ((ViewPager) container).addView(v);

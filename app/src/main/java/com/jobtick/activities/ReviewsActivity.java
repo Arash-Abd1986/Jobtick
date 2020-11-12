@@ -1,6 +1,5 @@
 package com.jobtick.activities;
 
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,16 +10,15 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -30,7 +28,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.adapers.ReviewAdapter;
 import com.jobtick.models.ReviewModel;
@@ -58,10 +55,8 @@ import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
 public class ReviewsActivity extends ActivityBase {
 
-    private int currentPage = PAGE_START;
-    private boolean isLastPage = false;
+    private final int currentPage = PAGE_START;
     private int totalPage = 10;
-    private boolean isLoading = false;
     private ReviewAdapter reviewAdapter;
     private List<ReviewModel.DataBean> reviewModelList;
     private SessionManager sessionManager;
@@ -106,42 +101,52 @@ public class ReviewsActivity extends ActivityBase {
     @BindView(R.id.progress_bar_3_star)
     ProgressBar progress_bar_3_star;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.progress_bar_2_star)
     ProgressBar progress_bar_2_star;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.progress_bar_1_star)
     ProgressBar progress_bar_1_star;
 
     public String WhoIs;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_review_count_5_star)
     TextView txt_review_count_5_star;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_review_count_4_star)
     TextView txt_review_count_4_star;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_review_count_3_star)
     TextView txt_review_count_3_star;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_review_count_2_star)
     TextView txt_review_count_2_star;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_review_count_1_star)
     TextView txt_review_count_1_star;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_verified)
    ImageView img_verified_account;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_avatar)
     CircularImageView imgAvatar;
     int userId;
 
-
+    RadioButton poster,ticker;
     public ReviewsActivity() {
     }
 
@@ -185,10 +190,28 @@ public class ReviewsActivity extends ActivityBase {
         recyclerReview.setAdapter(reviewAdapter);
         //  reviewAdapter.setOnItemClickListener(this);
         reviewModelList = new ArrayList<>();
-
+        poster=findViewById(R.id.rbPoster);
+        ticker=findViewById(R.id.rbTicker);
         setData();
+        initComponent();
+    }
+    private void initComponent() {
+        poster.setOnCheckedChangeListener((group, checkedId) -> onChangeTabBiography());
+        ticker.setOnCheckedChangeListener((group, checkedId) -> onChangeTabBiography());
     }
 
+    private void onChangeTabBiography() {
+        if (poster.isChecked()) {
+            poster.setTextColor(getResources().getColor(R.color.blue));
+            ticker.setTextColor(getResources().getColor(R.color.textColor));
+        } else
+        if (ticker.isChecked()) {
+            ticker.setTextColor(getResources().getColor(R.color.textColor));
+            poster.setTextColor(getResources().getColor(R.color.blue));
+
+        }
+    }
+    @SuppressLint("SetTextI18n")
     public void setData() {
 
         if (userAccountModel.getIsVerifiedAccount() == 1) {
@@ -207,9 +230,7 @@ public class ReviewsActivity extends ActivityBase {
                 ratingBar.setProgress(userAccountModel.getPosterRatings().getAvgRating());
                 txtRatingValue.setText("(" + userAccountModel.getPosterRatings().getAvgRating() + ")");
             }
-            if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCompletionRate() != null) {
-                //txtComplettionRate.setText(userAccountModel.getPostTaskStatistics().getCompletionRate() + "% Completion Rate");
-            }
+            //txtComplettionRate.setText(userAccountModel.getPostTaskStatistics().getCompletionRate() + "% Completion Rate");
 
             if (userAccountModel.getPosterRatings() != null &&
                     userAccountModel.getPosterRatings().getReceivedReviews() != null) {
@@ -275,9 +296,7 @@ public class ReviewsActivity extends ActivityBase {
                 ratingBar.setProgress(userAccountModel.getWorkerRatings().getAvgRating());
                 txtRatingValue.setText("(" + userAccountModel.getWorkerRatings().getAvgRating() + ")");
             }
-            if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getCompletionRate() != null) {
-                //txtComplettionRate.setText(userAccountModel.getWorkTaskStatistics().getCompletionRate() + "% Completion Rate");
-            }
+            //txtComplettionRate.setText(userAccountModel.getWorkTaskStatistics().getCompletionRate() + "% Completion Rate");
             if (userAccountModel.getWorkerRatings() != null
                     && userAccountModel.getWorkerRatings().getReceivedReviews() != null) {
 
@@ -361,9 +380,7 @@ public class ReviewsActivity extends ActivityBase {
                             data = gson.fromJson(jsonString, ReviewModel.class);
 
 
-                            for (int i = 0; i < data.getData().size(); i++) {
-                                reviewModelList.add(data.getData().get(i));
-                            }
+                            reviewModelList.addAll(data.getData());
 
                         } else {
                             ReviewsActivity.this.showToast("something went to wrong", ReviewsActivity.this);
@@ -379,8 +396,6 @@ public class ReviewsActivity extends ActivityBase {
                         /*
                          *manage progress view
                          */
-                        if (currentPage != PAGE_START)
-                            reviewAdapter.removeLoading();
 
                         if (reviewModelList.size() <= 0) {
                             //  ivNoPost.setVisibility(View.VISIBLE);
@@ -396,15 +411,12 @@ public class ReviewsActivity extends ActivityBase {
                         // check weather is last page or not
                         if (currentPage < totalPage) {
                             reviewAdapter.addLoading();
-                        } else {
-                            isLastPage = true;
                         }
-                        isLoading = false;
                         hideProgressDialog();
                     } catch (JSONException e) {
                         //str_search = null;
                         //  dashboardActivity.hidepDialog();
-                        Log.e("EXCEPTION", String.valueOf(e));
+                        Timber.e(String.valueOf(e));
                         e.printStackTrace();
                     }
                 },
@@ -445,8 +457,8 @@ public class ReviewsActivity extends ActivityBase {
                     dashboardActivity.errorHandle1(error.networkResponse);*/
                 }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
                 return map1;
@@ -457,7 +469,7 @@ public class ReviewsActivity extends ActivityBase {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(ReviewsActivity.this);
         requestQueue.add(stringRequest);
-        Log.e("url", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
 
 
     }
@@ -483,12 +495,7 @@ public class ReviewsActivity extends ActivityBase {
         TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
         txtMessage.setText(message);
 
-        ((AppCompatButton) dialog.findViewById(R.id.btn_ok)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        dialog.findViewById(R.id.btn_ok).setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
         dialog.getWindow().setAttributes(lp);

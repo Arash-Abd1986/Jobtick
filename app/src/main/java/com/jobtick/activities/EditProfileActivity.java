@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -75,7 +74,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -238,6 +236,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private boolean isUploadPortfolio = false;
     private boolean isFabHide = false;
     private AttachmentAdapterEditProfile adapter;
+    private LinearLayout btnVerify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -246,7 +245,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         ButterKnife.bind(this);
         attachmentArrayList = new ArrayList<>();
         mBehavior = BottomSheetBehavior.from(bottomSheet);
-
+        btnVerify=findViewById(R.id.lyt_btn_close);
+        btnVerify.setOnClickListener(view -> verifyPhone());
         ivBack.setOnClickListener(v -> onBackPressed());
         txtBirthDate.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
@@ -274,7 +274,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     }
 
     private void initComponentScroll() {
-        NestedScrollView nested_content = (NestedScrollView) findViewById(R.id.nested_scroll_view);
+        NestedScrollView nested_content = findViewById(R.id.nested_scroll_view);
         nested_content.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             if (scrollY < oldScrollY) { // up
                 animateFab(false);
@@ -293,22 +293,22 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     }
 
     private boolean validation() {
-        if (TextUtils.isEmpty(edtFirstName.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtFirstName.getText().trim())) {
             edtFirstName.setError("Enter first name");
             return false;
-        } else if (TextUtils.isEmpty(edtLastName.getText().toString().trim())) {
+        } else if (TextUtils.isEmpty(edtLastName.getText().trim())) {
             edtLastName.setError("Enter last name");
             return false;
-        } else if (TextUtils.isEmpty(txtSuburb.getText().toString().trim())) {
+        } else if (TextUtils.isEmpty(txtSuburb.getText().trim())) {
             txtSuburb.setError("Select your location");
             return false;
-        } else if (TextUtils.isEmpty(edtTagline.getText().toString().trim())) {
+        } else if (TextUtils.isEmpty(edtTagline.getText().trim())) {
             edtTagline.setError("Enter your tagline");
             return false;
-        } else if (TextUtils.isEmpty(edtAboutMe.getText().toString().trim())) {
+        } else if (TextUtils.isEmpty(edtAboutMe.getText().trim())) {
             edtAboutMe.setError("Enter your about");
             return false;
-        } else if (TextUtils.isEmpty(edtBusinessNumber.getText().toString().trim())) {
+        } else if (TextUtils.isEmpty(edtBusinessNumber.getText().trim())) {
             edtBusinessNumber.setError("Enter your Business Number");
             return false;
         } else if (TextUtils.isEmpty(txtBirthDate.getText().toString().trim())) {
@@ -321,14 +321,14 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private void submitProfile() {
         showProgressDialog();
         Helper.closeKeyboard(this);
-        String str_fname = edtFirstName.getText().toString().trim();
-        String str_lname = edtLastName.getText().toString().trim();
-        String str_suburb = txtSuburb.getText().toString().trim();
+        String str_fname = edtFirstName.getText().trim();
+        String str_lname = edtLastName.getText().trim();
+        String str_suburb = txtSuburb.getText().trim();
         String str_latitude = sessionManager.getLatitude();
         String str_longitude = sessionManager.getLongitude();
-        String str_tag = edtTagline.getText().toString().trim();
-        String str_about_me = edtAboutMe.getText().toString().trim();
-        String str_business_number = edtBusinessNumber.getText().toString().trim();
+        String str_tag = edtTagline.getText().trim();
+        String str_about_me = edtAboutMe.getText().trim();
+        String str_business_number = edtBusinessNumber.getText().trim();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_USER_PROFILE_INFO,
                 response -> {
@@ -336,12 +336,10 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                     try {
                         if (response != null) {
                             JSONObject jsonObject = new JSONObject(response);
-                            if (jsonObject != null) {
-                                JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                                showToast(jsonObject.getString("message"), EditProfileActivity.this);
-                                if (onProfileupdatelistener != null) {
-                                    onProfileupdatelistener.updateProfile();
-                                }
+                            JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+                            showToast(jsonObject.getString("message"), EditProfileActivity.this);
+                            if (onProfileupdatelistener != null) {
+                                onProfileupdatelistener.updateProfile();
                             }
                         }
 
@@ -683,9 +681,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             R.id.card_save_profile, R.id.lyt_btn_close})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.lyt_btn_close:
-                verifyPhone();
-                break;
             case R.id.card_save_profile:
 
                 new MaterialAlertDialogBuilder(EditProfileActivity.this)
@@ -799,9 +794,19 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     }
 
     private void verifyPhone() {
-        Intent intent = new Intent(this, MobileVerificationActivity.class);
-        intent.putExtra("phone_number", edtPhoneNumber.getText().toString());
-        startActivity(intent);
+        if(edtPhoneNumber.toString().equals("")){
+            showToast("write number", EditProfileActivity.this);
+            btnVerify.setClickable(false);
+            btnVerify.setEnabled(false);
+        }else {
+            btnVerify.setClickable(true);
+            btnVerify.setEnabled(true);
+            Intent intent = new Intent(this, MobileVerificationActivity.class);
+            intent.putExtra("phone_number", edtPhoneNumber.getText().toString());
+            startActivity(intent);
+        }
+
+
     }
 
     private void uploadDataInPortfolioMediaApi(File pictureFile) {
@@ -964,41 +969,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
                         //// uploadDataInPortfolioMediaApi(file);
                     }
-                } else if (requestCode == GALLERY_PICKUP_VIDEO_REQUEST_CODE) {
-                    if (resultCode == RESULT_OK) {
-                        imageStoragePath = CameraUtils.getImagePath(EditProfileActivity.this, data.getData());
-                        Timber.e(imageStoragePath);
-                        if (imageStoragePath != null) {
-                            MediaPlayer mpl = MediaPlayer.create(EditProfileActivity.this, Uri.parse(imageStoragePath));
-                            int si = mpl.getDuration();
-                            long duration = TimeUnit.MILLISECONDS.toSeconds(si);
-                            File file = new File(imageStoragePath);
-                            long file_size = Integer.parseInt(String.valueOf(file.length()));
-                            if (duration > MAX_VIDEO_DURATION) {
-                                CameraUtils.showLimitDialog(EditProfileActivity.this);
-                                imageStoragePath = null;
-                            } else if (file_size > MAX_VIDEO_SIZE) {
-                                showToast("Maximum video size exceeds(20 MB)", EditProfileActivity.this);
-                                imageStoragePath = null;
-                            } else {
-                                Timber.e("%s", String.valueOf(duration));
-                                Timber.e("%s", String.valueOf(file_size));
-                                // uploadUrl = strVideoPath;
-                                Timber.e("video");
-                                uploadDataInPortfolioMediaApi(file);
-                            }
-                        }
-                    } else if (resultCode == RESULT_CANCELED) {
-                        // user cancelled recording
-                        Toast.makeText(getApplicationContext(),
-                                "User cancelled video recording", Toast.LENGTH_SHORT)
-                                .show();
-                    } else {
-                        // failed to record video
-                        Toast.makeText(getApplicationContext(),
-                                "Sorry! Failed to record video", Toast.LENGTH_SHORT)
-                                .show();
-                    }
                 } else {
                     // failed to record video
                     Toast.makeText(getApplicationContext(),
@@ -1112,10 +1082,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
 
-                            if (ConstantKey.MEDIA_TYPE_IMAGE == ConstantKey.MEDIA_TYPE_IMAGE) {
-                                // capture picture
-                                captureImage();
-                            }
+                            // capture picture
+                            captureImage();
 
                         } else if (report.isAnyPermissionPermanentlyDenied()) {
                             showPermissionsAlert();

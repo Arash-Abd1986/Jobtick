@@ -99,13 +99,6 @@
         tools:text="adipisicing adipisicing commodo Lorem enim si adipis adipisicing commodo Lorem enim si..."
         android:textColor="@color/textColor" />
 
-    <com.google.android.material.textview.MaterialTextView
-        style="@style/materialText_500_12"
-        android:id="@+id/txt_created_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:textColor="@color/grey_40"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_img_file"
@@ -132,34 +125,52 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/lyt_btn_more"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/linear_rounded_f0f0f0_5dp"
-            android:orientation="horizontal"
-            android:padding="@dimen/spacing_large"
-            tools:ignore="UselessParent">
-
-            <ImageView
-                android:id="@+id/img_more_less_arrow"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_arrow_down_blue"
-                android:visibility="gone"
-                android:contentDescription="@string/todo" />
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_500_12"
-                android:id="@+id/txt_more_less"
+            android:orientation="vertical"
+            android:layout_marginTop="4dp">
+            <LinearLayout
+                android:id="@+id/lyt_btn_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/spacing_middle"
-                android:layout_marginEnd="@dimen/spacing_middle"
-                android:gravity="center_vertical"
-                android:text="@string/see_more"
-                android:textColor="@color/grey_70"/>
+                android:layout_gravity="right"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:padding="@dimen/spacing_small"
+                tools:ignore="RelativeOverlap,RtlHardcoded">
+
+                <ImageView
+                    android:id="@+id/img_more_less_arrow"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_arrow_down_blue"
+                    android:contentDescription="@string/todo" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_500_12"
+                    android:id="@+id/txt_more_less"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/spacing_middle"
+                    android:gravity="center_vertical"
+                    android:text="@string/more"
+                    android:textColor="@color/colorPrimary"/>
+            </LinearLayout>
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_500_12"
+                android:id="@+id/txt_created_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:text="21 min. ago"
+                android:textColor="@color/grey_40"
+                tools:ignore="HardcodedText" />
+
+
+
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

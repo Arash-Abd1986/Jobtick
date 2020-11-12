@@ -121,33 +121,20 @@
                 android:contentDescription="@string/todo" />
         </androidx.cardview.widget.CardView>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
-
-            <com.google.android.material.textview.MaterialTextView
-            style="@style/materialText_500_12"
-                android:id="@+id/txt_created_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_medium"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginEnd="@dimen/spacing_medium"
-                android:text="21 min. ago"
-                android:textColor="@color/grey_40"
-                tools:ignore="HardcodedText" />
-
-
+            android:orientation="vertical"
+            android:layout_marginTop="4dp">
             <LinearLayout
                 android:id="@+id/lyt_btn_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
+                android:layout_gravity="right"
                 android:background="?attr/selectableItemBackground"
                 android:orientation="horizontal"
                 android:padding="@dimen/spacing_small"
-                tools:ignore="RelativeOverlap">
+                tools:ignore="RelativeOverlap,RtlHardcoded">
 
                 <ImageView
                     android:id="@+id/img_more_less_arrow"
@@ -167,7 +154,21 @@
                     android:text="@string/more"
                     android:textColor="@color/colorPrimary"/>
             </LinearLayout>
-        </RelativeLayout>
+            <com.google.android.material.textview.MaterialTextView
+            style="@style/materialText_500_12"
+                android:id="@+id/txt_created_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:text="21 min. ago"
+                android:textColor="@color/grey_40"
+                tools:ignore="HardcodedText" />
+
+
+
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

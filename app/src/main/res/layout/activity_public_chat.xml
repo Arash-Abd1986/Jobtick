@@ -26,7 +26,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/toolbar">-->
-
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        app:cardBackgroundColor="@color/rating_card_bg"
+        app:cardCornerRadius="4dp">
         <LinearLayout
             android:layout_below="@+id/toolbar"
             android:layout_above="@id/lyt_create_message"
@@ -489,6 +494,8 @@
                 android:overScrollMode="never" />
 
         </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 
 
 

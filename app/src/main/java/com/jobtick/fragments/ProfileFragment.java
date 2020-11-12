@@ -183,7 +183,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rbSkills)
-    RadioButton rbSkills;
+   RadioButton rbSkills;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_get_quote)
@@ -334,8 +334,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             //  tvSkills.setVisibility(View.GONE);
             // llEnlarge.setVisibility(View.VISIBLE);
             //recyclerViewBadges.setVisibility(View.GONE);
-        } else if (rbSkills.isChecked()) {
-            // lytAbout.setVisibility(View.GONE);
+        } else
+            if (rbSkills.isChecked()) {
             if (tagEducation.size()<=0 && tagExperience.size()<=0 && tagLanguage.size() <= 0
             && tagSpecialities.size()<=0&& tagTransportation.size()<=0) {
                 NoPortfolio.setVisibility(View.VISIBLE);
@@ -344,8 +344,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             } else {
                 NoPortfolio.setVisibility(View.GONE);
                 lSkill.setVisibility(View.VISIBLE);
-                tvSkills.setVisibility(View.VISIBLE);
-            }
+                tvSkills.setVisibility(View.VISIBLE); }
             lPort.setVisibility(View.GONE);
             rbPortfollio.setTextColor(getResources().getColor(R.color.textColor));
             rbSkills.setTextColor(getResources().getColor(R.color.blue));

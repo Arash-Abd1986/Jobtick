@@ -143,7 +143,7 @@
                     android:weightSum="2">
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:id="@+id/ticker"
+                        android:id="@+id/rbTicker"
                         style="@style/materialText_600_14"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_60dp"
@@ -158,7 +158,7 @@
                         tools:ignore="TooDeepLayout" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:id="@+id/poster"
+                        android:id="@+id/rbPoster"
                         style="@style/materialText_600_14"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_60dp"

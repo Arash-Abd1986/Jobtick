@@ -110,6 +110,7 @@ public class PhoneReqFragment extends Fragment implements TextWatcher {
     }
 
     private void goNext(){
+        assert getParentFragment() != null;
         ((TickerRequirementsBottomSheet) getParentFragment()).changeFragment(5);
     }
 

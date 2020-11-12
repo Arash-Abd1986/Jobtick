@@ -1,6 +1,5 @@
 package com.jobtick.adapers;
 
-import android.content.Context;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
-import com.jobtick.models.PushNotificationModel;
-import com.jobtick.utils.SessionManager;
+import com.jobtick.models.notification.NotifDatum;
 
 import java.util.List;
 
@@ -26,14 +24,11 @@ public class NotificationListAdapter extends RecyclerView.Adapter<BaseViewHolder
     private static final int VIEW_TYPE_NORMAL = 1;
 
 
-    private SessionManager sessionManager;
-
-    private Context context;
     private OnItemClickListener mOnItemClickListener;
 
 
     public interface OnItemClickListener {
-        void onItemClick(View view, PushNotificationModel obj, int position, String action);
+        void onItemClick(View view, NotifDatum obj, int position, String action);
     }
 
     public void setOnItemClickListener(OnItemClickListener mItemClickListener) {
@@ -42,12 +37,10 @@ public class NotificationListAdapter extends RecyclerView.Adapter<BaseViewHolder
 
 
     private boolean isLoaderVisible = false;
-    private List<PushNotificationModel> mItems;
+    private List<NotifDatum> mItems;
 
-    public NotificationListAdapter(Context context, List<PushNotificationModel> mItems) {
+    public NotificationListAdapter(List<NotifDatum> mItems) {
         this.mItems = mItems;
-        this.context = context;
-        this.sessionManager = new SessionManager(context);
     }
 
     @NonNull
@@ -84,7 +77,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<BaseViewHolder
         return mItems == null ? 0 : mItems.size();
     }
 
-    public void addItems(List<PushNotificationModel> mItems) {
+    public void addItems(List<NotifDatum> mItems) {
         this.mItems.addAll(mItems);
         notifyDataSetChanged();
     }
@@ -92,14 +85,14 @@ public class NotificationListAdapter extends RecyclerView.Adapter<BaseViewHolder
 
     public void addLoading() {
         isLoaderVisible = true;
-        this.mItems.add(new PushNotificationModel(context));
+        this.mItems.add(new NotifDatum());
         notifyItemInserted(this.mItems.size() - 1);
     }
 
     public void removeLoading() {
         isLoaderVisible = false;
         int position = mItems.size() - 1;
-        PushNotificationModel item = getItem(position);
+        NotifDatum item = getItem(position);
         if (item != null) {
             mItems.remove(position);
             notifyItemRemoved(position);
@@ -112,7 +105,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<BaseViewHolder
         notifyDataSetChanged();
     }
 
-    PushNotificationModel getItem(int position) {
+    NotifDatum getItem(int position) {
         return mItems.get(position);
     }
 
@@ -140,9 +133,9 @@ public class NotificationListAdapter extends RecyclerView.Adapter<BaseViewHolder
 
         public void onBind(int position) {
             super.onBind(position);
-            PushNotificationModel item = mItems.get(position);
-            notificationTitle.setText(Html.fromHtml(item.getTitle()));
-            notificationTime.setText(item.getStatus());
+            NotifDatum item = mItems.get(position);
+            notificationTitle.setText(Html.fromHtml(item.getData().getTitle()));
+            notificationTime.setText(item.getCreatedAt());
             rowItem.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemClick(v, item, getAdapterPosition(), "action");

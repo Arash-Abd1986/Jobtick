@@ -146,10 +146,23 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
 
     private void onChangeTabUser() {
         if (rbAsAPoster.isChecked()) {
+            txtAwaitingOffer.setTitle("Awaiting \nfor offer");
+            txtReleasedMoney.setTitle("Released\nMoney");
             if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getAssigned() != null) {
-                txtAwaitingOffer.setValue(userAccountModel.getPostTaskStatistics().getAssigned().toString());
+                txtAssigend.setValue(userAccountModel.getPostTaskStatistics().getAssigned().toString());
             } else {
-                txtAwaitingOffer.setValue("0");
+                txtAssigend.setValue("0");
+            }
+            if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCancelled() != null) {
+                txtAssigend.setValue(userAccountModel.getPostTaskStatistics().getCancelled().toString());
+            } else {
+                extCancelled.setValue("0");
+            }
+
+            if (userAccountModel.getPosterTier() != null && userAccountModel.getPosterTier().getServiceFee() != null) {
+                txtReleasedMoney.setValue(userAccountModel.getPosterTier().getServiceFee().toString());
+            } else {
+                txtReleasedMoney.setValue("0");
             }
 
             if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getOverdue() != null) {
@@ -162,18 +175,28 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
             } else {
                 txtCompleted.setValue("0");
             }
-            if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCurrentBids() != null) {
-                txtAwaitingOffer.setValue(userAccountModel.getPostTaskStatistics().getCurrentBids().toString());
+            if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getOpenForBids() != null) {
+                txtAwaitingOffer.setValue(userAccountModel.getPostTaskStatistics().getOpenForBids().toString());
             } else {
                 txtAwaitingOffer.setValue("0");
             }
         } else {
-
+            txtAwaitingOffer.setTitle("Offered");
+            txtReleasedMoney.setTitle("Asked to\nrelease");
             if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getAssigned() != null) {
-                txtAwaitingOffer.setValue(userAccountModel.getWorkTaskStatistics().getAssigned().toString());
+                txtAssigend.setValue(userAccountModel.getWorkTaskStatistics().getAssigned().toString());
             } else {
-                txtAwaitingOffer.setValue("0");
-
+                txtAssigend.setValue("0");
+            }
+            if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getCancelled() != null) {
+                extCancelled.setValue(userAccountModel.getWorkTaskStatistics().getCancelled().toString());
+            } else {
+                extCancelled.setValue("0");
+            }
+            if (userAccountModel.getWorkerTier() != null && userAccountModel.getWorkerTier().getServiceFee() != null) {
+                txtReleasedMoney.setValue(userAccountModel.getWorkerTier().getServiceFee().toString());
+            } else {
+                txtReleasedMoney.setValue("0");
             }
 
             if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getOverdue() != null) {
@@ -186,8 +209,8 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
             } else {
                 txtCompleted.setValue("0");
             }
-            if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getCurrentBids() != null) {
-                txtAwaitingOffer.setValue(userAccountModel.getWorkTaskStatistics().getCurrentBids().toString());
+            if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getTotalPosted() != null) {
+                txtAwaitingOffer.setValue(userAccountModel.getWorkTaskStatistics().getTotalPosted().toString());
             } else {
                 txtAwaitingOffer.setValue("0");
             }

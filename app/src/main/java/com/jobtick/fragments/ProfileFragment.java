@@ -355,7 +355,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     private void init() {
 
         recyclerViewPortfolio.setLayoutManager(new GridLayoutManager(dashboardActivity, 3));
-        recyclerViewPortfolio.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(dashboardActivity, 8), true));
+        recyclerViewPortfolio.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(dashboardActivity, 3), true));
         recyclerViewPortfolio.setHasFixedSize(true);
 
         adapter = new AttachmentAdapter(attachmentArrayList, false);

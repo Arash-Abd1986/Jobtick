@@ -787,7 +787,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     }
 
     private void verifyPhone() {
-        if(edtPhoneNumber.toString().equals("")){
+        if(edtPhoneNumber.length()==0){
             showToast("write number", EditProfileActivity.this);
             btnVerify.setClickable(false);
             btnVerify.setEnabled(false);

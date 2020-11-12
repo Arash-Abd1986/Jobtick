@@ -204,12 +204,13 @@ public class ReviewsActivity extends ActivityBase {
         if (poster.isChecked()) {
             poster.setTextColor(getResources().getColor(R.color.blue));
             ticker.setTextColor(getResources().getColor(R.color.textColor));
-        } else
+        } else {poster.setTextColor(getResources().getColor(R.color.textColor));
+            ticker.setTextColor(getResources().getColor(R.color.blue));}
         if (ticker.isChecked()) {
-            ticker.setTextColor(getResources().getColor(R.color.textColor));
-            poster.setTextColor(getResources().getColor(R.color.blue));
-
-        }
+            ticker.setTextColor(getResources().getColor(R.color.blue));
+            poster.setTextColor(getResources().getColor(R.color.textColor));
+        } else {ticker.setTextColor(getResources().getColor(R.color.textColor));
+            poster.setTextColor(getResources().getColor(R.color.blue));}
     }
     @SuppressLint("SetTextI18n")
     public void setData() {

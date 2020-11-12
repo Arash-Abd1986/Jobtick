@@ -731,39 +731,15 @@
             </androidx.core.widget.NestedScrollView>
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_save_profile"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_next"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            style="@style/materialButton.colorPrimary"
+            android:text="@string/save"
             android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:layout_margin="@dimen/spacing_large"
-            android:backgroundTint="@color/colorPrimary"
-            android:elevation="@dimen/spacing_middle"
-            app:cardCornerRadius="@dimen/spacing_medium">
-
-            <LinearLayout
-                android:id="@+id/lyt_btn_save_profile"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_btn_text"
-                    style="@style/materialText_500_14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/save"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+            android:enabled="false"/>
 
     </RelativeLayout>
 

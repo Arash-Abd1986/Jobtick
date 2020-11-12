@@ -26,19 +26,15 @@
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/_100dp">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
-                    android:visibility="visible"
-                    app:cardCornerRadius="@dimen/spacing_medium">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_large"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="@dimen/spacing_large"
+                        android:layout_marginBottom="@dimen/spacing_middle"
+                        android:background="@drawable/bg_white"
+                        android:visibility="visible"
                         android:orientation="horizontal"
                         android:padding="8dp">
 
@@ -171,23 +167,17 @@
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
-                    android:elevation="@dimen/spacing_medium"
-                    android:visibility="visible"
-                    app:cardCornerRadius="@dimen/spacing_medium">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:layout_marginStart="@dimen/spacing_large"
+                        android:layout_marginTop="@dimen/spacing_medium"
+                        android:layout_marginEnd="@dimen/spacing_large"
+                        android:background="@drawable/bg_white"
+                        android:layout_marginBottom="@dimen/spacing_middle"
+                        android:visibility="visible"
                         android:padding="8dp">
 
                         <com.google.android.material.textview.MaterialTextView
@@ -288,7 +278,6 @@
                                 android:src="@drawable/ic_medal4" />
                         </LinearLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -334,7 +323,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:elevation="@dimen/_10sp"
                         app:cardBackgroundColor="@color/rating_card_bg"
                         app:cardCornerRadius="@dimen/_10sp">
 
@@ -410,7 +398,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sp"
                         android:layout_weight="1"
-                        android:elevation="@dimen/_10sp"
                         app:cardBackgroundColor="@color/rating_card_bg"
                         app:cardCornerRadius="@dimen/_10sp">
 
@@ -611,12 +598,6 @@
                                 android:text="@string/skills"
                                 android:textColor="@color/blue" />
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/recycler_view_badges"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:overScrollMode="never" />
-
                             <LinearLayout
                                 android:id="@+id/lyt_education"
                                 android:layout_width="match_parent"
@@ -779,7 +760,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/_5sp"
                                     android:text="@string/transportation"
-                                    android:textColor="@color/textColor" />
+                                    android:textColor="@color/textColor"
+                                    tools:ignore="TooManyViews" />
 
                                 <co.lujun.androidtagview.TagContainerLayout
                                     android:id="@+id/tag_transportation"

@@ -203,8 +203,6 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     private BadgesAdapter badgesAdapter;
     public static onProfileUpdateListener onProfileupdatelistener;
     private Typeface poppins_medium;
-    private ImageView ivNotification;
-    private TextView toolbar_title;
     private LinearLayout lPort, lSkill, NoPortfolio;
 
     public ProfileFragment() {
@@ -228,9 +226,9 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             toolbar = dashboardActivity.findViewById(R.id.toolbar);
             toolbar.getMenu().clear();
             toolbar.inflateMenu(R.menu.menu_profile);
-            ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
+            ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
             ivNotification.setVisibility(View.GONE);
-            toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
+            TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
             toolbar_title.setVisibility(View.VISIBLE);
 
             toolbar_title.setText("Profile");
@@ -282,7 +280,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     }
 
     private void initComponentScroll(View view) {
-        NestedScrollView nested_content = (NestedScrollView) view.findViewById(R.id.nested_scroll_view);
+        NestedScrollView nested_content = view.findViewById(R.id.nested_scroll_view);
         nested_content.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             if (scrollY < oldScrollY) { // up
                 animateFab(false);
@@ -341,9 +339,21 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             if (badgesModelArrayList.size() <= 0) {
                 NoPortfolio.setVisibility(View.VISIBLE);
                 lSkill.setVisibility(View.GONE);
+                tvSkills.setVisibility(View.GONE);
+                lytEducation.setVisibility(View.GONE);
+                lytExperience.setVisibility(View.GONE);
+                lytLanguage.setVisibility(View.GONE);
+                lytSpecialities.setVisibility(View.GONE);
+                lytTransportation.setVisibility(View.GONE);
             } else {
                 NoPortfolio.setVisibility(View.GONE);
                 lSkill.setVisibility(View.VISIBLE);
+                tvSkills.setVisibility(View.VISIBLE);
+                lytEducation.setVisibility(View.VISIBLE);
+                lytExperience.setVisibility(View.VISIBLE);
+                lytLanguage.setVisibility(View.VISIBLE);
+                lytSpecialities.setVisibility(View.VISIBLE);
+                lytTransportation.setVisibility(View.VISIBLE);
             }
             lPort.setVisibility(View.GONE);
             rbPortfollio.setTextColor(getResources().getColor(R.color.textColor));
@@ -464,47 +474,59 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             imgVerified.setVisibility(View.VISIBLE);
         } else {
             imgVerified.setVisibility(View.GONE);
-
-            if (userAccountModel.getSkills().getEducation() != null && userAccountModel.getSkills().getEducation().size() != 0) {
-                lytEducation.setVisibility(View.VISIBLE);
-                //tagEducation.setText(userAccountModel.getSkills().getEducation());
-
-                tagEducation.setTags(userAccountModel.getSkills().getEducation());
-
-            } else {
+            if(userAccountModel.getSkills().getExperience() == null && userAccountModel.getSkills().getExperience().size() == 0 &&
+               userAccountModel.getSkills().getLanguage() == null && userAccountModel.getSkills().getLanguage().size() == 0 &&
+               userAccountModel.getSkills().getSpecialities() == null && userAccountModel.getSkills().getSpecialities().size() == 0 &&
+               userAccountModel.getSkills().getTransportation() == null && userAccountModel.getSkills().getTransportation().size() == 0 &&
+               userAccountModel.getSkills().getEducation() == null && userAccountModel.getSkills().getEducation().size() == 0){
+                NoPortfolio.setVisibility(View.VISIBLE);
+                lSkill.setVisibility(View.GONE);
                 lytEducation.setVisibility(View.GONE);
-                tagEducation.setTags(new ArrayList<>());
-
-
-            }
-            if (userAccountModel.getSkills().getExperience() != null && userAccountModel.getSkills().getExperience().size() != 0) {
-                lytExperience.setVisibility(View.VISIBLE);
-                tagExperience.setTags(userAccountModel.getSkills().getExperience());
-            } else {
                 lytExperience.setVisibility(View.GONE);
-                tagExperience.setTags(new ArrayList<>());
-            }
-            if (userAccountModel.getSkills().getLanguage() != null && userAccountModel.getSkills().getLanguage().size() != 0) {
-                lytLanguage.setVisibility(View.VISIBLE);
-                tagLanguage.setTags(userAccountModel.getSkills().getLanguage());
-            } else {
                 lytLanguage.setVisibility(View.GONE);
-                tagLanguage.setTags(new ArrayList<>());
-            }
-            if (userAccountModel.getSkills().getSpecialities() != null && userAccountModel.getSkills().getSpecialities().size() != 0) {
-                lytSpecialities.setVisibility(View.VISIBLE);
-                tagSpecialities.setTags(userAccountModel.getSkills().getSpecialities());
-
-            } else {
                 lytSpecialities.setVisibility(View.GONE);
-                tagSpecialities.setTags(new ArrayList<>());
-            }
-            if (userAccountModel.getSkills().getTransportation() != null && userAccountModel.getSkills().getTransportation().size() != 0) {
-                lytTransportation.setVisibility(View.VISIBLE);
-                tagTransportation.setTags(userAccountModel.getSkills().getTransportation());
-            } else {
                 lytTransportation.setVisibility(View.GONE);
-                tagTransportation.setTags(new ArrayList<>());
+            }else{
+                if (userAccountModel.getSkills().getEducation() != null && userAccountModel.getSkills().getEducation().size() != 0) {
+                    lytEducation.setVisibility(View.VISIBLE);
+                    //tagEducation.setText(userAccountModel.getSkills().getEducation());
+
+                    tagEducation.setTags(userAccountModel.getSkills().getEducation());
+
+                } else {
+                    lytEducation.setVisibility(View.GONE);
+                    tagEducation.setTags(new ArrayList<>());
+                }
+                if (userAccountModel.getSkills().getExperience() != null && userAccountModel.getSkills().getExperience().size() != 0) {
+                    lytExperience.setVisibility(View.VISIBLE);
+                    tagExperience.setTags(userAccountModel.getSkills().getExperience());
+                } else {
+                    lytExperience.setVisibility(View.GONE);
+                    tagExperience.setTags(new ArrayList<>());
+                }
+                if (userAccountModel.getSkills().getLanguage() != null && userAccountModel.getSkills().getLanguage().size() != 0) {
+                    lytLanguage.setVisibility(View.VISIBLE);
+                    tagLanguage.setTags(userAccountModel.getSkills().getLanguage());
+                } else {
+                    lytLanguage.setVisibility(View.GONE);
+                    tagLanguage.setTags(new ArrayList<>());
+                }
+                if (userAccountModel.getSkills().getSpecialities() != null && userAccountModel.getSkills().getSpecialities().size() != 0) {
+                    lytSpecialities.setVisibility(View.VISIBLE);
+                    tagSpecialities.setTags(userAccountModel.getSkills().getSpecialities());
+
+                } else {
+                    lytSpecialities.setVisibility(View.GONE);
+                    tagSpecialities.setTags(new ArrayList<>());
+                }
+                if (userAccountModel.getSkills().getTransportation() != null && userAccountModel.getSkills().getTransportation().size() != 0) {
+                    lytTransportation.setVisibility(View.VISIBLE);
+                    tagTransportation.setTags(userAccountModel.getSkills().getTransportation());
+                } else {
+                    lytTransportation.setVisibility(View.GONE);
+                    tagTransportation.setTags(new ArrayList<>());
+                }
+
             }
 
             if (userAccountModel.getAvatar() != null) {

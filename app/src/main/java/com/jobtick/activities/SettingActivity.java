@@ -2,16 +2,14 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import com.jobtick.widget.ExtendedSettingItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,21 +17,17 @@ import butterknife.OnClick;
 
 public class SettingActivity extends AppCompatActivity {
 
-    /*    @BindView(R.id.toolbar)
-        MaterialToolbar toolbar;*/
-    @BindView(R.id.rlt_btn_edit_account)
-    RelativeLayout rltBtnEditAccount;
-    @BindView(R.id.rlt_btn_payment_settings)
-    RelativeLayout rltBtnPaymentSettings;
-    @BindView(R.id.rlt_btn_notification_settings)
-    RelativeLayout rltBtnNotificationSettings;
-    @BindView(R.id.rlt_btn_change_password)
-    RelativeLayout rltBtnChangePassword;
-    @BindView(R.id.rlt_btn_mobile_verification)
-    RelativeLayout rltBtnMobileVerification;
+    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;
+    @BindView(R.id.edit_account)
+    ExtendedSettingItem btnEditAccount;
+    @BindView(R.id.payment_settings)
+    ExtendedSettingItem btnPaymentSettings;
+    @BindView(R.id.notification_settings)
+    ExtendedSettingItem btnNotificationSettings;
+    @BindView(R.id.change_password)
+    ExtendedSettingItem btnChangePassword;
 
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +39,10 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-      /*  toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Settings");*/
-        ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        getSupportActionBar().setTitle("Settings");
     }
 
 
@@ -74,29 +62,25 @@ public class SettingActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    @OnClick({R.id.rlt_btn_edit_account, R.id.rlt_btn_payment_settings, R.id.rlt_btn_notification_settings, R.id.rlt_btn_change_password, R.id.rlt_btn_mobile_verification})
+    @OnClick({R.id.edit_account, R.id.payment_settings, R.id.notification_settings, R.id.change_password})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.rlt_btn_edit_account:
+            case R.id.edit_account:
                 startActivity(new Intent(SettingActivity.this, EditProfileActivity.class));
 
                 break;
-            case R.id.rlt_btn_payment_settings:
+            case R.id.payment_settings:
                 Intent payment_settings = new Intent(SettingActivity.this, PaymentSettingsActivity.class);
                 startActivity(payment_settings);
                 break;
-            case R.id.rlt_btn_notification_settings:
+            case R.id.notification_settings:
                 Intent notificaiton = new Intent(SettingActivity.this, NotificationSettings.class);
                 startActivity(notificaiton);
 
                 break;
-            case R.id.rlt_btn_change_password:
+            case R.id.change_password:
                 Intent change_password = new Intent(SettingActivity.this, ChangePasswordActivity.class);
                 startActivity(change_password);
-                break;
-            case R.id.rlt_btn_mobile_verification:
-                Intent mobile_verification = new Intent(SettingActivity.this, MobileVerificationActivity.class);
-                startActivity(mobile_verification);
                 break;
         }
     }

@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,8 +18,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.TextView.TextViewSemiBold;
-import com.jobtick.fragments.InboxFragment;
 import com.jobtick.interfaces.onProfileUpdateListener;
 import com.jobtick.models.PushNotificationModel;
 import com.jobtick.utils.ConstantKey;
@@ -28,23 +26,17 @@ import com.jobtick.utils.SessionManager;
 import com.onesignal.OneSignal;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.NavGraph;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
-import org.json.JSONObject;
 
 import static com.jobtick.utils.ConstantKey.PUSH_COMMENT;
 import static com.jobtick.utils.ConstantKey.PUSH_CONVERSATION;
@@ -58,12 +50,11 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     Toolbar toolbar;
     AppBarConfiguration appBarConfiguration;
     SessionManager sessionManager;
-    ImageView imgBtnClose;
     ImageView imgUserAvatar;
-    ImageView imgAccountLevel;
     ImageView imgVerifiedAccount;
-    TextViewSemiBold txtUserName;
-    TextViewRegular txtAccountLevel;
+    TextView txtUserName;
+    TextView txtAccountLevel;
+    CardView btnCashOut;
     public static onProfileUpdateListener onProfileupdatelistenerSideMenu;
 
 
@@ -80,16 +71,21 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         View headerView = navigationView.getHeaderView(0);
 
-        imgBtnClose = headerView.findViewById(R.id.img_btn_close);
         imgUserAvatar = headerView.findViewById(R.id.img_user_avatar);
-        imgAccountLevel = headerView.findViewById(R.id.img_account_level);
         imgVerifiedAccount = headerView.findViewById(R.id.img_verified_account);
         txtUserName = headerView.findViewById(R.id.txt_user_name);
         txtAccountLevel = headerView.findViewById(R.id.txt_account_level);
+        btnCashOut = headerView.findViewById(R.id.btn_cashout);
 
         setHeaderLayout();
         navigationView.setNavigationItemSelectedListener(this);
         BottomNavigationView navView = findViewById(R.id.nav_view);
+
+        btnCashOut.setOnClickListener( v -> {
+            drawerLayout.close();
+            CashOutBottomSheet cashOutBottomSheet = CashOutBottomSheet.newInstance();
+            cashOutBottomSheet.show(getSupportFragmentManager(), "");
+        });
 
 
 
@@ -181,12 +177,6 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     }
 
     private void setHeaderLayout() {
-        imgBtnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }
-        });
 
         if (sessionManager.getUserAccount().getAvatar() != null && sessionManager.getUserAccount().getAvatar().getThumbUrl() != null) {
             ImageUtil.displayImage(imgUserAvatar, sessionManager.getUserAccount().getAvatar().getThumbUrl(), null);
@@ -206,20 +196,15 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         }
 
         if (sessionManager.getUserAccount().getPosterTier() != null) {
-            imgAccountLevel.setVisibility(View.VISIBLE);
             if (sessionManager.getUserAccount().getPosterTier().getId() == 1) {
-                imgAccountLevel.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_level));
-                txtAccountLevel.setText("Account Level 1");
+                txtAccountLevel.setText("Level 1");
             } else if (sessionManager.getUserAccount().getPosterTier().getId() == 2) {
-                imgAccountLevel.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_level));
-                txtAccountLevel.setText("Account Level 2");
+                txtAccountLevel.setText("Level 2");
             } else if (sessionManager.getUserAccount().getPosterTier().getId() == 3) {
-                imgAccountLevel.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_level));
-                txtAccountLevel.setText("Account Level 3");
+                txtAccountLevel.setText("Level 3");
             }
         } else {
-            imgAccountLevel.setVisibility(View.GONE);
-            txtAccountLevel.setText("Account Level 0");
+            txtAccountLevel.setText("Level 0");
         }
 
         if (sessionManager.getUserAccount().getName() != null) {
@@ -254,6 +239,10 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 startActivity(new Intent(DashboardActivity.this, EditProfileActivity.class));
                 return true;
             case R.id.action_logout:
+                drawerLayout.close();
+                //TODO: Implementing bottom sheet of logout
+//                LogoutBottomSheet logoutBottomSheet = LogoutBottomSheet.newInstance();
+//                logoutBottomSheet.show(getSupportFragmentManager(), "");
                 logout_dialog_box();
                 return true;
             case R.id.action_rate_us:

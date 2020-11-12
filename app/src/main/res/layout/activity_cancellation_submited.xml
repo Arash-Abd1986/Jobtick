@@ -5,17 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background"
+    android:background="@color/backgroundLightGrey"
     tools:context=".cancellations.CancellationSubmitedActivity">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_cancel"
-        app:title="Cancellation"
-        android:background="@color/background"
-        app:contentInsetStartWithNavigation="0dp"/>
+    <include layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,15 +27,14 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/spacing_xlarge"/>
 
-        <com.jobtick.TextView.TextViewBold
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cancellation Submited Succesfully"
-            android:textSize="14sp"
             android:gravity="center"
-            android:textStyle="bold"
-            android:textColor="@color/textColor"/>
+            android:textColor="@color/textColor"
+            style="@style/materialText_600_14"/>
 
 
 
@@ -51,32 +43,15 @@
 
     </LinearLayout>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_done"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/spacing_large"
-        android:backgroundTint="@color/colorPrimary"
-        android:elevation="@dimen/spacing_middle"
-        app:cardCornerRadius="@dimen/spacing_medium">
-
-        <LinearLayout
-            android:id="@+id/lyt_btn_finish"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center">
-
-            <com.jobtick.TextView.TextViewMedium
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Finish"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
+        style="@style/materialButton"
+        android:text="@string/done"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"/>
 
 </RelativeLayout>

@@ -4,15 +4,14 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.InputType;
+import android.text.Editable;
 import android.text.TextUtils;
-import android.text.method.PasswordTransformationMethod;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -25,11 +24,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.jobtick.EditText.EditTextRegular;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.HttpStatus;
+import com.jobtick.widget.ExtendedEntryText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,33 +45,17 @@ import butterknife.OnClick;
 import timber.log.Timber;
 
 
-public class ChangePasswordActivity extends ActivityBase {
+public class ChangePasswordActivity extends ActivityBase implements TextWatcher {
 
-    /*    @BindView(R.id.toolbar)
-        MaterialToolbar toolbar;*/
-    @BindView(R.id.edt_current_password)
-    EditTextRegular edtCurrentPassword;
-    @BindView(R.id.img_btn_current_password_toggle)
-    ImageView imgBtnCurrentPasswordToggle;
-    @BindView(R.id.edt_new_password)
-    EditTextRegular edtNewPassword;
-    @BindView(R.id.img_btn_password_toggle)
-    ImageView imgBtnNewPasswordToggle;
-    @BindView(R.id.edt_confirm_password)
-    EditTextRegular edtConfirmPassword;
-    @BindView(R.id.img_btn_confirm_password_toggle)
-    ImageView imgBtnConfirmPasswordToggle;
-    @BindView(R.id.lyt_btn_submit)
-    LinearLayout lytBtnSubmit;
+    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;
+    @BindView(R.id.old_password)
+    ExtendedEntryText oldPassword;
+    @BindView(R.id.new_password)
+    ExtendedEntryText newPassword;
+    @BindView(R.id.btn_change_password)
+    MaterialButton btnChangePassword;
 
-
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
-
-
-    private boolean current_password_hide = true;
-    private boolean new_password_hide = true;
-    private boolean confirm_password_hide = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,19 +64,17 @@ public class ChangePasswordActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         initToolbar();
+        btnChangePassword.setEnabled(false);
+        oldPassword.addTextChangedListener(this);
+        newPassword.addTextChangedListener(this);
     }
 
 
     private void initToolbar() {
-        ivBack.setOnClickListener(v -> {
-            finish();
-        });
-
-
-    /*    toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Change Password");*/
+        getSupportActionBar().setTitle("Change Password");
     }
 
 
@@ -112,19 +95,10 @@ public class ChangePasswordActivity extends ActivityBase {
     }
 
 
-    @OnClick({R.id.img_btn_current_password_toggle, R.id.img_btn_password_toggle, R.id.img_btn_confirm_password_toggle, R.id.lyt_btn_submit})
+    @OnClick({R.id.btn_change_password})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.img_btn_current_password_toggle:
-                current_passowrd_toggle();
-                break;
-            case R.id.img_btn_password_toggle:
-                new_passowrd_toggle();
-                break;
-            case R.id.img_btn_confirm_password_toggle:
-                confirm_passowrd_toggle();
-                break;
-            case R.id.lyt_btn_submit:
+            case R.id.btn_change_password:
                 if (validation())
                     changePassword();
                 break;
@@ -132,14 +106,11 @@ public class ChangePasswordActivity extends ActivityBase {
     }
 
     private boolean validation() {
-        if (TextUtils.isEmpty(edtCurrentPassword.getText().toString().trim())) {
-            edtCurrentPassword.setError("Enter your current password");
+        if (TextUtils.isEmpty(oldPassword.getText().toString().trim())) {
+            oldPassword.setError("Enter your old password");
             return false;
-        } else if (TextUtils.isEmpty(edtNewPassword.getText().toString().trim())) {
-            edtNewPassword.setError("Enter new password");
-            return false;
-        } else if (!edtNewPassword.getText().toString().trim().equals(edtConfirmPassword.getText().toString().trim())) {
-            edtConfirmPassword.setError("Doesn't match your password");
+        } else if (TextUtils.isEmpty(newPassword.getText().toString().trim())) {
+            newPassword.setError("Enter new password");
             return false;
         }
         return true;
@@ -147,8 +118,8 @@ public class ChangePasswordActivity extends ActivityBase {
 
     private void changePassword() {
         showProgressDialog();
-        String str_old_password = edtCurrentPassword.getText().toString().trim();
-        String str_new_password = edtNewPassword.getText().toString().trim();
+        String str_old_password = oldPassword.getText().toString().trim();
+        String str_new_password = newPassword.getText().toString().trim();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_CHANGE_PASSWORD,
                 response -> {
@@ -197,12 +168,12 @@ public class ChangePasswordActivity extends ActivityBase {
                                     if (jsonObject_errors.has("old_password")) {
                                         JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("old_password");
                                         String old_password = jsonArray_mobile.getString(0);
-                                        edtCurrentPassword.setError(old_password);
+                                        oldPassword.setError(old_password);
                                     }
                                     if (jsonObject_errors.has("new_password")) {
                                         JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("new_password");
                                         String new_password = jsonArray_mobile.getString(0);
-                                        edtNewPassword.setError(new_password);
+                                        newPassword.setError(new_password);
                                     }
 
 
@@ -249,51 +220,6 @@ public class ChangePasswordActivity extends ActivityBase {
         requestQueue.add(stringRequest);
     }
 
-    private void new_passowrd_toggle() {
-        if (new_password_hide) {
-            new_password_hide = false;
-            edtNewPassword.setInputType(
-                    InputType.TYPE_CLASS_TEXT |
-                            InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            );
-            imgBtnNewPasswordToggle.setImageDrawable(getResources().getDrawable(R.drawable.ic_eye));
-        } else {
-            new_password_hide = true;
-            edtNewPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            imgBtnNewPasswordToggle.setImageDrawable(getResources().getDrawable(R.drawable.ic_eye_off));
-        }
-    }
-
-    private void current_passowrd_toggle() {
-        if (current_password_hide) {
-            current_password_hide = false;
-            edtCurrentPassword.setInputType(
-                    InputType.TYPE_CLASS_TEXT |
-                            InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            );
-            imgBtnCurrentPasswordToggle.setImageDrawable(getResources().getDrawable(R.drawable.ic_eye));
-        } else {
-            current_password_hide = true;
-            edtCurrentPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            imgBtnCurrentPasswordToggle.setImageDrawable(getResources().getDrawable(R.drawable.ic_eye_off));
-        }
-    }
-
-    private void confirm_passowrd_toggle() {
-        if (confirm_password_hide) {
-            confirm_password_hide = false;
-            edtConfirmPassword.setInputType(
-                    InputType.TYPE_CLASS_TEXT |
-                            InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            );
-            imgBtnConfirmPasswordToggle.setImageDrawable(getResources().getDrawable(R.drawable.ic_eye));
-        } else {
-            confirm_password_hide = true;
-            edtConfirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            imgBtnConfirmPasswordToggle.setImageDrawable(getResources().getDrawable(R.drawable.ic_eye_off));
-        }
-    }
-
     private void showCustomDialog(String message) {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
@@ -320,4 +246,19 @@ public class ChangePasswordActivity extends ActivityBase {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        boolean enabled = oldPassword.getText().length() > 0 && newPassword.getText().length() > 0;
+        btnChangePassword.setEnabled(enabled);
+    }
 }

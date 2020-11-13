@@ -1,14 +1,13 @@
 package com.jobtick.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,13 +23,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.TextView.TextViewMedium;
@@ -67,6 +63,7 @@ import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.HttpStatus;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,6 +74,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import butterknife.BindView;
@@ -95,43 +93,62 @@ import static com.jobtick.utils.ConstantKey.KEY_USER_REPORT;
 public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnRefreshListener {
 
     Pusher pusher;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_status)
     TextView txtStatus;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_status)
     CardView cardStatus;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_btn_task_action)
     ImageView imgBtnTaskAction;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_task_action)
     CardView cardTaskAction;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_task_details)
     LinearLayout lytTaskDetails;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_btn_image_select)
     ImageView imgBtnImageSelect;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_comment_message)
     EditTextRegular edtCommentMessage;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_btn_send)
     ImageView imgBtnSend;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_send)
     CardView cardSend;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rlt_layout_action_data)
     RelativeLayout rltLayoutActionData;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_avatar)
     CircularImageView imgAvatar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_title)
     TextViewRegular txtTitle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_subtitle)
     TextViewRegular txtSubtitle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_job_title)
     TextView txtJobTitle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_scroll_down)
     LinearLayout lytScrollDown;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txtCount)
     TextViewMedium txtCount;
     private ConversationModel conversationModel;
@@ -152,7 +169,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
     private int totalPage = 10;
-    private boolean isLoading = false;
     private int unreadCount = 0;
     private boolean isLastPosition=false;
     LinearLayoutManager layoutManager;
@@ -166,12 +182,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         ConstantKey.IS_CHAT_SCREEN = true;
         //  setSupportActionBar(toolbar);
         toolbar.setSubtitle("Offline");
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> onBackPressed());
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
         headers.put("Content-Type", "application/x-www-form-urlencoded");
@@ -204,7 +215,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         pusher.connect(new ConnectionEventListener() {
             @Override
             public void onConnectionStateChange(ConnectionStateChange change) {
-                Log.e("connection", change.getCurrentState() + "");
+                Timber.e("%s", change.getCurrentState());
                 System.out.println("State changed to " + change.getCurrentState() +
                         " from " + change.getPreviousState());
                 if (change.getCurrentState() == ConnectionState.CONNECTED) {
@@ -254,14 +265,11 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
         initComponentScroll();
 
-        lytScrollDown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                animateFab(true);
-                unreadCount = 0;
-                txtCount.setText(String.valueOf(unreadCount));
-                recyclerView.smoothScrollToPosition(adapter.getItemCount());
-            }
+        lytScrollDown.setOnClickListener(v -> {
+            animateFab(true);
+            unreadCount = 0;
+            txtCount.setText(String.valueOf(unreadCount));
+            recyclerView.smoothScrollToPosition(adapter.getItemCount());
         });
 
 
@@ -308,13 +316,8 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 int visibleItemCount = layoutManager.getChildCount();
                 int totalItemCount = layoutManager.getItemCount();
                 int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
-                if (pastVisibleItems + visibleItemCount >= totalItemCount) {
-                    //End of list
-                    isLastPosition=true;
-                }else
-                {
-                    isLastPosition=false;
-                }
+                //End of list
+                isLastPosition= pastVisibleItems + visibleItemCount >= totalItemCount;
 
 
             }
@@ -340,12 +343,15 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     }
 
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void setToolbar(ConversationModel conversationModel) {
         if (conversationModel != null && conversationModel.getReceiver() != null) {
             if (conversationModel.getReceiver().getName() != null) {
                 txtTitle.setText(conversationModel.getReceiver().getName());
             }
         }
+        assert conversationModel != null;
+        assert conversationModel.getReceiver() != null;
         if (conversationModel.getReceiver().getAvatar() != null && conversationModel.getReceiver().getAvatar().getThumbUrl() != null) {
             imgAvatar.setImageDrawable(getResources().getDrawable(R.drawable.avatar));
 
@@ -357,18 +363,14 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         txtStatus.setText(conversationModel.getStatus());
 
         toolbar.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
+            if (item.getItemId() == R.id.action_flag) {
+                Bundle bundleReport = new Bundle();
+                Intent intentReport = new Intent(ChatActivity.this, ReportActivity.class);
+                bundleReport.putString("key", KEY_USER_REPORT);
+                bundleReport.putInt(Constant.userID, conversationModel.getReceiver().getId());
 
-                case R.id.action_flag:
-
-                    Bundle bundleReport = new Bundle();
-                    Intent intentReport = new Intent(ChatActivity.this, ReportActivity.class);
-                    bundleReport.putString("key", KEY_USER_REPORT);
-                    bundleReport.putInt(Constant.userID, conversationModel.getReceiver().getId());
-
-                    intentReport.putExtras(bundleReport);
-                    startActivity(intentReport);
-                    break;
+                intentReport.putExtras(bundleReport);
+                startActivity(intentReport);
             }
             return false;
         });
@@ -390,13 +392,13 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                         setToolbarSubTitle(true);
                     }
                 }
-                Log.e("user_sub", integerArrayList.size() + "");
+                Timber.e("%s", integerArrayList.size());
             }
 
             @Override
             public void userSubscribed(String channelName, User user) {
                 //   adapter.addNewSubscribe(Integer.parseInt(user.getId()));
-                Log.e("new_user_sub", user.toString());
+                Timber.e(user.toString());
                 if (Integer.parseInt(user.getId()) == conversationModel.getReceiver().getId()) {
                     setToolbarSubTitle(true);
                 }
@@ -405,7 +407,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
             @Override
             public void userUnsubscribed(String channelName, User user) {
                 // adapter.addNewUnSubscribe(Integer.parseInt(user.getId()));
-                Log.e("old_user_unsub", user.toString());
+                Timber.e(user.toString());
                 if (Integer.parseInt(user.getId()) == conversationModel.getReceiver().getId()) {
                     setToolbarSubTitle(false);
                 }
@@ -413,48 +415,41 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
             @Override
             public void onAuthenticationFailure(String message, Exception e) {
-                Log.e("presence_auth", message);
+                Timber.e(message);
             }
 
             @Override
             public void onSubscriptionSucceeded(String channelName) {
-                Log.e("succeeded", channelName);
+                Timber.e(channelName);
             }
 
             @Override
             public void onEvent(PusherEvent event) {
-                Log.e("Call", event.toString());
+                Timber.e(event.toString());
             }
         });
     }
 
+    @SuppressLint("SetTextI18n")
     private void setToolbarSubTitle(boolean status) {
 
         if (status) {
 
-            runOnUiThread(new Runnable() {
+            runOnUiThread(() -> {
+                txtSubtitle.setText("Online");
+                txtSubtitle.setTextColor(getResources().getColor(R.color.green));
 
-                @Override
-                public void run() {
-                    txtSubtitle.setText("Online");
-                    txtSubtitle.setTextColor(getResources().getColor(R.color.green));
+                // Stuff that updates the UI
 
-                    // Stuff that updates the UI
-
-                }
             });
 
 
         } else {
-            runOnUiThread(new Runnable() {
+            runOnUiThread(() -> {
+                txtSubtitle.setText("Offline");
+                txtSubtitle.setTextColor(getResources().getColor(R.color.red_600));
+                // Stuff that updates the UI
 
-                @Override
-                public void run() {
-                    txtSubtitle.setText("Offline");
-                    txtSubtitle.setTextColor(getResources().getColor(R.color.red_600));
-                    // Stuff that updates the UI
-
-                }
             });
 
         }
@@ -468,19 +463,19 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 @Override
                 public void onAuthenticationFailure(String message, Exception e) {
                     Connection cpm = pusher.getConnection();
-                    Log.e("auth", message);
-                    Log.e("auth", e.toString());
-                    Log.e("SS : ", cpm.getSocketId());
+                    Timber.e(message);
+                    Timber.e(e.toString());
+                    Timber.e(cpm.getSocketId());
                 }
 
                 @Override
                 public void onSubscriptionSucceeded(String channelName) {
-                    Log.e("succeeded", channelName); //its json response not string
+                    Timber.e(channelName); //its json response not string
                 }
 
                 @Override
                 public void onEvent(PusherEvent event) {
-                    Log.e("Call", event.toString());
+                    Timber.e(event.toString());
                     try {
                         JSONObject jsonObject = new JSONObject(event.getData());
                         ChatModel chatModel = new ChatModel().getJsonToModel(jsonObject);
@@ -495,38 +490,34 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                         }
                         if (!isAvailable) {
 
-                            runOnUiThread(new Runnable() {
-
-                                @Override
-                                public void run() {
+                            runOnUiThread(() -> {
 
 
-                                    // Stuff that updates the UI
-                                    //chatModelArrayList.add(chatModel);
-                                    adapter.addItems(chatModel);
-                                    if(isLastPosition)
-                                    {
-                                        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+                                // Stuff that updates the UI
+                                //chatModelArrayList.add(chatModel);
+                                adapter.addItems(chatModel);
+                                if(isLastPosition)
+                                {
+                                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+                                }else
+                                {
+                                    unreadCount = unreadCount + 1;
+                                    txtCount.setVisibility(View.VISIBLE);
+                                    txtCount.setText(String.valueOf(unreadCount));
+                                }
+                               /* // adapter.notifyItemChanged(adapter.getItemCount() - 1);
+                                    if (chatModel.getSenderId() == sessionManager.getUserAccount().getId()) {
                                     }else
                                     {
-                                        unreadCount = unreadCount + 1;
-                                        txtCount.setVisibility(View.VISIBLE);
-                                        txtCount.setText(String.valueOf(unreadCount));
-                                    }
-                                   /* // adapter.notifyItemChanged(adapter.getItemCount() - 1);
-                                        if (chatModel.getSenderId() == sessionManager.getUserAccount().getId()) {
-                                        }else
-                                        {
 
-                                        }*/
+                                    }*/
 
 
-                                }
                             });
 
 
                         }
-                        Log.e("json", jsonObject.toString());
+                        Timber.e(jsonObject.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -534,9 +525,9 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                     System.out.println("Received event with data: " + event.toString());
 
                 }
-            }, new String[]{"message.sent"});
+            }, "message.sent");
 
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
 
@@ -546,69 +537,62 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         ArrayList<ChatModel> items = new ArrayList<>();
         Helper.closeKeyboard(ChatActivity.this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_CHAT + "/" + conversationModel.getId() + "/messages" + "?page=" + currentPage,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.e("responce_url", response);
-                        // categoryArrayList.clear();
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            Log.e("json", jsonObject.toString());
-                            if (!jsonObject.has("data")) {
-                                showToast("SomeThing to wrong", ChatActivity.this);
-                                return;
-                            }
-                            JSONArray jsonArray_data = jsonObject.getJSONArray("data");
-                            for (int i = 0; jsonArray_data.length() > i; i++) {
-                                JSONObject jsonObject_chat = jsonArray_data.getJSONObject(i);
-                                ChatModel chatModel = new ChatModel().getJsonToModel(jsonObject_chat);
-                                items.add(chatModel);
-                            }
-
-                            Collections.reverse(items);
-                            if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
-                                JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
-                                totalPage = jsonObject_meta.getInt("last_page");
-                                Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
-                            }
-
-                            /*
-                             *manage progress view
-                             */
-                            //  if (currentPage != PAGE_START)
-                            //      adapter.removeLoading();
-                            adapter.addItems(items);
-
-
-                            //   conversationModelArrayList = items;
-
-                            swipeRefresh.setRefreshing(false);
-                            // check weather is last page or not
-                            if (currentPage < totalPage) {
-                                // adapter.addLoading();
-                            } else {
-                                isLastPage = true;
-                            }
-                            isLoading = false;
-
-
-                        } catch (JSONException e) {
-                            hideProgressDialog();
-                            Log.e("EXCEPTION", String.valueOf(e));
-                            e.printStackTrace();
+                response -> {
+                    Timber.e(response);
+                    // categoryArrayList.clear();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (!jsonObject.has("data")) {
+                            showToast("SomeThing to wrong", ChatActivity.this);
+                            return;
                         }
+                        JSONArray jsonArray_data = jsonObject.getJSONArray("data");
+                        for (int i = 0; jsonArray_data.length() > i; i++) {
+                            JSONObject jsonObject_chat = jsonArray_data.getJSONObject(i);
+                            ChatModel chatModel = new ChatModel().getJsonToModel(jsonObject_chat);
+                            items.add(chatModel);
+                        }
+
+                        Collections.reverse(items);
+                        if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
+                            JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
+                            totalPage = jsonObject_meta.getInt("last_page");
+                            Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
+                        }
+
+                        /*
+                         *manage progress view
+                         */
+                        //  if (currentPage != PAGE_START)
+                        //      adapter.removeLoading();
+                        adapter.addItems(items);
+
+
+                        //   conversationModelArrayList = items;
+
+                        swipeRefresh.setRefreshing(false);
+                        // check weather is last page or not
+                        if (currentPage < totalPage) {
+                            // adapter.addLoading();
+                        } else {
+                            isLastPage = true;
+                        }
+
+
+                    } catch (JSONException e) {
+                        hideProgressDialog();
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        swipeRefresh.setRefreshing(false);
-                        errorHandle1(error.networkResponse);
-                    }
+                error -> {
+                    swipeRefresh.setRefreshing(false);
+                    errorHandle1(error.networkResponse);
                 }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
                 return map1;
@@ -619,7 +603,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(ChatActivity.this);
         requestQueue.add(stringRequest);
-        Log.e("url", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
   /*  @Override
@@ -645,6 +629,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         pusher.disconnect();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick({R.id.img_btn_task_action, R.id.img_btn_image_select, R.id.img_btn_send, R.id.lyt_task_details})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -652,36 +637,33 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 break;
             case R.id.img_btn_image_select:
                 PopupMenu popupMenu = new PopupMenu(ChatActivity.this, imgBtnImageSelect);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.action_camera:
-                                // Checking availability of the camera
-                                if (!CameraUtils.isDeviceSupportCamera(getApplicationContext())) {
-                                    Toast.makeText(getApplicationContext(),
-                                            "Sorry! Your device doesn't support camera",
-                                            Toast.LENGTH_LONG).show();
-                                    // will close the app if the device doesn't have camera
+                popupMenu.setOnMenuItemClickListener(item -> {
+                    switch (item.getItemId()) {
+                        case R.id.action_camera:
+                            // Checking availability of the camera
+                            if (!CameraUtils.isDeviceSupportCamera(getApplicationContext())) {
+                                Toast.makeText(getApplicationContext(),
+                                        "Sorry! Your device doesn't support camera",
+                                        Toast.LENGTH_LONG).show();
+                                // will close the app if the device doesn't have camera
 
+                            } else {
+                                if (CameraUtils.checkPermissions(getApplicationContext())) {
+                                    captureImage();
                                 } else {
-                                    if (CameraUtils.checkPermissions(getApplicationContext())) {
-                                        captureImage();
-                                    } else {
-                                        requestCameraPermission(ConstantKey.MEDIA_TYPE_IMAGE);
-                                    }
+                                    requestCameraPermission();
                                 }
-                                break;
-                            case R.id.action_gallery:
-                                Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
-                                break;
-                            case R.id.action_doc:
+                            }
+                            break;
+                        case R.id.action_gallery:
+                            Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
+                            break;
+                        case R.id.action_doc:
 
-                                break;
-                        }
-                        return true;
+                            break;
                     }
+                    return true;
                 });
                 popupMenu.inflate(R.menu.menu_private_chat);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -691,7 +673,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 break;
             case R.id.img_btn_send:
                 if (validation()) {
-                    String str_message = edtCommentMessage.getText().toString().trim();
+                    String str_message = Objects.requireNonNull(edtCommentMessage.getText()).toString().trim();
 
                     addCommentIntoServer(str_message);
                     edtCommentMessage.setText(null);
@@ -711,34 +693,31 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     private void addCommentIntoServer(String str_message) {
         // showpDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_CHAT + "/send",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.e("response", response);
-                        // hidepDialog();
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            Timber.e(jsonObject.toString());
-                            if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                                if (jsonObject.getBoolean("success")) {
-                                    //TODO update recycler view
-                                    JSONObject jsonObject_chat = jsonObject.getJSONObject("data");
-                                    ChatModel chatModel = new ChatModel().getJsonToModel(jsonObject_chat);
-                                    // chatModelArrayList.add(chatModel);
-                                    //adapter.addItems(chatModel);
+                response -> {
+                    Timber.e(response);
+                    // hidepDialog();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+                                //TODO update recycler view
+                                JSONObject jsonObject_chat = jsonObject.getJSONObject("data");
+                                ChatModel chatModel = new ChatModel().getJsonToModel(jsonObject_chat);
+                                // chatModelArrayList.add(chatModel);
+                                //adapter.addItems(chatModel);
 
-                                    // showToast("");
-                                } else {
-                                    showToast("Something went Wrong", ChatActivity.this);
-                                }
+                                // showToast("");
+                            } else {
+                                showToast("Something went Wrong", ChatActivity.this);
                             }
-                            //  adapter.notifyDataSetChanged();
-                            recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-
-                        } catch (JSONException e) {
-                            Timber.e(String.valueOf(e));
-                            e.printStackTrace();
                         }
+                        //  adapter.notifyDataSetChanged();
+                        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
                     }
                 },
                 error -> {
@@ -777,15 +756,15 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                     hideProgressDialog();
                 }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 return map1;
             }
 
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<>();
 
                 map1.put("conversation_id", String.valueOf(conversationModel.getId()));
@@ -793,7 +772,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 if (str_message != null) {
                     map1.put("message", str_message);
                 }
-                Log.e("MAP", String.valueOf(map1.size()));
+                Timber.e(String.valueOf(map1.size()));
                 Timber.e(map1.toString());
                 return map1;
 
@@ -804,14 +783,14 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(ChatActivity.this);
         requestQueue.add(stringRequest);
-        Log.e("OfferChatActivity", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
 
     /**
      * Requesting permissions using Dexter library
      */
-    private void requestCameraPermission(final int type) {
+    private void requestCameraPermission() {
         Dexter.withActivity(this)
                 .withPermissions(Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -821,10 +800,8 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
 
-                            if (type == ConstantKey.MEDIA_TYPE_IMAGE) {
-                                // capture picture
-                                captureImage();
-                            }
+                            // capture picture
+                            captureImage();
 
                         } else if (report.isAnyPermissionPermanentlyDenied()) {
                             showPermissionsAlert();
@@ -864,9 +841,9 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         call = ApiClient.getClient().getChatMediaUpload("XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile, requestConversationid);
         call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+            public void onResponse(@NotNull Call<String> call, retrofit2.@NotNull Response<String> response) {
                 hideProgressDialog();
-                Log.e("Response", response.toString());
+                Timber.e(response.toString());
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     showToast(response.message(), ChatActivity.this);
                     return;
@@ -882,9 +859,10 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                         return;
                     }
                     if (response.code() == HttpStatus.SUCCESS) {
-                        Log.e("body", strResponse);
+                        Timber.e(strResponse);
+                        assert strResponse != null;
                         JSONObject jsonObject = new JSONObject(strResponse);
-                        Log.e("json", jsonObject.toString());
+                        Timber.e(jsonObject.toString());
                         if (jsonObject.has("data")) {
                             JSONObject jsonObject_chat = jsonObject.getJSONObject("data");
                             ChatModel chatModel = new ChatModel().getJsonToModel(jsonObject_chat);
@@ -903,9 +881,9 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
                 hideProgressDialog();
-                Log.e("Response", call.toString());
+                Timber.e(call.toString());
             }
         });
 
@@ -913,7 +891,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
 
     private boolean validation() {
-        if (TextUtils.isEmpty(edtCommentMessage.getText().toString().trim())) {
+        if (TextUtils.isEmpty(Objects.requireNonNull(edtCommentMessage.getText()).toString().trim())) {
             edtCommentMessage.setError("?");
             return false;
         }

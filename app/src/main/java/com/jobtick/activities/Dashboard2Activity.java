@@ -24,7 +24,9 @@ import com.google.gson.Gson;
 import com.jobtick.R;
 import com.jobtick.adapers.NotificationListAdapter;
 import com.jobtick.adapers.SectionsPagerAdapter;
+import com.jobtick.fragments.AbstractDashboard2Fragment;
 import com.jobtick.fragments.Dashboard2PosterFragment;
+import com.jobtick.fragments.Dashboard2TickerFragment;
 import com.jobtick.models.notification.NotifDatum;
 import com.jobtick.models.notification.PushNotificationModel2;
 import com.jobtick.utils.Constant;
@@ -225,8 +227,8 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(Dashboard2PosterFragment.newInstance(), "User as Ticker");
-        adapter.addFragment(Dashboard2PosterFragment.newInstance(), "User as Ticker");
+        adapter.addFragment(Dashboard2TickerFragment.newInstance(), "User as Ticker");
+        adapter.addFragment(Dashboard2PosterFragment.newInstance(), "User as Poster");
         viewPager.setAdapter(adapter);
     }
 }

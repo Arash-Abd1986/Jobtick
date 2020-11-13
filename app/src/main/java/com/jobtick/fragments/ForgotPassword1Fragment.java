@@ -5,9 +5,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -15,6 +17,7 @@ import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.activities.AuthActivity;
+import com.jobtick.widget.ExtendedEntryText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,11 +26,11 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ForgotPassword1Fragment extends FragmentBase implements AuthActivity.EditTextError {
+public class ForgotPassword1Fragment extends Fragment implements AuthActivity.EditTextError {
 
 
-    @BindView(R.id.edt_email_address)
-    EditTextRegular edtEmailAddress;
+    @BindView(R.id.email)
+    ExtendedEntryText edtEmailAddress;
     @BindView(R.id.lyt_btn_next)
     MaterialButton lytBtnNext;
     AuthActivity authActivity;
@@ -60,7 +63,7 @@ public class ForgotPassword1Fragment extends FragmentBase implements AuthActivit
 
     }
 
-    @OnClick({R.id.lyt_btn_next, R.id.lnr_email})
+    @OnClick({R.id.lyt_btn_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_btn_next:
@@ -70,11 +73,7 @@ public class ForgotPassword1Fragment extends FragmentBase implements AuthActivit
                 }
                 authActivity.nextStepForgotPassowrd(edtEmailAddress.getText().toString().trim());
                 break;
-            case R.id.lnr_email:
-                editTextOnClick(edtEmailAddress);
         }
-
-
     }
 
 

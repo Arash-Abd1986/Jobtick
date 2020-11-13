@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -31,6 +32,7 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.widget.ExtendedJobInfo;
+import com.ramijemli.percentagechartview.PercentageChartView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,6 +47,10 @@ import timber.log.Timber;
 
 public class Dashboard2Activity extends ActivityBase implements NotificationListAdapter.OnItemClickListener {
 
+
+
+    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;
 
     @BindView(R.id.txt_user_name)
     TextView txtUserName;
@@ -79,6 +85,15 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
     @BindView(R.id.rg_ticker_poster)
     RadioGroup rgTickerPoster;
 
+    @BindView(R.id.rbPortfollio)
+    MaterialRadioButton rbProfile;
+
+    @BindView(R.id.rbSkills)
+    MaterialRadioButton rbSkills;
+
+    @BindView(R.id.rgTabs)
+    RadioGroup rgTabs;
+
     @BindView(R.id.iv_green_account)
     ImageView iv_green_account;
 
@@ -91,21 +106,23 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
     @BindView(R.id.iv_badges)
     ImageView iv_badges;
 
+    @BindView(R.id.img_user_avatar)
+    ImageView imgUserAvatar;
+
+    @BindView(R.id.profile_progress)
+    PercentageChartView percentageChartView;
+
+    @BindView(R.id.profile_container)
+    RelativeLayout profileContainer;
+
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
     NotificationListAdapter notificationListAdapter;
     private PushNotificationModel2 pushNotificationModel2;
-
-
     private UserAccountModel userAccountModel;
     private SessionManager sessionManager;
 
-    @BindView(R.id.img_user_avatar)
-    ImageView imgUserAvatar;
-
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +159,18 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
             onChangeTabUser();
         });
 
+        rgTabs.setOnCheckedChangeListener((group, checkedId) -> {
+            onChangeTabProfile();
+        });
+    }
+
+    private void onChangeTabProfile(){
+        if(rbProfile.isChecked()){
+            profileContainer.setVisibility(View.VISIBLE);
+        }
+        else{
+            profileContainer.setVisibility(View.GONE);
+        }
     }
 
     private void onChangeTabUser() {
@@ -180,6 +209,11 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
             } else {
                 txtAwaitingOffer.setValue("0");
             }
+            if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCompletionRate() != null) {
+                percentageChartView.setProgress(Float.parseFloat(userAccountModel.getPostTaskStatistics().getCompletionRate().toString()), false);
+            } else {
+                percentageChartView.setProgress(0F, false);
+            }
         } else {
             txtAwaitingOffer.setTitle("Offered");
             txtReleasedMoney.setTitle("Asked to\nrelease");
@@ -213,6 +247,11 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
                 txtAwaitingOffer.setValue(userAccountModel.getWorkTaskStatistics().getTotalPosted().toString());
             } else {
                 txtAwaitingOffer.setValue("0");
+            }
+            if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getCompletionRate() != null) {
+                percentageChartView.setProgress(Float.parseFloat(userAccountModel.getWorkTaskStatistics().getCompletionRate().toString()), false);
+            } else {
+                percentageChartView.setProgress(0F, false);
             }
         }
 

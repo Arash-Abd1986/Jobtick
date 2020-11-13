@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".activities.Dashboard2Activity">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -176,10 +176,9 @@
                 android:layout_marginEnd="@dimen/_18sp"
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:elevation="0dp"
-                app:cardElevation="0dp"
                 android:visibility="visible"
                 app:cardCornerRadius="8dp"
-                >
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -211,7 +210,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/radio_portfolio"
                             android:button="@null"
-                            android:checked="false"
+                            android:checked="true"
                             android:gravity="center"
                             android:text="Profile"
                             android:textAppearance="@style/materialText_600_14"
@@ -225,206 +224,136 @@
                             android:layout_weight="1"
                             android:background="@drawable/radio_portfolio"
                             android:button="@null"
-                            android:checked="true"
+                            android:checked="false"
                             android:gravity="center"
                             android:text="Static date"
                             android:textAppearance="@style/materialText_600_14"
                             android:textColor="@color/blue" />
-
-
                     </RadioGroup>
 
-                    <LinearLayout
+                    <RelativeLayout
+                        android:id="@+id/profile_container"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
+                        android:layout_height="wrap_content">
 
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:layout_marginEnd="@dimen/spacing_medium"
-                            android:clipToPadding="false"
-                            app:cardBackgroundColor="@color/colorPrimary"
-                            app:cardCornerRadius="@dimen/_5sp"
-                            app:cardElevation="@dimen/_5sp">
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/txt_btn_profile"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:clickable="true"
-                                android:padding="@dimen/spacing_medium"
-                                android:paddingStart="@dimen/spacing_large"
-                                android:paddingEnd="@dimen/spacing_large"
-                                android:text="Profile"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_12sp"
-                                android:textStyle="bold" />
-                        </androidx.cardview.widget.CardView>
-
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:clipToPadding="false"
-                            app:cardBackgroundColor="@color/colorF0F0F0"
-                            app:cardCornerRadius="@dimen/_5sp"
-                            app:cardElevation="5dp">
-
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/txt_btn_static_date"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:clickable="true"
-                                android:padding="@dimen/spacing_medium"
-                                android:text="Static Date"
-                                android:textColor="@color/textColor"
-                                android:textSize="@dimen/_12sp"
-                                android:textStyle="bold" />
-
-                        </androidx.cardview.widget.CardView>
-
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        <com.mikhaellopez.circularimageview.CircularImageView
+                            android:id="@+id/img_user_avatar"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:src="@drawable/ic_place_holder" />
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:id="@+id/shield_container"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_alignStart="@id/img_user_avatar"
+                            android:layout_alignEnd="@id/img_user_avatar"
+                            android:layout_alignBottom="@+id/img_user_avatar"
+                            android:layout_marginBottom="-6dp"
+                            android:gravity="center"
                             android:orientation="horizontal">
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/_15sp"
-                                android:layout_weight="1"
-                                android:orientation="horizontal">
-
-                                <RelativeLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
-
-
-                                    <com.mikhaellopez.circularimageview.CircularImageView
-                                        android:id="@+id/img_user_avatar"
-                                        android:layout_width="85sp"
-                                        android:layout_height="85sp"
-                                        android:paddingBottom="@dimen/_10sp"
-                                        android:src="@drawable/ic_place_holder" />
-
-                                    <RelativeLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignBottom="@+id/img_user_avatar"
-                                        android:layout_centerHorizontal="true">
-
-                                        <ImageView
-                                            android:id="@+id/img_account_shield"
-                                            android:layout_width="@dimen/_15sp"
-                                            android:layout_height="@dimen/_15sp"
-                                            android:layout_gravity="center"
-                                            android:layout_marginRight="@dimen/_10sp"
-                                            android:layout_marginBottom="@dimen/_5sp"
-                                            android:src="@drawable/ic_shield" />
-                                    </RelativeLayout>
-
-                                    <ImageView
-                                        android:id="@+id/img_account_level"
-                                        android:layout_width="25dp"
-                                        android:layout_height="35dp"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_alignParentBottom="true"
-                                        android:layout_marginBottom="@dimen/_8sp"
-                                        android:layout_weight="1"
-                                        android:src="@drawable/ic_user_level"
-                                        android:visibility="gone" />
-
-                                </RelativeLayout>
-
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginLeft="@dimen/_5sp"
-                                    android:layout_marginBottom="@dimen/_5sp"
-                                    android:orientation="vertical">
-
-                                    <com.google.android.material.textview.MaterialTextView
-                                        android:id="@+id/txt_user_name"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:maxLines="1"
-                                        android:text="Ammy Stevenson"
-                                        android:textAppearance="@style/materialText_600_20"
-                                        android:textColor="#1a1848" />
-
-
-                                    <com.google.android.material.textview.MaterialTextView
-                                        android:id="@+id/txt_account_level"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="8dp"
-                                        android:maxLines="1"
-                                        android:text="Designer Level 2"
-                                        android:textAppearance="@style/materialText_400_12"
-                                        android:textColor="@color/textColor" />
-
-
-                                </LinearLayout>
-
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/_15sp"
-                                android:background="@drawable/bg_profile_rate"
-                                android:gravity="center"
-                                android:padding="@dimen/_5sp">
-
-                                <ImageView
-                                    android:layout_width="50dp"
-                                    android:layout_height="50dp"
-                                    android:layout_gravity="center"
-                                    android:adjustViewBounds="true"
-                                    android:src="@drawable/ic_medal3" />
-
-                            </LinearLayout>
+                            <ImageView
+                                android:id="@+id/img_account_shield"
+                                android:layout_width="12dp"
+                                android:layout_height="16dp"
+                                android:layout_gravity="center_vertical"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_shield" />
                         </LinearLayout>
 
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_12sp" />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@id/img_user_avatar"
+                            android:layout_marginTop="6dp"
+                            android:layout_toEndOf="@id/img_user_avatar"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="Ammy Stevenson"
+                            android:textAppearance="@style/materialText_600_20"
+                            android:textColor="@color/textColor" />
 
 
                         <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_account_level"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/txt_user_name"
+                            android:layout_toEndOf="@id/img_user_avatar"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="Designer Level 2"
+                            android:textAppearance="@style/materialText_400_12"
+                            android:textColor="@color/textColor" />
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="16dp"
+                            android:background="@drawable/bg_profile_rate"
+                            android:gravity="center"
+                            android:padding="@dimen/_5sp">
+
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_medal3" />
+
+                        </LinearLayout>
+
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/profile_status"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_below="@id/shield_container"
+                            android:layout_marginTop="20dp"
                             android:text="Profile Status"
                             android:textAppearance="@style/materialText_600_14"
                             android:textColor="@color/blue" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spacing_middle" />
 
                         <LinearLayout
+                            android:id="@+id/profile_status_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_below="@id/profile_status"
+                            android:layout_marginTop="16dp"
                             android:orientation="horizontal">
+
+                            <com.ramijemli.percentagechartview.PercentageChartView
+                                android:id="@+id/profile_progress"
+                                android:layout_width="46dp"
+                                android:layout_height="46dp"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="30dp"
+                                app:pcv_animDuration="0"
+                                app:pcv_animInterpolator="anticipate_overshoot"
+                                app:pcv_backgroundBarColor="@color/grayActive"
+                                app:pcv_backgroundBarThickness="8dp"
+                                app:pcv_mode="ring"
+                                app:pcv_orientation="counter_clockwise"
+                                app:pcv_progress="100"
+                                app:pcv_progressBarStyle="square"
+                                app:pcv_progressBarThickness="8dp"
+                                app:pcv_progressColor="@color/green"
+                                app:pcv_startAngle="90"
+                                app:pcv_textColor="@color/textColor"
+                                app:pcv_textSize="10sp" />
 
 
                             <LinearLayout
@@ -447,8 +376,8 @@
                                     android:layout_gravity="center"
                                     android:layout_marginTop="12dp"
                                     android:text="Account"
-                                    android:textColor="@color/textColor"
-                                    android:textAppearance="@style/materialText_500_12" />
+                                    android:textAppearance="@style/materialText_500_12"
+                                    android:textColor="@color/textColor" />
 
 
                             </LinearLayout>
@@ -473,8 +402,8 @@
                                     android:layout_gravity="center"
                                     android:layout_marginTop="12dp"
                                     android:text="Payment"
-                                    android:textColor="@color/textColor"
-                                    android:textAppearance="@style/materialText_500_12" />
+                                    android:textAppearance="@style/materialText_500_12"
+                                    android:textColor="@color/textColor" />
 
                             </LinearLayout>
 
@@ -498,8 +427,8 @@
                                     android:layout_gravity="center"
                                     android:layout_marginTop="12dp"
                                     android:text="Skills"
-                                    android:textColor="@color/textColor"
-                                    android:textAppearance="@style/materialText_500_12" />
+                                    android:textAppearance="@style/materialText_500_12"
+                                    android:textColor="@color/textColor" />
 
                             </LinearLayout>
 
@@ -523,28 +452,25 @@
                                     android:layout_gravity="center"
                                     android:layout_marginTop="12dp"
                                     android:text="Badges"
-                                    android:textColor="@color/textColor"
-                                    android:textAppearance="@style/materialText_500_12" />
+                                    android:textAppearance="@style/materialText_500_12"
+                                    android:textColor="@color/textColor" />
 
                             </LinearLayout>
-
                         </LinearLayout>
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_below="@id/profile_status_container"
                             android:layout_gravity="center"
-                            android:gravity="center"
                             android:layout_marginTop="16dp"
+                            android:gravity="center"
                             android:text="Complete Your Profile"
-                            android:textColor="@color/blue"
-                            android:textAppearance="@style/materialText_400_12" />
+                            android:textAppearance="@style/materialText_400_12"
+                            android:textColor="@color/blue" />
 
-                    </LinearLayout>
-
-
+                    </RelativeLayout>
                 </LinearLayout>
-
             </androidx.cardview.widget.CardView>
 
             <LinearLayout
@@ -561,14 +487,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="Notifications"
-                    android:textColor="@color/textColor"
                     android:textAppearance="@style/materialText_500_14"
-                     />
+                    android:textColor="@color/textColor" />
 
                 <include layout="@layout/view_notification_list" />
+
+
             </LinearLayout>
-
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

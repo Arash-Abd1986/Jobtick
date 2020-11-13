@@ -145,6 +145,7 @@
     <dimen name="payment_page_margin_top">16dp</dimen>
 
     <dimen name="textSizeH6">20sp</dimen>
+    <dimen name="margin_top_dashboard_profile">9dp</dimen>
 
 
 </resources>

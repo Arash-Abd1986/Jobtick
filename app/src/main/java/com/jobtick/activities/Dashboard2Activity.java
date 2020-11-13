@@ -1,6 +1,7 @@
 package com.jobtick.activities;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -118,6 +120,12 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
+    @BindView(R.id.lottieAnimationView)
+    LottieAnimationView lottieAnim;
+
+    @BindView(R.id.complete_profile)
+    TextView completeProfile;
+
     NotificationListAdapter notificationListAdapter;
     private PushNotificationModel2 pushNotificationModel2;
     private UserAccountModel userAccountModel;
@@ -136,6 +144,11 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
         setData();
         onChangeTabUser();
         initNotificationList();
+
+        completeProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(Dashboard2Activity.this, EditProfileActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initToolbar() {
@@ -350,6 +363,13 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
     }
 
     private void checkList() {
+        if (notificationListAdapter.getItemCount() <= 0) {
+            lottieAnim.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            lottieAnim.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initNotificationList() {

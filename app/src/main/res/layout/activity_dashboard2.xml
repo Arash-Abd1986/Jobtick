@@ -214,7 +214,8 @@
                             android:gravity="center"
                             android:text="Profile"
                             android:textAppearance="@style/materialText_600_14"
-                            android:textColor="@color/textColor" />
+                            android:textColor="@drawable/radio_button_secondary_color_text_selector"
+                            android:textColorHint="@color/textColor" />
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/rbSkills"
@@ -228,7 +229,7 @@
                             android:gravity="center"
                             android:text="Static date"
                             android:textAppearance="@style/materialText_600_14"
-                            android:textColor="@color/blue" />
+                            android:textColor="@drawable/radio_button_secondary_color_text_selector" />
                     </RadioGroup>
 
                     <RelativeLayout
@@ -359,6 +360,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/margin_top_dashboard_profile"
                                 android:layout_weight="1"
                                 android:orientation="vertical">
 
@@ -385,8 +387,10 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/margin_top_dashboard_profile"
                                 android:layout_weight="1"
                                 android:orientation="vertical">
+
 
                                 <ImageView
                                     android:id="@+id/iv_payment"
@@ -410,8 +414,10 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/margin_top_dashboard_profile"
                                 android:layout_weight="1"
                                 android:orientation="vertical">
+
 
                                 <ImageView
                                     android:id="@+id/iv_skills"
@@ -435,8 +441,10 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/margin_top_dashboard_profile"
                                 android:layout_weight="1"
                                 android:orientation="vertical">
+
 
                                 <ImageView
                                     android:id="@+id/iv_badges"
@@ -459,6 +467,7 @@
                         </LinearLayout>
 
                         <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/complete_profile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/profile_status_container"
@@ -491,6 +500,17 @@
                     android:textColor="@color/textColor" />
 
                 <include layout="@layout/view_notification_list" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottieAnimationView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/no_notification"/>
 
 
             </LinearLayout>

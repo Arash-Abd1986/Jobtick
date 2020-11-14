@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -18,18 +17,41 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/lottieAnimationView"
+
+            <LinearLayout
+                android:id="@+id/no_notifications_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:visibility="gone"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/no_notification"/>
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/empty_pages_padding"
+                android:visibility="gone">
 
-            <include layout="@layout/view_notification_list"/>
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottieAnimationView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:visibility="visible"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/no_notification" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/materialText_500_16"
+                    android:text="No notifiaction here"
+                    android:gravity="center"
+                    android:textColor="@color/colorNavyBlue"
+                    android:layout_marginTop="16dp"/>
+
+
+
+            </LinearLayout>
+
+            <include layout="@layout/view_notification_list" android:visibility="visible" />
 
         </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

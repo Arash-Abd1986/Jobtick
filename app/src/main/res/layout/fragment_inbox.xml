@@ -80,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="36dp"
+                    android:padding="@dimen/empty_pages_padding"
                     android:layout_gravity="center"
                     android:visibility="gone">
 

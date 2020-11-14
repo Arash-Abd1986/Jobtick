@@ -6,12 +6,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -58,14 +58,14 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
 
     NotificationListAdapter notificationListAdapter;
     private PushNotificationModel2 pushNotificationModel2;
-    private LottieAnimationView lottieAnim;
+    private LinearLayout noNotifications;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
         ButterKnife.bind(this);
-        lottieAnim = findViewById(R.id.lottieAnimationView);
+        noNotifications = findViewById(R.id.no_notifications_container);
         initToolbar();
         initComponent();
         getNotificationList();
@@ -218,10 +218,10 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
 
     private void checkList(){
         if (notificationListAdapter.getItemCount() <= 0) {
-            lottieAnim.setVisibility(View.VISIBLE);
+            noNotifications.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
-            lottieAnim.setVisibility(View.GONE);
+            noNotifications.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
         swipeRefresh.setRefreshing(false);

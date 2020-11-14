@@ -51,7 +51,8 @@
                         android:textAppearance="@style/materialText_500_16"
                         android:text="No job posted or completed"
                         android:layout_marginTop="16dp"
-                        android:gravity="center_horizontal"/>
+                        android:gravity="center_horizontal"
+                        android:textColor="@color/colorNavyBlue"/>
 
                 </LinearLayout>
 

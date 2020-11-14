@@ -193,7 +193,8 @@
                         android:text="@string/no_job_alert_set"
                         android:layout_gravity="center_horizontal"
                         android:gravity="center_horizontal"
-                        android:layout_marginTop="16dp"/>
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/textColor"/>
 
                 </LinearLayout>
 

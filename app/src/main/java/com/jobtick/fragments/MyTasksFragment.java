@@ -31,7 +31,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -66,7 +65,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pl.droidsonroids.gif.GifImageView;
 import timber.log.Timber;
 
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
@@ -128,7 +126,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     private String str_search = null;
     private String temp_str_search = null;
     private Toolbar toolbar;
-    private LottieAnimationView lottieAnim;
+    private LinearLayout noJobs;
     public MyTasksFragment() {
         // Required empty public constructor
     }
@@ -140,7 +138,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         // Inflate the layout for this fragment
        View view = inflater.inflate(R.layout.fragment_my_tasks, container, false);
         ButterKnife.bind(this, view);
-        lottieAnim=view.findViewById(R.id.lottieAnimationView);
+        noJobs =view.findViewById(R.id.no_jobs_container);
         swipeRefresh.setOnRefreshListener(this);
         dashboardActivity = (DashboardActivity) getActivity();
         if (dashboardActivity != null) {
@@ -299,10 +297,10 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                                 taskListAdapter.removeLoading();
 
                             if (items.size() <= 0) {
-                                lottieAnim.setVisibility(View.VISIBLE);
+                                noJobs.setVisibility(View.VISIBLE);
                                 recyclerViewStatus.setVisibility(View.GONE);
                             } else {
-                                lottieAnim.setVisibility(View.GONE);
+                                noJobs.setVisibility(View.GONE);
                                 recyclerViewStatus.setVisibility(View.VISIBLE);
 
                             }

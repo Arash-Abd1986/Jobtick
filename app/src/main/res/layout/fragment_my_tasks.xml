@@ -25,6 +25,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:id="@+id/no_jobs_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="36dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone">
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/lottieAnimationView"
@@ -32,10 +40,20 @@
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/no_post"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/materialText_500_16"
+                        android:text="No job posted or completed"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_horizontal"/>
+
+                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_status"

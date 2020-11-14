@@ -112,6 +112,7 @@
                     android:background="@drawable/rectangle_button_round_corners_outlined_primary"
                     android:src="@drawable/ic_bell_white"
                     android:layout_marginTop="40dp"
+                    android:padding="8dp"
                     android:layout_gravity="center_horizontal" />
 
                 <com.google.android.material.textview.MaterialTextView

@@ -111,9 +111,13 @@ public abstract class AbstractDashboard2Fragment extends Fragment {
     }
 
     private void initComponent() {
-        txtUserName.setText(sessionManager.getUserAccount().getName());
-        txtAccountLevel.setText(sessionManager.getUserAccount().getWorkerTier().getName());
-        ImageUtil.displayImage(imgUserAvatar, sessionManager.getUserAccount().getAvatar().getThumbUrl(), null);
+        if(sessionManager.getUserAccount() == null) return;
+        if(sessionManager.getUserAccount().getName() != null)
+            txtUserName.setText(sessionManager.getUserAccount().getName());
+        if(sessionManager.getUserAccount().getWorkerTier() != null && sessionManager.getUserAccount().getWorkerTier().getName() != null)
+            txtAccountLevel.setText(sessionManager.getUserAccount().getWorkerTier().getName());
+        if(sessionManager.getUserAccount().getAvatar() != null && sessionManager.getUserAccount().getAvatar().getThumbUrl() != null)
+            ImageUtil.displayImage(imgUserAvatar, sessionManager.getUserAccount().getAvatar().getThumbUrl(), null);
 
         rgTabs.setOnCheckedChangeListener((group, checkedId) -> {
             onChangeTabProfile();

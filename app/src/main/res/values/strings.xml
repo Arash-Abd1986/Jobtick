@@ -389,5 +389,6 @@
     <string name="my_personal_balance">My Personal Balance</string>
     <string name="delete_credit_card">Delete Credit Card</string>
     <string name="no_notifications">No Notifications</string>
+    <string name="no_job_alert_set">No job alert set</string>
 
 </resources>

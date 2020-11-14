@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,7 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -109,7 +109,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
 
     ImageView ivNotification;
     TextView toolbar_title;
-    private LottieAnimationView lottieAnim;
+    private LinearLayout noMessages;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -117,7 +117,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_inbox, container, false);
         ButterKnife.bind(this, view);
-        lottieAnim=view.findViewById(R.id.lottieAnimationView);
+        noMessages =view.findViewById(R.id.no_messages_container);
         dashboardActivity = (DashboardActivity) getActivity();
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -379,10 +379,10 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
 
                                 adapter.removeLoading();
                             if (items.size() <= 0) {
-                                lottieAnim.setVisibility(View.VISIBLE);
+                                noMessages.setVisibility(View.VISIBLE);
                                 recyclerView.setVisibility(View.GONE);
                             } else {
-                                lottieAnim.setVisibility(View.GONE);
+                                noMessages.setVisibility(View.GONE);
                                 recyclerView.setVisibility(View.VISIBLE);
 
                             }

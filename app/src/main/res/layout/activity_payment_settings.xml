@@ -7,25 +7,7 @@
     android:background="@color/grey_100"
     tools:context=".activities.PaymentSettingsActivity">
 
-    <LinearLayout
-        android:id="@+id/linearToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:orientation="horizontal">
-
-        <include layout="@layout/view_back_button" />
-
-        <com.jobtick.TextView.TextViewMedium
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_5sp"
-            android:text="@string/payment_settings"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/_18sp" />
-
-    </LinearLayout>
+    <include layout="@layout/toolbar"/>
 
 
     <androidx.core.widget.NestedScrollView

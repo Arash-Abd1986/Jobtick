@@ -11,6 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -59,6 +60,12 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
 
     TaskAlertAdapter adapter;
     ArrayList<TaskAlert> taskAlertArrayList;
+
+    @BindView(R.id.no_alerts_container)
+    LinearLayout noAlerts;
+
+    @BindView(R.id.alerts_container)
+    LinearLayout alerts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,16 +121,14 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
             adapter.removeItems(position);
             removeTaskAlert(obj.getId());
 
-            /*if (taskAlertArrayList.size() == 0) {
-                recyclerView.setVisibility(View.GONE);
-            }*/
+            checkList();
         } else {
-          /*  Intent newTaskAlerts = new Intent(TaskAlertsActivity.this, NewTaskAlertsActivity.class);
+            Intent newTaskAlerts = new Intent(TaskAlertsActivity.this, NewTaskAlertsActivity.class);
             Bundle bundle = new Bundle();
             bundle.putParcelable("TASK_ALERT", obj);
             bundle.putInt("POSITION", position);
             newTaskAlerts.putExtras(bundle);
-            startActivityForResult(newTaskAlerts, 1);*/
+            startActivityForResult(newTaskAlerts, 1);
         }
     }
 
@@ -170,7 +175,7 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                showCustomDialog("Removed successfully !");
+                            //    showCustomDialog("Removed successfully !");
                             } else {
                                 showToast("Something went Wrong", TaskAlertsActivity.this);
                             }
@@ -280,7 +285,6 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
                                     }
                                 }
                                 adapter.addItems(taskAlertArrayList);
-
                             } else {
                                 showToast("Something went Wrong", TaskAlertsActivity.this);
                             }
@@ -288,12 +292,11 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
                     } catch (JSONException e) {
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
-
                     }
-
-
+                    checkList();
                 },
                 error -> {
+                    checkList();
                     NetworkResponse networkResponse = error.networkResponse;
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
@@ -343,6 +346,16 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
         RequestQueue requestQueue = Volley.newRequestQueue(TaskAlertsActivity.this);
         requestQueue.add(stringRequest);
 
+    }
+
+    private void checkList() {
+        if (taskAlertArrayList.size() <= 0) {
+            noAlerts.setVisibility(View.VISIBLE);
+            alerts.setVisibility(View.GONE);
+        } else {
+            noAlerts.setVisibility(View.GONE);
+            alerts.setVisibility(View.VISIBLE);
+        }
     }
 
 }

@@ -30,6 +30,7 @@ import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.activities.AuthActivity;
 
 import com.jobtick.utils.Helper;
+import com.jobtick.widget.ExtendedEntryText;
 
 
 import butterknife.BindView;
@@ -44,29 +45,22 @@ public class SignInFragment extends FragmentBase implements AuthActivity.EditTex
 
     private AuthActivity authActivity;
 
-    @BindView(R.id.edt_email_address)
-    EditTextRegular edtEmailAddress;
-    @BindView(R.id.edt_password)
-    EditTextRegular edtPassword;
+    @BindView(R.id.email)
+    ExtendedEntryText edtEmailAddress;
+    @BindView(R.id.password)
+    ExtendedEntryText edtPassword;
     @BindView(R.id.txt_forgot_password)
-    TextViewMedium txtForgotPassword;
+    TextView txtForgotPassword;
     @BindView(R.id.lyt_btn_sign_in)
     MaterialButton lytBtnSignIn;
     @BindView(R.id.txt_btn_sign_up)
     TextView txtBtnSignUp;
-    @BindView(R.id.img_btn_password_toggle)
-    ImageView imgBtnPasswordToggle;
+
     @BindView(R.id.lyt_btn_google)
     LinearLayout lytBtnGoogle;
     @BindView(R.id.lyt_btn_facebook)
     LinearLayout lytBtnFacebook;
 
-    @BindView(R.id.lnr_email)
-    LinearLayout lnrEmail;
-    @BindView(R.id.lnr_password)
-    LinearLayout lnrPassword;
-
-    private boolean password_hide = true;
 
     public SignInFragment() {
         // Required empty public constructor
@@ -90,28 +84,10 @@ public class SignInFragment extends FragmentBase implements AuthActivity.EditTex
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        imgBtnPasswordToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (password_hide) {
-                    password_hide = false;
-                    edtPassword.setInputType(
-                            InputType.TYPE_CLASS_TEXT |
-                                    InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                    );
-                    imgBtnPasswordToggle.setImageDrawable(authActivity.getResources().getDrawable(R.drawable.ic_eye));
-                } else {
-                    password_hide = true;
-                    edtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    imgBtnPasswordToggle.setImageDrawable(authActivity.getResources().getDrawable(R.drawable.ic_eye_off));
-                }
-            }
-        });
-
     }
 
     @OnClick({R.id.txt_forgot_password, R.id.lyt_btn_sign_in, R.id.lyt_btn_google, R.id.lyt_btn_facebook, R.id.txt_btn_sign_up,
-    R.id.lnr_email, R.id.lnr_password})
+    R.id.email, R.id.password})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.txt_forgot_password:
@@ -142,10 +118,10 @@ public class SignInFragment extends FragmentBase implements AuthActivity.EditTex
                 ft.commit();
                 // authActivity.switchContent(new SignUpFragment());
                 break;
-            case R.id.lnr_email:
+            case R.id.email:
                 editTextOnClick(edtEmailAddress);
                 break;
-            case R.id.lnr_password:
+            case R.id.password:
                 editTextOnClick(edtPassword);
                 break;
 

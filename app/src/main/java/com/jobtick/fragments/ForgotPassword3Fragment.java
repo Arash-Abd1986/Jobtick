@@ -17,6 +17,7 @@ import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.activities.AuthActivity;
+import com.jobtick.widget.ExtendedEntryText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,21 +28,15 @@ import butterknife.OnClick;
  */
 public class ForgotPassword3Fragment extends FragmentBase {
     String email,otp;
-    @BindView(R.id.edt_password)
-    EditTextRegular edtNewPassword;
-    @BindView(R.id.edt_repeat_password)
-    EditTextRegular edtRepeatNewPassword;
+    @BindView(R.id.password)
+    ExtendedEntryText edtNewPassword;
+    @BindView(R.id.confirm_password)
+    ExtendedEntryText edtRepeatNewPassword;
+
     @BindView(R.id.lyt_btn_verify)
     MaterialButton lytBtnUpdate;
-    @BindView(R.id.img_btn_password_toggle)
-    ImageView imgBtnNewPasswordToggle;
-    @BindView(R.id.img_btn_repeat_password_toggle)
-    ImageView imgBtnRepeatNewPasswordToggle;
 
-    private boolean new_password_hide = true;
-    private boolean repeat_new_password_hide = true;
     AuthActivity authActivity;
-
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
@@ -67,26 +62,13 @@ public class ForgotPassword3Fragment extends FragmentBase {
         return view;
     }
 
-    @OnClick({R.id.img_btn_password_toggle, R.id.img_btn_repeat_password_toggle, R.id.lyt_btn_verify,
-    R.id.lnr_password, R.id.lnr_confirm_password})
+    @OnClick({R.id.lyt_btn_verify})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.img_btn_password_toggle:
-                new_password_toggle();
-                break;
-            case R.id.img_btn_repeat_password_toggle:
-                repeat_new_password_toggle();
-                break;
             case R.id.lyt_btn_verify:
                 Log.i("forgotPass3", "email: " + email + " atp: " + otp);
                 if(verification())
                     authActivity.resetPassword(email,otp,edtNewPassword.getText().toString().trim());
-                break;
-            case R.id.lnr_password:
-                editTextOnClick(edtNewPassword);
-                break;
-            case R.id.lnr_confirm_password:
-                editTextOnClick(edtRepeatNewPassword);
                 break;
         }
     }
@@ -100,38 +82,6 @@ public class ForgotPassword3Fragment extends FragmentBase {
             return false;
         }
         return true;
-    }
-
-    private void new_password_toggle() {
-        if (new_password_hide) {
-            new_password_hide = false;
-            edtNewPassword.setInputType(
-                    InputType.TYPE_CLASS_TEXT |
-                            InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            );
-            imgBtnNewPasswordToggle.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_eye));
-        } else {
-            new_password_hide = true;
-            edtNewPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            imgBtnNewPasswordToggle.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_eye_off));
-        }
-    }
-
-
-    private void repeat_new_password_toggle() {
-        if (repeat_new_password_hide) {
-            repeat_new_password_hide = false;
-            edtRepeatNewPassword.setInputType(
-                    InputType.TYPE_CLASS_TEXT |
-                            InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            );
-            imgBtnRepeatNewPasswordToggle.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_eye));
-        } else {
-            repeat_new_password_hide = true;
-            edtRepeatNewPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            imgBtnRepeatNewPasswordToggle.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_eye_off));
-        }
-
     }
 
 

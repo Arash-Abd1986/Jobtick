@@ -8,40 +8,12 @@
     android:orientation="vertical"
     tools:context=".activities.NewTaskAlertsActivity">
 
-    <LinearLayout
-        android:id="@+id/linearToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="15dp"
-        android:orientation="horizontal">
-
-        <include layout="@layout/view_back_button" />
-
-        <com.jobtick.TextView.TextViewMedium
-            android:id="@+id/toolbar_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_5sp"
-            android:layout_weight="1"
-            android:text="@string/payment"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/_18sp" />
-
-        <ImageView
-            android:layout_width="@dimen/_25sp"
-            android:layout_height="@dimen/_25sp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_setting"
-            tools:ignore="ContentDescription" />
-    </LinearLayout>
+    <include layout="@layout/toolbar" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/linearToolbar"
+        android:layout_below="@+id/toolbar"
         android:fillViewport="true">
 
         <LinearLayout

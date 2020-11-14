@@ -396,5 +396,8 @@
     <string name="requirements_confirmation">Requirements confirmation</string>
     <string name="please_check_requirements_for_this_job_before_you_make_an_offer">Please check requirements for this job before you make an offer</string>
     <string name="confirm">Confirm</string>
+    <string name="no_notifications">No Notifications</string>
+    <string name="no_job_alert_set">No job alert set</string>
+    <string name="no_transaction_recorded_here">No transaction recorded here</string>
 
 </resources>

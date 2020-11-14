@@ -142,8 +142,9 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
         if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
             CarmenFeature carmenFeature = PlacePicker.getPlace(data);
             Helper.Logger(TAG, "CarmenFeature = " + carmenFeature.toJson());
-            GeocodeObject geocodeObject = Helper.getGeoCodeObject(getActivity(), carmenFeature.center().latitude()
-                    , carmenFeature.center().longitude());
+            // No need for exact location
+//            GeocodeObject geocodeObject = Helper.getGeoCodeObject(getActivity(), carmenFeature.center().latitude()
+//                    , carmenFeature.center().longitude());
             //txtSuburb.setText(geocodeObject.getAddress());
             txtSuburb.setText(carmenFeature.placeName());
 

@@ -1,6 +1,9 @@
 package com.jobtick.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -8,6 +11,7 @@ import android.widget.RadioGroup;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
 import com.jobtick.adapers.SectionsPagerAdapter;
 import com.jobtick.fragments.PaymentEarnedFragment;
@@ -18,6 +22,9 @@ import butterknife.ButterKnife;
 
 public class PaymentHistoryActivity extends ActivityBase {
 
+    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;
+
     @BindView(R.id.view_pager)
     ViewPager viewPager;
     @BindView(R.id.rb_outgoing)
@@ -26,8 +33,6 @@ public class PaymentHistoryActivity extends ActivityBase {
     RadioButton rbEarned;
     @BindView(R.id.rg_outgoing_earned)
     RadioGroup rgOutgoingEarned;
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
 
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
@@ -65,12 +70,6 @@ public class PaymentHistoryActivity extends ActivityBase {
         initToolbar();
     }
 
-    private void initToolbar() {
-        ivBack.setOnClickListener(v -> {
-            finish();
-        });
-    }
-
     private void initComponent() {
         setupViewPager(viewPager);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
@@ -78,6 +77,39 @@ public class PaymentHistoryActivity extends ActivityBase {
         viewPager.setOffscreenPageLimit(2);
         clickEvent();
     }
+
+    private void initToolbar() {
+        toolbar.setTitle("Payment History");
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_payment_history, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            case R.id.nav_setting:
+                startActivity(new Intent(this, PaymentSettingsActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
 
     private void clickEvent() {
         rgOutgoingEarned.setOnCheckedChangeListener((group, checkedId) -> {

@@ -217,6 +217,9 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
     }
 
+    public void setSelection(int i) {
+        editText.setSelection(i);
+    }
 
 
     public interface EInputType {

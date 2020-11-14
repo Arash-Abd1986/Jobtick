@@ -16,7 +16,7 @@
         android:layout_marginEnd="@dimen/spacing_large"
         android:layout_marginBottom="@dimen/spacing_middle"
         android:clipToPadding="false"
-        android:visibility="gone"
+        android:visibility="visible"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp">
 
@@ -63,7 +63,7 @@
                             android:layout_gravity="center"
                             android:layout_marginEnd="@dimen/_12sp"
                             android:src="@drawable/ic_down_arrow"
-                            android:tint="@color/colorGrayC9C9C9" />
+                            app:tint="@color/colorGrayC9C9C9" />
 
 
                         <Spinner
@@ -162,16 +162,5 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottieAnimationView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:visibility="gone"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/payment_history_empty" />
+    <include layout="@layout/view_payment_history_empty_page" android:visibility="gone"/>
 </LinearLayout>

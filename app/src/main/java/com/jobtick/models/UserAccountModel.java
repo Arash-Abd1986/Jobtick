@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.jobtick.utils.TimeAgo;
@@ -82,12 +81,12 @@ public class UserAccountModel implements Parcelable {
     @SerializedName("worker_ratings")
     @Expose
     private RatingModel workerRatings;
-    @SerializedName("post_task_statistics")
+    @SerializedName("posted_task_statistics")
     @Expose
-    private StatisticsModel postTaskStatistics;
+    private PostedTaskStatistics postTaskStatistics;
     @SerializedName("work_task_statistics")
     @Expose
-    private StatisticsModel workTaskStatistics;
+    private WorkTaskStatistics workTaskStatistics;
 
 
     @SerializedName("worker_tier")
@@ -150,8 +149,8 @@ public class UserAccountModel implements Parcelable {
     public UserAccountModel(Integer id, String name, String fname, String location, Double latitude, Double longitude,
                             String lname, String email, String emailVerifiedAt, String mobile, String mobileVerifiedAt,
                             String tagline, String about, String dob, String business_number, boolean isOnline,
-                            AttachmentModel avatar, RatingModel posterRatings, RatingModel workerRatings, StatisticsModel postTaskStatistics,
-                            StatisticsModel workTaskStatistics, TierModel workerTier, TierModel posterTier, Integer workerRank,
+                            AttachmentModel avatar, RatingModel posterRatings, RatingModel workerRatings, PostedTaskStatistics postTaskStatistics,
+                            WorkTaskStatistics workTaskStatistics, TierModel workerTier, TierModel posterTier, Integer workerRank,
                             Integer posterRank, String joinDate, String lastOnline, SkillsModel skills, ArrayList<AttachmentModel> portfolio,
                             ArrayList<BadgesModel> badges, AccountStatusModel account_status, Integer isVerifiedAccount, Boolean blocked, String blockedUntil) {
         this.id = id;
@@ -526,19 +525,19 @@ public class UserAccountModel implements Parcelable {
         this.workerRatings = workerRatings;
     }
 
-    public StatisticsModel getPostTaskStatistics() {
+    public PostedTaskStatistics getPostTaskStatistics() {
         return postTaskStatistics;
     }
 
-    public void setPostTaskStatistics(StatisticsModel postTaskStatistics) {
+    public void setPostTaskStatistics(PostedTaskStatistics postTaskStatistics) {
         this.postTaskStatistics = postTaskStatistics;
     }
 
-    public StatisticsModel getWorkTaskStatistics() {
+    public WorkTaskStatistics getWorkTaskStatistics() {
         return workTaskStatistics;
     }
 
-    public void setWorkTaskStatistics(StatisticsModel workTaskStatistics) {
+    public void setWorkTaskStatistics(WorkTaskStatistics workTaskStatistics) {
         this.workTaskStatistics = workTaskStatistics;
     }
 
@@ -705,13 +704,13 @@ public class UserAccountModel implements Parcelable {
                 JSONObject jsonObject_worker_ratings = jsonObject.getJSONObject("worker_ratings");
                 userAccountModel.setWorkerRatings(new RatingModel().getJsonToModel(jsonObject_worker_ratings));
             }
-            if (jsonObject.has("post_task_statistics") && !jsonObject.isNull("post_task_statistics")) {
-                JSONObject jsonObject_post_task_statistics = jsonObject.getJSONObject("post_task_statistics");
-                userAccountModel.setPostTaskStatistics(new StatisticsModel().getJsonToModel(jsonObject_post_task_statistics));
+            if (jsonObject.has("posted_task_statistics") && !jsonObject.isNull("posted_task_statistics")) {
+                JSONObject jsonObject_post_task_statistics = jsonObject.getJSONObject("posted_task_statistics");
+                userAccountModel.setPostTaskStatistics(new PostedTaskStatistics().getJsonToModel(jsonObject_post_task_statistics));
             }
             if (jsonObject.has("work_task_statistics") && !jsonObject.isNull("work_task_statistics")) {
                 JSONObject jsonObject_work_task_statistics = jsonObject.getJSONObject("work_task_statistics");
-                userAccountModel.setWorkTaskStatistics(new StatisticsModel().getJsonToModel(jsonObject_work_task_statistics));
+                userAccountModel.setWorkTaskStatistics(new WorkTaskStatistics().getJsonToModel(jsonObject_work_task_statistics));
             }
             if (jsonObject.has("worker_tier") && !jsonObject.isNull("worker_tier")) {
                 JSONObject jsonObject_worker_tier = jsonObject.getJSONObject("worker_tier");

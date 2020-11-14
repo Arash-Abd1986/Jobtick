@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -54,8 +55,8 @@ public class PaymentEarnedFragment extends Fragment {
     @BindView(R.id.payment_history_list)
     RecyclerView paymentHistoryList;
 
-    @BindView(R.id.lottieAnimationView)
-    LottieAnimationView lottieAnimationView;
+    @BindView(R.id.no_transaction_container)
+    LinearLayout noTransactions;
     @BindView(R.id.container)
     CardView container;
 
@@ -135,10 +136,10 @@ public class PaymentEarnedFragment extends Fragment {
 
     private void fillData(List<PaymentHistory> data, String total_amount) {
         if (data.size() == 0) {
-            lottieAnimationView.setVisibility(View.VISIBLE);
+            noTransactions.setVisibility(View.VISIBLE);
             container.setVisibility(View.GONE);
         } else {
-            lottieAnimationView.setVisibility(View.GONE);
+            noTransactions.setVisibility(View.GONE);
             container.setVisibility(View.VISIBLE);
         }
         totalPayment.setText(total_amount);

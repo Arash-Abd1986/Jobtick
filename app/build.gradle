@@ -146,4 +146,7 @@ dependencies {
     implementation 'com.stripe:stripe-android:16.0.1'
 
     implementation "com.stripe:stripe-java:20.24.0"
+
+    //Profile percentage
+    implementation 'com.ramijemli.percentagechartview:percentagechartview:0.3.1'
 }

@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -24,18 +24,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.radiobutton.MaterialRadioButton;
-import com.jobtick.interfaces.HasEditTextRegular;
+import com.jobtick.widget.ExtendedEntryText;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.models.GeocodeObject;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.Helper;
@@ -54,32 +49,28 @@ public class CompleteRegistrationActivity extends ActivityBase {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.edt_first_name)
-    EditTextRegular edtFirstName;
-    @BindView(R.id.edt_last_name)
-    EditTextRegular edtLastName;
+    @BindView(R.id.first_name)
+    ExtendedEntryText edtFirstName;
+    @BindView(R.id.last_name)
+    ExtendedEntryText edtLastName;
+
     @BindView(R.id.lyt_btn_complete_registration)
     MaterialButton lytBtnCompleteRegistration;
-    Context context;
-    @BindView(R.id.txt_suburb)
-    TextViewRegular txtSuburb;
+
     @BindView(R.id.cb_poster)
     RadioButton cbPoster;
     @BindView(R.id.cb_worker)
     RadioButton cbWorker;
 
-    @BindView(R.id.lnr_first_name)
-    LinearLayout lnrFirstName;
-    @BindView(R.id.lnr_last_name)
-    LinearLayout lnrLastName;
-    @BindView(R.id.lnr_suburb)
-    LinearLayout lnrSuburb;
+    @BindView(R.id.suburb)
+    ExtendedEntryText suburb;
 
     private int PLACE_SELECTION_REQUEST_CODE = 1;
-    private GeocodeObject geoCodeObject;
-    private LatLng locationObject;
+
     private String str_latitude = null;
     private String str_longitude = null;
+
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,14 +79,19 @@ public class CompleteRegistrationActivity extends ActivityBase {
         ButterKnife.bind(this);
         context = CompleteRegistrationActivity.this;
         initToolbar();
-
-        //perform click is implemented for parent of txtSuburb for comforting of user
-        //also we should perform click of parent when we try to click it.
-        txtSuburb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((View)v.getParent()).performClick();
-            }
+        suburb.setExtendedViewOnClickListener(() -> {
+            Intent intent = new PlaceAutocomplete.IntentBuilder()
+                    .accessToken(Mapbox.getAccessToken())
+                    .placeOptions(PlaceOptions.builder()
+                            // .backgroundColor(Helper.getAttrColor(taskCreateActivity, R.attr.colorBackground))
+                            .backgroundColor(getResources().getColor(R.color.background))
+                            .limit(10)
+                            .country("AU")
+                            /*.addInjectedFeature(home)
+                            .addInjectedFeature(work)*/
+                            .build(PlaceOptions.MODE_FULLSCREEN))
+                    .build(CompleteRegistrationActivity.this);
+            startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
     }
 
@@ -256,8 +252,8 @@ public class CompleteRegistrationActivity extends ActivityBase {
         } else if (TextUtils.isEmpty(edtLastName.getText().toString())) {
             edtLastName.setError("Please enter last name");
             return false;
-        } else if (TextUtils.isEmpty(txtSuburb.getText().toString())) {
-            txtSuburb.setError("Please enter suburb");
+        } else if (TextUtils.isEmpty(suburb.getText().toString())) {
+            suburb.setError("Please enter suburb");
             return false;
         }
 
@@ -281,60 +277,35 @@ public class CompleteRegistrationActivity extends ActivityBase {
 //                    , carmenFeature.center().longitude());
 
 
-            txtSuburb.setText(carmenFeature.placeName());
+            suburb.setText(carmenFeature.placeName());
 
             // editArea.setText(geocodeObject.getKnownName());
             str_latitude = String.valueOf(carmenFeature.center().latitude());
             str_longitude = String.valueOf(carmenFeature.center().longitude());
-            locationObject = new LatLng(carmenFeature.center().latitude(), carmenFeature.center().longitude());
         }
     }
 
-    @OnClick({R.id.lyt_btn_complete_registration,
-    R.id.lnr_first_name, R.id.lnr_last_name, R.id.lnr_suburb, R.id.txt_suburb})
+    @OnClick({R.id.lyt_btn_complete_registration})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.lnr_suburb:
-                Log.i("completeRegis","clicked");
-                Intent intent = new PlaceAutocomplete.IntentBuilder()
-                        .accessToken(Mapbox.getAccessToken())
-                        .placeOptions(PlaceOptions.builder()
-                                // .backgroundColor(Helper.getAttrColor(taskCreateActivity, R.attr.colorBackground))
-                                .backgroundColor(getResources().getColor(R.color.background))
-                                .limit(10)
-                                .country("AU")
-                                /*.addInjectedFeature(home)
-                                .addInjectedFeature(work)*/
-                                .build(PlaceOptions.MODE_FULLSCREEN))
-                        .build(CompleteRegistrationActivity.this);
-                startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
-
-                break;
             case R.id.lyt_btn_complete_registration:
 
                 if (validation()) {
                     String str_fname = edtFirstName.getText().toString().trim();
                     String str_lname = edtLastName.getText().toString().trim();
-                    String str_suburb = txtSuburb.getText().toString().trim();
+                    String str_suburb = suburb.getText().toString().trim();
 
                     showProgressDialog();
                     profileUpdate(str_fname, str_lname, str_suburb);
 
-                    intent = new Intent(CompleteRegistrationActivity.this, OnboardActivity.class);
+                    Intent intent = new Intent(CompleteRegistrationActivity.this, OnboardActivity.class);
                     if (cbWorker.isChecked()) {
                         intent.putExtra("as", "worker");
                     } else if (cbPoster.isChecked()) {
                         intent.putExtra("as", "poster");
                     }
                     startActivity(intent);
-
                 }
-                break;
-            case R.id.lnr_first_name:
-                editTextOnClick(edtFirstName);
-                break;
-            case R.id.lnr_last_name:
-                editTextOnClick(edtLastName);
                 break;
         }
     }

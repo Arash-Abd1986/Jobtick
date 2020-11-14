@@ -202,7 +202,8 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                    showCustomDialog("TaskAlert has been added successfully ! ");
+                                //    showCustomDialog("TaskAlert has been added successfully ! ");
+                                    finish();
                                 }
                             } else {
                                 showToast("Something went Wrong", NewTaskAlertsActivity.this);

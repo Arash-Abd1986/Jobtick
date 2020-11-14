@@ -2,219 +2,167 @@ package com.jobtick.activities;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.airbnb.lottie.LottieAnimationView;
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.gson.Gson;
 import com.jobtick.R;
-import com.jobtick.models.UserAccountModel;
-import com.jobtick.utils.ImageUtil;
-import com.jobtick.utils.SessionManager;
-import com.jobtick.widget.ExtendedJobInfo;
+import com.jobtick.adapers.NotificationListAdapter;
+import com.jobtick.adapers.SectionsPagerAdapter;
+import com.jobtick.fragments.Dashboard2PosterFragment;
+import com.jobtick.fragments.Dashboard2TickerFragment;
+import com.jobtick.models.notification.NotifDatum;
+import com.jobtick.models.notification.PushNotificationModel2;
+import com.jobtick.utils.Constant;
+import com.jobtick.widget.ContentWrappingViewPager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
-public class Dashboard2Activity extends ActivityBase {
+public class Dashboard2Activity extends ActivityBase implements NotificationListAdapter.OnItemClickListener, ViewPager.OnPageChangeListener {
 
 
-    @BindView(R.id.txt_user_name)
-    TextView txtUserName;
-
-    @BindView(R.id.txt_account_level)
-    TextView txtAccountLevel;
-
-    @BindView(R.id.awaiting_for_offer)
-    ExtendedJobInfo txtAwaitingOffer;
-
-    @BindView(R.id.assigned)
-    ExtendedJobInfo txtAssigend;
-
-    @BindView(R.id.overdue)
-    ExtendedJobInfo txtOverDue;
-
-    @BindView(R.id.released_money)
-    ExtendedJobInfo txtReleasedMoney;
-
-    @BindView(R.id.complete)
-    ExtendedJobInfo txtCompleted;
-
-    @BindView(R.id.cancelled)
-    ExtendedJobInfo extCancelled;
+    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;
 
     @BindView(R.id.rb_as_ticker)
-    MaterialRadioButton rbAsATicker;
+    RadioButton rbAsATicker;
 
     @BindView(R.id.rb_as_poster)
-    MaterialRadioButton rbAsAPoster;
+    RadioButton rbAsAPoster;
 
     @BindView(R.id.rg_ticker_poster)
     RadioGroup rgTickerPoster;
 
-    @BindView(R.id.iv_green_account)
-    ImageView iv_green_account;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
 
-    @BindView(R.id.iv_payment)
-    ImageView iv_payment;
+    @BindView(R.id.no_notifications_container)
+    LinearLayout noNotifications;
 
-    @BindView(R.id.iv_skills)
-    ImageView iv_skills;
+    @BindView(R.id.ticker_poster_view_pager)
+    ContentWrappingViewPager viewPager;
 
-    @BindView(R.id.iv_badges)
-    ImageView iv_badges;
+    NotificationListAdapter notificationListAdapter;
+    private PushNotificationModel2 pushNotificationModel2;
 
-    private String greenColor = "#38C88A";
-    private String grayColor = "#EFEFEF";
-
-    private UserAccountModel userAccountModel;
-    private SessionManager sessionManager;
-
-    @BindView(R.id.img_user_avatar)
-    ImageView imgUserAvatar;
-/*
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;*/
-
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard2);
         ButterKnife.bind(this);
-        sessionManager = new SessionManager(Dashboard2Activity.this);
-        userAccountModel = sessionManager.getUserAccount();
-        init();
         initToolbar();
         initComponent();
-        setData();
-        onChangeTabUser();
+        initNotificationList();
     }
 
     private void initToolbar() {
-/*        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setTitle("Dashboard");
+        toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
-        ivBack.setOnClickListener(v -> {
-            finish();
-        });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
-    public void init() {
+    @Override
+    public void onItemClick(View view, NotifDatum obj, int position, String action) {
 
     }
 
-    public void setData() {
+    //we just get last 10 notifications
+    private void getNotificationList() {
 
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_NOTIFICATION_LIST + "?page=1",
+                response -> {
+                    Timber.e(response);
+                    hideProgressDialog();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                            String jsonString = jsonObject.toString(); //http request
+                            Gson gson = new Gson();
+                            pushNotificationModel2 = gson.fromJson(jsonString, PushNotificationModel2.class);
+                        } else {
+                            showToast("something went wrong.", this);
+                            checkList();
+                            return;
+                        }
 
-        txtUserName.setText(sessionManager.getUserAccount().getName());
-        txtAccountLevel.setText(sessionManager.getUserAccount().getWorkerTier().getName());
-        ImageUtil.displayImage(imgUserAvatar, sessionManager.getUserAccount().getAvatar().getThumbUrl(), null);
+                        notificationListAdapter.addItems(pushNotificationModel2.getData());
+                        checkList();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        checkList();
+                    }
+                },
+                error -> {
+                    checkList();
+                    errorHandle1(error.networkResponse);
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(Dashboard2Activity.this);
+        requestQueue.add(stringRequest);
+        Log.e("url", stringRequest.getUrl());
+
     }
 
-    public void initComponent() {
-
-        rgTickerPoster.setOnCheckedChangeListener((group, checkedId) -> {
-            onChangeTabUser();
-        });
-
-    }
-
-    private void onChangeTabUser() {
-        if (rbAsAPoster.isChecked()) {
-            if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getAssigned() != null) {
-                txtAwaitingOffer.setValue(userAccountModel.getPostTaskStatistics().getAssigned().toString());
-            } else {
-                txtAwaitingOffer.setValue("0");
-            }
-
-            if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getOverdue() != null) {
-                txtOverDue.setValue(userAccountModel.getPostTaskStatistics().getOverdue().toString());
-            } else {
-                txtOverDue.setValue("0");
-            }
-            if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCompleted() != null) {
-                txtCompleted.setValue(userAccountModel.getPostTaskStatistics().getCompleted().toString());
-            } else {
-                txtCompleted.setValue("0");
-            }
-            if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCurrentBids() != null) {
-                txtAwaitingOffer.setValue(userAccountModel.getPostTaskStatistics().getCurrentBids().toString());
-            } else {
-                txtAwaitingOffer.setValue("0");
-            }
+    private void checkList() {
+        if (notificationListAdapter.getItemCount() <= 0) {
+            noNotifications.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
         } else {
-
-            if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getAssigned() != null) {
-                txtAwaitingOffer.setValue(userAccountModel.getWorkTaskStatistics().getAssigned().toString());
-            } else {
-                txtAwaitingOffer.setValue("0");
-
-            }
-
-            if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getOverdue() != null) {
-                txtOverDue.setValue(userAccountModel.getWorkTaskStatistics().getOverdue().toString());
-            } else {
-                txtOverDue.setValue("0");
-            }
-            if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getCompleted() != null) {
-                txtCompleted.setValue(userAccountModel.getWorkTaskStatistics().getCompleted().toString());
-            } else {
-                txtCompleted.setValue("0");
-            }
-            if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getCurrentBids() != null) {
-                txtAwaitingOffer.setValue(userAccountModel.getWorkTaskStatistics().getCurrentBids().toString());
-            } else {
-                txtAwaitingOffer.setValue("0");
-            }
+            noNotifications.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
         }
+    }
 
+    private void initNotificationList() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(Dashboard2Activity.this);
 
-        if (userAccountModel.getAccount_status() != null) {
-            if (userAccountModel.getAccount_status().isPortfolio()) {
-                iv_green_account.setImageResource(R.drawable.ic_progress_checked);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        notificationListAdapter = new NotificationListAdapter(new ArrayList<>());
+        notificationListAdapter.setOnItemClickListener(this);
+        recyclerView.setAdapter(notificationListAdapter);
 
-            } else {
-                iv_green_account.setColorFilter(ContextCompat.getColor(Dashboard2Activity.this, R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
-            }
-
-            if (rbAsAPoster.isChecked()) {
-                if (userAccountModel.getAccount_status().isCredit_card()) {
-                    iv_payment.setImageResource(R.drawable.ic_progress_checked);
-                } else {
-                    iv_payment.setColorFilter(ContextCompat.getColor(Dashboard2Activity.this, R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
-                }
-            } else {
-                if (userAccountModel.getAccount_status().isBank_account()) {
-                    iv_payment.setImageResource(R.drawable.ic_progress_checked);
-
-                } else {
-                    iv_payment.setColorFilter(ContextCompat.getColor(Dashboard2Activity.this, R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
-                }
-
-
-            }
-
-            if (userAccountModel.getAccount_status().isSkills()) {
-                iv_skills.setImageResource(R.drawable.ic_progress_checked);
-            } else {
-                iv_skills.setColorFilter(ContextCompat.getColor(Dashboard2Activity.this, R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
-            }
-            if (userAccountModel.getAccount_status().isBadges()) {
-                iv_badges.setImageResource(R.drawable.ic_progress_checked);
-
-            } else {
-                iv_badges.setColorFilter(ContextCompat.getColor(Dashboard2Activity.this, R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
-            }
-        }
-
-
+        getNotificationList();
     }
 
     @Override
@@ -229,4 +177,58 @@ public class Dashboard2Activity extends ActivityBase {
     }
 
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        switch (position) {
+            case 0:
+                rbAsATicker.setChecked(true);
+                rbAsAPoster.setChecked(false);
+                break;
+            case 1:
+                rbAsATicker.setChecked(false);
+                rbAsAPoster.setChecked(true);
+                break;
+            case 2:
+
+                break;
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    private void initComponent() {
+        setupViewPager(viewPager);
+        viewPager.addOnPageChangeListener(this);
+        viewPager.setCurrentItem(0);
+        viewPager.setOffscreenPageLimit(2);
+        clickEvent();
+    }
+
+    private void clickEvent() {
+        rgTickerPoster.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.rb_as_ticker:
+                    viewPager.setCurrentItem(0);
+                    break;
+                case R.id.rb_as_poster:
+                    viewPager.setCurrentItem(1);
+                    break;
+            }
+        });
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(Dashboard2TickerFragment.newInstance(), "User as Ticker");
+        adapter.addFragment(Dashboard2PosterFragment.newInstance(), "User as Poster");
+        viewPager.setAdapter(adapter);
+    }
 }

@@ -4,56 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_100"
+    android:background="@color/backgroundLightGrey"
     android:orientation="vertical"
     tools:context=".activities.Dashboard2Activity">
 
-    <!--
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/grey_100"
-            app:contentInsetStart="0dp"
-            app:contentInsetStartWithNavigation="0dp"
-            app:navigationIcon="@drawable/ic_back"
-            app:title="Dashboard"
-            app:titleTextAppearance="@style/Toolbar.TitleText" />
-    -->
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:orientation="horizontal">
-
-
-        <ImageView
-            android:id="@+id/ivBack"
-            android:layout_width="@dimen/_32sp"
-            android:layout_height="@dimen/_32sp"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_10sp"
-            android:padding="@dimen/_8sp"
-            android:src="@drawable/ic_back" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_5sp"
-            android:text="Dashboard"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/_18sp" />
-
-
-    </LinearLayout>
-
+    <include layout="@layout/toolbar" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:overScrollMode="never">
 
         <LinearLayout
@@ -61,40 +20,34 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <LinearLayout
+            <FrameLayout
+                android:id="@+id/poster_ticker_tabs"
+                android:layout_alignParentTop="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_medium"
-                android:layout_marginEnd="@dimen/spacing_medium"
-                android:orientation="vertical">
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@drawable/bg_white_shape"
+                android:padding="@dimen/_3sp">
 
-                <FrameLayout
+                <RadioGroup
+                    android:id="@+id/rg_ticker_poster"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="56dp"
                     android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_large"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_medium"
-                    android:background="@drawable/bg_white_shape"
-                    android:padding="@dimen/_3sp">
-
-                    <RadioGroup
-                        android:id="@+id/rg_ticker_poster"
-                        android:layout_width="match_parent"
-                        android:layout_height="46dp"
-                        android:layout_gravity="center"
-                        android:orientation="horizontal">
+                    android:orientation="horizontal">
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/rb_as_ticker"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@drawable/radio_button_left_tab"
                             android:button="@null"
-                            android:checked="false"
+                            android:checked="true"
                             android:gravity="center"
                             android:paddingStart="@dimen/spacing_large"
                             android:paddingEnd="@dimen/spacing_large"
@@ -105,11 +58,11 @@
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/rb_as_poster"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@drawable/radio_button_right_tab"
                             android:button="@null"
-                            android:checked="true"
+                            android:checked="false"
                             android:gravity="center"
                             android:paddingStart="@dimen/spacing_large"
                             android:paddingEnd="@dimen/spacing_large"
@@ -117,476 +70,14 @@
                             android:textAppearance="@style/materialText_500_14"
                             android:textColor="@color/radio_btn" />
 
-                    </RadioGroup>
-                </FrameLayout>
+                </RadioGroup>
+            </FrameLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_marginStart="@dimen/_11sp"
-                        android:layout_marginEnd="@dimen/_11sp"
-                        android:weightSum="3">
-
-                        <com.jobtick.widget.ExtendedJobInfo
-                            android:id="@+id/awaiting_for_offer"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            app:eJobBottomColor="@color/colorTaskOffer"
-                            app:eJobTitle="Awaiting\nfor offer"
-                            app:eJobValue="23" />
-
-                        <com.jobtick.widget.ExtendedJobInfo
-                            android:id="@+id/assigned"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            app:eJobBottomColor="@color/colorTaskAssigned"
-                            app:eJobTitle="Assigned"
-                            app:eJobValue="16" />
-
-                        <com.jobtick.widget.ExtendedJobInfo
-                            android:id="@+id/overdue"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            app:eJobBottomColor="@color/colorTaskOverDue"
-                            app:eJobTitle="Overdue"
-                            app:eJobValue="12" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_marginStart="@dimen/_11sp"
-                        android:layout_marginTop="@dimen/_3sp"
-                        android:layout_marginEnd="@dimen/_11sp"
-                        android:weightSum="3">
-
-                        <com.jobtick.widget.ExtendedJobInfo
-                            android:id="@+id/released_money"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            app:eJobBottomColor="@color/colorReleasedMoney"
-                            app:eJobTitle="Released\nMoney"
-                            app:eJobValue="23" />
-
-                        <com.jobtick.widget.ExtendedJobInfo
-                            android:id="@+id/complete"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            app:eJobBottomColor="@color/colorTaskCompleted"
-                            app:eJobTitle="Complete"
-                            app:eJobValue="45" />
-
-                        <com.jobtick.widget.ExtendedJobInfo
-                            android:id="@+id/cancelled"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            app:eJobBottomColor="@color/colorTaskCancelled"
-                            app:eJobTitle="Cancelled"
-                            app:eJobValue="07" />
-
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <androidx.cardview.widget.CardView
+            <com.jobtick.widget.ContentWrappingViewPager
+                android:id="@+id/ticker_poster_view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_18sp"
-                android:layout_marginTop="@dimen/_10sp"
-                android:layout_marginEnd="@dimen/_18sp"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:elevation="0dp"
-                app:cardElevation="0dp"
-                android:visibility="visible"
-                app:cardCornerRadius="8dp"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingStart="@dimen/spacing_large"
-                    android:paddingTop="@dimen/spacing_middle"
-                    android:paddingEnd="@dimen/spacing_large"
-                    android:paddingBottom="@dimen/spacing_large">
-
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_5sp" />
-
-                    <RadioGroup
-                        android:id="@+id/rgTabs"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/radio_profile_bg"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
-
-                        <com.google.android.material.radiobutton.MaterialRadioButton
-                            android:id="@+id/rbPortfollio"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_60dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:background="@drawable/radio_portfolio"
-                            android:button="@null"
-                            android:checked="false"
-                            android:gravity="center"
-                            android:text="Profile"
-                            android:textAppearance="@style/materialText_600_14"
-                            android:textColor="@color/textColor" />
-
-                        <com.google.android.material.radiobutton.MaterialRadioButton
-                            android:id="@+id/rbSkills"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_60dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:background="@drawable/radio_portfolio"
-                            android:button="@null"
-                            android:checked="true"
-                            android:gravity="center"
-                            android:text="Static date"
-                            android:textAppearance="@style/materialText_600_14"
-                            android:textColor="@color/blue" />
-
-
-                    </RadioGroup>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
-
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:layout_marginEnd="@dimen/spacing_medium"
-                            android:clipToPadding="false"
-                            app:cardBackgroundColor="@color/colorPrimary"
-                            app:cardCornerRadius="@dimen/_5sp"
-                            app:cardElevation="@dimen/_5sp">
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/txt_btn_profile"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:clickable="true"
-                                android:padding="@dimen/spacing_medium"
-                                android:paddingStart="@dimen/spacing_large"
-                                android:paddingEnd="@dimen/spacing_large"
-                                android:text="Profile"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_12sp"
-                                android:textStyle="bold" />
-                        </androidx.cardview.widget.CardView>
-
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:clipToPadding="false"
-                            app:cardBackgroundColor="@color/colorF0F0F0"
-                            app:cardCornerRadius="@dimen/_5sp"
-                            app:cardElevation="5dp">
-
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/txt_btn_static_date"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:clickable="true"
-                                android:padding="@dimen/spacing_medium"
-                                android:text="Static Date"
-                                android:textColor="@color/textColor"
-                                android:textSize="@dimen/_12sp"
-                                android:textStyle="bold" />
-
-                        </androidx.cardview.widget.CardView>
-
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/_15sp"
-                                android:layout_weight="1"
-                                android:orientation="horizontal">
-
-                                <RelativeLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
-
-
-                                    <com.mikhaellopez.circularimageview.CircularImageView
-                                        android:id="@+id/img_user_avatar"
-                                        android:layout_width="85sp"
-                                        android:layout_height="85sp"
-                                        android:paddingBottom="@dimen/_10sp"
-                                        android:src="@drawable/ic_place_holder" />
-
-                                    <RelativeLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignBottom="@+id/img_user_avatar"
-                                        android:layout_centerHorizontal="true">
-
-                                        <ImageView
-                                            android:id="@+id/img_account_shield"
-                                            android:layout_width="@dimen/_15sp"
-                                            android:layout_height="@dimen/_15sp"
-                                            android:layout_gravity="center"
-                                            android:layout_marginRight="@dimen/_10sp"
-                                            android:layout_marginBottom="@dimen/_5sp"
-                                            android:src="@drawable/ic_shield" />
-                                    </RelativeLayout>
-
-                                    <ImageView
-                                        android:id="@+id/img_account_level"
-                                        android:layout_width="25dp"
-                                        android:layout_height="35dp"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_alignParentBottom="true"
-                                        android:layout_marginBottom="@dimen/_8sp"
-                                        android:layout_weight="1"
-                                        android:src="@drawable/ic_user_level"
-                                        android:visibility="gone" />
-
-                                </RelativeLayout>
-
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginLeft="@dimen/_5sp"
-                                    android:layout_marginBottom="@dimen/_5sp"
-                                    android:orientation="vertical">
-
-                                    <com.google.android.material.textview.MaterialTextView
-                                        android:id="@+id/txt_user_name"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:maxLines="1"
-                                        android:text="Ammy Stevenson"
-                                        android:textAppearance="@style/materialText_600_20"
-                                        android:textColor="#1a1848" />
-
-
-                                    <com.google.android.material.textview.MaterialTextView
-                                        android:id="@+id/txt_account_level"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="8dp"
-                                        android:maxLines="1"
-                                        android:text="Designer Level 2"
-                                        android:textAppearance="@style/materialText_400_12"
-                                        android:textColor="@color/textColor" />
-
-
-                                </LinearLayout>
-
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/_15sp"
-                                android:background="@drawable/bg_profile_rate"
-                                android:gravity="center"
-                                android:padding="@dimen/_5sp">
-
-                                <ImageView
-                                    android:layout_width="50dp"
-                                    android:layout_height="50dp"
-                                    android:layout_gravity="center"
-                                    android:adjustViewBounds="true"
-                                    android:src="@drawable/ic_medal3" />
-
-                            </LinearLayout>
-                        </LinearLayout>
-
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_12sp" />
-
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Profile Status"
-                            android:textAppearance="@style/materialText_600_14"
-                            android:textColor="@color/blue" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spacing_middle" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:id="@+id/iv_green_account"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@drawable/ic_progress_checked" />
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/txt_account"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="12dp"
-                                    android:text="Account"
-                                    android:textColor="@color/textColor"
-                                    android:textAppearance="@style/materialText_500_12" />
-
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:id="@+id/iv_payment"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@drawable/ic_progress_path" />
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/txt_payment"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="12dp"
-                                    android:text="Payment"
-                                    android:textColor="@color/textColor"
-                                    android:textAppearance="@style/materialText_500_12" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:id="@+id/iv_skills"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@drawable/ic_progress_path" />
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/txt_skills"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="12dp"
-                                    android:text="Skills"
-                                    android:textColor="@color/textColor"
-                                    android:textAppearance="@style/materialText_500_12" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:id="@+id/iv_badges"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@drawable/ic_progress_path" />
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/txt_badges"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="12dp"
-                                    android:text="Badges"
-                                    android:textColor="@color/textColor"
-                                    android:textAppearance="@style/materialText_500_12" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:layout_marginTop="16dp"
-                            android:text="Complete Your Profile"
-                            android:textColor="@color/blue"
-                            android:textAppearance="@style/materialText_400_12" />
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
+                android:fillViewport="true" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -597,30 +88,46 @@
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:orientation="vertical">
 
-
-                <!--Design by umesh shera
-                put recyclerview here complete with item row layout
-                i have create new new item_notification-->
-
-
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="Notifications"
-                    android:textColor="@color/textColor"
+                    android:text="@string/notifications"
                     android:textAppearance="@style/materialText_500_14"
-                     />
+                    android:textColor="@color/textColor" />
 
-                <!--<androidx.recyclerview.widget.RecyclerView
-                    tools:listitem="@layout/item_notification"
+                <include layout="@layout/view_notification_list"/>
+
+                <LinearLayout
+                    android:id="@+id/no_notifications_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>-->
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="gone">
 
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/rectangle_button_round_corners_outlined_primary"
+                    android:src="@drawable/ic_bell_white"
+                    android:layout_marginTop="40dp"
+                    android:padding="8dp"
+                    android:layout_gravity="center_horizontal" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/materialText_600_14"
+                    android:text="@string/no_notifications"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/textColor"/>
+
+                </LinearLayout>
 
             </LinearLayout>
-
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

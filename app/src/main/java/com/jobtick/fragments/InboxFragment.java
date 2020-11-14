@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,9 +26,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.EditText.EditTextMedium;
@@ -106,7 +110,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
 
     ImageView ivNotification;
     TextView toolbar_title;
-    private LottieAnimationView lottieAnim;
+    private LinearLayout noMessages;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,7 +118,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_inbox, container, false);
         ButterKnife.bind(this, view);
-        lottieAnim=view.findViewById(R.id.lottieAnimationView);
+        noMessages = view.findViewById(R.id.no_messages_container);
         dashboardActivity = (DashboardActivity) getActivity();
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -216,7 +220,8 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
             protected void loadMoreItems() {
                 isLoading = true;
                 currentPage++;
-                doApiCall(); }
+                doApiCall();
+            }
 
             @Override
             public boolean isLastPage() {
@@ -254,43 +259,43 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
         try {
             PresenceChannel presenceChannel = pusher.subscribePresence("presence-userStatus",
                     new PresenceChannelEventListener() {
-                @Override
-                public void onUsersInformationReceived(String channelName, Set<User> users) {
-                    ArrayList<Integer> integerArrayList = new ArrayList<>();
-                    for (User user : users) {
-                        integerArrayList.add(Integer.parseInt(user.getId()));
-                    }
-                    adapter.setOnlineStatus(integerArrayList);
-                    Timber.e("%s", integerArrayList.size());
-                }
+                        @Override
+                        public void onUsersInformationReceived(String channelName, Set<User> users) {
+                            ArrayList<Integer> integerArrayList = new ArrayList<>();
+                            for (User user : users) {
+                                integerArrayList.add(Integer.parseInt(user.getId()));
+                            }
+                            adapter.setOnlineStatus(integerArrayList);
+                            Timber.e("%s", integerArrayList.size());
+                        }
 
-                @Override
-                public void userSubscribed(String channelName, User user) {
-                    adapter.addNewSubscribe(Integer.parseInt(user.getId()));
-                    Timber.e(user.toString());
-                }
+                        @Override
+                        public void userSubscribed(String channelName, User user) {
+                            adapter.addNewSubscribe(Integer.parseInt(user.getId()));
+                            Timber.e(user.toString());
+                        }
 
-                @Override
-                public void userUnsubscribed(String channelName, User user) {
-                    adapter.addNewUnSubscribe(Integer.parseInt(user.getId()));
-                    Timber.e(user.toString());
-                }
+                        @Override
+                        public void userUnsubscribed(String channelName, User user) {
+                            adapter.addNewUnSubscribe(Integer.parseInt(user.getId()));
+                            Timber.e(user.toString());
+                        }
 
-                @Override
-                public void onAuthenticationFailure(String message, Exception e) {
-                    Timber.e(message);
-                }
+                        @Override
+                        public void onAuthenticationFailure(String message, Exception e) {
+                            Timber.e(message);
+                        }
 
-                @Override
-                public void onSubscriptionSucceeded(String channelName) {
-                    Timber.e(channelName);
-                }
+                        @Override
+                        public void onSubscriptionSucceeded(String channelName) {
+                            Timber.e(channelName);
+                        }
 
-                @Override
-                public void onEvent(PusherEvent event) {
-                    Timber.e(event.toString());
-                }
-            });
+                        @Override
+                        public void onEvent(PusherEvent event) {
+                            Timber.e(event.toString());
+                        }
+                    });
 
         } catch (Exception ignored) {
 
@@ -303,42 +308,38 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
             //its json response not string
             PrivateChannel channel = pusher.subscribePrivate("private-user." + sessionManager.getUserAccount().getId(),
                     new PrivateChannelEventListener() {
-                @Override
-                public void onAuthenticationFailure(String message, Exception e) {
-                    Connection cpm = pusher.getConnection();
-                    Timber.e(message);
-                    Timber.e(e.toString());
-                    Timber.e(cpm.getSocketId());
-                }
+                        @Override
+                        public void onAuthenticationFailure(String message, Exception e) {
+                            Connection cpm = pusher.getConnection();
+                            Timber.e(message);
+                            Timber.e(e.toString());
+                            Timber.e(cpm.getSocketId());
+                        }
 
-                @Override
-                public void onSubscriptionSucceeded(String channelName) {
-                    Timber.e(channelName); //its json response not string
-                }
+                        @Override
+                        public void onSubscriptionSucceeded(String channelName) {
+                            Timber.e(channelName); //its json response not string
+                        }
 
-                @Override
-                public void onEvent(PusherEvent event) {
-                    Timber.e(event.toString());
-                    try {
-                        JSONObject jsonObject = new JSONObject(event.getData());
-                        ConversationModel conversationModel = new ConversationModel(dashboardActivity).getJsonToModel(jsonObject,
-                                dashboardActivity);
-                        adapter.getEventCall(conversationModel);
-                        Timber.e(jsonObject.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    System.out.println("Received event with data: " + event.toString());
-
-                }
-            }, "message.sent");
+                        @Override
+                        public void onEvent(PusherEvent event) {
+                            Timber.e(event.toString());
+                            try {
+                                JSONObject jsonObject = new JSONObject(event.getData());
+                                ConversationModel conversationModel = new ConversationModel(dashboardActivity).getJsonToModel(jsonObject,
+                                        dashboardActivity);
+                                adapter.getEventCall(conversationModel);
+                                Timber.e(jsonObject.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            System.out.println("Received event with data: " + event.toString());
+                        }
+                    }, "message.sent");
         } catch (Exception ignored) {
 
         }
-
     }
-
 
     private void doApiCall() {
 
@@ -377,10 +378,10 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
 
                             adapter.removeLoading();
                         if (items.size() <= 0) {
-                            lottieAnim.setVisibility(View.VISIBLE);
+                            noMessages.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.GONE);
                         } else {
-                            lottieAnim.setVisibility(View.GONE);
+                            noMessages.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
 
                         }

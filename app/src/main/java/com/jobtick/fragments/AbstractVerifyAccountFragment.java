@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -22,6 +23,7 @@ import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.AuthActivity;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.widget.ExtendedEntryText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,17 +32,14 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public abstract class AbstractVerifyAccountFragment extends FragmentBase {
+public abstract class AbstractVerifyAccountFragment extends Fragment {
     String email, password;
     SessionManager sessionManager;
-    @BindView(R.id.edt_verification_code)
-    EditTextRegular edtVerificationCode;
+    @BindView(R.id.verify)
+    ExtendedEntryText edtVerificationCode;
 
     @BindView(R.id.email_verify_message)
-    TextViewRegular emailVerifyMessage;
-
-    @BindView(R.id.lnr_verification)
-    LinearLayout lnrVerification;
+    TextView emailVerifyMessage;
 
     AuthActivity authActivity;
     @BindView(R.id.lyt_btn_finish)
@@ -72,15 +71,6 @@ public abstract class AbstractVerifyAccountFragment extends FragmentBase {
     }
 
     private void otpEnterInEdtText() {
-        // Get clipboard manager object.
-        edtVerificationCode.addListener(new EditTextRegular.GoEditTextListener() {
-            @Override
-            public void onUpdate() {
-                pasteData();
-            }
-        });
-
-
         edtVerificationCode.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -90,7 +80,7 @@ public abstract class AbstractVerifyAccountFragment extends FragmentBase {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.i("debug verification: ", s.toString());
                 if (s.length() > 6) {
-                    edtVerificationCode.setText(s.subSequence(0, 6));
+                    edtVerificationCode.setText(s.subSequence(0, 6).toString());
                     edtVerificationCode.setSelection(6);
                 }
             }
@@ -122,15 +112,12 @@ public abstract class AbstractVerifyAccountFragment extends FragmentBase {
         }
     }
 
-    @OnClick({R.id.lyt_btn_finish, R.id.lnr_verification})
+    @OnClick({R.id.lyt_btn_finish})
     public void onViewClicked(View view) {
 
         switch (view.getId()) {
             case R.id.lyt_btn_finish:
                 whatNext();
-                break;
-            case R.id.lnr_verification:
-                editTextOnClick(edtVerificationCode);
                 break;
         }
     }

@@ -73,15 +73,16 @@
             android:layout_height="match_parent">
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:id="@+id/no_messages_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:padding="@dimen/empty_pages_padding"
                     android:layout_gravity="center"
+                    android:gravity="center"
                     android:visibility="gone">
 
                 <com.airbnb.lottie.LottieAnimationView

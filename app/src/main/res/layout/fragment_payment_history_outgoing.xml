@@ -162,16 +162,5 @@
     </androidx.cardview.widget.CardView>
 
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottieAnimationView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:adjustViewBounds="true"
-        android:layout_centerInParent="true"
-        android:scaleType="centerCrop"
-        android:visibility="gone"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/payment_history_empty" />
+    <include layout="@layout/view_payment_history_empty_page" android:visibility="gone"/>
 </RelativeLayout>

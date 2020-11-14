@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.jobtick.R;
 import com.jobtick.models.notification.NotifDatum;
+import com.jobtick.utils.TimeHelper;
 
 import java.util.List;
 
@@ -144,7 +145,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<BaseViewHolder
                 Glide.with(profileAvatar).load(item.getUser().getAvatar().getUrl()).into(profileAvatar);
 
             notificationTitle.setText(Html.fromHtml(item.getData().getTitle()));
-            notificationTime.setText(item.getCreatedAt());
+            notificationTime.setText(TimeHelper.findDifferenceWithNow(item.getCreatedAt()));
 
             rowItem.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) {

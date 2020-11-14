@@ -23,158 +23,166 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        app:elevation="0dp">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@color/semiBlack">
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="?attr/background"
-            android:background="@color/semiBlack"
-            app:titleEnabled="false">
-
-            <FrameLayout
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/pager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                android:layout_height="300dp"
+                app:elevation="0dp">
 
-                    <LinearLayout
-                        android:id="@+id/lyt_btn_view_all_offers"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+                    <com.google.android.material.appbar.CollapsingToolbarLayout
+                        android:id="@+id/collapsing_toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="?attr/selectableItemBackground"
-                        android:gravity="center">
+                        app:contentScrim="?attr/background"
+                        app:titleEnabled="false">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            style="@style/materialText_500_12"
-                            android:layout_width="wrap_content"
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <androidx.viewpager.widget.ViewPager
+                                android:id="@+id/pager"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <LinearLayout
+                                    android:id="@+id/lyt_btn_view_all_offers"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="?attr/selectableItemBackground"
+                                    android:gravity="center">
+
+                                    <com.google.android.material.textview.MaterialTextView
+                                        style="@style/materialText_500_12"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="@string/view_all_offers"
+                                        android:textAllCaps="true"
+                                        android:textColor="@color/white"
+                                        tools:ignore="TooDeepLayout" />
+                                </LinearLayout>
+                            </androidx.viewpager.widget.ViewPager>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="#34000000"
+                                android:elevation="5dp"
+                                android:translationZ="2dp" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginStart="@dimen/spacing_middle"
+                            android:layout_marginEnd="@dimen/spacing_middle"
+                            android:layout_marginBottom="@dimen/_40dp"
                             android:gravity="center"
-                            android:text="@string/view_all_offers"
-                            android:textAllCaps="true"
-                            android:textColor="@color/white"
-                            tools:ignore="TooDeepLayout" />
-                    </LinearLayout>
-                </androidx.viewpager.widget.ViewPager>
-            </FrameLayout>
+                            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="@dimen/spacing_middle"
-                android:layout_marginEnd="@dimen/spacing_middle"
-                android:layout_marginBottom="@dimen/_40dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:background="@drawable/shape_tab_left_white"
+                                android:contentDescription="@string/todo"
+                                android:gravity="center"
+                                android:paddingStart="@dimen/spacing_middle"
+                                android:paddingTop="@dimen/spacing_medium"
+                                android:paddingEnd="@dimen/spacing_medium"
+                                android:paddingBottom="@dimen/spacing_medium"
+                                app:srcCompat="@drawable/ic_clock_task_details" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:background="@drawable/shape_tab_left_white"
-                    android:contentDescription="@string/todo"
-                    android:gravity="center"
-                    android:paddingStart="@dimen/spacing_middle"
-                    android:paddingTop="@dimen/spacing_medium"
-                    android:paddingEnd="@dimen/spacing_medium"
-                    android:paddingBottom="@dimen/spacing_medium"
-                    app:srcCompat="@drawable/ic_clock_task_details" />
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/txt_due_date"
+                                style="@style/materialText_500_10"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:paddingTop="@dimen/spacing_medium"
+                                android:paddingBottom="@dimen/spacing_medium"
+                                android:textColor="@color/textColor" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_500_10"
-                    android:id="@+id/txt_due_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:background="@color/white"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/spacing_medium"
-                    android:paddingBottom="@dimen/spacing_medium"
-                    android:textColor="@color/textColor" />
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/txt_due_time"
+                                style="@style/materialText_500_10"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:background="@drawable/shape_tab_right_white"
+                                android:gravity="center"
+                                android:paddingStart="@dimen/spacing_medium"
+                                android:paddingTop="@dimen/spacing_medium"
+                                android:paddingEnd="@dimen/spacing_middle"
+                                android:paddingBottom="@dimen/spacing_medium"
+                                android:textColor="@color/textColor" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_500_10"
-                    android:id="@+id/txt_due_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:background="@drawable/shape_tab_right_white"
-                    android:gravity="center"
-                    android:paddingStart="@dimen/spacing_medium"
-                    android:paddingTop="@dimen/spacing_medium"
-                    android:paddingEnd="@dimen/spacing_middle"
-                    android:paddingBottom="@dimen/spacing_medium"
-                    android:textColor="@color/textColor"/>
+                            <FrameLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                tools:ignore="UselessLeaf" />
 
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:ignore="UselessLeaf" />
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/txt_budgets"
+                                style="@style/materialText_500_18"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/shape_tab_primary"
+                                android:gravity="center"
+                                android:minWidth="@dimen/_50dp"
+                                android:padding="4dp"
+                                android:paddingBottom="@dimen/spacing_xsmall"
+                                android:textColor="@color/white"
+                                tools:text="@string/_200" />
+                        </LinearLayout>
 
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_500_18"
-                    android:id="@+id/txt_budgets"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_tab_primary"
-                    android:gravity="center"
-                    android:minWidth="@dimen/_50dp"
-                    android:padding="4dp"
-                    android:paddingBottom="@dimen/spacing_xsmall"
-                    android:textColor="@color/white"
-                    tools:text="@string/_200" />
-            </LinearLayout>
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true">
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true">
+                            <LinearLayout
+                                android:id="@+id/layout_dots"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="@dimen/spacing_medium"
+                                android:layout_marginBottom="@dimen/spacing_xmlarge"
+                                android:orientation="horizontal" />
+                        </RelativeLayout>
 
-                <LinearLayout
-                    android:id="@+id/layout_dots"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:layout_marginBottom="@dimen/spacing_xmlarge"
-                    android:orientation="horizontal" />
-            </RelativeLayout>
+                        <androidx.appcompat.widget.Toolbar
+                            android:id="@+id/toolbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/actionBarSize"
+                            android:layout_gravity="top"
+                            android:layout_marginTop="@dimen/spacing_xlarge"
+                            android:layout_marginBottom="@dimen/spacing_mlarge"
+                            app:contentInsetLeft="0dp"
+                            app:contentInsetStart="0dp"
+                            app:contentInsetStartWithNavigation="0dp"
+                            app:layout_collapseMode="pin"
+                            app:menu="@menu/menu_task_details"
+                            app:navigationIcon="@drawable/ic_back_white"
+                            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+                            app:title="Job Details"
+                            app:titleMarginStart="-25dp"
+                            app:titleTextColor="@color/white" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="top"
-                android:layout_marginTop="@dimen/spacing_xlarge"
-                android:layout_marginBottom="@dimen/spacing_mlarge"
-                app:contentInsetLeft="0dp"
-                app:contentInsetStart="0dp"
-                app:contentInsetStartWithNavigation="0dp"
-                app:layout_collapseMode="pin"
-                app:menu="@menu/menu_task_details"
-                app:navigationIcon="@drawable/ic_back_white"
-                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
-                app:title="Job Details"
-                app:titleMarginStart="-25dp"
-                app:titleTextColor="@color/white" />
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </RelativeLayout>
-    </com.google.android.material.appbar.AppBarLayout>
+                    </com.google.android.material.appbar.CollapsingToolbarLayout>
+                </RelativeLayout>
+            </com.google.android.material.appbar.AppBarLayout>
 
 
             <LinearLayout
@@ -390,15 +398,15 @@
                         android:layout_gravity="center">
 
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/materialText_700_18"
                             android:id="@+id/txt_titles"
+                            style="@style/materialText_700_18"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_large"
                             android:layout_marginEnd="@dimen/spacing_large"
                             android:text="@string/request_for_increase_budget"
-                            android:textColor="@color/textColor"/>
+                            android:textColor="@color/textColor" />
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/lyt_btn_view_reqeust"
@@ -412,21 +420,21 @@
                             app:cardCornerRadius="@dimen/spacing_large">
 
                             <com.google.android.material.textview.MaterialTextView
-                                style="@style/materialText_500_14"
                                 android:id="@+id/txt_view_budget_request"
+                                style="@style/materialText_500_14"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:text="@string/view_request"
                                 android:textAllCaps="true"
-                                android:textColor="@color/white"/>
+                                android:textColor="@color/white" />
                         </androidx.cardview.widget.CardView>
                     </FrameLayout>
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_700_18"
                         android:id="@+id/txt_title"
+                        style="@style/materialText_700_18"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_smlarge"
@@ -487,15 +495,15 @@
                     </LinearLayout>
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_500_14"
                         android:id="@+id/txt_description"
+                        style="@style/materialText_500_14"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:layout_marginStart="@dimen/spacing_smlarge"
                         android:layout_marginEnd="@dimen/spacing_smlarge"
                         android:layout_marginBottom="@dimen/spacing_medium"
-                        android:textColor="@color/textColor"/>
+                        android:textColor="@color/textColor" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/mustHaveLyt"
@@ -544,8 +552,8 @@
                             android:layout_marginTop="@dimen/spacing_middle"
                             android:layout_marginEnd="@dimen/spacing_smlarge"
                             android:layout_marginBottom="@dimen/spacing_middle"
-                            android:orientation="horizontal"
-                            android:baselineAligned="false">
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
 
                             <RelativeLayout
                                 android:id="@+id/relativProfile"
@@ -593,23 +601,23 @@
                                 android:orientation="vertical">
 
                                 <com.google.android.material.textview.MaterialTextView
-                                    style="@style/materialText_600_12"
                                     android:id="@+id/txt_poster_name"
+                                    style="@style/materialText_600_12"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/textColor"/>
+                                    android:textColor="@color/textColor" />
 
                                 <com.google.android.material.textview.MaterialTextView
-                                    style="@style/materialText_400_10"
                                     android:id="@+id/txt_poster_location"
+                                    style="@style/materialText_400_10"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:singleLine="true"
-                                    android:textColor="@color/grey_40"/>
+                                    android:textColor="@color/grey_40" />
 
                                 <com.google.android.material.textview.MaterialTextView
-                                    style="@style/materialText_400_10"
                                     android:id="@+id/txt_poster_last_online"
+                                    style="@style/materialText_400_10"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/grey_40"
@@ -645,7 +653,7 @@
                                     android:layout_gravity="center"
                                     android:layout_marginStart="4dp"
                                     android:text="@string/chat"
-                                    android:textColor="#C9C9C9"/>
+                                    android:textColor="#C9C9C9" />
                             </LinearLayout>
                         </LinearLayout>
                     </RelativeLayout>
@@ -663,8 +671,8 @@
                         android:background="@color/grey_10" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_600_14"
                         android:id="@+id/txt_offer_count"
+                        style="@style/materialText_600_14"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginStart="@dimen/spacing_large"
@@ -675,8 +683,8 @@
                         android:visibility="gone" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_700_28"
                         android:id="@+id/txt_budget"
+                        style="@style/materialText_700_28"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -740,19 +748,19 @@
                                 android:id="@+id/txt_worker_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/colorPrimary"/>
+                                android:textColor="@color/colorPrimary" />
 
-                           <com.google.android.material.textview.MaterialTextView
-                               style="@style/materialText_500_10"
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_worker_location"
+                                style="@style/materialText_500_10"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:textColor="@color/grey_40"/>
+                                android:textColor="@color/grey_40" />
 
                             <com.google.android.material.textview.MaterialTextView
-                                style="@style/materialText_600_12"
                                 android:id="@+id/txt_worker_last_online"
+                                style="@style/materialText_600_12"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/grey_40"
@@ -767,7 +775,7 @@
                         android:gravity="center"
                         android:text="@string/private_chat"
                         android:textAllCaps="true"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_private_chat"
@@ -798,8 +806,8 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_600_14"
                     android:id="@+id/txt_offers_count"
+                    style="@style/materialText_600_14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
@@ -848,8 +856,8 @@
                                     android:layout_gravity="center"
                                     android:layout_margin="@dimen/spacing_large"
                                     android:background="@drawable/ic_no_offer_holder"
-                                    android:padding="@dimen/spacing_small"
-                                    android:contentDescription="@string/todo" />
+                                    android:contentDescription="@string/todo"
+                                    android:padding="@dimen/spacing_small" />
 
                                 <com.google.android.material.textview.MaterialTextView
                                     style="@style/materialText_600_14"
@@ -859,7 +867,7 @@
                                     android:gravity="center"
                                     android:singleLine="true"
                                     android:text="@string/waiting_for_offer"
-                                    android:textColor="@color/black"/>
+                                    android:textColor="@color/black" />
 
                                 <LinearLayout
                                     android:id="@+id/first_offer_lyt"
@@ -885,8 +893,8 @@
                                         tools:ignore="TooDeepLayout" />
 
                                     <com.google.android.material.textview.MaterialTextView
-                                        style="@style/materialText_400_14"
                                         android:id="@+id/first_offer"
+                                        style="@style/materialText_400_14"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -897,7 +905,7 @@
                                         android:gravity="center"
                                         android:singleLine="true"
                                         android:text="@string/make_an_offer"
-                                        android:textColor="@color/colorPrimary"/>
+                                        android:textColor="@color/colorPrimary" />
 
                                     <com.google.android.material.textview.MaterialTextView
                                         style="@style/materialText_400_14"
@@ -911,7 +919,7 @@
                                         android:gravity="center"
                                         android:singleLine="true"
                                         android:text="@string/on_this_job"
-                                        android:textColor="@color/textColor"/>
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
                             </LinearLayout>
                         </FrameLayout>
@@ -990,8 +998,8 @@
                                 android:overScrollMode="never" />
 
                             <com.google.android.material.textfield.TextInputEditText
-                                style="@style/materialText_400_14"
                                 android:id="@+id/edt_comment"
+                                style="@style/materialText_400_14"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
@@ -1001,7 +1009,7 @@
                                 android:background="@null"
                                 android:hint="@string/ask_a_question"
                                 android:inputType="textMultiLine"
-                                android:maxLines="5"/>
+                                android:maxLines="5" />
 
                             <ImageView
                                 android:id="@+id/lyt_btn_comment_send"
@@ -1058,7 +1066,7 @@
                                 android:gravity="center"
                                 android:text="@string/view_all_questions"
                                 android:textAllCaps="true"
-                                android:textColor="@color/white"/>
+                                android:textColor="@color/white" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
@@ -1088,13 +1096,13 @@
             android:gravity="center">
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_500_14"
                 android:id="@+id/txt_btn_text"
+                style="@style/materialText_500_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/make_an_offer"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

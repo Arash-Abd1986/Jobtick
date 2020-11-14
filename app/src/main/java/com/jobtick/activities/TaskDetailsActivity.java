@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -35,6 +34,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -107,7 +107,7 @@ import retrofit2.Callback;
 import timber.log.Timber;
 
 import static com.jobtick.activities.SavedTaskActivity.onRemoveSavedtasklistener;
-import static com.jobtick.fragments.TickerRequirementsBottomSheet.*;
+import static com.jobtick.fragments.TickerRequirementsBottomSheet.Requirement;
 import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
 import static com.jobtick.utils.Constant.ADD_BILLING;
 import static com.jobtick.utils.Constant.BASE_URL;
@@ -321,12 +321,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bottom_sheet)
     FrameLayout bottom_sheet;
-    // @BindView(R.id.img_btn_image_select)
-    //ImageView addBtn;
-    //  @BindView(R.id.card_view_request)
-    //CardView card_view_request;
-    // @BindView(R.id.fl_task_details)
-    //FrameLayout fl_task_details;
 
     public static TaskModel taskModel = new TaskModel();
     public static String isOfferQuestion = "";
@@ -1705,13 +1699,13 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
-    private boolean needRequirementSheet(){
+    private boolean needRequirementSheet() {
         handleState();
-         return !(requirementState.get(Requirement.Profile) &&
+        return !(requirementState.get(Requirement.Profile) &&
                 requirementState.get(Requirement.BankAccount) &&
                 requirementState.get(Requirement.BillingAddress) &&
-                 requirementState.get(Requirement.BirthDate) &&
-                 requirementState.get(Requirement.PhoneNumber));
+                requirementState.get(Requirement.BirthDate) &&
+                requirementState.get(Requirement.PhoneNumber));
     }
 
     @SuppressLint("SetTextI18n")
@@ -2076,17 +2070,17 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
             ImageView image = v.findViewById(R.id.image);
             image.setAdjustViewBounds(true);
-            if (attachment.getThumbUrl() != null) {
+            if (attachment.getUrl() != null) {
                 ImageUtil.displayImage(image, attachment.getUrl(), null);
             } else {
                 Tools.displayImageOriginal(act, image, attachment.getDrawable());
 
-            image.setAdjustViewBounds(true);
-            if(taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()){
-                image.setBackgroundResource(R.drawable.banner_red);
-                image.setScaleType(ImageView.ScaleType.FIT_XY);
-            }
-             image.setBackgroundResource(R.drawable.banner_green);
+                image.setAdjustViewBounds(true);
+                if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
+                    image.setBackgroundResource(R.drawable.banner_green);
+                } else {
+                    image.setBackgroundResource(R.drawable.banner_red);
+                }
                 image.setScaleType(ImageView.ScaleType.FIT_XY);
             }
             image.setOnClickListener(v1 -> {

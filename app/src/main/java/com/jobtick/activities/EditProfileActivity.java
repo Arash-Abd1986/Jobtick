@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -245,7 +246,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         ButterKnife.bind(this);
         attachmentArrayList = new ArrayList<>();
         mBehavior = BottomSheetBehavior.from(bottomSheet);
-        btnVerify=findViewById(R.id.lyt_btn_close);
+        btnVerify = findViewById(R.id.lyt_btn_close);
         btnVerify.setOnClickListener(view -> verifyPhone());
         ivBack.setOnClickListener(v -> onBackPressed());
         txtBirthDate.setOnClickListener(v -> {
@@ -787,11 +788,11 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     }
 
     private void verifyPhone() {
-        if(edtPhoneNumber.length()==0){
+        if (edtPhoneNumber.length() == 0) {
             showToast("write number", EditProfileActivity.this);
             btnVerify.setClickable(false);
             btnVerify.setEnabled(false);
-        }else {
+        } else {
             btnVerify.setClickable(true);
             btnVerify.setEnabled(true);
             Intent intent = new Intent(this, MobileVerificationActivity.class);

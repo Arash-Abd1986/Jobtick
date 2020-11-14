@@ -110,7 +110,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     LinearLayout lytBudgetStatus;
     //@SuppressLint("NonConstantResourceId")
     //@BindView(R.id.txt_type)
-   // TextViewBold txtType;
+    // TextViewBold txtType;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_created_date)
     TextView txtCreatedDate;
@@ -132,16 +132,16 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_more)
     LinearLayout lytBtnMore;
-   // @SuppressLint("NonConstantResourceId")
-   // @BindView(R.id.img_btn_image_select)
-  //  ImageView imgBtnImageSelect;
+    // @SuppressLint("NonConstantResourceId")
+    // @BindView(R.id.img_btn_image_select)
+    //  ImageView imgBtnImageSelect;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_comment_message)
     EditText edtCommentMessage;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_btn_send)
     ImageView imgBtnSend;
-   // @SuppressLint("NonConstantResourceId")
+    // @SuppressLint("NonConstantResourceId")
     //@BindView(R.id.card_send)
     //CardView cardSend;
     @SuppressLint("NonConstantResourceId")
@@ -149,7 +149,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     LinearLayout layoutOffer;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_avatar_question)
-   CircularImageView imgAvatarQuestion;
+    CircularImageView imgAvatarQuestion;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_name_question)
     TextView txtNameQuestion;
@@ -215,10 +215,8 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
 
         attachment = new AttachmentModel();
         txtBudget.setVisibility(View.VISIBLE);
-       // txtAccept.setVisibility(View.GONE);
         txtMessage.setVisibility(View.GONE);
         cardLiveVideo.setVisibility(View.GONE);
-        //txtType.setVisibility(View.GONE);
         lytBtnReply.setVisibility(View.GONE);
         lytBtnMore.setVisibility(View.GONE);
         lytBtnReplyQuestion.setVisibility(View.VISIBLE);
@@ -235,16 +233,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         } else {
             questionModel = TaskDetailsActivity.questionModel;
             toolbar.setTitle("Question Chat");
-
         }
-
-       /* if (bundle != null && bundle.getParcelable(ConstantKey.OFFER_LIST_MODEL) != null) {
-            offerModel = bundle.getParcelable(ConstantKey.OFFER_LIST_MODEL);
-            toolbar.setTitle("Offer Chat");
-        } else if (bundle != null && bundle.getParcelable(ConstantKey.QUESTION_LIST_MODEL) != null) {
-            questionModel = bundle.getParcelable(ConstantKey.QUESTION_LIST_MODEL);
-            toolbar.setTitle("Question Chat");
-        }*/
 
         initLayout();
 
@@ -261,8 +250,6 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         lytBtnMore.setOnClickListener(this);
 
 
-        //recyclerViewOfferChat.setHasFixedSize(true);
-        // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(PublicChatActivity.this);
         recyclerViewOfferChat.setLayoutManager(layoutManager);
         publicChatListAdapter = new PublicChatListAdapter(PublicChatActivity.this, new ArrayList<>());
@@ -273,8 +260,6 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         } else {
             doApiCall(Constant.URL_QUESTIONS + "/" + questionModel.getId());
         }
-
-
     }
 
     private void initLayout() {
@@ -298,15 +283,15 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
             txtCreatedDate.setText(offerModel.getCreatedAt());
             if (offerModel.getAttachments() != null && offerModel.getAttachments().size() != 0) {
                 cardLiveVideo.setVisibility(View.VISIBLE);
-             //   txtType.setText("Video Offer");
+                //   txtType.setText("Video Offer");
                 ImageUtil.displayImage(imgOfferOnTask, offerModel.getAttachments().get(0).getModalUrl(), null);
 
             } else {
                 txtMessage.setVisibility(View.VISIBLE);
-               // txtType.setText("Message");
+                // txtType.setText("Message");
                 txtMessage.setText(offerModel.getMessage());
             }
-          //  txtType.setVisibility(View.VISIBLE);
+            //  txtType.setVisibility(View.VISIBLE);
         } else {
             layoutOffer.setVisibility(View.GONE);
             layoutQuestion.setVisibility(View.VISIBLE);
@@ -347,74 +332,21 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                         } else {
                             addCommentIntoServer(str_message, null, Constant.URL_OFFERS + "/" + offerModel.getId());
                             edtCommentMessage.setText(null);
-                           // imgBtnImageSelect.setImageDrawable(getResources().getDrawable(R.drawable.ic_paperclip));
+                            // imgBtnImageSelect.setImageDrawable(getResources().getDrawable(R.drawable.ic_paperclip));
                         }
                     } else {
                         if (attachment.getThumbUrl() != null) {
                             addCommentIntoServer(str_message, attachment.getId(), Constant.URL_QUESTIONS + "/" + questionModel.getId());
                             edtCommentMessage.setText(null);
-                           // imgBtnImageSelect.setImageDrawable(getResources().getDrawable(R.drawable.ic_paperclip));
+                            // imgBtnImageSelect.setImageDrawable(getResources().getDrawable(R.drawable.ic_paperclip));
                         } else {
                             addCommentIntoServer(str_message, null, Constant.URL_QUESTIONS + "/" + questionModel.getId());
                             edtCommentMessage.setText(null);
-                          //  imgBtnImageSelect.setImageDrawable(getResources().getDrawable(R.drawable.ic_paperclip));
+                            //  imgBtnImageSelect.setImageDrawable(getResources().getDrawable(R.drawable.ic_paperclip));
                         }
                     }
                 }
                 break;
-            case R.id.lyt_btn_more:
-
-                break;
-          /*  case R.id.img_btn_image_select:
-                PopupMenu popupMenu = new PopupMenu(PublicChatActivity.this, imgBtnImageSelect);
-                if (attachment.getThumbUrl() == null) {
-                    popupMenu.getMenu().removeItem(R.id.action_remove);
-                    //   menu.setGroupVisible(R.id.grp_3,false);
-                } else {
-                    Menu menu = popupMenu.getMenu();
-                    menu.setGroupVisible(R.id.grp_3, true);
-                }
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.action_camera:
-                                // Checking availability of the camera
-                                if (!CameraUtils.isDeviceSupportCamera(getApplicationContext())) {
-                                    Toast.makeText(getApplicationContext(),
-                                            "Sorry! Your device doesn't support camera",
-                                            Toast.LENGTH_LONG).show();
-                                    // will close the app if the device doesn't have camera
-
-                                } else {
-                                    if (CameraUtils.checkPermissions(getApplicationContext())) {
-                                        captureImage();
-                                    } else {
-                                        requestCameraPermission(ConstantKey.MEDIA_TYPE_IMAGE);
-                                    }
-                                }
-                                break;
-                            case R.id.action_gallery:
-                                Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
-                                break;
-                            case R.id.action_remove:
-                                if (attachment.getThumbUrl() != null) {
-                                    attachment = new AttachmentModel();
-                                    imgBtnImageSelect.setImageDrawable(getResources().getDrawable(R.drawable.ic_paperclip));
-                                }
-                                break;
-                        }
-                        return true;
-                    }
-                });
-                popupMenu.inflate(R.menu.menu_public_chat);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    popupMenu.getMenu().setGroupDividerEnabled(true);
-                }
-                popupMenu.show();
-                break;*/
-
         }
     }
 
@@ -481,6 +413,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                                     //TODO update recycler view
                                     JSONObject jsonObject_offer_chat = jsonObject.getJSONObject("data");
                                     CommentModel commentModel = new CommentModel().getJsonToModel(jsonObject_offer_chat);
+                                    edtCommentMessage.setHint("reply to " + commentModel.getUser().getFname());
                                     publicChatListAdapter.addItem(commentModel);
 
                                 } else {
@@ -586,6 +519,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                             for (int i = 0; jsonArray_data.length() > i; i++) {
                                 JSONObject jsonObject_offer_chat = jsonArray_data.getJSONObject(i);
                                 CommentModel commentModel = new CommentModel().getJsonToModel(jsonObject_offer_chat);
+                                edtCommentMessage.setHint("reply to " + commentModel.getUser().getFname());
                                 items.add(commentModel);
                             }
 
@@ -662,7 +596,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                             attachment = new AttachmentModel().getJsonToModel(jsonObject_data);
                         }
 
-                      //  ImageUtil.displayRoundImage(imgBtnImageSelect, attachment.getThumbUrl(), null);
+                        //  ImageUtil.displayRoundImage(imgBtnImageSelect, attachment.getThumbUrl(), null);
                     } else {
                         showToast("Something went wrong", PublicChatActivity.this);
                     }

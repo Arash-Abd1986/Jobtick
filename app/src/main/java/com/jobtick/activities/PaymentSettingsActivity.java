@@ -21,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.jobtick.R;
 import com.jobtick.interfaces.OnBankAccountAdded;
@@ -52,6 +53,9 @@ public class PaymentSettingsActivity extends ActivityBase {
     private CreditCardModel creditCardModel;
     private BankAccountModel bankAccountModel;
     private BillingAdreessModel billingAdreessModel;
+
+    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;
 
     @BindView(R.id.rb_payments)
     RadioButton rbPayments;
@@ -132,8 +136,10 @@ public class PaymentSettingsActivity extends ActivityBase {
     }
 
     private void initToolbar() {
-
-        ivBack.setOnClickListener(v -> finish());
+        toolbar.setTitle("Payment Settings");
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

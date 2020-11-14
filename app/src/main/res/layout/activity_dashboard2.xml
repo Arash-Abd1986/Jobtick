@@ -92,23 +92,38 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="Notifications"
+                    android:text="@string/notifications"
                     android:textAppearance="@style/materialText_500_14"
                     android:textColor="@color/textColor" />
 
-                <include layout="@layout/view_notification_list" />
+                <include layout="@layout/view_notification_list"/>
 
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/lottieAnimationView"
+                <LinearLayout
+                    android:id="@+id/no_notifications_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:visibility="gone"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/no_notification" />
+                    android:orientation="vertical"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="gone">
 
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/rectangle_button_round_corners_outlined_primary"
+                    android:src="@drawable/ic_bell_white"
+                    android:layout_marginTop="40dp"
+                    android:layout_gravity="center_horizontal" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/materialText_600_14"
+                    android:text="@string/no_notifications"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="16dp"/>
+
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>

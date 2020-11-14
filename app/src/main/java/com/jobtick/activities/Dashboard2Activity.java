@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -24,7 +25,6 @@ import com.google.gson.Gson;
 import com.jobtick.R;
 import com.jobtick.adapers.NotificationListAdapter;
 import com.jobtick.adapers.SectionsPagerAdapter;
-import com.jobtick.fragments.AbstractDashboard2Fragment;
 import com.jobtick.fragments.Dashboard2PosterFragment;
 import com.jobtick.fragments.Dashboard2TickerFragment;
 import com.jobtick.models.notification.NotifDatum;
@@ -61,8 +61,8 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
-    @BindView(R.id.lottieAnimationView)
-    LottieAnimationView lottieAnim;
+    @BindView(R.id.no_notifications_container)
+    LinearLayout noNotifications;
 
     @BindView(R.id.ticker_poster_view_pager)
     ContentWrappingViewPager viewPager;
@@ -145,10 +145,10 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
 
     private void checkList() {
         if (notificationListAdapter.getItemCount() <= 0) {
-            lottieAnim.setVisibility(View.VISIBLE);
+            noNotifications.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
-            lottieAnim.setVisibility(View.GONE);
+            noNotifications.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
     }

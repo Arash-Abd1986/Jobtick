@@ -13,27 +13,26 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="@dimen/spacing_large"
-        android:src="@drawable/ic_down">
+        android:src="@drawable/ic_down"
+        android:contentDescription="@string/todo"/>
 
-    </ImageView>
-
-    <com.jobtick.TextView.TextViewMedium
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/materialText_500_14"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Requirements confirmation"
-        android:textColor="@color/textColor"
-        android:textSize="@dimen/_14sp" />
+        android:text="@string/requirements_confirmation"
+        android:textColor="@color/textColor"/>
 
-    <com.jobtick.TextView.TextViewMedium
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/materialText_500_14"
         android:layout_marginStart="@dimen/_20sp"
         android:layout_marginEnd="@dimen/_15sp"
         android:layout_marginTop="@dimen/_15sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please check requirements for this job before you make an offer"
-        android:textColor="@color/textColor"
-        android:textSize="@dimen/_14sp" />
+        android:text="@string/please_check_requirements_for_this_job_before_you_make_an_offer"
+        android:textColor="@color/textColor" />
 
     <LinearLayout
         android:layout_marginEnd="@dimen/_10sp"
@@ -56,7 +55,6 @@
         android:id="@+id/card_make_an_offer"
         android:layout_width="match_parent"
         android:layout_height="46dp"
-        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:layout_margin="@dimen/spacing_large"
         android:backgroundTint="@color/colorAccent"
@@ -69,15 +67,16 @@
             android:layout_height="match_parent"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:gravity="center">
+            android:gravity="center"
+            android:focusable="true">
 
-            <com.jobtick.TextView.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_500_14"
                 android:id="@+id/txt_btn_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Confirm"
-
+                android:text="@string/confirm"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
         </LinearLayout>

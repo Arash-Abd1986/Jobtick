@@ -184,11 +184,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (item.getUser().getAvatar() != null) {
                 ImageUtil.displayImage(imgAvatar, item.getUser().getAvatar().getThumbUrl(), null);
             }
-            if (item.getReply()) {
-                lytBtnReply.setVisibility(View.VISIBLE);
-            } else {
-                lytBtnReply.setVisibility(View.GONE);
-            }
+            lytBtnReply.setVisibility(View.VISIBLE);
 
             if (item.getCommentsCount() > 3) {
                 int remaining_number = item.getCommentsCount() - 3;
@@ -268,14 +264,14 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     txtMessage.setMaxLines(Integer.MAX_VALUE);
                     lytBtnMore.setVisibility(View.VISIBLE);
                     txtMoreLess.setText("Less");
-                    imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_up));
+                    imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_up_blue));
                     mItems.get(getAdapterPosition()).setStrMore("Less");
                     item.setStrMore("Less");
                 } else {
                     txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_2);
                     lytBtnMore.setVisibility(View.VISIBLE);
                     txtMoreLess.setText("More");
-                    imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_down));
+                    imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_down_blue));
                     mItems.get(getAdapterPosition()).setStrMore("More");
                     item.setStrMore("More");
                 }

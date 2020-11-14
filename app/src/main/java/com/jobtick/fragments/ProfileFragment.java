@@ -227,7 +227,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             levelInfoBottomSheet.show(getParentFragmentManager(), "");
         });
         ivProfileInfo.setOnClickListener(view1 -> {
-
+            LevelInfoBottomSheet levelInfoBottomSheet = new LevelInfoBottomSheet();
+            levelInfoBottomSheet.show(getParentFragmentManager(), "");
         });
         dashboardActivity = (DashboardActivity) getActivity();
         poppins_medium = Typeface.createFromAsset(getActivity().getAssets(), "fonts/poppins_Medium.otf");

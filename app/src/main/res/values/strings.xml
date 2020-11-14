@@ -393,5 +393,8 @@
     <string name="no_review">No Review</string>
     <string name="information">Information</string>
     <string name="excepteur_qui_qui_fugiat_et_esse_palar_voluptate_exercitation_esse_officia_cillum_occaecat_culpa_pariatur_nisi_in_ut_tempor_laborum_are_officia_dolore_ad_occaecat_anim_a_voluptate_proident_ea_commodo_qui_velit_officia_minim">Excepteur qui qui fugiat et esse palar voluptate exercitation esse officia cillum occaecat culpa pariatur. Nisi in ut tempor laborum are officia dolore ad occaecat. Anim a voluptate proident ea commodo qui velit officia minim.</string>
+    <string name="requirements_confirmation">Requirements confirmation</string>
+    <string name="please_check_requirements_for_this_job_before_you_make_an_offer">Please check requirements for this job before you make an offer</string>
+    <string name="confirm">Confirm</string>
 
 </resources>

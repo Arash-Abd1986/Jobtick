@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -1199,6 +1200,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
 
         if (taskModel.getDueTime() != null) {
+
             String dueTime = convertObjectToString(taskModel.getDueTime(), "");
             txtDueTime.setText(dueTime);
         }
@@ -2072,7 +2074,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View v = inflater.inflate(R.layout.item_slider_image, container, false);
 
-            ImageView image = (ImageView) v.findViewById(R.id.image);
+            ImageView image = v.findViewById(R.id.image);
             image.setAdjustViewBounds(true);
             if (attachment.getThumbUrl() != null) {
                 ImageUtil.displayImage(image, attachment.getUrl(), null);
@@ -2082,11 +2084,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             image.setAdjustViewBounds(true);
             if(taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()){
                 image.setBackgroundResource(R.drawable.banner_red);
-                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                image.setScaleType(ImageView.ScaleType.FIT_XY);
             }
              image.setBackgroundResource(R.drawable.banner_green);
-                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
+                image.setScaleType(ImageView.ScaleType.FIT_XY);
             }
             image.setOnClickListener(v1 -> {
              /*   if (onItemClickListener != null) {
@@ -2584,12 +2585,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
         @SuppressLint("InflateParams") final View view = getLayoutInflater().inflate(R.layout.sheet_requirement, null);
 
-        LinearLayout lyt_btn_make_an_offer = (LinearLayout) view.findViewById(R.id.lyt_btn_make_an_offer);
-        CardView card_make_an_offer = (CardView) view.findViewById(R.id.card_make_an_offer);
+        LinearLayout lyt_btn_make_an_offer = view.findViewById(R.id.lyt_btn_make_an_offer);
+        CardView card_make_an_offer = view.findViewById(R.id.card_make_an_offer);
 
         MustHaveListAdapter adapter;
         ArrayList<MustHaveModel> addTagList = new ArrayList<>();
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(this, 5), true));

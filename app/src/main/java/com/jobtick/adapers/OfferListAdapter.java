@@ -270,11 +270,11 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     txtMoreReply.setText("view 1 reply");
                 } else {
                     txtMoreReply.setText("view" + remaining_number + "  replies");
+                    txtMoreReply.setTextColor(context.getResources().getColor(R.color.grey_70));
                 }
                 linearMoreReply.setVisibility(View.VISIBLE);
             } else {
                 linearMoreReply.setVisibility(View.GONE);
-
             }
 
             if (item.getWorker().getId().equals(sessionManager.getUserAccount().getId())) {

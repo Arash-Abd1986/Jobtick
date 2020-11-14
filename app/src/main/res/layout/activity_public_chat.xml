@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:orientation="vertical"
+    android:background="#ffffff"
     tools:context=".activities.PublicChatActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/spacing_large"
+        android:scrollbars="none"
+        android:scrollingCache="true"
+        android:layout_marginBottom="@dimen/spacing_large"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -21,13 +36,19 @@
         android:id="@+id/layout_offer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorF8F8F8"
+        android:background="@drawable/radio_profile_bg"
         android:orientation="vertical"
-        android:padding="4dp">
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
+        android:padding="4dp"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -414,8 +435,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:layout_marginEnd="@dimen/spacing_large"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:orientation="horizontal"
             android:weightSum="5">
 
@@ -439,29 +460,6 @@
                 android:layout_marginStart="8dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/linear_more_reply"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <View
-                        android:layout_width="36dp"
-                        android:layout_height="@dimen/_1sp"
-                        android:layout_gravity="center"
-                        android:background="@color/colorTaskCompleted" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_500_12"
-                        android:id="@+id/txt_more_reply"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:background="?attr/selectableItemBackground"
-                        android:gravity="center_vertical"
-                        android:padding="@dimen/spacing_small"
-                        android:text="@string/more_replies"
-                        android:textColor="@color/colorTaskCompleted"/>
-                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_offer_chat"
@@ -483,6 +481,11 @@
         android:id="@+id/layout_question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:padding="4dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -675,17 +678,6 @@
                 android:layout_marginStart="8dp"
                 android:orientation="vertical">
 
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_500_12"
-                    android:id="@+id/txt_more_reply_question"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="?attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:padding="@dimen/spacing_small"
-                    android:text="@string/_7_more_replies"
-                    android:textColor="@color/colorPrimary"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_questions_chat"
@@ -697,87 +689,80 @@
         </LinearLayout>
     </LinearLayout>
 
+</LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
     <LinearLayout
         android:id="@+id/lyt_create_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:layout_marginTop="70dp"
         android:orientation="vertical">
+
 
 
         <RelativeLayout
             android:id="@+id/rlt_layout_action_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            tools:ignore="UselessParent">
+            android:minHeight="?attr/actionBarSize">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="@dimen/spacing_middle"
-                android:layout_marginTop="@dimen/spacing_middle"
-                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="18dp"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:layout_toStartOf="@+id/card_send"
-                android:elevation="@dimen/spacing_large"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                app:cardCornerRadius="4dp"
+                tools:ignore="UselessParent">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/spacing_middle">
+                    android:padding="@dimen/spacing_xsmall">
 
-                    <ImageView
-                        android:id="@+id/img_btn_image_select"
-                        android:layout_width="@dimen/_24sp"
-                        android:layout_height="@dimen/_24sp"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_question_attachment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:src="@drawable/ic_paperclip"
-                        android:contentDescription="@string/todo" />
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/spacing_small"
+                        android:overScrollMode="never" />
+
 
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/materialText_400_14"
                         android:id="@+id/edt_comment_message"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/spacing_middle"
-                        android:layout_toEndOf="@+id/img_btn_image_select"
+                        android:layout_toEndOf="@+id/recycler_view_question_attachment"
                         android:background="@null"
                         android:hint="@string/reply_to_Subash_ch"
                         android:inputType="textMultiLine"
                         android:maxLines="5"/>
 
+                    <ImageView
+                        android:id="@+id/img_btn_send"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/spacing_small"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/spacing_middle"
+                        android:src="@drawable/ic_send_primary"
+                        tools:ignore="ContentDescription" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_send"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/spacing_medium"
-                android:layout_marginTop="@dimen/spacing_middle"
-                android:layout_marginEnd="@dimen/spacing_middle"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:backgroundTint="@color/colorPrimary"
-                android:elevation="@dimen/spacing_large"
-                app:cardCornerRadius="@dimen/spacing_middle">
-
-                <ImageView
-                    android:id="@+id/img_btn_send"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:padding="@dimen/spacing_middle"
-                    android:src="@drawable/ic_send"
-                    android:contentDescription="@string/todo" />
-            </androidx.cardview.widget.CardView>
         </RelativeLayout>
-
     </LinearLayout>
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

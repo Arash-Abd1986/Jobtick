@@ -1,6 +1,7 @@
 package com.jobtick.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -11,9 +12,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatRatingBar;
@@ -38,10 +41,7 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.PublicChatListAdapter;
 import com.jobtick.models.AttachmentModel;
@@ -81,80 +81,113 @@ import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
 public class PublicChatActivity extends ActivityBase implements View.OnClickListener, AttachmentAdapter.OnItemClickListener {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_avatar)
     CircularImageView imgAvatar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rlt_profile)
     RelativeLayout rltProfile;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_name)
-    TextViewBold txtName;
+    TextView txtName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ratingbar_worker)
     AppCompatRatingBar ratingbarWorker;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_rating_value)
-    TextViewRegular txtRatingValue;
+    TextView txtRatingValue;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_completion_rate)
-    TextViewRegular txtCompletionRate;
+    TextView txtCompletionRate;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_budget)
-    TextViewBold txtBudget;
-    @BindView(R.id.txt_accept)
-    TextViewRegular txtAccept;
+    TextView txtBudget;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_budget_status)
     LinearLayout lytBudgetStatus;
-    @BindView(R.id.txt_type)
-    TextViewBold txtType;
+    //@SuppressLint("NonConstantResourceId")
+    //@BindView(R.id.txt_type)
+   // TextViewBold txtType;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_created_date)
-    TextViewRegular txtCreatedDate;
+    TextView txtCreatedDate;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_message)
-    TextViewRegular txtMessage;
+    TextView txtMessage;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_offer_on_task)
     ImageView imgOfferOnTask;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_btn_play)
     ImageView imgBtnPlay;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_live_video)
     CardView cardLiveVideo;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_reply)
     LinearLayout lytBtnReply;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_more)
     LinearLayout lytBtnMore;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_btn_image_select)
     ImageView imgBtnImageSelect;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_comment_message)
-    EditTextRegular edtCommentMessage;
+    EditText edtCommentMessage;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_btn_send)
     ImageView imgBtnSend;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_send)
     CardView cardSend;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.layout_offer)
     LinearLayout layoutOffer;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_avatar_question)
-    CircularImageView imgAvatarQuestion;
+   CircularImageView imgAvatarQuestion;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_name_question)
-    TextViewBold txtNameQuestion;
+    TextView txtNameQuestion;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_created_date_question)
-    TextViewRegular txtCreatedDateQuestion;
+    TextView txtCreatedDateQuestion;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_message_question)
-    TextViewRegular txtMessageQuestion;
+    TextView txtMessageQuestion;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_reply_question)
     LinearLayout lytBtnReplyQuestion;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_more_less_arrow)
     ImageView imgMoreLessArrow;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_more_less)
-    TextViewBold txtMoreLess;
+    TextView txtMoreLess;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_more_question)
     LinearLayout lytBtnMoreQuestion;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.layout_question)
-    RelativeLayout layoutQuestion;
+    LinearLayout layoutQuestion;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_create_message)
     LinearLayout lytCreateMessage;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view_question)
     RecyclerView recyclerViewQuestion;
 
     private OfferModel offerModel;
     private QuestionModel questionModel;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view_offer_chat)
     RecyclerView recyclerViewOfferChat;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rlt_layout_action_data)
     RelativeLayout rltLayoutActionData;
 
@@ -182,10 +215,10 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
 
         attachment = new AttachmentModel();
         txtBudget.setVisibility(View.GONE);
-        txtAccept.setVisibility(View.GONE);
+       // txtAccept.setVisibility(View.GONE);
         txtMessage.setVisibility(View.GONE);
         cardLiveVideo.setVisibility(View.GONE);
-        txtType.setVisibility(View.GONE);
+        //txtType.setVisibility(View.GONE);
         lytBtnReply.setVisibility(View.GONE);
         lytBtnMore.setVisibility(View.GONE);
         lytBtnReplyQuestion.setVisibility(View.GONE);
@@ -265,15 +298,15 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
             txtCreatedDate.setText(offerModel.getCreatedAt());
             if (offerModel.getAttachments() != null && offerModel.getAttachments().size() != 0) {
                 cardLiveVideo.setVisibility(View.VISIBLE);
-                txtType.setText("Video Offer");
+             //   txtType.setText("Video Offer");
                 ImageUtil.displayImage(imgOfferOnTask, offerModel.getAttachments().get(0).getModalUrl(), null);
 
             } else {
                 txtMessage.setVisibility(View.VISIBLE);
-                txtType.setText("Message");
+               // txtType.setText("Message");
                 txtMessage.setText(offerModel.getMessage());
             }
-            txtType.setVisibility(View.VISIBLE);
+          //  txtType.setVisibility(View.VISIBLE);
         } else {
             layoutOffer.setVisibility(View.GONE);
             layoutQuestion.setVisibility(View.VISIBLE);

@@ -23,7 +23,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
@@ -173,7 +172,6 @@
                 app:title="Job Details"
                 app:titleMarginStart="-25dp"
                 app:titleTextColor="@color/white" />
-
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
         </RelativeLayout>
@@ -478,7 +476,7 @@
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_created_date"
-                                style="@style/materialText_400_10"
+                                style="@style/materialText_500_10"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -628,7 +626,6 @@
                                 android:layout_margin="@dimen/spacing_small"
                                 android:background="@drawable/greay_border_bg"
                                 android:orientation="horizontal"
-                                android:padding="@dimen/spacing_small"
                                 android:paddingStart="@dimen/_8dp"
                                 android:paddingTop="8dp"
                                 android:paddingEnd="@dimen/_8dp"
@@ -872,7 +869,6 @@
                                     android:layout_gravity="center"
                                     android:gravity="center"
                                     android:orientation="horizontal">
-
 
                                     <com.google.android.material.textview.MaterialTextView
                                         style="@style/materialText_400_14"

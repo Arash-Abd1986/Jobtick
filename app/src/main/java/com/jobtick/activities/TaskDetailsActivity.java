@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,14 +34,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.AppBarLayout;
@@ -52,9 +46,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
 import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.adapers.AttachmentAdapter;
@@ -94,6 +86,7 @@ import com.jobtick.utils.Tools;
 import com.jobtick.widget.SpacingItemDecoration;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -125,142 +118,206 @@ import static com.jobtick.utils.Constant.URL_TASKS;
 public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener,
         QuestionListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.app_bar_layout)
     AppBarLayout appBarLayout;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_status_open)
     TextView txtStatusOpen;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_status_assigned)
     TextView txtStatusAssigned;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_status_completed)
     TextView txtStatusCompleted;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_due_date)
     TextView txtDueDate;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_due_time)
     TextView txtDueTime;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_created_date)
     TextView txtCreatedDate;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_location)
     TextView txtLocation;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_map_pin)
     ImageView imgMapPin;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_description)
     TextView txtDescription;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_offer_count)
     TextView txtOfferCount;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.first_offer)
     TextView firstOffer;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.first_offer_lyt)
     LinearLayout firstOfferLyt;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_budget)
     TextView txtBudget;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_message)
     LinearLayout lytBtnMessage;
     //    @BindView(R.id.card_message)
 //    CardView cardMessage;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.postedByLyt)
     RelativeLayout postedByLyt;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_make_an_offer)
     LinearLayout lytBtnMakeAnOffer;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_make_an_offer)
     CardView cardMakeAnOffer;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view_offers)
     RecyclerView recyclerViewOffers;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.nested_scroll_view)
     NestedScrollView nestedScrollView;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_btn_text)
     TextView txtBtnText;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_offers_count)
     TextView txtOffersCount;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_view_all_offers)
     LinearLayout lytBtnViewAllOffers;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_view_all_offers)
     CardView cardViewAllOffers;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_offer_layout)
     CardView cardOfferLayout;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_title)
     TextView txtTitle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_waiting_for_offer)
     FrameLayout txtWaitingForOffer;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_avtar_worker)
     CircularImageView imgAvtarWorker;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_worker_name)
     TextView txtWorkerName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_worker_location)
     TextView txtWorkerLocation;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_worker_last_online)
     TextView txtWorkerLastOnline;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_private_chat)
     LinearLayout lytBtnPrivateChat;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_private_chat)
     CardView cardPrivateChat;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_assignee_layout)
     CardView cardAssigneeLayout;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_avtar_poster)
     CircularImageView imgAvtarPoster;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_poster_name)
     TextView txtPosterName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_poster_location)
     TextView txtPosterLocation;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_poster_last_online)
     TextView txtPosterLastOnline;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_questions_count)
     TextView txtQuestionsCount;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view_questions)
     RecyclerView recyclerViewQuestions;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_view_all_questions)
     LinearLayout lytBtnViewAllQuestions;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_view_all_questions)
     LinearLayout lytViewAllQuestions;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_questions_layout)
     LinearLayout cardQuestionsLayout;
     //   @BindView(R.id.img_avatar)
     //   CircularImageView imgAvatar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_comment)
     EditText edtComment;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_comment_send)
     ImageView lytBtnCommentSend;
     //   @BindView(R.id.lyt_comment)
     //  LinearLayout lytComment;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view_question_attachment)
     RecyclerView recyclerViewQuestionAttachment;
     //   @BindView(R.id.card_comment_send)
     //   CardView cardCommentSend;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rlt_layout_action_data)
     RelativeLayout rltQuestionAdd;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_status_cancelled)
     TextView txtStatusCancelled;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_status_overdue)
     TextView txtStatusOverdue;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_status_reviewed)
     TextView txtStatusReviewed;
     private AdapterImageSlider adapterImageSlider;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.pager)
     ViewPager viewPager;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.layout_dots)
     LinearLayout layoutDots;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_budgets)
     TextView budget;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_view_reqeust)
     CardView lytButtonViewRequest;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_increase_budget)
     FrameLayout cardIncreaseBudget;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_cancel_background)
     CardView cardCancelBackground;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_cancelled)
     CardView cardCancelled;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.liAssign)
     LinearLayout liAssign;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.linearUserProfile)
     LinearLayout linearUserProfile;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.mustHaveLyt)
     CardView mustHaveLyt;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.mustHaveList)
     RecyclerView mustHaveList;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bottom_sheet)
     FrameLayout bottom_sheet;
     // @BindView(R.id.img_btn_image_select)
@@ -282,8 +339,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     public BankAccountModel bankAccountModel;
     public BillingAdreessModel billingAdreessModel;
 
-    private ArrayList<AttachmentModel> dataList = new ArrayList<>();
-    private ArrayList<AttachmentModel> attachmentArrayList_question = new ArrayList<>();
+    private final ArrayList<AttachmentModel> dataList = new ArrayList<>();
+    private final ArrayList<AttachmentModel> attachmentArrayList_question = new ArrayList<>();
 
     private String str_slug = "";
     private boolean isMyTask = false;
@@ -292,7 +349,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private OfferListAdapter offerListAdapter;
     private QuestionListAdapter questionListAdapter;
     private boolean noActionAvailable = false;
-    private String imageStoragePath;
     private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
 
     private AttachmentAdapter adapter;
@@ -378,6 +434,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         offerListAdapter.setOnItemClickListener(this);
     }
 
+    @SuppressLint({"SetTextI18n", "NonConstantResourceId"})
     private void initStatusTask(String status) {
         switch (status) {
             case Constant.TASK_ASSIGNED:
@@ -521,11 +578,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 if (taskModel.getOffers().size() != 0) {
                     recyclerViewOffers.setVisibility(View.VISIBLE);
                     offerListAdapter.addItems(taskModel.getOffers());
-                    searchHint:
                     for (int i = 0; i < taskModel.getOffers().size(); i++) {
                         if (taskModel.getOffers().get(i).getId() == pushOfferID) {
                             onItemOfferClick(null, taskModel.getOffers().get(i), i, "reply");
-                            break searchHint;
+                            break;
                         }
                     }
                 } else {
@@ -682,7 +738,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
             for (int i = 0; i < taskModel.getRescheduleReqeust().size(); i++) {
                 if (taskModel.getRescheduleReqeust().get(i).getStatus().equals("pending") &&
-                        taskModel.getRescheduleReqeust().get(i).getRequester_id() != sessionManager.getUserAccount().getId()) {
+                        !taskModel.getRescheduleReqeust().get(i).getRequester_id().equals(sessionManager.getUserAccount().getId())) {
                     if (!taskModel.getStatus().equals(TASK_CANCELLED) && !taskModel.getStatus().equals(TASK_CLOSED)) {
                         showCustomDialogRescheduleRequest(i);
                     }
@@ -720,29 +776,18 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     new MaterialAlertDialogBuilder(TaskDetailsActivity.this)
                             .setTitle(getResources().getString(R.string.title_edit))
                             .setNegativeButton(getResources().getString(R.string.no), (dialog, which) -> dialog.dismiss())
-                            .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    EditTask(taskModel);
-                                }
+                            .setPositiveButton(getResources().getString(R.string.yes), (dialog, which) -> {
+                                dialog.dismiss();
+                                EditTask(taskModel);
                             }).show();
                     break;
                 case R.id.action_delete:
                     new MaterialAlertDialogBuilder(TaskDetailsActivity.this)
                             .setTitle(getResources().getString(R.string.title_delete))
-                            .setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    deleteTaskPermanent(taskModel.getSlug());
-                                }
+                            .setNegativeButton(getResources().getString(R.string.no), (dialog, which) -> dialog.dismiss())
+                            .setPositiveButton(getResources().getString(R.string.yes), (dialog, which) -> {
+                                dialog.dismiss();
+                                deleteTaskPermanent(taskModel.getSlug());
                             }).show();
                     break;
                 case R.id.action_copy:
@@ -760,19 +805,15 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     Bundle bundle;
                     if (isMyTask) {
                         intent = new Intent(TaskDetailsActivity.this, CancellationPosterActivity.class);
-                        bundle = new Bundle();
-                        bundle.putString(ConstantKey.SLUG, taskModel.getSlug());
                         // bundle.putParcelable(ConstantKey.TASK, taskModel);
-                        intent.putExtras(bundle);
-                        startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION);
                     } else {
                         intent = new Intent(TaskDetailsActivity.this, CancellationWorkerActivity.class);
-                        bundle = new Bundle();
-                        bundle.putString(ConstantKey.SLUG, taskModel.getSlug());
                         //   bundle.putParcelable(ConstantKey.TASK, taskModel);
-                        intent.putExtras(bundle);
-                        startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION);
                     }
+                    bundle = new Bundle();
+                    bundle.putString(ConstantKey.SLUG, taskModel.getSlug());
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION);
                     break;
                 case R.id.action_increase_budget:
                     if (isMyTask) {
@@ -803,15 +844,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     private void initComponentScroll() {
         NestedScrollView nested_content = (NestedScrollView) findViewById(R.id.nested_scroll_view);
-        nested_content.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY < oldScrollY) { // up
-                    animateFab(false);
-                }
-                if (scrollY > oldScrollY) { // down
-                    animateFab(true);
-                }
+        nested_content.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY < oldScrollY) { // up
+                animateFab(false);
+            }
+            if (scrollY > oldScrollY) { // down
+                animateFab(true);
             }
         });
     }
@@ -854,11 +892,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
                                 questionListAdapter.addItems(taskModel.getQuestions());
 
-                                searchHint:
                                 for (int i = 0; i < taskModel.getQuestions().size(); i++) {
                                     if (taskModel.getQuestions().get(i).getId() == pushQuestionID) {
                                         onItemQuestionClick(null, taskModel.getQuestions().get(i), i, "reply");
-                                        break searchHint;
+                                        break;
                                     }
                                 }
                             }
@@ -880,8 +917,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     hideProgressDialog();
                 }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 // map1.put("X-Requested-With", "XMLHttpRequest");
@@ -1004,8 +1041,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 }) {
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
@@ -1081,8 +1118,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     Timber.e(error.toString());
                 }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
@@ -1143,9 +1180,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         txtDescription.setText(taskModel.getDescription());
         if (taskModel.getPoster().getAvatar() != null && taskModel.getPoster().getAvatar().getThumbUrl() != null) {
             ImageUtil.displayImage(imgAvtarPoster, taskModel.getPoster().getAvatar().getThumbUrl(), null);
-        } else {
-            //TODO DUMMY IMAGE
-        }
+        }  //TODO DUMMY IMAGE
+
         txtPosterName.setText(taskModel.getPoster().getName());
         if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
             txtLocation.setText(taskModel.getLocation());
@@ -1212,7 +1248,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     private void initToolbar() {
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = false;
+            final boolean isShow = false;
             int scrollRange = -1;
 
             @Override
@@ -1318,17 +1354,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     }
 
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        hideProgressDialog();
+                error -> {
+                    hideProgressDialog();
 
-                        //  swipeRefresh.setRefreshing(false);
-                        errorHandle1(error.networkResponse);
-                    }
+                    //  swipeRefresh.setRefreshing(false);
+                    errorHandle1(error.networkResponse);
                 }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
@@ -1347,6 +1380,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         super.onBackPressed();
     }
 
+    @SuppressLint("SetTextI18n")
     private void initComponent() {
         setOfferView(taskModel.getOfferCount());
         setQuestionView(taskModel.getQuestionCount());
@@ -1366,14 +1400,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void setWorker() {
         //worker
         if (taskModel.getWorker() != null) {
             if (taskModel.getWorker().getAvatar() != null && taskModel.getWorker().getAvatar().getThumbUrl() != null) {
                 ImageUtil.displayImage(imgAvtarWorker, taskModel.getWorker().getAvatar().getThumbUrl(), null);
-            } else {
-                //TODO DUMMY IMAGE
-            }
+            }  //TODO DUMMY IMAGE
+
             txtWorkerName.setText(taskModel.getWorker().getName());
             txtWorkerLocation.setText(taskModel.getWorker().getLocation());
             txtWorkerLastOnline.setText("Active " + taskModel.getWorker().getLastOnline());
@@ -1381,7 +1415,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void setAttachmentAndSlider() {
-        Log.e("Attachment", taskModel.getAttachments().size() + "");
+        Timber.e("%s", taskModel.getAttachments().size());
         adapterImageSlider = new AdapterImageSlider(this, new ArrayList<>());
 
         if (taskModel.getAttachments() == null || taskModel.getAttachments().size() == 0) {
@@ -1430,6 +1464,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         // startAutoSlider(adapterImageSlider.getCount());
     }
 
+    @SuppressLint("SetTextI18n")
     private void setQuestionView(int questionCount) {
         if (isMyTask) {
             rltQuestionAdd.setVisibility(View.GONE);
@@ -1451,6 +1486,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void setOfferView(int offerCount) {
         if (offerCount == 0) {
             txtOffersCount.setText(getString(R.string.offer));
@@ -1492,6 +1528,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick({R.id.lyt_btn_view_all_questions, R.id.lyt_btn_comment_send, R.id.lyt_btn_message, R.id.first_offer,
             R.id.lyt_btn_private_chat, R.id.lyt_btn_view_all_offers, R.id.txt_btn_text, R.id.lyt_btn_make_an_offer,
             R.id.lyt_btn_view_reqeust, R.id.card_cancelled, R.id.li_repost, R.id.liAssign, R.id.linearUserProfile})
@@ -1546,10 +1583,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             case R.id.lyt_btn_make_an_offer:
                 switch (txtBtnText.getText().toString().trim()) {
                     case ConstantKey.BTN_ASK_TO_RELEASE_MONEY:
-                        showCustomDialogAskToReleaseMoney("Are you sure all work is done, and ask to release to money?");
+                        showCustomDialogAskToReleaseMoney();
                         break;
                     case ConstantKey.BTN_RELEASE_MONEY:
-                        showCustomDialogReleaseMoney("Are you sure all work is done, and release to money?");
+                        showCustomDialogReleaseMoney();
                         break;
                     case ConstantKey.BTN_MAKE_AN_OFFER:
                         if (!needRequirementSheet()) {
@@ -1609,8 +1646,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 startActivity(intent);
                 break;
             case R.id.card_cancelled:
-                copyTask(taskModel);
-                break;
             case R.id.li_repost:
                 copyTask(taskModel);
                 break;
@@ -1677,7 +1712,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                  requirementState.get(Requirement.PhoneNumber));
     }
 
-    private void showCustomDialogAskToReleaseMoney(String message) {
+    @SuppressLint("SetTextI18n")
+    private void showCustomDialogAskToReleaseMoney() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
         dialog.setContentView(R.layout.dialog_show_confirmation);
@@ -1688,7 +1724,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
-        txtMessage.setText(message);
+        txtMessage.setText("Are you sure all work is done, and ask to release to money?");
 
         ((AppCompatButton) dialog.findViewById(R.id.btn_yes)).setOnClickListener(v -> {
             submitAskToReleaseMoney();
@@ -1705,64 +1741,58 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private void submitAskToReleaseMoney() {
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/complete",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Timber.e(response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            Log.e("json", jsonObject.toString());
-                            if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                response -> {
+                    Timber.e(response);
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
 
-                                initialStage();
-                            } else {
-                                hideProgressDialog();
-                                showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
-                            }
-
-                        } catch (JSONException e) {
+                            initialStage();
+                        } else {
                             hideProgressDialog();
+                            showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
+                        }
+
+                    } catch (JSONException e) {
+                        hideProgressDialog();
+                        e.printStackTrace();
+                    }
+
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
+                            hideProgressDialog();
+                            return;
+                        }
+                        hideProgressDialog();
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+                            if (jsonObject_error.has("message")) {
+                                showCustomDialog("You have sent your request before");
+                                // Toast.makeText(TaskDetailsActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
+                    } else {
+                        showToast("Something Went Wrong", TaskDetailsActivity.this);
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        NetworkResponse networkResponse = error.networkResponse;
-                        if (networkResponse != null && networkResponse.data != null) {
-                            String jsonError = new String(networkResponse.data);
-                            // Print Error!
-                            Timber.e(jsonError);
-                            if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                                unauthorizedUser();
-                                hideProgressDialog();
-                                return;
-                            }
-                            hideProgressDialog();
-                            try {
-                                JSONObject jsonObject = new JSONObject(jsonError);
-
-                                JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                                if (jsonObject_error.has("message")) {
-                                    showCustomDialog("You have sent your request before");
-                                    // Toast.makeText(TaskDetailsActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                                }
-                                if (jsonObject_error.has("errors")) {
-                                    JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                                }
-                                //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            showToast("Something Went Wrong", TaskDetailsActivity.this);
-                        }
-                        Timber.e(error.toString());
-                        hideProgressDialog();
-                    }
+                    Timber.e(error.toString());
+                    hideProgressDialog();
                 }) {
             @Override
             public Map<String, String> getHeaders() {
@@ -1778,7 +1808,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         requestQueue.add(stringRequest);
     }
 
-    private void showCustomDialogReleaseMoney(String message) {
+    @SuppressLint("SetTextI18n")
+    private void showCustomDialogReleaseMoney() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
         dialog.setContentView(R.layout.dialog_show_confirmation);
@@ -1789,21 +1820,13 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
-        txtMessage.setText(message);
+        txtMessage.setText("Are you sure all work is done, and release to money?");
 
-        ((AppCompatButton) dialog.findViewById(R.id.btn_yes)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitReleaseMoney();
-                dialog.dismiss();
-            }
+        ((AppCompatButton) dialog.findViewById(R.id.btn_yes)).setOnClickListener((View.OnClickListener) v -> {
+            submitReleaseMoney();
+            dialog.dismiss();
         });
-        ((AppCompatButton) dialog.findViewById(R.id.btn_no)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        ((AppCompatButton) dialog.findViewById(R.id.btn_no)).setOnClickListener((View.OnClickListener) v -> dialog.dismiss());
 
         dialog.show();
         dialog.getWindow().setAttributes(lp);
@@ -1818,7 +1841,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     Timber.e(response);
                     try {
                         JSONObject jsonObject = new JSONObject(response);
-                        Log.e("json", jsonObject.toString());
+                        Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
 
                             initialStage();
@@ -1867,7 +1890,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     hideProgressDialog();
                 }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
@@ -1893,12 +1916,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
         txtMessage.setText(message);
 
-        ((AppCompatButton) dialog.findViewById(R.id.btn_ok)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        ((AppCompatButton) dialog.findViewById(R.id.btn_ok)).setOnClickListener((View.OnClickListener) v -> dialog.dismiss());
 
         dialog.show();
         dialog.getWindow().setAttributes(lp);
@@ -1908,36 +1926,33 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private void postComment(String str_comment, ArrayList<AttachmentModel> attachmentModels) {
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_QUESTIONS + "/" + taskModel.getId() + "/create",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Timber.e(response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            Log.e("json", jsonObject.toString());
-                            if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                                edtComment.setText(null);
-                                attachmentArrayList_question.clear();
-                                attachmentArrayList_question.add(new AttachmentModel());
-                                adapter.notifyDataSetChanged();
-                                if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                    if (recyclerViewQuestions.getVisibility() != View.VISIBLE) {
-                                        recyclerViewQuestions.setVisibility(View.VISIBLE);
-                                    }
-                                    QuestionModel questionModel = new QuestionModel().getJsonToModel(jsonObject.getJSONObject("data"));
-                                    questionListAdapter.addItem(questionModel);
-
+                response -> {
+                    Timber.e(response);
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            edtComment.setText(null);
+                            attachmentArrayList_question.clear();
+                            attachmentArrayList_question.add(new AttachmentModel());
+                            adapter.notifyDataSetChanged();
+                            if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                                if (recyclerViewQuestions.getVisibility() != View.VISIBLE) {
+                                    recyclerViewQuestions.setVisibility(View.VISIBLE);
                                 }
-                            } else {
-                                showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
-                            }
-                            hideProgressDialog();
-                        } catch (JSONException e) {
-                            hideProgressDialog();
-                            e.printStackTrace();
-                        }
+                                QuestionModel questionModel = new QuestionModel().getJsonToModel(jsonObject.getJSONObject("data"));
+                                questionListAdapter.addItem(questionModel);
 
+                            }
+                        } else {
+                            showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
+                        }
+                        hideProgressDialog();
+                    } catch (JSONException e) {
+                        hideProgressDialog();
+                        e.printStackTrace();
                     }
+
                 },
                 error -> {
                     NetworkResponse networkResponse = error.networkResponse;
@@ -1972,7 +1987,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     hideProgressDialog();
                 }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
@@ -2015,17 +2030,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private static class AdapterImageSlider extends PagerAdapter {
-        private Activity act;
+        private final Activity act;
         private ArrayList<AttachmentModel> items;
-
-        private OnItemClickListener onItemClickListener;
 
         private interface OnItemClickListener {
             void onItemClick(View view, AttachmentModel obj);
         }
 
-        public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-            this.onItemClickListener = onItemClickListener;
+        public void setOnItemClickListener() {
         }
 
         // constructor
@@ -2050,12 +2062,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
 
         @Override
-        public boolean isViewFromObject(View view, Object object) {
+        public boolean isViewFromObject(@NotNull View view, @NotNull Object object) {
             return view == ((RelativeLayout) object);
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public @NotNull Object instantiateItem(@NotNull ViewGroup container, int position) {
             final AttachmentModel attachment = items.get(position);
             LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View v = inflater.inflate(R.layout.item_slider_image, container, false);
@@ -2093,7 +2105,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
 
         @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
+        public void destroyItem(@NotNull ViewGroup container, int position, @NotNull Object object) {
             ((ViewPager) container).removeView((RelativeLayout) object);
 
         }
@@ -2168,7 +2180,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 if (data.getData() != null) {
-                    imageStoragePath = CameraUtils.getPath(TaskDetailsActivity.this, data.getData());
+                    String imageStoragePath = CameraUtils.getPath(TaskDetailsActivity.this, data.getData());
                     File file = new File(imageStoragePath);
                     uploadDataQuestionMediaApi(file);
                 }
@@ -2246,9 +2258,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
         call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+            public void onResponse(@NotNull Call<String> call, retrofit2.@NotNull Response<String> response) {
                 hideProgressDialog();
-                Log.e("Response", response.toString());
+                Timber.e(response.toString());
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     showToast(response.message(), TaskDetailsActivity.this);
                     return;
@@ -2264,9 +2276,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         return;
                     }
                     if (response.code() == HttpStatus.SUCCESS) {
-                        Log.e("body", strResponse);
+                        Timber.e(strResponse);
+                        assert strResponse != null;
                         JSONObject jsonObject = new JSONObject(strResponse);
-                        Log.e("json", jsonObject.toString());
+                        Timber.e(jsonObject.toString());
                         if (jsonObject.has("data")) {
                             JSONObject jsonObject_data = jsonObject.getJSONObject("data");
                             AttachmentModel attachment = new AttachmentModel().getJsonToModel(jsonObject_data);
@@ -2289,13 +2302,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
                 hideProgressDialog();
             }
         });
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void showCustomDialogRescheduleRequest(int pos) {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
@@ -2368,44 +2382,41 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     }
 
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        NetworkResponse networkResponse = error.networkResponse;
-                        if (networkResponse != null && networkResponse.data != null) {
-                            String jsonError = new String(networkResponse.data);
-                            // Print Error!
-                            Timber.e(jsonError);
-                            if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                                unauthorizedUser();
-                                hideProgressDialog();
-                                return;
-                            }
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
                             hideProgressDialog();
-                            try {
-                                JSONObject jsonObject = new JSONObject(jsonError);
-
-                                JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                                if (jsonObject_error.has("message")) {
-                                    Toast.makeText(TaskDetailsActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                                }
-                                if (jsonObject_error.has("errors")) {
-                                    JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                                }
-                                //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            showToast("Something Went Wrong", TaskDetailsActivity.this);
+                            return;
                         }
-                        Timber.e(error.toString());
                         hideProgressDialog();
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+                            if (jsonObject_error.has("message")) {
+                                Toast.makeText(TaskDetailsActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", TaskDetailsActivity.this);
                     }
+                    Timber.e(error.toString());
+                    hideProgressDialog();
                 }) {
 
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
@@ -2421,38 +2432,32 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private void doApiCall(String url) {
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                response -> {
+                    hideProgressDialog();
+                    Timber.e(response);
+                    // categoryArrayList.clear();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        OfferDeleteModel data = new OfferDeleteModel();
+                        Gson gson = new Gson();
+                        data = gson.fromJson(jsonObject.toString(), OfferDeleteModel.class);
+                        initialStage();
+                        showCustomDialog(data.getMessage());
+                    } catch (JSONException e) {
                         hideProgressDialog();
-                        Log.e("responce_url", response);
-                        // categoryArrayList.clear();
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            OfferDeleteModel data = new OfferDeleteModel();
-                            Gson gson = new Gson();
-                            data = gson.fromJson(jsonObject.toString(), OfferDeleteModel.class);
-                            initialStage();
-                            showCustomDialog(data.getMessage());
-                        } catch (JSONException e) {
-                            hideProgressDialog();
-                            Log.e("EXCEPTION", String.valueOf(e));
-                            e.printStackTrace();
-                        }
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //  swipeRefresh.setRefreshing(false);
-                        hideProgressDialog();
+                error -> {
+                    //  swipeRefresh.setRefreshing(false);
+                    hideProgressDialog();
 
-                        errorHandle1(error.networkResponse);
-                    }
+                    errorHandle1(error.networkResponse);
                 }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 //    map1.put("X-Requested-With", "XMLHttpRequest");
@@ -2465,7 +2470,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(TaskDetailsActivity.this);
         requestQueue.add(stringRequest);
-        Log.e("url", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
     public void addToBookmark() {
@@ -2486,15 +2491,15 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 }) {
 
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            protected Map<String, String> getParams() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("is_important", "0");
                 return map1;
             }
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
@@ -2507,7 +2512,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(TaskDetailsActivity.this);
         requestQueue.add(stringRequest);
-        Log.e("url", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
     private void removeBookmark() {
@@ -2550,14 +2555,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     errorHandle1(error.networkResponse);
                 }) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            protected Map<String, String> getParams() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("is_important", "1");
                 return map1;
             }
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
@@ -2577,7 +2582,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
 
-        final View view = getLayoutInflater().inflate(R.layout.sheet_requirement, null);
+        @SuppressLint("InflateParams") final View view = getLayoutInflater().inflate(R.layout.sheet_requirement, null);
 
         LinearLayout lyt_btn_make_an_offer = (LinearLayout) view.findViewById(R.id.lyt_btn_make_an_offer);
         CardView card_make_an_offer = (CardView) view.findViewById(R.id.card_make_an_offer);

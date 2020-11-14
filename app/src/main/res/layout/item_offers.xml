@@ -173,7 +173,6 @@
                 android:orientation="horizontal"
                 android:padding="@dimen/spacing_small">
 
-
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -432,10 +431,10 @@
                     android:layout_width="36dp"
                     android:layout_height="@dimen/_1sp"
                     android:layout_gravity="center"
-                    android:background="#2B3240" />
+                    android:background="@color/colorTaskCompleted" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_500_14"
+                    style="@style/materialText_500_12"
                     android:id="@+id/txt_more_reply"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -444,7 +443,7 @@
                     android:gravity="center_vertical"
                     android:padding="@dimen/spacing_small"
                     android:text="@string/more_replies"
-                    android:textColor="@color/textColor"/>
+                    android:textColor="@color/colorTaskCompleted"/>
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView

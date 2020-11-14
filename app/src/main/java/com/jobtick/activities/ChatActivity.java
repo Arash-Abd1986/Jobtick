@@ -137,10 +137,10 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     CircularImageView imgAvatar;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_title)
-    TextViewRegular txtTitle;
+    TextView txtTitle;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_subtitle)
-    TextViewRegular txtSubtitle;
+    TextView txtSubtitle;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_job_title)
     TextView txtJobTitle;

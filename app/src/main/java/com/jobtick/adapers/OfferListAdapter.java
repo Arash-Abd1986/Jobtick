@@ -1,11 +1,10 @@
 package com.jobtick.adapers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,8 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatRatingBar;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,8 +24,6 @@ import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.SessionManager;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.models.CommentModel;
 import com.jobtick.models.OfferModel;
 import com.jobtick.models.QuestionModel;
@@ -41,12 +36,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.BindViews;
 import butterknife.ButterKnife;
 
 import static com.jobtick.activities.TaskDetailsActivity.widthDrawListener;
 import static com.jobtick.utils.ConstantKey.KEY_OFFER_REPORT;
-import static com.jobtick.utils.ConstantKey.KEY_USER_REPORT;
 import static com.jobtick.utils.ConstantKey.VIDEO_PATH;
 
 
@@ -54,10 +47,10 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int VIEW_TYPE_LOADING = 0;
     private static final int VIEW_TYPE_NORMAL = 1;
 
-    private boolean isMyTask = false;
+    private final boolean isMyTask;
     SessionManager sessionManager;
 
-    private Context context;
+    private final Context context;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
@@ -72,7 +65,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
 
     private boolean isLoaderVisible = false;
-    private List<OfferModel> mItems;
+    private final List<OfferModel> mItems;
 
     public OfferListAdapter(Context context, boolean isMyTask, List<OfferModel> mItems) {
         this.mItems = mItems;
@@ -147,69 +140,95 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class ViewHolder extends BaseViewHolder implements PublicChatListAdapter.OnItemClickListener {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_avatar)
         CircularImageView imgAvatar;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.rlt_profile)
         RelativeLayout rltProfile;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_name)
         TextView txtName;
 //        @BindView(R.id.ratingbar_worker)
 //        AppCompatRatingBar ratingbarWorker;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_rating_value)
         TextView txtRatingValue;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_completion_rate)
         TextView txtCompletionRate;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_budget)
         TextView txtBudget;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_btn_accept)
         TextView txtBtnAccept;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.card_accept)
         CardView cardAccept;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lyt_budget_status)
         LinearLayout lytBudgetStatus;
         /*        @BindView(R.id.txt_type)
                 TextView txtType;*/
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_created_date)
         TextView txtCreatedDate;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_message)
         TextView txtMessage;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_offer_on_task)
         ImageView imgOfferOnTask;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_btn_play)
         ImageView imgBtnPlay;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.card_live_video)
         CardView cardLiveVideo;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lyt_btn_reply)
         LinearLayout lytBtnReply;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_more_less_arrow)
         ImageView imgMoreLessArrow;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_more_less)
         TextView txtMoreLess;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lyt_btn_more)
         LinearLayout lytBtnMore;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_more_reply)
         TextView txtMoreReply;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.linearAcceptDeleteOffer)
         LinearLayout linearAcceptDeleteOffer;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.linear_more_reply)
         LinearLayout linearMoreReply;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.recycler_view_offer_chat)
         RecyclerView recyclerViewOfferChat;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.card_deleteOffer)
         CardView cardDeleteOffer;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_verified_account)
         ImageView imgVerifiedAccount;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.linear_user_profile)
         LinearLayout linearUserProfile;
 
 /*        @BindView(R.id.textViewOptions)
         TextView textViewOptions;*/
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.ivFlag)
         LinearLayout ivFlag;
 
@@ -223,6 +242,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
 
 
+        @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
         public void onBind(int position) {
             super.onBind(position);
             OfferModel item = mItems.get(position);
@@ -257,7 +277,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             }
 
-            if (item.getWorker().getId() == sessionManager.getUserAccount().getId()) {
+            if (item.getWorker().getId().equals(sessionManager.getUserAccount().getId())) {
                 cardDeleteOffer.setVisibility(View.VISIBLE);
                 txtBudget.setVisibility(View.VISIBLE);
                 linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
@@ -282,6 +302,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 //                ratingbarWorker.setProgress(item.getWorker().getWorkerRatings().getAvgRating());
 
             }
+            assert item.getWorker() != null;
             txtCompletionRate.setText(item.getWorker().getWorkTaskStatistics().getCompletionRate() + "%");
             txtCreatedDate.setText(item.getCreatedAt());
             if (item.getAttachments() != null && item.getAttachments().size() != 0) {
@@ -366,14 +387,14 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     txtMessage.setMaxLines(Integer.MAX_VALUE);
                     lytBtnMore.setVisibility(View.VISIBLE);
                     txtMoreLess.setText("Less");
-                    imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_up));
+                    imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_up_blue));
                     mItems.get(getAdapterPosition()).setStrMore("Less");
                     item.setStrMore("Less");
                 } else {
                     txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
                     lytBtnMore.setVisibility(View.VISIBLE);
                     txtMoreLess.setText("More");
-                    imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_down));
+                    imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_down_blue));
                     mItems.get(getAdapterPosition()).setStrMore("More");
                     item.setStrMore("More");
                 }

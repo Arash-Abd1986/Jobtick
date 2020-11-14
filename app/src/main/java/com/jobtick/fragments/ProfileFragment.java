@@ -203,8 +203,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     private BadgesAdapter badgesAdapter;
     public static onProfileUpdateListener onProfileupdatelistener;
     private Typeface poppins_medium;
-    private LinearLayout lPort, lSkill, NoPortfolio;
-
+    private LinearLayout lPort, lSkill, NoPortfolio,NoAbout;
+    private  ImageView ivLevelInfo,ivProfileInfo;
     public ProfileFragment() {
     }
 
@@ -219,6 +219,16 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         NoPortfolio = view.findViewById(R.id.no_port_folio);
         lPort = view.findViewById(R.id.lyt_Port);
         lSkill = view.findViewById(R.id.lyt_skills);
+        NoAbout=view.findViewById(R.id.no_about);
+        ivLevelInfo=view.findViewById(R.id.ivLevelInfo);
+        ivProfileInfo=view.findViewById(R.id.ivProfileInfo);
+        ivLevelInfo.setOnClickListener(view1 -> {
+            LevelInfoBottomSheet levelInfoBottomSheet = new LevelInfoBottomSheet();
+            levelInfoBottomSheet.show(getParentFragmentManager(), "");
+        });
+        ivProfileInfo.setOnClickListener(view1 -> {
+
+        });
         dashboardActivity = (DashboardActivity) getActivity();
         poppins_medium = Typeface.createFromAsset(getActivity().getAssets(), "fonts/poppins_Medium.otf");
         onProfileupdatelistener = this;
@@ -322,6 +332,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             //lytAbout.setVisibility(View.VISIBLE);
             if (attachmentArrayList.size() <= 0) {
                 NoPortfolio.setVisibility(View.VISIBLE);
+                recyclerViewPortfolio.setVisibility(View.GONE);
                 lPort.setVisibility(View.GONE);
             } else {
                 recyclerViewPortfolio.setVisibility(View.VISIBLE);
@@ -331,9 +342,6 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             lSkill.setVisibility(View.GONE);
             rbPortfollio.setTextColor(getResources().getColor(R.color.blue));
             rbSkills.setTextColor(getResources().getColor(R.color.textColor));
-            //  tvSkills.setVisibility(View.GONE);
-            // llEnlarge.setVisibility(View.VISIBLE);
-            //recyclerViewBadges.setVisibility(View.GONE);
         } else
             if (rbSkills.isChecked()) {
             if (tagEducation.size()<=0 && tagExperience.size()<=0 && tagLanguage.size() <= 0
@@ -344,8 +352,10 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             } else {
                 NoPortfolio.setVisibility(View.GONE);
                 lSkill.setVisibility(View.VISIBLE);
-                tvSkills.setVisibility(View.VISIBLE); }
-            lPort.setVisibility(View.GONE);
+                tvSkills.setVisibility(View.VISIBLE);
+            }
+                recyclerViewPortfolio.setVisibility(View.GONE);
+                lPort.setVisibility(View.GONE);
             rbPortfollio.setTextColor(getResources().getColor(R.color.textColor));
             rbSkills.setTextColor(getResources().getColor(R.color.blue));
 
@@ -443,9 +453,11 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
         if (userAccountModel.getAbout() == null) {
             txtAbout.setVisibility(View.GONE);
+            NoAbout.setVisibility(View.VISIBLE);
         } else {
             txtAbout.setVisibility(View.VISIBLE);
             txtAbout.setText("" + userAccountModel.getAbout());
+            NoAbout.setVisibility(View.GONE);
         }
         if (userAccountModel.getTagline() == null) {
             tvAboutHeading.setVisibility(View.GONE);
@@ -476,6 +488,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                 lytLanguage.setVisibility(View.GONE);
                 lytSpecialities.setVisibility(View.GONE);
                 lytTransportation.setVisibility(View.GONE);
+                recyclerViewPortfolio.setVisibility(View.GONE);
+                lPort.setVisibility(View.GONE);
             }else{
                 if (userAccountModel.getSkills().getEducation() != null && userAccountModel.getSkills().getEducation().size() != 0) {
                     lytEducation.setVisibility(View.VISIBLE);

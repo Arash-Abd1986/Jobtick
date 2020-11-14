@@ -106,8 +106,10 @@
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="29dp"
                                 android:layout_marginTop="5dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
                                 android:orientation="horizontal">
 
                                 <ImageView
@@ -498,12 +500,7 @@
                         android:gravity="center"
                         android:singleLine="true"
                         android:text="@string/_5_star_website_and_graphic_designer"
-                        android:textColor="@color/black" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:textColor="@color/black"/>
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_about"
@@ -515,6 +512,48 @@
                             app:trimLines="5"
                             app:trimMode="trimModeLine"
                             tools:text="Let me help you stand out!Whatever area you're pitching for Let me help you stand out! I have over" />
+
+                    <LinearLayout
+                        android:id="@+id/no_about"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="20dp"
+                        tools:ignore="TooManyViews"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="@dimen/_50dp"
+                            android:layout_height="@dimen/_50dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/spacing_large"
+                            android:contentDescription="@string/todo"
+                            android:padding="@dimen/_8dp"
+                            android:src="@drawable/ic_group_10749" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/materialText_600_14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/no_portfolio_added_yet" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/materialText_400_14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/increase_your_chance_to_get_a_job_by" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/materialText_400_14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/adding_portf"
+                            android:textColor="@color/colorPrimary" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -561,7 +600,7 @@
                                     android:gravity="center"
                                     android:text="@string/portfolio"
                                     android:textColor="@color/textColor"
-                                    tools:ignore="TooDeepLayout" />
+                                    tools:ignore="TooDeepLayout"/>
 
                                 <com.google.android.material.radiobutton.MaterialRadioButton
                                     android:id="@+id/rbSkills"
@@ -586,7 +625,7 @@
                             android:layout_marginTop="@dimen/_5sp"
                             android:orientation="vertical"
                             android:padding="@dimen/_10sp"
-                            android:visibility="visible">
+                            android:visibility="gone">
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tvSkills"
@@ -800,7 +839,8 @@
                                 android:id="@+id/recycler_view_portfolio"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:overScrollMode="never" />
+                                android:overScrollMode="never"
+                                android:visibility="gone"/>
 
                             <LinearLayout
                                 android:id="@+id/llEnlarge"
@@ -841,7 +881,8 @@
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:paddingBottom="20dp"
-                            tools:ignore="TooManyViews">
+                            tools:ignore="TooManyViews"
+                            android:visibility="gone">
 
                             <ImageView
                                 android:layout_width="@dimen/_50dp"
@@ -874,6 +915,7 @@
                                 android:text="@string/adding_portf"
                                 android:textColor="@color/colorPrimary" />
                         </LinearLayout>
+
                     </LinearLayout>
                 </FrameLayout>
             </LinearLayout>

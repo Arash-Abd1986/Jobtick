@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -147,6 +148,8 @@ public class ReviewsActivity extends ActivityBase {
     int userId;
 
     RadioButton poster,ticker;
+    LinearLayout noReview;
+    TextView txtReview,txtSub;
     public ReviewsActivity() {
     }
 
@@ -181,9 +184,9 @@ public class ReviewsActivity extends ActivityBase {
     public void init() {
 
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
-        /*
-
-        */
+        noReview =findViewById(R.id.lyt_no_review);
+        txtReview=findViewById(R.id.txt_no_review);
+        txtSub=findViewById(R.id.txt_suburb);
         LinearLayoutManager layoutManager = new LinearLayoutManager(ReviewsActivity.this);
         recyclerReview.setLayoutManager(layoutManager);
         reviewAdapter = new ReviewAdapter(ReviewsActivity.this, new ArrayList<>());
@@ -225,6 +228,7 @@ public class ReviewsActivity extends ActivityBase {
             ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getThumbUrl(), null);
         }
         txtName.setText(userAccountModel.getName());
+        txtSub.setText(userAccountModel.getLocation());
         if (WhoIs.equals(Constant.AS_A_POSTER)) {
 
             if (userAccountModel.getPosterRatings() != null && userAccountModel.getPosterRatings().getAvgRating() != null) {
@@ -374,12 +378,10 @@ public class ReviewsActivity extends ActivityBase {
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
 
-
                             String jsonString = jsonObject.toString(); //http request
                             ReviewModel data = new ReviewModel();
                             Gson gson = new Gson();
                             data = gson.fromJson(jsonString, ReviewModel.class);
-
 
                             reviewModelList.addAll(data.getData());
 
@@ -394,22 +396,17 @@ public class ReviewsActivity extends ActivityBase {
                             Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
                         }
 
-                        /*
-                         *manage progress view
-                         */
-
                         if (reviewModelList.size() <= 0) {
-                            //  ivNoPost.setVisibility(View.VISIBLE);
+                              noReview.setVisibility(View.VISIBLE);
+                              txtReview.setVisibility(View.VISIBLE);
                             recyclerReview.setVisibility(View.GONE);
                         } else {
-                            // ivNoPost.setVisibility(View.GONE);
+                            noReview.setVisibility(View.GONE);
+                            txtReview.setVisibility(View.GONE);
                             recyclerReview.setVisibility(View.VISIBLE);
-
                         }
                         reviewAdapter.addItems(reviewModelList);
 
-                        //  swipeRefresh.setRefreshing(false);
-                        // check weather is last page or not
                         if (currentPage < totalPage) {
                             reviewAdapter.addLoading();
                         }

@@ -1,10 +1,9 @@
 package com.jobtick.adapers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,21 +19,21 @@ import com.jobtick.activities.ReportActivity;
 import com.jobtick.utils.ConstantKey;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.models.CommentModel;
 import com.jobtick.models.OfferModel;
 import com.jobtick.models.QuestionModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ImageUtil;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 import static com.jobtick.utils.ConstantKey.KEY_COMMENT_REPORT;
-import static com.jobtick.utils.ConstantKey.KEY_QUESTION_REPORT;
 
 
 public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
@@ -50,7 +48,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
     private static final int VIEW_TYPE_NORMAL = 1;
 
 
-    private Context context;
+    private final Context context;
     private OnItemClickListener mOnItemClickListener;
     private OfferModel offerModel;
     private QuestionModel questionModel;
@@ -81,7 +79,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
 
 
     private boolean isLoaderVisible = false;
-    private List<CommentModel> mItems;
+    private final List<CommentModel> mItems;
 
     public PublicChatListAdapter(Context context, List<CommentModel> mItems) {
         this.mItems = mItems;
@@ -90,7 +88,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
 
     @NonNull
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_NORMAL:
                 return new ViewHolder(
@@ -158,24 +156,34 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
     }
 
     public class ViewHolder extends BaseViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_avatar)
         CircularImageView imgAvatar;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_name)
         TextView txtName;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_created_date)
         TextView txtCreatedDate;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_message)
         TextView txtMessage;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_more_less)
         TextView txtMoreLess;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_file)
         ImageView imgFile;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lyt_btn_reply)
         LinearLayout lytBtnReply;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lyt_btn_more)
         LinearLayout lytBtnMore;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_more_less_arrow)
         ImageView imgMoreLessArrow;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.card_img_file)
         CardView cardImgFile;
 
@@ -183,6 +191,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
 /*        @BindView(R.id.textViewOptions)
         TextView textViewOptions;*/
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.ivFlag)
         LinearLayout ivFlag;
 
@@ -196,6 +205,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         }
 
 
+        @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
         public void onBind(int position) {
             super.onBind(position);
             CommentModel item = mItems.get(position);
@@ -205,22 +215,19 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             txtMessage.setText(item.getCommentText());
             txtCreatedDate.setText(item.getCreatedAt());
 
-            txtMessage.post(new Runnable() {
-                @Override
-                public void run() {
-                    int lineCount = txtMessage.getLineCount();
-                    Log.e("COUNT", String.valueOf(lineCount));
-                    if (lineCount > Constant.MAX_LINE_TEXTVIEW_MORE_4) {
-                        // view.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE);
-                        lytBtnMore.setVisibility(View.VISIBLE);
-                        txtMoreLess.setText(item.getStrMore());
-                        mItems.get(getAdapterPosition()).setIsUserPrefrenceToMore(true);
-                        if (item.getIsUserPrefrenceToMore()) {
-                            txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
-                        }
-                    } else {
-                        lytBtnMore.setVisibility(View.GONE);
+            txtMessage.post(() -> {
+                int lineCount = txtMessage.getLineCount();
+                Timber.e(String.valueOf(lineCount));
+                if (lineCount > Constant.MAX_LINE_TEXTVIEW_MORE_4) {
+                    // view.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE);
+                    lytBtnMore.setVisibility(View.VISIBLE);
+                    txtMoreLess.setText(item.getStrMore());
+                    mItems.get(getAdapterPosition()).setIsUserPrefrenceToMore(true);
+                    if (item.getIsUserPrefrenceToMore()) {
+                        txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
                     }
+                } else {
+                    lytBtnMore.setVisibility(View.GONE);
                 }
             });
 
@@ -320,7 +327,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         }
     }
 
-    private String toggleLayoutExpand(String show, View view) {
+   /* private String toggleLayoutExpand(String show, View view) {
         toggleArrow(show, view);
        /* if (show.equalsIgnoreCase("Less")) {
 
@@ -328,26 +335,24 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         } else {
             ViewAnimation.collapse(lyt_expand);
         }*/
-        return show;
+  //      return show;
+  //  }
+
+
+    public void toggleArrow(String show, View view) {
+        toggleArrow(show, view, true);
     }
 
-
-    public boolean toggleArrow(String show, View view) {
-        return toggleArrow(show, view, true);
-    }
-
-    public boolean toggleArrow(String show, View view, boolean delay) {
+    public void toggleArrow(String show, View view, boolean delay) {
         if (show.equalsIgnoreCase("Less")) {
             view.animate().setDuration(delay ? 200 : 0).rotation(180);
-            return true;
         } else {
             view.animate().setDuration(delay ? 200 : 0).rotation(0);
-            return false;
         }
     }
 
 
-    public class ProgressHolder extends BaseViewHolder {
+    public static class ProgressHolder extends BaseViewHolder {
         ProgressHolder(View itemView) {
             super(itemView);
         }

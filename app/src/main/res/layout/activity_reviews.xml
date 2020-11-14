@@ -31,14 +31,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:paddingTop="15dp">
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
                 android:orientation="horizontal"
+                android:layout_marginEnd="@dimen/_3dp"
+                android:layout_marginStart="@dimen/_3dp"
                 android:padding="5dp"
                 android:weightSum="4">
 
@@ -75,32 +77,33 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sp"
-                    android:orientation="vertical"
-                    android:layout_weight="2">
+                    android:layout_weight="2"
+                    android:orientation="vertical">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_full_name"
                         style="@style/materialText_600_18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="left"
                         android:layout_gravity="left"
+                        android:gravity="left"
                         android:singleLine="true"
                         android:textColor="@color/colorNavyBlue"
-                        tools:text="@string/jessie_albon"
-                        tools:ignore="RtlHardcoded" />
+                        tools:ignore="RtlHardcoded"
+                        tools:text="@string/jessie_albon" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_suburb"
                         style="@style/materialText_400_14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="left"
                         android:layout_marginTop="@dimen/_2sp"
                         android:gravity="left"
-                        android:layout_gravity="left"
                         android:maxLines="2"
                         android:textColor="@color/colorNavyBlue"
-                        tools:text="@string/surfers_paradise_australia" />
+                        tools:text="@string/surfers_paradise_australia"
+                        tools:ignore="RtlHardcoded" />
 
                     <View
                         android:layout_width="match_parent"
@@ -112,10 +115,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sp"
+                    android:layout_weight="1"
                     android:background="@drawable/bg_profile_rate"
                     android:gravity="center"
-                    android:padding="2dp"
-                    android:layout_weight="1">
+                    android:padding="2dp">
 
                     <ImageView
                         android:id="@+id/ivMedal3"
@@ -166,22 +169,23 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:background="@drawable/radio_portfolio"
+                        android:textColor="@color/colorPrimary"
+
                         android:button="@null"
                         android:checked="true"
                         android:gravity="center"
-                        android:text="@string/as_a_poster"/>
+                        android:text="@string/as_a_poster" />
 
                 </RadioGroup>
-
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_5sp"
                 android:layout_marginBottom="@dimen/_15sp"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatRatingBar
@@ -201,8 +205,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_marginStart="@dimen/_5sp"
+                    android:gravity="center"
                     android:text="@string/_4_6"
                     android:textColor="@color/colorTaskAssigned" />
 
@@ -212,8 +216,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_marginStart="@dimen/_5sp"
+                    android:gravity="center"
                     android:text="@string/_33_reviews"
                     android:textColor="@color/black" />
 
@@ -256,7 +260,6 @@
                         android:progress="50"
                         android:progressDrawable="@drawable/color_primary_progress" />
 
-
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_review_count_5_star"
                         style="@style/materialText_600_12"
@@ -285,7 +288,6 @@
                         android:layout_marginStart="7dp"
                         android:text="@string/_4"
                         android:textColor="@color/textColor" />
-
 
                     <ProgressBar
                         android:id="@+id/progress_bar_4_star"
@@ -332,7 +334,6 @@
                         android:text="@string/_3"
                         android:textColor="@color/textColor" />
 
-
                     <ProgressBar
                         android:id="@+id/progress_bar_3_star"
                         style="@style/CustomProgressBarHorizontal"
@@ -378,7 +379,6 @@
                         android:layout_marginStart="7dp"
                         android:text="@string/_2"
                         android:textColor="@color/textColor" />
-
 
                     <ProgressBar
                         android:id="@+id/progress_bar_2_star"
@@ -468,12 +468,64 @@
         android:text="@string/review"
         android:textColor="@color/colorPrimary" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_review"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/item_review"
-        android:layout_margin="5dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_review"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            tools:listitem="@layout/item_review" />
+
+        <LinearLayout
+            android:id="@+id/lyt_no_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/global_padding_2x_extra"
+            android:background="@drawable/shape_tab_primary"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:background="@drawable/shape_tab_primary"
+                android:contentDescription="@string/todo"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:src="@drawable/ic_thumbs_down" />
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:background="@drawable/shape_tab_primary"
+                android:contentDescription="@string/todo"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:src="@drawable/ic_thumbs_up" />
+        </LinearLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_no_review"
+            style="@style/materialText_600_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/no_review"
+            android:visibility="gone" />
+
+    </LinearLayout>
 </LinearLayout>

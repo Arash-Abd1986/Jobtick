@@ -51,19 +51,17 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:text="Username"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/textColor"/>
 
 
-                    <com.jobtick.TextView.TextViewRegular
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/materialText_500_10"
                         android:id="@+id/txt_subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:text=""
                         android:textColor="@color/red_600"
-                        android:textSize="@dimen/_12sp"
                         android:textStyle="normal" />
 
                 </LinearLayout>

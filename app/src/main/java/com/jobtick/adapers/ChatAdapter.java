@@ -1,5 +1,6 @@
 package com.jobtick.adapers;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -14,18 +15,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.jobtick.activities.RescheduleDeclineActivity;
-import com.jobtick.activities.UserProfileActivity;
 import com.jobtick.activities.ZoomImageActivity;
 import com.jobtick.models.AttachmentModel;
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.models.ChatModel;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.Tools;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,13 +37,11 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int MSG_TYPE_RIGHT = 1;
     private static final int MSG_TYPE_LEFT = 2;
 
-
     private SessionManager sessionManager;
-
-    private Context context;
+    private final Context context;
     private OnItemClickListener mOnItemClickListener;
-    private String username;
-    private Integer sender_id;
+    private final String username;
+    private final Integer sender_id;
 
     public interface OnItemClickListener {
         void onItemClick(View view, ChatModel obj, int position, String action);
@@ -55,9 +51,8 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         this.mOnItemClickListener = mItemClickListener;
     }
 
-
     private boolean isLoaderVisible = false;
-    private ArrayList<ChatModel> mItems;
+    private final ArrayList<ChatModel> mItems;
 
     public ChatAdapter(Context context, ArrayList<ChatModel> mItems, String username, Integer sender_id) {
         this.mItems = mItems;
@@ -69,7 +64,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @NonNull
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case MSG_TYPE_RIGHT:
                 return new MsgRightViewHolder(
@@ -182,20 +177,29 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class MsgRightViewHolder extends BaseViewHolder {
+
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txtOnlyDate)
-        TextViewRegular txtOnlyDate;
+        TextView txtOnlyDate;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.layoutDate)
         RelativeLayout layoutDate;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txtName)
-        TextViewRegular txtName;
+        TextView txtName;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txtShowMessage)
-        TextViewRegular txtShowMessage;
+        TextView txtShowMessage;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.imgPath)
         ImageView imgPath;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.textLayout)
         RelativeLayout textLayout;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txtMsgTime)
-        TextViewRegular txtMsgTime;
+        TextView txtMsgTime;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.imgMsgSeen)
         ImageView imgMsgSeen;
 
@@ -224,35 +228,29 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 txtShowMessage.setVisibility(View.GONE);
                 imgPath.setVisibility(View.VISIBLE);
                 ImageUtil.displayImage(imgPath, item.getAttachment().getModalUrl(), null);
-                imgPath.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //  final Screens screens = new Screens(mContext);
-                        //  screens.openFullImageViewActivity(v, chat.getImgPath());
-                        ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
-                        AttachmentModel model = new AttachmentModel();
-                        model.setModalUrl(item.getAttachment().getModalUrl());
-                        attachmentArrayList.add(model);
-                        Intent intent = new Intent(context, ZoomImageActivity.class);
-                        intent.putExtra("url", attachmentArrayList);
-                        intent.putExtra("title", "");
-                        intent.putExtra("pos", position);
-                        context.startActivity(intent);
-                    }
+                imgPath.setOnClickListener(v -> {
+                    //  final Screens screens = new Screens(mContext);
+                    //  screens.openFullImageViewActivity(v, chat.getImgPath());
+                    ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
+                    AttachmentModel model = new AttachmentModel();
+                    model.setModalUrl(item.getAttachment().getModalUrl());
+                    attachmentArrayList.add(model);
+                    Intent intent = new Intent(context, ZoomImageActivity.class);
+                    intent.putExtra("url", attachmentArrayList);
+                    intent.putExtra("title", "");
+                    intent.putExtra("pos", position);
+                    context.startActivity(intent);
                 });
             }
 
-            txtShowMessage.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("jobtick", txtShowMessage.getText().toString());
-                    clipboard.setPrimaryClip(clip);
+            txtShowMessage.setOnLongClickListener(v -> {
+                ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("jobtick", txtShowMessage.getText().toString());
+                clipboard.setPrimaryClip(clip);
 
-                    Toast.makeText(context, "Copied", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Copied", Toast.LENGTH_LONG).show();
 
-                    return false;
-                }
+                return false;
             });
 
             txtOnlyDate.setVisibility(View.GONE);
@@ -276,7 +274,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             long timeMilliSeconds = 0;
             try {
                 timeMilliSeconds = Tools.dateToMillis(item.getCreatedAt());
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
 
             if (timeMilliSeconds > 0) {
@@ -288,9 +286,9 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             if (position == mItems.size() - 1) {
                 if (item.getIsSeen().equals(1)) {
-                    imgMsgSeen.setImageResource(R.drawable.ic_check_read);
+                    imgMsgSeen.setImageResource(R.drawable.ic_vector__7_);
                 } else {
-                    imgMsgSeen.setImageResource(R.drawable.ic_check_delivery);
+                    imgMsgSeen.setImageResource(R.drawable.ic_vector__7_);
                 }
             } else {
                 imgMsgSeen.setVisibility(View.GONE);
@@ -299,20 +297,25 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class MsgLeftViewHolder extends BaseViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txtOnlyDate)
         TextView txtOnlyDate;
-        @BindView(R.id.chatImageView)
-        CircularImageView chatImageView;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txtName)
         TextView txtName;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txtShowMessage)
         TextView txtShowMessage;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.imgPath)
         ImageView imgPath;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.textLayout)
         RelativeLayout textLayout;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txtMsgTime)
         TextView txtMsgTime;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.imgMsgSeen)
         ImageView imgMsgSeen;
 
@@ -340,21 +343,18 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 txtShowMessage.setVisibility(View.GONE);
                 imgPath.setVisibility(View.VISIBLE);
                 ImageUtil.displayImage(imgPath, item.getAttachment().getModalUrl(), null);
-                imgPath.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //  final Screens screens = new Screens(mContext);
-                        //  screens.openFullImageViewActivity(v, chat.getImgPath());
-                        ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
-                        AttachmentModel model = new AttachmentModel();
-                        model.setModalUrl(item.getAttachment().getModalUrl());
-                        attachmentArrayList.add(model);
-                        Intent intent = new Intent(context, ZoomImageActivity.class);
-                        intent.putExtra("url", attachmentArrayList);
-                        intent.putExtra("title", "");
-                        intent.putExtra("pos", position);
-                        context.startActivity(intent);
-                    }
+                imgPath.setOnClickListener(v -> {
+                    //  final Screens screens = new Screens(mContext);
+                    //  screens.openFullImageViewActivity(v, chat.getImgPath());
+                    ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
+                    AttachmentModel model = new AttachmentModel();
+                    model.setModalUrl(item.getAttachment().getModalUrl());
+                    attachmentArrayList.add(model);
+                    Intent intent = new Intent(context, ZoomImageActivity.class);
+                    intent.putExtra("url", attachmentArrayList);
+                    intent.putExtra("title", "");
+                    intent.putExtra("pos", position);
+                    context.startActivity(intent);
                 });
             }
 
@@ -389,7 +389,8 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             long timeMilliSeconds = 0;
             try {
                 timeMilliSeconds = Tools.dateToMillis(item.getCreatedAt());
-            } catch (Exception e) {
+            }
+            catch (Exception ignored) {
             }
 
             if (timeMilliSeconds > 0) {
@@ -412,7 +413,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
 
-    public class ProgressHolder extends BaseViewHolder {
+    public static class ProgressHolder extends BaseViewHolder {
         ProgressHolder(View itemView) {
             super(itemView);
         }

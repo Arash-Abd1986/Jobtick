@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -106,9 +107,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     @BindView(R.id.img_btn_task_action)
     ImageView imgBtnTaskAction;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.card_task_action)
-    CardView cardTaskAction;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_task_details)
     LinearLayout lytTaskDetails;
     @SuppressLint("NonConstantResourceId")
@@ -122,13 +120,10 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     ImageView imgBtnImageSelect;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_comment_message)
-    EditTextRegular edtCommentMessage;
+    EditText edtCommentMessage;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_btn_send)
     ImageView imgBtnSend;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.card_send)
-    CardView cardSend;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rlt_layout_action_data)
     RelativeLayout rltLayoutActionData;
@@ -362,18 +357,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         txtJobTitle.setText(conversationModel.getName());
         txtStatus.setText(conversationModel.getStatus());
 
-        toolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.action_flag) {
-                Bundle bundleReport = new Bundle();
-                Intent intentReport = new Intent(ChatActivity.this, ReportActivity.class);
-                bundleReport.putString("key", KEY_USER_REPORT);
-                bundleReport.putInt(Constant.userID, conversationModel.getReceiver().getId());
 
-                intentReport.putExtras(bundleReport);
-                startActivity(intentReport);
-            }
-            return false;
-        });
 
     }
 

@@ -3,48 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:paddingStart="@dimen/spacing_middle"
     android:paddingLeft="@dimen/spacing_middle"
     android:paddingTop="@dimen/spacing_medium"
+    android:paddingEnd="@dimen/spacing_middle"
+    android:paddingRight="@dimen/spacing_middle"
     android:paddingBottom="@dimen/spacing_medium">
 
-    <TextView
-        android:id="@+id/txtOnlyDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_xsmall"
-        android:background="@drawable/rounded_date"
-        android:paddingLeft="@dimen/spacing_middle"
-        android:paddingRight="@dimen/spacing_middle"
-        android:text="11-06-2016"
-        android:textColor="@color/white"
-        android:textSize="10sp"
-        android:visibility="gone" />
+    <RelativeLayout
+        android:id="@+id/layoutDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/materialText_500_12"
+            android:id="@+id/txtOnlyDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:background="@drawable/rounded_date_dark"
+            android:paddingLeft="@dimen/spacing_middle"
+            android:paddingRight="@dimen/spacing_middle"
+            tools:text="11-06-2016"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtOnlyDate">
+        android:layout_below="@+id/layoutDate"
+        android:background="@drawable/shape_tab_dark"
+        android:layout_alignParentStart="true">
 
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/chatImageView"
-            android:layout_width="@dimen/spacing_xmlarge"
-            android:layout_height="@dimen/spacing_xmlarge"
-            android:src="@drawable/avatar"
-            android:visibility="gone"
-            app:civ_border_color="@color/white"
-            app:civ_border_width="1dp" />
-
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/materialText_500_14"
             android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/chatImageView"
-            android:layout_toRightOf="@+id/chatImageView"
-            android:text="Username"
-            android:textSize="12sp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/spacing_medium"
+            tools:text="@string/me"
             android:visibility="gone" />
 
         <RelativeLayout
@@ -53,65 +55,64 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtName"
             android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:layout_toEndOf="@+id/chatImageView"
-            android:layout_toRightOf="@+id/chatImageView">
+            android:layout_marginTop="@dimen/spacing_medium">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_500_14"
                 android:id="@+id/txtShowMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="@dimen/spacing_line"
-                android:background="@drawable/bg_left"
-                android:gravity="center_vertical"
+                android:layout_alignParentStart="true"
                 android:padding="@dimen/spacing_middle"
-                android:text="Username"
-                android:textColor="@color/textColor"
-                android:textSize="14sp"
+                tools:text="Username"
+                android:textColor="@color/white"
                 android:visibility="visible" />
 
             <ImageView
                 android:id="@+id/imgPath"
                 android:layout_width="@dimen/paddingImgPath"
                 android:layout_height="@dimen/paddingImgPath"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:scaleType="centerCrop"
-
+                android:layout_alignParentEnd="true"
                 android:adjustViewBounds="true"
-                android:background="@drawable/bg_left_img"
+                android:background="@drawable/bg_right"
                 android:gravity="center_vertical"
-                android:padding="@dimen/spacing_medium"
+                android:padding="10dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/image_load"
                 android:transitionName="@string/app_name"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:contentDescription="@string/todo" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/txtMsgTime"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textLayout"
-            android:layout_alignStart="@+id/textLayout"
-            android:layout_alignLeft="@+id/textLayout"
-            android:layout_marginTop="@dimen/spacing_xsmall"
-            android:text="11:40"
-            android:textColor="@color/gray"
-            android:textSize="10sp" />
-
-        <ImageView
-            android:id="@+id/imgMsgSeen"
-            android:layout_width="@dimen/spacing_middle"
-
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textLayout"
-            android:layout_alignTop="@+id/txtMsgTime"
-            android:layout_alignBottom="@+id/txtMsgTime"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:visibility="gone"
-            app:srcCompat="@drawable/ic_check_delivery" />
+            android:layout_marginTop="@dimen/spacing_xsmall"
+            android:layout_marginBottom="@dimen/spacing_xsmall"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_500_10"
+                android:id="@+id/txtMsgTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:gravity="end"
+                tools:text="11:40"
+                android:padding="10dp"
+                android:textColor="@color/gray"/>
+
+            <ImageView
+                android:id="@+id/imgMsgSeen"
+                android:layout_width="25dp"
+                android:visibility="visible"
+                android:layout_height="25dp"
+                android:padding="5dp"
+                app:srcCompat="@drawable/ic_vector__7_"
+                android:contentDescription="@string/todo" />
+        </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

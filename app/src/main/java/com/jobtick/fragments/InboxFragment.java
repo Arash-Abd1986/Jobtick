@@ -137,7 +137,6 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
             toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
             toolbar_title.setVisibility(View.VISIBLE);
             toolbar_title.setText("Chat");
-
             toolbar_title.setTypeface(ResourcesCompat.getFont(getActivity(), R.font.poppins_medium));
             toolbar.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.grey_100));
             androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT,

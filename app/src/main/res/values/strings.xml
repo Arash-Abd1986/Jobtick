@@ -399,5 +399,6 @@
     <string name="no_notifications">No Notifications</string>
     <string name="no_job_alert_set">No job alert set</string>
     <string name="no_transaction_recorded_here">No transaction recorded here</string>
+    <string name="no_messages_yet">No messages yet</string>
 
 </resources>

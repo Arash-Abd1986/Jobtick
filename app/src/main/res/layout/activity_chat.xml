@@ -213,15 +213,10 @@
                         android:gravity="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12sp"
-                        android:visibility="gone">
+                        android:visibility="gone"/>
 
-                    </com.jobtick.TextView.TextViewMedium>
                 </RelativeLayout>
-
-
             </LinearLayout>
-
-
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <RelativeLayout

@@ -8,62 +8,6 @@
     android:orientation="vertical"
     tools:context=".fragments.InboxFragment">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:layout_marginStart="@dimen/spacing_large"
-        android:layout_marginEnd="@dimen/spacing_large"
-        android:elevation="20dp"
-        android:visibility="gone"
-        app:cardCornerRadius="10dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="@dimen/spacing_mlarge"
-                android:layout_height="match_parent" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:clickable="true"
-                android:tint="@color/grey_40"
-                app:srcCompat="@drawable/ic_search"
-                android:focusable="true"
-                android:contentDescription="@string/todo" />
-
-            <View
-                android:layout_width="@dimen/spacing_middle"
-                android:layout_height="match_parent" />
-
-            <com.jobtick.EditText.EditTextMedium
-                android:id="@+id/edt_search_categories"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:gravity="center_vertical"
-                android:hint="@string/search_messages"
-                android:imeOptions="actionSearch"
-                android:inputType="textEmailAddress|textNoSuggestions"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textSize="14sp" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
@@ -97,7 +41,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/materialText_500_16"
-                        android:text="No messages yet"
+                        android:text="@string/no_messages_yet"
                         android:gravity="center"
                         android:layout_marginTop="16dp"
                         android:textColor="@color/colorNavyBlue"/>
@@ -114,4 +58,3 @@
             </FrameLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
-</LinearLayout>

@@ -25,16 +25,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.airbnb.lottie.LottieAnimationView;
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.R;
 import com.jobtick.activities.ChatActivity;
 import com.jobtick.activities.DashboardActivity;
@@ -82,9 +77,6 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
         SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
     DashboardActivity dashboardActivity;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_search_categories)
-    EditTextMedium edtSearchCategories;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -146,8 +138,8 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
             toolbar_title.setVisibility(View.VISIBLE);
             toolbar_title.setText("Chat");
 
-            toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_medium));
-            toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.grey_100));
+            toolbar_title.setTypeface(ResourcesCompat.getFont(getActivity(), R.font.poppins_medium));
+            toolbar.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.grey_100));
             androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT,
                     Toolbar.LayoutParams.WRAP_CONTENT);
             params.gravity = Gravity.LEFT;
@@ -167,19 +159,6 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
                 searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
                 searchView.setOnQueryTextListener(InboxFragment.this);
                 searchView.setOnCloseListener(InboxFragment.this);
-
-                /*    searchView.findViewById(R.id.search_close_btn)
-                            .setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Log.d("called","this is called.");
-                                    queryParameter="";
-                                    onRefresh();
-                                    searchView.setQuery("",false);
-                                    searchView.setIconified(true);
-
-                                }
-                            });*/
 
                 if (item.collapseActionView()) {
                     Timber.e("Called");
@@ -250,7 +229,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
 
             @Override
             public void onError(String message, String code, Exception e) {
-                System.out.println("There was a problem connecting!");
+              //  System.out.println("There was a problem connecting!");
             }
         }, ConnectionState.ALL);
     }

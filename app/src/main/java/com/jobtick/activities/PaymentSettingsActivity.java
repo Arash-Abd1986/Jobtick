@@ -120,9 +120,6 @@ public class PaymentSettingsActivity extends ActivityBase {
     @BindView(R.id.card_type)
     TextView cardType;
 
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
-
     public static OnBankAccountAdded onBankaccountadded;
 
     @Override

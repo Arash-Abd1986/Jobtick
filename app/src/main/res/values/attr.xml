@@ -112,5 +112,11 @@
         <attr name="eSettingTitle" format="string"/>
     </declare-styleable>
 
+    <declare-styleable name="ExtendedAlertBox">
+        <attr name="eAlertTitle" format="string"/>
+        <attr name="eAlertButtonText" format="string"/>
+        <attr name="eAlertHasButton" format="boolean"/>
+    </declare-styleable>
+
 
 </resources>

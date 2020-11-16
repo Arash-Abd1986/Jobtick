@@ -401,4 +401,7 @@
     <string name="no_transaction_recorded_here">No transaction recorded here</string>
     <string name="no_messages_yet">No messages yet</string>
 
+    <string name="cancellation_ticker"><b>You</b> have requested to cancel this job on <b>%s</b></string>
+    <string name="view_cancellation_request">View cancellation request</string>
+
 </resources>

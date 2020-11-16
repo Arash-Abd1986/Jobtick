@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,7 +84,9 @@ import com.jobtick.utils.Helper;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.utils.TimeHelper;
 import com.jobtick.utils.Tools;
+import com.jobtick.widget.ExtendedAlertBox;
 import com.jobtick.widget.SpacingItemDecoration;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -95,6 +98,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -118,6 +123,9 @@ import static com.jobtick.utils.Constant.URL_TASKS;
 
 public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener,
         QuestionListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener {
+
+    @BindView(R.id.alert_box)
+    ExtendedAlertBox alertBox;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
@@ -497,9 +505,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING)) {
                                 if (taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId())) {
                                     //sent a Cancellation request
+                                    showCancellationCard(true);
                                     txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_SENT);
                                 } else {
                                     //received Cancellation request
+                                    showCancellationCard(false);
                                     txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_RECEIVED);
                                 }
                                 cardMakeAnOffer.setVisibility(View.VISIBLE);
@@ -872,6 +882,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                 JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+                                String ss = jsonObject.getString("data");
                                 taskModel = new TaskModel().getJsonToModel(jsonObject_data, TaskDetailsActivity.this);
 
                                 setOwnerTask();
@@ -2638,4 +2649,33 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         mBottomSheetDialog.show();
         mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
+
+    @SuppressLint("StringFormatMatches")
+    private void showCancellationCard(boolean isTicker){
+        alertBox.setVisibility(View.VISIBLE);
+
+        if(isTicker) {
+            alertBox.setTitle(Html.fromHtml("<b>You</b> have to cancel this job on <b>" +
+                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>"));
+            txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_SENT);
+        }
+        else{
+            String cancelledByWho = taskModel.getCancellation().getRequesterId().toString();
+            alertBox.setTitle(Html.fromHtml("<b>" + cancelledByWho + "</b> " +
+                    "has requested to cancel this job on <b>" +
+                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>"));
+            txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_SENT);
+        }
+    }
+
+//    private String findCancellerName(){
+//
+//        ArrayList<OfferModel> offers = taskModel.getOffers();
+//
+//        OfferModel offerModel = offers.stream().filter(offer -> Objects.equals(
+//                offer.getWorker().getId(),
+//                taskModel.getCancellation().getRequesterId())).collect(Collectors.toList()).get(0);
+//
+//        return offerModel.getWorker().getName();
+//    }
 }

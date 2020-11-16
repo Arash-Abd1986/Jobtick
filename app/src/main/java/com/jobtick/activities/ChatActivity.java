@@ -30,7 +30,18 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
+import com.jobtick.adapers.ChatAdapter;
+import com.jobtick.models.AttachmentModel;
+import com.jobtick.models.ChatModel;
+import com.jobtick.models.ConversationModel;
+import com.jobtick.retrofit.ApiClient;
+import com.jobtick.utils.CameraUtils;
+import com.jobtick.utils.Constant;
+import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.Helper;
+import com.jobtick.utils.HttpStatus;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -50,19 +61,6 @@ import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
 import com.pusher.client.util.HttpAuthorizer;
-import com.jobtick.EditText.EditTextRegular;
-import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.adapers.ChatAdapter;
-import com.jobtick.models.AttachmentModel;
-import com.jobtick.models.ChatModel;
-import com.jobtick.models.ConversationModel;
-import com.jobtick.retrofit.ApiClient;
-import com.jobtick.utils.CameraUtils;
-import com.jobtick.utils.Constant;
-import com.jobtick.utils.ConstantKey;
-import com.jobtick.utils.Helper;
-import com.jobtick.utils.HttpStatus;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -89,7 +87,6 @@ import retrofit2.Callback;
 import timber.log.Timber;
 
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
-import static com.jobtick.utils.ConstantKey.KEY_USER_REPORT;
 
 public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -165,7 +162,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     private boolean isLastPage = false;
     private int totalPage = 10;
     private int unreadCount = 0;
-    private boolean isLastPosition=false;
+    private boolean isLastPosition = false;
     LinearLayoutManager layoutManager;
 
     @Override
@@ -187,7 +184,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
         authorizer.setHeaders(headers);
         PusherOptions options = new PusherOptions()
-                .setEncrypted(true)
+                //   .setEncrypted(true)
                 .setCluster("us2")
                 .setAuthorizer(authorizer);
 
@@ -230,7 +227,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         chatModelArrayList = new ArrayList<>();
         swipeRefresh.setOnRefreshListener(this);
         // use a linear layout manager
-         layoutManager = new LinearLayoutManager(ChatActivity.this);
+        layoutManager = new LinearLayoutManager(ChatActivity.this);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ChatAdapter(ChatActivity.this, new ArrayList<>(), conversationModel.getReceiver().getName(), conversationModel.getSender().getId());
@@ -312,7 +309,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 int totalItemCount = layoutManager.getItemCount();
                 int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
                 //End of list
-                isLastPosition= pastVisibleItems + visibleItemCount >= totalItemCount;
+                isLastPosition = pastVisibleItems + visibleItemCount >= totalItemCount;
 
 
             }
@@ -356,7 +353,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         }
         txtJobTitle.setText(conversationModel.getName());
         txtStatus.setText(conversationModel.getStatus());
-
 
 
     }
@@ -480,11 +476,9 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                                 // Stuff that updates the UI
                                 //chatModelArrayList.add(chatModel);
                                 adapter.addItems(chatModel);
-                                if(isLastPosition)
-                                {
+                                if (isLastPosition) {
                                     recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-                                }else
-                                {
+                                } else {
                                     unreadCount = unreadCount + 1;
                                     txtCount.setVisibility(View.VISIBLE);
                                     txtCount.setText(String.valueOf(unreadCount));
@@ -558,7 +552,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                         swipeRefresh.setRefreshing(false);
                         // check weather is last page or not
                         if (currentPage < totalPage) {
-                            // adapter.addLoading();
+                            adapter.addLoading();
                         } else {
                             isLastPage = true;
                         }
@@ -775,7 +769,8 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
      * Requesting permissions using Dexter library
      */
     private void requestCameraPermission() {
-        Dexter.withActivity(this)
+        Dexter
+                .withActivity(this)
                 .withPermissions(Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.RECORD_AUDIO)
@@ -851,7 +846,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                             JSONObject jsonObject_chat = jsonObject.getJSONObject("data");
                             ChatModel chatModel = new ChatModel().getJsonToModel(jsonObject_chat);
                             //chatModelArrayList.add(chatModel);
-                          //  adapter.addItems(chatModel);
+                            //  adapter.addItems(chatModel);
                             // attachment = new Attachment().getJsonToModel(jsonObject_data);
                         }
                         // recyclerView.scrollToPosition(adapter.getItemCount() - 1);

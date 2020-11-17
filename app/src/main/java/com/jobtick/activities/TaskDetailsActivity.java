@@ -368,6 +368,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_details);
         ButterKnife.bind(this);
+        alertBox.setOnExtendedAlertButtonClickListener(this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mBehavior = BottomSheetBehavior.from(bottom_sheet);

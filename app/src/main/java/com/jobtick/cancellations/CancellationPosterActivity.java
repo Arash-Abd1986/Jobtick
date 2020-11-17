@@ -62,14 +62,12 @@ public class CancellationPosterActivity extends ActivityBase implements RadioGro
     RadioGroup rgReasonMessage;
     @BindView(R.id.edt_comments)
     EditText edtComments;
-    @BindView(R.id.txt_cancellation_fee)
-    TextView txtCancellationFee;
 
     @BindView(R.id.btn_submit)
     MaterialButton btnSubmit;
 
     @BindView(R.id.edt_description_counter)
-    EditText edtDescriptionCounter;
+    TextView edtDescriptionCounter;
 
 
     private String str_SLUG = null;
@@ -160,7 +158,7 @@ public class CancellationPosterActivity extends ActivityBase implements RadioGro
                             if (jsonObject.getBoolean("success")) {
                                 if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                     JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                                    txtCancellationFee.setText("$ " + jsonObject_data.getString("max_fee_amount"));
+                                    String ss = jsonObject.getString("data");
 
                                 }
                             } else {

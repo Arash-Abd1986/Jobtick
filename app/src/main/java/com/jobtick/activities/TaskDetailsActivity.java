@@ -98,8 +98,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -122,7 +120,7 @@ import static com.jobtick.utils.Constant.URL_CREATE_RESCHEDULE;
 import static com.jobtick.utils.Constant.URL_TASKS;
 
 public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener,
-        QuestionListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener {
+        QuestionListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, ExtendedAlertBox.OnExtendedAlertButtonClickListener {
 
     @BindView(R.id.alert_box)
     ExtendedAlertBox alertBox;
@@ -469,9 +467,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING)) {
                             if (taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId())) {
                                 //sent a Cancellation request
+                                showCancellationCard(false, false);
                                 txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_SENT);
                             } else {
                                 //received Cancellation request
+                                showCancellationCard(false, true);
                                 txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_RECEIVED);
                             }
                             cardMakeAnOffer.setVisibility(View.VISIBLE);
@@ -505,11 +505,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING)) {
                                 if (taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId())) {
                                     //sent a Cancellation request
-                                    showCancellationCard(true);
+                                    showCancellationCard(true, true);
                                     txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_SENT);
                                 } else {
                                     //received Cancellation request
-                                    showCancellationCard(false);
+                                    showCancellationCard(true, false);
                                     txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_RECEIVED);
                                 }
                                 cardMakeAnOffer.setVisibility(View.VISIBLE);
@@ -2036,6 +2036,22 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         doApiCall(Constant.URL_OFFERS + "/" + id);
     }
 
+    @Override
+    public void onExtendedAlertButtonClick() {
+        Intent intent;
+        if(tickerCancels && isTicker){
+            intent = new Intent(this, TTCancellationSummaryActivity.class);
+        }else if(tickerCancels && !isTicker){
+            intent = new Intent(this, TPCancellationSummaryActivity.class);
+        }else if(!tickerCancels && isTicker){
+            intent = new Intent(this, PTCancellationSummaryActivity.class);
+        }else {
+            intent = new Intent(this, PPCancellationSummaryActivity.class);
+        }
+
+        startActivityForResult(intent, 1010);
+    }
+
     private static class AdapterImageSlider extends PagerAdapter {
         private final Activity act;
         private ArrayList<AttachmentModel> items;
@@ -2650,12 +2666,21 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
 
+    // we have for possibillity to support,
+    // ticker cancels, user is ticker
+    // ticker cancels, user is poster
+    // poster cancels, user is poster
+    // poster cancels, user is ticker
+    private boolean isTicker = false;
+    private boolean tickerCancels = false;
     @SuppressLint("StringFormatMatches")
-    private void showCancellationCard(boolean isTicker){
+    private void showCancellationCard(boolean isTicker, boolean tickerCancels){
         alertBox.setVisibility(View.VISIBLE);
+        this.isTicker = isTicker;
+        this.tickerCancels = tickerCancels;
 
-        if(isTicker) {
-            alertBox.setTitle(Html.fromHtml("<b>You</b> have to cancel this job on <b>" +
+        if(isTicker && tickerCancels || !isTicker && !tickerCancels) {
+            alertBox.setTitle(Html.fromHtml("<b>You</b> have requested to cancel this job on <b>" +
                     TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>"));
             txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_SENT);
         }

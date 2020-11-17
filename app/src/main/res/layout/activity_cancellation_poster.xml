@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_reason_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
                     android:text="@string/reason_worker_1"
                     android:textAppearance="@style/materialText_400_14" />
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_reason_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                     android:text="@string/reason_worker_2"
                     android:textAppearance="@style/materialText_400_14" />
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_reason_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                     android:text="@string/reason_worker_3"
                     android:textAppearance="@style/materialText_400_14" />
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_reason_4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
                     android:text="@string/reason_worker_4"
                     android:textAppearance="@style/materialText_400_14" />
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_reason_5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

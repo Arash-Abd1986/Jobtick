@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundLightGrey">
+
+    <include layout="@layout/toolbar" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/cancellation_buttons"
+        android:layout_below="@+id/toolbar"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cancellation_specs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/toolbar"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineHeight="23dp"
+                        android:text="You have requested to cancel this job on 9th December 2020 9:45 PM."
+                        android:textAppearance="@style/materialText_500_14"
+                        android:textColor="@color/grey_70" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/secured_payment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/title"
+                        android:layout_marginTop="12dp"
+                        android:lineHeight="23dp"
+                        android:text="Your  secured payment will be refunded when you accept the request."
+                        android:textAppearance="@style/materialText_500_14"
+                        android:textColor="@color/grey_70" />
+
+                    <com.rishabhharit.roundedimageview.RoundedImageView
+                        android:id="@+id/ivAvatar"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_below="@id/secured_payment"
+                        android:layout_marginTop="16dp"
+                        android:src="@drawable/ic_user_avatar" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/task_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/ivAvatar"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_toStartOf="@id/task_fee"
+                        android:layout_toEndOf="@id/ivAvatar"
+                        android:lineHeight="18dp"
+                        android:text="Clean my two bedroom apartment"
+                        android:textAppearance="@style/materialText_700_14"
+                        android:textColor="@color/textColor" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/poster_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/task_title"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_toEndOf="@id/ivAvatar"
+                        android:text="Nathan Fox"
+                        android:textAppearance="@style/materialText_400_12"
+                        android:textColor="@color/grey_70" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/task_fee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/ivAvatar"
+                        android:layout_alignBottom="@id/ivAvatar"
+                        android:layout_alignParentEnd="true"
+                        android:gravity="center"
+                        android:text="$200"
+                        android:textAppearance="@style/materialText_600_20"
+                        android:textColor="@color/colorPrimary" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/header_reason"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ivAvatar"
+                        android:layout_marginTop="16dp"
+                        android:text="Reason For Cancellation"
+                        android:textAppearance="@style/materialText_600_14"
+                        android:textColor="@color/colorPrimary" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/cancellation_reason"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/header_reason"
+                        android:layout_marginTop="8dp"
+                        android:text="“I no longer need the job to be done”"
+                        android:textAppearance="@style/materialText_600_14"
+                        android:textColor="@color/textColor" />
+
+                    <LinearLayout
+                        android:id="@+id/comment_box"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/cancellation_reason"
+                        android:layout_marginTop="16dp"
+                        android:gravity="start|top"
+                        android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Comment"
+                        android:textAppearance="@style/materialText_600_14"
+                        android:textColor="@color/colorPrimary" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/comment_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:lineHeight="20dp"
+                        android:text="officia aliqua tempor fugiat elit non Lorem cillu et proident nulla incididunt officia incididunt veniam occaecat in esse elit"
+                        android:textAppearance="@style/materialText_500_14"
+                        android:textColor="@color/textColor" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/cancellation_respond_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cancellation_specs"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:lineHeight="20dp"
+                android:text="The job will be automaticaly cancelled Poster doesn’t respond within 2 days of the request."
+                android:textAppearance="@style/materialText_500_14"
+                android:textColor="@color/textColor" />
+
+            <RelativeLayout
+                android:id="@+id/cancellation_fee_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cancellation_respond_header"
+                android:padding="8dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/cancellation_fee_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/cancellation_fee_amount"
+                    android:layout_alignBottom="@id/cancellation_fee_amount"
+                    android:layout_toStartOf="@id/cancellation_fee_amount"
+                    android:gravity="center_vertical"
+                    android:text="Cancellation Fee"
+                    android:textAppearance="@style/materialText_400_14"
+                    android:textColor="@color/black" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/cancellation_fee_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="16dp"
+                    android:gravity="end|center_vertical"
+                    android:text="-$20"
+                    android:textAppearance="@style/materialText_600_22"
+                    android:textColor="@color/strokeRed" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/learn_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cancellation_fee_amount"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
+                    android:text="Learn more about our Policy and Fees"
+                    android:textAppearance="@style/materialText_400_14"
+                    android:textColor="@color/colorPrimary" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/cancellation_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:orientation="horizontal">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancellation_accept"
+            style="@style/materialButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:text="Decline"
+            android:textColor="@color/textColor" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancellation_decline"
+            style="@style/materialButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"
+            android:text="Accept" />
+    </LinearLayout>
+
+
+</RelativeLayout>

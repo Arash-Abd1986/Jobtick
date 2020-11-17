@@ -21,6 +21,8 @@ public class ExtendedAlertBox extends FrameLayout {
     private MaterialButton mButton;
     private boolean hasButton;
 
+    private OnExtendedAlertButtonClickListener onExtendedAlertButtonClickListener;
+
     public ExtendedAlertBox(Context context) {
         this(context, null);
     }
@@ -58,6 +60,10 @@ public class ExtendedAlertBox extends FrameLayout {
             mButton.setVisibility(View.VISIBLE);
         else
             mButton.setVisibility(View.GONE);
+
+        mButton.setOnClickListener(v -> {
+            onExtendedAlertButtonClickListener.onExtendedAlertButtonClick();
+        });
     }
 
 
@@ -90,6 +96,19 @@ public class ExtendedAlertBox extends FrameLayout {
             this.mButton.setVisibility(View.VISIBLE);
         else
             this.mButton.setVisibility(View.GONE);
+    }
+
+    public OnExtendedAlertButtonClickListener getOnExtendedAlertButtonClickListener() {
+        return onExtendedAlertButtonClickListener;
+    }
+
+    public void setOnExtendedAlertButtonClickListener(OnExtendedAlertButtonClickListener onExtendedAlertButtonClickListener) {
+        this.onExtendedAlertButtonClickListener = onExtendedAlertButtonClickListener;
+    }
+
+    public interface OnExtendedAlertButtonClickListener {
+
+        void onExtendedAlertButtonClick();
     }
 }
 

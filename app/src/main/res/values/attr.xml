@@ -86,11 +86,15 @@
 
     </declare-styleable>
 
+    <attr name="eTitle" format="string"/>
+    <attr name="eContent" format="string"/>
+    <attr name="eHint" format="string"/>
+
 
     <declare-styleable name="ExtendedEntryText">
-        <attr name="eTitle" format="string"/>
-        <attr name="eContent" format="string"/>
-        <attr name="eHint" format="string"/>
+        <attr name="eTitle"/>
+        <attr name="eContent"/>
+        <attr name="eHint" />
         <attr name="eInputType" format="enum">
             <enum name="text" value="0"/>
             <enum name="integer" value="1"/>
@@ -116,6 +120,13 @@
         <attr name="eAlertTitle" format="string"/>
         <attr name="eAlertButtonText" format="string"/>
         <attr name="eAlertHasButton" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="ExtendedCommentText">
+        <attr name="eTitle"/>
+        <attr name="eContent"/>
+        <attr name="eHint"/>
+        <attr name="eIsMandatory" format="boolean"/>
     </declare-styleable>
 
 

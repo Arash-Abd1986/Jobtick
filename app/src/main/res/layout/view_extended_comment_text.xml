@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_toStartOf="@id/counter"
+        android:focusable="false"
+        android:text="First Name"
+        android:textAppearance="@style/materialText_600_12"
+        android:textColor="@color/colorPrimary" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/counter"
+        style="@style/materialText_600_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:text="0/100"
+        android:gravity="end|center_vertical"
+        android:textColor="@color/colorGrayC9C9C9" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="16dp"
+        android:layout_gravity="top"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        android:scrollHorizontally="true"
+        android:background="@null"
+        android:gravity="top"
+        android:inputType="textMultiLine|textCapSentences|textNoSuggestions"
+        android:minLines="1"
+        android:maxLines="5"
+        android:textAppearance="@style/materialText_500_14"
+        android:textColor="@color/textColor"
+        tools:text="sedighi.66@gmail.com" />
+
+
+</RelativeLayout>

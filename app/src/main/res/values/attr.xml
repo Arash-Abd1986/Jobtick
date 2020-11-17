@@ -126,6 +126,8 @@
         <attr name="eTitle"/>
         <attr name="eContent"/>
         <attr name="eHint"/>
+        <attr name="eMinCharSize" format="integer"/>
+        <attr name="eMaxCharSize" format="integer"/>
         <attr name="eIsMandatory" format="boolean"/>
     </declare-styleable>
 

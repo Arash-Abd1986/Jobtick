@@ -21,6 +21,9 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
     private String eContent;
     private String eHint;
     private boolean isMandatory;
+    private int eMinSize;
+    private int eMaxSize;
+
     private TextView textView;
     private TextView counter;
     private EditText editText;
@@ -46,6 +49,8 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
             eTitle = sharedAttribute.getString(R.styleable.ExtendedCommentText_eTitle);
             eContent = sharedAttribute.getString(R.styleable.ExtendedCommentText_eContent);
             eHint = sharedAttribute.getString(R.styleable.ExtendedCommentText_eHint);
+            eMinSize = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMinCharSize, 10);
+            eMaxSize = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMinCharSize, 100);
             isMandatory = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_eIsMandatory, false);
         } finally {
             sharedAttribute.recycle();
@@ -89,6 +94,58 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
         });
     }
 
+    @Override
+    public void onFocusChange(View view, boolean focused) {
+        if (focused)
+            setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_primary);
+        else
+            setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+        if (isMandatory) {
+            if (!s.toString().equalsIgnoreCase("")) {
+                int length = s.length();
+                if (length < eMinSize) {
+                    counter.setText(s.length() + "/" + eMinSize + "+");
+                    counter.setTextColor(getResources().getColor(R.color.red_600));
+                } else if (length <= eMaxSize) {
+                    counter.setText(s.length() + "/" + eMaxSize);
+                    counter.setTextColor(getResources().getColor(R.color.green));
+                } else {
+                    editText.setText(s.subSequence(0, eMaxSize));
+                    editText.setSelection(eMaxSize);
+                }
+            } else {
+                counter.setText(s.length() + "/" + eMinSize + "+");
+                counter.setTextColor(getResources().getColor(R.color.red_600));
+            }
+        } else {
+            if (!s.toString().equalsIgnoreCase("")) {
+                int length = s.length();
+                if (length <= eMaxSize) {
+                    counter.setText(s.length() + "/" + eMaxSize);
+                    counter.setTextColor(getResources().getColor(R.color.green));
+                } else {
+                    editText.setText(s.subSequence(0, eMaxSize));
+                    editText.setSelection(eMaxSize);
+                }
+            } else {
+                counter.setText("0/" + eMaxSize);
+                counter.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
+            }
+        }
+    }
 
     public void setError(CharSequence error) {
         editText.setError(error);
@@ -118,56 +175,19 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
         this.editText.setText(eContent);
     }
 
-    @Override
-    public void onFocusChange(View view, boolean focused) {
-        if (focused)
-            setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_primary);
-        else
-            setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
+    public int geteMinSize() {
+        return eMinSize;
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    public void seteMinSize(int eMinSize) {
+        this.eMinSize = eMinSize;
     }
 
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    public int geteMaxSize() {
+        return eMaxSize;
     }
 
-    @Override
-    public void afterTextChanged(Editable s) {
-
-        if (isMandatory) {
-            if (!s.toString().equalsIgnoreCase("")) {
-                int length = s.length();
-                if (length < 25) {
-                    counter.setText(s.length() + "/25+");
-                    counter.setTextColor(getResources().getColor(R.color.red_600));
-                } else if (length <= 300) {
-                    counter.setText(s.length() + "/300");
-                    counter.setTextColor(getResources().getColor(R.color.green));
-                } else {
-                    editText.setText(s.subSequence(0, 300));
-                    editText.setSelection(300);
-                }
-            } else {
-                counter.setText("0/25+");
-                counter.setTextColor(getResources().getColor(R.color.red_600));
-            }
-        } else {
-            if (!s.toString().equalsIgnoreCase("")) {
-                int length = s.length();
-                if (length <= 100) {
-                    counter.setText(s.length() + "/100");
-                    counter.setTextColor(getResources().getColor(R.color.green));
-                } else {
-                    editText.setText(s.subSequence(0, 100));
-                    editText.setSelection(100);
-                }
-            }else{
-                counter.setText("0/100");
-                counter.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
-            }
-        }
+    public void seteMaxSize(int eMaxSize) {
+        this.eMaxSize = eMaxSize;
     }
 }

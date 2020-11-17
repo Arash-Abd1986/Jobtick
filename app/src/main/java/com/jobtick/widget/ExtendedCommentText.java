@@ -50,7 +50,7 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
             eContent = sharedAttribute.getString(R.styleable.ExtendedCommentText_eContent);
             eHint = sharedAttribute.getString(R.styleable.ExtendedCommentText_eHint);
             eMinSize = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMinCharSize, 10);
-            eMaxSize = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMinCharSize, 100);
+            eMaxSize = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMaxCharSize, 100);
             isMandatory = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_eIsMandatory, false);
         } finally {
             sharedAttribute.recycle();
@@ -68,10 +68,22 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
         textView.setText(eTitle);
         editText.setText(eContent);
         editText.setHint(eHint);
-
         editText.setOnFocusChangeListener(this);
         editText.addTextChangedListener(this);
         setOnClickListener(this);
+
+        init();
+    }
+
+    private void init(){
+        if(isMandatory){
+            counter.setText("0/" + eMinSize + "+");
+            counter.setTextColor(getResources().getColor(R.color.red_600));
+        }
+        else {
+            counter.setText("0/" + eMaxSize);
+            counter.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
+        }
     }
 
     @Override

@@ -54,7 +54,8 @@
         <activity android:name=".activities.Dashboard2Activity" />
         <activity android:name=".activities.PaymentHistoryActivity" />
         <activity android:name=".cancellations.CancellationRequestActivity" />
-        <activity android:name=".cancellations.CancellationDeclineActivity" />
+        <activity android:name=".cancellations.CancellationDeclineActivity" android:windowSoftInputMode="adjustResize">
+        </activity>
         <activity android:name=".cancellations.CancellationAcceptedActivity" />
         <activity android:name=".cancellations.CancellationRequestSubmittedActivity" />
         <activity

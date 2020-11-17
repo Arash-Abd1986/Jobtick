@@ -70,9 +70,7 @@ import timber.log.Timber;
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 import static com.jobtick.utils.ConstantKey.PUSH_CONVERSATION_ID;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class InboxFragment extends Fragment implements InboxListAdapter.OnItemClickListener,
         SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
@@ -190,9 +188,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
         adapter.setOnItemClickListener(this);
         swipeRefresh.setRefreshing(true);
         doApiCall();
-        /*
-         * add scroll listener while user reach in bottom load more will call
-         */
+
         recyclerView.addOnScrollListener(new PaginationListener(layoutManager) {
             @Override
             protected void loadMoreItems() {

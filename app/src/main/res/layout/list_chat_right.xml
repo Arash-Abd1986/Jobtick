@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:paddingStart="@dimen/spacing_middle"
     android:paddingLeft="@dimen/spacing_middle"
@@ -16,37 +17,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.jobtick.TextView.TextViewRegular
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/materialText_500_12"
             android:id="@+id/txtOnlyDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/spacing_medium"
-            android:background="@drawable/rounded_date"
+            android:background="@drawable/rounded_date_dark"
             android:paddingLeft="@dimen/spacing_middle"
             android:paddingRight="@dimen/spacing_middle"
-            android:text="11-06-2016"
+            tools:text="11-06-2016"
             android:textColor="@color/white"
-            android:textSize="10sp"
-            android:visibility="visible" />
+            android:visibility="gone" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layoutDate"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true">
+        android:background="@drawable/shape_tab_primary"
+        android:layout_alignParentEnd="true">
 
-        <com.jobtick.TextView.TextViewRegular
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/materialText_500_14"
             android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="@dimen/spacing_medium"
-            android:text="Me"
-            android:textSize="12sp"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:text="@string/me"
             android:visibility="gone" />
 
         <RelativeLayout
@@ -55,20 +55,17 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtName"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/spacing_medium">
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_500_14"
                 android:id="@+id/txtShowMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/bg_right"
                 android:padding="@dimen/spacing_middle"
-                android:text="Username"
+                tools:text="Username"
                 android:textColor="@color/white"
-                android:textSize="14sp"
                 android:visibility="visible" />
 
             <ImageView
@@ -76,15 +73,15 @@
                 android:layout_width="@dimen/paddingImgPath"
                 android:layout_height="@dimen/paddingImgPath"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:adjustViewBounds="true"
                 android:background="@drawable/bg_right"
                 android:gravity="center_vertical"
-                android:padding="@dimen/spacing_medium"
+                android:padding="10dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/image_load"
                 android:transitionName="@string/app_name"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:contentDescription="@string/todo" />
         </RelativeLayout>
 
         <LinearLayout
@@ -92,30 +89,30 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/textLayout"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/spacing_xsmall"
+            android:layout_marginBottom="@dimen/spacing_xsmall"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_500_10"
                 android:id="@+id/txtMsgTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/spacing_medium"
-                android:layout_marginRight="@dimen/spacing_medium"
                 android:gravity="end"
-                android:text="11:40"
-                android:textColor="@color/gray"
-                android:textSize="10sp" />
+                android:padding="10dp"
+                tools:text="11:40"
+                android:textColor="@color/gray"/>
 
             <ImageView
                 android:id="@+id/imgMsgSeen"
-                android:layout_width="@dimen/spacing_middle"
-                android:visibility="gone"
-                android:layout_height="@dimen/spacing_middle"
-                app:srcCompat="@drawable/ic_check_delivery" />
+                android:layout_width="25dp"
+                android:visibility="visible"
+                android:layout_height="25dp"
+                android:padding="5dp"
+                app:srcCompat="@drawable/ic_vector__7_"
+                android:contentDescription="@string/todo" />
         </LinearLayout>
     </RelativeLayout>
-
-
 </RelativeLayout>

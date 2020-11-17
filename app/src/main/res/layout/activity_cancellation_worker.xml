@@ -99,7 +99,7 @@
                 android:layout_height="120dp"
                 android:layout_marginTop="24dp"
                 app:eTitle="@string/comments_optional"
-                app:eIsMandatory="true"/>
+                app:eIsMandatory="false"/>
 
 
             <com.google.android.material.textview.MaterialTextView

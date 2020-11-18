@@ -191,11 +191,22 @@
                 android:background="@drawable/taske_details_header"
                 android:orientation="vertical">
 
+                <com.jobtick.widget.ExtendedAlertBox
+                    android:id="@+id/alert_box"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_16sp"
+                    android:layout_marginTop="@dimen/_18sp"
+                    android:layout_marginEnd="@dimen/_16sp"
+                    app:eAlertButtonText="@string/view_cancellation_request"
+                    app:eAlertTitle="You have requested to cancel this job on 9th Dec. 2020 9:45 PM" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginStart="@dimen/_16sp"
-                    android:layout_marginTop="@dimen/_12sp"
+                    android:layout_marginTop="@dimen/_24sp"
                     android:layout_marginEnd="@dimen/_16sp"
                     android:layout_marginBottom="@dimen/spacing_middle"
                     android:orientation="horizontal">

@@ -369,9 +369,10 @@ public class FilterInPersonFragment extends Fragment {
             // Retrieve the information from the selected location's CarmenFeature
 
             CarmenFeature carmenFeature = PlacePicker.getPlace(data);
+            //No need to active geodecode object
             Helper.Logger(TAG, "CarmenFeature = " + carmenFeature.toJson());
-            GeocodeObject geocodeObject = Helper.getGeoCodeObject(getActivity(), carmenFeature.center().latitude()
-                    , carmenFeature.center().longitude());
+//            GeocodeObject geocodeObject = Helper.getGeoCodeObject(getActivity(), carmenFeature.center().latitude()
+//                    , carmenFeature.center().longitude());
             txtSuburb.setText(carmenFeature.placeName());
 
             //txtSuburb.setText(geocodeObject.getAddress());

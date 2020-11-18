@@ -23,45 +23,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <FrameLayout
+            <com.jobtick.widget.ExtendedAlertBox
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:background="@drawable/rectangle_round_corners_red">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:background="@drawable/rectangle_round_corners_grey"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/spacing_large">
-
-                    <com.rishabhharit.roundedimageview.RoundedImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_alert" />
-
-                    <View
-                        android:layout_width="@dimen/spacing_large"
-                        android:layout_height="match_parent" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:lineHeight="17dp"
-                        android:text="Your payment will be secured till gotting your job done."
-                        android:textAppearance="@style/materialText_400_12"
-                        android:textColor="@color/textColor" />
-
-                </LinearLayout>
-
-            </FrameLayout>
-
+                app:eAlertTitle="Your payment will be secured till gotting your job done."
+                app:eAlertHasButton="false"/>
 
             <LinearLayout
                 android:id="@+id/card_view_user"

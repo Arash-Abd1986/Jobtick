@@ -4,8 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -15,7 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.EditText.EditTextRegular;
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.models.TaskModel;
@@ -23,6 +22,7 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.widget.ExtendedCommentText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,10 +40,10 @@ public class CancellationDeclineActivity extends ActivityBase {
     private static final String TAG = CancellationDeclineActivity.class.getName();
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
-    @BindView(R.id.edt_comments)
-    EditTextRegular edtComments;
-    @BindView(R.id.lyt_btn_submit)
-    LinearLayout lytBtnSubmit;
+    @BindView(R.id.comment_box)
+    ExtendedCommentText edtComments;
+    @BindView(R.id.submit)
+    MaterialButton lytBtnSubmit;
 
     private SessionManager sessionManager;
     private TaskModel taskModel;
@@ -61,19 +61,30 @@ public class CancellationDeclineActivity extends ActivityBase {
 
         Bundle bundle = getIntent().getExtras();
         cancellationID = bundle.getInt(ConstantKey.KEY_TASK_CANCELLATION_ID);
-            isMyTask = bundle.getBoolean(ConstantKey.IS_MY_TASK);
+        isMyTask = bundle.getBoolean(ConstantKey.IS_MY_TASK);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-
-
+        initToolbar();
     }
 
-    @OnClick(R.id.lyt_btn_submit)
+    private void initToolbar() {
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Decline Cancellation");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.submit)
     public void onViewClicked() {
         if(validation()){
             cancellationDecline(edtComments.getText().toString().trim());

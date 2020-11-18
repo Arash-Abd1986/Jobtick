@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +83,9 @@ import com.jobtick.utils.Helper;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.utils.TimeHelper;
 import com.jobtick.utils.Tools;
+import com.jobtick.widget.ExtendedAlertBox;
 import com.jobtick.widget.SpacingItemDecoration;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -116,7 +119,10 @@ import static com.jobtick.utils.Constant.URL_CREATE_RESCHEDULE;
 import static com.jobtick.utils.Constant.URL_TASKS;
 
 public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener,
-        QuestionListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener {
+        QuestionListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, ExtendedAlertBox.OnExtendedAlertButtonClickListener {
+
+    @BindView(R.id.alert_box)
+    ExtendedAlertBox alertBox;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
@@ -356,6 +362,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_details);
         ButterKnife.bind(this);
+        alertBox.setOnExtendedAlertButtonClickListener(this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mBehavior = BottomSheetBehavior.from(bottom_sheet);
         requestAcceptListener = this;
@@ -453,9 +460,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING)) {
                             if (taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId())) {
                                 //sent a Cancellation request
+                                showCancellationCard(false, false);
                                 txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_SENT);
                             } else {
                                 //received Cancellation request
+                                showCancellationCard(false, true);
                                 txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_RECEIVED);
                             }
                             cardMakeAnOffer.setVisibility(View.VISIBLE);
@@ -489,9 +498,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING)) {
                                 if (taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId())) {
                                     //sent a Cancellation request
+                                    showCancellationCard(true, true);
                                     txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_SENT);
                                 } else {
                                     //received Cancellation request
+                                    showCancellationCard(true, false);
                                     txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_RECEIVED);
                                 }
                                 cardMakeAnOffer.setVisibility(View.VISIBLE);
@@ -860,6 +871,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                 JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+                                String ss = jsonObject.getString("data");
                                 taskModel = new TaskModel().getJsonToModel(jsonObject_data, TaskDetailsActivity.this);
 
                                 setOwnerTask();
@@ -1994,6 +2006,22 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         doApiCall(Constant.URL_OFFERS + "/" + id);
     }
 
+    @Override
+    public void onExtendedAlertButtonClick() {
+        Intent intent;
+        if(tickerCancels && isTicker){
+            intent = new Intent(this, TTCancellationSummaryActivity.class);
+        }else if(tickerCancels && !isTicker){
+            intent = new Intent(this, TPCancellationSummaryActivity.class);
+        }else if(!tickerCancels && isTicker){
+            intent = new Intent(this, PTCancellationSummaryActivity.class);
+        }else {
+            intent = new Intent(this, PPCancellationSummaryActivity.class);
+        }
+
+        startActivityForResult(intent, 1010);
+    }
+
     private static class AdapterImageSlider extends PagerAdapter {
         private final Activity act;
         private ArrayList<AttachmentModel> items;
@@ -2603,4 +2631,42 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         mBottomSheetDialog.show();
         mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
+
+    // we have for possibillity to support,
+    // ticker cancels, user is ticker
+    // ticker cancels, user is poster
+    // poster cancels, user is poster
+    // poster cancels, user is ticker
+    private boolean isTicker = false;
+    private boolean tickerCancels = false;
+    @SuppressLint("StringFormatMatches")
+    private void showCancellationCard(boolean isTicker, boolean tickerCancels){
+        alertBox.setVisibility(View.VISIBLE);
+        this.isTicker = isTicker;
+        this.tickerCancels = tickerCancels;
+
+        if(isTicker && tickerCancels || !isTicker && !tickerCancels) {
+            alertBox.setTitle(Html.fromHtml("<b>You</b> have requested to cancel this job on <b>" +
+                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>"));
+            txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_SENT);
+        }
+        else{
+            String cancelledByWho = taskModel.getCancellation().getRequesterId().toString();
+            alertBox.setTitle(Html.fromHtml("<b>" + cancelledByWho + "</b> " +
+                    "has requested to cancel this job on <b>" +
+                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>"));
+            txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_SENT);
+        }
+    }
+
+//    private String findCancellerName(){
+//
+//        ArrayList<OfferModel> offers = taskModel.getOffers();
+//
+//        OfferModel offerModel = offers.stream().filter(offer -> Objects.equals(
+//                offer.getWorker().getId(),
+//                taskModel.getCancellation().getRequesterId())).collect(Collectors.toList()).get(0);
+//
+//        return offerModel.getWorker().getName();
+//    }
 }

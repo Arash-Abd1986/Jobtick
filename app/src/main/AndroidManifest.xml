@@ -14,8 +14,6 @@
     <uses-feature
         android:name="android.hardware.camera.front"
         android:required="false" />
-
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -36,12 +34,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.TTCancellationSummaryActivity"/>
+        <activity android:name=".activities.TPCancellationSummaryActivity"/>
+        <activity android:name=".activities.PTCancellationSummaryActivity"/>
+        <activity android:name=".activities.PPCancellationSummaryActivity"/>
         <activity android:name=".incrementbudget.IncreaseBudgetRequestToPosterActivity" />
         <activity android:name=".incrementbudget.IncrementBudgetRequestViewActivity" />
         <activity android:name=".incrementbudget.IncrementBudgetDeclineActivity" />
         <activity android:name=".incrementbudget.IncreaseBudgetActivity" />
         <activity android:name=".incrementbudget.IncreaseBudgetFromPosterActivity" />
-
         <activity android:name=".activities.NotificationSettings" />
 
         <meta-data
@@ -53,11 +54,16 @@
         <activity android:name=".activities.Dashboard2Activity" />
         <activity android:name=".activities.PaymentHistoryActivity" />
         <activity android:name=".cancellations.CancellationRequestActivity" />
-        <activity android:name=".cancellations.CancellationDeclineActivity" />
+        <activity android:name=".cancellations.CancellationDeclineActivity" android:windowSoftInputMode="adjustResize">
+        </activity>
         <activity android:name=".cancellations.CancellationAcceptedActivity" />
         <activity android:name=".cancellations.CancellationRequestSubmittedActivity" />
-        <activity android:name=".cancellations.CancellationWorkerActivity" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".cancellations.CancellationPosterActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".cancellations.CancellationWorkerActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".cancellations.CancellationPosterActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".cancellations.CancellationDeclinedActivity" />
         <activity android:name=".cancellations.CancellationSubmitedActivity" />
         <activity android:name=".activities.LeaveReviewActivity" />
@@ -75,7 +81,9 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activities.PortfolioActivity" />
         <activity android:name=".activities.MakeAnOfferActivity" />
-        <activity android:name=".activities.TaskDetailsActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".activities.TaskDetailsActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activities.NotificationActivity" />
         <activity android:name=".activities.CompleteMessageActivity" />
         <activity android:name=".activities.NewTaskAlertsActivity" />
@@ -104,9 +112,9 @@
         <activity android:name=".activities.UserProfileActivity" />
         <activity android:name=".activities.WebViewActivity" />
         <activity android:name=".activities.ReportActivity" />
-        <activity android:name=".activities.EmailNotificationsSettingsActivity"/>
-        <activity android:name=".activities.PushNotificationsSettingsActivity"/>
-        <activity android:name=".activities.SMSNotificationsSettingsActivity"/>
+        <activity android:name=".activities.EmailNotificationsSettingsActivity" />
+        <activity android:name=".activities.PushNotificationsSettingsActivity" />
+        <activity android:name=".activities.SMSNotificationsSettingsActivity" />
         <activity android:name=".activities.MobileOtpVerifyActivity" />
         <activity android:name=".activities.ZoomImageActivity" />
         <activity android:name=".activities.VideoPlayerActivity" />
@@ -121,11 +129,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".activities.AuthActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -152,18 +159,13 @@
         </activity>
         <activity android:name=".activities.ActivityBase" />
         <activity android:name=".activities.ViewAllQuestionsActivity" />
-
         <activity android:name=".activities.RescheduleReqFromWorkerActivity" />
-
         <activity android:name=".activities.SinginSingupAcitivity" />
         <activity android:name=".activities.CategoryListActivity" />
         <activity android:name=".activities.RescheduleDeclineActivity" />
         <activity android:name=".activities.OnboardActivity" />
         <activity android:name=".activities.SearchCategoryActivity" />
-
-        <activity android:name=".activities.SearchTaskActivity">
-
-        </activity>
+        <activity android:name=".activities.SearchTaskActivity"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -174,10 +176,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
         <meta-data
             android:name="com.onesignal.NotificationOpened.DEFAULT"
             android:value="DISABLE" />
-
 
         <service
             android:name=".utils.NotificationExtenderBareBonesExample"
@@ -187,9 +189,10 @@
                 <action android:name="com.onesignal.NotificationExtender" />
             </intent-filter>
         </service>
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-
     </application>
+
 </manifest>

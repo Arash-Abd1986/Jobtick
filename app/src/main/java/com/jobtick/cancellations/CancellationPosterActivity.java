@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -21,7 +20,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
-import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.TaskDetailsActivity;
@@ -31,6 +29,7 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.widget.ExtendedCommentText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,16 +59,12 @@ public class CancellationPosterActivity extends ActivityBase implements RadioGro
     RadioButton rbReason5;
     @BindView(R.id.rg_reason_message)
     RadioGroup rgReasonMessage;
-    @BindView(R.id.edt_comments)
-    EditText edtComments;
-    @BindView(R.id.txt_cancellation_fee)
-    TextView txtCancellationFee;
 
     @BindView(R.id.btn_submit)
     MaterialButton btnSubmit;
 
-    @BindView(R.id.edt_description_counter)
-    EditText edtDescriptionCounter;
+    @BindView(R.id.comment_box)
+    ExtendedCommentText commentText;
 
 
     private String str_SLUG = null;
@@ -105,30 +100,6 @@ public class CancellationPosterActivity extends ActivityBase implements RadioGro
 
         getCancellationReasonList();
 
-        edtComments.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!s.toString().equalsIgnoreCase("")) {
-                    int length = s.length();
-                    if (length <= 100) {
-                        edtDescriptionCounter.setText(s.length() + "/100");
-                        edtDescriptionCounter.setTextColor(getResources().getColor(R.color.green));
-                    }else{
-                        edtComments.setText(s.subSequence(0, 100));
-                        edtComments.setSelection(100);
-                    }
-                }
-            }
-        });
-
         rgReasonMessage.setOnCheckedChangeListener(this);
     }
 
@@ -160,7 +131,7 @@ public class CancellationPosterActivity extends ActivityBase implements RadioGro
                             if (jsonObject.getBoolean("success")) {
                                 if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                     JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                                    txtCancellationFee.setText("$ " + jsonObject_data.getString("max_fee_amount"));
+                                    String ss = jsonObject.getString("data");
 
                                 }
                             } else {
@@ -340,8 +311,8 @@ public class CancellationPosterActivity extends ActivityBase implements RadioGro
     @OnClick(R.id.btn_submit)
     public void onViewClicked() {
         String str_comment = null;
-        if (TextUtils.isEmpty(edtComments.getText().toString().trim())) {
-            str_comment = edtComments.getText().toString().trim();
+        if (TextUtils.isEmpty(commentText.getText().toString().trim())) {
+            str_comment = commentText.getText().toString().trim();
         }
 
         cancellationSubmit(reason, str_comment);

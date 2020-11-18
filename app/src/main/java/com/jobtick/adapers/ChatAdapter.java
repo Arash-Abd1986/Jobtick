@@ -15,12 +15,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.jobtick.activities.ZoomImageActivity;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.R;
 import com.jobtick.models.ChatModel;
 import com.jobtick.utils.ImageUtil;
-import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.Tools;
 
 import org.jetbrains.annotations.NotNull;
@@ -37,9 +37,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int MSG_TYPE_RIGHT = 1;
     private static final int MSG_TYPE_LEFT = 2;
 
-    private SessionManager sessionManager;
     private final Context context;
-    private OnItemClickListener mOnItemClickListener;
     private final String username;
     private final Integer sender_id;
 
@@ -47,8 +45,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         void onItemClick(View view, ChatModel obj, int position, String action);
     }
 
-    public void setOnItemClickListener(OnItemClickListener mItemClickListener) {
-        this.mOnItemClickListener = mItemClickListener;
+    public void setOnItemClickListener() {
     }
 
     private boolean isLoaderVisible = false;
@@ -57,7 +54,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public ChatAdapter(Context context, ArrayList<ChatModel> mItems, String username, Integer sender_id) {
         this.mItems = mItems;
         this.context = context;
-        this.sessionManager = new SessionManager(context);
+        //  SessionManager sessionManager = new SessionManager(context);
         this.username = username;
         this.sender_id = sender_id;
     }
@@ -124,7 +121,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         notifyItemChanged(this.mItems.size());
     }
 
-    public void getEventCall(ChatModel conversationModel) {
+    /*public void getEventCall(ChatModel conversationModel) {
         int new_position = 0;
         boolean is_available = false;
         for (int i = 0; this.mItems.size() > i; i++) {
@@ -133,7 +130,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 is_available = true;
             }
         }
-        if (is_available) {
+       if (is_available) {
             if (new_position != 0) {
                 mItems.remove(new_position);
                 mItems.add(0, conversationModel);
@@ -148,7 +145,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             mItems.add(0, conversationModel);
             notifyItemInserted(0);
         }
-    }
+    } */
 
     public void addLoading() {
         isLoaderVisible = true;
@@ -285,11 +282,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
 
             if (position == mItems.size() - 1) {
-                if (item.getIsSeen().equals(1)) {
-                    imgMsgSeen.setImageResource(R.drawable.ic_vector__7_);
-                } else {
-                    imgMsgSeen.setImageResource(R.drawable.ic_vector__7_);
-                }
+                imgMsgSeen.setImageResource(R.drawable.ic_vector__7_);
             } else {
                 imgMsgSeen.setVisibility(View.GONE);
             }
@@ -389,8 +382,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             long timeMilliSeconds = 0;
             try {
                 timeMilliSeconds = Tools.dateToMillis(item.getCreatedAt());
-            }
-            catch (Exception ignored) {
+            } catch (Exception ignored) {
             }
 
             if (timeMilliSeconds > 0) {

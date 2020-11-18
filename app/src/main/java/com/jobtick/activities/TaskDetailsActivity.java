@@ -25,7 +25,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
@@ -351,17 +350,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private QuestionListAdapter questionListAdapter;
     private boolean noActionAvailable = false;
     private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
-
     private AttachmentAdapter adapter;
-
     public int pushOfferID;
     public int pushQuestionID;
-
     private BottomSheetDialog mBottomSheetDialog;
     private BottomSheetBehavior mBehavior;
-
     private final HashMap<Requirement, Boolean> requirementState = new HashMap<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -370,9 +364,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         ButterKnife.bind(this);
         alertBox.setOnExtendedAlertButtonClickListener(this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         mBehavior = BottomSheetBehavior.from(bottom_sheet);
-
         requestAcceptListener = this;
         widthDrawListener = this;
 
@@ -515,10 +507,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 }
                                 cardMakeAnOffer.setVisibility(View.VISIBLE);
                                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
-                            } else if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_DECLINED)) {
-
-                            } else if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_ACCEPTED)) {
-
                             }
                         }
 
@@ -849,7 +837,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void initComponentScroll() {
-        NestedScrollView nested_content = (NestedScrollView) findViewById(R.id.nested_scroll_view);
+        NestedScrollView nested_content = findViewById(R.id.nested_scroll_view);
         nested_content.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             if (scrollY < oldScrollY) { // up
                 animateFab(false);
@@ -1272,7 +1260,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     toolbar.setNavigationIcon(d);
                     toolbar.setTitleTextColor(Color.BLACK);
                     toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot);
-
                     if (taskModel.getBookmarkID() != null) {
                         toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_black);
                     } else {
@@ -1308,24 +1295,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         bundle.putString(ConstantKey.TITLE, "Create Task");
         update_task.putExtras(bundle);
         startActivity(update_task);
-    }
-
-    private ArrayList<String> convertObjectToArrayList(DueTimeModel
-                                                               dueTime, ArrayList<String> strings) {
-        if (dueTime.getMidday()) {
-            strings.add("Midday");
-        }
-        if (dueTime.getEvening()) {
-            strings.add("Evening");
-        }
-        if (dueTime.getAfternoon()) {
-            strings.add("Afternoon");
-        }
-        if (dueTime.getMorning()) {
-            strings.add("Morning");
-        }
-
-        return strings;
     }
 
     private void EditTask(TaskModel taskModel) {
@@ -1428,11 +1397,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
         if (taskModel.getAttachments() == null || taskModel.getAttachments().size() == 0) {
             AttachmentModel attachment = new AttachmentModel();
-            if (taskModel.getTaskType().equalsIgnoreCase(ConstantKey.PHYSICAL)) {
+          /*  if (taskModel.getTaskType().equalsIgnoreCase(ConstantKey.PHYSICAL)) {
                 attachment.setDrawable(R.drawable.banner_red);
             } else {
                 attachment.setDrawable(R.drawable.banner_green);
-            }
+            }*/
             ArrayList<AttachmentModel> attachments = new ArrayList<>();
             attachments.add(attachment);
             taskModel.setAttachments(attachments);
@@ -1734,11 +1703,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
         txtMessage.setText("Are you sure all work is done, and ask to release to money?");
 
-        ((AppCompatButton) dialog.findViewById(R.id.btn_yes)).setOnClickListener(v -> {
+        dialog.findViewById(R.id.btn_yes).setOnClickListener(v -> {
             submitAskToReleaseMoney();
             dialog.dismiss();
         });
-        ((AppCompatButton) dialog.findViewById(R.id.btn_no)).setOnClickListener(v -> dialog.dismiss());
+        dialog.findViewById(R.id.btn_no).setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
         dialog.getWindow().setAttributes(lp);
@@ -1830,11 +1799,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
         txtMessage.setText("Are you sure all work is done, and release to money?");
 
-        ((AppCompatButton) dialog.findViewById(R.id.btn_yes)).setOnClickListener((View.OnClickListener) v -> {
+        dialog.findViewById(R.id.btn_yes).setOnClickListener(v -> {
             submitReleaseMoney();
             dialog.dismiss();
         });
-        ((AppCompatButton) dialog.findViewById(R.id.btn_no)).setOnClickListener((View.OnClickListener) v -> dialog.dismiss());
+        dialog.findViewById(R.id.btn_no).setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
         dialog.getWindow().setAttributes(lp);
@@ -1924,7 +1893,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
         txtMessage.setText(message);
 
-        ((AppCompatButton) dialog.findViewById(R.id.btn_ok)).setOnClickListener((View.OnClickListener) v -> dialog.dismiss());
+        dialog.findViewById(R.id.btn_ok).setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
         dialog.getWindow().setAttributes(lp);
@@ -2057,10 +2026,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         private final Activity act;
         private ArrayList<AttachmentModel> items;
 
-        private interface OnItemClickListener {
-            void onItemClick(View view, AttachmentModel obj);
-        }
-
         public void setOnItemClickListener() {
         }
 
@@ -2087,7 +2052,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
         @Override
         public boolean isViewFromObject(@NotNull View view, @NotNull Object object) {
-            return view == ((RelativeLayout) object);
+            return view == object;
         }
 
         @Override
@@ -2101,14 +2066,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             if (attachment.getUrl() != null) {
                 ImageUtil.displayImage(image, attachment.getUrl(), null);
             } else {
-                Tools.displayImageOriginal(act, image, attachment.getDrawable());
-
-                image.setAdjustViewBounds(true);
                 if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
+                    Tools.displayImageOriginal(act, image, attachment.getDrawable());
+                    image.setAdjustViewBounds(true);
                     image.setBackgroundResource(R.drawable.banner_green);
                 } else {
+                    Tools.displayImageOriginal(act, image, attachment.getDrawable());
+                    image.setAdjustViewBounds(true);
                     image.setBackgroundResource(R.drawable.banner_red);
                 }
+
                 image.setScaleType(ImageView.ScaleType.FIT_XY);
             }
             image.setOnClickListener(v1 -> {
@@ -2122,14 +2089,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 act.startActivity(intent);
             });
 
-            ((ViewPager) container).addView(v);
+            container.addView(v);
 
             return v;
         }
 
         @Override
         public void destroyItem(@NotNull ViewGroup container, int position, @NotNull Object object) {
-            ((ViewPager) container).removeView((RelativeLayout) object);
+            container.removeView((RelativeLayout) object);
 
         }
 
@@ -2403,7 +2370,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         hideProgressDialog();
                         e.printStackTrace();
                     }
-
                 },
                 error -> {
                     NetworkResponse networkResponse = error.networkResponse;
@@ -2419,7 +2385,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         hideProgressDialog();
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
-
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {

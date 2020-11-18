@@ -420,15 +420,11 @@ public class UserProfileActivity extends ActivityBase implements AttachmentAdapt
         txtFullName.setText(userAccountModel.getName());
         txtSuburb.setText(userAccountModel.getLocation());
         txtLastSeen.setText("Last Seen  " + userAccountModel.getLastOnline());
-
-
     }
 
     @OnClick(R.id.txt_btn_see_reviews)
     public void onViewClicked() {
         if (rbAsAPoster.isChecked()) {
-
-
             Bundle bundle = new Bundle();
             bundle.putInt(Constant.userID, userId);
             bundle.putString("WhoIs", Constant.AS_A_POSTER);

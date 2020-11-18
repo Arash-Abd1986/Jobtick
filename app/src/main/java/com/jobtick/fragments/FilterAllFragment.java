@@ -104,7 +104,7 @@ public class FilterAllFragment extends Fragment {
         }
         if (getArguments() != null) {
             if (getArguments().getParcelable(Constant.FILTER) != null) {
-                filterModel = (FilterModel) getArguments().getParcelable(Constant.FILTER);
+                filterModel = getArguments().getParcelable(Constant.FILTER);
                 if (filterModel != null && filterModel.getSection().equalsIgnoreCase(Constant.FILTER_ALL)) {
                     txtSuburb.setText(filterModel.getLocation());
                     txtDistanceKm.setText(String.format("%sKM", filterModel.getDistance()));
@@ -127,23 +127,20 @@ public class FilterAllFragment extends Fragment {
         seekbar();
         seekbarPrice();
 
-        txtSuburb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new PlaceAutocomplete.IntentBuilder()
-                        .accessToken(Mapbox.getAccessToken())
-                        .placeOptions(PlaceOptions.builder()
-                                // .backgroundColor(Helper.getAttrColor(taskCreateActivity, R.attr.colorBackground))
-                                .backgroundColor(filtersActivity.getResources().getColor(R.color.background))
-                                .limit(10)
-                                .country("AU")
+        txtSuburb.setOnClickListener(v -> {
+            Intent intent = new PlaceAutocomplete.IntentBuilder()
+                    .accessToken(Mapbox.getAccessToken())
+                    .placeOptions(PlaceOptions.builder()
+                            // .backgroundColor(Helper.getAttrColor(taskCreateActivity, R.attr.colorBackground))
+                            .backgroundColor(filtersActivity.getResources().getColor(R.color.background))
+                            .limit(10)
+                            .country("AU")
 
-                                /*.addInjectedFeature(home)
-                                .addInjectedFeature(work)*/
-                                .build(PlaceOptions.MODE_FULLSCREEN))
-                        .build(getActivity());
-                startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
-            }
+                            /*.addInjectedFeature(home)
+                            .addInjectedFeature(work)*/
+                            .build(PlaceOptions.MODE_FULLSCREEN))
+                    .build(getActivity());
+            startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
     }
 
@@ -216,23 +213,18 @@ public class FilterAllFragment extends Fragment {
 
         skPrice.getThumb(0).setValue(a);
         skPrice.getThumb(1).setValue(b);
-
-
     }
 
     private void seekbarPrice() {
-        skPrice.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
-            @Override
-            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
-                if (thumbIndex == 0) {
-                    //min value
-                    pMin = value;
-                } else {
-                    //max value
-                    pMax = value;
-                }
-                setSeekBarPrice(pMin, pMax);
+        skPrice.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) -> {
+            if (thumbIndex == 0) {
+                //min value
+                pMin = value;
+            } else {
+                //max value
+                pMax = value;
             }
+            setSeekBarPrice(pMin, pMax);
         });
     }
 
@@ -380,6 +372,7 @@ public class FilterAllFragment extends Fragment {
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.lyt_btn_save_filter)
     public void onViewClicked() {
         if (TextUtils.isEmpty(txtSuburb.getText().toString().trim())) {

@@ -83,13 +83,11 @@
         <attr name="csb_secondaryText" format="string"/>
 
         <attr name="csb_isShowText" format="boolean" />
-
     </declare-styleable>
 
     <attr name="eTitle" format="string"/>
     <attr name="eContent" format="string"/>
     <attr name="eHint" format="string"/>
-
 
     <declare-styleable name="ExtendedEntryText">
         <attr name="eTitle"/>

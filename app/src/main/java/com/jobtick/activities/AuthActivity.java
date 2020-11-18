@@ -676,10 +676,10 @@ public class AuthActivity extends ActivityBase {
                     map1.put("device_type", str_device);
                 if (str_fcm_token != null)
                     map1.put("fcm_token", str_fcm_token);
-                if (sessionManager.getLatitude() != null)
-                    map1.put("latitude", sessionManager.getLatitude());
-                if (sessionManager.getLongitude() != null)
-                    map1.put("longitude", sessionManager.getLongitude());
+//                if (sessionManager.getLatitude() != null)
+//                    map1.put("latitude", sessionManager.getLatitude());
+//                if (sessionManager.getLongitude() != null)
+//                    map1.put("longitude", sessionManager.getLongitude());
 
                 return map1;
             }
@@ -961,10 +961,10 @@ public class AuthActivity extends ActivityBase {
                             map1.put("fname", finalStr_fname);
                             map1.put("lname", finalStr_lname);
                             map1.put("email", str_email);
-                            // map1.put("password", str_password);
                             map1.put("device_token", str_device_id);
                             map1.put("device_type", str_device);
-                            map1.put("fcm_token", str_fcm_token);
+                            if(str_fcm_token != null && !str_fcm_token.isEmpty())
+                                map1.put("fcm_token", str_fcm_token);
                             map1.put("access_token", str_id_token);
                             map1.put("latitude", sessionManager.getLatitude());
                             map1.put("longitude", sessionManager.getLongitude());

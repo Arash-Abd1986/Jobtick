@@ -73,7 +73,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public int getItemViewType(int position) {
         if (isLoaderVisible) {
-            return position == mItems.size() - 1 ? VIEW_TYPE_LOADING : VIEW_TYPE_NORMAL;
+            return position == mItems.size() ? VIEW_TYPE_LOADING : VIEW_TYPE_NORMAL;
         } else {
             return VIEW_TYPE_NORMAL;
         }
@@ -92,12 +92,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public void addLoading() {
         isLoaderVisible = true;
         this.mItems.add(new TaskModel());
-        notifyItemInserted(this.mItems.size() - 1);
+        notifyItemInserted(this.mItems.size());
     }
 
     public void removeLoading() {
         isLoaderVisible = false;
-        int position = mItems.size() - 1;
+        int position = mItems.size();
         TaskModel item = getItem(position);
         if (item != null) {
             mItems.remove(position);

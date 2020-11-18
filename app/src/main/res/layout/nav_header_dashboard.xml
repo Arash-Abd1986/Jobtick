@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
+    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="bottom"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
@@ -30,8 +31,8 @@
 
     <ImageView
         android:id="@+id/img_verified_account"
-        android:layout_width="12dp"
-        android:layout_height="14dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:layout_gravity="center_vertical"
         android:background="@drawable/ic_shield" />
@@ -41,12 +42,14 @@
         android:id="@+id/txt_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Aaron Brooks"
+        tools:text="Mohammad khaled abdoljalil sileymeni khalend addayeh"
         android:textColor="@color/textColor"
+        android:lineHeight="20dp"
         android:textAppearance="@style/materialText_600_16"
         android:layout_toEndOf="@id/img_user_avatar"
-        android:layout_above="@+id/txt_account_level"
+        android:layout_alignTop="@+id/img_user_avatar"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="8dp" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -57,8 +60,8 @@
         android:textColor="@color/grey_70"
         android:textAppearance="@style/materialText_400_12"
         android:layout_toEndOf="@id/img_user_avatar"
-        android:layout_above="@id/btn_cashout"
-        android:layout_marginBottom="28dp"
+        android:layout_alignBottom="@+id/holder_img_verified"
+        android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"/>
 
     <androidx.cardview.widget.CardView

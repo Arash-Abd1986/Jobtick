@@ -41,10 +41,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.BuildConfig;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
-import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.adapers.AddTagAdapter;
 import com.jobtick.adapers.AttachmentAdapter1;
@@ -566,6 +563,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
 
+    @SuppressLint("SetTextI18n")
     private void showBottomSheetAddMustHave() {
         @SuppressLint("InflateParams") final View view = getLayoutInflater().inflate(R.layout.sheet_add_must_have, null);
 

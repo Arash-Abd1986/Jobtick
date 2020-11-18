@@ -404,5 +404,9 @@
 
     <string name="cancellation_ticker"><b>You</b> have requested to cancel this job on <b>%s</b></string>
     <string name="view_cancellation_request">View cancellation request</string>
+    <string name="jobtick">JobTick</string>
+    <string name="browse_categories">Browse categories</string>
+    <string name="we_didn_t_find_any_results_for_your_search">We didn\'t find any results for your search</string>
+    <string name="add">Add</string>
 
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
@@ -27,7 +28,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/spacing_large"
-                android:src="@drawable/ic_down" />
+                android:src="@drawable/ic_down"
+                android:contentDescription="@string/todo" />
 
             <LinearLayout
                 android:id="@+id/card_location"
@@ -78,15 +80,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/_16sp">
+                    android:layout_marginEnd="@dimen/_16sp"
+                    tools:ignore="RelativeOverlap">
 
                     <com.jobtick.TextView.TextViewMedium
                         android:id="@+id/txt_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@id/txt_total_count"
                         android:background="@null"
-                        android:hint="0"
+                        android:hint="@string/_0"
                         android:singleLine="true"
                         android:textColor="@color/red_600"
                         android:textSize="@dimen/_14sp" />
@@ -96,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:hint="/3"
+                        android:hint="@string/_3"
                         android:singleLine="true"
                         android:textColor="@color/red_600"
                         android:textSize="@dimen/_14sp" />
@@ -115,7 +117,8 @@
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
                     android:layout_marginBottom="@dimen/spacing_middle"
-                    android:background="@drawable/linear_rounded_white_fill_8dp">
+                    android:background="@drawable/linear_rounded_white_fill_8dp"
+                    tools:ignore="UselessParent">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -159,7 +162,8 @@
                 android:clickable="true"
                 android:clipToPadding="false"
                 android:elevation="0dp"
-                app:cardCornerRadius="@dimen/spacing_medium">
+                app:cardCornerRadius="@dimen/spacing_medium"
+                android:focusable="true">
 
                 <com.google.android.material.textview.MaterialTextView
                     style="@style/materialText_500_14"
@@ -167,7 +171,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="15dp"
-                    android:text="Add"
+                    android:text="@string/add"
                     android:textColor="@color/white" />
             </androidx.cardview.widget.CardView>
         </LinearLayout>

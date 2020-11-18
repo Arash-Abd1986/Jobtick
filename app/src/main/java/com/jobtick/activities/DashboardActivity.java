@@ -55,6 +55,8 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     TextView txtUserName;
     TextView txtAccountLevel;
     CardView btnCashOut;
+
+
     public static onProfileUpdateListener onProfileupdatelistenerSideMenu;
 
 

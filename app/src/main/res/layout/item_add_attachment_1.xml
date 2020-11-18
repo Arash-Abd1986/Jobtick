@@ -19,6 +19,7 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_plus" />
+            android:src="@drawable/ic_plus"
+            android:contentDescription="@string/todo" />
     </RelativeLayout>
 </RelativeLayout>

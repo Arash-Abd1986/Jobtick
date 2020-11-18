@@ -1,5 +1,6 @@
 package com.jobtick.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -56,31 +57,43 @@ import static com.jobtick.utils.ConstantKey.RESULTCODE_CREATE_TASK;
 public class TaskCreateActivity extends ActivityBase implements TaskDetailFragment.OperationsListener,
         TaskDateTimeFragment.OperationsListener, TaskBudgetFragment.OperationsListener {
 
-    private static final String TAG = "TaskCreateActivity";
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.creating_task_layout)
     FrameLayout creatingTaskLayout;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_details)
     LinearLayout lytBtnDetails;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_bnt_date_time)
     LinearLayout lytBntDateTime;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_budget)
     LinearLayout lytBtnBudget;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_selection_view)
     CardView cardSelectionView;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_details)
     ImageView imgDetails;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_details)
     TextViewMedium txtDetails;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_date_time)
     ImageView imgDateTime;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_date_time)
     TextViewMedium txtDateTime;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_budget)
     ImageView imgBudget;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_budget)
     TextViewMedium txtBudget;
 
@@ -162,6 +175,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -259,6 +273,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         menu.setHeaderTitle("Select The Action");
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick({R.id.lyt_btn_details, R.id.lyt_bnt_date_time, R.id.lyt_btn_budget})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -372,7 +387,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     }
 
     private void uploadDataToServer(Boolean draft) {
-        String queryParameter = "";
+        String queryParameter;
         int METHOD;
         if (taskModel.getSlug() != null) {
             queryParameter = "/" + taskModel.getSlug();
@@ -458,7 +473,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                 }) {
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<String, String>();
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 return map1;
@@ -523,7 +538,6 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                     }
                     if (taskModel.getDueTime().getMidday()) {
                         map1.put("due_time[" + count + "]", "midday");
-                        count = count + 1;
                     }
                 }
                 if (draft) {

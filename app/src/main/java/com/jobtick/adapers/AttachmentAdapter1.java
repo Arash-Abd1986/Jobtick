@@ -1,7 +1,7 @@
 package com.jobtick.adapers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jobtick.R;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.utils.ImageUtil;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -46,7 +48,7 @@ public class AttachmentAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_IMAGE) {
             return new IMAGEViewHolder(
                     LayoutInflater.from(parent.getContext()).inflate(R.layout.item_show_attachment_1, parent, false));
@@ -115,9 +117,11 @@ public class AttachmentAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHo
         return items.get(position);
     }
 
-    public class IMAGEViewHolder extends RecyclerView.ViewHolder {
+    public static class IMAGEViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_view)
         ImageView imgView;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_btn_delete)
         ImageView imgBtnDelete;
 
@@ -128,6 +132,7 @@ public class AttachmentAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public class ADDViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.rlt_add_attachment)
         RelativeLayout rltAddAttachment;
 

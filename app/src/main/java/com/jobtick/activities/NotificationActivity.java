@@ -1,8 +1,8 @@
 package com.jobtick.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,8 +11,6 @@ import android.widget.LinearLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -42,12 +40,15 @@ import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
 public class NotificationActivity extends ActivityBase implements NotificationListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
 
@@ -116,6 +117,7 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
     }
 
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -180,7 +182,7 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
                         isLoading = false;
                     } catch (JSONException e) {
                         hideProgressDialog();
-                        Log.e("EXCEPTION", String.valueOf(e));
+                        Timber.e(String.valueOf(e));
                         e.printStackTrace();
                         checkList();
                     }
@@ -190,8 +192,8 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
                     errorHandle1(error.networkResponse);
                 }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
                 return map1;
@@ -202,7 +204,7 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(NotificationActivity.this);
         requestQueue.add(stringRequest);
-        Log.e("url", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
 
     }
 

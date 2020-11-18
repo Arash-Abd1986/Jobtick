@@ -137,7 +137,7 @@ public class TaskBudgetFragment extends Fragment {
             edtBudgetH.setText(String.format("%d", task.getBudget()));
             edtBudgetT.setText(String.format("%d", task.getBudget()));
         }
-        txtHours.setText(String.format("%d", task.getTotalHours()));
+        txtHours.setText( String.format("%d", task.getTotalHours()));
 
         if (task.getPaymentType() == null || task.getPaymentType().equalsIgnoreCase("fixed")) {
             rbTotal.setChecked(true);

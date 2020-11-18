@@ -1,5 +1,6 @@
 package com.jobtick.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,9 +21,9 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.CategoryListActivity;
 import com.jobtick.activities.DashboardActivity;
+import com.jobtick.activities.NotificationActivity;
 import com.jobtick.activities.SearchCategoryActivity;
 import com.jobtick.adapers.TaskCategoryAdapter;
 import com.jobtick.utils.ConstantKey;
@@ -31,12 +32,16 @@ import butterknife.ButterKnife;
 
 public class NewTaskFragment extends Fragment {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_search_categories)
-    TextViewRegular edtSearchCategories;
+    TextView edtSearchCategories;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lty_btn_post)
     MaterialButton lytBtnPost;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_btn_category)
-    TextViewRegular txtBtnCategory;
+    TextView txtBtnCategory;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_search_category)
     LinearLayout ltySearchCategory;
 
@@ -55,10 +60,14 @@ public class NewTaskFragment extends Fragment {
         DashboardActivity dashboardActivity = (DashboardActivity) getActivity();
         if (dashboardActivity != null) {
             toolbar = dashboardActivity.findViewById(R.id.toolbar);
+            ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
+            ivNotification.setOnClickListener(view1 -> {
+                Intent intent = new Intent(getActivity(), NotificationActivity.class);
+                startActivity(intent);
+            });
             toolbar.getMenu().clear();
             toolbar.inflateMenu(R.menu.menu_new_task);
             toolbar.getMenu().findItem(R.id.action_search).setVisible(false);
-            ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
             ivNotification.setVisibility(View.VISIBLE);
             TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
             toolbar_title.setVisibility(View.VISIBLE);

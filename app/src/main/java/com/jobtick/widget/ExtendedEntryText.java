@@ -6,8 +6,10 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,7 +23,7 @@ import com.jobtick.R;
 import static android.text.InputType.TYPE_CLASS_TEXT;
 
 
-public class ExtendedEntryText extends RelativeLayout implements View.OnClickListener, View.OnFocusChangeListener {
+public class ExtendedEntryText extends RelativeLayout implements View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener {
 
     private String eTitle;
     private String eContent;
@@ -30,7 +32,9 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     private EditText editText;
     private ImageView imageView;
     private boolean eIsPassword;
+    private boolean eStartFocus;
     private int eInputType;
+    private int eImeOptions;
     private boolean password_hide = true;
     private ExtendedViewOnClickListener extendedViewOnClickListener;
 
@@ -54,9 +58,15 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             eTitle = sharedAttribute.getString(R.styleable.ExtendedEntryText_eTitle);
             eContent = sharedAttribute.getString(R.styleable.ExtendedEntryText_eContent);
             eHint = sharedAttribute.getString(R.styleable.ExtendedEntryText_eHint);
+            eStartFocus = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eStartFocus, false);
             String inputType = sharedAttribute.getString(R.styleable.ExtendedEntryText_eInputType);
             if (inputType != null && !inputType.isEmpty())
                 eInputType = Integer.parseInt(inputType);
+
+            String imeOptions = sharedAttribute.getString(R.styleable.ExtendedEntryText_eImeOptions);
+            if (imeOptions != null && !imeOptions.isEmpty())
+                eImeOptions = Integer.parseInt(imeOptions);
+
         } finally {
             sharedAttribute.recycle();
         }
@@ -75,8 +85,15 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         editText.setHint(eHint);
 
         editText.setOnFocusChangeListener(this);
+        editText.setOnEditorActionListener(this);
         setInputType();
+        setImeOptions();
         setListeners();
+
+        if(eStartFocus){
+            editText.requestFocus();
+            showKeyboard(editText);
+        }
     }
 
     @Override
@@ -142,6 +159,17 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
     }
 
+
+
+    private void setImeOptions(){
+        if(eImeOptions == EImeOptions.ACTION_NEXT)
+            editText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        if(eImeOptions == EImeOptions.ACTION_DONE)
+            editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        if(eImeOptions == EImeOptions.NORMAL)
+            editText.setImeOptions(EditorInfo.IME_ACTION_UNSPECIFIED);
+    }
+
     private void setListeners() {
         setOnClickListener(this);
 
@@ -170,6 +198,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     }
 
     public void setError(CharSequence error) {
+        setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_red);
         editText.setError(error);
     }
 
@@ -221,6 +250,14 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         editText.setSelection(i);
     }
 
+    @Override
+    public boolean onEditorAction(TextView textView,  int actionId, KeyEvent keyEvent) {
+        if(actionId == EditorInfo.IME_ACTION_DONE){
+            editText.clearFocus();
+        }
+        return false;
+    }
+
 
     public interface EInputType {
 
@@ -231,6 +268,13 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         int PHONE = 4;
         int SUBURB = 5;
         int EXPIRY_DATE = 6;
+    }
+
+    public interface EImeOptions {
+
+        int ACTION_NEXT = 0;
+        int ACTION_DONE = 1;
+        int NORMAL = 2;
     }
 
     public interface ExtendedViewOnClickListener {

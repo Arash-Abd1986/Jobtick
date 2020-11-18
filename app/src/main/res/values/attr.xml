@@ -90,7 +90,6 @@
     <attr name="eContent" format="string"/>
     <attr name="eHint" format="string"/>
 
-
     <declare-styleable name="ExtendedEntryText">
         <attr name="eTitle"/>
         <attr name="eContent"/>

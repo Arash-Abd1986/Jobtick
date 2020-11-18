@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
@@ -26,19 +27,23 @@ import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.SearchCategoryActivity;
 import com.jobtick.adapers.TaskCategoryAdapter;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.SessionManager;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class NewTaskFragment extends Fragment {
 
-    @BindView(R.id.edt_search_categories)
-    TextViewRegular edtSearchCategories;
+    SessionManager sessionManager;
+
+    @BindView(R.id.ticker_card)
+    CardView tickerCard;
+    @BindView(R.id.poster_card)
+    CardView posterCard;
+    @BindView(R.id.name)
+    TextView name;
     @BindView(R.id.lty_btn_post)
     MaterialButton lytBtnPost;
-    @BindView(R.id.txt_btn_category)
-    TextViewRegular txtBtnCategory;
-    @BindView(R.id.lyt_search_category)
-    LinearLayout ltySearchCategory;
 
     private TaskCategoryAdapter adapter;
     private Toolbar toolbar;
@@ -50,8 +55,9 @@ public class NewTaskFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_new_task, container, false);
+        View view = inflater.inflate(R.layout.fragment_new_task_rev2, container, false);
         ButterKnife.bind(this, view);
+        sessionManager = new SessionManager(getContext());
         DashboardActivity dashboardActivity = (DashboardActivity) getActivity();
         if (dashboardActivity != null) {
             toolbar = dashboardActivity.findViewById(R.id.toolbar);
@@ -71,7 +77,7 @@ public class NewTaskFragment extends Fragment {
             toolbar_title.setText(R.string.jobTick);
 
             if (getContext() != null) {
-                toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.background));
+                toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.backgroundLightGrey));
                 toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_bold));
 
             }
@@ -80,24 +86,29 @@ public class NewTaskFragment extends Fragment {
         }
 
         lytBtnPost.setOnClickListener(v -> {
-            Intent creating_task = new Intent(getActivity(), CategoryListActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("category", "");
-            creating_task.putExtras(bundle);
-            getContext().startActivity(creating_task);
+            openPostAJob();
+        });
+
+        posterCard.setOnClickListener(v -> {
+            openPostAJob();
         });
 
 
-        edtSearchCategories.setOnClickListener(v -> {
+        tickerCard.setOnClickListener(v -> {
             Intent creating_task = new Intent(getActivity(), SearchCategoryActivity.class);
             startActivity(creating_task);
         });
 
-        ltySearchCategory.setOnClickListener(v -> {
-            Intent creating_task = new Intent(getActivity(), SearchCategoryActivity.class);
-            startActivity(creating_task);
-        });
+        name.setText(sessionManager.getUserAccount().getName());
         return view;
+    }
+
+    private void openPostAJob(){
+        Intent creating_task = new Intent(getActivity(), CategoryListActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("category", "");
+        creating_task.putExtras(bundle);
+        getContext().startActivity(creating_task);
     }
 
     @Override

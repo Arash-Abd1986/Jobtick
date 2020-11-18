@@ -123,7 +123,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/poster_part"
+        android:id="@+id/poster_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/white"
@@ -218,7 +218,7 @@
         android:layout_marginStart="@dimen/spacing_medium"
         android:layout_marginTop="@dimen/spacing_xxxlarge"
         android:layout_marginEnd="@dimen/spacing_large"
-        android:layout_marginBottom="@dimen/spacing_large"
+        android:layout_marginBottom="24dp"
         android:text="@string/post_a_job"
         android:textColor="@color/white"
         android:textSize="@dimen/_16sp" />

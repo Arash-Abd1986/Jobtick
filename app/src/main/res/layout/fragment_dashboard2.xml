@@ -3,27 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundLightGrey"
     android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_marginStart="@dimen/_11sp"
-            android:layout_marginEnd="@dimen/_11sp"
             android:weightSum="3">
 
             <com.jobtick.widget.ExtendedJobInfo
                 android:id="@+id/awaiting_for_offer"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
+                android:layout_margin="4dp"
                 android:layout_weight="1"
                 app:eJobBottomColor="@color/colorTaskOffer"
                 app:eJobTitle="Awaiting\nfor offer"
@@ -33,7 +34,7 @@
                 android:id="@+id/assigned"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
+                android:layout_margin="4dp"
                 android:layout_weight="1"
                 app:eJobBottomColor="@color/colorTaskAssigned"
                 app:eJobTitle="Assigned"
@@ -43,7 +44,7 @@
                 android:id="@+id/overdue"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
+                android:layout_margin="4dp"
                 android:layout_weight="1"
                 app:eJobBottomColor="@color/colorTaskOverDue"
                 app:eJobTitle="Overdue"
@@ -55,16 +56,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_marginStart="@dimen/_11sp"
-            android:layout_marginTop="@dimen/_3sp"
-            android:layout_marginEnd="@dimen/_11sp"
+            android:layout_marginTop="4dp"
             android:weightSum="3">
 
             <com.jobtick.widget.ExtendedJobInfo
                 android:id="@+id/released_money"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
+                android:layout_margin="4dp"
                 android:layout_weight="1"
                 app:eJobBottomColor="@color/colorReleasedMoney"
                 app:eJobTitle="Released\nMoney"
@@ -74,7 +73,7 @@
                 android:id="@+id/complete"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
+                android:layout_margin="4dp"
                 android:layout_weight="1"
                 app:eJobBottomColor="@color/colorTaskCompleted"
                 app:eJobTitle="Complete"
@@ -84,7 +83,7 @@
                 android:id="@+id/cancelled"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
+                android:layout_margin="4dp"
                 android:layout_weight="1"
                 app:eJobBottomColor="@color/colorTaskCancelled"
                 app:eJobTitle="Cancelled"
@@ -97,9 +96,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_18sp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="@dimen/_10sp"
-        android:layout_marginEnd="@dimen/_18sp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="@dimen/spacing_middle"
         android:elevation="0dp"
         android:visibility="visible"
@@ -172,7 +171,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="2dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="8dp"
                     android:src="@drawable/ic_place_holder" />
 
                 <LinearLayout
@@ -202,6 +201,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/img_user_avatar"
                     android:layout_marginTop="6dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_toStartOf="@id/level_container"
                     android:layout_toEndOf="@id/img_user_avatar"
                     android:gravity="center_vertical"
                     android:maxLines="1"
@@ -215,6 +216,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txt_user_name"
+                    android:layout_toStartOf="@id/level_container"
                     android:layout_toEndOf="@id/img_user_avatar"
                     android:gravity="center_vertical"
                     android:maxLines="1"
@@ -224,6 +226,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/level_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -259,9 +262,9 @@
                     android:layout_width="49dp"
                     android:layout_height="49dp"
                     android:layout_below="@id/profile_status"
+                    android:layout_alignParentStart="true"
                     android:layout_gravity="center"
                     android:layout_marginTop="12dp"
-                    android:layout_alignParentStart="true"
                     app:pcv_animDuration="0"
                     app:pcv_animInterpolator="anticipate_overshoot"
                     app:pcv_backgroundBarColor="@color/grayActive"
@@ -281,10 +284,10 @@
                     android:id="@+id/profile_status_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="10dp"
                     android:layout_alignTop="@id/profile_progress"
                     android:layout_alignBottom="@id/profile_progress"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="10dp"
                     android:layout_toEndOf="@id/profile_progress"
                     android:orientation="horizontal">
 

@@ -8,15 +8,15 @@
     android:orientation="vertical"
     tools:context=".activities.AddCreditCardActivity">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/lyt_btn_add_credit_card"
         android:layout_below="@+id/toolbar"
-        android:scrollbars="none"
-        android:layout_marginTop="@dimen/payment_page_margin_top">
+        android:layout_marginTop="@dimen/payment_page_margin_top"
+        android:scrollbars="none">
 
 
         <LinearLayout
@@ -28,52 +28,42 @@
             android:layout_marginBottom="@dimen/spacing_middle"
             android:orientation="vertical">
 
-
-            <LinearLayout
+            <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/edt_full_name"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="visible">
+                android:layout_height="wrap_content"
+                app:eImeOptions="actionNext"
+                app:eInputType="text"
+                app:eTitle="@string/full_name" />
 
-                <com.jobtick.widget.ExtendedEntryText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/edt_full_name"
-                    app:eTitle="@string/full_name"
-                    app:eImeOptions="actionNext"
-                    app:eInputType="text"/>
+            <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/edt_card_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:eImeOptions="actionNext"
+                app:eInputType="integer"
+                app:eTitle="@string/card_number" />
 
-                <com.jobtick.widget.ExtendedEntryText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/edt_card_number"
-                    app:eTitle="@string/card_number"
-                    android:layout_marginTop="8dp"
-                    app:eImeOptions="actionNext"
-                    app:eInputType="integer"/>
+            <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/edt_expiry_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:eImeOptions="actionNext"
+                app:eInputType="expiryDate"
+                app:eTitle="@string/expiry_date" />
 
-                <com.jobtick.widget.ExtendedEntryText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/edt_expiry_date"
-                    android:layout_marginTop="8dp"
-                    app:eTitle="@string/expiry_date"
-                    app:eImeOptions="actionNext"
-                    app:eInputType="expiryDate"/>
-
-                <com.jobtick.widget.ExtendedEntryText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/edt_security_number"
-                    android:layout_marginTop="8dp"
-                    app:eTitle="@string/cvc"
-                    app:eImeOptions="actionDone"
-                    app:eInputType="integer"/>
-
-            </LinearLayout>
+            <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/edt_security_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:eImeOptions="actionDone"
+                app:eInputType="integer"
+                app:eTitle="@string/cvc" />
 
         </LinearLayout>
-
 
     </androidx.core.widget.NestedScrollView>
 

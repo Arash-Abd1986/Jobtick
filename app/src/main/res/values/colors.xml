@@ -12,6 +12,8 @@
 
     <color name="blue">#5568FE</color>
     <color name="blue_dark">#3B5999</color>
+    <color name="blue_splash">#586BF5</color>
+    <color name="grey_transparent">#01586BF5</color>
     <color name="yellow">#FDD925</color>
     <color name="green">#2ED174</color>
     <color name="grey">#E5E5E5</color>

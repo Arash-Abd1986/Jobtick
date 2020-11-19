@@ -407,5 +407,6 @@
     <string name="state">State</string>
     <string name="post_code">Postcode</string>
     <string name="country">Country</string>
+    <string name="receive_alerts">Receive Alerts?</string>
 
 </resources>

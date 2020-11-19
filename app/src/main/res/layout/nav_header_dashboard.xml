@@ -46,6 +46,7 @@
         android:textColor="@color/textColor"
         android:lineHeight="20dp"
         android:textAppearance="@style/materialText_600_16"
+        android:layout_marginEnd="8dp"
         android:layout_toEndOf="@id/img_user_avatar"
         android:layout_alignTop="@+id/img_user_avatar"
         android:layout_marginStart="16dp"

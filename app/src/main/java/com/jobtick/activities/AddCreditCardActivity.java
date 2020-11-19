@@ -19,6 +19,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
@@ -29,6 +30,7 @@ import com.jobtick.payment.AddCreditCard;
 import com.jobtick.payment.AddCreditCardImpl;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.Tools;
+import com.jobtick.widget.ExtendedEntryText;
 import com.stripe.android.ApiResultCallback;
 import com.stripe.android.Stripe;
 import com.stripe.android.model.Card;
@@ -54,18 +56,19 @@ import timber.log.Timber;
 import static com.jobtick.activities.PaymentSettingsActivity.onBankaccountadded;
 import static com.jobtick.utils.ConstantKey.PUBLISHABLE_KEY;
 
-public class AddCreditCardActivity extends ActivityBase {
+public class AddCreditCardActivity extends ActivityBase implements ExtendedEntryText.ExtendedViewOnClickListener {
 
-//    @BindView(R.id.toolbar)
-//    MaterialToolbar toolbar;
+    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;
+
     @BindView(R.id.edt_full_name)
-    EditTextRegular edtFullName;
+    ExtendedEntryText edtFullName;
     @BindView(R.id.edt_card_number)
-    EditTextRegular edtCardNumber;
+    ExtendedEntryText edtCardNumber;
     @BindView(R.id.edt_expiry_date)
-    TextViewRegular edtExpiryDate;
+    ExtendedEntryText edtExpiryDate;
     @BindView(R.id.edt_security_number)
-    EditTextRegular edtSecurityNumber;
+    ExtendedEntryText edtSecurityNumber;
 
     @BindView(R.id.lyt_btn_add_credit_card)
     MaterialButton lytBtnAddCreditCard;
@@ -74,11 +77,6 @@ public class AddCreditCardActivity extends ActivityBase {
     String str_expire_date = null;
     DatePickerDialog.OnDateSetListener mDateSetListener;
 
-    @BindView(R.id.card_multiline_widget)
-    CardMultilineWidget cardMultilineWidget;
-
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
 
     private int expMonth;
     private int expYear;
@@ -92,6 +90,7 @@ public class AddCreditCardActivity extends ActivityBase {
         setContentView(R.layout.activity_add_credit_card);
         ButterKnife.bind(this);
         initToolbar();
+        edtExpiryDate.setExtendedViewOnClickListener(this);
 
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -131,13 +130,10 @@ public class AddCreditCardActivity extends ActivityBase {
 
 
     private void initToolbar() {
-        ivBack.setOnClickListener(v -> {
-            finish();
-        });
-//        toolbar.setNavigationIcon(R.drawable.ic_back);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setTitle("Add Credit Card");
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Add Credit Card");
     }
 
     private void setEdtExpiryDate(int year, int month){
@@ -163,12 +159,9 @@ public class AddCreditCardActivity extends ActivityBase {
         super.onBackPressed();
     }
 
-    @OnClick({R.id.edt_expiry_date, R.id.lyt_btn_add_credit_card})
+    @OnClick({R.id.lyt_btn_add_credit_card})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.edt_expiry_date:
-                displayDialog();
-                break;
             case R.id.lyt_btn_add_credit_card:
                 if(validation()){
                     showProgressDialog();
@@ -192,12 +185,11 @@ public class AddCreditCardActivity extends ActivityBase {
                 expYear = selectedYear;
                 edtExpiryDate.setText(selectedMonth + " /" + selectedYear);
                 Log.d("aa", "selectedMonth : " + selectedMonth + " selectedYear : " + selectedYear);
-                Toast.makeText(AddCreditCardActivity.this, "Date set with month " + selectedMonth + " year " + selectedYear, Toast.LENGTH_SHORT).show();
             }
         }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
 
         builder.setActivatedMonth(today.get(Calendar.MONTH))
-                .setTitle("Select month and year ")
+                .setTitle("Select month and year ").setMaxYear(2040)
                 // .setMaxMonth(Calendar.OCTOBER)
                 // .setYearRange(1890, 1890)
                 // .setMonthAndYearRange(Calendar.FEBRUARY, Calendar.OCTOBER, 1890, 1890)
@@ -242,5 +234,10 @@ public class AddCreditCardActivity extends ActivityBase {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onClick() {
+        displayDialog();
     }
 }

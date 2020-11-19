@@ -18,6 +18,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.fragments.CashOutBottomSheet;
+import com.jobtick.fragments.LogOutBottomSheet;
 import com.jobtick.interfaces.onProfileUpdateListener;
 import com.jobtick.models.PushNotificationModel;
 import com.jobtick.utils.ConstantKey;
@@ -192,7 +194,6 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
         if (sessionManager.getUserAccount().getIsVerifiedAccount() == 1) {
             imgVerifiedAccount.setVisibility(View.VISIBLE);
-            imgVerifiedAccount.setImageDrawable(getResources().getDrawable(R.drawable.ic_correct));
         } else {
             imgVerifiedAccount.setVisibility(View.GONE);
         }
@@ -241,11 +242,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 startActivity(new Intent(DashboardActivity.this, EditProfileActivity.class));
                 return true;
             case R.id.action_logout:
-                drawerLayout.close();
-                //TODO: Implementing bottom sheet of logout
-//                LogoutBottomSheet logoutBottomSheet = LogoutBottomSheet.newInstance();
-//                logoutBottomSheet.show(getSupportFragmentManager(), "");
-                logout_dialog_box();
+                showLogoutBottomSheet();
                 return true;
             case R.id.action_rate_us:
                 String rating_link = "https://play.google.com/store/apps/details?id=" + getPackageName();
@@ -254,19 +251,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 startActivity(rate_us);
                 return true;
             case R.id.action_share:
-                try {
-                    Intent sendIntent = new Intent();
-                    sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT,
-                            "\n\nhttps://play.google.com/store/apps/details?id=" + getPackageName() +
-                                    " Sponsor code : " + sessionManager.getUserAccount().getFname() +
-                                    "\n\nThankYou\n" +
-                                    "Team " + getResources().getString(R.string.app_name));
-                    sendIntent.setType("text/plain");
-                    startActivity(sendIntent);
-                } catch (Exception e) {
-
-                }
+                referAFriend();
                 return true;
             case R.id.action_privacy_policy:
                 String privacy_policy_link = "https://sites.google.com/view/_/home";
@@ -276,6 +261,28 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void showLogoutBottomSheet() {
+        drawerLayout.close();
+        LogOutBottomSheet logOutBottomSheet = LogOutBottomSheet.newInstance();
+        logOutBottomSheet.show(getSupportFragmentManager(), "");
+    }
+
+    private void referAFriend(){
+        try {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT,
+                    "\n\nhttps://play.google.com/store/apps/details?id=" + getPackageName() +
+                            " Sponsor code : " + sessionManager.getUserAccount().getFname() +
+                            "\n\nThankYou\n" +
+                            "Team " + getResources().getString(R.string.app_name));
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
+        } catch (Exception e) {
+
         }
     }
 
@@ -368,6 +375,8 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
             case R.id.nav_refer_a_friend:
                 Toast.makeText(this, "refer a friend", Toast.LENGTH_SHORT).show();
+                //TODO: after implementing app in store active this function
+                //referAFriend();
                 return true;
 
             case R.id.nav_settings:
@@ -382,7 +391,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 return true;
 
             case R.id.nav_logout:
-                logout_dialog_box();
+                showLogoutBottomSheet();
                 return true;
         }
         return false;

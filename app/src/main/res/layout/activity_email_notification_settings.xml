@@ -37,6 +37,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
+                        android:checked="true"
                         android:background="@drawable/radio_button_square_selector"
                         android:button="@null"
                         android:gravity="center" />
@@ -49,7 +50,6 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.textview.MaterialTextView
-
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -67,7 +67,7 @@
                             android:layout_weight="1"
                             android:layout_marginTop="2dp"
                             android:gravity="center_vertical"
-                            android:text="Must Be On"
+                            android:text="Must be on"
                             android:textColor="@color/grey_70"
                             android:textAppearance="@style/materialText_400_12" />
                     </LinearLayout>

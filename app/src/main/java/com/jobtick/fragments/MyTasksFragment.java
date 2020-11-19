@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -91,10 +92,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     SwipeRefreshLayout swipeRefresh;
     private DashboardActivity dashboardActivity;
     private SessionManager sessionManager;
-    private View view;
 
-   // @BindView(R.id.ivNoPosst)
-    //public GifImageView ivNoPost;
 
 
     private TaskListAdapter taskListAdapter;

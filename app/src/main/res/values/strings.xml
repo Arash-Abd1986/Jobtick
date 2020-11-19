@@ -19,7 +19,7 @@
     <string name="task_location">Task Location</string>
     <string name="due_date">Due Date</string>
     <string name="you_are_not_authorize">You are not authorize.</string>
-    <string name="clientId">582071119574-vsobajo13c656mb2vprthha351r4f229.apps.googleusercontent.com</string>
+    <string name="clientId">582071119574-hn0cn50q2cjq782glokbu6ck0r9rg9qg.apps.googleusercontent.com</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -241,7 +241,7 @@
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="login_to_your_account">Login to your account</string>
     <string name="enter_last_name">Enter Last Name</string>
-    <string name="what_would_you_like_to_do">What Would You Like To Do On TickJob?</string>
+    <string name="what_would_you_like_to_do">What would you like to do on Jobtick?</string>
     <string name="post_tasks">Post a Job</string>
     <string name="complete_tasks">Complete Jobs</string>
     <string name="suburb">Suburb</string>
@@ -403,6 +403,10 @@
 
     <string name="cancellation_ticker"><b>You</b> have requested to cancel this job on <b>%s</b></string>
     <string name="view_cancellation_request">View cancellation request</string>
+    <string name="state">State</string>
+    <string name="post_code">Postcode</string>
+    <string name="country">Country</string>
+    <string name="receive_alerts">Receive Alerts?</string>
     <string name="jobtick">JobTick</string>
     <string name="browse_categories">Browse categories</string>
     <string name="we_didn_t_find_any_results_for_your_search">We didn\'t find any results for your search</string>

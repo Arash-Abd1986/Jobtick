@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:orientation="vertical">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        style="@style/materialButton"
+        android:backgroundTint="@color/colorGrayC9C9C9"
+        android:text="Logout"
+        android:stateListAnimator="@null"
+        android:textColor="@color/strokeRed"
+        android:layout_marginTop="8dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        style="@style/materialButton"
+        android:stateListAnimator="@null"
+        android:backgroundTint="@color/white"
+        android:text="Cancel"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="32dp" />
+
+</LinearLayout>
+

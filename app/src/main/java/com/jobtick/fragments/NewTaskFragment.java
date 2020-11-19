@@ -9,12 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
@@ -23,10 +23,9 @@ import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.activities.CategoryListActivity;
 import com.jobtick.activities.DashboardActivity;
-import com.jobtick.activities.NotificationActivity;
-import com.jobtick.activities.SearchCategoryActivity;
 import com.jobtick.adapers.TaskCategoryAdapter;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.SessionManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,17 +33,16 @@ import butterknife.ButterKnife;
 public class NewTaskFragment extends Fragment {
 
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_search_categories)
-    TextView edtSearchCategories;
-    @SuppressLint("NonConstantResourceId")
+    SessionManager sessionManager;
+
+    @BindView(R.id.ticker_card)
+    CardView tickerCard;
+    @BindView(R.id.poster_card)
+    CardView posterCard;
+    @BindView(R.id.name)
+    TextView name;
     @BindView(R.id.lty_btn_post)
     MaterialButton lytBtnPost;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_btn_category)
-    TextView txtBtnCategory;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_search_category)
-    LinearLayout ltySearchCategory;
 
     private TaskCategoryAdapter adapter;
     private Toolbar toolbar;
@@ -56,19 +54,16 @@ public class NewTaskFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_new_task, container, false);
+        View view = inflater.inflate(R.layout.fragment_new_task_rev2, container, false);
+//        View view = inflater.inflate(R.layout.fragment_new_task, container, false);
         ButterKnife.bind(this, view);
         DashboardActivity dashboardActivity = (DashboardActivity) getActivity();
         if (dashboardActivity != null) {
             toolbar = dashboardActivity.findViewById(R.id.toolbar);
-            ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
-            ivNotification.setOnClickListener(view1 -> {
-                Intent intent = new Intent(getActivity(), NotificationActivity.class);
-                startActivity(intent);
-            });
             toolbar.getMenu().clear();
             toolbar.inflateMenu(R.menu.menu_new_task);
             toolbar.getMenu().findItem(R.id.action_search).setVisible(false);
+            ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
             ivNotification.setVisibility(View.VISIBLE);
             TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
             toolbar_title.setVisibility(View.VISIBLE);
@@ -97,16 +92,6 @@ public class NewTaskFragment extends Fragment {
             getContext().startActivity(creating_task);
         });
 
-
-        edtSearchCategories.setOnClickListener(v -> {
-            Intent creating_task = new Intent(getActivity(), SearchCategoryActivity.class);
-            startActivity(creating_task);
-        });
-
-        ltySearchCategory.setOnClickListener(v -> {
-            Intent creating_task = new Intent(getActivity(), SearchCategoryActivity.class);
-            startActivity(creating_task);
-        });
         return view;
     }
 

@@ -14,6 +14,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.AppExecutors;
 import com.jobtick.EditText.EditTextRegular;
@@ -24,6 +25,7 @@ import com.jobtick.payment.AddBankAccount;
 import com.jobtick.payment.AddBankAccountImpl;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
+import com.jobtick.widget.ExtendedEntryText;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Token;
@@ -45,23 +47,21 @@ import static com.jobtick.utils.Constant.BASE_URL;
 
 public class AddBankAccountActivity extends ActivityBase {
 
-/*    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;*/
+    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;
 
     @BindView(R.id.edt_account_name)
-    EditTextRegular edtAccountName;
+    ExtendedEntryText edtAccountName;
 
     @BindView(R.id.edt_bsb)
-    EditTextRegular edtBsb;
+    ExtendedEntryText edtBsb;
 
     @BindView(R.id.edt_account_number)
-    EditTextRegular edtAccountNumber;
+    ExtendedEntryText edtAccountNumber;
 
     @BindView(R.id.lyt_btn_add_bank_account)
     MaterialButton lytBtnAddBankAccount;
 
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
 
     private AddBankAccount addBankAccount;
 
@@ -99,13 +99,10 @@ public class AddBankAccountActivity extends ActivityBase {
     }
 
     private void initToolbar() {
-        ivBack.setOnClickListener(v -> {
-            finish();
-        });
-       /* toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Add Bank Account");*/
+        getSupportActionBar().setTitle("Add Bank Account");
     }
 
     private void initUi() {

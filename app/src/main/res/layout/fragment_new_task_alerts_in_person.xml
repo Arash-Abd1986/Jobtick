@@ -25,6 +25,8 @@
                 android:layout_height="wrap_content"
                 app:eTitle="Add a Keyword or Phrase"
                 app:eInputType="text"
+                app:eStartFocus="true"
+                app:eImeOptions="actionDone"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"

@@ -8,12 +8,14 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.models.PushNotificationModel;
 import com.jobtick.payment.AddBillingAddress;
 import com.jobtick.payment.AddBillingAddressImpl;
+import com.jobtick.widget.ExtendedEntryText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,32 +25,29 @@ import static com.jobtick.utils.ConstantKey.PUSH_NOTIFICATION_MODEL;
 
 public class BillingAddressActivity extends ActivityBase {
 
-/*    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;*/
+    @BindView(R.id.toolbar)
+    MaterialToolbar toolbar;
 
     @BindView(R.id.edt_address_line_1)
-    EditText edtAddressLine1;
+    ExtendedEntryText edtAddressLine1;
 
     @BindView(R.id.edt_address_line_2)
-    EditText edtAddressLine2;
+    ExtendedEntryText edtAddressLine2;
 
     @BindView(R.id.edt_suburs)
-    EditText edtSuburs;
+    ExtendedEntryText edtSuburs;
 
     @BindView(R.id.edt_state)
-    EditText edtState;
+    ExtendedEntryText edtState;
 
     @BindView(R.id.edt_postcode)
-    EditText edtPostcode;
+    ExtendedEntryText edtPostcode;
 
     @BindView(R.id.edt_Country)
-    EditText edtCountry;
+    ExtendedEntryText edtCountry;
 
     @BindView(R.id.lyt_btn_change_billing_address)
     MaterialButton lytBtnChangeBillingAddress;
-
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
 
     private AddBillingAddress addBillingAddress;
 
@@ -101,14 +100,10 @@ public class BillingAddressActivity extends ActivityBase {
 
 
     private void initToolbar() {
-
-        ivBack.setOnClickListener(v -> {
-            finish();
-        });
-      /*  toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Billing Address");*/
+        getSupportActionBar().setTitle("Billing Address");
     }
 
 

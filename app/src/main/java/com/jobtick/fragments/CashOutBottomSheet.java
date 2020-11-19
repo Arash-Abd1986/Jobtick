@@ -1,4 +1,4 @@
-package com.jobtick.activities;
+package com.jobtick.fragments;
 
 import android.content.Context;
 import android.os.Bundle;

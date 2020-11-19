@@ -5,14 +5,14 @@
     android:orientation="horizontal"
     android:weightSum="1"
     android:layout_alignParentBottom="true"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_city_rev2"
-        android:scaleType="centerCrop"
+        android:src="@drawable/ic_city_background"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
         android:layout_gravity="bottom"/>
 
 <!--    <com.airbnb.lottie.LottieAnimationView-->

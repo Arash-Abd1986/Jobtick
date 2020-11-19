@@ -404,5 +404,8 @@
 
     <string name="cancellation_ticker"><b>You</b> have requested to cancel this job on <b>%s</b></string>
     <string name="view_cancellation_request">View cancellation request</string>
+    <string name="state">State</string>
+    <string name="post_code">Postcode</string>
+    <string name="country">Country</string>
 
 </resources>

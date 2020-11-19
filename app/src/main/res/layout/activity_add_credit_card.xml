@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:eImeOptions="actionNext"
+                app:eStartFocus="true"
                 app:eInputType="text"
                 app:eTitle="@string/full_name" />
 

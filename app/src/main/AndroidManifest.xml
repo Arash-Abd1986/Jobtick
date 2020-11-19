@@ -95,13 +95,13 @@
         <activity android:name=".activities.MobileVerificationActivity" />
         <activity
             android:name=".activities.BillingAddressActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".activities.AddCreditCardActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".activities.AddBankAccountActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity android:name=".activities.PaymentSettingsActivity" />
         <activity android:name=".activities.ChangePasswordActivity" />
         <activity android:name=".activities.HelpActivity" />

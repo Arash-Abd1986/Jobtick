@@ -182,14 +182,14 @@
                     android:layout_alignStart="@id/img_user_avatar"
                     android:layout_alignEnd="@id/img_user_avatar"
                     android:layout_alignBottom="@+id/img_user_avatar"
-                    android:layout_marginBottom="-6dp"
+                    android:layout_marginBottom="-5dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/img_account_shield"
-                        android:layout_width="12dp"
-                        android:layout_height="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:adjustViewBounds="true"
                         android:src="@drawable/ic_shield" />
@@ -254,38 +254,45 @@
                     android:textColor="@color/blue" />
 
 
+                <com.ramijemli.percentagechartview.PercentageChartView
+                    android:id="@+id/profile_progress"
+                    android:layout_width="49dp"
+                    android:layout_height="49dp"
+                    android:layout_below="@id/profile_status"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:layout_alignParentStart="true"
+                    app:pcv_animDuration="0"
+                    app:pcv_animInterpolator="anticipate_overshoot"
+                    app:pcv_backgroundBarColor="@color/grayActive"
+                    app:pcv_backgroundBarThickness="10dp"
+                    app:pcv_mode="ring"
+                    app:pcv_orientation="counter_clockwise"
+                    app:pcv_progress="100"
+                    app:pcv_progressBarStyle="square"
+                    app:pcv_progressBarThickness="10dp"
+                    app:pcv_progressColor="@color/green"
+                    app:pcv_startAngle="90"
+                    app:pcv_textColor="@color/textColor"
+                    app:pcv_textSize="10sp" />
+
+
                 <LinearLayout
                     android:id="@+id/profile_status_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/profile_status"
-                    android:layout_marginTop="16dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_alignTop="@id/profile_progress"
+                    android:layout_alignBottom="@id/profile_progress"
+                    android:layout_toEndOf="@id/profile_progress"
                     android:orientation="horizontal">
-
-                    <com.ramijemli.percentagechartview.PercentageChartView
-                        android:id="@+id/profile_progress"
-                        android:layout_width="46dp"
-                        android:layout_height="46dp"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="30dp"
-                        app:pcv_animDuration="0"
-                        app:pcv_animInterpolator="anticipate_overshoot"
-                        app:pcv_backgroundBarColor="@color/grayActive"
-                        app:pcv_backgroundBarThickness="8dp"
-                        app:pcv_mode="ring"
-                        app:pcv_orientation="counter_clockwise"
-                        app:pcv_progress="100"
-                        app:pcv_progressBarStyle="square"
-                        app:pcv_progressBarThickness="8dp"
-                        app:pcv_progressColor="@color/green"
-                        app:pcv_startAngle="90"
-                        app:pcv_textColor="@color/textColor"
-                        app:pcv_textSize="10sp" />
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
                         android:layout_marginTop="@dimen/margin_top_dashboard_profile"
                         android:layout_weight="1"
                         android:orientation="vertical">
@@ -299,10 +306,11 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_account"
+                            lines="1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_marginTop="12dp"
+                            android:gravity="bottom"
                             android:text="Account"
                             android:textAppearance="@style/materialText_500_12"
                             android:textColor="@color/textColor" />
@@ -312,7 +320,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="@dimen/margin_top_dashboard_profile"
                         android:layout_weight="1"
                         android:orientation="vertical">
@@ -328,9 +336,10 @@
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_payment"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_marginTop="12dp"
+                            android:gravity="bottom"
+                            android:lines="1"
                             android:text="Payment"
                             android:textAppearance="@style/materialText_500_12"
                             android:textColor="@color/textColor" />
@@ -339,7 +348,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="@dimen/margin_top_dashboard_profile"
                         android:layout_weight="1"
                         android:orientation="vertical">
@@ -355,9 +364,10 @@
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_skills"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_marginTop="12dp"
+                            android:gravity="bottom"
+                            android:lines="1"
                             android:text="Skills"
                             android:textAppearance="@style/materialText_500_12"
                             android:textColor="@color/textColor" />
@@ -366,7 +376,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="@dimen/margin_top_dashboard_profile"
                         android:layout_weight="1"
                         android:orientation="vertical">
@@ -382,9 +392,10 @@
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_badges"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_marginTop="12dp"
+                            android:gravity="bottom"
+                            android:lines="1"
                             android:text="Badges"
                             android:textAppearance="@style/materialText_500_12"
                             android:textColor="@color/textColor" />

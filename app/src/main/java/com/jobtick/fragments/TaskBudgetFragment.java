@@ -1,5 +1,7 @@
 package com.jobtick.fragments;
 
+import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -17,13 +19,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.jobtick.R;
+import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
+import com.jobtick.utils.StringUtils;
+import com.stripe.param.CreditNoteCreateParams;
+
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +48,12 @@ public class TaskBudgetFragment extends Fragment {
 
     OperationsListener operationsListener;
     TaskModel task;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.lyt_bnt_date_time)
+    LinearLayout lytBntDateTime;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.lyt_btns)
+    LinearLayout card_btn_post_task;
     @BindView(R.id.lyt_btn_details)
     LinearLayout lytBtnDetails;
     @BindView(R.id.lyt_btn_date_time)
@@ -72,6 +86,25 @@ public class TaskBudgetFragment extends Fragment {
     LinearLayout lytBtnPostTask;
     @BindView(R.id.lyt_button)
     LinearLayout lytButton;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.img_details)
+    ImageView imgDetails;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_details)
+    TextViewMedium txtDetails;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.img_date_time)
+    ImageView imgDateTime;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_date_time)
+    TextViewMedium txtDateTime;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.img_budget)
+    ImageView imgBudget;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_budget)
+    TextViewMedium txtBudget;
+
     private LinearLayout cardBudgetT, cardBudgetH, estimatedH, estimatedT;
     private EditText edtBudgetT, edtBudgetH;
     private TextView txtBudgetT, txtBudgetH, txtDollerT, txtDollerH;
@@ -117,6 +150,17 @@ public class TaskBudgetFragment extends Fragment {
         txtDollerT = view.findViewById(R.id.txt_doller_us_t);
 
 
+        KeyboardVisibilityEvent.setEventListener(
+                getActivity(),
+                getViewLifecycleOwner(),
+                isOpen -> {
+                    if (isOpen) {
+                        card_btn_post_task.setVisibility(View.GONE);
+                    } else {
+                        card_btn_post_task.setVisibility(View.VISIBLE);
+                    }
+                });
+
         cardBudgetH = view.findViewById(R.id.card_budgetH);
         edtBudgetH = view.findViewById(R.id.edt_budgetH);
         estimatedH = view.findViewById(R.id.card_estimated_h);
@@ -125,6 +169,7 @@ public class TaskBudgetFragment extends Fragment {
 
         radioBtnClick();
         edtText();
+        selectBudgetBtn();
 
         task.setBudget(getArguments().getInt("BUDGET"));
         task.setHourlyRate(getArguments().getInt("HOUR_BUDGET"));
@@ -134,7 +179,13 @@ public class TaskBudgetFragment extends Fragment {
             edtBudgetH.setText(String.format("%d", task.getBudget()));
             edtBudgetT.setText(String.format("%d", task.getBudget()));
         }
-        txtHours.setText( String.format("%d", task.getTotalHours()));
+
+        if (task.getTotalHours() > 0) {
+            txtHours.setText(String.format("%d", task.getTotalHours()));
+        } else {
+            txtHours.setText("");
+        }
+
 
         if (task.getPaymentType() == null || task.getPaymentType().equalsIgnoreCase("fixed")) {
             rbTotal.setChecked(true);
@@ -144,7 +195,6 @@ public class TaskBudgetFragment extends Fragment {
             cardBudgetH.setVisibility(View.GONE);
             estimatedH.setVisibility(View.GONE);
             estimatedT.setVisibility(View.VISIBLE);
-            showEstimatedBudget();
         } else {
             rbHourly.setChecked(true);
             rbTotal.setChecked(false);
@@ -155,8 +205,8 @@ public class TaskBudgetFragment extends Fragment {
             cardBudgetH.setVisibility(View.VISIBLE);
             estimatedH.setVisibility(View.VISIBLE);
             estimatedT.setVisibility(View.GONE);
-            showEstimatedBudget();
         }
+        showEstimatedBudget();
 
         showEstimatedBudget();
 
@@ -186,6 +236,24 @@ public class TaskBudgetFragment extends Fragment {
             public void afterTextChanged(Editable s) {
                 if (s.length() != 0)
                     showEstimatedBudget();
+            }
+        });
+        txtHours.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                txtDollerH.setTextColor(taskCreateActivity.getResources().getColor(R.color.black));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    showEstimatedBudget();
+                }
+
             }
         });
         edtBudgetT.addTextChangedListener(new TextWatcher() {
@@ -228,17 +296,35 @@ public class TaskBudgetFragment extends Fragment {
     }
 
     private void showEstimatedBudget() {
-        int time = 1;
-        if (rbHourly.isChecked()) {
-            time = Integer.parseInt(txtHours.getText().toString().trim());
-        }
+        int time = 0;
         int budgetH = 0;
-        if (edtBudgetH.getText().toString().trim().length() != 0)
-            budgetH = Integer.parseInt(edtBudgetH.getText().toString().trim());
-        txtBudgetH.setText(String.valueOf(time * budgetH));
         int budgetT = 0;
-        if (edtBudgetT.getText().toString().trim().length() != 0)
-            budgetT = Integer.parseInt(edtBudgetT.getText().toString().trim());
+
+        if (rbHourly.isChecked()) {
+            try {
+                time = Integer.parseInt(txtHours.getText().toString().trim());
+            } catch (NumberFormatException e) {
+                time = 0;
+            }
+        }
+
+        if (edtBudgetH.getText().toString().trim().length() != 0) {
+            try {
+                budgetH = Integer.parseInt(edtBudgetH.getText().toString().trim());
+            } catch (NumberFormatException e) {
+                budgetH = 0;
+            }
+        }
+
+        if (edtBudgetT.getText().toString().trim().length() != 0) {
+            try {
+                budgetT = Integer.parseInt(edtBudgetT.getText().toString().trim());
+            } catch (NumberFormatException e) {
+                budgetT = 0;
+            }
+        }
+
+        txtBudgetH.setText(String.valueOf(time * budgetH));
         txtBudgetT.setText(String.valueOf(budgetT));
     }
 
@@ -277,25 +363,41 @@ public class TaskBudgetFragment extends Fragment {
             case R.id.lyt_btn_post_task:
                 switch (getValidationCode()) {
                     case 0:
+                        int t = 0;
+                        int h = 0;
+                        int hh = 0;
+                        try {
+                            t = Integer.parseInt(txtBudgetT.getText().toString().trim());
+                        } catch (Exception e) {
+                            t = 0;
+                        }
+
+                        try {
+                            h = Integer.parseInt(txtBudgetH.getText().toString().trim());
+                        } catch (Exception e) {
+                            h = 0;
+                        }
+
+                        try {
+                            hh = Integer.parseInt(txtHours.getText().toString().trim());
+                        } catch (Exception e) {
+                            hh = 0;
+                        }
+
+
                         operationsListener.onNextClickBudget(
-                                rbTotal.isChecked() ? Integer.parseInt(edtBudgetT.getText().toString().trim()) : 0,
-                                rbHourly.isChecked() ? Integer.parseInt(edtBudgetH.getText().toString().trim()) : 0,
-                                Integer.parseInt(txtHours.getText().toString().trim()),
+                                rbTotal.isChecked() ? t : 0,
+                                rbHourly.isChecked() ? h : 0,
+                                hh,
                                 rbHourly.isChecked() ? "hourly " : "fixed"
                         );
                         operationsListener.onValidDataFilledBudgetNext();
                         break;
                     case 1:
-                        edtBudgetH.setError("Please enter your budget in total or hourly");
-                        edtBudgetT.setError("Please enter your budget in total or hourly");
+                        edtBudgetT.setError("Please enter your budget");
                         break;
                     case 2:
-                        edtBudgetH.setError("Please enter only your budget in total or hourly");
-                        edtBudgetT.setError("Please enter only your budget in total or hourly");
-                        break;
-                    case 3:
-                        edtBudgetH.setError("Budget Greater or Equal than $10");
-                        edtBudgetT.setError("Budget Greater or Equal than $10");
+                        edtBudgetH.setError("Please enter your budget");
                         break;
                 }
                 break;
@@ -319,16 +421,21 @@ public class TaskBudgetFragment extends Fragment {
     }
 
     private int getValidationCode() {
-        if (TextUtils.isEmpty(edtBudgetH.getText().toString().trim()) && TextUtils.isEmpty(edtBudgetT.getText().toString().trim())) {
-            return 1;
-        } else if (!TextUtils.isEmpty(edtBudgetH.getText().toString().trim()) && !TextUtils.isEmpty(edtBudgetT.getText().toString().trim())) {
-            return 2;
-        } else if (!TextUtils.isEmpty(edtBudgetH.getText().toString().trim()) && Integer.parseInt(edtBudgetH.getText().toString().trim()) < 10) {
-            return 3;
-        } else if (!TextUtils.isEmpty(edtBudgetT.getText().toString().trim()) && Integer.parseInt(edtBudgetT.getText().toString().trim()) < 10) {
-            return 3;
+        if (rbTotal.isChecked()) {
+            if (!TextUtils.isEmpty(txtBudgetT.getText().toString().trim()) && Integer.parseInt(txtBudgetT.getText().toString().trim()) > 9 &&
+                    Integer.parseInt(txtBudgetT.getText().toString().trim()) < 10000) {
+                return 0;
+            } else {
+                return 1;
+            }
+        } else {
+            if (!TextUtils.isEmpty(txtBudgetH.getText().toString().trim()) && Integer.parseInt(txtBudgetH.getText().toString().trim()) > 9 &&
+                    Integer.parseInt(txtBudgetH.getText().toString().trim()) < 10000) {
+                return 0;
+            } else {
+                return 2;
+            }
         }
-        return 0;
     }
 
     public interface OperationsListener {
@@ -357,4 +464,23 @@ public class TaskBudgetFragment extends Fragment {
 
     }
 
+    private void selectBudgetBtn() {
+        ColorStateList csl_primary = AppCompatResources.getColorStateList(getContext(), R.color.colorPrimary);
+        imgBudget.setImageTintList(csl_primary);
+        txtBudget.setTextColor(getResources().getColor(R.color.colorPrimary));
+        ColorStateList csl_green = AppCompatResources.getColorStateList(getContext(), R.color.green);
+        imgDateTime.setImageTintList(csl_green);
+        imgDetails.setImageTintList(csl_green);
+        txtDateTime.setTextColor(getResources().getColor(R.color.green));
+        txtDetails.setTextColor(getResources().getColor(R.color.green));
+        tabClickListener();
+    }
+
+    private void tabClickListener() {
+        if (getActivity() != null && getValidationCode() == 0) {
+            lytBtnDetails.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
+            lytBntDateTime.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
+            lytBtnBudget.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
+        }
+    }
 }

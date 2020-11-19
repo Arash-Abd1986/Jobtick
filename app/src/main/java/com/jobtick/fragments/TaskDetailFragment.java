@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -42,6 +44,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.BuildConfig;
 import com.jobtick.R;
+import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.adapers.AddTagAdapter;
 import com.jobtick.adapers.AttachmentAdapter1;
@@ -61,6 +64,9 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,7 +81,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
- import butterknife.OnClick;
+import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -89,8 +95,14 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.OnItemClickListener {
 
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.locationLyt)
+    LinearLayout locationLyt;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_details)
     LinearLayout lytBtnDetails;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.float_btn_card)
+    CardView float_btn_card;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_bnt_date_time)
     LinearLayout lytBntDateTime;
@@ -139,6 +151,25 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rcAttachment)
     RecyclerView rcAttachment;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.img_details)
+    ImageView imgDetails;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_details)
+    TextViewMedium txtDetails;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.img_date_time)
+    ImageView imgDateTime;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_date_time)
+    TextViewMedium txtDateTime;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.img_budget)
+    ImageView imgBudget;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_budget)
+    TextViewMedium txtBudget;
+
 
     private final String TAG = TaskDetailFragment.class.getName();
     private final int PLACE_SELECTION_REQUEST_CODE = 21;
@@ -205,6 +236,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         task = new TaskModel();
         attachmentArrayList.add(new AttachmentModel());
+        selectDetailsBtn();
 
         addTagList = new ArrayList<>();
         task.setTitle(getArguments().getString("TITLE"));
@@ -213,6 +245,17 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         task.setTaskType(getArguments().getString("TASK_TYPE"));
         task.setLocation(getArguments().getString("LOCATION"));
         task.setPosition(getArguments().getParcelable("POSITION"));
+
+        KeyboardVisibilityEvent.setEventListener(
+                getActivity(),
+                getViewLifecycleOwner(),
+                isOpen -> {
+                    if (isOpen) {
+                        float_btn_card.setVisibility(View.GONE);
+                    } else {
+                        float_btn_card.setVisibility(View.VISIBLE);
+                    }
+                });
 
         taskCreateActivity.setActionDraftTaskDetails(taskModel -> {
             if (taskModel.getTitle() != null && taskModel.getDescription() != null) {
@@ -299,7 +342,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                 edtDescriptionCounter.setText(edtTitle.getText().toString().trim().length() + "/25+");
                 edtDescriptionCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
             } else {
-                edtDescriptionCounter.setText(edtTitle.getText().toString().trim().length() + "/1000");
+                edtDescriptionCounter.setText(edtTitle.getText().toString().trim().length() + "/500");
                 edtDescriptionCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.green));
             }
         } else {
@@ -325,7 +368,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                         edtDescriptionCounter.setText(s.length() + "/25+");
                         edtDescriptionCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
                     } else {
-                        edtDescriptionCounter.setText(s.length() + "/1000");
+                        edtDescriptionCounter.setText(s.length() + "/500");
                         edtDescriptionCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.green));
                     }
                 } else {
@@ -343,6 +386,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             if (task.getTaskType().equalsIgnoreCase("remote")) {
                 checkboxOnline.setChecked(true);
                 txtSuburb.setVisibility(View.GONE);
+                locationLyt.setVisibility(View.GONE);
                 cardLocation.setFocusable(false);
                 cardLocation.setClickable(false);
             } else {
@@ -352,6 +396,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         } else {
             checkboxOnline.setChecked(false);
             txtSuburb.setVisibility(View.VISIBLE);
+            locationLyt.setVisibility(View.VISIBLE);
             cardLocation.setFocusable(true);
             cardLocation.setClickable(true);
         }
@@ -397,9 +442,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             case R.id.checkbox_online:
                 if (checkboxOnline.isChecked()) {
                     txtSuburb.setVisibility(View.GONE);
+                    locationLyt.setVisibility(View.GONE);
                     cardLocation.setClickable(false);
                 } else {
                     txtSuburb.setVisibility(View.VISIBLE);
+                    locationLyt.setVisibility(View.VISIBLE);
                     cardLocation.setClickable(true);
                 }
                 break;
@@ -864,5 +911,25 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         cursor.close();
 
         return path;
+    }
+
+    private void selectDetailsBtn() {
+        ColorStateList csl_primary = AppCompatResources.getColorStateList(getContext(), R.color.colorPrimary);
+        imgDetails.setImageTintList(csl_primary);
+        txtDetails.setTextColor(getResources().getColor(R.color.colorPrimary));
+        ColorStateList csl_grey = AppCompatResources.getColorStateList(getContext(), R.color.greyC4C4C4);
+        imgDateTime.setImageTintList(csl_grey);
+        imgBudget.setImageTintList(csl_grey);
+        txtDateTime.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
+        txtBudget.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
+        tabClickListener();
+    }
+
+    private void tabClickListener() {
+        if (getActivity() != null && getValidationCode() == 0) {
+            lytBtnDetails.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
+            lytBntDateTime.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
+            lytBtnBudget.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
+        }
     }
 }

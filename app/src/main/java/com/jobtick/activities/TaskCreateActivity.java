@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.cardview.widget.CardView;
 import androidx.viewpager.widget.ViewPager;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -49,6 +50,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import ru.noties.scrollable.CanScrollVerticallyDelegate;
+import ru.noties.scrollable.ScrollableLayout;
 import timber.log.Timber;
 
 import static com.jobtick.utils.ConstantKey.COMPLETES_MESSAGE_FROM;

@@ -1,6 +1,8 @@
 package com.jobtick.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,11 +13,13 @@ import android.view.WindowManager;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -52,6 +56,33 @@ public class TaskDateTimeFragment extends Fragment {
     CheckBox cbEvening;
     @BindView(R.id.bottom_sheet)
     FrameLayout bottomSheet;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.img_details)
+    ImageView imgDetails;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_details)
+    TextViewMedium txtDetails;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.img_date_time)
+    ImageView imgDateTime;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_date_time)
+    TextViewMedium txtDateTime;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.img_budget)
+    ImageView imgBudget;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_budget)
+    TextViewMedium txtBudget;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.lyt_btn_details)
+    LinearLayout lytBtnDetails;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.lyt_bnt_date_time)
+    LinearLayout lytBntDateTime;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.lyt_btn_budget)
+    LinearLayout lytBtnBudget;
 
 
     private TaskCreateActivity taskCreateActivity;
@@ -127,7 +158,7 @@ public class TaskDateTimeFragment extends Fragment {
             cbAfternoon.setChecked(false);
             cbEvening.setChecked(false);
         }
-
+        selectDateTimeBtn();
         taskCreateActivity.setActionDraftDateTime(taskModel -> {
             if (taskModel.getDueDate() != null) {
                 operationsListener.draftTaskDateTime(taskModel, true);
@@ -406,8 +437,26 @@ public class TaskDateTimeFragment extends Fragment {
 
         mBottomSheetDialog.show();
         mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
-
     }
 
+    private void selectDateTimeBtn() {
+        ColorStateList csl_primary = AppCompatResources.getColorStateList(getContext(), R.color.colorPrimary);
+        imgDateTime.setImageTintList(csl_primary);
+        txtDateTime.setTextColor(getResources().getColor(R.color.colorPrimary));
+        ColorStateList csl_grey = AppCompatResources.getColorStateList(getContext(), R.color.greyC4C4C4);
+        ColorStateList csl_green = AppCompatResources.getColorStateList(getContext(), R.color.green);
+        imgDetails.setImageTintList(csl_green);
+        imgBudget.setImageTintList(csl_grey);
+        txtDetails.setTextColor(getResources().getColor(R.color.green));
+        txtBudget.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
+        tabClickListener();
+    }
 
+    private void tabClickListener() {
+        if (getActivity() != null && getValidationCode() == 0) {
+            lytBtnDetails.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
+            lytBntDateTime.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
+            lytBtnBudget.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
+        }
+    }
 }

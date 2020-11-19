@@ -27,6 +27,7 @@ import com.jobtick.activities.NotificationActivity;
 import com.jobtick.activities.SearchCategoryActivity;
 import com.jobtick.adapers.TaskCategoryAdapter;
 import com.jobtick.utils.ConstantKey;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

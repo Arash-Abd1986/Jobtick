@@ -20,6 +20,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <include layout="@layout/view_post_job_tab" />
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -214,7 +216,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:text="Hours"
-                        android:textColor="@color/colorPrimary"/>
+                        android:textColor="@color/colorPrimary" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -228,6 +230,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_toStartOf="@id/img_btn_minus"
+                            android:background="@color/transparent"
                             android:inputType="number"
                             android:maxLength="3"
                             android:textColor="@color/textColor" />
@@ -477,6 +480,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lyt_btns"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

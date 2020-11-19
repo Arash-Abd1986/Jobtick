@@ -34,10 +34,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.TTCancellationSummaryActivity"/>
-        <activity android:name=".activities.TPCancellationSummaryActivity"/>
-        <activity android:name=".activities.PTCancellationSummaryActivity"/>
-        <activity android:name=".activities.PPCancellationSummaryActivity"/>
+        <activity android:name=".activities.TTCancellationSummaryActivity" />
+        <activity android:name=".activities.TPCancellationSummaryActivity" />
+        <activity android:name=".activities.PTCancellationSummaryActivity" />
+        <activity android:name=".activities.PPCancellationSummaryActivity" />
         <activity android:name=".incrementbudget.IncreaseBudgetRequestToPosterActivity" />
         <activity android:name=".incrementbudget.IncrementBudgetRequestViewActivity" />
         <activity android:name=".incrementbudget.IncrementBudgetDeclineActivity" />
@@ -54,8 +54,9 @@
         <activity android:name=".activities.Dashboard2Activity" />
         <activity android:name=".activities.PaymentHistoryActivity" />
         <activity android:name=".cancellations.CancellationRequestActivity" />
-        <activity android:name=".cancellations.CancellationDeclineActivity" android:windowSoftInputMode="adjustResize">
-        </activity>
+        <activity
+            android:name=".cancellations.CancellationDeclineActivity"
+            android:windowSoftInputMode="adjustResize"></activity>
         <activity android:name=".cancellations.CancellationAcceptedActivity" />
         <activity android:name=".cancellations.CancellationRequestSubmittedActivity" />
         <activity
@@ -83,7 +84,7 @@
         <activity android:name=".activities.MakeAnOfferActivity" />
         <activity
             android:name=".activities.TaskDetailsActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activities.NotificationActivity" />
         <activity android:name=".activities.CompleteMessageActivity" />
         <activity android:name=".activities.NewTaskAlertsActivity" />

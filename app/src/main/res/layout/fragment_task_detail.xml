@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_100"
     android:orientation="vertical"
+    android:background="@color/grey_100"
     tools:context=".fragments.TaskDetailFragment">
 
     <!--bottom sheet container-->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/lyt_button"
+        android:fillViewport="true"
         android:overScrollMode="never"
         android:scrollbars="none">
 
@@ -20,6 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <include layout="@layout/view_post_job_tab" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -187,6 +190,7 @@
                     android:layout_marginTop="4dp"
                     android:background="@null"
                     android:hint="@string/writeTitleForJob"
+                    android:maxLength="100"
                     android:singleLine="true"
                     android:textColor="@color/textColor" />
             </RelativeLayout>
@@ -230,6 +234,7 @@
                     android:background="@null"
                     android:gravity="top|start"
                     android:inputType="textMultiLine"
+                    android:maxLength="500"
                     android:minHeight="60dp"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/_14sp" />
@@ -340,6 +345,7 @@
                 android:background="@drawable/linear_rounded_white_fill_8dp">
 
                 <LinearLayout
+                    android:id="@+id/locationLyt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -380,6 +386,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/float_btn_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

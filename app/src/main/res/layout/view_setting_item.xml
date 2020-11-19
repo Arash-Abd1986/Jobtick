@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|start"
-                android:drawableEnd="@drawable/ic_chevron_right"
+                android:drawableEnd="@drawable/ic_chevron_right_grey"
                 android:gravity="start"
                 android:text="@string/edit_account"
                 android:textAppearance="@style/materialText_600_14"

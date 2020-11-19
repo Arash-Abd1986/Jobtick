@@ -190,7 +190,6 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
         if (sessionManager.getUserAccount().getIsVerifiedAccount() == 1) {
             imgVerifiedAccount.setVisibility(View.VISIBLE);
-            imgVerifiedAccount.setImageDrawable(getResources().getDrawable(R.drawable.ic_correct));
         } else {
             imgVerifiedAccount.setVisibility(View.GONE);
         }

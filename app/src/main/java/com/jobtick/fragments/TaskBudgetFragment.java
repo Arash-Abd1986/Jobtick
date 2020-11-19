@@ -20,10 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;

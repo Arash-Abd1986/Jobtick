@@ -214,8 +214,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:text="Hours"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold" />
+                        android:textColor="@color/colorPrimary"/>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -229,7 +228,6 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_toStartOf="@id/img_btn_minus"
-                            android:background="@null"
                             android:inputType="number"
                             android:maxLength="3"
                             android:textColor="@color/textColor" />
@@ -281,9 +279,7 @@
                         android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
                         android:text="Budget"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/colorPrimary" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -341,9 +337,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:text="Budget"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/colorPrimary" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"

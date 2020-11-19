@@ -2,6 +2,7 @@ package com.jobtick.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
@@ -29,6 +30,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     private String eContent;
     private String eHint;
     private TextView textView;
+    private TextView errorView;
     private EditText editText;
     private ImageView imageView;
     private boolean eIsPassword;
@@ -78,6 +80,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
         editText = (EditText) findViewById(R.id.content);
         textView = (TextView) findViewById(R.id.title);
+        errorView = (TextView) findViewById(R.id.error);
         imageView = (ImageView) findViewById(R.id.img_btn_password_toggle);
 
         textView.setText(eTitle);
@@ -201,6 +204,9 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_red);
         //sajad said that remove all error, red background is enough
         //editText.setError(error);
+        //my suggestion
+        errorView.setVisibility(View.VISIBLE);
+        errorView.setText(error);
     }
 
     public void addTextChangedListener(TextWatcher textWatcher) {
@@ -241,6 +247,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
     @Override
     public void onFocusChange(View view, boolean focused) {
+        errorView.setVisibility(View.GONE);
         if (focused)
             setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_primary);
         else

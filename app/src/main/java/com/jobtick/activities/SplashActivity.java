@@ -42,7 +42,7 @@ public class SplashActivity extends AppCompatActivity {
                 sessionManager = new SessionManager(SplashActivity.this);
                 login();
             }
-        },3000);
+        },2000);
     }
 
     private void login(){

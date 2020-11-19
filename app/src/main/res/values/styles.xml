@@ -15,10 +15,6 @@
 
     </style>
 
-    <style name="Splash.Apptheme" parent="AppTheme">
-        <item name="background">@drawable/splash_screen</item>
-    </style>
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
@@ -422,13 +418,10 @@
     </style>
 
     <!-- theme for splash - resolving blank screen before splash -->
-    <style name="Theme.Transparent" parent="AppTheme">
-        <item name="android:windowIsTranslucent">true</item>
+    <style name="Splash.AppTheme" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@drawable/splash_screen_layer</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
         <item name="android:navigationBarColor">@color/grey_transparent</item>
-        <item name="android:backgroundDimEnabled">false</item>
     </style>
 
     <style name="TransparentDialog" parent="Theme.Design.Light.BottomSheetDialog">

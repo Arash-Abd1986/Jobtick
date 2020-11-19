@@ -126,7 +126,7 @@
             android:label="@string/title_activity_dashboard" />
         <activity
             android:name=".activities.SplashActivity"
-            android:theme="@style/Theme.Transparent">
+            android:theme="@style/Splash.AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

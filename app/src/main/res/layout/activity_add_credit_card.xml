@@ -8,40 +8,13 @@
     android:orientation="vertical"
     tools:context=".activities.AddCreditCardActivity">
 
-    <LinearLayout
-        android:id="@+id/linearToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:orientation="horizontal">
-
-        <include layout="@layout/view_back_button" />
-
-        <com.jobtick.TextView.TextViewMedium
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_5sp"
-            android:text="@string/add_credit_card"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/_18sp" />
-
-    </LinearLayout>
-
-<!--    <com.google.android.material.appbar.MaterialToolbar-->
-<!--        android:id="@+id/toolbar"-->
-<!--        style="@style/materialToolBar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="?attr/actionBarSize"-->
-<!--        app:contentInsetStartWithNavigation="0dp"-->
-<!--        app:navigationIcon="@drawable/ic_back"-->
-<!--        app:title="@string/add_credit_card" />-->
+    <include layout="@layout/toolbar"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/lyt_btn_add_credit_card"
-        android:layout_below="@+id/linearToolbar"
+        android:layout_below="@+id/toolbar"
         android:scrollbars="none"
         android:layout_marginTop="@dimen/payment_page_margin_top">
 
@@ -55,151 +28,47 @@
             android:layout_marginBottom="@dimen/spacing_middle"
             android:orientation="vertical">
 
-            <com.stripe.android.view.CardMultilineWidget
-                android:id="@+id/card_multiline_widget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
 
             <LinearLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:visibility="visible">
 
-
-                <LinearLayout
+                <com.jobtick.widget.ExtendedEntryText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/payment_entry_box_spacing"
-                    android:background="@drawable/rectangle_card_round_corners_outlined"
-                    android:orientation="vertical"
-                    android:paddingStart="@dimen/spacing_large"
-                    android:paddingEnd="@dimen/spacing_large"
-                    android:paddingBottom="@dimen/payment_entry_box_padding_bottom">
+                    android:id="@+id/edt_full_name"
+                    app:eTitle="@string/full_name"
+                    app:eImeOptions="actionNext"
+                    app:eInputType="text"/>
 
-                    <com.jobtick.TextView.TextViewSemiBold
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/payment_entry_box_title_margin_top"
-                        android:text="@string/full_name"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_13sp" />
-
-
-                    <com.jobtick.EditText.EditTextRegular
-                        android:id="@+id/edt_full_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/payment_entry_box_spacing_middle"
-                        android:background="@null"
-                        tools:text="@string/name"
-                        android:textSize="@dimen/_14sp"
-                        android:gravity="center_vertical"/>
-                </LinearLayout>
-
-
-                <LinearLayout
+                <com.jobtick.widget.ExtendedEntryText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/payment_entry_box_spacing"
-                    android:background="@drawable/rectangle_card_round_corners_outlined"
-                    android:orientation="vertical"
-                    android:paddingStart="@dimen/spacing_large"
-                    android:paddingEnd="@dimen/spacing_large"
-                    android:paddingBottom="@dimen/payment_entry_box_padding_bottom">
+                    android:id="@+id/edt_card_number"
+                    app:eTitle="@string/card_number"
+                    android:layout_marginTop="8dp"
+                    app:eImeOptions="actionNext"
+                    app:eInputType="integer"/>
 
-                    <com.jobtick.TextView.TextViewSemiBold
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/payment_entry_box_title_margin_top"
-                        android:text="@string/card_number"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_13sp" />
-
-
-                    <com.jobtick.EditText.EditTextRegular
-                        android:id="@+id/edt_card_number"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/payment_entry_box_spacing_middle"
-                        android:background="@null"
-                        tools:text="xxxx-xxxx-xxxx-xxxx"
-                        android:inputType="number"
-                        android:textSize="@dimen/_14sp"
-                        android:gravity="center_vertical"/>
-
-                </LinearLayout>
-
-                <LinearLayout
+                <com.jobtick.widget.ExtendedEntryText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/payment_entry_box_spacing"
-                    android:background="@drawable/rectangle_card_round_corners_outlined"
-                    android:orientation="vertical"
-                    android:paddingStart="@dimen/spacing_large"
-                    android:paddingEnd="@dimen/spacing_large"
-                    android:paddingBottom="@dimen/payment_entry_box_padding_bottom">
+                    android:id="@+id/edt_expiry_date"
+                    android:layout_marginTop="8dp"
+                    app:eTitle="@string/expiry_date"
+                    app:eImeOptions="actionNext"
+                    app:eInputType="expiryDate"/>
 
-
-                    <com.jobtick.TextView.TextViewSemiBold
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/expiry_date"
-                        android:layout_marginTop="@dimen/payment_entry_box_title_margin_top"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_13sp" />
-
-
-                    <com.jobtick.TextView.TextViewRegular
-                        android:id="@+id/edt_expiry_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:layout_marginTop="@dimen/payment_entry_box_spacing_middle"
-                        android:drawableEnd="@drawable/calendar"
-                        android:drawableTint="@color/colorPrimary"
-                        android:hint="March, 2024"
-                        android:textSize="@dimen/_14sp"
-                        android:gravity="center_vertical"/>
-                </LinearLayout>
-
-
-                <LinearLayout
+                <com.jobtick.widget.ExtendedEntryText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/payment_entry_box_spacing"
-                    android:background="@drawable/rectangle_card_round_corners_outlined"
-                    android:orientation="vertical"
-                    android:paddingStart="@dimen/spacing_large"
-                    android:paddingEnd="@dimen/spacing_large"
-                    android:paddingBottom="@dimen/payment_entry_box_padding_bottom">
-
-                    <com.jobtick.TextView.TextViewSemiBold
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="@dimen/payment_entry_box_title_margin_top"
-                        android:drawableEnd="@drawable/ic_info_sign"
-                        android:drawablePadding="@dimen/spacing_large"
-                        android:text="@string/cvc"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_13sp" />
-
-
-                    <com.jobtick.EditText.EditTextRegular
-                        android:id="@+id/edt_security_number"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/payment_entry_box_spacing_middle"
-                        android:background="@null"
-                        tools:text="Security Number"
-                        android:inputType="number"
-                        android:maxLength="3"
-                        android:textSize="@dimen/_14sp"
-                        android:gravity="center_vertical"/>
-                </LinearLayout>
+                    android:id="@+id/edt_security_number"
+                    android:layout_marginTop="8dp"
+                    app:eTitle="@string/cvc"
+                    app:eImeOptions="actionDone"
+                    app:eInputType="integer"/>
 
             </LinearLayout>
 

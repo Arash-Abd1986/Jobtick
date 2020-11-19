@@ -98,7 +98,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.AddCreditCardActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".activities.AddBankAccountActivity"
             android:windowSoftInputMode="adjustResize" />

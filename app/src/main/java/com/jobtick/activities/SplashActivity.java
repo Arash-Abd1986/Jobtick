@@ -1,10 +1,12 @@
 package com.jobtick.activities;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.WindowManager;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -12,12 +14,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
 import com.jobtick.R;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.Constant;
@@ -29,7 +25,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SplashActivity extends ActivityBase {
+public class SplashActivity extends AppCompatActivity {
 
     SessionManager sessionManager;
 
@@ -38,54 +34,35 @@ public class SplashActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        sessionManager = new SessionManager(this);
-        permission();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                sessionManager = new SessionManager(SplashActivity.this);
+                login();
+            }
+        },3000);
     }
 
-    public void permission() {
-        Dexter.withContext(this)
-                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                .withListener(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse response) {
-                        startLocationUpdates();
-                        if (sessionManager.getLogin()) {
-
-                            getAccountDetails();
-
-                        } else {
-                            Intent sign = new Intent(SplashActivity.this, SinginSingupAcitivity.class);
-                            sign.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            sign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(sign);
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse response) {
-                        if (response.isPermanentlyDenied()) {
-                            // open device settings when the permission is
-                            // denied permanently
-                            openSettings();
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).check();
-
+    private void login(){
+        if (sessionManager.getLogin()) {
+            getAccountDetails();
+        } else {
+            Intent sign = new Intent(SplashActivity.this, SinginSingupAcitivity.class);
+            sign.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            sign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(sign);
+            finish();
+        }
     }
 
     private void getAccountDetails() {
-        showProgressDialog();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_GET_ACCOUNT,
                 response -> {
                     Log.e("responce_url", response);
 
-                    hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
@@ -103,14 +80,10 @@ public class SplashActivity extends ActivityBase {
                     } catch (JSONException e) {
                         Log.e("EXCEPTION", String.valueOf(e));
                         e.printStackTrace();
-
                     }
-
-
                 },
                 error -> {
-                    errorHandle1(error.networkResponse);
-                    hideProgressDialog();
+
                 }) {
 
 

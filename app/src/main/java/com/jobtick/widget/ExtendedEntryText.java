@@ -199,7 +199,8 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
     public void setError(CharSequence error) {
         setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_red);
-        editText.setError(error);
+        //sajad said that remove all error, red background is enough
+        //editText.setError(error);
     }
 
     public void addTextChangedListener(TextWatcher textWatcher) {

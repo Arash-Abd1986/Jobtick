@@ -8,28 +8,35 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="0dp"
+    <ImageView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:lottie_rawRes="@raw/city"
-        app:lottie_loop="true"
-        app:lottie_autoPlay="true"
+        android:src="@drawable/ic_city_rev2"
         android:scaleType="centerCrop"
-        android:adjustViewBounds="true"
-        android:layout_weight="0.5"
         android:layout_gravity="bottom"/>
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:lottie_rawRes="@raw/city"
-        app:lottie_loop="true"
-        android:scaleType="centerCrop"
-        app:lottie_autoPlay="true"
-        android:scaleX="-1"
-        android:adjustViewBounds="true"
-        android:layout_weight="0.5"
-        android:layoutDirection="rtl"
-        android:layout_gravity="bottom" />
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:lottie_rawRes="@raw/city"-->
+<!--        app:lottie_loop="true"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:adjustViewBounds="true"-->
+<!--        android:layout_weight="0.5"-->
+<!--        android:layout_gravity="bottom"/>-->
+
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:lottie_rawRes="@raw/city"-->
+<!--        app:lottie_loop="true"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        android:scaleX="-1"-->
+<!--        android:adjustViewBounds="true"-->
+<!--        android:layout_weight="0.5"-->
+<!--        android:layoutDirection="rtl"-->
+<!--        android:layout_gravity="bottom" />-->
 
 </LinearLayout>

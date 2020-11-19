@@ -50,8 +50,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import ru.noties.scrollable.CanScrollVerticallyDelegate;
-import ru.noties.scrollable.ScrollableLayout;
 import timber.log.Timber;
 
 import static com.jobtick.utils.ConstantKey.COMPLETES_MESSAGE_FROM;

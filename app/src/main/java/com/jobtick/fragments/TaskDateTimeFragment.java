@@ -272,10 +272,20 @@ public class TaskDateTimeFragment extends Fragment {
                         operationsListener.onValidDataFilledDateTimeBack();
                         break;
                     case 1:
-                        txtDate.setError("Please select date");
+                        operationsListener.onBackClickDateTime(
+                                Tools.getDayMonthDateTimeFormat(txtDate.getText().toString().trim()),
+                                getDueTimeModel()
+                        );
+                    //    txtDate.setError("Please select date");
+                        operationsListener.onValidDataFilledDateTimeBack();
                         break;
                     case 2:
-                        taskCreateActivity.showToast("Select Due time", taskCreateActivity);
+                        operationsListener.onBackClickDateTime(
+                                Tools.getDayMonthDateTimeFormat(txtDate.getText().toString().trim()),
+                                getDueTimeModel()
+                        );
+                     //   taskCreateActivity.showToast("Select Due time", taskCreateActivity);
+                        operationsListener.onValidDataFilledDateTimeBack();
                         break;
                 }
 

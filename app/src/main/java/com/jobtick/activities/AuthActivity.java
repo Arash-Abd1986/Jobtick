@@ -168,6 +168,84 @@ public class AuthActivity extends ActivityBase {
 
     }
 
+    public void forgotPasswordSpecialVerification(String email, String otp) {
+        showProgressDialog();
+        String str_email = email;
+        String str_otp = otp;
+        Helper.closeKeyboard(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_RESET_PASSWORD_VERIFY_OTP,
+                response -> {
+                    hideProgressDialog();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Bundle bundle = new Bundle();
+                        Fragment fragment = new ForgotPassword3Fragment();
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        ft.replace(R.id.auth_layout, fragment);
+                        bundle.putString("email", str_email);
+                        bundle.putString("otp", otp);
+                        fragment.setArguments(bundle);
+                        ft.commit();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            String message = jsonObject_error.getString("message");
+                            if (message.equalsIgnoreCase("unauthorized")) {
+                                Fragment fragment = new SignInFragment();
+                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                                ft.replace(R.id.container, fragment);
+                                ft.commit();
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            showToast(message, AuthActivity.this);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", AuthActivity.this);
+                    }
+                    hideProgressDialog();
+                }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("email", str_email);
+                map1.put("otp", str_otp);
+
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+    }
+
     public void resetPassword(String email, String otp, String new_password) {
         showProgressDialog();
         String str_email = email;

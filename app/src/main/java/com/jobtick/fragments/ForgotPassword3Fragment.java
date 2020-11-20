@@ -1,6 +1,8 @@
 package com.jobtick.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
@@ -9,14 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.auth.api.proxy.AuthApiStatusCodes;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
+import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.AuthActivity;
+import com.jobtick.utils.TimeHelper;
 import com.jobtick.widget.ExtendedEntryText;
 
 import butterknife.BindView;
@@ -28,6 +35,11 @@ import butterknife.OnClick;
  */
 public class ForgotPassword3Fragment extends FragmentBase {
     String email,otp;
+    CountDownTimer timer;
+    private final String zeroTime = "0:00";
+
+    @BindView(R.id.time_limit)
+    TextView timeLimit;
     @BindView(R.id.password)
     ExtendedEntryText edtNewPassword;
     @BindView(R.id.confirm_password)
@@ -59,6 +71,23 @@ public class ForgotPassword3Fragment extends FragmentBase {
             authActivity.onBackPressed();
         });
 
+        timer = new CountDownTimer(90000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                timeLimit.setText(
+                        TimeHelper.convertSecondsToMinAndSeconds((int)(millisUntilFinished / 1000)));
+
+                timeLimit.setAlpha(1F);
+            }
+
+            public void onFinish() {
+                timeLimit.setText(zeroTime);
+                timeLimit.setAlpha(0.4F);
+            }
+        };
+
+        timer.start();
+
         return view;
     }
 
@@ -74,10 +103,14 @@ public class ForgotPassword3Fragment extends FragmentBase {
     }
 
     private boolean verification() {
-        if(TextUtils.isEmpty(edtNewPassword.getText().toString().trim())){
+        if(timeLimit.getText() == zeroTime){
+            ((ActivityBase)requireActivity()).showToast("Time limit is ended. Please try again.", requireContext());
+            authActivity.unauthorizedUser();
+        }
+        else if(TextUtils.isEmpty(edtNewPassword.getText().toString().trim())){
             edtNewPassword.setError("Please enter the password");
             return false;
-        }else if(!edtNewPassword.getText().toString().trim().equals(edtRepeatNewPassword.getText().toString().trim())){
+        }else if(!edtNewPassword.getText().toString().trim().equals(edtRepeatNewPassword.getText().toString().trim())) {
             edtRepeatNewPassword.setError("doesn't match your password");
             return false;
         }

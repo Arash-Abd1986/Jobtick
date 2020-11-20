@@ -12,6 +12,9 @@ public class TimeHelper {
     public static String convertSecondsToMinAndSeconds(int seconds){
         int min = seconds / 60;
         int sec = seconds % 60;
+        if(sec < 10)
+            return min + ":0" + sec;
+
         return min + ":" + sec;
     }
 

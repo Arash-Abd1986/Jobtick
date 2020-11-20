@@ -45,7 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CompleteRegistrationActivity extends ActivityBase {
+public class CompleteRegistrationActivity extends ActivityBase implements View.OnClickListener{
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -93,6 +93,9 @@ public class CompleteRegistrationActivity extends ActivityBase {
                     .build(CompleteRegistrationActivity.this);
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
+
+        cbWorker.setOnClickListener(this);
+        cbPoster.setOnClickListener(this);
     }
 
     private void initToolbar() {
@@ -246,6 +249,11 @@ public class CompleteRegistrationActivity extends ActivityBase {
     }
 
     private boolean validation() {
+        if(!cbWorker.isChecked() && !cbPoster.isChecked()){
+            cbWorker.setBackgroundResource(R.drawable.radio_button_background_on_error);
+            cbPoster.setBackgroundResource(R.drawable.radio_button_background_on_error);
+            return false;
+        }
         if (TextUtils.isEmpty(edtFirstName.getText().toString())) {
             edtFirstName.setError("Please enter first name");
             return false;
@@ -308,5 +316,10 @@ public class CompleteRegistrationActivity extends ActivityBase {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        view.setBackgroundResource(R.drawable.radio_button_background);
     }
 }

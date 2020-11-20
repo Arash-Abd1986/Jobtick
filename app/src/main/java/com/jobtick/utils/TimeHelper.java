@@ -9,6 +9,12 @@ import java.util.TimeZone;
 
 public class TimeHelper {
 
+    public static String convertSecondsToMinAndSeconds(int seconds){
+        int min = seconds / 60;
+        int sec = seconds % 60;
+        return min + ":" + sec;
+    }
+
     public static String convertToShowTimeFormat(String time) {
 
         SimpleDateFormat sdf

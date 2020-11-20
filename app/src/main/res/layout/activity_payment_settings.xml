@@ -7,13 +7,14 @@
     android:background="@color/grey_100"
     tools:context=".activities.PaymentSettingsActivity">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/linearToolbar"
+        android:layout_below="@id/toolbar"
+        android:fillViewport="true"
         android:scrollbars="none">
 
         <LinearLayout

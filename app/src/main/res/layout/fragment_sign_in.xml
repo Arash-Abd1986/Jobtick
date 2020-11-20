@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundLightGrey"
     android:fillViewport="true"
+    android:importantForAutofill="yes"
+    android:focusableInTouchMode="true"
     android:scrollbarThumbVertical="@android:color/transparent">
 
 
@@ -75,7 +77,8 @@
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_large"
                     android:layout_marginBottom="@dimen/spacing_middle"
-                    app:eTitle="@string/password" />
+                    app:eTitle="@string/password"
+                    app:eImeOptions="actionDone"/>
 
             </LinearLayout>
 

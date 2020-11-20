@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundLightGrey"
+    android:orientation="vertical"
+    tools:context=".fragments.NewTaskFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:layout_above="@+id/lty_btn_post"
+        android:layout_alignParentTop="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/hand"
+                android:layout_width="24dp"
+                android:layout_height="0dp"
+                android:src="@drawable/waving_hand"
+                android:layout_marginStart="6dp"
+                android:layout_alignBottom="@id/hi"
+                android:layout_alignTop="@id/hi"
+                android:layout_alignParentStart="true"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/hi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/materialText_600_24"
+                android:textColor="@color/textColor"
+                android:text="Hi"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@id/hand"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/materialText_600_24"
+                android:textColor="@color/colorPrimary"
+                android:text="Mahan"
+                android:layout_toEndOf="@id/hi"
+                android:layout_alignTop="@id/hand"
+                android:layout_marginStart="8dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/ticker_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_below="@id/hi"
+                android:layout_marginTop="32dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                android:elevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/strokeRed"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="0dp"
+                        android:elevation="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center"
+                            android:padding="14dp"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                android:src="@drawable/ticker_1"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginStart="16dp"/>
+
+                            <ImageView
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                android:src="@drawable/ticker_2"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginStart="16dp"/>
+
+                            <ImageView
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                android:src="@drawable/ticker_3"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginStart="16dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/materialText_600_18"
+                        android:textColor="@color/textColor"
+                        android:layout_marginTop="8dp"
+                        android:text="Become a Ticker" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/materialText_400_16"
+                        android:textColor="@color/grey_70"
+                        android:layout_marginTop="8dp"
+                        android:text="Explore jobs which suit you, Make your best offer to get the job!" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/poster_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="20dp"
+                android:layout_below="@id/ticker_card"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                android:elevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/colorPrimary"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="0dp"
+                        android:elevation="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center"
+                            android:padding="14dp"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                android:src="@drawable/poster_1"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginStart="16dp"/>
+
+                            <ImageView
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                android:src="@drawable/poster_2"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginStart="16dp"/>
+
+                            <ImageView
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                android:src="@drawable/poster_3"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginStart="16dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/materialText_600_18"
+                        android:textColor="@color/textColor"
+                        android:layout_marginTop="8dp"
+                        android:text="Post a job" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/materialText_400_16"
+                        android:textColor="@color/grey_70"
+                        android:layout_marginTop="8dp"
+                        android:text="Post whatever you need to get done! Select a Ticker to get it done!" />
+
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+
+
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/lty_btn_post"
+        style="@style/materialButton"
+        android:layout_width="174dp"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="24dp"
+        android:text="@string/post_a_job"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sp" />
+
+</RelativeLayout>

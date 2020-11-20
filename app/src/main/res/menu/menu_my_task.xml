@@ -7,13 +7,12 @@
         android:orderInCategory="100"
         android:icon="@drawable/ic_search_new"
         android:title="@string/action_search"
-        app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_filter"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_sort"
+        android:icon="@drawable/ic_sort_blue"
         android:title="@string/action_filter"
         app:showAsAction="always" />
 

@@ -1,28 +1,28 @@
 package com.jobtick.fragments;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
+
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
-import com.jobtick.EditText.EditTextRegular;
+import com.jobtick.AppExecutors;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.AuthActivity;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.utils.TimeHelper;
 import com.jobtick.widget.ExtendedEntryText;
 
 import butterknife.BindView;
@@ -32,23 +32,29 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public abstract class AbstractVerifyAccountFragment extends Fragment {
+public abstract class AbstractVerifyAccountFragment extends Fragment implements AuthActivity.OnResendOtp {
     String email, password;
     SessionManager sessionManager;
+    AuthActivity authActivity;
+    CountDownTimer timer;
+
     @BindView(R.id.verify)
     ExtendedEntryText edtVerificationCode;
 
     @BindView(R.id.email_verify_message)
     TextView emailVerifyMessage;
 
-    AuthActivity authActivity;
     @BindView(R.id.lyt_btn_finish)
     MaterialButton lytBtnFinish;
 
+    @BindView(R.id.resend_otp)
+    TextView resendOtp;
+
+    @BindView(R.id.time_limit)
+    TextView timeLimit;
+
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +73,28 @@ public abstract class AbstractVerifyAccountFragment extends Fragment {
         });
 
         emailVerifyMessage.setText(email);
+        authActivity.setOnResendOtp(this);
+
+        timer = new CountDownTimer(90000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                timeLimit.setText(
+                        TimeHelper.convertSecondsToMinAndSeconds((int)(millisUntilFinished / 1000)));
+
+                resendOtp.setEnabled(false);
+                resendOtp.setAlpha(0.4F);
+                timeLimit.setAlpha(1F);
+            }
+
+            public void onFinish() {
+                timeLimit.setText("0:00");
+                resendOtp.setEnabled(true);
+                resendOtp.setAlpha(1F);
+                timeLimit.setAlpha(0.4F);
+            }
+        };
+
+        timer.start();
         return view;
     }
 
@@ -95,29 +123,15 @@ public abstract class AbstractVerifyAccountFragment extends Fragment {
         });
     }
 
-    private void pasteData() {
-
-        Object clipboardService = authActivity.getSystemService(Context.CLIPBOARD_SERVICE);
-        final ClipboardManager clipboardManager = (ClipboardManager) clipboardService;
-        // Get clip data from clipboard.
-        ClipData clipData = clipboardManager.getPrimaryClip();
-        // Get item count.
-        int itemCount = clipData.getItemCount();
-        if (itemCount > 0) {
-            // Get source text.
-            ClipData.Item item = clipData.getItemAt(0);
-            String text = item.getText().toString();
-
-            edtVerificationCode.setText(text);
-        }
-    }
-
-    @OnClick({R.id.lyt_btn_finish})
+    @OnClick({R.id.lyt_btn_finish, R.id.resend_otp})
     public void onViewClicked(View view) {
 
         switch (view.getId()) {
             case R.id.lyt_btn_finish:
                 whatNext();
+                break;
+            case R.id.resend_otp:
+                authActivity.resendOtp(email);
                 break;
         }
     }
@@ -132,4 +146,15 @@ public abstract class AbstractVerifyAccountFragment extends Fragment {
 
     abstract void whatNext();
 
+
+    @Override
+    public void success() {
+        authActivity.showToast("Code resent successfully.", getContext());
+        timer.start();
+    }
+
+    @Override
+    public void failure() {
+        authActivity.showToast("Resend code failed.", getContext());
+    }
 }

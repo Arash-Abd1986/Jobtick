@@ -93,6 +93,7 @@
         <attr name="eTitle"/>
         <attr name="eContent"/>
         <attr name="eHint" />
+        <attr name="eStartFocus" format="boolean"/>
         <attr name="eInputType" format="enum">
             <enum name="text" value="0"/>
             <enum name="integer" value="1"/>
@@ -101,6 +102,11 @@
             <enum name="phone" value="4"/>
             <enum name="suburb" value="5"/>
             <enum name="expiryDate" value="6"/>
+        </attr>
+        <attr name="eImeOptions" format="enum">
+            <enum name="actionNext" value="0"/>
+            <enum name="actionDone" value="1"/>
+            <enum name="normal" value="2"/>
         </attr>
     </declare-styleable>
 

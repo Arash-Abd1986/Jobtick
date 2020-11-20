@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".activities.TaskAlertsActivity">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
 
     <RelativeLayout
@@ -39,43 +39,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Turn on job alerts to receive notification about any jobs meeting your skills."
-                        android:textColor="@color/textColor"
-                        android:textAppearance="@style/materialText_500_14" />
-
-                    <LinearLayout
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_middle"
-                        android:background="@drawable/bg_blue_border"
-                        android:orientation="horizontal">
+                        android:textAppearance="@style/materialText_500_14"
+                        android:textColor="@color/textColor" />
 
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:padding="@dimen/_5sp"
-                            android:text="Receive Alerts?"
-                            android:textColor="@color/textColor"
-                            android:textAppearance="@style/materialText_400_14" />
-
-
-                        <CheckBox
+                        <com.google.android.material.checkbox.MaterialCheckBox
                             android:id="@+id/cb_receive_alerts"
-                            android:layout_width="@dimen/_20sp"
-                            android:layout_height="@dimen/_20sp"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="@dimen/_3sp"
-                            android:background="@drawable/radio_button_selector"
-                            android:button="@null"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="@dimen/spacing_middle"
+                            android:background="@drawable/radio_button_background"
+                            android:button="@drawable/inset_radio_button"
                             android:checked="true"
-                            android:gravity="center" />
-
-
-                    </LinearLayout>
+                            android:elevation="2dp"
+                            android:layoutDirection="rtl"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:text="@string/receive_alerts"
+                            android:textAppearance="@style/materialText_400_14" />
 
                 </LinearLayout>
 
@@ -108,8 +89,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Set Custom Job Alerts"
-                                android:textColor="@color/colorPrimary"
-                                android:textAppearance="@style/materialText_600_14"/>
+                                android:textAppearance="@style/materialText_600_14"
+                                android:textColor="@color/colorPrimary" />
 
                             <View
                                 android:layout_width="match_parent"
@@ -119,8 +100,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Set a custom job alert to get notified when a match pop-ups."
-                                android:textColor="@color/textColor"
-                                android:textAppearance="@style/materialText_400_14" />
+                                android:textAppearance="@style/materialText_400_14"
+                                android:textColor="@color/textColor" />
 
                         </LinearLayout>
 
@@ -139,8 +120,8 @@
                             android:paddingEnd="@dimen/spacing_mlarge"
                             android:paddingBottom="@dimen/spacing_large"
                             android:text="Add Custom Alert"
-                            android:textColor="@color/colorPrimary"
-                            android:textAppearance="@style/materialText_500_14" />
+                            android:textAppearance="@style/materialText_500_14"
+                            android:textColor="@color/colorPrimary" />
 
                         <LinearLayout
                             android:id="@+id/alerts_container"
@@ -149,20 +130,20 @@
                             android:orientation="vertical"
                             android:visibility="visible">
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="@dimen/_5sp"
-                            android:background="#F0F0F0" />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="@dimen/_5sp"
+                                android:background="#F0F0F0" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recycler_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_3sp"
-                            tools:listitem="@layout/item_task_alert"
-                            android:overScrollMode="never"
-                            android:visibility="visible" />
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_view"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_3sp"
+                                android:overScrollMode="never"
+                                android:visibility="visible"
+                                tools:listitem="@layout/item_task_alert" />
 
                         </LinearLayout>
 
@@ -173,41 +154,41 @@
                     android:id="@+id/no_alerts_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_gravity="center_horizontal"
+                    android:orientation="vertical"
                     android:visibility="gone">
 
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/rectangle_button_round_corners_outlined_primary"
-                        android:src="@drawable/ic_bell_white"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginTop="40dp"
+                        android:background="@drawable/rectangle_button_round_corners_outlined_primary"
                         android:padding="8dp"
-                        android:layout_gravity="center_horizontal" />
+                        android:src="@drawable/ic_bell_white" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAppearance="@style/materialText_600_14"
-                        android:text="@string/no_job_alert_set"
                         android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal"
                         android:layout_marginTop="16dp"
-                        android:textColor="@color/textColor"/>
+                        android:gravity="center_horizontal"
+                        android:text="@string/no_job_alert_set"
+                        android:textAppearance="@style/materialText_600_14"
+                        android:textColor="@color/textColor" />
 
                 </LinearLayout>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
-<!--        <ImageView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:layout_margin="@dimen/_15sp"-->
-<!--            android:src="@drawable/floating_blue_button" />-->
+        <!--        <ImageView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_alignParentBottom="true"-->
+        <!--            android:layout_centerHorizontal="true"-->
+        <!--            android:layout_margin="@dimen/_15sp"-->
+        <!--            android:src="@drawable/floating_blue_button" />-->
 
     </RelativeLayout>
 

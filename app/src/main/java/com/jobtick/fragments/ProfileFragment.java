@@ -208,8 +208,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     private Typeface poppins_medium;
     private LinearLayout lPort, lSkill, NoPortfolio,NoAbout;
     private  ImageView ivLevelInfo,ivProfileInfo;
-    private LinearLayout noReview,tickerReview,posterReview;
-    private TextView txtNoReview;
+    private LinearLayout noReview,tickerReview,posterReview,noSkill;
+    private TextView txtNoReview,addSkill,addPortFilo;
     public ProfileFragment() {
     }
 
@@ -231,6 +231,11 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         lPort = view.findViewById(R.id.lyt_Port);
         lSkill = view.findViewById(R.id.lyt_skills);
         NoAbout=view.findViewById(R.id.no_about);
+        noSkill=view.findViewById(R.id.no_port_skill);
+        addPortFilo=view.findViewById(R.id.txt_add_portfolio);
+
+
+        addSkill=view.findViewById(R.id.txt_add_skill);
         txtNoReview=view.findViewById(R.id.tv_no_review);
         noReview=view.findViewById(R.id.no_review);
         posterReview=view.findViewById(R.id.poster_review);
@@ -351,12 +356,18 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             //lytAbout.setVisibility(View.VISIBLE);
             if (attachmentArrayList.size() <= 0) {
                 NoPortfolio.setVisibility(View.VISIBLE);
+                noSkill.setVisibility(View.GONE);
                 recyclerViewPortfolio.setVisibility(View.GONE);
+                addPortFilo.setOnClickListener(view13 -> {
+                    Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                    startActivity(intent);
+                });
                 lPort.setVisibility(View.GONE);
             } else {
                 if(attachmentArrayList.size() > 10){
                     Toast.makeText(dashboardActivity, "MAX 10 picture", Toast.LENGTH_SHORT).show(); }
                 recyclerViewPortfolio.setVisibility(View.VISIBLE);
+                noSkill.setVisibility(View.GONE);
                 NoPortfolio.setVisibility(View.GONE);
                 lPort.setVisibility(View.VISIBLE);
             }
@@ -367,11 +378,17 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             if (rbSkills.isChecked()) {
             if (tagEducation.size()<=0 && tagExperience.size()<=0 && tagLanguage.size() <= 0
             && tagSpecialities.size()<=0&& tagTransportation.size()<=0) {
-                NoPortfolio.setVisibility(View.VISIBLE);
+                NoPortfolio.setVisibility(View.GONE);
+                noSkill.setVisibility(View.VISIBLE);
+                addSkill.setOnClickListener(view13 -> {
+                    Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                    startActivity(intent);
+                });
                 lSkill.setVisibility(View.GONE);
                 tvSkills.setVisibility(View.GONE);
             } else {
                 NoPortfolio.setVisibility(View.GONE);
+                noSkill.setVisibility(View.GONE);
                 lSkill.setVisibility(View.VISIBLE);
                 tvSkills.setVisibility(View.VISIBLE);
             }

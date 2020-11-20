@@ -930,6 +930,7 @@
                                 android:text="@string/increase_your_chance_to_get_a_job_by" />
 
                             <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/txt_add_portfolio"
                                 style="@style/materialText_400_14"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -937,7 +938,49 @@
                                 android:text="@string/adding_portf"
                                 android:textColor="@color/colorPrimary" />
                         </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/no_port_skill"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="20dp"
+                            tools:ignore="TooManyViews"
+                            android:visibility="gone">
 
+                            <ImageView
+                                android:layout_width="@dimen/_50dp"
+                                android:layout_height="@dimen/_50dp"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/spacing_large"
+                                android:contentDescription="@string/todo"
+                                android:padding="@dimen/_8dp"
+                                android:src="@drawable/ic_group_10749" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                style="@style/materialText_600_14"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/no_portfolio_added_yet" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                style="@style/materialText_400_14"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/increase_your_chance_to_get_a_job_by" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/txt_add_skill"
+                                style="@style/materialText_400_14"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="adding your skills"
+                                android:textColor="@color/colorPrimary" />
+                        </LinearLayout>
                     </LinearLayout>
                 </FrameLayout>
             </LinearLayout>

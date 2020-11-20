@@ -213,7 +213,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sp"
                         android:gravity="center"
-                        android:text="@string/_4_6"
+                        android:text="0"
                         android:textColor="@color/colorTaskAssigned" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -261,8 +261,8 @@
                             android:layout_toStartOf="@+id/txt_review_count_5_star"
                             android:layout_toEndOf="@+id/txt_5"
                             android:indeterminate="false"
-                            android:max="100"
-                            android:progress="50"
+                            android:max="5"
+                            android:progress="0"
                             android:progressDrawable="@drawable/color_primary_progress" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -273,7 +273,7 @@
                             android:layout_alignParentEnd="true"
                             android:minWidth="@dimen/spacing_mxlarge"
                             android:textColor="@color/_4f4f4f"
-                            tools:text="(1)" />
+                            tools:text="(0)" />
                     </RelativeLayout>
 
                     <View
@@ -305,8 +305,8 @@
                             android:layout_toStartOf="@+id/txt_review_count_4_star"
                             android:layout_toEndOf="@+id/txt_4"
                             android:indeterminate="false"
-                            android:max="100"
-                            android:progress="20"
+                            android:max="5"
+                            android:progress="0"
                             android:progressDrawable="@drawable/color_primary_progress" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -318,7 +318,7 @@
                             android:layout_centerVertical="true"
                             android:minWidth="@dimen/spacing_mxlarge"
                             android:textColor="@color/_4f4f4f"
-                            tools:text="(10)" />
+                            tools:text="(0)" />
                     </RelativeLayout>
 
                     <View
@@ -350,8 +350,8 @@
                             android:layout_toStartOf="@+id/txt_review_count_3_star"
                             android:layout_toEndOf="@+id/txt_3"
                             android:indeterminate="false"
-                            android:max="100"
-                            android:progress="20"
+                            android:max="5"
+                            android:progress="0"
                             android:progressDrawable="@drawable/color_primary_progress" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -363,7 +363,7 @@
                             android:layout_centerVertical="true"
                             android:minWidth="@dimen/spacing_mxlarge"
                             android:textColor="@color/_4f4f4f"
-                            tools:text="(10)" />
+                            tools:text="(0)" />
                     </RelativeLayout>
 
                     <View
@@ -396,8 +396,8 @@
                             android:layout_toStartOf="@+id/txt_review_count_2_star"
                             android:layout_toEndOf="@+id/txt_2"
                             android:indeterminate="false"
-                            android:max="100"
-                            android:progress="20"
+                            android:max="5"
+                            android:progress="0"
                             android:progressDrawable="@drawable/color_primary_progress" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -409,7 +409,7 @@
                             android:layout_centerVertical="true"
                             android:minWidth="@dimen/spacing_mxlarge"
                             android:textColor="@color/_4f4f4f"
-                            tools:text="(10)" />
+                            tools:text="(0)" />
                     </RelativeLayout>
 
                     <View
@@ -442,8 +442,8 @@
                             android:layout_toStartOf="@+id/txt_review_count_1_star"
                             android:layout_toEndOf="@+id/txt_1"
                             android:indeterminate="false"
-                            android:max="100"
-                            android:progress="20"
+                            android:max="5"
+                            android:progress="0"
                             android:progressDrawable="@drawable/color_primary_progress" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -455,7 +455,7 @@
                             android:layout_centerVertical="true"
                             android:minWidth="@dimen/spacing_mxlarge"
                             android:textColor="@color/_4f4f4f"
-                            tools:text="(10)" />
+                            tools:text="(0)" />
 
                     </RelativeLayout>
                 </LinearLayout>
@@ -494,7 +494,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sp"
                         android:gravity="center"
-                        android:text="@string/_4_6"
+                        android:text="0"
                         android:textColor="@color/colorTaskAssigned" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -542,8 +542,8 @@
                             android:layout_toStartOf="@+id/txt_review_count_5_starP"
                             android:layout_toEndOf="@+id/txt_5P"
                             android:indeterminate="false"
-                            android:max="100"
-                            android:progress="50"
+                            android:max="5"
+                            android:progress="0"
                             android:progressDrawable="@drawable/color_primary_progress" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -554,7 +554,7 @@
                             android:layout_alignParentEnd="true"
                             android:minWidth="@dimen/spacing_mxlarge"
                             android:textColor="@color/_4f4f4f"
-                            tools:text="(1)" />
+                            tools:text="(0)" />
                     </RelativeLayout>
 
                     <View
@@ -586,8 +586,8 @@
                             android:layout_toStartOf="@+id/txt_review_count_4_starP"
                             android:layout_toEndOf="@+id/txt_4P"
                             android:indeterminate="false"
-                            android:max="100"
-                            android:progress="20"
+                            android:max="5"
+                            android:progress="0"
                             android:progressDrawable="@drawable/color_primary_progress" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -599,7 +599,7 @@
                             android:layout_centerVertical="true"
                             android:minWidth="@dimen/spacing_mxlarge"
                             android:textColor="@color/_4f4f4f"
-                            tools:text="(10)" />
+                            tools:text="(0)" />
                     </RelativeLayout>
 
                     <View
@@ -631,8 +631,8 @@
                             android:layout_toStartOf="@+id/txt_review_count_3_starP"
                             android:layout_toEndOf="@+id/txt_3P"
                             android:indeterminate="false"
-                            android:max="100"
-                            android:progress="20"
+                            android:max="5"
+                            android:progress="0"
                             android:progressDrawable="@drawable/color_primary_progress" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -644,7 +644,7 @@
                             android:layout_centerVertical="true"
                             android:minWidth="@dimen/spacing_mxlarge"
                             android:textColor="@color/_4f4f4f"
-                            tools:text="(10)" />
+                            tools:text="(0)" />
                     </RelativeLayout>
 
                     <View
@@ -677,8 +677,8 @@
                             android:layout_toStartOf="@+id/txt_review_count_2_starP"
                             android:layout_toEndOf="@+id/txt_2P"
                             android:indeterminate="false"
-                            android:max="100"
-                            android:progress="20"
+                            android:max="5"
+                            android:progress="0"
                             android:progressDrawable="@drawable/color_primary_progress" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -690,7 +690,7 @@
                             android:layout_centerVertical="true"
                             android:minWidth="@dimen/spacing_mxlarge"
                             android:textColor="@color/_4f4f4f"
-                            tools:text="(10)" />
+                            tools:text="(0)" />
                     </RelativeLayout>
 
                     <View
@@ -723,8 +723,8 @@
                             android:layout_toStartOf="@+id/txt_review_count_1_starP"
                             android:layout_toEndOf="@+id/txt_1P"
                             android:indeterminate="false"
-                            android:max="100"
-                            android:progress="20"
+                            android:max="5"
+                            tools:progress="0"
                             android:progressDrawable="@drawable/color_primary_progress" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -736,7 +736,7 @@
                             android:layout_centerVertical="true"
                             android:minWidth="@dimen/spacing_mxlarge"
                             android:textColor="@color/_4f4f4f"
-                            tools:text="(10)" />
+                            tools:text="(0)" />
 
                     </RelativeLayout>
                 </LinearLayout>

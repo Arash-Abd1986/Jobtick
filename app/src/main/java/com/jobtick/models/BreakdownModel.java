@@ -33,7 +33,6 @@ public class BreakdownModel implements Parcelable {
     }
 
     /**
-     *
      * @param _1
      * @param _2
      * @param _3
@@ -173,30 +172,4 @@ public class BreakdownModel implements Parcelable {
         this._5 = _5;
     }
 
-
-
-
-    public RatingModel getJsonToModel(JSONObject jsonObject){
-        RatingModel ratingModel = new RatingModel();
-        try {
-            if (jsonObject.has("rating_breakdown") && !jsonObject.isNull("rating_breakdown")) {
-                JSONObject jsonObject_rating_breakdown = jsonObject.getJSONObject("rating_breakdown");
-                if(jsonObject_rating_breakdown.has("1") && !jsonObject_rating_breakdown.has("1"))
-                    ratingModel.set1(jsonObject_rating_breakdown.getInt("1"));
-                if(jsonObject_rating_breakdown.has("2") && !jsonObject_rating_breakdown.has("2"))
-                    ratingModel.set2(jsonObject_rating_breakdown.getInt("2"));
-                if(jsonObject_rating_breakdown.has("3") && !jsonObject_rating_breakdown.has("3"))
-                    ratingModel.set3(jsonObject_rating_breakdown.getInt("3"));
-                if(jsonObject_rating_breakdown.has("4") && !jsonObject_rating_breakdown.has("4"))
-                    ratingModel.set4(jsonObject_rating_breakdown.getInt("4"));
-                if(jsonObject_rating_breakdown.has("5") && !jsonObject_rating_breakdown.has("5"))
-                    ratingModel.set5(jsonObject_rating_breakdown.getInt("5"));
-            }
-
-        }catch (JSONException e){
-            Log.e(TAG,e.toString());
-            e.printStackTrace();
-        }
-        return ratingModel;
-    }
 }

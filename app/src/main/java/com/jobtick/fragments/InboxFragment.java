@@ -2,6 +2,7 @@ package com.jobtick.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -123,44 +124,10 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
         super.onViewCreated(view, savedInstanceState);
         sessionManager = new SessionManager(dashboardActivity);
 
-
-        dashboardActivity = (DashboardActivity) getActivity();
-        if (dashboardActivity != null) {
-            toolbar = dashboardActivity.findViewById(R.id.toolbar);
-            toolbar.getMenu().clear();
-            toolbar.inflateMenu(R.menu.menu_new_task);
-            toolbar.getMenu().findItem(R.id.action_search).setVisible(true);
-            ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
-            ivNotification.setVisibility(View.GONE);
-            toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
-            toolbar_title.setVisibility(View.VISIBLE);
-            toolbar_title.setText("Chat");
-            toolbar_title.setTypeface(ResourcesCompat.getFont(getActivity(), R.font.poppins_medium));
-            toolbar.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.grey_100));
-            androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT,
-                    Toolbar.LayoutParams.WRAP_CONTENT);
-            params.gravity = Gravity.LEFT;
-            toolbar_title.setLayoutParams(params);
-
-            toolbar.post(() -> {
-                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
-                toolbar.setNavigationIcon(d);
-            });
-
-        }
+        initToolbar();
 
         toolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.action_search) {
-                Menu menu = toolbar.getMenu();
-                searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-                searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-                searchView.setOnQueryTextListener(InboxFragment.this);
-                searchView.setOnCloseListener(InboxFragment.this);
-
-                if (item.collapseActionView()) {
-                    Timber.e("Called");
-                }
-            }
+            //TODO: start Search activity
             return false;
         });
 
@@ -227,6 +194,31 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
               //  System.out.println("There was a problem connecting!");
             }
         }, ConnectionState.ALL);
+    }
+
+    private void initToolbar() {
+        dashboardActivity = (DashboardActivity) getActivity();
+        if (dashboardActivity == null) return;
+        toolbar = dashboardActivity.findViewById(R.id.toolbar);
+        toolbar.getMenu().clear();
+        toolbar.inflateMenu(R.menu.menu_new_task);
+        toolbar.getMenu().findItem(R.id.action_search).setVisible(true);
+        ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
+        ivNotification.setVisibility(View.GONE);
+        toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
+        toolbar_title.setVisibility(View.VISIBLE);
+        toolbar_title.setText("Chat");
+        toolbar_title.setTextSize(20f);
+        toolbar_title.setTypeface(ResourcesCompat.getFont(getActivity(), R.font.poppins_semi_bold));
+        toolbar.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.backgroundLightGrey));
+        androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT,
+                Toolbar.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.START;
+        toolbar_title.setLayoutParams(params);
+        toolbar.post(() -> {
+            Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
+            toolbar.setNavigationIcon(d);
+        });
     }
 
     private void subscribeToPresence() {

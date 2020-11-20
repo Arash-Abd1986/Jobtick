@@ -230,33 +230,34 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             LevelInfoBottomSheet levelInfoBottomSheet = new LevelInfoBottomSheet();
             levelInfoBottomSheet.show(getParentFragmentManager(), "");
         });
-        dashboardActivity = (DashboardActivity) getActivity();
         poppins_medium = Typeface.createFromAsset(getActivity().getAssets(), "fonts/poppins_Medium.otf");
         onProfileupdatelistener = this;
-        if (dashboardActivity != null) {
-            toolbar = dashboardActivity.findViewById(R.id.toolbar);
-            toolbar.getMenu().clear();
-            toolbar.inflateMenu(R.menu.menu_profile);
-            ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
-            ivNotification.setVisibility(View.GONE);
-            TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
-            toolbar_title.setVisibility(View.VISIBLE);
-
-            toolbar_title.setText("Profile");
-
-            toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_medium));
-            toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.grey_100));
-            androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
-            params.gravity = Gravity.LEFT;
-            toolbar_title.setLayoutParams(params);
-
-            toolbar.post(() -> {
-                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
-                toolbar.setNavigationIcon(d);
-            });
-
-        }
+        initToolbar();
         return view;
+    }
+
+
+    private void initToolbar() {
+        dashboardActivity = (DashboardActivity) getActivity();
+        if (dashboardActivity == null) return;
+        toolbar = dashboardActivity.findViewById(R.id.toolbar);
+        toolbar.getMenu().clear();
+        toolbar.inflateMenu(R.menu.menu_profile);
+        ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
+        ivNotification.setVisibility(View.GONE);
+        TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
+        toolbar_title.setVisibility(View.VISIBLE);
+        toolbar_title.setText("Profile");
+        toolbar_title.setTextSize(20f);
+        toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_semi_bold));
+        toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.backgroundLightGrey));
+        androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.START;
+        toolbar_title.setLayoutParams(params);
+        toolbar.post(() -> {
+            Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
+            toolbar.setNavigationIcon(d);
+        });
     }
 
 

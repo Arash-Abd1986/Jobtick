@@ -12,6 +12,7 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -56,6 +57,7 @@ public class NewTaskFragment extends Fragment {
     View buttonContainer;
 
     View root;
+    TextView toolbar_title;
 
     private TaskCategoryAdapter adapter;
     private Toolbar toolbar;
@@ -70,32 +72,7 @@ public class NewTaskFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_new_task_rev2, container, false);
 //        View root = inflater.inflate(R.layout.fragment_new_task, container, false);
         ButterKnife.bind(this, root);
-        DashboardActivity dashboardActivity = (DashboardActivity) getActivity();
-        if (dashboardActivity != null) {
-            toolbar = dashboardActivity.findViewById(R.id.toolbar);
-            toolbar.getMenu().clear();
-            toolbar.inflateMenu(R.menu.menu_new_task);
-            toolbar.getMenu().findItem(R.id.action_search).setVisible(false);
-            ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
-            ivNotification.setVisibility(View.VISIBLE);
-            TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
-            toolbar_title.setVisibility(View.VISIBLE);
-
-            toolbar.post(() -> {
-                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
-                toolbar.setNavigationIcon(d);
-            });
-
-            toolbar_title.setText(R.string.jobTick);
-
-            if (getContext() != null) {
-                toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.background));
-                toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_bold));
-
-            }
-            androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
-            params.gravity = Gravity.CENTER;
-        }
+        initToolbar();
 
         lytBtnPost.setOnClickListener(v -> {
             Intent creating_task = new Intent(getActivity(), CategoryListActivity.class);
@@ -117,6 +94,30 @@ public class NewTaskFragment extends Fragment {
         return root;
     }
 
+    private void initToolbar() {
+        DashboardActivity dashboardActivity = (DashboardActivity) getActivity();
+        if (dashboardActivity == null) return;
+        toolbar = dashboardActivity.findViewById(R.id.toolbar);
+        toolbar.getMenu().clear();
+        toolbar.inflateMenu(R.menu.menu_new_task);
+        toolbar.getMenu().findItem(R.id.action_search).setVisible(false);
+        ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
+        ivNotification.setVisibility(View.VISIBLE);
+        TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
+        toolbar_title.setVisibility(View.VISIBLE);
+        toolbar_title.setText(R.string.jobTick);
+        toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.backgroundLightGrey));
+        toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_bold));
+        toolbar_title.setTextSize(22f);
+        androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.CENTER;
+        toolbar_title.setLayoutParams(params);
+        toolbar.post(() -> {
+            Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
+            toolbar.setNavigationIcon(d);
+        });
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -136,18 +137,18 @@ public class NewTaskFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void calculateSpaceHeight(){
+    private void calculateSpaceHeight() {
 
         int scrollHeight = scrollView.getChildAt(0).getHeight();
         int totalHeight = root.getHeight();
         int bottomHeight = buttonContainer.getHeight();
 
         //24 for shadow and ...
-        int space = (int)(((scrollHeight + bottomHeight) - totalHeight) + 24);
+        int space = (int) (((scrollHeight + bottomHeight) - totalHeight) + 24);
 
-        if(space > 0){
-            LinearLayout.LayoutParams dynamicParams = new LinearLayout.LayoutParams(root.getWidth(),space);
-            dynamicParams.setMargins(0,0,0,0);
+        if (space > 0) {
+            LinearLayout.LayoutParams dynamicParams = new LinearLayout.LayoutParams(root.getWidth(), space);
+            dynamicParams.setMargins(0, 0, 0, 0);
             dynamicSpace.setLayoutParams(dynamicParams);
         }
     }

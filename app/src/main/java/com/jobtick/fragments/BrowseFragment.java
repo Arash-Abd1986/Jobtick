@@ -106,34 +106,31 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         View view = inflater.inflate(R.layout.fragment_browse, container, false);
         ButterKnife.bind(this, view);
         initToolbar();
+        sessionManager = new SessionManager(dashboardActivity);
         return view;
     }
 
     private void initToolbar() {
         dashboardActivity = (DashboardActivity) getActivity();
-        if (dashboardActivity != null) {
-            toolbar = dashboardActivity.findViewById(R.id.toolbar);
-            toolbar.getMenu().clear();
-            toolbar.inflateMenu(R.menu.menu_browse_task);
-            ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
-            ivNotification.setVisibility(View.GONE);
-            TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
-            toolbar_title.setVisibility(View.VISIBLE);
-
-            toolbar_title.setText(R.string.explore);
-
-            toolbar_title.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.poppins_medium));
-            toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.grey_100));
-            androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
-            params.gravity = Gravity.LEFT;
-            toolbar_title.setLayoutParams(params);
-
-            toolbar.post(() -> {
-                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
-                toolbar.setNavigationIcon(d);
-            });
-            sessionManager = new SessionManager(dashboardActivity);
-        }
+        if (dashboardActivity == null) return;
+        toolbar = dashboardActivity.findViewById(R.id.toolbar);
+        toolbar.getMenu().clear();
+        toolbar.inflateMenu(R.menu.menu_browse_task);
+        ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
+        ivNotification.setVisibility(View.GONE);
+        TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
+        toolbar_title.setVisibility(View.VISIBLE);
+        toolbar_title.setText(R.string.explore);
+        toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.backgroundLightGrey));
+        toolbar_title.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.poppins_semi_bold));
+        toolbar_title.setTextSize(20F);
+        androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.START;
+        toolbar_title.setLayoutParams(params);
+        toolbar.post(() -> {
+            Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
+            toolbar.setNavigationIcon(d);
+        });
         setHasOptionsMenu(true);
     }
 

@@ -15,12 +15,13 @@
         android:background="@color/grey_100"
         app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="@drawable/ic_back"
-        app:title="Filter" />
+        app:title="Filter"
+        app:titleTextAppearance="@style/materialText_500_18"/>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_marginStart="@dimen/spacing_large"
         android:layout_marginEnd="@dimen/spacing_large"
         android:background="@color/grey_100"
@@ -30,13 +31,13 @@
         <RadioGroup
             android:id="@+id/rg_filters"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
             android:background="@drawable/shape_tab_white_f"
             android:orientation="horizontal"
-            android:padding="@dimen/_5sp"
+            android:padding="4dp"
             android:weightSum="3">
 
-            <RadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rb_remotely"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,11 +48,10 @@
                 android:checked="true"
                 android:gravity="center"
                 android:text="@string/remotely"
+                android:textAppearance="@style/materialText_500_14"
+                android:textColor="@color/radio_btn" />
 
-                android:textColor="@color/radio_btn"
-                android:textSize="@dimen/_14sp" />
-
-            <RadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rb_in_person"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,10 +61,9 @@
                 android:gravity="center"
                 android:text="@string/in_person"
                 android:textColor="@color/radio_btn"
-                android:textSize="@dimen/_14sp" />
+                android:textAppearance="@style/materialText_500_14" />
 
-            <RadioButton
-
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rb_all"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,7 +73,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="@string/all"
-
+                android:textAppearance="@style/materialText_500_14"
                 android:textColor="@color/radio_btn"
                 android:textSize="@dimen/_14sp" />
 

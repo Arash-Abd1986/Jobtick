@@ -137,34 +137,34 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         ButterKnife.bind(this, view);
         noJobs =view.findViewById(R.id.no_jobs_container);
         swipeRefresh.setOnRefreshListener(this);
-        dashboardActivity = (DashboardActivity) getActivity();
-        if (dashboardActivity != null) {
-            toolbar = dashboardActivity.findViewById(R.id.toolbar);
-            toolbar.getMenu().clear();
-            toolbar.inflateMenu(R.menu.menu_my_task);
-            toolbar.setVisibility(View.VISIBLE);
-            ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
-            ivNotification.setVisibility(View.GONE);
-            toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
-            toolbar_title.setVisibility(View.VISIBLE);
-            toolbar_title.setText("My jobs");
-
-            toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_medium));
-            toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.grey_100));
-            androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
-            params.gravity = Gravity.LEFT;
-            toolbar_title.setLayoutParams(params);
-
-            toolbar.post(() -> {
-                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
-                toolbar.setNavigationIcon(d);
-            });
-
-        }
+        initToolbar();
         setHasOptionsMenu(true);
         mBehavior = BottomSheetBehavior.from(bottomSheet);
 
         return view;
+    }
+
+    private void initToolbar() {
+        dashboardActivity = (DashboardActivity) getActivity();
+        if (dashboardActivity == null) return;
+        toolbar = dashboardActivity.findViewById(R.id.toolbar);
+        toolbar.getMenu().clear();
+        toolbar.inflateMenu(R.menu.menu_my_task);
+        toolbar.setVisibility(View.VISIBLE);
+        ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
+        ivNotification.setVisibility(View.GONE);
+        toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
+        toolbar_title.setVisibility(View.VISIBLE);
+        toolbar_title.setText("My jobs");
+
+        toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_semi_bold));
+        androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.START;
+        toolbar_title.setLayoutParams(params);
+        toolbar.post(() -> {
+            Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
+            toolbar.setNavigationIcon(d);
+        });
     }
 
     @Override

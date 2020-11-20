@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -148,8 +149,14 @@ public class ReviewsActivity extends ActivityBase {
     int userId;
 
     RadioButton poster,ticker;
-    LinearLayout noReview;
-    TextView txtReview,txtSub;
+    LinearLayout noReview,lytTicker,lytPoster;
+    private TextView txtReview,txtSub,txtRatingValueP,txtReviewCountsP,txt_review_count_1_starP,
+            txt_review_count_2_starP,txt_review_count_3_starP,txt_review_count_4_starP
+    ,txt_review_count_5_starP;
+   private ProgressBar progress_bar_1_starP,progress_bar_2_starP,progress_bar_3_starP,progress_bar_4_starP,
+           progress_bar_5_starP;
+    private RatingBar ratingbar;
+
     public ReviewsActivity() {
     }
 
@@ -187,6 +194,21 @@ public class ReviewsActivity extends ActivityBase {
         noReview =findViewById(R.id.lyt_no_review);
         txtReview=findViewById(R.id.txt_no_review);
         txtSub=findViewById(R.id.txt_suburb);
+        lytTicker=findViewById(R.id.ticker);
+        lytPoster=findViewById(R.id.Poster);
+        ratingbar=findViewById(R.id.ratingbarP);
+        txtRatingValueP=findViewById(R.id.txt_rating_valuesP);
+        txtReviewCountsP=findViewById(R.id.txt_reviews_countsP);
+        progress_bar_1_starP=findViewById(R.id.progress_bar_1_starP);
+        txt_review_count_1_starP=findViewById(R.id.txt_review_count_1_starP);
+        progress_bar_2_starP=findViewById(R.id.progress_bar_2_starP);
+        txt_review_count_2_starP=findViewById(R.id.txt_review_count_2_starP);
+        progress_bar_3_starP=findViewById(R.id.progress_bar_3_starP);
+        txt_review_count_3_starP=findViewById(R.id.txt_review_count_3_starP);
+        progress_bar_4_starP=findViewById(R.id.progress_bar_4_starP);
+        txt_review_count_4_starP=findViewById(R.id.txt_review_count_4_starP);
+        progress_bar_5_starP=findViewById(R.id.progress_bar_5_starP);
+        txt_review_count_5_starP=findViewById(R.id.txt_review_count_5_starP);
         LinearLayoutManager layoutManager = new LinearLayoutManager(ReviewsActivity.this);
         recyclerReview.setLayoutManager(layoutManager);
         reviewAdapter = new ReviewAdapter(ReviewsActivity.this, new ArrayList<>());
@@ -205,13 +227,19 @@ public class ReviewsActivity extends ActivityBase {
 
     private void onChangeTabBiography() {
         if (poster.isChecked()) {
+            lytTicker.setVisibility(View.GONE);
+            lytPoster.setVisibility(View.VISIBLE);
             poster.setTextColor(getResources().getColor(R.color.blue));
             ticker.setTextColor(getResources().getColor(R.color.textColor));
         } else {poster.setTextColor(getResources().getColor(R.color.textColor));
             ticker.setTextColor(getResources().getColor(R.color.blue));}
+
+
         if (ticker.isChecked()) {
             ticker.setTextColor(getResources().getColor(R.color.blue));
             poster.setTextColor(getResources().getColor(R.color.textColor));
+            lytTicker.setVisibility(View.VISIBLE);
+            lytPoster.setVisibility(View.GONE);
         } else {ticker.setTextColor(getResources().getColor(R.color.textColor));
             poster.setTextColor(getResources().getColor(R.color.blue));}
     }
@@ -229,7 +257,104 @@ public class ReviewsActivity extends ActivityBase {
         }
         txtName.setText(userAccountModel.getName());
         txtSub.setText(userAccountModel.getLocation());
-        if (WhoIs.equals(Constant.AS_A_POSTER)) {
+
+        //worker
+        if (userAccountModel.getWorkerRatings() != null) {
+            ratingBar.setRating(userAccountModel.getWorkerRatings().getAvgRating());
+           txtRatingValue.setText(userAccountModel.getWorkerRatings().getAvgRating().toString());
+           txtReviewCounts.setText(userAccountModel.getWorkerRatings().getReceivedReviews().toString()+"Review");
+            if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().get1() != null) {
+                progress_bar_1_star.setProgress(userAccountModel.getWorkerRatings().getBreakdownModel().get1());
+                txt_review_count_1_star.setText("(" + userAccountModel.getWorkerRatings().getBreakdownModel().get1().toString() + ")");
+            } else {
+                progress_bar_1_star.setProgress(0);
+                txt_review_count_1_star.setText("(0)");
+
+            }
+            if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().get2() != null) {
+                progress_bar_2_star.setProgress(userAccountModel.getWorkerRatings().getBreakdownModel().get2());
+                txt_review_count_2_star.setText("(" + userAccountModel.getWorkerRatings().getBreakdownModel().get2().toString() + ")");
+            } else {
+                progress_bar_2_star.setProgress(0);
+                txt_review_count_2_star.setText("(0)");
+
+            }
+            if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().get3() != null) {
+                progress_bar_3_star.setProgress(userAccountModel.getWorkerRatings().getBreakdownModel().get3());
+                txt_review_count_3_star.setText("(" + userAccountModel.getWorkerRatings().getBreakdownModel().get3().toString() + ")");
+            } else {
+                progress_bar_3_star.setProgress(0);
+                txt_review_count_3_star.setText("(0)");
+
+            }
+            if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().get4() != null) {
+                progress_bar_4_star.setProgress(userAccountModel.getWorkerRatings().getBreakdownModel().get4());
+                txt_review_count_4_star.setText("(" + userAccountModel.getWorkerRatings().getBreakdownModel().get4().toString() + ")");
+            } else {
+                progress_bar_4_star.setProgress(0);
+                txt_review_count_4_star.setText("(0)");
+
+            }
+            if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().get5() != null) {
+                progress_bar_5_star.setProgress(userAccountModel.getWorkerRatings().getBreakdownModel().get5());
+                txt_review_count_5_star.setText("(" + userAccountModel.getWorkerRatings().getBreakdownModel().get5().toString() + ")");
+            } else {
+                progress_bar_5_star.setProgress(0);
+                txt_review_count_5_star.setText("(0)");
+
+            }
+
+        }
+
+        //poster
+        if (userAccountModel.getPosterRatings() != null) {
+            ratingbar.setRating(userAccountModel.getPosterRatings().getAvgRating());
+            txtRatingValueP.setText(userAccountModel.getPosterRatings().getAvgRating().toString());
+            txtReviewCountsP.setText(userAccountModel.getPosterRatings().getReceivedReviews().toString()+"Review");
+            if (userAccountModel.getPosterRatings() != null && userAccountModel.getPosterRatings().get1() != null) {
+                progress_bar_1_starP.setProgress(userAccountModel.getPosterRatings().getBreakdownModel().get1());
+                txt_review_count_1_starP.setText("(" + userAccountModel.getPosterRatings().getBreakdownModel().get1().toString() + ")");
+            } else {
+                progress_bar_1_starP.setProgress(0);
+                txt_review_count_1_starP.setText("(0)");
+
+            }
+            if (userAccountModel.getPosterRatings() != null && userAccountModel.getPosterRatings().get2() != null) {
+                progress_bar_2_starP.setProgress(userAccountModel.getPosterRatings().getBreakdownModel().get2());
+                txt_review_count_2_starP.setText("(" + userAccountModel.getPosterRatings().getBreakdownModel().get2().toString() + ")");
+            } else {
+                progress_bar_2_starP.setProgress(0);
+                txt_review_count_2_starP.setText("(0)");
+
+            }
+            if (userAccountModel.getPosterRatings() != null && userAccountModel.getPosterRatings().get3() != null) {
+                progress_bar_3_starP.setProgress(userAccountModel.getPosterRatings().getBreakdownModel().get3());
+                txt_review_count_3_starP.setText("(" + userAccountModel.getPosterRatings().getBreakdownModel().get3().toString() + ")");
+            } else {
+                progress_bar_3_starP.setProgress(0);
+                txt_review_count_3_starP.setText("(0)");
+
+            }
+            if (userAccountModel.getPosterRatings() != null && userAccountModel.getPosterRatings().get4() != null) {
+                progress_bar_4_starP.setProgress(userAccountModel.getPosterRatings().getBreakdownModel().get4());
+                txt_review_count_4_starP.setText("(" + userAccountModel.getPosterRatings().getBreakdownModel().get4().toString() + ")");
+            } else {
+                progress_bar_4_starP.setProgress(0);
+                txt_review_count_4_starP.setText("(0)");
+
+            }
+            if (userAccountModel.getPosterRatings() != null && userAccountModel.getPosterRatings().get5() != null) {
+                progress_bar_5_starP.setProgress(userAccountModel.getPosterRatings().getBreakdownModel().get5());
+                txt_review_count_5_starP.setText("(" + userAccountModel.getPosterRatings().getBreakdownModel().get5().toString() + ")");
+            } else {
+                progress_bar_5_starP.setProgress(0);
+                txt_review_count_5_starP.setText("(0)");
+
+            }
+        }
+
+
+     /*   if (WhoIs.equals(Constant.AS_A_POSTER)) {
 
             if (userAccountModel.getPosterRatings() != null && userAccountModel.getPosterRatings().getAvgRating() != null) {
                 ratingBar.setProgress(userAccountModel.getPosterRatings().getAvgRating());
@@ -295,15 +420,12 @@ public class ReviewsActivity extends ActivityBase {
 
 
         } else {
-
-
             if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().getAvgRating() != null) {
                 ratingBar.setProgress(userAccountModel.getWorkerRatings().getAvgRating());
                 txtRatingValue.setText("(" + userAccountModel.getWorkerRatings().getAvgRating() + ")");
             }
             //txtComplettionRate.setText(userAccountModel.getWorkTaskStatistics().getCompletionRate() + "% Completion Rate");
-            if (userAccountModel.getWorkerRatings() != null
-                    && userAccountModel.getWorkerRatings().getReceivedReviews() != null) {
+            if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().getReceivedReviews() != null) {
 
                 if (userAccountModel.getWorkerRatings().getReceivedReviews() <= 1) {
                     txtReviewCounts.setText(userAccountModel.getWorkerRatings().getReceivedReviews() + " review");
@@ -311,12 +433,9 @@ public class ReviewsActivity extends ActivityBase {
                     txtReviewCounts.setText(userAccountModel.getWorkerRatings().getReceivedReviews() + " reviews");
                 }
             }
-
-
             if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().get1() != null) {
                 progress_bar_1_star.setProgress(userAccountModel.getWorkerRatings().get1());
                 txt_review_count_1_star.setText("(" + userAccountModel.getWorkerRatings().get1().toString() + ")");
-
             } else {
                 progress_bar_1_star.setProgress(0);
                 txt_review_count_1_star.setText("(0)");
@@ -330,7 +449,6 @@ public class ReviewsActivity extends ActivityBase {
                 txt_review_count_2_star.setText("(0)");
                 progress_bar_2_star.setProgress(0);
             }
-
             if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().get3() != null) {
                 txt_review_count_3_star.setText("(" + userAccountModel.getWorkerRatings().get3().toString() + ")");
 
@@ -338,19 +456,14 @@ public class ReviewsActivity extends ActivityBase {
             } else {
                 progress_bar_3_star.setProgress(0);
                 txt_review_count_3_star.setText("(0)");
-
-
             }
-
             if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().get4() != null) {
                 progress_bar_4_star.setProgress(userAccountModel.getWorkerRatings().get4());
                 txt_review_count_4_star.setText("(" + userAccountModel.getWorkerRatings().get4().toString() + ")");
             } else {
                 progress_bar_4_star.setProgress(0);
                 txt_review_count_4_star.setText("(0)");
-
             }
-
             if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().get5() != null) {
                 progress_bar_5_star.setProgress(userAccountModel.getWorkerRatings().get5());
                 txt_review_count_5_star.setText("(" + userAccountModel.getWorkerRatings().get5().toString() + ")");
@@ -362,7 +475,7 @@ public class ReviewsActivity extends ActivityBase {
 
             }
 
-        }
+        }*/
 
     }
 

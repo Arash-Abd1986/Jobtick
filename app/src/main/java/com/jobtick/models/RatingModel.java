@@ -12,7 +12,9 @@ import org.json.JSONObject;
 
 public class RatingModel implements Parcelable {
     String TAG = RatingModel.class.getName();
-    @SerializedName("1")
+    @Expose
+    private BreakdownModel breakdownModel;
+    @SerializedName("rating_breakdown")
     @Expose
     private Integer _1;
     @SerializedName("2")
@@ -43,6 +45,14 @@ public class RatingModel implements Parcelable {
     @Expose
     private Integer avgRating;
 
+    public BreakdownModel getBreakdownModel() {
+        return breakdownModel;
+    }
+
+    public void setBreakdownModel(BreakdownModel breakdownModel) {
+        this.breakdownModel = breakdownModel;
+    }
+
     /**
      * No args constructor for use in serialization
      *
@@ -62,14 +72,17 @@ public class RatingModel implements Parcelable {
      * @param pendingReviews
      * @param avgRating
      * @param sentReviews
+     * @param breakdownModel
      */
-    public RatingModel(Integer _1, Integer _2, Integer _3, Integer _4, Integer _5, Integer receivedReviews, Integer sentReviews, Integer pendingReviews, Integer totalRatings, Integer avgRating) {
+    public RatingModel(Integer _1, Integer _2, Integer _3, Integer _4, Integer _5, Integer receivedReviews, Integer sentReviews,BreakdownModel breakdownModel ,Integer pendingReviews, Integer totalRatings, Integer avgRating) {
         super();
         this._1 = _1;
         this._2 = _2;
         this._3 = _3;
         this._4 = _4;
         this._5 = _5;
+
+        this.breakdownModel =breakdownModel ;
         this.receivedReviews = receivedReviews;
         this.sentReviews = sentReviews;
         this.pendingReviews = pendingReviews;
@@ -129,6 +142,7 @@ public class RatingModel implements Parcelable {
         } else {
             avgRating = in.readInt();
         }
+        breakdownModel = in.readParcelable(BreakdownModel.class.getClassLoader());
     }
 
     @Override
@@ -193,6 +207,7 @@ public class RatingModel implements Parcelable {
             dest.writeByte((byte) 1);
             dest.writeInt(avgRating);
         }
+        dest.writeParcelable(breakdownModel, flags);
     }
 
     @Override

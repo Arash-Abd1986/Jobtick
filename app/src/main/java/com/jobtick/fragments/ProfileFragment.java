@@ -223,8 +223,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         ivLevelInfo=view.findViewById(R.id.ivLevelInfo);
         ivProfileInfo=view.findViewById(R.id.ivProfileInfo);
         ivLevelInfo.setOnClickListener(view1 -> {
-            LevelInfoBottomSheet levelInfoBottomSheet = new LevelInfoBottomSheet();
-            levelInfoBottomSheet.show(getParentFragmentManager(), "");
+            LevelsInfoBottomSheet levelsInfoBottomSheet = new LevelsInfoBottomSheet();
+            levelsInfoBottomSheet.show(getParentFragmentManager(), "");
         });
         ivProfileInfo.setOnClickListener(view1 -> {
             LevelInfoBottomSheet levelInfoBottomSheet = new LevelInfoBottomSheet();

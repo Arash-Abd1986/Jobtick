@@ -7,24 +7,28 @@
     android:orientation="vertical"
     tools:context=".activities.DashboardActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:backgroundTint="@color/backgroundLightGrey"
         android:layout_gravity="center"
-        android:gravity="center"
+        android:backgroundTint="@color/backgroundLightGrey"
         android:fontFamily="@font/poppins_bold"
-        app:contentInsetStartWithNavigation="0dp">
+        android:gravity="center"
+        android:theme="@style/ThemeOverlay_Toolbar"
+        app:contentInsetStartWithNavigation="0dp"
+        app:navigationIcon="@drawable/ic_menu"
+        app:titleMargin="0dp"
+        app:titleMarginBottom="0dp">
 
         <com.google.android.material.textview.MaterialTextView
-            android:textAppearance="@style/materialText_700_22"
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/jobtick"
             android:gravity="center"
+            android:text="@string/jobtick"
+            android:textAppearance="@style/materialText_700_20"
             android:textColor="@color/textColor"
             android:visibility="visible" />
 
@@ -35,12 +39,12 @@
             android:layout_alignParentEnd="true"
             android:layout_gravity="end"
             android:layout_marginEnd="12dp"
+            android:contentDescription="@string/todo"
             android:padding="12dp"
             android:src="@drawable/ic_notification_bell"
-            android:visibility="visible"
-            android:contentDescription="@string/todo" />
+            android:visibility="visible" />
 
-    </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <include layout="@layout/content_dashboard" />
 </LinearLayout>

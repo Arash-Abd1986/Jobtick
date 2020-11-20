@@ -215,10 +215,6 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
                 Toolbar.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.START;
         toolbar_title.setLayoutParams(params);
-        toolbar.post(() -> {
-            Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
-            toolbar.setNavigationIcon(d);
-        });
     }
 
     private void subscribeToPresence() {

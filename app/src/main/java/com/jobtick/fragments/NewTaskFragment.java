@@ -112,10 +112,6 @@ public class NewTaskFragment extends Fragment {
         androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.CENTER;
         toolbar_title.setLayoutParams(params);
-        toolbar.post(() -> {
-            Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
-            toolbar.setNavigationIcon(d);
-        });
     }
 
     @Override

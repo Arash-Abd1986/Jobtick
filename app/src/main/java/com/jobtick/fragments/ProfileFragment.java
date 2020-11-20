@@ -254,10 +254,6 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.START;
         toolbar_title.setLayoutParams(params);
-        toolbar.post(() -> {
-            Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
-            toolbar.setNavigationIcon(d);
-        });
     }
 
 

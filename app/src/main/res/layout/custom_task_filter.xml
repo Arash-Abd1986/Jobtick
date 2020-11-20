@@ -60,15 +60,15 @@
                     android:layout_height="wrap_content">
 
 
-                    <com.jobtick.TextView.TextViewRegular
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="All Jobs"
                         android:textColor="@color/textColor"
-                        android:textSize="@dimen/_15sp">
+                        android:textAppearance="@style/materialText_400_14">
 
-                    </com.jobtick.TextView.TextViewRegular>
+                    </com.google.android.material.textview.MaterialTextView>
 
                     <androidx.appcompat.widget.AppCompatRadioButton
 
@@ -78,8 +78,7 @@
                         android:layout_alignParentEnd="true"
                         android:button="@drawable/radio_button_fill_selector"
                         android:checked="false"
-                        android:tag="All Jobs"
-                        android:text="" />
+                        android:tag="All Jobs" />
 
                 </RelativeLayout>
 
@@ -89,15 +88,15 @@
                     android:layout_height="wrap_content">
 
 
-                    <com.jobtick.TextView.TextViewRegular
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="Assigned"
                         android:textColor="@color/textColor"
-                        android:textSize="@dimen/_16sp">
+                        android:textAppearance="@style/materialText_400_14">
 
-                    </com.jobtick.TextView.TextViewRegular>
+                    </com.google.android.material.textview.MaterialTextView>
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:id="@+id/radioAssigned"
@@ -111,20 +110,75 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/relativePosted"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="Posted"
+                        android:textColor="@color/textColor"
+                        android:textAppearance="@style/materialText_400_14">
+
+                    </com.google.android.material.textview.MaterialTextView>
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/radioPosted"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:button="@drawable/radio_button_fill_selector"
+                        android:paddingStart="@dimen/_15sp"
+                        android:tag="Open" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeOffer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="Offered"
+                        android:textColor="@color/textColor"
+                        android:textAppearance="@style/materialText_400_14">
+
+                    </com.google.android.material.textview.MaterialTextView>
+
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/radioOffer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:button="@drawable/radio_button_fill_selector"
+                        android:paddingStart="@dimen/_15sp"
+                        android:tag="Offered" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/relativeDraft"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
 
-                    <com.jobtick.TextView.TextViewRegular
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="Draft"
                         android:textColor="@color/textColor"
-                        android:textSize="@dimen/_16sp">
+                        android:textAppearance="@style/materialText_400_14">
 
-                    </com.jobtick.TextView.TextViewRegular>
+                    </com.google.android.material.textview.MaterialTextView>
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:id="@+id/radioDraft"
@@ -139,103 +193,20 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/relativeCancelled"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-
-                    <com.jobtick.TextView.TextViewRegular
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="Cancelled"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_16sp">
-
-                    </com.jobtick.TextView.TextViewRegular>
-
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/radioCancelled"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:button="@drawable/radio_button_fill_selector"
-                        android:paddingStart="@dimen/_15sp"
-                        android:tag="Cancelled" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/relativeOpen"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-
-                    <com.jobtick.TextView.TextViewRegular
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="Open"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_16sp">
-
-                    </com.jobtick.TextView.TextViewRegular>
-
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/radioOpen"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:button="@drawable/radio_button_fill_selector"
-                        android:paddingStart="@dimen/_15sp"
-
-                        android:tag="Open" />
-
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/relativePending"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-
-                    <com.jobtick.TextView.TextViewRegular
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="Pending"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_16sp">
-
-                    </com.jobtick.TextView.TextViewRegular>
-
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/radioPending"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:button="@drawable/radio_button_fill_selector"
-                        android:paddingStart="@dimen/_15sp"
-                        android:tag="Pending" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
                     android:id="@+id/relativeCompleted"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
 
-                    <com.jobtick.TextView.TextViewRegular
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="Completed"
                         android:textColor="@color/textColor"
-                        android:textSize="@dimen/_16sp">
+                        android:textAppearance="@style/materialText_400_14">
 
-                    </com.jobtick.TextView.TextViewRegular>
+                    </com.google.android.material.textview.MaterialTextView>
 
 
                     <androidx.appcompat.widget.AppCompatRadioButton
@@ -248,35 +219,6 @@
                         android:tag="Completed" />
 
                 </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/relativeOffer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-
-                    <com.jobtick.TextView.TextViewRegular
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="Offered"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_16sp">
-
-                    </com.jobtick.TextView.TextViewRegular>
-
-
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/radioOffer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:button="@drawable/radio_button_fill_selector"
-                        android:paddingStart="@dimen/_15sp"
-                        android:tag="Offered" />
-
-                </RelativeLayout>
-
 
             </RadioGroup>
 

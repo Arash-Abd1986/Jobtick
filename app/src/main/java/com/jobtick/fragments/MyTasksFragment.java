@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -248,8 +247,11 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
 
         } else {
-            toolbar_title.setText(single_choice_selected);
-
+            String title = single_choice_selected;
+            if (title.equals(TASK_OPEN_CASE_UPPER_FIRST)) {
+                title = "Posted";
+            }
+            toolbar_title.setText(title);
         }
         String query_parameter = "";
         if (str_search != null) {
@@ -288,12 +290,17 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                                 Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
                             }
 
+//                            if(currentPage == 1 && totalPage == 1){
+//                                resetTaskListAdapter();
+//                            }
+
                             /*
                              *manage progress view
                              */
-                            if (currentPage != PAGE_START)
-                                taskListAdapter.removeLoading();
-
+                            if (currentPage == PAGE_START) {
+                                resetTaskListAdapter();
+                            }
+                            taskListAdapter.addItems(items);
                             if (items.size() <= 0) {
                                 noJobs.setVisibility(View.VISIBLE);
                                 recyclerViewStatus.setVisibility(View.GONE);
@@ -302,13 +309,14 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                                 recyclerViewStatus.setVisibility(View.VISIBLE);
 
                             }
-                            taskListAdapter.addItems(items);
 
                             swipeRefresh.setRefreshing(false);
                             // check weather is last page or not
                             if (currentPage < totalPage) {
                                 taskListAdapter.addLoading();
                             } else {
+                                if(currentPage == totalPage)
+                                    taskListAdapter.removeLoading();
                                 isLastPage = true;
                             }
                             isLoading = false;
@@ -345,6 +353,12 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         requestQueue.add(stringRequest);
         Log.e("url", stringRequest.getUrl());
 
+    }
+
+    private void resetTaskListAdapter(){
+        taskListAdapter = new TaskListAdapter(new ArrayList<>());
+        recyclerViewStatus.setAdapter(taskListAdapter);
+        taskListAdapter.setOnItemClickListener(this);
     }
 
 
@@ -450,10 +464,8 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
         AppCompatRadioButton rbAll = view.findViewById(R.id.radioAll);
         AppCompatRadioButton radioDraft = view.findViewById(R.id.radioDraft);
-        AppCompatRadioButton radioCancelled = view.findViewById(R.id.radioCancelled);
+        AppCompatRadioButton radioPosted = view.findViewById(R.id.radioPosted);
         AppCompatRadioButton radioAssigned = view.findViewById(R.id.radioAssigned);
-        AppCompatRadioButton radioOpen = view.findViewById(R.id.radioOpen);
-        AppCompatRadioButton radioPending = view.findViewById(R.id.radioPending);
         AppCompatRadioButton radioCompleted = view.findViewById(R.id.radioCompleted);
         AppCompatRadioButton radioOffer = view.findViewById(R.id.radioOffer);
 
@@ -461,10 +473,8 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         RelativeLayout relativeCompleted = view.findViewById(R.id.relativeCompleted);
         RelativeLayout relativeAllJobs = view.findViewById(R.id.relativeAllJobs);
         RelativeLayout relativeDraft = view.findViewById(R.id.relativeDraft);
-        RelativeLayout relativeCancelled = view.findViewById(R.id.relativeCancelled);
+        RelativeLayout relativeCancelled = view.findViewById(R.id.relativePosted);
         RelativeLayout relativeAssigned = view.findViewById(R.id.relativeAssigned);
-        RelativeLayout relativeOpen = view.findViewById(R.id.relativeOpen);
-        RelativeLayout relativePending = view.findViewById(R.id.relativePending);
         RelativeLayout relativeOffer = view.findViewById(R.id.relativeOffer);
 
         relativeDraft.setOnClickListener(v -> {
@@ -472,20 +482,12 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         });
 
         relativeCancelled.setOnClickListener(v -> {
-            radioCancelled.performClick();
+            radioPosted.performClick();
 
         });
 
         relativeAssigned.setOnClickListener(v -> {
             radioAssigned.performClick();
-        });
-
-        relativeOpen.setOnClickListener(v -> {
-            relativeOpen.performClick();
-        });
-
-        relativePending.setOnClickListener(v -> {
-            relativePending.performClick();
         });
 
         relativeOffer.setOnClickListener(v ->
@@ -502,10 +504,6 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             rbAll.setChecked(true);
         } else if (single_choice_selected.equals(TASK_DRAFT_CASE_UPPER_FIRST)) {
             radioDraft.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_OPEN_CASE_UPPER_FIRST)) {
-            radioOpen.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_PENDING_CASE_UPPER_FIRST)) {
-            radioPending.setChecked(true);
         } else if (single_choice_selected.equals(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
             radioAssigned.setChecked(true);
         } else if (single_choice_selected.equals(TASK_COMPLETED_CASE_UPPER_FIRST)) {
@@ -515,7 +513,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         } else if (single_choice_selected.equals(TASK_CLOSED_CASE_UPPER_FIRST)) {
             radioCompleted.setChecked(true);
         } else if (single_choice_selected.equals(TASK_CANCELLED_CASE_UPPER_FIRST)) {
-            radioCancelled.setChecked(true);
+            radioPosted.setChecked(true);
         }
 
 
@@ -528,10 +526,8 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             radioDraft.setChecked(true);
             rbAll.setChecked(false);
             radioAssigned.setChecked(false);
-            radioCancelled.setChecked(false);
+            radioPosted.setChecked(false);
             radioAssigned.setChecked(false);
-            radioOpen.setChecked(false);
-            radioPending.setChecked(false);
             radioCompleted.setChecked(false);
             radioOffer.setChecked(false);
 
@@ -545,9 +541,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             radioDraft.setChecked(false);
             rbAll.setChecked(true);
             radioAssigned.setChecked(false);
-            radioCancelled.setChecked(false);
-            radioOpen.setChecked(false);
-            radioPending.setChecked(false);
+            radioPosted.setChecked(false);
             radioCompleted.setChecked(false);
             radioOffer.setChecked(false);
             refreshSort(rbAll.getTag().toString());
@@ -560,9 +554,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             radioDraft.setChecked(false);
             rbAll.setChecked(false);
             radioAssigned.setChecked(true);
-            radioCancelled.setChecked(false);
-            radioOpen.setChecked(false);
-            radioPending.setChecked(false);
+            radioPosted.setChecked(false);
             radioCompleted.setChecked(false);
             radioOffer.setChecked(false);
             refreshSort(radioAssigned.getTag().toString());
@@ -571,61 +563,27 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         });
 
 
-        radioCancelled.setOnClickListener(v -> {
+        radioPosted.setOnClickListener(v -> {
             radioDraft.setChecked(false);
             rbAll.setChecked(false);
             radioAssigned.setChecked(false);
-            radioCancelled.setChecked(true);
-            radioOpen.setChecked(false);
-            radioPending.setChecked(false);
+            radioPosted.setChecked(true);
             radioCompleted.setChecked(false);
             radioOffer.setChecked(false);
-            refreshSort(radioCancelled.getTag().toString());
+            refreshSort(radioPosted.getTag().toString());
 
             mBottomSheetDialog.dismiss();
 
         });
 
 
-        radioOpen.setOnClickListener(v -> {
-
-            radioDraft.setChecked(false);
-            rbAll.setChecked(false);
-            radioAssigned.setChecked(false);
-            radioCancelled.setChecked(false);
-            radioOpen.setChecked(true);
-            radioPending.setChecked(false);
-            radioCompleted.setChecked(false);
-            radioOffer.setChecked(false);
-            refreshSort(radioOpen.getTag().toString());
-            mBottomSheetDialog.dismiss();
-
-        });
-
-        radioPending.setOnClickListener(v -> {
-
-            radioDraft.setChecked(false);
-            rbAll.setChecked(false);
-            radioAssigned.setChecked(false);
-            radioCancelled.setChecked(false);
-            radioOpen.setChecked(false);
-            radioPending.setChecked(true);
-            radioCompleted.setChecked(false);
-            radioOffer.setChecked(false);
-            refreshSort(radioPending.getTag().toString());
-            mBottomSheetDialog.dismiss();
-
-
-        });
         radioCompleted.setOnClickListener(v ->
         {
 
             radioDraft.setChecked(false);
             rbAll.setChecked(false);
             radioAssigned.setChecked(false);
-            radioCancelled.setChecked(false);
-            radioOpen.setChecked(false);
-            radioPending.setChecked(false);
+            radioPosted.setChecked(false);
             radioCompleted.setChecked(true);
             radioOffer.setChecked(false);
             refreshSort(radioCompleted.getTag().toString());
@@ -639,9 +597,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             radioDraft.setChecked(false);
             rbAll.setChecked(false);
             radioAssigned.setChecked(false);
-            radioCancelled.setChecked(false);
-            radioOpen.setChecked(false);
-            radioPending.setChecked(false);
+            radioPosted.setChecked(false);
             radioCompleted.setChecked(false);
             radioOffer.setChecked(true);
             refreshSort(radioOffer.getTag().toString());

@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -34,6 +36,7 @@ import com.jobtick.R;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.EditProfileActivity;
 import com.jobtick.activities.ReviewsActivity;
+import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.activities.ZoomImageActivity;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.BadgesAdapter;
@@ -187,7 +190,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_get_quote)
-    CardView card_get_quote;
+    CardView btnQuote;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llEnlarge)
@@ -205,7 +208,15 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     private Typeface poppins_medium;
     private LinearLayout lPort, lSkill, NoPortfolio,NoAbout;
     private  ImageView ivLevelInfo,ivProfileInfo;
+    private LinearLayout noReview,tickerReview,posterReview;
+    private TextView txtNoReview;
     public ProfileFragment() {
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getAllProfileData();
     }
 
     @SuppressLint({"SetTextI18n", "RtlHardcoded"})
@@ -220,6 +231,10 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         lPort = view.findViewById(R.id.lyt_Port);
         lSkill = view.findViewById(R.id.lyt_skills);
         NoAbout=view.findViewById(R.id.no_about);
+        txtNoReview=view.findViewById(R.id.tv_no_review);
+        noReview=view.findViewById(R.id.no_review);
+        posterReview=view.findViewById(R.id.poster_review);
+        tickerReview=view.findViewById(R.id.ticker_review);
         ivLevelInfo=view.findViewById(R.id.ivLevelInfo);
         ivProfileInfo=view.findViewById(R.id.ivProfileInfo);
         ivLevelInfo.setOnClickListener(view1 -> {
@@ -249,7 +264,10 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
             params.gravity = Gravity.LEFT;
             toolbar_title.setLayoutParams(params);
-
+            btnQuote.setOnClickListener(view12 -> {
+                Intent intent = new Intent(getActivity(), TaskCreateActivity.class);
+                startActivity(intent);
+            });
             toolbar.post(() -> {
                 Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
                 toolbar.setNavigationIcon(d);
@@ -286,7 +304,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
         getAllProfileData();
         initComponent();
-        initComponentScroll(view);
+     //   initComponentScroll(view);
 
     }
 
@@ -294,7 +312,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         NestedScrollView nested_content = view.findViewById(R.id.nested_scroll_view);
         nested_content.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             if (scrollY < oldScrollY) { // up
-                animateFab(false);
+                animateFab(true);
             }
             if (scrollY > oldScrollY) { // down
                 animateFab(true);
@@ -307,8 +325,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     private void animateFab(final boolean hide) {
         if (isFabHide && hide || !isFabHide && !hide) return;
         isFabHide = hide;
-        int moveY = hide ? (2 * card_get_quote.getHeight()) : 0;
-        card_get_quote.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
+        int moveY = hide ? (2 * btnQuote.getHeight()) : 0;
+        btnQuote.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
     }
 
     private void initComponent() {
@@ -336,6 +354,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                 recyclerViewPortfolio.setVisibility(View.GONE);
                 lPort.setVisibility(View.GONE);
             } else {
+                if(attachmentArrayList.size() > 10){
+                    Toast.makeText(dashboardActivity, "MAX 10 picture", Toast.LENGTH_SHORT).show(); }
                 recyclerViewPortfolio.setVisibility(View.VISIBLE);
                 NoPortfolio.setVisibility(View.GONE);
                 lPort.setVisibility(View.VISIBLE);
@@ -402,7 +422,10 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                                 NoPortfolio.setVisibility(View.GONE);
                                 lPort.setVisibility(View.VISIBLE);
                             }
-                            adapter.addItems(attachmentArrayList);
+                            if(attachmentArrayList.size() > 10){
+                                Toast.makeText(dashboardActivity, "MAX 10 picture", Toast.LENGTH_SHORT).show(); }else {
+                                adapter.addItems(attachmentArrayList);
+                            }
 
 
                             if (badgesModelArrayList.size() <= 0) {
@@ -452,19 +475,39 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     @SuppressLint("SetTextI18n")
     private void setUpAllEditFields(UserAccountModel userAccountModel) {
 
-        if (userAccountModel.getAbout() == null) {
+        if (userAccountModel.getAbout() == null || userAccountModel.getAbout().equals("")) {
             txtAbout.setVisibility(View.GONE);
-            NoAbout.setVisibility(View.VISIBLE);
         } else {
             txtAbout.setVisibility(View.VISIBLE);
             txtAbout.setText("" + userAccountModel.getAbout());
-            NoAbout.setVisibility(View.GONE);
         }
-        if (userAccountModel.getTagline() == null) {
+        if (userAccountModel.getTagline() == null ||userAccountModel.getTagline().equals("")) {
             tvAboutHeading.setVisibility(View.GONE);
         } else {
             tvAboutHeading.setVisibility(View.VISIBLE);
             tvAboutHeading.setText("" + userAccountModel.getTagline());
+        }
+
+        if(userAccountModel.getWorkerRatings()==null){
+            tickerReview.setVisibility(View.GONE);
+            noReview.setVisibility(View.VISIBLE);
+            txtNoReview.setVisibility(View.VISIBLE);
+
+        }else{
+            tickerReview.setVisibility(View.VISIBLE);
+            ratingbarAsTicker.setRating(userAccountModel.getWorkerRatings().getAvgRating());
+            tvTickerReview.setText("("+userAccountModel.getWorkerRatings().getTotalRatings().toString()+")");
+            tvTickerCompletionRate.setText("%"+userAccountModel.getWorkerRatings().getReceivedReviews().toString());
+        }
+        if(userAccountModel.getPosterRatings()==null){
+            posterReview.setVisibility(View.GONE);
+            noReview.setVisibility(View.VISIBLE);
+            txtNoReview.setVisibility(View.VISIBLE);
+        }else{
+            posterReview.setVisibility(View.VISIBLE);
+            ratingbarAsPoster.setRating(userAccountModel.getPosterRatings().getAvgRating());
+            tvPosterReview.setText("("+userAccountModel.getPosterRatings().getTotalRatings().toString()+")");
+            tvPosterCompletionRate.setText("%"+userAccountModel.getPosterRatings().getReceivedReviews().toString());
         }
 
         tagEducation.setTagTypeface(poppins_medium);

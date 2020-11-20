@@ -271,7 +271,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         };
         init();
         getAllUserProfileDetails();
-        initComponentScroll();
+      //  initComponentScroll();
     }
 
     private void initComponentScroll() {

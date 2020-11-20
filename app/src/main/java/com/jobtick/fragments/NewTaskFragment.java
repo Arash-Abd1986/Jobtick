@@ -142,8 +142,8 @@ public class NewTaskFragment extends Fragment {
         int totalHeight = root.getHeight();
         int bottomHeight = buttonContainer.getHeight();
 
-        //10 percent for safety
-        int space = (int)(((scrollHeight + bottomHeight) - totalHeight) * 1.1);
+        //24 for shadow and ...
+        int space = (int)(((scrollHeight + bottomHeight) - totalHeight) + 24);
 
         if(space > 0){
             LinearLayout.LayoutParams dynamicParams = new LinearLayout.LayoutParams(root.getWidth(),space);

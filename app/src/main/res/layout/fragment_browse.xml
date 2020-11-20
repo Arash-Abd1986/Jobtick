@@ -18,17 +18,17 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
                 android:backgroundTint="@color/colorPrimary"
                 android:elevation="3dp"
-                app:cardCornerRadius="@dimen/spacing_xmedium">
+                app:cardCornerRadius="6dp">
 
                 <LinearLayout
                     android:id="@+id/lyt_btn_filters"
@@ -41,33 +41,25 @@
                     android:paddingEnd="@dimen/spacing_middle"
                     android:paddingBottom="@dimen/spacing_xmedium">
 
-                    <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_browse_filter" />
-
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_filters"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/spacing_medium"
-                        android:drawablePadding="@dimen/spacing_middle"
+                        android:drawableStart="@drawable/ic_browse_filter"
+                        android:drawablePadding="10dp"
                         android:gravity="center_vertical"
                         android:singleLine="true"
                         android:text="@string/filters"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_10sp" />
+                        android:textAppearance="@style/materialText_600_10"
+                        android:textColor="@color/white" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_filters"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_middle"
+                android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -100,6 +92,7 @@
                 android:layout_margin="16dp"
                 android:backgroundTint="@color/colorPrimary"
                 android:src="@drawable/ic_map_white"
+                app:borderWidth="0dp"
                 app:elevation="@dimen/_16sp"
                 app:fabSize="normal"
                 app:tint="@color/white" />

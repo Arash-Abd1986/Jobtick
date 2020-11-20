@@ -34,6 +34,8 @@ public class SearchTaskActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_task);
         ButterKnife.bind(this);
+        edtSearchCategories.requestFocus();
+        edtSearchCategories.performClick();
     }
 
     @OnClick({R.id.lyt_search_new, R.id.lyt_categories, R.id.iv_back})
@@ -42,6 +44,7 @@ public class SearchTaskActivity extends ActivityBase {
             case R.id.lyt_search_new:
 
                 edtSearchCategories.requestFocus();
+                edtSearchCategories.performClick();
                 break;
             case R.id.lyt_categories:
 

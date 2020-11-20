@@ -40,6 +40,9 @@ public class SearchCategoryActivity extends ActivityBase {
         setContentView(R.layout.activity_category_search);
         ButterKnife.bind(this);
       //  RelativeLayout emptySearch = findViewById(R.id.empty_search);
+
+        edtSearchCategories.requestFocus();
+        edtSearchCategories.performClick();
     }
 
     @SuppressLint("NonConstantResourceId")

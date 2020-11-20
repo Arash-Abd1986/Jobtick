@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
-                android:text="Mahan Sharif"
+                android:text="User"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14sp" />
 

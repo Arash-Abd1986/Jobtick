@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/materialText_600_24"
                 android:textColor="@color/colorPrimary"
-                android:text="Mahan"
+                android:text="User"
                 android:layout_toEndOf="@id/hi"
                 android:layout_alignTop="@id/hand"
                 android:layout_marginStart="8dp"/>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,7 +28,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.txt_data)
-        TextViewSemiBold txtData;
+        TextView txtData;
 
         public OriginalViewHolder(View v) {
             super(v);

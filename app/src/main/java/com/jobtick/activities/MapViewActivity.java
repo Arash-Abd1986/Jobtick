@@ -65,7 +65,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
     @BindView(R.id.recycler_view_task)
     RecyclerView recyclerViewTask;
     @BindView(R.id.txt_filters)
-    TextViewRegular txtFilters;
+    TextView txtFilters;
     @BindView(R.id.lyt_btn_filters)
     LinearLayout lytBtnFilters;
     @BindView(R.id.recycler_view_filters)

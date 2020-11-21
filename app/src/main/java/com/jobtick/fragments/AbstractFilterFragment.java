@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
@@ -55,6 +54,9 @@ public abstract class AbstractFilterFragment extends Fragment {
     @BindView(R.id.lyt_btn_save_filter)
     MaterialButton lytBtnSaveFilter;
 
+    @BindView(R.id.distance_container)
+    LinearLayout distanceContainer;
+
     private FiltersActivity filtersActivity;
     private int pMin = 5, pMax = 9999;
     private int PLACE_SELECTION_REQUEST_CODE = 1;
@@ -64,7 +66,7 @@ public abstract class AbstractFilterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_filter_all, container, false);
+        View view = inflater.inflate(R.layout.fragment_filter, container, false);
         ButterKnife.bind(this, view);
         txtSuburb.setExtendedViewOnClickListener(() -> {
             Intent intent = new PlaceAutocomplete.IntentBuilder()
@@ -78,7 +80,10 @@ public abstract class AbstractFilterFragment extends Fragment {
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
 
-
+        if(getFilterType() == FilterType.REMOTELY) {
+            distanceContainer.setVisibility(View.GONE);
+            txtSuburb.setVisibility(View.GONE);
+        }
         return view;
     }
 
@@ -92,8 +97,8 @@ public abstract class AbstractFilterFragment extends Fragment {
                 filterModel = getArguments().getParcelable(Constant.FILTER);
                 if (filterModel != null && filterModel.getSection().equalsIgnoreCase(Constant.FILTER_ALL)) {
                     txtSuburb.setText(filterModel.getLocation());
-                    txtDistanceKm.setText(String.format("%sKM", (int)Float.parseFloat(filterModel.getDistance())));
-                    skDistance.setValue((int)Float.parseFloat(filterModel.getDistance()));
+                    txtDistanceKm.setText(String.format("%sKM", (int) Float.parseFloat(filterModel.getDistance())));
+                    skDistance.setValue((int) Float.parseFloat(filterModel.getDistance()));
                     String[] price = filterModel.getPrice().replace("$", "").replace(",", "").split("-");
                     getPminPmax(Integer.parseInt(price[0].trim()), Integer.parseInt(price[1].trim()));
                     txtPriceMinMax.setText(filterModel.getPrice());
@@ -114,14 +119,14 @@ public abstract class AbstractFilterFragment extends Fragment {
     }
 
     private void getPminPmax(int min, int max) {
-        skPrice.setValues((float)min,(float)max);
+        skPrice.setValues((float) min, (float) max);
     }
 
     @SuppressLint("DefaultLocale")
     private void seekbarPrice() {
         skPrice.addOnChangeListener((slider, value, fromUser) -> {
-            int min = (int)(float)slider.getValues().get(0);
-            int max = (int)(float)slider.getValues().get(1);
+            int min = (int) (float) slider.getValues().get(0);
+            int max = (int) (float) slider.getValues().get(1);
             System.out.println("filter: min: " + min + "max: " + max);
             setSeekBarPrice(min, max);
         });
@@ -136,7 +141,7 @@ public abstract class AbstractFilterFragment extends Fragment {
     @SuppressLint("DefaultLocale")
     private void seekbar() {
         skDistance.addOnChangeListener((slider, value, fromUser) -> {
-            txtDistanceKm.setText(String.format("%d KM", (int)slider.getValue()));
+            txtDistanceKm.setText(String.format("%d KM", (int) slider.getValue()));
         });
     }
 
@@ -162,10 +167,24 @@ public abstract class AbstractFilterFragment extends Fragment {
             txtSuburb.setError("Select location");
             return;
         }
-        filterModel.setSection(Constant.FILTER_ALL);
-        filterModel.setLocation(txtSuburb.getText().toString().trim());
-        filterModel.setPrice(txtPriceMinMax.getText().toString().trim());
-        filterModel.setDistance(String.valueOf((int)skDistance.getValue()));
+
+        if (getFilterType() == FilterType.ALL)
+            filterModel.setSection(Constant.FILTER_ALL);
+        else if (getFilterType() == FilterType.IN_PERSON)
+            filterModel.setSection(Constant.FILTER_IN_PERSON);
+        else if (getFilterType() == FilterType.REMOTELY) {
+            filterModel.setSection(Constant.FILTER_REMOTE);
+            filterModel.setDistance(null);
+            filterModel.setLocation(null);
+            filterModel.setLogitude(null);
+            filterModel.setLatitude(null);
+        }
+        if (getFilterType() == FilterType.IN_PERSON || getFilterType() == FilterType.ALL) {
+            filterModel.setLocation(txtSuburb.getText().toString().trim());
+            filterModel.setPrice(txtPriceMinMax.getText().toString().trim());
+            filterModel.setDistance(String.valueOf((int) skDistance.getValue()));
+        }
+
         if (cbOpenTasks.isChecked()) {
             filterModel.setTask_open(Constant.FILTER_TASK_OPEN);
         } else {
@@ -175,4 +194,12 @@ public abstract class AbstractFilterFragment extends Fragment {
     }
 
     abstract void fragmentCallback(FilterModel filterModel);
+
+    abstract int getFilterType();
+
+    public interface FilterType {
+        final int ALL = 0;
+        final int IN_PERSON = 1;
+        final int REMOTELY = 2;
+    }
 }

@@ -29,6 +29,11 @@ public class FilterInPersonFragment extends AbstractFilterFragment {
         fragmentCallbackFilterInPerson.getInPersonData(filterModel);
     }
 
+    @Override
+    int getFilterType() {
+        return FilterType.IN_PERSON;
+    }
+
     public interface FragmentCallbackFilterInPerson {
         void getInPersonData(FilterModel filterModel);
     }

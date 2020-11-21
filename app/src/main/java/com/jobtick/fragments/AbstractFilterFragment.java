@@ -80,7 +80,7 @@ public abstract class AbstractFilterFragment extends Fragment {
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
 
-        if(getFilterType() == FilterType.REMOTELY) {
+        if (getFilterType() == FilterType.REMOTELY) {
             distanceContainer.setVisibility(View.GONE);
             txtSuburb.setVisibility(View.GONE);
         }
@@ -95,18 +95,17 @@ public abstract class AbstractFilterFragment extends Fragment {
         if (getArguments() != null) {
             if (getArguments().getParcelable(Constant.FILTER) != null) {
                 filterModel = getArguments().getParcelable(Constant.FILTER);
-                if (filterModel != null && filterModel.getSection().equalsIgnoreCase(Constant.FILTER_ALL)) {
-                    txtSuburb.setText(filterModel.getLocation());
-                    txtDistanceKm.setText(String.format("%sKM", (int) Float.parseFloat(filterModel.getDistance())));
-                    skDistance.setValue((int) Float.parseFloat(filterModel.getDistance()));
+                if (filterModel != null) {
                     String[] price = filterModel.getPrice().replace("$", "").replace(",", "").split("-");
                     getPminPmax(Integer.parseInt(price[0].trim()), Integer.parseInt(price[1].trim()));
                     txtPriceMinMax.setText(filterModel.getPrice());
-                    if (filterModel.getTask_open() != null) {
-                        cbOpenTasks.setChecked(true);
-                    } else {
-                        cbOpenTasks.setChecked(false);
-                    }
+                    cbOpenTasks.setChecked(filterModel.getTask_open() != null);
+                }
+                if (filterModel != null && (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_ALL)
+                        || filterModel.getSection().equalsIgnoreCase(Constant.FILTER_IN_PERSON))) {
+                    txtSuburb.setText(filterModel.getLocation());
+                    txtDistanceKm.setText(String.format("%sKM", (int) Float.parseFloat(filterModel.getDistance())));
+                    skDistance.setValue((int) Float.parseFloat(filterModel.getDistance()));
                 }
             }
 
@@ -163,7 +162,8 @@ public abstract class AbstractFilterFragment extends Fragment {
     @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.lyt_btn_save_filter)
     public void onViewClicked() {
-        if (TextUtils.isEmpty(txtSuburb.getText().toString().trim())) {
+        if (TextUtils.isEmpty(txtSuburb.getText().toString().trim()) &&
+                (getFilterType() == FilterType.IN_PERSON || getFilterType() == FilterType.ALL)) {
             txtSuburb.setError("Select location");
             return;
         }

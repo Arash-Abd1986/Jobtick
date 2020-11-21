@@ -81,6 +81,7 @@
                 android:id="@+id/recycler_view_browse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
                 android:orientation="horizontal"
                 tools:listitem="@layout/item_task_view" />
 

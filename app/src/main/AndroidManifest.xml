@@ -87,7 +87,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activities.NotificationActivity" />
         <activity android:name=".activities.CompleteMessageActivity" />
-        <activity android:name=".activities.NewTaskAlertsActivity"
+        <activity
+            android:name=".activities.NewTaskAlertsActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity android:name=".activities.TaskAlertsActivity" />
         <activity android:name=".activities.EditProfileActivity" />
@@ -105,12 +106,14 @@
             android:name=".activities.AddBankAccountActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity android:name=".activities.PaymentSettingsActivity" />
-        <activity android:name=".activities.ChangePasswordActivity"
+        <activity
+            android:name=".activities.ChangePasswordActivity"
             android:windowSoftInputMode="adjustPan|stateVisible" />
         <activity android:name=".activities.HelpActivity" />
         <activity android:name=".activities.SettingActivity" />
-        <activity android:name=".activities.CompleteRegistrationActivity" android:windowSoftInputMode="stateVisible|adjustPan">
-        </activity>
+        <activity
+            android:name=".activities.CompleteRegistrationActivity"
+            android:windowSoftInputMode="stateVisible|adjustPan"></activity>
         <activity android:name=".activities.TaskCreateActivity" />
         <activity android:name=".activities.SavedTaskActivity" />
         <activity android:name=".activities.UserProfileActivity" />

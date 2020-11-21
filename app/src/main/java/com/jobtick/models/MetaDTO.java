@@ -1,14 +1,15 @@
 
-package com.jobtick.models.notification;
+package com.jobtick.models;
 
 import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.jobtick.models.notification.Link;
 
-public class Meta implements Parcelable
+public class MetaDTO implements Parcelable
 {
 
     @SerializedName("current_page")
@@ -35,24 +36,24 @@ public class Meta implements Parcelable
     @SerializedName("total")
     @Expose
     private Integer total;
-    public final static Creator<Meta> CREATOR = new Creator<Meta>() {
+    public final static Creator<MetaDTO> CREATOR = new Creator<MetaDTO>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public Meta createFromParcel(Parcel in) {
-            return new Meta(in);
+        public MetaDTO createFromParcel(Parcel in) {
+            return new MetaDTO(in);
         }
 
-        public Meta[] newArray(int size) {
-            return (new Meta[size]);
+        public MetaDTO[] newArray(int size) {
+            return (new MetaDTO[size]);
         }
 
     }
     ;
 
-    protected Meta(Parcel in) {
+    protected MetaDTO(Parcel in) {
         this.currentPage = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.from = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.lastPage = ((Integer) in.readValue((Integer.class.getClassLoader())));
@@ -67,7 +68,7 @@ public class Meta implements Parcelable
      * No args constructor for use in serialization
      * 
      */
-    public Meta() {
+    public MetaDTO() {
     }
 
     /**
@@ -81,7 +82,7 @@ public class Meta implements Parcelable
      * @param to
      * @param currentPage
      */
-    public Meta(Integer currentPage, Integer from, Integer lastPage, List<Link> links, String path, Integer perPage, Integer to, Integer total) {
+    public MetaDTO(Integer currentPage, Integer from, Integer lastPage, List<Link> links, String path, Integer perPage, Integer to, Integer total) {
         super();
         this.currentPage = currentPage;
         this.from = from;

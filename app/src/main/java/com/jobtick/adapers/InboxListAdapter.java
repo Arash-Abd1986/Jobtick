@@ -238,9 +238,9 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_user_name)
         TextView txtUserName;
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.img_gallery)
-        ImageView imgGallery;
+       // @SuppressLint("NonConstantResourceId")
+     //   @BindView(R.id.img_gallery)
+     //   ImageView imgGallery;
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_last_message)
         TextView txtLastMessage;
@@ -295,9 +295,9 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
                 if (item.getLastMessage().getAttachment() != null) {
                     txtLastMessage.setText("Image");
-                    imgGallery.setVisibility(View.VISIBLE);
+                   // imgGallery.setVisibility(View.VISIBLE);
                 } else {
-                    imgGallery.setVisibility(View.GONE);
+                   // imgGallery.setVisibility(View.GONE);
                 }
                 if (item.getLastMessage().getMessage() != null) {
                     txtLastMessage.setText(item.getLastMessage().getMessage());
@@ -308,9 +308,12 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             if (item.getUnseenCount() != 0) {
                 txtUnseenCount.setVisibility(View.VISIBLE);
-                txtUnseenCount.setText("" + item.getUnseenCount());
+                txtUnseenCount.setText(item.getUnseenCount()+" new messages");
+                txtLastMessage.setVisibility(View.GONE);
+
             } else {
                 txtUnseenCount.setVisibility(View.GONE);
+                txtLastMessage.setVisibility(View.VISIBLE);
             }
             lytParentLayout.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) {

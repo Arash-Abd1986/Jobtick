@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.activities.ZoomImageActivity;
@@ -199,6 +200,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.imgMsgSeen)
         ImageView imgMsgSeen;
+
 
         MsgRightViewHolder(View itemView) {
             super(itemView);

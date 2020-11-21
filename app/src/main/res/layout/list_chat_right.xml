@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:paddingStart="@dimen/spacing_middle"
     android:paddingLeft="@dimen/spacing_middle"
@@ -18,8 +18,8 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/materialText_500_12"
             android:id="@+id/txtOnlyDate"
+            style="@style/materialText_500_12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -27,21 +27,21 @@
             android:background="@drawable/rounded_date_dark"
             android:paddingLeft="@dimen/spacing_middle"
             android:paddingRight="@dimen/spacing_middle"
-            tools:text="11-06-2016"
             android:textColor="@color/white"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:text="11-06-2016" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layoutDate"
-        android:background="@drawable/shape_tab_primary"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/shapr_bg_chat_primary">
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/materialText_500_14"
             android:id="@+id/txtName"
+            style="@style/materialText_500_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -54,34 +54,43 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtName"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/spacing_medium">
+            android:layout_alignParentStart="true">
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_500_14"
                 android:id="@+id/txtShowMessage"
+                style="@style/materialText_500_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:padding="@dimen/spacing_middle"
-                tools:text="Username"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
                 android:textColor="@color/white"
-                android:visibility="visible" />
-
-            <ImageView
-                android:id="@+id/imgPath"
-                android:layout_width="@dimen/paddingImgPath"
-                android:layout_height="@dimen/paddingImgPath"
-                android:layout_alignParentEnd="true"
-                android:adjustViewBounds="true"
-                android:background="@drawable/bg_right"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/image_load"
-                android:transitionName="@string/app_name"
                 android:visibility="gone"
-                android:contentDescription="@string/todo" />
+                tools:text="Username" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/imgPath_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                app:cardCornerRadius="10dp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/imgPath"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/bg_right"
+                    android:contentDescription="@string/todo"
+                    android:gravity="center_vertical"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/image_load"
+                    android:transitionName="@string/app_name"
+                    android:visibility="visible"/>
+            </androidx.cardview.widget.CardView>
+
         </RelativeLayout>
 
         <LinearLayout
@@ -95,24 +104,23 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_500_10"
                 android:id="@+id/txtMsgTime"
+                style="@style/materialText_500_10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/spacing_medium"
                 android:gravity="end"
-                android:padding="10dp"
-                tools:text="11:40"
-                android:textColor="@color/gray"/>
+                android:textColor="@color/white"
+                tools:text="11:40" />
 
             <ImageView
                 android:id="@+id/imgMsgSeen"
                 android:layout_width="25dp"
-                android:visibility="visible"
                 android:layout_height="25dp"
+                android:contentDescription="@string/todo"
                 android:padding="5dp"
-                app:srcCompat="@drawable/ic_vector__7_"
-                android:contentDescription="@string/todo" />
+                android:visibility="visible"
+                app:srcCompat="@drawable/ic_vector__7_" />
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

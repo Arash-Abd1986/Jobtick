@@ -80,19 +80,7 @@
                     android:textColor="@color/colorPrimary"
                     tools:text="Nathan Fox" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_unseen_count"
-                    style="@style/materialText_600_12"
-                    android:layout_width="@dimen/spacing_mlarge"
-                    android:layout_height="@dimen/spacing_mlarge"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="@dimen/spacing_middle"
-                    android:background="@drawable/round_shape_primary"
-                    android:gravity="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textColor="@color/white"
-                    android:visibility="gone"
-                    tools:text="0" />
+
             </RelativeLayout>
 
 
@@ -102,23 +90,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small">
 
-                <ImageView
-                    android:id="@+id/img_gallery"
-                    android:layout_width="@dimen/_12sp"
-                    android:layout_height="@dimen/_12sp"
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_600_12"
+                    android:id="@+id/txt_unseen_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="@dimen/spacing_small"
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/todo"
-                    android:src="@drawable/ic_gallery"
+                    android:textColor="@color/textColor"
+                    tools:text="3 new messages"
                     android:visibility="gone" />
+
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_last_message"
-                    style="@style/materialText_600_12"
+                    style="@style/materialText_400_12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@+id/txt_time_status"
-                    android:layout_toEndOf="@+id/img_gallery"
+                    android:layout_toEndOf="@+id/txt_unseen_count"
                     android:ellipsize="end"
                     android:gravity="left"
                     android:maxLines="1"

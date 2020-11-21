@@ -234,7 +234,6 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         noSkill=view.findViewById(R.id.no_port_skill);
         addPortFilo=view.findViewById(R.id.txt_add_portfolio);
 
-
         addSkill=view.findViewById(R.id.txt_add_skill);
         txtNoReview=view.findViewById(R.id.tv_no_review);
         noReview=view.findViewById(R.id.no_review);

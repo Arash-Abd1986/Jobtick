@@ -22,7 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
@@ -272,10 +271,20 @@ public class TaskDateTimeFragment extends Fragment {
                         operationsListener.onValidDataFilledDateTimeBack();
                         break;
                     case 1:
-                        txtDate.setError("Please select date");
+                        operationsListener.onBackClickDateTime(
+                                Tools.getDayMonthDateTimeFormat(txtDate.getText().toString().trim()),
+                                getDueTimeModel()
+                        );
+                    //    txtDate.setError("Please select date");
+                        operationsListener.onValidDataFilledDateTimeBack();
                         break;
                     case 2:
-                        taskCreateActivity.showToast("Select Due time", taskCreateActivity);
+                        operationsListener.onBackClickDateTime(
+                                Tools.getDayMonthDateTimeFormat(txtDate.getText().toString().trim()),
+                                getDueTimeModel()
+                        );
+                     //   taskCreateActivity.showToast("Select Due time", taskCreateActivity);
+                        operationsListener.onValidDataFilledDateTimeBack();
                         break;
                 }
 

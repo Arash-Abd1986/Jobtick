@@ -362,7 +362,7 @@
     <string name="_4">4</string>
     <string name="_2">2</string>
     <string name="_1">1</string>
-    <string name="_33_reviews">33 Reviews</string>
+    <string name="_33_reviews">0 Reviews</string>
     <string name="as_a_poster">As a poster</string>
     <string name="as_a_ticker">As a Ticker</string>
     <string name="more">More</string>
@@ -389,7 +389,6 @@
     <string name="delete_credit_card">Delete Credit Card</string>
     <string name="this_is_a_requirement">This is a requirement</string>
     <string name="reply_to_Subash_ch">Reply to Subash Ch.</string>
-    <string name="no_review">No Review</string>
     <string name="information">Information</string>
     <string name="excepteur_qui_qui_fugiat_et_esse_palar_voluptate_exercitation_esse_officia_cillum_occaecat_culpa_pariatur_nisi_in_ut_tempor_laborum_are_officia_dolore_ad_occaecat_anim_a_voluptate_proident_ea_commodo_qui_velit_officia_minim">Excepteur qui qui fugiat et esse palar voluptate exercitation esse officia cillum occaecat culpa pariatur. Nisi in ut tempor laborum are officia dolore ad occaecat. Anim a voluptate proident ea commodo qui velit officia minim.</string>
     <string name="requirements_confirmation">Requirements confirmation</string>
@@ -413,5 +412,19 @@
     <string name="add">Add</string>
     <string name="_3">3</string>
     <string name="apply">Apply</string>
+    <string name="information_levels">Levels Information</string>
+    <string name="level_one">Level One</string>
+    <string name="_10_service_fee">10% service fee</string>
+    <string name="less_than_1000_in_the_last_30_days">Less than $1000 in the last 30 days</string>
+    <string name="level_two">Level Two</string>
+    <string name="level_three">Level Three</string>
+    <string name="level_four">Level Four</string>
+    <string name="_2000_in_the_last_30_days">$2000 + in the last 30 days</string>
+    <string name="_3000_in_the_last_30_days">$3000 + in the last 30 days</string>
+    <string name="_4000_in_the_last_30_days">$4000 + in the last 30 days</string>
+    <string name="_7_service_fee">7% service fee</string>
+    <string name="_8_service_fee">8% service fee</string>
+    <string name="_9_service_fee">9% service fee</string>
+    <string name="no_review">No Review</string>
 
 </resources>

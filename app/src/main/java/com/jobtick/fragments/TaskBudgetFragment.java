@@ -28,8 +28,6 @@ import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
-import com.jobtick.utils.StringUtils;
-import com.stripe.param.CreditNoteCreateParams;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
@@ -148,7 +146,9 @@ public class TaskBudgetFragment extends Fragment {
         estimatedT = view.findViewById(R.id.card_estimated_t);
         txtBudgetT = view.findViewById(R.id.txt_budget_t);
         txtDollerT = view.findViewById(R.id.txt_doller_us_t);
-
+        lytBtnBack.setOnClickListener(view1 -> {
+            //onBackPressed();
+        });
 
         KeyboardVisibilityEvent.setEventListener(
                 getActivity(),
@@ -347,18 +347,18 @@ public class TaskBudgetFragment extends Fragment {
                 addBtnClick();
                 break;
             case R.id.lyt_btn_back:
-                if (edtBudgetH.getText().toString().trim().length() > 0 || edtBudgetT.getText().toString().trim().length() > 0) {
+              //  if (edtBudgetH.getText().toString().trim().length() > 0 || edtBudgetT.getText().toString().trim().length() > 0) {
                     operationsListener.onBackClickBudget(
-                            rbTotal.isChecked() ? Integer.parseInt(edtBudgetT.getText().toString().trim()) : 0,
-                            rbHourly.isChecked() ? Integer.parseInt(edtBudgetH.getText().toString().trim()) : 0,
+                            Integer.parseInt(edtBudgetT.getText().toString().trim()) ,
+                           Integer.parseInt(edtBudgetH.getText().toString().trim()),
                             Integer.parseInt(txtHours.getText().toString().trim()),
-                            rbHourly.isChecked() ? Constant.TASK_PAYMENT_TYPE_HOURLY : Constant.TASK_PAYMENT_TYPE_FIXED
+                            Constant.TASK_PAYMENT_TYPE_HOURLY
                     );
                     operationsListener.onValidDataFilledBudgetBack();
-                } else {
-                    edtBudgetH.setError("Please enter your budget");
-                    edtBudgetT.setError("Please enter your budget");
-                }
+              //  } else {
+               //     edtBudgetH.setError("Please enter your budget");
+              //      edtBudgetT.setError("Please enter your budget");
+              //  }
                 break;
             case R.id.lyt_btn_post_task:
                 switch (getValidationCode()) {

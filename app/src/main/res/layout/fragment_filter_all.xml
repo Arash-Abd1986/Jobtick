@@ -10,8 +10,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/card_button"
-        android:layout_marginBottom="-281dp"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/lyt_btn_save_filter"
         android:overScrollMode="never">
 
 

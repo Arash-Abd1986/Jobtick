@@ -6,10 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".fragments.FilterInPersonFragment">
 
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/card_button"
+        android:layout_marginBottom="-281dp"
         android:overScrollMode="never">
 
 
@@ -22,19 +24,17 @@
                 android:id="@+id/txt_suburb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:eTitle="@string/suburb"
-                app:eInputType="suburb"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_xlarge"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"/>
+                android:layout_marginBottom="@dimen/spacing_middle"
+                app:eInputType="suburb"
+                app:eTitle="@string/suburb" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_mxlarge"
-                android:layout_marginEnd="@dimen/spacing_large"
                 android:orientation="vertical">
 
 
@@ -42,20 +42,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/materialText_600_14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
+                        android:layout_marginStart="16dp"
                         android:text="Distance"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/_12sp"
                         android:textStyle="bold" />
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_distance_km"
+                        style="@style/materialText_700_14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="16dp"
                         android:text="15 KM"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/_12sp"
@@ -64,35 +68,35 @@
                 </RelativeLayout>
 
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/spacing_middle" />
-
-                <SeekBar
+                <com.google.android.material.slider.Slider
                     android:id="@+id/sk_distance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="-15dp"
-                    android:layout_marginEnd="-15dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:layoutDirection="ltr"
                     android:max="100"
+                    android:maxHeight="4dp"
+                    android:minHeight="4dp"
                     android:mirrorForRtl="true"
+                    android:paddingStart="0dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="0dp"
                     android:progress="15"
-                    android:progressBackgroundTint="@color/grey_40"
-                    android:progressTint="@color/colorPrimary"
-                    android:thumbOffset="@dimen/spacing_large"
-                    android:thumbTint="@color/colorPrimary" />
-
+                    android:value="15"
+                    android:valueFrom="0"
+                    android:valueTo="100"
+                    app:haloColor="@color/grey_E2E2E2"
+                    app:labelBehavior="gone"
+                    app:trackColorInactive="@color/grey_E2E2E2" />
             </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_mxlarge"
-                android:layout_marginEnd="@dimen/spacing_large"
                 android:orientation="vertical">
 
 
@@ -101,44 +105,48 @@
                     android:layout_height="wrap_content">
 
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/materialText_600_14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
+                        android:layout_marginStart="16dp"
                         android:text="Price"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/_12sp"
                         android:textStyle="bold" />
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_price_min_max"
+                        style="@style/materialText_700_14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="16dp"
                         android:text="$ 5 - $ 9999"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/_12sp"
                         android:textStyle="bold" />
 
-
                 </RelativeLayout>
 
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/spacing_middle" />
-
-                <io.apptik.widget.MultiSlider
+                <com.google.android.material.slider.RangeSlider
                     android:id="@+id/sk_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:drawThumbsApart="true"
-                    app:rangeColor="@color/colorPrimary"
-                    app:scaleMax="100"
-                    app:scaleMin="0"
-                    app:stepsThumbsApart="11"
-                    app:thumbColor="@color/colorPrimary"
-                    app:thumbNumber="2" />
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:maxHeight="4dp"
+                    android:minHeight="4dp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:valueFrom="5"
+                    android:valueTo="9999"
+                    app:haloColor="@color/grey_E2E2E2"
+                    app:labelBehavior="gone"
+                    app:trackColorInactive="@color/grey_E2E2E2"
+                    app:values="@array/initial_slider_values_select_price" />
 
             </LinearLayout>
 
@@ -153,7 +161,8 @@
                 android:orientation="horizontal">
 
 
-                <com.jobtick.TextView.TextViewMedium
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_500_14"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -177,7 +186,6 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_button"

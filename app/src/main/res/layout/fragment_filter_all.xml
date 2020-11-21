@@ -61,9 +61,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="16dp"
                         android:text="15 KM"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/textColor" />
 
                 </RelativeLayout>
 
@@ -112,9 +110,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_marginStart="16dp"
                         android:text="Price"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/textColor" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_price_min_max"
@@ -124,9 +120,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="16dp"
                         android:text="$ 5 - $ 9999"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/textColor" />
 
                 </RelativeLayout>
 
@@ -187,37 +181,16 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_button"
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/lyt_btn_save_filter"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/spacing_large"
-        android:backgroundTint="@color/colorPrimary"
-        android:elevation="@dimen/spacing_middle"
-        app:cardCornerRadius="@dimen/spacing_medium">
-
-        <LinearLayout
-            android:id="@+id/lyt_btn_save_filter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="@dimen/spacing_large">
-
-            <com.jobtick.TextView.TextViewRegular
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Apply"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_14sp" />
-
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
+        android:layout_height="46dp"
+        style="@style/materialButton"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/apply"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

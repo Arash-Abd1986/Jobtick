@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.RangeSlider;
 import com.google.android.material.slider.Slider;
 import com.jobtick.R;
@@ -52,9 +53,7 @@ public abstract class AbstractFilterFragment extends Fragment {
     @BindView(R.id.cb_open_tasks)
     CheckBox cbOpenTasks;
     @BindView(R.id.lyt_btn_save_filter)
-    LinearLayout lytBtnSaveFilter;
-    @BindView(R.id.card_button)
-    CardView cardButton;
+    MaterialButton lytBtnSaveFilter;
 
     private FiltersActivity filtersActivity;
     private int pMin = 5, pMax = 9999;

@@ -8,7 +8,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
@@ -44,6 +47,18 @@ public class NewTaskFragment extends Fragment {
     @BindView(R.id.lty_btn_post)
     MaterialButton lytBtnPost;
 
+    @BindView(R.id.scrollView)
+    NestedScrollView scrollView;
+
+    @BindView(R.id.dynamic_space)
+    LinearLayout dynamicSpace;
+
+    @BindView(R.id.button_container)
+    View buttonContainer;
+
+    View root;
+    TextView toolbar_title;
+
     private TaskCategoryAdapter adapter;
     private Toolbar toolbar;
 
@@ -54,35 +69,10 @@ public class NewTaskFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_new_task_rev2, container, false);
-//        View view = inflater.inflate(R.layout.fragment_new_task, container, false);
-        ButterKnife.bind(this, view);
-        DashboardActivity dashboardActivity = (DashboardActivity) getActivity();
-        if (dashboardActivity != null) {
-            toolbar = dashboardActivity.findViewById(R.id.toolbar);
-            toolbar.getMenu().clear();
-            toolbar.inflateMenu(R.menu.menu_new_task);
-            toolbar.getMenu().findItem(R.id.action_search).setVisible(false);
-            ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
-            ivNotification.setVisibility(View.VISIBLE);
-            TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
-            toolbar_title.setVisibility(View.VISIBLE);
-
-            toolbar.post(() -> {
-                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
-                toolbar.setNavigationIcon(d);
-            });
-
-            toolbar_title.setText(R.string.jobTick);
-
-            if (getContext() != null) {
-                toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.background));
-                toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_bold));
-
-            }
-            androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
-            params.gravity = Gravity.CENTER;
-        }
+        root = inflater.inflate(R.layout.fragment_new_task_rev2, container, false);
+//        View root = inflater.inflate(R.layout.fragment_new_task, container, false);
+        ButterKnife.bind(this, root);
+        initToolbar();
 
         lytBtnPost.setOnClickListener(v -> {
             Intent creating_task = new Intent(getActivity(), CategoryListActivity.class);
@@ -92,7 +82,36 @@ public class NewTaskFragment extends Fragment {
             getContext().startActivity(creating_task);
         });
 
-        return view;
+        final ViewTreeObserver observer = scrollView.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                calculateSpaceHeight();
+                scrollView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
+        });
+
+        return root;
+    }
+
+    private void initToolbar() {
+        DashboardActivity dashboardActivity = (DashboardActivity) getActivity();
+        if (dashboardActivity == null) return;
+        toolbar = dashboardActivity.findViewById(R.id.toolbar);
+        toolbar.getMenu().clear();
+        toolbar.inflateMenu(R.menu.menu_new_task);
+        toolbar.getMenu().findItem(R.id.action_search).setVisible(false);
+        ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
+        ivNotification.setVisibility(View.VISIBLE);
+        TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
+        toolbar_title.setVisibility(View.VISIBLE);
+        toolbar_title.setText(R.string.jobTick);
+        toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.backgroundLightGrey));
+        toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_bold));
+        toolbar_title.setTextSize(22f);
+        androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.CENTER;
+        toolbar_title.setLayoutParams(params);
     }
 
     @Override
@@ -112,5 +131,21 @@ public class NewTaskFragment extends Fragment {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void calculateSpaceHeight() {
+
+        int scrollHeight = scrollView.getChildAt(0).getHeight();
+        int totalHeight = root.getHeight();
+        int bottomHeight = buttonContainer.getHeight();
+
+        //24 for shadow and ...
+        int space = (int) (((scrollHeight + bottomHeight) - totalHeight) + 24);
+
+        if (space > 0) {
+            LinearLayout.LayoutParams dynamicParams = new LinearLayout.LayoutParams(root.getWidth(), space);
+            dynamicParams.setMargins(0, 0, 0, 0);
+            dynamicSpace.setLayoutParams(dynamicParams);
+        }
     }
 }

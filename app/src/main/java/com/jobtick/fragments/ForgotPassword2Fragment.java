@@ -42,7 +42,7 @@ public class ForgotPassword2Fragment extends AbstractVerifyAccountFragment {
         String otp = edtVerificationCode.getText().toString();
 
         if (validation())
-            authActivity.forgotPasswordverification(email, otp);
+            authActivity.forgotPasswordSpecialVerification(email, otp);
          else {
             authActivity.showToast("check otp", authActivity);
         }

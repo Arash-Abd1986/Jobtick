@@ -250,6 +250,11 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             LevelInfoBottomSheet levelInfoBottomSheet = new LevelInfoBottomSheet();
             levelInfoBottomSheet.show(getParentFragmentManager(), "");
         });
+        initToolbar();
+        return view;
+    }
+
+    private void initToolbar() {
         dashboardActivity = (DashboardActivity) getActivity();
         poppins_medium = Typeface.createFromAsset(getActivity().getAssets(), "fonts/poppins_Medium.otf");
         onProfileupdatelistener = this;
@@ -277,11 +282,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                 Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
                 toolbar.setNavigationIcon(d);
             });
-
         }
-        return view;
     }
-
 
     @SuppressLint("NonConstantResourceId")
     @Override

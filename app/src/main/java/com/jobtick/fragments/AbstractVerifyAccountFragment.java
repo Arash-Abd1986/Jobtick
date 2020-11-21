@@ -38,6 +38,8 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
     AuthActivity authActivity;
     CountDownTimer timer;
 
+    private final String zeroTime = "0:00";
+
     @BindView(R.id.verify)
     ExtendedEntryText edtVerificationCode;
 
@@ -87,7 +89,7 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
             }
 
             public void onFinish() {
-                timeLimit.setText("0:00");
+                timeLimit.setText(zeroTime);
                 resendOtp.setEnabled(true);
                 resendOtp.setAlpha(1F);
                 timeLimit.setAlpha(0.4F);
@@ -139,6 +141,9 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
     protected boolean validation() {
         if (edtVerificationCode.getText().toString().trim().length() != 6) {
             edtVerificationCode.setError("Verification code must be equal to 6 characters.");
+            return false;
+        }else if(timeLimit.getText() == zeroTime){
+            edtVerificationCode.setError("Verification code is expired.");
             return false;
         }
         return true;

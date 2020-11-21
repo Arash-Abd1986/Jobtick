@@ -16,7 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewSemiBold;
 import com.jobtick.activities.FiltersActivity;
@@ -25,6 +24,7 @@ import com.jobtick.models.GeocodeObject;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.widget.ExtendedEntryText;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -44,7 +44,7 @@ public class FilterAllFragment extends Fragment {
 
 
     @BindView(R.id.txt_suburb)
-    EditTextRegular txtSuburb;
+    ExtendedEntryText txtSuburb;
     @BindView(R.id.txt_distance_km)
     TextViewSemiBold txtDistanceKm;
     @BindView(R.id.sk_distance)
@@ -91,6 +91,23 @@ public class FilterAllFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_filter_all, container, false);
         ButterKnife.bind(this, view);
+        txtSuburb.setExtendedViewOnClickListener(() -> {
+            Intent intent = new PlaceAutocomplete.IntentBuilder()
+                    .accessToken(Mapbox.getAccessToken())
+                    .placeOptions(PlaceOptions.builder()
+                            // .backgroundColor(Helper.getAttrColor(taskCreateActivity, R.attr.colorBackground))
+                            .backgroundColor(filtersActivity.getResources().getColor(R.color.background))
+                            .limit(10)
+                            .country("AU")
+
+                            /*.addInjectedFeature(home)
+                            .addInjectedFeature(work)*/
+                            .build(PlaceOptions.MODE_FULLSCREEN))
+                    .build(getActivity());
+            startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
+        });
+
+
         return view;
     }
 
@@ -126,22 +143,6 @@ public class FilterAllFragment extends Fragment {
 
         seekbar();
         seekbarPrice();
-
-        txtSuburb.setOnClickListener(v -> {
-            Intent intent = new PlaceAutocomplete.IntentBuilder()
-                    .accessToken(Mapbox.getAccessToken())
-                    .placeOptions(PlaceOptions.builder()
-                            // .backgroundColor(Helper.getAttrColor(taskCreateActivity, R.attr.colorBackground))
-                            .backgroundColor(filtersActivity.getResources().getColor(R.color.background))
-                            .limit(10)
-                            .country("AU")
-
-                            /*.addInjectedFeature(home)
-                            .addInjectedFeature(work)*/
-                            .build(PlaceOptions.MODE_FULLSCREEN))
-                    .build(getActivity());
-            startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
-        });
     }
 
     private void getPminPmax(int min, int max) {

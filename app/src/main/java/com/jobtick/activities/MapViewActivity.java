@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -65,7 +66,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
     @BindView(R.id.recycler_view_task)
     RecyclerView recyclerViewTask;
     @BindView(R.id.txt_filters)
-    TextViewRegular txtFilters;
+    TextView txtFilters;
     @BindView(R.id.lyt_btn_filters)
     LinearLayout lytBtnFilters;
     @BindView(R.id.recycler_view_filters)

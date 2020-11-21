@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.jobtick.TextView.TextViewSemiBold xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.textview.MaterialTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/txt_data"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="32dp"
     android:layout_marginStart="@dimen/spacing_middle"
-    android:background="@drawable/shape_tab_primary_2dp"
-    android:backgroundTint="@color/white"
+    android:background="@drawable/shape_tab_white_rev2"
     android:paddingStart="@dimen/spacing_middle"
-    android:paddingTop="@dimen/spacing_xmedium"
     android:paddingEnd="@dimen/spacing_middle"
-    android:paddingBottom="@dimen/spacing_xmedium"
+    android:gravity="center"
     android:text="Remote"
     android:textColor="@color/textColor"
-    android:textSize="@dimen/_10sp" />
+    android:textAppearance="@style/materialText_600_10" />

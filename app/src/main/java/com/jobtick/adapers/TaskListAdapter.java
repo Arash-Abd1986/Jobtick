@@ -90,12 +90,14 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public void addLoading() {
+        if(isLoaderVisible) return;
         isLoaderVisible = true;
         this.mItems.add(new TaskModel());
         notifyItemInserted(this.mItems.size() - 1);
     }
 
     public void removeLoading() {
+        if(!isLoaderVisible) return;
         isLoaderVisible = false;
         int position = mItems.size() - 1;
         TaskModel item = getItem(position);

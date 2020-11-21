@@ -321,14 +321,14 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         finish();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        toolbar.post(() -> {
-            Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
-            toolbar.setNavigationIcon(d);
-        });
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        toolbar.post(() -> {
+//            Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
+//            toolbar.setNavigationIcon(d);
+//        });
+//    }
 
     @Override
     public void onBackPressed() {

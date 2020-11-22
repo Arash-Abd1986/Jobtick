@@ -87,19 +87,20 @@
                 android:orientation="horizontal"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:listitem="@layout/item_task_view" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/ivMapView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:layout_margin="16dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:src="@drawable/ic_map_white"
-                app:borderWidth="0dp"
-                app:elevation="@dimen/_16sp"
-                app:fabSize="normal"
-                app:tint="@color/white" />
         </FrameLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/ivMapView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/ic_map_white"
+        app:borderWidth="0dp"
+        app:elevation="@dimen/_16sp"
+        app:fabSize="normal"
+        app:tint="@color/white" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

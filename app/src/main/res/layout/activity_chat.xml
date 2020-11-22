@@ -257,7 +257,6 @@
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
-
 </LinearLayout>
     <FrameLayout
         android:id="@+id/bottom_sheet"

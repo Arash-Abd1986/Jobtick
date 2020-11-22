@@ -98,8 +98,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
 
-    /*@BindView(R.id.toolbar)
-    MaterialToolbar toolbar;*/
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_first_name)
     ExtendedEntryText edtFirstName;

@@ -477,4 +477,8 @@
         <item name="colorOnSurface">@color/grey_E2E2E2</item>
     </style>
 
+    <style name="AppTheme.fullScreen">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
 </resources>

@@ -18,56 +18,8 @@
         app:elevation="0dp"
         app:layout_collapseMode="parallax">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_marginBottom="10dp"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:orientation="horizontal">
+        <include layout="@layout/view_filter_list"/>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:elevation="3dp"
-                app:cardCornerRadius="6dp">
-
-                <LinearLayout
-                    android:id="@+id/lyt_btn_filters"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/spacing_middle"
-                    android:paddingTop="@dimen/spacing_xmedium"
-                    android:paddingEnd="@dimen/spacing_middle"
-                    android:paddingBottom="@dimen/spacing_xmedium">
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/txt_filters"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:drawableStart="@drawable/ic_browse_filter"
-                        android:drawablePadding="10dp"
-                        android:gravity="center_vertical"
-                        android:singleLine="true"
-                        android:text="@string/filters"
-                        android:textAppearance="@style/materialText_600_10"
-                        android:textColor="@color/white" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_filters"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:overScrollMode="never"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_filter" />
-        </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

@@ -19,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -71,8 +72,9 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
     LinearLayout lytBtnFilters;
     @BindView(R.id.recycler_view_filters)
     RecyclerView recyclerViewFilters;
+    @BindView(R.id.location_button)
+    View locationButton;
     private GoogleMap googleMap;
-    private Double latitude, longitude;
 
     private ArrayList<String> filters;
     private FilterModel filterModel;
@@ -84,7 +86,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
     private boolean isLastPage = false;
     private int totalPage = 10;
     private boolean isLoading = false;
-    private LatLng latLng;
+    private double myLatitude, myLongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +120,11 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
             public void onClick(View v) {
                 onBackPressed();
             }
+        });
+
+        locationButton.setOnClickListener(V -> {
+            goToLocation(Double.parseDouble(sessionManager.getLatitude()),
+                    Double.parseDouble(sessionManager.getLongitude()));
         });
 
         recyclerViewTask.setHasFixedSize(true);
@@ -305,32 +312,21 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
                         for (int i = 0; items.size() > i; i++) {
                             Double latitude = items.get(i).getPosition().getLatitude();
                             Double longitude = items.get(i).getPosition().getLongitude();
-                            LatLng destination = new LatLng(latitude, longitude);
 
-                            MarkerOptions markerOptions = new MarkerOptions().position(destination)
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_grey));
-
-                            Marker marker = googleMap.addMarker(markerOptions);
-                            marker.setTag(i);
-                            marker.setTitle(items.get(i).getTitle());
-
+                            addMarker(latitude, longitude, items.get(i).getTitle(), i);
                         }
+
                         if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
                             JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
                             totalPage = jsonObject_meta.getInt("last_page");
                             Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
                         }
-                        //Log.e("location",""+new LatLng(Double.valueOf(latitude), Double.valueOf(longitude)));
-                        googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(sessionManager.getLatitude()), Double.valueOf(sessionManager.getLongitude())))
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_grey)))
-                                .setTitle(Tools.getStringFromRes(MapViewActivity.this, R.string.current_location));
+                        findCurrentLocation();
 
-                        CameraPosition cameraPosition =
-                                new CameraPosition.Builder()
-                                        .target(new LatLng(Double.valueOf(sessionManager.getLatitude()), Double.valueOf(sessionManager.getLongitude())))
-                                        .zoom(16)
-                                        .build();
-                        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                        addMarker(myLatitude, myLongitude,
+                                Tools.getStringFromRes(MapViewActivity.this, R.string.you_are_here), -1);
+
+                        goToLocation(myLatitude, myLongitude);
                         /*
                          *manage progress view
                          */
@@ -380,5 +376,36 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    private void goToLocation(double latitude, double longitude){
+
+        CameraPosition cameraPosition =
+                new CameraPosition.Builder()
+                        .target(new LatLng(latitude, longitude))
+                        .zoom(16)
+                        .build();
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
+
+    private void addMarker(double latitude, double longitude, String title, int tag){
+
+        LatLng destination = new LatLng(latitude, longitude);
+        MarkerOptions markerOptions = new MarkerOptions().position(destination)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_blue_image));
+
+        Marker marker = googleMap.addMarker(markerOptions);
+        marker.setTag(tag);
+        marker.setTitle(title);
+    }
+
+    private void findCurrentLocation(){
+        if(filterModel != null && filterModel.getLatitude() != null && filterModel.getLogitude() != null){
+            myLatitude = Double.parseDouble(filterModel.getLatitude());
+            myLongitude = Double.parseDouble(filterModel.getLogitude());
+        }else{
+            myLatitude = Double.parseDouble(sessionManager.getLatitude());
+            myLongitude = Double.parseDouble(sessionManager.getLongitude());
+        }
     }
 }

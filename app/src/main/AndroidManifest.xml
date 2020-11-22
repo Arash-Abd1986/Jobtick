@@ -73,7 +73,8 @@
             android:name=".activities.ChatActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activities.PaymentOverviewActivity" />
-        <activity android:name=".activities.MapViewActivity" />
+        <activity android:name=".activities.MapViewActivity"
+            android:theme="@style/AppTheme.fullScreen" />
         <activity android:name=".activities.ReviewsActivity" />
         <activity android:name=".activities.SkillsTagActivity" />
         <activity android:name=".activities.ViewAllOffersActivity" />

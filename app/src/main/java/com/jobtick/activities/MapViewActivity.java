@@ -124,8 +124,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         });
 
         locationButton.setOnClickListener(V -> {
-            goToLocation(Double.parseDouble(sessionManager.getLatitude()),
-                    Double.parseDouble(sessionManager.getLongitude()));
+            goToLocation(myLatitude, myLongitude);
         });
 
         recyclerViewTask.setHasFixedSize(true);
@@ -407,7 +406,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         }else{
             myLatitude = Double.parseDouble(sessionManager.getLatitude());
             myLongitude = Double.parseDouble(sessionManager.getLongitude());
-            mySuburb = Tools.getStringFromRes(MapViewActivity.this, R.string.you_are_here);
+            mySuburb = Tools.getStringFromRes(MapViewActivity.this, R.string.current_location);
         }
     }
 }

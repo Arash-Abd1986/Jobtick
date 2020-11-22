@@ -190,7 +190,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         headers.put("X-REQUESTED-WITH", "xmlhttprequest");
         headers.put("Accept", "application/json");
         HttpAuthorizer authorizer = new HttpAuthorizer(Constant.BASE_URL + "broadcasting/auth");
-       mBehavior = BottomSheetBehavior.from(bottomSheet);
+        mBehavior = BottomSheetBehavior.from(bottomSheet);
         authorizer.setHeaders(headers);
         PusherOptions options = new PusherOptions()
                 //   .setEncrypted(true)
@@ -241,28 +241,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ChatAdapter(ChatActivity.this, new ArrayList<>(), conversationModel.getSender().getId());
         recyclerView.setAdapter(adapter);
-        // publicChatListAdapter.setOnItemClickListener(this);
-        doApiCall();
-
-       /* recyclerView.addOnScrollListener(new PaginationListener(layoutManager) {
-            @Override
-            protected void loadMoreItems() {
-                isLoading = true;
-                currentPage++;
-                doApiCall();
-            }
-
-            @Override
-            public boolean isLastPage() {
-                return isLastPage;
-            }
-
-            @Override
-            public boolean isLoading() {
-                return isLoading;
-            }
-        });
-*/
 
         initComponentScroll();
 
@@ -272,10 +250,13 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
             txtCount.setText(String.valueOf(unreadCount));
             recyclerView.smoothScrollToPosition(adapter.getItemCount());
         });
-
-
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        doApiCall();
+    }
 
     @Override
     public void onBackPressed() {
@@ -326,7 +307,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
     }
 
-
     boolean isFabHide = false;
 
     private void animateFab(final boolean hide) {
@@ -342,7 +322,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         }
 
     }
-
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void setToolbar(ConversationModel conversationModel) {
@@ -909,7 +888,8 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 }
             }
 
-        } }
+        }
+    }
 
     @Override
     public void onRefresh() {

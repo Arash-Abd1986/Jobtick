@@ -186,10 +186,9 @@ public abstract class AbstractFilterFragment extends Fragment {
         }
         if (getFilterType() == FilterType.IN_PERSON || getFilterType() == FilterType.ALL) {
             filterModel.setLocation(txtSuburb.getText().toString().trim());
-            filterModel.setPrice(txtPriceMinMax.getText().toString().trim());
             filterModel.setDistance(String.valueOf((int) skDistance.getValue()));
         }
-
+        filterModel.setPrice(txtPriceMinMax.getText().toString().trim());
         if (cbOpenTasks.isChecked()) {
             filterModel.setTask_open(Constant.FILTER_TASK_OPEN);
         } else {

@@ -95,27 +95,32 @@ public abstract class AbstractFilterFragment extends Fragment {
         if (getArguments() != null) {
             if (getArguments().getParcelable(Constant.FILTER) != null) {
                 filterModel = getArguments().getParcelable(Constant.FILTER);
-                if (filterModel != null) {
+                if (filterModel != null && filterModel.getPrice() != null) {
                     String[] price = filterModel.getPrice().replace("$", "").replace(",", "").split("-");
                     getPminPmax(Integer.parseInt(price[0].trim()), Integer.parseInt(price[1].trim()));
                     txtPriceMinMax.setText(filterModel.getPrice());
+                }
+                if (filterModel != null && filterModel.getTask_open() != null) {
                     cbOpenTasks.setChecked(filterModel.getTask_open() != null);
-                }
-                if (filterModel != null && (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_ALL)
-                        || filterModel.getSection().equalsIgnoreCase(Constant.FILTER_IN_PERSON))) {
-                    txtSuburb.setText(filterModel.getLocation());
-                    txtDistanceKm.setText(String.format("%sKM", (int) Float.parseFloat(filterModel.getDistance())));
-                    skDistance.setValue((int) Float.parseFloat(filterModel.getDistance()));
-                }
             }
-
-        } else {
-            setSeekBarPrice(pMin, pMax);
+            if (filterModel != null && (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_ALL)
+                    || filterModel.getSection().equalsIgnoreCase(Constant.FILTER_IN_PERSON))) {
+                txtSuburb.setText(filterModel.getLocation());
+                txtDistanceKm.setText(String.format("%sKM", (int) Float.parseFloat(filterModel.getDistance())));
+                skDistance.setValue((int) Float.parseFloat(filterModel.getDistance()));
+            }
         }
 
-        seekbar();
-        seekbarPrice();
+    } else
+
+    {
+        setSeekBarPrice(pMin, pMax);
     }
+
+    seekbar();
+
+    seekbarPrice();
+}
 
     private void getPminPmax(int min, int max) {
         skPrice.setValues((float) min, (float) max);
@@ -197,9 +202,9 @@ public abstract class AbstractFilterFragment extends Fragment {
 
     abstract int getFilterType();
 
-    public interface FilterType {
-        final int ALL = 0;
-        final int IN_PERSON = 1;
-        final int REMOTELY = 2;
-    }
+public interface FilterType {
+    final int ALL = 0;
+    final int IN_PERSON = 1;
+    final int REMOTELY = 2;
+}
 }

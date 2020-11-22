@@ -921,8 +921,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         } else {
             swipeRefresh.setRefreshing(false);
         }
-
-
     }
 
     @Override

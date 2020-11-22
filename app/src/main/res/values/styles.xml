@@ -12,12 +12,7 @@
         <item name="android:statusBarColor">@color/backgroundLightGrey</item>
         <item name="android:navigationBarColor">@color/gray</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-
-    </style>
-
-    <style name="ThemeOverlay_Toolbar" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
-        <!-- color used by navigation icon and overflow icon -->
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="sliderStyle">@style/Widget.App.Slider</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />
@@ -396,6 +391,13 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="materialText_600_08" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/poppins_reg</item>
+        <item name="android:fontFamily">@font/poppins_reg</item>
+        <item name="android:textSize">8sp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
     <style name="materialText_500_20" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="fontFamily">@font/poppins_medium</item>
         <item name="android:fontFamily">@font/poppins_medium</item>
@@ -448,6 +450,35 @@
         <item name="android:backgroundDimAmount">0.7</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <!-- resolve grey navigation icon problem -->
+    <style name="ThemeOverlay_Toolbar" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <!-- color used by navigation icon and overflow icon -->
+        <item name="colorOnPrimary">@color/black</item>
+    </style>
+
+
+    <style name="SeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressDrawable">@drawable/seekbar_progress_drawable</item>
+        <item name="android:thumb">@drawable/ic_ellipse_70</item>
+        <item name="android:thumbTint">@color/colorPrimary</item>
+        <item name="android:progressTint">@color/colorPrimary</item>
+        <item name="android:progressBackgroundTint">@color/grey_E2E2E2</item>
+    </style>
+
+    <style name="Widget.App.Slider" parent="Widget.MaterialComponents.Slider">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Slider</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Slider" parent="">
+        <item name="colorPrimary">@color/grey_E2E2E2</item>
+        <item name="colorOnPrimary">@color/colorPrimary</item>
+        <item name="colorOnSurface">@color/grey_E2E2E2</item>
+    </style>
+
+    <style name="AppTheme.fullScreen">
+        <item name="android:windowFullscreen">true</item>
     </style>
 
 </resources>

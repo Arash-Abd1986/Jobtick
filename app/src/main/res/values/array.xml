@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <array name="initial_slider_values_select_price">
+        <item>5</item>
+        <item>9999</item>
+    </array>
+
 
 
     <integer-array name="category_image_0">

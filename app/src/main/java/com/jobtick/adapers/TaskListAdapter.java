@@ -121,8 +121,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         CircularImageView imgAvatar;
         @BindView(R.id.txt_offer_count)
         TextView txtOfferCount;
-        @BindView(R.id.lyt_task_profile)
-        LinearLayout lytTaskProfile;
         @BindView(R.id.txt_title)
         TextView txtTitle;
         @BindView(R.id.txt_location)

@@ -5,6 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="current_location">Current Location</string>
+    <string name="selected_suburb">Selected suburb</string>
     <string name="processing">Processing ..</string>
     <string name="please_wait">Please wait ..</string>
     <string name="retry">Retry</string>
@@ -202,7 +203,7 @@
     <string name="assigned">Assigned</string>
     <string name="cancelled">Cancelled</string>
     <string name="overdue">Overdue</string>
-    <string name="completed">Competed</string>
+    <string name="completed">Completed</string>
     <string name="reviewed">Reviewed</string>
     <string name="this_job_has_been_cancelled_please_contact_customer_support_if_you_need_further_help">This job has been cancelled Please contact customer support if you need further help</string>
     <string name="repost_this_job">Repost this job</string>
@@ -411,6 +412,7 @@
     <string name="we_didn_t_find_any_results_for_your_search">We didn\'t find any results for your search</string>
     <string name="add">Add</string>
     <string name="_3">3</string>
+    <string name="apply">Apply</string>
     <string name="information_levels">Levels Information</string>
     <string name="level_one">Level One</string>
     <string name="_10_service_fee">10% service fee</string>

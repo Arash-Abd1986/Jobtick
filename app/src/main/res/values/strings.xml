@@ -202,7 +202,7 @@
     <string name="assigned">Assigned</string>
     <string name="cancelled">Cancelled</string>
     <string name="overdue">Overdue</string>
-    <string name="completed">Competed</string>
+    <string name="completed">Completed</string>
     <string name="reviewed">Reviewed</string>
     <string name="this_job_has_been_cancelled_please_contact_customer_support_if_you_need_further_help">This job has been cancelled Please contact customer support if you need further help</string>
     <string name="repost_this_job">Repost this job</string>

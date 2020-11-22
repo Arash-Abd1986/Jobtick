@@ -44,10 +44,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <!-- due to problem with text status when it is completed, we use larger image -->
                 <com.mikhaellopez.circularimageview.CircularImageView
                     android:id="@+id/img_avatar"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentStart="true"
                     android:layout_gravity="center"
@@ -63,10 +64,12 @@
                     android:gravity="center"
                     android:padding="3dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="4dp"
+                    android:layout_alignStart="@id/img_avatar"
+                    android:layout_alignEnd="@id/img_avatar"
+                    android:layout_marginBottom="6dp"
                     android:layout_alignParentBottom="true"
                     android:lines="1"
-                    android:text="@string/assigned"
+                    android:text="@string/completed"
                     android:textAppearance="@style/materialText_600_08"
                     android:textColor="@color/grey_70" />
 

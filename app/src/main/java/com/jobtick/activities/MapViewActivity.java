@@ -87,6 +87,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
     private int totalPage = 10;
     private boolean isLoading = false;
     private double myLatitude, myLongitude;
+    private String mySuburb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -323,8 +324,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
                         }
                         findCurrentLocation();
 
-                        addMarker(myLatitude, myLongitude,
-                                Tools.getStringFromRes(MapViewActivity.this, R.string.you_are_here), -1);
+                        addMarker(myLatitude, myLongitude, mySuburb, -1);
 
                         goToLocation(myLatitude, myLongitude);
                         /*
@@ -403,9 +403,11 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         if(filterModel != null && filterModel.getLatitude() != null && filterModel.getLogitude() != null){
             myLatitude = Double.parseDouble(filterModel.getLatitude());
             myLongitude = Double.parseDouble(filterModel.getLogitude());
+            mySuburb = Tools.getStringFromRes(MapViewActivity.this, R.string.selected_suburb);
         }else{
             myLatitude = Double.parseDouble(sessionManager.getLatitude());
             myLongitude = Double.parseDouble(sessionManager.getLongitude());
+            mySuburb = Tools.getStringFromRes(MapViewActivity.this, R.string.you_are_here);
         }
     }
 }

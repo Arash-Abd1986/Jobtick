@@ -132,13 +132,13 @@ public class ChatList1Adapter extends RecyclerView.Adapter<ChatList1Adapter.View
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            txtOnlyDate = itemView.findViewById(R.id.txtOnlyDate);
-            txtShowMessage = itemView.findViewById(R.id.txtShowMessage);
-            txtName = itemView.findViewById(R.id.txtName);
-            imgMsgSeen = itemView.findViewById(R.id.imgMsgSeen);
-            txtMsgTime = itemView.findViewById(R.id.txtMsgTime);
-            imgPath = itemView.findViewById(R.id.imgPath);
+//
+//            txtOnlyDate = itemView.findViewById(R.id.txtOnlyDate);
+//            txtShowMessage = itemView.findViewById(R.id.txtShowMessage);
+//            txtName = itemView.findViewById(R.id.txtName);
+//            imgMsgSeen = itemView.findViewById(R.id.imgMsgSeen);
+//            txtMsgTime = itemView.findViewById(R.id.txtMsgTime);
+//            imgPath = itemView.findViewById(R.id.imgPath);
         }
     }
 

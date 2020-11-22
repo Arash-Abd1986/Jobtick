@@ -33,6 +33,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
+import com.jobtick.activities.CategoryListActivity;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.EditProfileActivity;
 import com.jobtick.activities.ReviewsActivity;
@@ -274,8 +275,11 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             params.gravity = Gravity.LEFT;
             toolbar_title.setLayoutParams(params);
             btnQuote.setOnClickListener(view12 -> {
-                Intent intent = new Intent(getActivity(), TaskCreateActivity.class);
-                startActivity(intent);
+                Intent creating_task = new Intent(getActivity(), CategoryListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("category", "");
+                creating_task.putExtras(bundle);
+                getContext().startActivity(creating_task);
             });
             toolbar.post(() -> {
                 Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);

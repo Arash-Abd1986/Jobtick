@@ -695,7 +695,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                 cyear = calendar.get(Calendar.YEAR);
                 cmonth = calendar.get(Calendar.MONTH);
                 cday = calendar.get(Calendar.DAY_OF_MONTH);
-              showBottomSheetDialogDate();
+                showBottomSheetDialogDate();
 //                Calendar calendar = Calendar.getInstance();
 //                year = calendar.get(Calendar.YEAR);
 //                month = calendar.get(Calendar.MONTH);

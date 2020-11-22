@@ -241,6 +241,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ChatAdapter(ChatActivity.this, new ArrayList<>(), conversationModel.getSender().getId());
         recyclerView.setAdapter(adapter);
+        doApiCall();
 
         initComponentScroll();
 
@@ -250,12 +251,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
             txtCount.setText(String.valueOf(unreadCount));
             recyclerView.smoothScrollToPosition(adapter.getItemCount());
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        doApiCall();
     }
 
     @Override
@@ -300,8 +295,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
                 //End of list
                 isLastPosition = pastVisibleItems + visibleItemCount >= totalItemCount;
-
-
             }
         });
 

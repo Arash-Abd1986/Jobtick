@@ -251,7 +251,8 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
     public boolean onMarkerClick(Marker marker) {
         if (marker.getTag() != null) {
             int position = (int) marker.getTag();
-            recyclerViewTask.scrollToPosition(position);
+            if(position != -1)
+                recyclerViewTask.smoothScrollToPosition(position);
         }
         return false;
     }

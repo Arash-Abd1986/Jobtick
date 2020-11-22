@@ -5,8 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -258,29 +256,9 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             str_due_date = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + dayOfMonth);
             txtBirthDate.setText(str_due_date);
         };
-//        txtBirthDate.setOnClickListener(v -> {
-//            Calendar calendar = Calendar.getInstance();
-//            year = calendar.get(Calendar.YEAR);
-//            month = calendar.get(Calendar.MONTH);
-//            day = calendar.get(Calendar.DAY_OF_MONTH);
-//
-//            DatePickerDialog dialog = new DatePickerDialog(this,
-//                    android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-//                    mDateSetListener,
-//                    year, month, day);
-//            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//            dialog.show();
-//        });
 
-//        mDateSetListener = (view1, year, month, dayOfMonth) -> {
-//            month = month + 1;
-//            str_DOB_MODEL = year + "-" + month + "-" + dayOfMonth;
-//            str_DOB = Tools.getDayMonthDateTimeFormat2(year + "-" + month + "-" + dayOfMonth);
-//            txtBirthDate.setText(str_DOB);
-//        };
         init();
         getAllUserProfileDetails();
-      //  initComponentScroll();
     }
 
     private void initComponentScroll() {
@@ -1287,7 +1265,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
     private void showBottomSheetDialogDate() {
 
-        final View view = getLayoutInflater().inflate(R.layout.sheet_date, null);
+        @SuppressLint("InflateParams") final View view = getLayoutInflater().inflate(R.layout.sheet_date, null);
 
         mBottomSheetDialog = new BottomSheetDialog(this);
         mBottomSheetDialog.setContentView(view);
@@ -1304,9 +1282,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         calendarView.setMaxDate(c.getTimeInMillis());
 
         TextViewMedium txtCancel = view.findViewById(R.id.txt_cancel);
-        txtCancel.setOnClickListener(v -> {
-            mBottomSheetDialog.dismiss();
-        });
+        txtCancel.setOnClickListener(v -> mBottomSheetDialog.dismiss());
 
         LinearLayout lytBtnDone = view.findViewById(R.id.lyt_btn_done);
 

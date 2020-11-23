@@ -61,10 +61,10 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
     ImageView ivBack;
 
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_categories)
+    @BindView(R.id.back_to_activity)
     MaterialButton lytCategories;
 
-    @BindView(R.id.category_list)
+    @BindView(R.id.list)
     RecyclerView recyclerViewCategories;
 
     @BindView(R.id.empty_search)
@@ -89,7 +89,7 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_search);
+        setContentView(R.layout.activity_search_all);
         ButterKnife.bind(this);
         //  RelativeLayout emptySearch = findViewById(R.id.empty_search);
         sessionManager = new SessionManager(this);
@@ -102,7 +102,7 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
     }
 
     @SuppressLint("NonConstantResourceId")
-    @OnClick({R.id.lyt_search_new, R.id.lyt_categories, R.id.iv_back})
+    @OnClick({R.id.lyt_search_new, R.id.back_to_activity, R.id.iv_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_search_new:
@@ -111,7 +111,7 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
                 edtSearchCategories.performClick();
                 showKeyboard(edtSearchCategories);
                 break;
-            case R.id.lyt_categories:
+            case R.id.back_to_activity:
 
                 Intent categoryActivity = new Intent(SearchCategoryActivity.this, CategoryListActivity.class);
                 startActivity(categoryActivity);

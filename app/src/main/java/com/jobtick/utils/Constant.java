@@ -24,6 +24,7 @@ public class Constant {
     public static final String STATE_STRIPE_POSTER = "STATE_STRIPE_POSTER";
 
 
+    public static final String TASK_SEARCH_QUERY = "search_query";
     public static final String TASK_CANCELLED = "cancelled";
     public static final String TASK_DRAFT = "draft";
     public static final String TASK_OPEN = "open";

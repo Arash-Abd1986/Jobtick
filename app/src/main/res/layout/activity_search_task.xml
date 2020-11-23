@@ -151,7 +151,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/lyt_categories"
+                    android:id="@+id/go_back_to_activity"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_46dp"
                     android:layout_gravity="center"
@@ -161,7 +161,7 @@
                     android:orientation="vertical"
                     android:paddingStart="@dimen/spacing_xxxlarge"
                     android:paddingEnd="@dimen/spacing_xxxlarge"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <com.jobtick.TextView.TextViewSemiBold
                         android:layout_width="wrap_content"

@@ -36,6 +36,7 @@ import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.FiltersActivity;
 import com.jobtick.activities.MapViewActivity;
 import com.jobtick.activities.SearchCategoryActivity;
+import com.jobtick.activities.SearchTaskActivity;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.adapers.FilterAdapter;
 import com.jobtick.adapers.TaskListAdapter;
@@ -144,7 +145,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     private void setCTAListener() {
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_search) {
-                Intent creating_task = new Intent(getActivity(), SearchCategoryActivity.class);
+                Intent creating_task = new Intent(getActivity(), SearchTaskActivity.class);
                 startActivity(creating_task);
             }
             return false;

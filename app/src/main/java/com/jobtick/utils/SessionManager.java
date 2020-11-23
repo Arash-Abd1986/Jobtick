@@ -141,7 +141,7 @@ public class SessionManager {
         return gson.fromJson(json, type);
     }
 
-    public <T> void setPreviewCategoryItem(PreviewModel<T> previewModel, Class<?> cls){
+    public <T> void setPreviewModel(PreviewModel<T> previewModel, Class<?> cls){
         Gson gson = new Gson();
         String previewJson = gson.toJson(previewModel);
         editor.putString(cls.getName(), previewJson);

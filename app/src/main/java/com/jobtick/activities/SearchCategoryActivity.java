@@ -139,7 +139,7 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
     @Override
     public void onItemClick(View view, TaskCategory obj, int position) {
         previewModel.addItem(obj);
-        sessionManager.setPreviewCategoryItem(previewModel, SearchCategoryActivity.class);
+        sessionManager.setPreviewModel(previewModel, SearchCategoryActivity.class);
         Intent creating_task = new Intent(SearchCategoryActivity.this, TaskCreateActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("categoryID", obj.getId());

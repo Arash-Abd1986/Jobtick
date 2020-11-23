@@ -52,9 +52,7 @@
             android:id="@+id/category_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sp"
-            android:layout_marginTop="@dimen/_10sp"
-            android:layout_marginEnd="@dimen/_20sp"
+            android:layout_marginTop="14dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_category_search"
             android:visibility="visible"/>

@@ -26,9 +26,9 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.adapers.TaskCategoryAdapter;
-import com.jobtick.adapers.TaskCategoryPreviewAdapter;
+import com.jobtick.adapers.PreviewAdapter;
 import com.jobtick.models.TaskCategory;
-import com.jobtick.models.TaskCategoryPreview;
+import com.jobtick.models.PreviewModel;
 import com.jobtick.pagination.PaginationListener;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
@@ -50,7 +50,7 @@ import butterknife.OnClick;
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
 public class SearchCategoryActivity extends ActivityBase implements TextView.OnEditorActionListener,
-        TaskCategoryAdapter.OnItemClickListener, TaskCategoryPreviewAdapter.OnItemClickListener {
+        TaskCategoryAdapter.OnItemClickListener, PreviewAdapter.OnItemClickListener<TaskCategory> {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_search_new)
@@ -76,8 +76,8 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
 
     private SessionManager sessionManager;
     private TaskCategoryAdapter adapter;
-    private TaskCategoryPreview taskCategoryPreview;
-    private TaskCategoryPreviewAdapter previewAdapter;
+    private PreviewModel<TaskCategory> previewModel;
+    private PreviewAdapter<TaskCategory> previewAdapter;
 
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
@@ -138,8 +138,8 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
 
     @Override
     public void onItemClick(View view, TaskCategory obj, int position) {
-        taskCategoryPreview.addItem(obj);
-        sessionManager.setPreviewCategoryItem(taskCategoryPreview);
+        previewModel.addItem(obj);
+        sessionManager.setPreviewCategoryItem(previewModel, SearchCategoryActivity.class);
         Intent creating_task = new Intent(SearchCategoryActivity.this, TaskCreateActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("categoryID", obj.getId());
@@ -214,11 +214,16 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
     }
 
     private void setPreviewAdapter() {
-        taskCategoryPreview = sessionManager.getPreviewCategoriesList();
-        if (taskCategoryPreview == null)
-            taskCategoryPreview = new TaskCategoryPreview();
+        previewModel = sessionManager.getPreviewModel(SearchCategoryActivity.class);
+        if (previewModel == null)
+            previewModel = new PreviewModel<TaskCategory>();
 
-        previewAdapter = new TaskCategoryPreviewAdapter(this, new ArrayList<>(taskCategoryPreview.getCategorySet()));
+        previewAdapter = new PreviewAdapter<TaskCategory>(new ArrayList<>(previewModel.getPreviewSet())) {
+            @Override
+            public String getPreviewParameterName() {
+                return "name";
+            }
+        };
         recyclerViewCategories.setAdapter(previewAdapter);
 
         recyclerViewCategories.setHasFixedSize(true);

@@ -4,16 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 
-import androidx.collection.ArraySet;
-
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jobtick.R;
 import com.jobtick.models.FilterModel;
-import com.jobtick.models.TaskCategory;
-import com.jobtick.models.TaskCategoryPreview;
+import com.jobtick.models.PreviewModel;
 import com.jobtick.models.UserAccountModel;
 
-import java.util.Set;
+import java.lang.reflect.Type;
 
 
 public class SessionManager {
@@ -136,16 +134,17 @@ public class SessionManager {
         return pref.getString("bank_account_number", null);
     }
 
-    public TaskCategoryPreview getPreviewCategoriesList(){
-        String json = pref.getString("categoryList", null);
+    public <T> PreviewModel<T> getPreviewModel(Class<?> cls){
+        String json = pref.getString(cls.getName(), null);
+        Type type = new TypeToken<PreviewModel<T>>(){}.getType();
         Gson gson = new Gson();
-        return gson.fromJson(json, TaskCategoryPreview.class);
+        return gson.fromJson(json, type);
     }
 
-    public void setPreviewCategoryItem(TaskCategoryPreview categories){
+    public <T> void setPreviewCategoryItem(PreviewModel<T> previewModel, Class<?> cls){
         Gson gson = new Gson();
-        String categoryJson = gson.toJson(categories);
-        editor.putString("categoryList", categoryJson);
+        String previewJson = gson.toJson(previewModel);
+        editor.putString(cls.getName(), previewJson);
         editor.commit();
     }
 

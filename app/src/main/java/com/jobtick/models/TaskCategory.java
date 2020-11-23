@@ -8,6 +8,8 @@ import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 public class TaskCategory implements Parcelable {
 
 
@@ -100,4 +102,16 @@ public class TaskCategory implements Parcelable {
         return taskCategory;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TaskCategory that = (TaskCategory) o;
+        return name.equals(that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }

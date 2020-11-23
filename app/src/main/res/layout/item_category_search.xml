@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:id="@+id/category_container">
 
 
     <ImageView
@@ -16,27 +18,26 @@
         android:layout_alignParentStart="true"
         android:layout_margin="@dimen/_15sp"
         android:src="@drawable/ic_clock"
-        android:tint="@color/grey_70"/>
+        app:tint="@color/grey_70"/>
 
-    <com.jobtick.TextView.TextViewRegular
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/category_text"
         android:layout_width="wrap_content"
         android:layout_centerVertical="true"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/iv_clock"
-        android:text="Cleanng"
+        android:text="Cleaning"
         android:textColor="@color/grey_70"
-        android:textSize="@dimen/_16sp">
+        android:textAppearance="@style/materialText_400_16">
 
-    </com.jobtick.TextView.TextViewRegular>
+    </com.google.android.material.textview.MaterialTextView>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-
         android:src="@drawable/ic_arrow_up_left"
-
         android:textSize="@dimen/_15sp">
 
     </ImageView>

@@ -1,22 +1,56 @@
 package com.jobtick.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import com.jobtick.adapers.TaskCategoryAdapter;
+import com.jobtick.adapers.TaskCategoryPreviewAdapter;
+import com.jobtick.models.TaskCategory;
+import com.jobtick.models.TaskCategoryPreview;
+import com.jobtick.pagination.PaginationListener;
+import com.jobtick.utils.Constant;
+import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.SessionManager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SearchCategoryActivity extends ActivityBase {
+import static com.jobtick.pagination.PaginationListener.PAGE_START;
+
+public class SearchCategoryActivity extends ActivityBase implements TextView.OnEditorActionListener,
+        TaskCategoryAdapter.OnItemClickListener, TaskCategoryPreviewAdapter.OnItemClickListener {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_search_new)
@@ -30,19 +64,41 @@ public class SearchCategoryActivity extends ActivityBase {
     @BindView(R.id.lyt_categories)
     MaterialButton lytCategories;
 
+    @BindView(R.id.category_list)
+    RecyclerView recyclerViewCategories;
+
+    @BindView(R.id.empty_search)
+    RelativeLayout emptySearch;
+
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_search_categoreis)
     EditText edtSearchCategories;
+
+    private SessionManager sessionManager;
+    private TaskCategoryAdapter adapter;
+    private TaskCategoryPreview taskCategoryPreview;
+    private TaskCategoryPreviewAdapter previewAdapter;
+
+    private int currentPage = PAGE_START;
+    private boolean isLastPage = false;
+    private int totalPage = 10;
+    private boolean isLoading = false;
+
+    private String query = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_search);
         ButterKnife.bind(this);
-      //  RelativeLayout emptySearch = findViewById(R.id.empty_search);
+        //  RelativeLayout emptySearch = findViewById(R.id.empty_search);
+        sessionManager = new SessionManager(this);
 
         edtSearchCategories.requestFocus();
         edtSearchCategories.performClick();
+        edtSearchCategories.setOnEditorActionListener(this);
+
+        setPreviewAdapter();
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -50,9 +106,10 @@ public class SearchCategoryActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_search_new:
-
+                edtSearchCategories.setText("");
                 edtSearchCategories.requestFocus();
-
+                edtSearchCategories.performClick();
+                showKeyboard(edtSearchCategories);
                 break;
             case R.id.lyt_categories:
 
@@ -66,4 +123,147 @@ public class SearchCategoryActivity extends ActivityBase {
         }
 
     }
+
+    @Override
+    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            //set adapter to online mode (previewMode will be false)
+            setOnlineAdapter();
+            setLoadMoreListener();
+            getTaskCategoryData();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onItemClick(View view, TaskCategory obj, int position) {
+        taskCategoryPreview.addItem(obj);
+        sessionManager.setPreviewCategoryItem(taskCategoryPreview);
+        Intent creating_task = new Intent(SearchCategoryActivity.this, TaskCreateActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("categoryID", obj.getId());
+        creating_task.putExtras(bundle);
+        startActivityForResult(creating_task, ConstantKey.RESULTCODE_CATEGORY);
+        finish();
+    }
+
+
+    public List<TaskCategory> getTaskCategoryData() {
+        List<TaskCategory> items = new ArrayList<>();
+        query = edtSearchCategories.getText().toString();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.BASE_URL + Constant.TASK_CATEGORY + "?query=" + query + "&page=" + currentPage,
+                response -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                            JSONArray jsonArray_data = jsonObject.getJSONArray("data");
+                            for (int i = 0; jsonArray_data.length() > i; i++) {
+                                JSONObject jsonObject_taskModel_list = jsonArray_data.getJSONObject(i);
+                                TaskCategory taskModel = new TaskCategory().getJsonToModel(jsonObject_taskModel_list, SearchCategoryActivity.this);
+                                items.add(taskModel);
+                            }
+                        } else {
+                            showToast("some went to wrong", SearchCategoryActivity.this);
+                            return;
+                        }
+
+                        if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
+                            JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
+                            totalPage = jsonObject_meta.getInt("last_page");
+                            Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
+                        }
+
+                        if (currentPage != PAGE_START)
+                            adapter.removeLoading();
+                        if (items.size() <= 0) {
+                            emptySearch.setVisibility(View.VISIBLE);
+                            recyclerViewCategories.setVisibility(View.GONE);
+                        } else {
+                            recyclerViewCategories.setVisibility(View.VISIBLE);
+                            emptySearch.setVisibility(View.GONE);
+                        }
+                        adapter.addItems(items);
+
+                        if (currentPage < totalPage) {
+                            adapter.addLoading();
+                        } else {
+                            isLastPage = true;
+                        }
+                        isLoading = false;
+                    } catch (JSONException e) {
+                        hideProgressDialog();
+                        e.printStackTrace();
+                    }
+                },
+                error -> errorHandle1(error.networkResponse)) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(SearchCategoryActivity.this);
+        requestQueue.add(stringRequest);
+        return items;
+    }
+
+    private void setPreviewAdapter() {
+        taskCategoryPreview = sessionManager.getPreviewCategoriesList();
+        if (taskCategoryPreview == null)
+            taskCategoryPreview = new TaskCategoryPreview();
+
+        previewAdapter = new TaskCategoryPreviewAdapter(this, new ArrayList<>(taskCategoryPreview.getCategorySet()));
+        recyclerViewCategories.setAdapter(previewAdapter);
+
+        recyclerViewCategories.setHasFixedSize(true);
+        previewAdapter.setOnItemClickListener(this);
+    }
+
+    private void setOnlineAdapter(){
+        adapter = new TaskCategoryAdapter(this, new ArrayList<>());
+        recyclerViewCategories.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
+    }
+
+    private boolean previewMode = true;
+    private void setLoadMoreListener() {
+        if (!previewMode) return;
+        recyclerViewCategories.addOnScrollListener(new PaginationListener((LinearLayoutManager) recyclerViewCategories.getLayoutManager()) {
+            @Override
+            protected void loadMoreItems() {
+                isLoading = true;
+                currentPage++;
+                getTaskCategoryData();
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+        });
+        previewMode = false;
+    }
+
+    private void showKeyboard(EditText editText) {
+        editText.post(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) getBaseContext()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(editText, 0);
+            }
+        });
+    }
 }
+

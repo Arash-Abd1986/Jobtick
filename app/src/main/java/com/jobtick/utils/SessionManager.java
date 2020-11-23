@@ -4,10 +4,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 
+import androidx.collection.ArraySet;
+
 import com.google.gson.Gson;
 import com.jobtick.R;
 import com.jobtick.models.FilterModel;
+import com.jobtick.models.TaskCategory;
+import com.jobtick.models.TaskCategoryPreview;
 import com.jobtick.models.UserAccountModel;
+
+import java.util.Set;
 
 
 public class SessionManager {
@@ -128,6 +134,19 @@ public class SessionManager {
 
     public String getBankDetailAccountNumber() {
         return pref.getString("bank_account_number", null);
+    }
+
+    public TaskCategoryPreview getPreviewCategoriesList(){
+        String json = pref.getString("categoryList", null);
+        Gson gson = new Gson();
+        return gson.fromJson(json, TaskCategoryPreview.class);
+    }
+
+    public void setPreviewCategoryItem(TaskCategoryPreview categories){
+        Gson gson = new Gson();
+        String categoryJson = gson.toJson(categories);
+        editor.putString("categoryList", categoryJson);
+        editor.commit();
     }
 
 

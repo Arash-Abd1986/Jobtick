@@ -1,6 +1,6 @@
 package com.jobtick.models;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Stack;
 
@@ -11,7 +11,7 @@ public class PreviewTaskSetModel {
     public Set<PreviewTaskModel> getPreviewSet() {
         Stack<PreviewTaskModel> preStack = new Stack<>();
         preStack.addAll(stack);
-        Set<PreviewTaskModel> previewTaskModels = new HashSet<>();
+        Set<PreviewTaskModel> previewTaskModels = new LinkedHashSet<>();
         while (!stack.empty()) {
             previewTaskModels.add(stack.pop());
         }

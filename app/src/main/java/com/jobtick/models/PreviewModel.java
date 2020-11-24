@@ -1,26 +1,29 @@
 package com.jobtick.models;
 
-import androidx.collection.ArraySet;
 
-import java.util.Set;
+public class PreviewModel {
 
-public class PreviewModel<T> {
+    private int id;
+    private String title;
 
-    private Set<T> PreviewSet = new ArraySet<>();
-
-    public Set<T> getPreviewSet() {
-        return PreviewSet;
+    public PreviewModel(int id, String title) {
+        this.id = id;
+        this.title = title;
     }
 
-    public void setPreviewSet(Set<T> previewSet) {
-        this.PreviewSet = previewSet;
+    public int getId() {
+        return id;
     }
 
-    public void deleteItem(T previewModel){
-        PreviewSet.remove(previewModel);
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void addItem(T previewModel){
-        PreviewSet.add(previewModel);
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

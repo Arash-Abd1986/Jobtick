@@ -114,4 +114,8 @@ public class TaskCategory implements Parcelable {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+    public PreviewModel getPreviewModel() {
+        return new PreviewModel(id, name);
+    }
 }

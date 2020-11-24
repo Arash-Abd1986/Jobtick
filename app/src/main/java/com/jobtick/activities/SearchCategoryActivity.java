@@ -27,6 +27,7 @@ import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.adapers.TaskCategoryAdapter;
 import com.jobtick.adapers.PreviewAdapter;
+import com.jobtick.models.PreviewSetModel;
 import com.jobtick.models.TaskCategory;
 import com.jobtick.models.PreviewModel;
 import com.jobtick.pagination.PaginationListener;
@@ -50,7 +51,7 @@ import butterknife.OnClick;
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
 public class SearchCategoryActivity extends ActivityBase implements TextView.OnEditorActionListener,
-        TaskCategoryAdapter.OnItemClickListener, PreviewAdapter.OnItemClickListener<TaskCategory> {
+        TaskCategoryAdapter.OnItemClickListener, PreviewAdapter.OnItemClickListener<PreviewModel> {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_search_new)
@@ -76,8 +77,8 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
 
     private SessionManager sessionManager;
     private TaskCategoryAdapter adapter;
-    private PreviewModel<TaskCategory> previewModel;
-    private PreviewAdapter<TaskCategory> previewAdapter;
+    private PreviewSetModel previewSetModel;
+    private PreviewAdapter previewAdapter;
 
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
@@ -134,18 +135,6 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
             return true;
         }
         return false;
-    }
-
-    @Override
-    public void onItemClick(View view, TaskCategory obj, int position) {
-        previewModel.addItem(obj);
-        sessionManager.setPreviewModel(previewModel, SearchCategoryActivity.class);
-        Intent creating_task = new Intent(SearchCategoryActivity.this, TaskCreateActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("categoryID", obj.getId());
-        creating_task.putExtras(bundle);
-        startActivityForResult(creating_task, ConstantKey.RESULTCODE_CATEGORY);
-        finish();
     }
 
 
@@ -214,16 +203,11 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
     }
 
     private void setPreviewAdapter() {
-        previewModel = sessionManager.getPreviewModel(SearchCategoryActivity.class);
-        if (previewModel == null)
-            previewModel = new PreviewModel<TaskCategory>();
+        previewSetModel = sessionManager.getPreviewModel(SearchCategoryActivity.class);
+        if (previewSetModel == null)
+            previewSetModel = new PreviewSetModel();
 
-        previewAdapter = new PreviewAdapter<TaskCategory>(new ArrayList<>(previewModel.getPreviewSet())) {
-            @Override
-            public String getPreviewParameterName() {
-                return "name";
-            }
-        };
+        previewAdapter = new PreviewAdapter(new ArrayList<>(previewSetModel.getPreviewSet()));
         recyclerViewCategories.setAdapter(previewAdapter);
 
         recyclerViewCategories.setHasFixedSize(true);
@@ -269,6 +253,23 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
                 imm.showSoftInput(editText, 0);
             }
         });
+    }
+
+    @Override
+    public void onItemClick(View view, PreviewModel obj, int position) {
+        previewSetModel.addItem(obj);
+        sessionManager.setPreviewModel(previewSetModel, SearchCategoryActivity.class);
+        Intent creating_task = new Intent(SearchCategoryActivity.this, TaskCreateActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("categoryID", obj.getId());
+        creating_task.putExtras(bundle);
+        startActivityForResult(creating_task, ConstantKey.RESULTCODE_CATEGORY);
+        finish();
+    }
+
+    @Override
+    public void onItemClick(View view, TaskCategory obj, int position) {
+        onItemClick(view, obj.getPreviewModel(),position);
     }
 }
 

@@ -16,7 +16,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -26,8 +25,11 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.adapers.PreviewAdapter;
+import com.jobtick.adapers.PreviewTaskAdapter;
 import com.jobtick.adapers.TaskListAdapter;
 import com.jobtick.models.PreviewModel;
+import com.jobtick.models.PreviewTaskModel;
+import com.jobtick.models.PreviewTaskSetModel;
 import com.jobtick.models.TaskModel;
 import com.jobtick.pagination.PaginationListener;
 import com.jobtick.utils.Constant;
@@ -50,7 +52,7 @@ import butterknife.OnClick;
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
 public class SearchTaskActivity extends ActivityBase implements TextView.OnEditorActionListener,
-        TaskListAdapter.OnItemClickListener, PreviewAdapter.OnItemClickListener<TaskModel> {
+        TaskListAdapter.OnItemClickListener, PreviewTaskAdapter.OnItemClickListener<PreviewTaskModel> {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_search_new)
@@ -74,8 +76,8 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
 
     private SessionManager sessionManager;
     private TaskListAdapter adapter;
-    private PreviewModel<TaskModel> previewModel;
-    private PreviewAdapter<TaskModel> previewAdapter;
+    private PreviewTaskSetModel previewTaskSetModel;
+    private PreviewTaskAdapter previewTaskAdapter;
 
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
@@ -128,18 +130,6 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
             return true;
         }
         return false;
-    }
-
-    @Override
-    public void onItemClick(View view, TaskModel obj, int position) {
-        previewModel.addItem(obj);
-        sessionManager.setPreviewModel(previewModel, SearchTaskActivity.class);
-        Intent intent = new Intent(this, TaskDetailsActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString(ConstantKey.SLUG, obj.getSlug());
-        bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
 
 
@@ -212,20 +202,15 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
 
 
     private void setPreviewAdapter() {
-        previewModel = sessionManager.getPreviewModel(SearchTaskActivity.class);
-        if (previewModel == null)
-            previewModel = new PreviewModel<TaskModel>();
+        previewTaskSetModel = sessionManager.getPreviewTaskModel(SearchTaskActivity.class);
+        if (previewTaskSetModel == null)
+            previewTaskSetModel = new PreviewTaskSetModel();
 
-        previewAdapter = new PreviewAdapter<TaskModel>(new ArrayList<>(previewModel.getPreviewSet())) {
-            @Override
-            public String getPreviewParameterName() {
-                return "title";
-            }
-        };
-        recyclerView.setAdapter(previewAdapter);
+        previewTaskAdapter = new PreviewTaskAdapter(new ArrayList<>(previewTaskSetModel.getPreviewSet()));
+        recyclerView.setAdapter(previewTaskAdapter);
 
         recyclerView.setHasFixedSize(true);
-        previewAdapter.setOnItemClickListener(this);
+        previewTaskAdapter.setOnItemClickListener(this);
     }
 
     private void setOnlineAdapter(){
@@ -271,7 +256,19 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
 
     @Override
     public void onItemClick(View view, TaskModel obj, int position, String action) {
-        onItemClick(view, obj, position);
+        onItemClick(view, obj.getPreviewTaskModel(), position);
+    }
+
+    @Override
+    public void onItemClick(View view, PreviewTaskModel obj, int position) {
+        previewTaskSetModel.addItem(obj);
+        Intent intent = new Intent(this, TaskDetailsActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(ConstantKey.SLUG, obj.getSlug());
+        bundle.putInt(ConstantKey.USER_ID, obj.getUserId());
+        intent.putExtras(bundle);
+        startActivity(intent);
+        sessionManager.setPreviewTaskModel(previewTaskSetModel, SearchTaskActivity.class);
     }
 }
 

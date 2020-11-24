@@ -10,24 +10,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
-import com.jobtick.models.PreviewModel;
+import com.jobtick.models.PreviewTaskModel;
 
 import java.util.List;
 
-public class PreviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class PreviewTaskAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
-    private final List<PreviewModel> items;
-    private OnItemClickListener<PreviewModel> mOnItemClickListener;
+    private final List<PreviewTaskModel> items;
+    private OnItemClickListener<PreviewTaskModel> mOnItemClickListener;
 
-    public interface OnItemClickListener<PreviewModel> {
-        void onItemClick(View view, PreviewModel obj, int position);
+    public interface OnItemClickListener<PreviewTaskModel> {
+        void onItemClick(View view, PreviewTaskModel obj, int position);
     }
 
-    public void setOnItemClickListener(final OnItemClickListener<PreviewModel> mItemClickListener) {
+    public void setOnItemClickListener(final OnItemClickListener<PreviewTaskModel> mItemClickListener) {
         this.mOnItemClickListener = mItemClickListener;
     }
 
-    public PreviewAdapter(List<PreviewModel> items) {
+    public PreviewTaskAdapter(List<PreviewTaskModel> items) {
         this.items = items;
     }
 
@@ -69,7 +69,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        return new PreviewAdapter.OriginalViewHolder(
+        return new PreviewTaskAdapter.OriginalViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category_search, parent, false));
 
     }
@@ -86,13 +86,13 @@ public class PreviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return items.size();
     }
 
-    public void addItems(List<PreviewModel> mItems) {
+    public void addItems(List<PreviewTaskModel> mItems) {
         this.items.addAll(mItems);
         notifyDataSetChanged();
     }
 
 
-    PreviewModel getItem(int position) {
+    PreviewTaskModel getItem(int position) {
         return items.get(position);
     }
 

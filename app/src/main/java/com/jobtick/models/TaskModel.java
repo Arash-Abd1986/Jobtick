@@ -683,4 +683,8 @@ public class TaskModel implements Parcelable {
         }
         return taskModel;
     }
+
+    public PreviewTaskModel getPreviewTaskModel() {
+        return new PreviewTaskModel(getId(), getTitle(), getPoster().getId(),getSlug() );
+    }
 }

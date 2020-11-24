@@ -8,7 +8,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jobtick.R;
 import com.jobtick.models.FilterModel;
-import com.jobtick.models.PreviewModel;
+import com.jobtick.models.PreviewSetModel;
+import com.jobtick.models.PreviewTaskSetModel;
 import com.jobtick.models.UserAccountModel;
 
 import java.lang.reflect.Type;
@@ -134,18 +135,32 @@ public class SessionManager {
         return pref.getString("bank_account_number", null);
     }
 
-    public <T> PreviewModel<T> getPreviewModel(Class<?> cls){
+    public PreviewSetModel getPreviewModel(Class<?> cls){
         String json = pref.getString(cls.getName(), null);
-        Type type = new TypeToken<PreviewModel<T>>(){}.getType();
+        Type type = new TypeToken<PreviewSetModel>(){}.getType();
         Gson gson = new Gson();
         return gson.fromJson(json, type);
     }
 
-    public <T> void setPreviewModel(PreviewModel<T> previewModel, Class<?> cls){
+    public void setPreviewModel(PreviewSetModel previewSetModel, Class<?> cls){
         Gson gson = new Gson();
-        String previewJson = gson.toJson(previewModel);
+        String previewJson = gson.toJson(previewSetModel);
         editor.putString(cls.getName(), previewJson);
         editor.commit();
+    }
+
+    public PreviewTaskSetModel getPreviewTaskModel(Class<?> cls){
+        String json = pref.getString(cls.getName(), null);
+        Type type = new TypeToken<PreviewTaskSetModel>(){}.getType();
+        Gson gson = new Gson();
+        return gson.fromJson(json, type);
+    }
+
+    public void setPreviewTaskModel(PreviewTaskSetModel previewTaskSetModel, Class<?> cls){
+        Gson gson = new Gson();
+        String previewJson = gson.toJson(previewTaskSetModel);
+        editor.putString(cls.getName(), previewJson);
+        editor.apply();
     }
 
 

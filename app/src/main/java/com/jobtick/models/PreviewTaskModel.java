@@ -1,6 +1,8 @@
 package com.jobtick.models;
 
 
+import java.util.Objects;
+
 public class PreviewTaskModel {
 
     private int id;
@@ -45,5 +47,19 @@ public class PreviewTaskModel {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PreviewTaskModel that = (PreviewTaskModel) o;
+        return id == that.id &&
+                Objects.equals(title, that.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title);
     }
 }

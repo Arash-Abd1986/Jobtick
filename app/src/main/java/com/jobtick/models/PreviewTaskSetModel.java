@@ -1,7 +1,6 @@
 package com.jobtick.models;
 
-import androidx.collection.ArraySet;
-
+import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
@@ -12,7 +11,7 @@ public class PreviewTaskSetModel {
     public Set<PreviewTaskModel> getPreviewSet() {
         Stack<PreviewTaskModel> preStack = new Stack<>();
         preStack.addAll(stack);
-        Set<PreviewTaskModel> previewTaskModels = new ArraySet<>();
+        Set<PreviewTaskModel> previewTaskModels = new HashSet<>();
         while (!stack.empty()) {
             previewTaskModels.add(stack.pop());
         }

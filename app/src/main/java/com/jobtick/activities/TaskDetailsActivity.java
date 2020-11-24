@@ -2659,7 +2659,7 @@ RescheduleNoticeDialogFragment.NoticeDialogListener{
         showAlertBox(Html.fromHtml("<b>User with id " + rescheduledByWho + "</b> " +
                 "has requested to reschedule time for this job on <b>" +
                 TimeHelper.convertToShowTimeFormat(taskModel.getRescheduleReqeust().get(pos).getCreated_at())+ "</b>"),
-                "View reschedule time request",AlertType.RESCHEDULE);
+                ConstantKey.BTN_RESCHEDULE_REQUEST_SENT,AlertType.RESCHEDULE);
     }
 
     //we use spanned to support middle bolds

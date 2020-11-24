@@ -736,20 +736,8 @@ RescheduleNoticeDialogFragment.NoticeDialogListener{
                 cardIncreaseBudget.setVisibility(View.GONE);
             }
         }
-        if (taskModel.getRescheduleReqeust() != null && taskModel.getRescheduleReqeust().size() > 0) {
+        initRescheduleTime();
 
-            for (int i = 0; i < taskModel.getRescheduleReqeust().size(); i++) {
-                if (taskModel.getRescheduleReqeust().get(i).getStatus().equals("pending") &&
-                        !taskModel.getRescheduleReqeust().get(i).getRequester_id().equals(sessionManager.getUserAccount().getId())) {
-                    if (!taskModel.getStatus().equals(TASK_CANCELLED) && !taskModel.getStatus().equals(TASK_CLOSED)) {
-                        pos = i;
-                        //TODO: when we add this, we get stackOverFlow.
-                        showRescheduleTime(i);
-                        break;
-                    }
-                }
-            }
-        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             toolbar.getMenu().setGroupDividerEnabled(true);
         }
@@ -894,7 +882,6 @@ RescheduleNoticeDialogFragment.NoticeDialogListener{
                                 getAllUserProfileDetails();
                                 getBankAccountAddress();
                                 getBillingAddress();
-
 
                                 questionListAdapter.addItems(taskModel.getQuestions());
 
@@ -1172,6 +1159,26 @@ RescheduleNoticeDialogFragment.NoticeDialogListener{
         adapter.notifyDataSetChanged();
         adapter.setOnItemClickListener(this);
 
+    }
+
+    private void initRescheduleTime(){
+        if(alertType == AlertType.RESCHEDULE){
+            alertType = null;
+            hideAlertBox();
+        }
+        if (taskModel.getRescheduleReqeust() != null && taskModel.getRescheduleReqeust().size() > 0) {
+
+            for (int i = 0; i < taskModel.getRescheduleReqeust().size(); i++) {
+                if (taskModel.getRescheduleReqeust().get(i).getStatus().equals("pending") &&
+                        !taskModel.getRescheduleReqeust().get(i).getRequester_id().equals(sessionManager.getUserAccount().getId())) {
+                    if (!taskModel.getStatus().equals(TASK_CANCELLED) && !taskModel.getStatus().equals(TASK_CLOSED)) {
+                        pos = i;
+                        showRescheduleTime(i);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -2046,12 +2053,8 @@ RescheduleNoticeDialogFragment.NoticeDialogListener{
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialogFragment, int pos) {
+        RescheduleRequestAccept(Request.Method.POST, taskModel.getRescheduleReqeust().get(pos).getId() + "/reject");
         dialogFragment.dismiss();
-//        Intent intent = new Intent(TaskDetailsActivity.this, RescheduleDeclineActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("request_id", taskModel.getRescheduleReqeust().get(pos).getId());
-//        intent.putExtras(bundle);
-//        startActivity(intent);
     }
 
     private static class AdapterImageSlider extends PagerAdapter {
@@ -2392,6 +2395,7 @@ RescheduleNoticeDialogFragment.NoticeDialogListener{
                             }
                             //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
                         } catch (JSONException e) {
+                            showToast("Something Went Wrong", TaskDetailsActivity.this);
                             e.printStackTrace();
                         }
                     } else {
@@ -2404,7 +2408,8 @@ RescheduleNoticeDialogFragment.NoticeDialogListener{
             public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Content-Type", "application/json");
+                map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
             }
         };

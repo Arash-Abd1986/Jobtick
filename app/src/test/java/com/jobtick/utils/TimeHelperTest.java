@@ -26,6 +26,15 @@ public class TimeHelperTest {
 
         String showFormat = TimeHelper.convertToShowTimeFormat(currentTime);
 
-        Assert.assertEquals("1st Nov. 2020 06:14 PM", showFormat);
+        Assert.assertEquals("9th Nov. 2020 06:14 PM", showFormat);
+    }
+
+    @Test
+    public void testConvertToShowTimeFormat() {
+        String time = "2020-11-24T16:05:13+00:00";
+
+        String showFormat =TimeHelper.convertToShowTimeFormat(time);
+
+        Assert.assertEquals("24th Nov. 2020 07:35 PM", showFormat);
     }
 }

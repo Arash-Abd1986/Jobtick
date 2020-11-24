@@ -401,4 +401,5 @@
     <color name="colorPrimary_60">#995568FE</color>
     <color name="quickOfferColor">#586BF5</color>
     <color name="quickOfferColorDisable">#97a2f5</color>
+    <color name="timeColor">#D5D6D9</color>
 </resources>

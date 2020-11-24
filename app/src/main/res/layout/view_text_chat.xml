@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="1dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/view_text_chat_text"
+        style="@style/materialText_500_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="start"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="4dp"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/view_text_chat_lyt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/view_text_chat_text"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/view_text_chat_txtTime"
+            style="@style/materialText_500_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:gravity="end"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            tools:text="11:40" />
+
+        <ImageView
+            android:id="@+id/view_text_chat_doubleTick"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:contentDescription="@string/todo"
+            android:padding="0dp"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_vector__7_" />
+    </LinearLayout>
+</RelativeLayout>

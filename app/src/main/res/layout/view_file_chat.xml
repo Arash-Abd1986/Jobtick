@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="1dp">
+
+    <ImageView
+        android:id="@+id/view_file_chat_imgPath"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:background="@drawable/bg_right"
+        android:contentDescription="@string/todo"
+        android:gravity="center_vertical"
+        android:scaleType="centerCrop"
+        android:src="@drawable/image_load"
+        android:transitionName="@string/app_name"
+        android:visibility="visible" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/view_file_chat_txtShowMessage"
+        style="@style/materialText_500_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@id/view_file_chat_imgPath"
+        android:gravity="start"
+        android:lines="2"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        tools:text="sf;kjglksfjglksgjlskjglskfgjksj.gjdsjhhjdsghshgjdsfghsghsghgksjhgksghlgs;l;g;lsl;gsksjg" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/view_file_chat_txtMsgTime"
+            style="@style/materialText_500_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:gravity="end"
+            android:textColor="@color/white"
+            tools:text="11:40" />
+
+        <ImageView
+            android:id="@+id/view_file_chat_doubleTick"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:contentDescription="@string/todo"
+            android:padding="5dp"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_vector__7_" />
+    </LinearLayout>
+</RelativeLayout>

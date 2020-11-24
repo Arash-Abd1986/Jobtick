@@ -2,15 +2,11 @@ package com.jobtick.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,11 +27,14 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jobtick.R;
 import com.jobtick.activities.ChatActivity;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.adapers.InboxListAdapter;
 import com.jobtick.models.ConversationModel;
+import com.jobtick.models.JobTickDTO;
 import com.jobtick.pagination.PaginationListener;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
@@ -59,29 +58,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 import static com.jobtick.utils.ConstantKey.PUSH_CONVERSATION_ID;
 
-
 public class InboxFragment extends Fragment implements InboxListAdapter.OnItemClickListener,
         SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
-    DashboardActivity dashboardActivity;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.swipeRefresh)
-    SwipeRefreshLayout swipeRefresh;
+    private DashboardActivity dashboardActivity;
+    private RecyclerView chatList;
+    private SwipeRefreshLayout swipeRefresh;
     private SessionManager sessionManager;
     private InboxListAdapter adapter;
     private int currentPage = PAGE_START;
@@ -99,8 +93,8 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
     private Pusher pusher;
     private int conversationId;
 
-    ImageView ivNotification;
-    TextView toolbar_title;
+    private ImageView ivNotification;
+    private TextView toolbar_title;
     private LinearLayout noMessages;
 
     @Override
@@ -108,60 +102,47 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_inbox, container, false);
-        ButterKnife.bind(this, view);
         noMessages = view.findViewById(R.id.no_messages_container);
-        dashboardActivity = (DashboardActivity) getActivity();
+        chatList = view.findViewById(R.id.recycler_view);
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
+        getExtras();
+        return view;
+    }
+
+    private void getExtras() {
         Bundle bundle = getArguments();
         if (bundle != null) {
             conversationId = bundle.getInt(PUSH_CONVERSATION_ID);
         }
-        return view;
     }
 
     @SuppressLint({"SetTextI18n", "RtlHardcoded"})
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        sessionManager = new SessionManager(dashboardActivity);
+        sessionManager = new SessionManager(getContext());
 
         initToolbar();
+        initPusher();
+        initComponents();
+        fetchData();
+    }
 
-        toolbar.setOnMenuItemClickListener(item -> {
-            //TODO: start Search activity
-            return false;
-        });
-
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("Authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-        headers.put("Content-Type", "application/x-www-form-urlencoded");
-        headers.put("X-REQUESTED-WITH", "xmlhttprequest");
-        headers.put("Accept", "application/json");
-        HttpAuthorizer authorizer = new HttpAuthorizer(Constant.BASE_URL + "broadcasting/auth");
-
-        authorizer.setHeaders(headers);
-        PusherOptions options = new PusherOptions()
-                //.setEncrypted(true)
-                .setCluster("us2")
-                .setAuthorizer(authorizer);
-
-
+    private void initComponents() {
         swipeRefresh.setOnRefreshListener(this);
-        recyclerView.setHasFixedSize(true);
-        // use a linear layout manager
-        LinearLayoutManager layoutManager = new LinearLayoutManager(dashboardActivity);
-        recyclerView.setLayoutManager(layoutManager);
+        chatList.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        chatList.setLayoutManager(layoutManager);
         adapter = new InboxListAdapter(dashboardActivity, new ArrayList<>());
-        recyclerView.setAdapter(adapter);
+        chatList.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
         swipeRefresh.setRefreshing(true);
-        doApiCall();
-
-        recyclerView.addOnScrollListener(new PaginationListener(layoutManager) {
+        chatList.addOnScrollListener(new PaginationListener(layoutManager) {
             @Override
             protected void loadMoreItems() {
                 isLoading = true;
                 currentPage++;
-                doApiCall();
+                fetchData();
             }
 
             @Override
@@ -174,6 +155,21 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
                 return isLoading;
             }
         });
+    }
+
+    private void initPusher() {
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+        headers.put("Content-Type", "application/x-www-form-urlencoded");
+        headers.put("X-REQUESTED-WITH", "xmlhttprequest");
+        headers.put("Accept", "application/json");
+        HttpAuthorizer authorizer = new HttpAuthorizer(Constant.BASE_URL + "broadcasting/auth");
+
+        authorizer.setHeaders(headers);
+        PusherOptions options = new PusherOptions()
+                //.setEncrypted(true)
+                .setCluster("us2")
+                .setAuthorizer(authorizer);
 
         pusher = new Pusher("31c5e7256697a01d331a", options);
 
@@ -191,7 +187,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
 
             @Override
             public void onError(String message, String code, Exception e) {
-              //  System.out.println("There was a problem connecting!");
+                //  System.out.println("There was a problem connecting!");
             }
         }, ConnectionState.ALL);
     }
@@ -303,7 +299,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
         }
     }
 
-    private void doApiCall() {
+    private void fetchData() {
 
         ArrayList<ConversationModel> items = new ArrayList<>();
         Helper.closeKeyboard(dashboardActivity);
@@ -311,7 +307,6 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
                 "/conversations" + "?page=" + currentPage + "&query=" + queryParameter,
                 response -> {
                     Timber.e(response);
-                    // categoryArrayList.clear();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -341,10 +336,10 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
                             adapter.removeLoading();
                         if (items.size() <= 0) {
                             noMessages.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.GONE);
+                            chatList.setVisibility(View.GONE);
                         } else {
                             noMessages.setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.VISIBLE);
+                            chatList.setVisibility(View.VISIBLE);
 
                         }
 
@@ -398,7 +393,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
         currentPage = PAGE_START;
         isLastPage = false;
         adapter.clear();
-        doApiCall();
+        fetchData();
     }
 
 

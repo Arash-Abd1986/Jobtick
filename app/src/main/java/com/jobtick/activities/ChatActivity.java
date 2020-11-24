@@ -3,13 +3,15 @@ package com.jobtick.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -17,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,8 +31,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
+import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.ChatAdapter;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.ChatModel;
@@ -68,6 +72,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -86,6 +91,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import timber.log.Timber;
 
+import static com.jobtick.activities.DashboardActivity.onProfileupdatelistenerSideMenu;
+import static com.jobtick.fragments.ProfileFragment.onProfileupdatelistener;
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
 public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnRefreshListener {
@@ -139,14 +146,16 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_scroll_down)
     LinearLayout lytScrollDown;
-
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.bottom_sheet)
+    FrameLayout bottomSheet;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txtCount)
     TextViewMedium txtCount;
     private ConversationModel conversationModel;
     private ChatAdapter adapter;
     private ArrayList<ChatModel> chatModelArrayList;
-
+    private boolean isUploadPortfolio = false;
 
     AttachmentModel attachment;
 
@@ -154,10 +163,10 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
     private static String imageStoragePath;
-
     PrivateChannel channel;
     PresenceChannel presenceChannel;
-
+    private BottomSheetBehavior mBehavior;
+    private BottomSheetDialog mBottomSheetDialog;
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
     private int totalPage = 10;
@@ -181,7 +190,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         headers.put("X-REQUESTED-WITH", "xmlhttprequest");
         headers.put("Accept", "application/json");
         HttpAuthorizer authorizer = new HttpAuthorizer(Constant.BASE_URL + "broadcasting/auth");
-
+        mBehavior = BottomSheetBehavior.from(bottomSheet);
         authorizer.setHeaders(headers);
         PusherOptions options = new PusherOptions()
                 //   .setEncrypted(true)
@@ -230,30 +239,9 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         layoutManager = new LinearLayoutManager(ChatActivity.this);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ChatAdapter(ChatActivity.this, new ArrayList<>(), conversationModel.getReceiver().getName(), conversationModel.getSender().getId());
+        adapter = new ChatAdapter(ChatActivity.this, new ArrayList<>(), conversationModel.getSender().getId());
         recyclerView.setAdapter(adapter);
-        // publicChatListAdapter.setOnItemClickListener(this);
         doApiCall();
-
-       /* recyclerView.addOnScrollListener(new PaginationListener(layoutManager) {
-            @Override
-            protected void loadMoreItems() {
-                isLoading = true;
-                currentPage++;
-                doApiCall();
-            }
-
-            @Override
-            public boolean isLastPage() {
-                return isLastPage;
-            }
-
-            @Override
-            public boolean isLoading() {
-                return isLoading;
-            }
-        });
-*/
 
         initComponentScroll();
 
@@ -263,10 +251,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
             txtCount.setText(String.valueOf(unreadCount));
             recyclerView.smoothScrollToPosition(adapter.getItemCount());
         });
-
-
     }
-
 
     @Override
     public void onBackPressed() {
@@ -310,13 +295,10 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
                 //End of list
                 isLastPosition = pastVisibleItems + visibleItemCount >= totalItemCount;
-
-
             }
         });
 
     }
-
 
     boolean isFabHide = false;
 
@@ -333,7 +315,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         }
 
     }
-
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void setToolbar(ConversationModel conversationModel) {
@@ -417,7 +398,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
             runOnUiThread(() -> {
                 txtSubtitle.setText("Online");
-                txtSubtitle.setTextColor(getResources().getColor(R.color.green));
+                txtSubtitle.setTextColor(getResources().getColor(R.color.colorPrimary));
 
                 // Stuff that updates the UI
 
@@ -427,7 +408,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         } else {
             runOnUiThread(() -> {
                 txtSubtitle.setText("Offline");
-                txtSubtitle.setTextColor(getResources().getColor(R.color.red_600));
+                txtSubtitle.setTextColor(getResources().getColor(R.color.colorPrimary));
                 // Stuff that updates the UI
 
             });
@@ -551,11 +532,11 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
                         swipeRefresh.setRefreshing(false);
                         // check weather is last page or not
-                        if (currentPage < totalPage) {
-                            adapter.addLoading();
-                        } else {
-                            isLastPage = true;
-                        }
+//                        if (currentPage < totalPage) {
+//                            adapter.addLoading();
+//                        } else {
+//                            isLastPage = true;
+//                        }
 
 
                     } catch (JSONException e) {
@@ -614,40 +595,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
             case R.id.img_btn_task_action:
                 break;
             case R.id.img_btn_image_select:
-                PopupMenu popupMenu = new PopupMenu(ChatActivity.this, imgBtnImageSelect);
-                popupMenu.setOnMenuItemClickListener(item -> {
-                    switch (item.getItemId()) {
-                        case R.id.action_camera:
-                            // Checking availability of the camera
-                            if (!CameraUtils.isDeviceSupportCamera(getApplicationContext())) {
-                                Toast.makeText(getApplicationContext(),
-                                        "Sorry! Your device doesn't support camera",
-                                        Toast.LENGTH_LONG).show();
-                                // will close the app if the device doesn't have camera
-
-                            } else {
-                                if (CameraUtils.checkPermissions(getApplicationContext())) {
-                                    captureImage();
-                                } else {
-                                    requestCameraPermission();
-                                }
-                            }
-                            break;
-                        case R.id.action_gallery:
-                            Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
-                            break;
-                        case R.id.action_doc:
-
-                            break;
-                    }
-                    return true;
-                });
-                popupMenu.inflate(R.menu.menu_private_chat);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    popupMenu.getMenu().setGroupDividerEnabled(true);
-                }
-                popupMenu.show();
+                showBottomSheetDialog(true);
                 break;
             case R.id.img_btn_send:
                 if (validation()) {
@@ -764,10 +712,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         Timber.e(stringRequest.getUrl());
     }
 
-
-    /**
-     * Requesting permissions using Dexter library
-     */
     private void requestCameraPermission() {
         Dexter
                 .withActivity(this)
@@ -794,9 +738,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 }).check();
     }
 
-    /**
-     * Capturing Camera Image will launch camera app requested image capture
-     */
     private void captureImage() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File file = CameraUtils.getOutputMediaFile(ConstantKey.MEDIA_TYPE_IMAGE);
@@ -808,7 +749,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         // start the image capture Intent
         startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
     }
-
 
     private void uploadDataInPortfolioMediaApi(File pictureFile) {
         showProgressDialog();
@@ -868,7 +808,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
     }
 
-
     private boolean validation() {
         if (TextUtils.isEmpty(Objects.requireNonNull(edtCommentMessage.getText()).toString().trim())) {
             edtCommentMessage.setError("?");
@@ -877,63 +816,74 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         return true;
     }
 
-
-    /**
-     * Activity result method will be called after closing the camera
-     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // if the result is capturing Image
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                // Refreshing the gallery
-                CameraUtils.refreshGallery(getApplicationContext(), imageStoragePath);
-                Uri uri = Uri.parse("file://" + imageStoragePath);
-                uploadDataInPortfolioMediaApi(new File(uri.getPath()));
-            } else if (resultCode == RESULT_CANCELED) {
-                // user cancelled Image capture
-                Toast.makeText(getApplicationContext(),
-                        "User cancelled image capture", Toast.LENGTH_SHORT)
-                        .show();
-            } else {
-                // failed to capture image
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
-                        .show();
-            }
-        } else if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-              /*  Uri filePath = data.getData();
-                Bitmap bitmap;
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
-                if (data.getData() != null) {
-                    imageStoragePath = CameraUtils.getPath(ChatActivity.this, data.getData());
-                    File file = new File(imageStoragePath);
-                    uploadDataInPortfolioMediaApi(file);
+        if (data != null) {
+            if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
+                if (resultCode == RESULT_OK) {
+                    Uri uri = Uri.parse("file://" + imageStoragePath);
+                    Bitmap bitmap = null;
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    imgAvatar.setImageBitmap(bitmap);
+
+                    if (isUploadPortfolio) {
+                        uploadDataInPortfolioMediaApi(new File(uri.getPath()));
+                    } else {
+                        uploadProfileAvtar(new File(uri.getPath()));
+                    }
+                } else if (resultCode == RESULT_CANCELED) {
+                    // user cancelled Image capture
+                    Toast.makeText(getApplicationContext(),
+                            "User cancelled image capture", Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    // failed to capture image
+                    Toast.makeText(getApplicationContext(),
+                            "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
+                            .show();
                 }
-            } else if (resultCode == RESULT_CANCELED) {
-                // user cancelled recording
-                Toast.makeText(getApplicationContext(),
-                        "User cancelled Pickup Image", Toast.LENGTH_SHORT)
-                        .show();
-            } else {
-                // failed to record video
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! Failed to Pickup Image", Toast.LENGTH_SHORT)
-                        .show();
+            } else if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
+                if (resultCode == RESULT_OK) {
+                    if (data.getData() != null) {
+                        imageStoragePath = CameraUtils.getPath(ChatActivity.this, data.getData());
+                        File file = new File(imageStoragePath);
+                        Uri uri = Uri.parse("file://" + imageStoragePath);
+                        Bitmap bitmap = null;
+                        try {
+                            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        imgAvatar.setImageBitmap(bitmap);
+
+                        if (isUploadPortfolio) {
+                            uploadDataInPortfolioMediaApi(new File(uri.getPath()));
+
+                        } else {
+                            uploadProfileAvtar(new File(uri.getPath()));
+                        }
+
+
+                        //// uploadDataInPortfolioMediaApi(file);
+                    }
+                } else {
+                    // failed to record video
+                    Toast.makeText(getApplicationContext(),
+                            "Sorry! Failed to Pickup Image", Toast.LENGTH_SHORT)
+                            .show();
+                }
             }
+
         }
     }
 
-
-    /**
-     * Called when a swipe gesture triggers a refresh.
-     */
     @Override
     public void onRefresh() {
 
@@ -944,14 +894,153 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         } else {
             swipeRefresh.setRefreshing(false);
         }
-
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         ConstantKey.IS_CHAT_SCREEN = false;
+    }
+
+    private void showBottomSheetDialog(boolean isUploadPortfolioOrPrfile) {
+        isUploadPortfolio = isUploadPortfolioOrPrfile;
+
+        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
+
+        @SuppressLint("InflateParams") final View view = getLayoutInflater().inflate(R.layout.sheet_attachment, null);
+        LinearLayout lytBtnCamera = view.findViewById(R.id.lyt_btn_camera);
+        LinearLayout lytBtnImage = view.findViewById(R.id.lyt_btn_image);
+        LinearLayout lytBtnVideo = view.findViewById(R.id.lyt_btn_video);
+        LinearLayout lytBtnDoc = view.findViewById(R.id.lyt_btn_doc);
+        LinearLayout lyrBtnVideoCamera = view.findViewById(R.id.lyt_btn_video_camera);
+
+        if (isUploadPortfolioOrPrfile) {
+            lytBtnVideo.setVisibility(View.VISIBLE);
+            lytBtnDoc.setVisibility(View.VISIBLE);
+            lyrBtnVideoCamera.setVisibility(View.VISIBLE);
+        } else {
+            lytBtnVideo.setVisibility(View.GONE);
+            lytBtnDoc.setVisibility(View.INVISIBLE);
+            lyrBtnVideoCamera.setVisibility(View.INVISIBLE);
+        }
+
+
+        lytBtnCamera.setOnClickListener(view1 -> {
+            // Checking availability of the camera
+            if (!CameraUtils.isDeviceSupportCamera(getApplicationContext())) {
+                Toast.makeText(getApplicationContext(),
+                        "Sorry! Your device doesn't support camera",
+                        Toast.LENGTH_LONG).show();
+                // will close the app if the device doesn't have camera
+                return;
+            }
+            if (CameraUtils.checkPermissions(getApplicationContext())) {
+                captureImage();
+            } else {
+                requestCameraPermission();
+            }
+            mBottomSheetDialog.hide();
+        });
+
+
+        lytBtnImage.setOnClickListener(v -> {
+            Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
+            mBottomSheetDialog.hide();
+        });
+
+        mBottomSheetDialog = new BottomSheetDialog(this);
+        mBottomSheetDialog.setContentView(view);
+        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+
+        ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
+
+        mBottomSheetDialog.show();
+        mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
+
+    }
+
+    private void uploadProfileAvtar(File pictureFile) {
+        showProgressDialog();
+        Call<String> call;
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
+        MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
+        call = ApiClient.getClient().uploadProfilePicture("XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
+
+        call.enqueue(new Callback<String>() {
+
+            @Override
+            public void onResponse(@NotNull Call<String> call, retrofit2.@NotNull Response<String> response) {
+                hideProgressDialog();
+                Timber.e(response.toString());
+                if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
+                    showToast(response.message(), ChatActivity.this);
+                    return;
+                }
+                try {
+                    String strResponse = response.body();
+                    if (response.code() == HttpStatus.NOT_FOUND) {
+                        Toast.makeText(ChatActivity.this, "not found", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (response.code() == HttpStatus.AUTH_FAILED) {
+                        unauthorizedUser();
+                        return;
+                    }
+                    if (response.code() == HttpStatus.SUCCESS) {
+                        Timber.e(strResponse);
+                        JSONObject jsonObject = new JSONObject(strResponse);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("data")) {
+                            AttachmentModel attachment = new AttachmentModel();
+                            JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+                            if (jsonObject_data.has("id") && !jsonObject_data.isNull("id"))
+                                attachment.setId(jsonObject_data.getInt("id"));
+                            if (jsonObject_data.has("name") && !jsonObject_data.isNull("name"))
+                                attachment.setName(jsonObject_data.getString("name"));
+                            if (jsonObject_data.has("file_name") && !jsonObject_data.isNull("file_name"))
+                                attachment.setFileName(jsonObject_data.getString("file_name"));
+                            if (jsonObject_data.has("mime") && !jsonObject_data.isNull("mime"))
+                                attachment.setMime(jsonObject_data.getString("mime"));
+                            if (jsonObject_data.has("url") && !jsonObject_data.isNull("url"))
+                                attachment.setUrl(jsonObject_data.getString("url"));
+                            if (jsonObject_data.has("thumb_url") && !jsonObject_data.isNull("thumb_url"))
+                                attachment.setThumbUrl(jsonObject_data.getString("thumb_url"));
+                            if (jsonObject_data.has("modal_url") && !jsonObject_data.isNull("modal_url"))
+                                attachment.setModalUrl(jsonObject_data.getString("modal_url"));
+                            if (jsonObject_data.has("created_at") && !jsonObject_data.isNull("created_at"))
+                                attachment.setCreatedAt(jsonObject_data.getString("created_at"));
+                            attachment.setType(AttachmentAdapter.VIEW_TYPE_IMAGE);
+
+                            sessionManager.getUserAccount().setAvatar(attachment);
+                            if (onProfileupdatelistener != null) {
+                                onProfileupdatelistener.updatedSuccesfully(attachment.getThumbUrl());
+                            }
+                            if (onProfileupdatelistenerSideMenu != null) {
+                                onProfileupdatelistenerSideMenu.updatedSuccesfully(attachment.getThumbUrl());
+                            }
+                        }
+                        //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
+                        // showToast("attachment added", AttachmentActivity.this);
+                    } else {
+                        showToast("Something went wrong", ChatActivity.this);
+                    }
+                } catch (JSONException e) {
+                    showToast("Something went wrong", ChatActivity.this);
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                hideProgressDialog();
+                Timber.e(call.toString());
+            }
+        });
+
     }
 
 }

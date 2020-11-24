@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:paddingStart="@dimen/spacing_middle"
     android:paddingLeft="@dimen/spacing_middle"
@@ -18,8 +18,8 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/materialText_500_12"
             android:id="@+id/txtOnlyDate"
+            style="@style/materialText_500_12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -27,92 +27,46 @@
             android:background="@drawable/rounded_date_dark"
             android:paddingLeft="@dimen/spacing_middle"
             android:paddingRight="@dimen/spacing_middle"
-            tools:text="11-06-2016"
             android:textColor="@color/white"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:text="11-06-2016" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layoutDate"
-        android:background="@drawable/shape_tab_dark"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:background="@drawable/shape_bg_chat_dark">
 
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/materialText_500_14"
-            android:id="@+id/txtName"
-            android:layout_width="wrap_content"
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/view_text_chat"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="@dimen/spacing_medium"
-            tools:text="@string/me"
-            android:visibility="gone" />
+            android:layout_margin="3dp"
+            android:maxHeight="76dp"
+            android:visibility="visible"
+            app:cardBackgroundColor="@color/colorTaskCompleted"
+            app:cardCornerRadius="10dp">
 
-        <RelativeLayout
-            android:id="@+id/textLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txtName"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="@dimen/spacing_medium">
+            <include layout="@layout/view_text_chat" />
+        </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_500_14"
-                android:id="@+id/txtShowMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:padding="@dimen/spacing_middle"
-                tools:text="Username"
-                android:textColor="@color/white"
-                android:visibility="visible" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/view_file_chat"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:layout_margin="3dp"
+            android:maxHeight="76dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/colorTaskCompleted"
+            app:cardCornerRadius="10dp">
 
-            <ImageView
-                android:id="@+id/imgPath"
-                android:layout_width="@dimen/paddingImgPath"
-                android:layout_height="@dimen/paddingImgPath"
-                android:layout_alignParentEnd="true"
-                android:adjustViewBounds="true"
-                android:background="@drawable/bg_right"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/image_load"
-                android:transitionName="@string/app_name"
-                android:visibility="gone"
-                android:contentDescription="@string/todo" />
-        </RelativeLayout>
+            <include layout="@layout/view_file_chat" />
+        </androidx.cardview.widget.CardView>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textLayout"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/spacing_xsmall"
-            android:layout_marginBottom="@dimen/spacing_xsmall"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_500_10"
-                android:id="@+id/txtMsgTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_medium"
-                android:gravity="end"
-                tools:text="11:40"
-                android:padding="10dp"
-                android:textColor="@color/gray"/>
-
-            <ImageView
-                android:id="@+id/imgMsgSeen"
-                android:layout_width="25dp"
-                android:visibility="visible"
-                android:layout_height="25dp"
-                android:padding="5dp"
-                app:srcCompat="@drawable/ic_vector__7_"
-                android:contentDescription="@string/todo" />
-        </LinearLayout>
     </RelativeLayout>
+
+
 </RelativeLayout>

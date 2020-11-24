@@ -5,8 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,6 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -36,6 +35,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.R;
+import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.AttachmentAdapterEditProfile;
 import com.jobtick.models.AttachmentModel;
@@ -98,8 +98,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
 
-    /*@BindView(R.id.toolbar)
-    MaterialToolbar toolbar;*/
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_first_name)
     ExtendedEntryText edtFirstName;
@@ -230,7 +228,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private int year, month, day;
     private String str_DOB = null;
     private String str_DOB_MODEL = "";
-    private DatePickerDialog.OnDateSetListener mDateSetListener;
     private static String imageStoragePath;
     public static final long MAX_VIDEO_DURATION = 30;
     public static final long MAX_VIDEO_SIZE = 20 * 1024 * 1024;
@@ -238,6 +235,9 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private boolean isFabHide = false;
     private AttachmentAdapterEditProfile adapter;
     private LinearLayout btnVerify;
+    private int cyear, cmonth, cday;
+    private String str_due_date = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -249,29 +249,14 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         btnVerify = findViewById(R.id.lyt_btn_close);
         btnVerify.setOnClickListener(view -> verifyPhone());
         ivBack.setOnClickListener(v -> onBackPressed());
-        txtBirthDate.setOnClickListener(v -> {
-            Calendar calendar = Calendar.getInstance();
-            year = calendar.get(Calendar.YEAR);
-            month = calendar.get(Calendar.MONTH);
-            day = calendar.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog dialog = new DatePickerDialog(this,
-                    android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-                    mDateSetListener,
-                    year, month, day);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.show();
-        });
-
-        mDateSetListener = (view1, year, month, dayOfMonth) -> {
+        DatePickerDialog.OnDateSetListener mDateSetListener = (view1, year, month, dayOfMonth) -> {
             month = month + 1;
-            str_DOB_MODEL = year + "-" + month + "-" + dayOfMonth;
-            str_DOB = Tools.getDayMonthDateTimeFormat2(year + "-" + month + "-" + dayOfMonth);
-            txtBirthDate.setText(str_DOB);
+            str_due_date = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + dayOfMonth);
+            txtBirthDate.setText(str_due_date);
         };
+
         init();
         getAllUserProfileDetails();
-      //  initComponentScroll();
     }
 
     private void initComponentScroll() {
@@ -705,17 +690,22 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                 break;
             case R.id.txt_birth_date:
                 Calendar calendar = Calendar.getInstance();
-                year = calendar.get(Calendar.YEAR);
-                month = calendar.get(Calendar.MONTH);
-                day = calendar.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialog = new DatePickerDialog(
-                        EditProfileActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-                        mDateSetListener,
-                        year, month, day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
+                cyear = calendar.get(Calendar.YEAR);
+                cmonth = calendar.get(Calendar.MONTH);
+                cday = calendar.get(Calendar.DAY_OF_MONTH);
+                showBottomSheetDialogDate();
+//                Calendar calendar = Calendar.getInstance();
+//                year = calendar.get(Calendar.YEAR);
+//                month = calendar.get(Calendar.MONTH);
+//                day = calendar.get(Calendar.DAY_OF_MONTH);
+//
+//                DatePickerDialog dialog = new DatePickerDialog(
+//                        EditProfileActivity.this,
+//                        android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+//                        mDateSetListener,
+//                        year, month, day);
+//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                dialog.show();
                 break;
             case R.id.rlt_btn_transportation:
                 intent = new Intent(EditProfileActivity.this, SkillsTagActivity.class);
@@ -1268,5 +1258,61 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         RequestQueue requestQueue = Volley.newRequestQueue(EditProfileActivity.this);
         requestQueue.add(stringRequest);
         Timber.e(stringRequest.getUrl());
+    }
+
+
+    private void showBottomSheetDialogDate() {
+
+        @SuppressLint("InflateParams") final View view = getLayoutInflater().inflate(R.layout.sheet_date, null);
+
+        mBottomSheetDialog = new BottomSheetDialog(this);
+        mBottomSheetDialog.setContentView(view);
+        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+
+        CalendarView calendarView = view.findViewById(R.id.calenderView);
+        calendarView.setMinDate(System.currentTimeMillis());
+
+
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MONTH, 2); // subtract 2 years from now
+
+        calendarView.setMaxDate(c.getTimeInMillis());
+
+        TextViewMedium txtCancel = view.findViewById(R.id.txt_cancel);
+        txtCancel.setOnClickListener(v -> mBottomSheetDialog.dismiss());
+
+        LinearLayout lytBtnDone = view.findViewById(R.id.lyt_btn_done);
+
+        Calendar calendar = Calendar.getInstance();
+        cyear = calendar.get(Calendar.YEAR);
+
+        cmonth = calendar.get(Calendar.MONTH);
+        cmonth = cmonth + 1;
+
+        cday = calendar.get(Calendar.DAY_OF_MONTH);
+        lytBtnDone.setOnClickListener(v -> {
+
+
+            str_due_date = Tools.getDayMonthDateTimeFormat(cyear + "-" + cmonth + "-" + cday);
+            txtBirthDate.setText(str_due_date);
+
+            mBottomSheetDialog.dismiss();
+
+        });
+
+        calendarView.setOnDateChangeListener((arg0, year, month, date) -> {
+
+            cmonth = month + 1;
+            cyear = year;
+            cday = date;
+        });
+
+
+        // set background transparent
+        ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
+
+        mBottomSheetDialog.show();
+        mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
 }

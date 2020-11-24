@@ -429,5 +429,6 @@
     <string name="no_review">No Review</string>
     <string name="previous_time">Previous time</string>
     <string name="reason">Reason</string>
+    <string name="new_time">New time</string>
 
 </resources>

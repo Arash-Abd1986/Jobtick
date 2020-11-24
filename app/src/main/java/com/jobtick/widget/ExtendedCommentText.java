@@ -160,7 +160,8 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
     }
 
     public void setError(CharSequence error) {
-        editText.setError(error);
+        setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_red);
+        //editText.setError(error);
     }
 
     public String geteTitle() {

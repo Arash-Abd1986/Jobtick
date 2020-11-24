@@ -167,7 +167,7 @@
         </activity>
         <activity android:name=".activities.ActivityBase" />
         <activity android:name=".activities.ViewAllQuestionsActivity" />
-        <activity android:name=".activities.RescheduleReqFromWorkerActivity" />
+        <activity android:name=".activities.RescheduleReqFromWorkerActivity" android:windowSoftInputMode="stateVisible|adjustPan"/>
         <activity android:name=".activities.SinginSingupAcitivity" />
         <activity android:name=".activities.CategoryListActivity" />
         <activity android:name=".activities.RescheduleDeclineActivity" />

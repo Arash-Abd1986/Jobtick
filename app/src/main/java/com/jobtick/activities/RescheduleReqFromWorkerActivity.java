@@ -23,6 +23,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.models.TaskModel;
+import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.Tools;
 import com.jobtick.widget.ExtendedCommentText;
@@ -82,21 +83,29 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase implements Ext
 
     private void init() {
 
-        /*taskModel = new TaskModel();
+        taskModel = new TaskModel();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             taskModel = bundle.getParcelable(ConstantKey.TASK);
-        }*/
-        taskModel= TaskDetailsActivity.taskModel;
+        }
 
         if (taskModel != null) {
             txtPreviousDate.setText(taskModel.getDueDate());
+            if(taskModel.getDueTime().getAfternoon())
+                getTxtPreviousTime.setText("Afternoon");
+            if(taskModel.getDueTime().getEvening())
+                getTxtPreviousTime.setText("Evening");
+            if(taskModel.getDueTime().getMorning())
+                getTxtPreviousTime.setText("Morning");
+            if(taskModel.getDueTime().getMidday())
+                getTxtPreviousTime.setText("Anytime");
         }
         mDateSetListener = (view, year, month, dayOfMonth) -> {
             month = month + 1;
             str_due_date = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + dayOfMonth);
             txtDate.setText(str_due_date);
         };
+        txtDate.setExtendedViewOnClickListener(this);
     }
 
     private void initToolbar() {
@@ -127,12 +136,25 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase implements Ext
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_btn_verify:
-                CreateRequest();
+                if(validation())
+                    CreateRequest();
                 break;
             case R.id.lyt_btn_decline:
                 finish();
                 break;
         }
+    }
+
+    private boolean validation(){
+        if(txtDate.getText().length() == 0){
+            txtDate.setError("Please enter new date.");
+            return false;
+        }
+        if(edtNote.getText().length() < edtNote.geteMinSize()){
+            edtNote.setError("");
+            return false;
+        }
+        return true;
     }
 
 
@@ -253,8 +275,6 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase implements Ext
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                 mDateSetListener,
                 year, month, day);
-        //   dialog.getDatePicker().setMinDate(((System.currentTimeMillis() - 1000)+86400));
-        Toast.makeText(RescheduleReqFromWorkerActivity.this, "" + (System.currentTimeMillis() - 1000), Toast.LENGTH_SHORT).show();
         dialog.getDatePicker().setMinDate(((System.currentTimeMillis() - 1000) + 86400000));
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();

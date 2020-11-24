@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:eImeOptions="actionNext"
-                app:eInputType="expiryDate"
+                app:eInputType="calendar"
                 app:eTitle="@string/expiry_date" />
 
             <com.jobtick.widget.ExtendedEntryText

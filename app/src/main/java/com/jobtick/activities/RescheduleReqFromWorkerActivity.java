@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -19,13 +20,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.models.BankAccountModel;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.Tools;
+import com.jobtick.widget.ExtendedCommentText;
+import com.jobtick.widget.ExtendedEntryText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,17 +43,20 @@ import timber.log.Timber;
 import static com.jobtick.utils.Constant.URL_CREATE_RESCHEDULE;
 import static com.jobtick.utils.Constant.URL_TASKS;
 
-public class RescheduleReqFromWorkerActivity extends ActivityBase {
+public class RescheduleReqFromWorkerActivity extends ActivityBase implements ExtendedEntryText.ExtendedViewOnClickListener{
 
 
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
     @BindView(R.id.txt_date)
-    TextViewRegular txtDate;
+    ExtendedEntryText txtDate;
 
     @BindView(R.id.txt_previous_date)
-    TextViewRegular txtPreviousDate;
+    TextView txtPreviousDate;
+
+    @BindView(R.id.txt_previous_time)
+    TextView getTxtPreviousTime;
 
     int year, month, day;
     DatePickerDialog.OnDateSetListener mDateSetListener;
@@ -63,7 +67,7 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase {
 
 
     @BindView(R.id.edt_note)
-    EditTextRegular edtNote;
+    ExtendedCommentText edtNote;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,7 +114,6 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase {
                 onBackPressed();
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -120,26 +123,9 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase {
     }
 
 
-    @OnClick({R.id.txt_date, R.id.lyt_btn_verify, R.id.lyt_btn_decline})
+    @OnClick({R.id.lyt_btn_verify, R.id.lyt_btn_decline})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.txt_date:
-                Calendar calendar = Calendar.getInstance();
-                year = calendar.get(Calendar.YEAR);
-                month = calendar.get(Calendar.MONTH);
-                day = calendar.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialog = new DatePickerDialog(
-                        RescheduleReqFromWorkerActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-                        mDateSetListener,
-                        year, month, day);
-                //   dialog.getDatePicker().setMinDate(((System.currentTimeMillis() - 1000)+86400));
-                Toast.makeText(RescheduleReqFromWorkerActivity.this, "" + (System.currentTimeMillis() - 1000), Toast.LENGTH_SHORT).show();
-                dialog.getDatePicker().setMinDate(((System.currentTimeMillis() - 1000) + 86400000));
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-                break;
             case R.id.lyt_btn_verify:
                 CreateRequest();
                 break;
@@ -255,4 +241,22 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
+    @Override
+    public void onClick() {
+        Calendar calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog = new DatePickerDialog(
+                RescheduleReqFromWorkerActivity.this,
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+                mDateSetListener,
+                year, month, day);
+        //   dialog.getDatePicker().setMinDate(((System.currentTimeMillis() - 1000)+86400));
+        Toast.makeText(RescheduleReqFromWorkerActivity.this, "" + (System.currentTimeMillis() - 1000), Toast.LENGTH_SHORT).show();
+        dialog.getDatePicker().setMinDate(((System.currentTimeMillis() - 1000) + 86400000));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
 }

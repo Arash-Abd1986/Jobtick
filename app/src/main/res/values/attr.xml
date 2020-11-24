@@ -101,7 +101,7 @@
             <enum name="password" value="3"/>
             <enum name="phone" value="4"/>
             <enum name="suburb" value="5"/>
-            <enum name="expiryDate" value="6"/>
+            <enum name="calendar" value="6"/>
         </attr>
         <attr name="eImeOptions" format="enum">
             <enum name="actionNext" value="0"/>

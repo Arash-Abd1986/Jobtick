@@ -427,5 +427,7 @@
     <string name="_8_service_fee">8% service fee</string>
     <string name="_9_service_fee">9% service fee</string>
     <string name="no_review">No Review</string>
+    <string name="previous_time">Previous time</string>
+    <string name="reason">Reason</string>
 
 </resources>

@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -361,6 +362,8 @@ RescheduleNoticeDialogFragment.NoticeDialogListener{
     private BottomSheetDialog mBottomSheetDialog;
     private BottomSheetBehavior mBehavior;
     private final HashMap<Requirement, Boolean> requirementState = new HashMap<>();
+
+    private AlertType alertType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -739,7 +742,10 @@ RescheduleNoticeDialogFragment.NoticeDialogListener{
                 if (taskModel.getRescheduleReqeust().get(i).getStatus().equals("pending") &&
                         !taskModel.getRescheduleReqeust().get(i).getRequester_id().equals(sessionManager.getUserAccount().getId())) {
                     if (!taskModel.getStatus().equals(TASK_CANCELLED) && !taskModel.getStatus().equals(TASK_CLOSED)) {
-                        showCustomDialogRescheduleRequest(i);
+                        pos = i;
+                        //TODO: when we add this, we get stackOverFlow.
+                        showRescheduleTime(i);
+                        break;
                     }
                 }
             }
@@ -2013,18 +2019,23 @@ RescheduleNoticeDialogFragment.NoticeDialogListener{
 
     @Override
     public void onExtendedAlertButtonClick() {
-        Intent intent;
-        if(tickerCancels && isTicker){
-            intent = new Intent(this, TTCancellationSummaryActivity.class);
-        }else if(tickerCancels && !isTicker){
-            intent = new Intent(this, TPCancellationSummaryActivity.class);
-        }else if(!tickerCancels && isTicker){
-            intent = new Intent(this, PTCancellationSummaryActivity.class);
-        }else {
-            intent = new Intent(this, PPCancellationSummaryActivity.class);
+        if(alertType == null) return;
+        if(alertType == AlertType.CANCELLATION) {
+            Intent intent;
+            if (tickerCancels && isTicker) {
+                intent = new Intent(this, TTCancellationSummaryActivity.class);
+            } else if (tickerCancels && !isTicker) {
+                intent = new Intent(this, TPCancellationSummaryActivity.class);
+            } else if (!tickerCancels && isTicker) {
+                intent = new Intent(this, PTCancellationSummaryActivity.class);
+            } else {
+                intent = new Intent(this, PPCancellationSummaryActivity.class);
+            }
+            startActivityForResult(intent, 1010);
         }
-
-        startActivityForResult(intent, 1010);
+        else if(alertType == AlertType.RESCHEDULE){
+            showCustomDialogRescheduleRequest(pos);
+        }
     }
 
     @Override
@@ -2320,22 +2331,11 @@ RescheduleNoticeDialogFragment.NoticeDialogListener{
 
     }
 
+    private int pos = 0;
     private void showCustomDialogRescheduleRequest(int pos) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         RescheduleNoticeDialogFragment dialog = RescheduleNoticeDialogFragment.newInstance(taskModel, pos);
-
         dialog.show(fragmentManager, "");
-
-//        if (getResources().getBoolean(R.bool.large_layout)) {
-//            // The device is using a large layout, so show the fragment as a dialog
-//            dialog.show(fragmentManager, "");
-//        } else {
-//            // The device is smaller, so show the fragment fullscreen
-//            FragmentTransaction transaction = fragmentManager.beginTransaction();
-//            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//            transaction.add(android.R.id.content, dialog)
-//                    .addToBackStack(null).commit();
-//        }
     }
 
     public void RescheduleRequestAccept(int method, String acceptReject) {
@@ -2629,31 +2629,56 @@ RescheduleNoticeDialogFragment.NoticeDialogListener{
         mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
 
-    // we have for possibillity to support,
+    // we have 4 possibility to support,
     // ticker cancels, user is ticker
     // ticker cancels, user is poster
     // poster cancels, user is poster
     // poster cancels, user is ticker
     private boolean isTicker = false;
     private boolean tickerCancels = false;
-    @SuppressLint("StringFormatMatches")
     private void showCancellationCard(boolean isTicker, boolean tickerCancels){
-        alertBox.setVisibility(View.VISIBLE);
         this.isTicker = isTicker;
         this.tickerCancels = tickerCancels;
 
         if(isTicker && tickerCancels || !isTicker && !tickerCancels) {
-            alertBox.setTitle(Html.fromHtml("<b>You</b> have requested to cancel this job on <b>" +
-                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>"));
-            txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_SENT);
+            showAlertBox(Html.fromHtml("<b>You</b> have requested to cancel this job on <b>" +
+                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>"),
+                    ConstantKey.BTN_CANCELLATION_REQUEST_SENT, AlertType.CANCELLATION);
         }
         else{
             String cancelledByWho = taskModel.getCancellation().getRequesterId().toString();
-            alertBox.setTitle(Html.fromHtml("<b>" + cancelledByWho + "</b> " +
+            showAlertBox(Html.fromHtml("<b>User with id " + cancelledByWho + "</b> " +
                     "has requested to cancel this job on <b>" +
-                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>"));
-            txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_SENT);
+                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>"),
+                    ConstantKey.BTN_CANCELLATION_REQUEST_SENT, AlertType.CANCELLATION);
         }
+    }
+
+    private void showRescheduleTime(int pos){
+        String rescheduledByWho = taskModel.getRescheduleReqeust().get(pos).getRequester_id().toString();
+        showAlertBox(Html.fromHtml("<b>User with id " + rescheduledByWho + "</b> " +
+                "has requested to reschedule time for this job on <b>" +
+                TimeHelper.convertToShowTimeFormat(taskModel.getRescheduleReqeust().get(pos).getCreated_at())+ "</b>"),
+                "View reschedule time request",AlertType.RESCHEDULE);
+    }
+
+    //we use spanned to support middle bolds
+    private void showAlertBox(Spanned title, String buttonText, AlertType alertType){
+        alertBox.setVisibility(View.VISIBLE);
+        this.alertType = alertType;
+        alertBox.setTitle(title);
+        alertBox.setButtonText(buttonText);
+    }
+
+    private void hideAlertBox(){
+        alertBox.setVisibility(View.GONE);
+        this.alertType = null;
+    }
+
+    public enum AlertType{
+        CANCELLATION,
+        RESCHEDULE
+        //more we add later
     }
 
 //    private String findCancellerName(){

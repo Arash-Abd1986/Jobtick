@@ -84,7 +84,7 @@ public class ExtendedAlertBox extends FrameLayout {
     }
 
     public void setButtonText(String buttonText) {
-        this.setButtonText(buttonText);
+        this.mButton.setText(buttonText);
     }
 
     public boolean isHasButton() {

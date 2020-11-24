@@ -129,17 +129,6 @@ public class RescheduleNoticeDialogFragment extends DialogFragment {
     public @NotNull Dialog onCreateDialog(Bundle savedInstanceState) {
         dialog = super.onCreateDialog(savedInstanceState);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        Window window = dialog.getWindow();
-
-//        DisplayMetrics displayMetrics = new DisplayMetrics();
-//        window.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-//        int height = displayMetrics.heightPixels;
-//        int width = displayMetrics.widthPixels;
-//
-//        WindowManager.LayoutParams params = window.getAttributes();
-//        params.width = 800;
-//        params.height = 1200;
-//        window.setAttributes(params);
 
         return dialog;
     }

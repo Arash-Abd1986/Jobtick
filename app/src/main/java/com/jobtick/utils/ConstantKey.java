@@ -85,6 +85,7 @@ public class ConstantKey {
     public static final String BTN_ASK_TO_RELEASE_MONEY = "Ask to release money";
     public static final String BTN_WAIT_TO_RELEASE_MONEY = "Waiting for poster to release money";
 
+    public static final String BTN_RESCHEDULE_REQUEST_SENT = "View reschedule time request";
     public static final String BTN_CANCELLATION_REQUEST_SENT = "CANCELLATION REQUEST SENT";
     public static final String BTN_CANCELLATION_REQUEST_RECEIVED = "CANCELLATION REQUEST RECEIVED";
     public static final String BTN_RELEASE_MONEY = "RELEASE MONEY";

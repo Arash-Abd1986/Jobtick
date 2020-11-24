@@ -27,9 +27,9 @@ import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.adapers.TaskCategoryAdapter;
 import com.jobtick.adapers.PreviewAdapter;
-import com.jobtick.models.PreviewSetModel;
+import com.jobtick.models.PreviewCategorySetModel;
 import com.jobtick.models.TaskCategory;
-import com.jobtick.models.PreviewModel;
+import com.jobtick.models.PreviewCategoryModel;
 import com.jobtick.pagination.PaginationListener;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
@@ -51,7 +51,7 @@ import butterknife.OnClick;
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
 public class SearchCategoryActivity extends ActivityBase implements TextView.OnEditorActionListener,
-        TaskCategoryAdapter.OnItemClickListener, PreviewAdapter.OnItemClickListener<PreviewModel> {
+        TaskCategoryAdapter.OnItemClickListener, PreviewAdapter.OnItemClickListener<PreviewCategoryModel> {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_search_new)
@@ -77,7 +77,7 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
 
     private SessionManager sessionManager;
     private TaskCategoryAdapter adapter;
-    private PreviewSetModel previewSetModel;
+    private PreviewCategorySetModel previewCategorySetModel;
     private PreviewAdapter previewAdapter;
 
     private int currentPage = PAGE_START;
@@ -203,11 +203,11 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
     }
 
     private void setPreviewAdapter() {
-        previewSetModel = sessionManager.getPreviewModel(SearchCategoryActivity.class);
-        if (previewSetModel == null)
-            previewSetModel = new PreviewSetModel();
+        previewCategorySetModel = sessionManager.getPreviewModel(SearchCategoryActivity.class);
+        if (previewCategorySetModel == null)
+            previewCategorySetModel = new PreviewCategorySetModel();
 
-        previewAdapter = new PreviewAdapter(new ArrayList<>(previewSetModel.getPreviewSet()));
+        previewAdapter = new PreviewAdapter(new ArrayList<>(previewCategorySetModel.getPreviewSet()));
         recyclerViewCategories.setAdapter(previewAdapter);
 
         recyclerViewCategories.setHasFixedSize(true);
@@ -256,9 +256,9 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
     }
 
     @Override
-    public void onItemClick(View view, PreviewModel obj, int position) {
-        previewSetModel.addItem(obj);
-        sessionManager.setPreviewModel(previewSetModel, SearchCategoryActivity.class);
+    public void onItemClick(View view, PreviewCategoryModel obj, int position) {
+        previewCategorySetModel.addItem(obj);
+        sessionManager.setPreviewModel(previewCategorySetModel, SearchCategoryActivity.class);
         Intent creating_task = new Intent(SearchCategoryActivity.this, TaskCreateActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("categoryID", obj.getId());

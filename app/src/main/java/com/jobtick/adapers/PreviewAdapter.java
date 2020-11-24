@@ -10,24 +10,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
-import com.jobtick.models.PreviewModel;
+import com.jobtick.models.PreviewCategoryModel;
 
 import java.util.List;
 
 public class PreviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
-    private final List<PreviewModel> items;
-    private OnItemClickListener<PreviewModel> mOnItemClickListener;
+    private final List<PreviewCategoryModel> items;
+    private OnItemClickListener<PreviewCategoryModel> mOnItemClickListener;
 
     public interface OnItemClickListener<PreviewModel> {
         void onItemClick(View view, PreviewModel obj, int position);
     }
 
-    public void setOnItemClickListener(final OnItemClickListener<PreviewModel> mItemClickListener) {
+    public void setOnItemClickListener(final OnItemClickListener<PreviewCategoryModel> mItemClickListener) {
         this.mOnItemClickListener = mItemClickListener;
     }
 
-    public PreviewAdapter(List<PreviewModel> items) {
+    public PreviewAdapter(List<PreviewCategoryModel> items) {
         this.items = items;
     }
 
@@ -86,13 +86,13 @@ public class PreviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return items.size();
     }
 
-    public void addItems(List<PreviewModel> mItems) {
+    public void addItems(List<PreviewCategoryModel> mItems) {
         this.items.addAll(mItems);
         notifyDataSetChanged();
     }
 
 
-    PreviewModel getItem(int position) {
+    PreviewCategoryModel getItem(int position) {
         return items.get(position);
     }
 

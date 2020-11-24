@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jobtick.R;
 import com.jobtick.models.FilterModel;
-import com.jobtick.models.PreviewSetModel;
+import com.jobtick.models.PreviewCategorySetModel;
 import com.jobtick.models.PreviewTaskSetModel;
 import com.jobtick.models.UserAccountModel;
 
@@ -135,16 +135,16 @@ public class SessionManager {
         return pref.getString("bank_account_number", null);
     }
 
-    public PreviewSetModel getPreviewModel(Class<?> cls){
+    public PreviewCategorySetModel getPreviewModel(Class<?> cls){
         String json = pref.getString(cls.getName(), null);
-        Type type = new TypeToken<PreviewSetModel>(){}.getType();
+        Type type = new TypeToken<PreviewCategorySetModel>(){}.getType();
         Gson gson = new Gson();
         return gson.fromJson(json, type);
     }
 
-    public void setPreviewModel(PreviewSetModel previewSetModel, Class<?> cls){
+    public void setPreviewModel(PreviewCategorySetModel previewCategorySetModel, Class<?> cls){
         Gson gson = new Gson();
-        String previewJson = gson.toJson(previewSetModel);
+        String previewJson = gson.toJson(previewCategorySetModel);
         editor.putString(cls.getName(), previewJson);
         editor.commit();
     }

@@ -2,32 +2,29 @@ package com.jobtick.models;
 
 import androidx.collection.ArraySet;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 
 public class PreviewTaskSetModel {
 
-    private Set<PreviewTaskModel> models = new ArraySet<>();
+    private final Stack<PreviewTaskModel> stack = new Stack<>();
 
     public Set<PreviewTaskModel> getPreviewSet() {
-        return models;
-    }
-
-    public void deleteItem(PreviewTaskModel PreviewTaskModel){
-        models.remove(PreviewTaskModel);
-    }
-
-    public void addItem(PreviewTaskModel previewTaskModel){
-        
-        List<PreviewTaskModel> modelList = new ArrayList<>(models);
-        List<PreviewTaskModel> reverseModels = new ArrayList<>();
-        
-        for (int i = modelList.size() - 1; i >= 0; i--) {
-            reverseModels.add(modelList.get(i));
+        Stack<PreviewTaskModel> preStack = new Stack<>();
+        preStack.addAll(stack);
+        Set<PreviewTaskModel> previewTaskModels = new ArraySet<>();
+        while (!stack.empty()) {
+            previewTaskModels.add(stack.pop());
         }
-        
-        reverseModels.add(previewTaskModel);
-        models = new ArraySet<>(reverseModels);
+        stack.addAll(preStack);
+        return previewTaskModels;
+    }
+
+    public void deleteItem(PreviewTaskModel previewTaskModel) {
+        stack.remove(previewTaskModel);
+    }
+
+    public void addItem(PreviewTaskModel previewTaskModel) {
+        stack.push(previewTaskModel);
     }
 }

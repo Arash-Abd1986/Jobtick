@@ -1,12 +1,12 @@
 package com.jobtick.models;
 
 
-public class PreviewModel {
+public class PreviewCategoryModel {
 
     private int id;
     private String title;
 
-    public PreviewModel(int id, String title) {
+    public PreviewCategoryModel(int id, String title) {
         this.id = id;
         this.title = title;
     }

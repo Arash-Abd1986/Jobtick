@@ -3,18 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:background="@color/background"
+    android:background="@color/backgroundLightGrey"
     android:orientation="vertical">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/background"
-        app:contentInsetStartWithNavigation="0dp"
-        app:navigationIcon="@drawable/ic_cancel"
-        app:title="Reschedule time" />
+    <include layout="@layout/toolbar"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_previous_time"

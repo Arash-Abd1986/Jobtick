@@ -391,7 +391,7 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <style name="materialText_600_08" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="materialText_600_08" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="fontFamily">@font/poppins_reg</item>
         <item name="android:fontFamily">@font/poppins_reg</item>
         <item name="android:textSize">8sp</item>

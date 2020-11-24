@@ -22,6 +22,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.models.BankAccountModel;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.Tools;
@@ -95,7 +96,7 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase {
     }
 
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationIcon(R.drawable.ic_cancel);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Reschedule time");

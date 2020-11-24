@@ -8,9 +8,9 @@
     android:layout_alignParentTop="true"
     android:layout_alignParentEnd="true"
     android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
     android:layout_marginEnd="16dp"
     android:layout_marginBottom="8dp"
-    android:layout_marginTop="8dp"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:elevation="4dp"
@@ -42,38 +42,36 @@
                 android:layout_alignTop="@id/separator"
                 android:layout_alignBottom="@id/separator"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
                 android:layout_marginStart="4dp"
                 android:orientation="vertical">
 
                 <!-- due to problem with text status when it is completed, we use larger image -->
                 <com.mikhaellopez.circularimageview.CircularImageView
                     android:id="@+id/img_avatar"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_alignParentStart="true"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_centerHorizontal="true"
                     android:layout_alignParentTop="true"
                     android:layout_gravity="center"
                     android:src="@drawable/pic"
                     card_view:civ_border="false" />
 
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignStart="@id/img_avatar"
-                    android:layout_alignEnd="@id/img_avatar"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="6dp"
-                    android:background="@drawable/shape_rounded_gray_light"
-                    android:gravity="center"
-                    android:lines="1"
-                    android:padding="3dp"
-                    android:text="@string/completed"
-                    android:textAppearance="@style/materialText_600_08"
-                    android:textColor="@color/grey_70" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/shape_rounded_gray_light"
+                        android:layout_marginBottom="6dp"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:padding="3dp"
+                        android:text="@string/completed"
+                        android:textAppearance="@style/materialText_600_08"
+                        android:textColor="@color/grey_70" />
 
             </RelativeLayout>
 

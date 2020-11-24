@@ -30,6 +30,9 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
@@ -59,6 +62,7 @@ import com.jobtick.cancellations.CancellationPosterActivity;
 import com.jobtick.cancellations.CancellationRequestActivity;
 import com.jobtick.cancellations.CancellationRequestSubmittedActivity;
 import com.jobtick.cancellations.CancellationWorkerActivity;
+import com.jobtick.fragments.RescheduleNoticeDialogFragment;
 import com.jobtick.fragments.TickerRequirementsBottomSheet;
 import com.jobtick.incrementbudget.IncreaseBudgetFromPosterActivity;
 import com.jobtick.incrementbudget.IncreaseBudgetRequestToPosterActivity;
@@ -119,7 +123,8 @@ import static com.jobtick.utils.Constant.URL_CREATE_RESCHEDULE;
 import static com.jobtick.utils.Constant.URL_TASKS;
 
 public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener,
-        QuestionListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, ExtendedAlertBox.OnExtendedAlertButtonClickListener {
+        QuestionListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, ExtendedAlertBox.OnExtendedAlertButtonClickListener,
+RescheduleNoticeDialogFragment.NoticeDialogListener{
 
     @BindView(R.id.alert_box)
     ExtendedAlertBox alertBox;
@@ -2022,6 +2027,22 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         startActivityForResult(intent, 1010);
     }
 
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialogFragment, int pos) {
+        RescheduleRequestAccept(Request.Method.GET, taskModel.getRescheduleReqeust().get(pos).getId() + "/accept");
+        dialogFragment.dismiss();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialogFragment, int pos) {
+        dialogFragment.dismiss();
+//        Intent intent = new Intent(TaskDetailsActivity.this, RescheduleDeclineActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("request_id", taskModel.getRescheduleReqeust().get(pos).getId());
+//        intent.putExtras(bundle);
+//        startActivity(intent);
+    }
+
     private static class AdapterImageSlider extends PagerAdapter {
         private final Activity act;
         private ArrayList<AttachmentModel> items;
@@ -2299,46 +2320,22 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     }
 
-    @SuppressLint("SetTextI18n")
     private void showCustomDialogRescheduleRequest(int pos) {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_view_reschedule_requst);
-        dialog.setCancelable(false);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        RescheduleNoticeDialogFragment dialog = RescheduleNoticeDialogFragment.newInstance(taskModel, pos);
 
+        dialog.show(fragmentManager, "");
 
-        TextViewMedium txtReqFrom = dialog.findViewById(R.id.txt_req_from);
-        txtReqFrom.setText("Reschedule time Request from " + taskModel.getPoster().getName());
-
-        TextViewMedium txtJobTitle = dialog.findViewById(R.id.txt_job_title);
-        txtJobTitle.setText(taskModel.getTitle());
-
-        TextViewRegular txtReason = dialog.findViewById(R.id.txt_reason);
-        txtReason.setText(taskModel.getRescheduleReqeust().get(pos).getReason());
-
-        ImageView ivClose = dialog.findViewById(R.id.ivClose);
-        ivClose.setOnClickListener(v -> dialog.dismiss());
-
-        TextViewRegular txtTime = dialog.findViewById(R.id.txt_time);
-        txtTime.setText(taskModel.getRescheduleReqeust().get(pos).getNew_duedate());
-        dialog.findViewById(R.id.lyt_btn_decline).setOnClickListener(v -> {
-            dialog.dismiss();
-            Intent intent = new Intent(TaskDetailsActivity.this, RescheduleDeclineActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putInt("request_id", taskModel.getRescheduleReqeust().get(pos).getId());
-            intent.putExtras(bundle);
-            startActivity(intent);
-        });
-        dialog.findViewById(R.id.lyt_btn_accept).setOnClickListener(v -> {
-            RescheduleRequestAccept(Request.Method.GET, taskModel.getRescheduleReqeust().get(pos).getId() + "/accept");
-            dialog.dismiss();
-
-
-        });
-
-        dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        if (getResources().getBoolean(R.bool.large_layout)) {
+//            // The device is using a large layout, so show the fragment as a dialog
+//            dialog.show(fragmentManager, "");
+//        } else {
+//            // The device is smaller, so show the fragment fullscreen
+//            FragmentTransaction transaction = fragmentManager.beginTransaction();
+//            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//            transaction.add(android.R.id.content, dialog)
+//                    .addToBackStack(null).commit();
+//        }
     }
 
     public void RescheduleRequestAccept(int method, String acceptReject) {

@@ -11,6 +11,7 @@ public class ConstantKey {
     public static final String ATTACHMENT = "ATTACHMENT";
     public static final String SLUG = "SLUG";
     public static final String TASK = "TASK";
+    public static final String POSITION = "POSITION ";
     public static final String CATEGORY = "CATEGORY";
     public static final String TITLE = "TITLE";
     public static final String KEY_TASK_ID = "task_id";

@@ -430,5 +430,6 @@
     <string name="previous_time">Previous time</string>
     <string name="reason">Reason</string>
     <string name="new_time">New time</string>
+    <string name="anytime">Anytime</string>
 
 </resources>

@@ -2,7 +2,6 @@ package com.jobtick.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
@@ -31,6 +30,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     private String eHint;
     private TextView textView;
     private TextView errorView;
+    private TextView dollar;
     private EditText editText;
     private ImageView imageView;
     private boolean eIsPassword;
@@ -82,6 +82,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         textView = (TextView) findViewById(R.id.title);
         errorView = (TextView) findViewById(R.id.error);
         imageView = (ImageView) findViewById(R.id.img_btn_password_toggle);
+        dollar = (TextView) findViewById(R.id.dollar);
 
         textView.setText(eTitle);
         editText.setText(eContent);
@@ -101,7 +102,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if (eInputType == EInputType.SUBURB || eInputType == EInputType.EXPIRY_DATE) {
+        if (eInputType == EInputType.SUBURB || eInputType == EInputType.CALENDAR) {
             if (extendedViewOnClickListener == null)
                 throw new IllegalStateException(eInputType + " type selected, but ExtendedViewOnClickListener is not implemented.");
 
@@ -142,7 +143,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
         } else if (eInputType == EInputType.PHONE)
             editText.setInputType(InputType.TYPE_CLASS_PHONE);
-        else if (eInputType == EInputType.SUBURB || eInputType == EInputType.EXPIRY_DATE) {
+        else if (eInputType == EInputType.SUBURB || eInputType == EInputType.CALENDAR) {
             editText.setFocusable(false);
             editText.setOnClickListener(v -> {
                 extendedViewOnClickListener.onClick();
@@ -156,8 +157,12 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         if (eInputType == EInputType.SUBURB) {
             editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.ic_pin_blue), null);
         }
-        if (eInputType == EInputType.EXPIRY_DATE) {
+        if (eInputType == EInputType.CALENDAR) {
             editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_blue), null);
+        }
+        if (eInputType == EInputType.BUDGET) {
+            dollar.setVisibility(View.VISIBLE);
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         }
 
     }
@@ -275,7 +280,8 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         int PASSWORD = 3;
         int PHONE = 4;
         int SUBURB = 5;
-        int EXPIRY_DATE = 6;
+        int CALENDAR = 6;
+        int BUDGET = 7;
     }
 
     public interface EImeOptions {

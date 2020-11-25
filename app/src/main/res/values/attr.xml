@@ -102,6 +102,7 @@
             <enum name="phone" value="4"/>
             <enum name="suburb" value="5"/>
             <enum name="calendar" value="6"/>
+            <enum name="budget" value="7"/>
         </attr>
         <attr name="eImeOptions" format="enum">
             <enum name="actionNext" value="0"/>

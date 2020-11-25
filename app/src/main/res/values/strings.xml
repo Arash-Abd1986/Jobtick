@@ -431,5 +431,7 @@
     <string name="reason">Reason</string>
     <string name="new_time">New time</string>
     <string name="anytime">Anytime</string>
+    <string name="increase_price">Increase price</string>
+    <string name="old_price">Old price</string>
 
 </resources>

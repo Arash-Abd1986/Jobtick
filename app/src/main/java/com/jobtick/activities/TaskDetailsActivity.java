@@ -61,7 +61,7 @@ import com.jobtick.cancellations.CancellationPosterActivity;
 import com.jobtick.cancellations.CancellationRequestActivity;
 import com.jobtick.cancellations.CancellationRequestSubmittedActivity;
 import com.jobtick.cancellations.CancellationWorkerActivity;
-import com.jobtick.fragments.RescheduleNoticeBottomSheet;
+import com.jobtick.fragments.RescheduleNoticeBottomSheetState;
 import com.jobtick.fragments.TickerRequirementsBottomSheet;
 import com.jobtick.incrementbudget.IncreaseBudgetFromPosterActivity;
 import com.jobtick.incrementbudget.IncreaseBudgetRequestToPosterActivity;
@@ -123,7 +123,7 @@ import static com.jobtick.utils.Constant.URL_TASKS;
 
 public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener,
         QuestionListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, ExtendedAlertBox.OnExtendedAlertButtonClickListener,
-        RescheduleNoticeBottomSheet.NoticeListener {
+        RescheduleNoticeBottomSheetState.NoticeListener {
 
     @BindView(R.id.alert_box)
     ExtendedAlertBox alertBox;
@@ -2335,7 +2335,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private int pos = 0;
     private void showCustomDialogRescheduleRequest(int pos) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        RescheduleNoticeBottomSheet dialog = RescheduleNoticeBottomSheet.newInstance(taskModel, pos);
+        RescheduleNoticeBottomSheetState dialog = RescheduleNoticeBottomSheetState.newInstance(taskModel, pos);
         dialog.show(fragmentManager, "");
     }
 

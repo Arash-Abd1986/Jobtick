@@ -11,12 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.jobtick.R;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.ConstantKey;
 
-public class RescheduleNoticeBottomSheet extends BottomSheetDialogFragment {
+public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBottomSheet {
 
     TextView name;
     TextView description;
@@ -33,11 +32,11 @@ public class RescheduleNoticeBottomSheet extends BottomSheetDialogFragment {
 
     private NoticeListener listener;
 
-    public static RescheduleNoticeBottomSheet newInstance(TaskModel taskModel, int pos){
+    public static RescheduleNoticeBottomSheetState newInstance(TaskModel taskModel, int pos){
         Bundle bundle = new Bundle();
         bundle.putParcelable(ConstantKey.TASK, taskModel);
         bundle.putInt(ConstantKey.POSITION, pos);
-        RescheduleNoticeBottomSheet fragment = new RescheduleNoticeBottomSheet();
+        RescheduleNoticeBottomSheetState fragment = new RescheduleNoticeBottomSheetState();
         fragment.setArguments(bundle);
         return fragment;
     }

@@ -117,11 +117,15 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
     }
 
     private void init(){
+        //TODO: API is giving increased price, but it should get all new price, so
+        //we calculate new increased price, after API updating, we bring back it.
+        int oldP = Integer.parseInt(taskModel.getAmount().toString());
+        int newP = Integer.parseInt(taskModel.getAdditionalFund().getAmount().toString()) + oldP;
         name.setText(taskModel.getPoster().getName());
         description.setText(taskModel.getTitle());
         reason.setText(taskModel.getAdditionalFund().getCreationReason());
-        newPrice.setText(taskModel.getAdditionalFund().getAmount().toString());
-        oldPrice.setText(taskModel.getAmount().toString());
+        newPrice.setText(Integer.toString(newP));
+        oldPrice.setText(Integer.toString(oldP));
     }
 
     private void acceptRequest(String id) {

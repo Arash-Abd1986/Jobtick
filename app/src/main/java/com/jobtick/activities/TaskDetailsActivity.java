@@ -78,6 +78,7 @@ import com.jobtick.models.OfferModel;
 import com.jobtick.models.QuestionModel;
 import com.jobtick.models.TaskModel;
 import com.jobtick.models.UserAccountModel;
+import com.jobtick.models.payments.Task;
 import com.jobtick.retrofit.ApiClient;
 import com.jobtick.utils.CameraUtils;
 import com.jobtick.utils.Constant;
@@ -2674,6 +2675,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @Override
     public void onIncreaseBudgetSubmitClick() {
         getData();
+        int amount = taskModel.getAmount();
     }
 
     @Override

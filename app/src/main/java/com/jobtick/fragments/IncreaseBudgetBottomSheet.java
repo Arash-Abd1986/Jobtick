@@ -309,6 +309,10 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
             newPrice.setError("Please increase price");
             return false;
         }
+        if(Integer.parseInt(newPrice.getText().toString()) > (Integer.parseInt(oldPrice.getText().toString()) + 500)) {
+            newPrice.setError("No more than $ 500!");
+            return false;
+        }
         else if(reason.getText().length() < reason.geteMinSize()){
             newPrice.setError("");
             return false;

@@ -126,6 +126,7 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
             }
         });
 
+        initProgressDialog();
         init();
         return view;
     }
@@ -176,11 +177,6 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
                         Log.e("json", jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-
-//                                Intent intent = new Intent();
-//                                Bundle bundle = new Bundle();
-//                                bundle.putBoolean(ConstantKey.INCREASE_BUDGET, true);
-//                                intent.putExtras(bundle);
                                 listener.onSubmitIncreasePrice();
                                 dismiss();
                             } else {

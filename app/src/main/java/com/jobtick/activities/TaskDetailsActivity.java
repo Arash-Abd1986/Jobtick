@@ -62,6 +62,7 @@ import com.jobtick.cancellations.CancellationRequestActivity;
 import com.jobtick.cancellations.CancellationRequestSubmittedActivity;
 import com.jobtick.cancellations.CancellationWorkerActivity;
 import com.jobtick.fragments.IncreaseBudgetBottomSheet;
+import com.jobtick.fragments.IncreaseBudgetDeclineBottomSheet;
 import com.jobtick.fragments.IncreaseBudgetNoticeBottomSheet;
 import com.jobtick.fragments.RescheduleNoticeBottomSheetState;
 import com.jobtick.fragments.TickerRequirementsBottomSheet;
@@ -123,7 +124,7 @@ import static com.jobtick.utils.Constant.URL_TASKS;
 public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener,
         QuestionListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, ExtendedAlertBox.OnExtendedAlertButtonClickListener,
         RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener,
-IncreaseBudgetNoticeBottomSheet.NoticeListener{
+        IncreaseBudgetNoticeBottomSheet.NoticeListener, IncreaseBudgetDeclineBottomSheet.NoticeListener{
 
     @BindView(R.id.alert_box)
     ExtendedAlertBox alertBox;
@@ -1968,16 +1969,6 @@ IncreaseBudgetNoticeBottomSheet.NoticeListener{
         doApiCall(Constant.URL_OFFERS + "/" + id);
     }
 
-    @Override
-    public void onIncreaseBudgetAcceptClick() {
-
-    }
-
-    @Override
-    public void onIncreaseBudgetRejectClick() {
-
-    }
-
 
     private static class AdapterImageSlider extends PagerAdapter {
         private final Activity act;
@@ -2586,6 +2577,11 @@ IncreaseBudgetNoticeBottomSheet.NoticeListener{
         IncreaseBudgetNoticeBottomSheet dialog = IncreaseBudgetNoticeBottomSheet.newInstance(taskModel);
         dialog.show(fragmentManager, "");
     }
+    private void showDialogIncreaseBudgetDeclineRequest() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        IncreaseBudgetDeclineBottomSheet dialog = IncreaseBudgetDeclineBottomSheet.newInstance(taskModel);
+        dialog.show(fragmentManager, "");
+    }
 
     // we have 4 possibility to support,
     // ticker cancels, user is ticker
@@ -2663,6 +2659,21 @@ IncreaseBudgetNoticeBottomSheet.NoticeListener{
         else if(alertType == AlertType.INCREASE_BUDGET){
             showDialogIncreaseBudgetNoticeRequest();
         }
+    }
+
+    @Override
+    public void onIncreaseBudgetAcceptClick() {
+        getData();
+    }
+
+    @Override
+    public void onIncreaseBudgetRejectClick() {
+        showDialogIncreaseBudgetDeclineRequest();
+    }
+
+    @Override
+    public void onIncreaseBudgetSubmitClick() {
+        getData();
     }
 
     @Override

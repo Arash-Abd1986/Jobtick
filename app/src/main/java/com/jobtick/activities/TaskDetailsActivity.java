@@ -2675,7 +2675,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @Override
     public void onIncreaseBudgetSubmitClick() {
         getData();
-        int amount = taskModel.getAmount();
     }
 
     @Override

@@ -33,7 +33,7 @@ public class IncreasePriceBottomSheet extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.bottom_sheet_increase_price, container, false);
+        View view = inflater.inflate(R.layout.bottom_sheet_increase_budget, container, false);
 
         oldPrice = view.findViewById(R.id.old_price);
         serviceFee = view.findViewById(R.id.service_fee);

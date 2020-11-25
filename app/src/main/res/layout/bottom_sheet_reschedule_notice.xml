@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="0dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="0dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background">
+
+        <include layout="@layout/view_bottom_sheet_top_handler" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bottom_sheet_handler"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="Reschedule time request"
+            android:textAppearance="@style/materialText_500_14"
+            android:textColor="@color/textColor" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/from"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="From"
+            android:textAppearance="@style/materialText_600_16"
+            android:textColor="@color/textColor" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="24dp"
+            android:layout_toEndOf="@id/from"
+            android:textAppearance="@style/materialText_600_16"
+            android:textColor="@color/colorPrimary"
+            tools:text="Sajad B." />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/job_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/from"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_toEndOf="@id/from"
+            android:text="Job title"
+            android:textAppearance="@style/materialText_600_14"
+            android:textColor="@color/colorPrimary" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/job_title"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_toEndOf="@id/from"
+            android:textAppearance="@style/materialText_700_14"
+            android:textColor="@color/textColor"
+            tools:text="Clean my two bedroom witnin 6 hours in my apartment" />
+
+            <LinearLayout
+                android:id="@+id/card_previous_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/description"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rectangle_round_corners_light_blue_8dp"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:padding="@dimen/spacing_large">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/previous_time"
+                    android:textAppearance="@style/materialText_600_14"
+                    android:textColor="@color/colorPrimary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_middle"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_previous_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/inset_ellipse_primary"
+                        android:textAppearance="@style/materialText_500_14"
+                        android:textColor="@color/textColor"
+                        tools:text="Tomorrow" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_previous_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:drawableStart="@drawable/inset_ellipse_primary"
+                        android:textAppearance="@style/materialText_500_14"
+                        android:textColor="@color/textColor"
+                        tools:text="Morning" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/card_new_time"
+                android:layout_below="@+id/card_previous_time"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:layout_width="match_parent"
+                android:background="@drawable/rectangle_round_corners_light_blue_8dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_large">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/new_time"
+                    android:textAppearance="@style/materialText_600_14"
+                    android:textColor="@color/colorPrimary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_middle"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_new_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/inset_ellipse_primary"
+                        android:textAppearance="@style/materialText_500_14"
+                        android:textColor="@color/textColor"
+                        tools:text="Tues. 20th Dec. 2020" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/card_new_time"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_toEndOf="@id/from"
+            android:text="@string/reason"
+            android:textAppearance="@style/materialText_600_14"
+            android:textColor="@color/colorPrimary" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/reason_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/reason"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_toEndOf="@id/from"
+            android:textAppearance="@style/materialText_600_14"
+            android:textColor="@color/textColor"
+            tools:text="Reason here in publishing and graphic design, Lorem ipsum" />
+
+        <LinearLayout
+            android:id="@+id/lyt_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/reason_description"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_decline"
+                style="@style/materialButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/strokeRed"
+                android:text="@string/Decline" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_accept"
+                style="@style/materialButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:text="@string/accept" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

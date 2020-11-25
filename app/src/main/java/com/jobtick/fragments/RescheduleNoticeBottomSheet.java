@@ -1,33 +1,23 @@
 package com.jobtick.fragments;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.jobtick.R;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.ConstantKey;
 
-import org.jetbrains.annotations.NotNull;
+public class RescheduleNoticeBottomSheet extends BottomSheetDialogFragment {
 
-public class RescheduleNoticeDialogFragment extends DialogFragment {
-
-    View close;
     TextView name;
     TextView description;
     TextView previousDate;
@@ -40,32 +30,35 @@ public class RescheduleNoticeDialogFragment extends DialogFragment {
     private TaskModel taskModel;
     private int pos;
 
-    private Dialog dialog;
 
+    private NoticeListener listener;
 
-    private NoticeDialogListener listener;
-
-    public static RescheduleNoticeDialogFragment newInstance(TaskModel taskModel, int pos){
+    public static RescheduleNoticeBottomSheet newInstance(TaskModel taskModel, int pos){
         Bundle bundle = new Bundle();
         bundle.putParcelable(ConstantKey.TASK, taskModel);
         bundle.putInt(ConstantKey.POSITION, pos);
-        RescheduleNoticeDialogFragment fragment = new RescheduleNoticeDialogFragment();
+        RescheduleNoticeBottomSheet fragment = new RescheduleNoticeBottomSheet();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.ThemeOverlay_BottomSheetDialog);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_reschedule_notice_dialog, container, false);
+        View view = inflater.inflate(R.layout.bottom_sheet_reschedule_notice, container, false);
 
         assert getArguments() != null;
         taskModel = getArguments().getParcelable(ConstantKey.TASK);
         pos = getArguments().getInt(ConstantKey.POSITION);
 
 
-        close = view.findViewById(R.id.close);
         name = view.findViewById(R.id.name);
         description = view.findViewById(R.id.description);
         previousDate = view.findViewById(R.id.txt_previous_date);
@@ -76,15 +69,11 @@ public class RescheduleNoticeDialogFragment extends DialogFragment {
         accept = view.findViewById(R.id.btn_accept);
 
         decline.setOnClickListener(v -> {
-            listener.onDialogNegativeClick(this, pos);
+            listener.onRescheduleTimeDeclineClick(this, pos);
         });
 
         accept.setOnClickListener(v -> {
-            listener.onDialogPositiveClick(this, pos);
-        });
-
-        close.setOnClickListener(v -> {
-            dismiss();
+            listener.onRescheduleTimeAcceptClick(this, pos);
         });
 
         init();
@@ -111,30 +100,16 @@ public class RescheduleNoticeDialogFragment extends DialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            listener = (NoticeDialogListener) context;
+            listener = (NoticeListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(this.toString()
-                    + " must implement NoticeDialogListener");
+                    + " must implement NoticeListener");
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-    }
 
-    @Override
-    public @NotNull Dialog onCreateDialog(Bundle savedInstanceState) {
-        dialog = super.onCreateDialog(savedInstanceState);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        return dialog;
-    }
-
-    public interface NoticeDialogListener {
-        void onDialogPositiveClick(DialogFragment dialog, int pos);
-        void onDialogNegativeClick(DialogFragment dialog, int pos);
+    public interface NoticeListener {
+        void onRescheduleTimeAcceptClick(DialogFragment dialog, int pos);
+        void onRescheduleTimeDeclineClick(DialogFragment dialog, int pos);
     }
 }

@@ -33,7 +33,6 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
@@ -52,7 +51,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.MustHaveListAdapter;
@@ -63,7 +61,7 @@ import com.jobtick.cancellations.CancellationPosterActivity;
 import com.jobtick.cancellations.CancellationRequestActivity;
 import com.jobtick.cancellations.CancellationRequestSubmittedActivity;
 import com.jobtick.cancellations.CancellationWorkerActivity;
-import com.jobtick.fragments.RescheduleNoticeDialogFragment;
+import com.jobtick.fragments.RescheduleNoticeBottomSheet;
 import com.jobtick.fragments.TickerRequirementsBottomSheet;
 import com.jobtick.incrementbudget.IncreaseBudgetFromPosterActivity;
 import com.jobtick.incrementbudget.IncreaseBudgetRequestToPosterActivity;
@@ -125,7 +123,7 @@ import static com.jobtick.utils.Constant.URL_TASKS;
 
 public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener,
         QuestionListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, ExtendedAlertBox.OnExtendedAlertButtonClickListener,
-RescheduleNoticeDialogFragment.NoticeDialogListener{
+        RescheduleNoticeBottomSheet.NoticeListener {
 
     @BindView(R.id.alert_box)
     ExtendedAlertBox alertBox;
@@ -2046,13 +2044,13 @@ RescheduleNoticeDialogFragment.NoticeDialogListener{
     }
 
     @Override
-    public void onDialogPositiveClick(DialogFragment dialogFragment, int pos) {
+    public void onRescheduleTimeAcceptClick(DialogFragment dialogFragment, int pos) {
         RescheduleRequestAccept(Request.Method.GET, taskModel.getRescheduleReqeust().get(pos).getId() + "/accept");
         dialogFragment.dismiss();
     }
 
     @Override
-    public void onDialogNegativeClick(DialogFragment dialogFragment, int pos) {
+    public void onRescheduleTimeDeclineClick(DialogFragment dialogFragment, int pos) {
         RescheduleRequestAccept(Request.Method.POST, taskModel.getRescheduleReqeust().get(pos).getId() + "/reject");
         dialogFragment.dismiss();
     }
@@ -2337,7 +2335,7 @@ RescheduleNoticeDialogFragment.NoticeDialogListener{
     private int pos = 0;
     private void showCustomDialogRescheduleRequest(int pos) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        RescheduleNoticeDialogFragment dialog = RescheduleNoticeDialogFragment.newInstance(taskModel, pos);
+        RescheduleNoticeBottomSheet dialog = RescheduleNoticeBottomSheet.newInstance(taskModel, pos);
         dialog.show(fragmentManager, "");
     }
 

@@ -12,7 +12,7 @@ import com.jobtick.R;
 
 import org.jetbrains.annotations.NotNull;
 
-public class AbstractStateExpandedBottomSheet extends BottomSheetDialogFragment {
+public abstract class AbstractStateExpandedBottomSheet extends BottomSheetDialogFragment {
 
     @Override
     public @NotNull Dialog onCreateDialog(Bundle savedInstanceState) {

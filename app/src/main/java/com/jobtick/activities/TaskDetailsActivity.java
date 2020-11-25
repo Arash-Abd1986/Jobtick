@@ -62,6 +62,7 @@ import com.jobtick.cancellations.CancellationRequestActivity;
 import com.jobtick.cancellations.CancellationRequestSubmittedActivity;
 import com.jobtick.cancellations.CancellationWorkerActivity;
 import com.jobtick.fragments.IncreaseBudgetBottomSheet;
+import com.jobtick.fragments.IncreaseBudgetNoticeBottomSheet;
 import com.jobtick.fragments.RescheduleNoticeBottomSheetState;
 import com.jobtick.fragments.TickerRequirementsBottomSheet;
 import com.jobtick.interfaces.OnRequestAcceptListener;
@@ -121,7 +122,8 @@ import static com.jobtick.utils.Constant.URL_TASKS;
 
 public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener,
         QuestionListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, ExtendedAlertBox.OnExtendedAlertButtonClickListener,
-        RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener {
+        RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener,
+IncreaseBudgetNoticeBottomSheet.NoticeListener{
 
     @BindView(R.id.alert_box)
     ExtendedAlertBox alertBox;
@@ -800,7 +802,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 //                        intent.putExtras(bundle);
 //                        startActivityForResult(intent, ConstantKey.RESULTCODE_INCREASE_BUDGET);
                     } else {
-                        showCustomDialogIncreaseBudgetRequest();
+                        showDialogIncreaseBudgetRequest();
                      //   startActivityForResult(intent, ConstantKey.RESULTCODE_INCREASE_BUDGET);
                     }
                     break;
@@ -1966,6 +1968,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         doApiCall(Constant.URL_OFFERS + "/" + id);
     }
 
+    @Override
+    public void onIncreaseBudgetAcceptClick() {
+
+    }
+
+    @Override
+    public void onIncreaseBudgetRejectClick() {
+
+    }
+
 
     private static class AdapterImageSlider extends PagerAdapter {
         private final Activity act;
@@ -2558,15 +2570,20 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private int pos = 0;
-    private void showCustomDialogRescheduleRequest(int pos) {
+    private void showDialogRescheduleRequest(int pos) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         RescheduleNoticeBottomSheetState dialog = RescheduleNoticeBottomSheetState.newInstance(taskModel, pos);
         dialog.show(fragmentManager, "");
     }
 
-    private void showCustomDialogIncreaseBudgetRequest() {
+    private void showDialogIncreaseBudgetRequest() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         IncreaseBudgetBottomSheet dialog = IncreaseBudgetBottomSheet.newInstance(taskModel, 0);
+        dialog.show(fragmentManager, "");
+    }
+    private void showDialogIncreaseBudgetNoticeRequest() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        IncreaseBudgetNoticeBottomSheet dialog = IncreaseBudgetNoticeBottomSheet.newInstance(taskModel);
         dialog.show(fragmentManager, "");
     }
 
@@ -2604,10 +2621,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void showIncreaseBudgetCard(){
-        String increaseRequestByWho = taskModel.getRescheduleReqeust().get(pos).getRequester_id().toString();
+        String increaseRequestByWho = taskModel.getAdditionalFund().getRequesterId().toString();
         showAlertBox(Html.fromHtml("<b>User with id " + increaseRequestByWho + "</b> " +
                         "has requested to increase price on this job on <b>" +
-                        TimeHelper.convertToShowTimeFormat(taskModel.getRescheduleReqeust().get(pos).getCreated_at())+ "</b>"),
+                        TimeHelper.convertToShowTimeFormat(taskModel.getAdditionalFund().getCreatedAt())+ "</b>"),
                 ConstantKey.BTN_INCREASE_BUDGET_REQUEST_SENT, AlertType.INCREASE_BUDGET);
     }
 
@@ -2641,7 +2658,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             startActivityForResult(intent, 1010);
         }
         else if(alertType == AlertType.RESCHEDULE){
-            showCustomDialogRescheduleRequest(pos);
+            showDialogRescheduleRequest(pos);
+        }
+        else if(alertType == AlertType.INCREASE_BUDGET){
+            showDialogIncreaseBudgetNoticeRequest();
         }
     }
 

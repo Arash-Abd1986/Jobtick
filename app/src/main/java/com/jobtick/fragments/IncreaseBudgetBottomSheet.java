@@ -106,7 +106,10 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
 
         submit.setOnClickListener(v -> {
             if(!validation()) return;
-            submitIncreaseBudget(newPrice.getText().toString(), reason.getText().toString().trim());
+            //TODO: API is giving increased price, but it should get all new price, so
+            //we calculate new increased price, after API updating, we bring back it.
+            int increasedPrice = Integer.parseInt(newPrice.getText().toString()) - Integer.parseInt(oldPrice.getText().toString());
+            submitIncreaseBudget(Integer.toString(increasedPrice), reason.getText().toString().trim());
         });
 
         newPrice.addTextChangedListener(new TextWatcher() {
@@ -132,7 +135,7 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
     }
 
     private void init(){
-        oldPrice.setText(taskModel.getBudget().toString());
+        oldPrice.setText(taskModel.getAmount().toString());
     }
 
 

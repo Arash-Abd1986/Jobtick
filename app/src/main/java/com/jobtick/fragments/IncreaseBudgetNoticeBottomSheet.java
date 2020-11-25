@@ -12,12 +12,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.jobtick.R;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.ConstantKey;
 
-public class IncreaseBudgetNoticeBottomSheet extends BottomSheetDialogFragment {
+public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottomSheet {
 
 
     TextView name;

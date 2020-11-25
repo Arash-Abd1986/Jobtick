@@ -7,13 +7,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
+import com.jobtick.activities.ActivityBase;
+import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.TaskModel;
+import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.HttpStatus;
+import com.jobtick.utils.SessionManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import timber.log.Timber;
+
+import static com.jobtick.utils.Constant.URL_CREATE_RESCHEDULE;
 
 public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBottomSheet {
 
@@ -26,6 +48,7 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
     Button decline;
     Button accept;
 
+    private SessionManager sessionManager;
     private TaskModel taskModel;
     private int pos;
 
@@ -52,6 +75,7 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.bottom_sheet_reschedule_notice, container, false);
+        sessionManager = new SessionManager(requireContext());
 
         assert getArguments() != null;
         taskModel = getArguments().getParcelable(ConstantKey.TASK);
@@ -68,11 +92,11 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
         accept = view.findViewById(R.id.btn_accept);
 
         decline.setOnClickListener(v -> {
-            listener.onRescheduleTimeDeclineClick(this, pos);
+            rescheduleRequest(Request.Method.POST, taskModel.getRescheduleReqeust().get(pos).getId() + "/reject");
         });
 
         accept.setOnClickListener(v -> {
-            listener.onRescheduleTimeAcceptClick(this, pos);
+            rescheduleRequest(Request.Method.GET, taskModel.getRescheduleReqeust().get(pos).getId() + "/accept");
         });
 
         init();
@@ -106,9 +130,83 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
         }
     }
 
+    public void rescheduleRequest(int method, String acceptReject) {
+
+        ((ActivityBase)requireActivity()).showProgressDialog();
+        StringRequest stringRequest = new StringRequest(method, Constant.BASE_URL + URL_CREATE_RESCHEDULE + "/" + acceptReject,
+                response -> {
+                    Timber.e(response);
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+                                if (acceptReject.contains("accept")) {
+                                    listener.onRescheduleTimeAcceptDeclineClick();
+                                    dismiss();
+                                }
+                            } else {
+                                ((ActivityBase)requireActivity()).showToast("Something went wrong",requireContext());
+                            }
+                        } else {
+                            ((ActivityBase)requireActivity()).showToast("Something went wrong",requireContext());
+                        }
+                        ((ActivityBase)requireActivity()).hideProgressDialog();
+                    } catch (JSONException e) {
+                        ((ActivityBase)requireActivity()).hideProgressDialog();
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            ((ActivityBase)requireActivity()).unauthorizedUser();
+                            ((ActivityBase)requireActivity()).hideProgressDialog();
+                            return;
+                        }
+                        ((ActivityBase)requireActivity()).hideProgressDialog();
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+                            if (jsonObject_error.has("message")) {
+                                Toast.makeText(requireContext(), jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                        } catch (JSONException e) {
+                            ((ActivityBase)requireActivity()).showToast("Something Went Wrong", requireContext());
+                            e.printStackTrace();
+                        }
+                    } else {
+                        ((ActivityBase)requireActivity()).showToast("Something Went Wrong", requireContext());
+                    }
+                    Timber.e(error.toString());
+                    ((ActivityBase)requireActivity()).hideProgressDialog();
+                }) {
+
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/json");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+        requestQueue.add(stringRequest);
+    }
+
 
     public interface NoticeListener {
-        void onRescheduleTimeAcceptClick(DialogFragment dialog, int pos);
-        void onRescheduleTimeDeclineClick(DialogFragment dialog, int pos);
+        void onRescheduleTimeAcceptDeclineClick();
     }
 }

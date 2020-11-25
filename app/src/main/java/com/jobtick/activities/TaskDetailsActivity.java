@@ -2238,84 +2238,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     }
 
-    public void RescheduleRequestAccept(int method, String acceptReject) {
-//reschedule/:duedateextend/accept
-        showProgressDialog();
-        StringRequest stringRequest = new StringRequest(method, Constant.BASE_URL + URL_CREATE_RESCHEDULE + "/" + acceptReject,
-                response -> {
-                    Timber.e(response);
-
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                if (acceptReject.contains("accept")) {
-                                    showCustomDialog("Request Accepted Successfully");
-                                    getData();
-                                } else {
-                                    showCustomDialog("Request Declined !");
-
-                                }
-                            } else {
-                                showCustomDialog(getString(R.string.server_went_wrong));
-                            }
-                        } else {
-                            showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
-                        }
-                        hideProgressDialog();
-                    } catch (JSONException e) {
-                        hideProgressDialog();
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser();
-                            hideProgressDialog();
-                            return;
-                        }
-                        hideProgressDialog();
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                            if (jsonObject_error.has("message")) {
-                                Toast.makeText(TaskDetailsActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                            }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
-                        } catch (JSONException e) {
-                            showToast("Something Went Wrong", TaskDetailsActivity.this);
-                            e.printStackTrace();
-                        }
-                    } else {
-                        showToast("Something Went Wrong", TaskDetailsActivity.this);
-                    }
-                    Timber.e(error.toString());
-                    hideProgressDialog();
-                }) {
-
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/json");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-        };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(TaskDetailsActivity.this);
-        requestQueue.add(stringRequest);
-    }
-
     private void doApiCall(String url) {
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url,
@@ -2678,15 +2600,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     @Override
-    public void onRescheduleTimeAcceptClick(DialogFragment dialogFragment, int pos) {
-        RescheduleRequestAccept(Request.Method.GET, taskModel.getRescheduleReqeust().get(pos).getId() + "/accept");
-        dialogFragment.dismiss();
-    }
-
-    @Override
-    public void onRescheduleTimeDeclineClick(DialogFragment dialogFragment, int pos) {
-        RescheduleRequestAccept(Request.Method.POST, taskModel.getRescheduleReqeust().get(pos).getId() + "/reject");
-        dialogFragment.dismiss();
+    public void onRescheduleTimeAcceptDeclineClick() {
+        getData();
     }
 
     @Override

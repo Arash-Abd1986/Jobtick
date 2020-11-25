@@ -61,11 +61,9 @@ import com.jobtick.cancellations.CancellationPosterActivity;
 import com.jobtick.cancellations.CancellationRequestActivity;
 import com.jobtick.cancellations.CancellationRequestSubmittedActivity;
 import com.jobtick.cancellations.CancellationWorkerActivity;
+import com.jobtick.fragments.IncreaseBudgetBottomSheet;
 import com.jobtick.fragments.RescheduleNoticeBottomSheetState;
 import com.jobtick.fragments.TickerRequirementsBottomSheet;
-import com.jobtick.incrementbudget.IncreaseBudgetFromPosterActivity;
-import com.jobtick.incrementbudget.IncreaseBudgetRequestToPosterActivity;
-import com.jobtick.incrementbudget.IncrementBudgetRequestViewActivity;
 import com.jobtick.interfaces.OnRequestAcceptListener;
 import com.jobtick.interfaces.OnWidthDrawListener;
 import com.jobtick.models.AttachmentModel;
@@ -123,7 +121,7 @@ import static com.jobtick.utils.Constant.URL_TASKS;
 
 public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener,
         QuestionListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, ExtendedAlertBox.OnExtendedAlertButtonClickListener,
-        RescheduleNoticeBottomSheetState.NoticeListener {
+        RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener {
 
     @BindView(R.id.alert_box)
     ExtendedAlertBox alertBox;
@@ -302,12 +300,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_budgets)
     TextView budget;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_view_reqeust)
-    CardView lytButtonViewRequest;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.card_increase_budget)
-    FrameLayout cardIncreaseBudget;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_cancel_background)
     CardView cardCancelBackground;
@@ -725,15 +717,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
 
 
-        if (taskModel.getAdditionalFund() != null && taskModel.getAdditionalFund().getStatus().equals("pending")) {
-            if (taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
-                if (!taskModel.getStatus().equals(TASK_CANCELLED) && !taskModel.getStatus().equals(TASK_CLOSED)) {
-                    cardIncreaseBudget.setVisibility(View.VISIBLE);
-                }
-            } else {
-                cardIncreaseBudget.setVisibility(View.GONE);
-            }
-        }
+        initIncreaseBudget();
         initRescheduleTime();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -808,17 +792,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     break;
                 case R.id.action_increase_budget:
                     if (isMyTask) {
-                        intent = new Intent(TaskDetailsActivity.this, IncreaseBudgetFromPosterActivity.class);
-                        bundle = new Bundle();
-                        //  bundle.putParcelable(ConstantKey.TASK, taskModel);
-                        intent.putExtras(bundle);
-                        startActivityForResult(intent, ConstantKey.RESULTCODE_INCREASE_BUDGET);
+                        //TODO: we should not have the menu if it is user post, So I comment these lines and add this toast
+                        showToast("You can not increase budget of your job!", this);
+//                        intent = new Intent(TaskDetailsActivity.this, IncreaseBudgetFromPosterActivity.class);
+//                        bundle = new Bundle();
+//                        //  bundle.putParcelable(ConstantKey.TASK, taskModel);
+//                        intent.putExtras(bundle);
+//                        startActivityForResult(intent, ConstantKey.RESULTCODE_INCREASE_BUDGET);
                     } else {
-                        intent = new Intent(TaskDetailsActivity.this, IncreaseBudgetRequestToPosterActivity.class);
-                        bundle = new Bundle();
-                        //  bundle.putParcelable(ConstantKey.TASK, taskModel);
-                        intent.putExtras(bundle);
-                        startActivityForResult(intent, ConstantKey.RESULTCODE_INCREASE_BUDGET);
+                        showCustomDialogIncreaseBudgetRequest();
+                     //   startActivityForResult(intent, ConstantKey.RESULTCODE_INCREASE_BUDGET);
                     }
                     break;
                 case R.id.action_rechedule:
@@ -1159,26 +1142,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     }
 
-    private void initRescheduleTime(){
-        if(alertType == AlertType.RESCHEDULE){
-            alertType = null;
-            hideAlertBox();
-        }
-        if (taskModel.getRescheduleReqeust() != null && taskModel.getRescheduleReqeust().size() > 0) {
-
-            for (int i = 0; i < taskModel.getRescheduleReqeust().size(); i++) {
-                if (taskModel.getRescheduleReqeust().get(i).getStatus().equals("pending") &&
-                        !taskModel.getRescheduleReqeust().get(i).getRequester_id().equals(sessionManager.getUserAccount().getId())) {
-                    if (!taskModel.getStatus().equals(TASK_CANCELLED) && !taskModel.getStatus().equals(TASK_CLOSED)) {
-                        pos = i;
-                        showRescheduleTime(i);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
     @SuppressLint("SetTextI18n")
     private void setDataInLayout(TaskModel taskModel) {
         txtTitle.setText(taskModel.getTitle());
@@ -1377,20 +1340,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private void initComponent() {
         setOfferView(taskModel.getOfferCount());
         setQuestionView(taskModel.getQuestionCount());
-        setAdditionalFund();
+        initIncreaseBudget();
         budget.setText("$ " + taskModel.getBudget());
         setAttachmentAndSlider();
         setWorker();
-    }
-
-    private void setAdditionalFund() {
-        if (taskModel.getAdditionalFund() != null && taskModel.getAdditionalFund().getStatus().equals("pending")) {
-            if (taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
-                cardIncreaseBudget.setVisibility(View.VISIBLE);
-            }
-        } else {
-            cardIncreaseBudget.setVisibility(View.GONE);
-        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -1524,7 +1477,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @SuppressLint("NonConstantResourceId")
     @OnClick({R.id.lyt_btn_view_all_questions, R.id.lyt_btn_comment_send, R.id.lyt_btn_message, R.id.first_offer,
             R.id.lyt_btn_private_chat, R.id.lyt_btn_view_all_offers, R.id.txt_btn_text, R.id.lyt_btn_make_an_offer,
-            R.id.lyt_btn_view_reqeust, R.id.card_cancelled, R.id.li_repost, R.id.liAssign, R.id.linearUserProfile})
+            R.id.card_cancelled, R.id.li_repost, R.id.liAssign, R.id.linearUserProfile})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_btn_comment_send:
@@ -1629,14 +1582,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         break;
 
                 }
-                break;
-            case R.id.lyt_btn_view_reqeust:
-                intent = new Intent(TaskDetailsActivity.this, IncrementBudgetRequestViewActivity.class);
-                bundle = new Bundle();
-                //    bundle.putParcelable(ConstantKey.TASK, taskModel);
-                bundle.putBoolean(ConstantKey.IS_MY_TASK, isMyTask);
-                intent.putExtras(bundle);
-                startActivity(intent);
                 break;
             case R.id.card_cancelled:
             case R.id.li_repost:
@@ -2013,7 +1958,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     @Override
     public void onRequestAccept() {
-        cardIncreaseBudget.setVisibility(View.GONE);
         getData();
     }
 
@@ -2022,38 +1966,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         doApiCall(Constant.URL_OFFERS + "/" + id);
     }
 
-    @Override
-    public void onExtendedAlertButtonClick() {
-        if(alertType == null) return;
-        if(alertType == AlertType.CANCELLATION) {
-            Intent intent;
-            if (tickerCancels && isTicker) {
-                intent = new Intent(this, TTCancellationSummaryActivity.class);
-            } else if (tickerCancels && !isTicker) {
-                intent = new Intent(this, TPCancellationSummaryActivity.class);
-            } else if (!tickerCancels && isTicker) {
-                intent = new Intent(this, PTCancellationSummaryActivity.class);
-            } else {
-                intent = new Intent(this, PPCancellationSummaryActivity.class);
-            }
-            startActivityForResult(intent, 1010);
-        }
-        else if(alertType == AlertType.RESCHEDULE){
-            showCustomDialogRescheduleRequest(pos);
-        }
-    }
-
-    @Override
-    public void onRescheduleTimeAcceptClick(DialogFragment dialogFragment, int pos) {
-        RescheduleRequestAccept(Request.Method.GET, taskModel.getRescheduleReqeust().get(pos).getId() + "/accept");
-        dialogFragment.dismiss();
-    }
-
-    @Override
-    public void onRescheduleTimeDeclineClick(DialogFragment dialogFragment, int pos) {
-        RescheduleRequestAccept(Request.Method.POST, taskModel.getRescheduleReqeust().get(pos).getId() + "/reject");
-        dialogFragment.dismiss();
-    }
 
     private static class AdapterImageSlider extends PagerAdapter {
         private final Activity act;
@@ -2154,16 +2066,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 Bundle bundle = data.getExtras();
                 if (bundle != null) {
                     if (bundle.getBoolean(ConstantKey.PAYMENT_OVERVIEW)) {
-                        initialStage();
-                    }
-                }
-            }
-        }
-        if (requestCode == ConstantKey.RESULTCODE_INCREASE_BUDGET) {
-            if (data != null) {
-                Bundle bundle = data.getExtras();
-                if (bundle != null) {
-                    if (bundle.getBoolean(ConstantKey.INCREASE_BUDGET)) {
                         initialStage();
                     }
                 }
@@ -2330,13 +2232,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }
         });
 
-    }
-
-    private int pos = 0;
-    private void showCustomDialogRescheduleRequest(int pos) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        RescheduleNoticeBottomSheetState dialog = RescheduleNoticeBottomSheetState.newInstance(taskModel, pos);
-        dialog.show(fragmentManager, "");
     }
 
     public void RescheduleRequestAccept(int method, String acceptReject) {
@@ -2632,6 +2527,49 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
 
+    private void initRescheduleTime(){
+        if(alertType == AlertType.RESCHEDULE){
+            hideAlertBox();
+        }
+        if (taskModel.getRescheduleReqeust() != null && taskModel.getRescheduleReqeust().size() > 0) {
+
+            for (int i = 0; i < taskModel.getRescheduleReqeust().size(); i++) {
+                if (taskModel.getRescheduleReqeust().get(i).getStatus().equals("pending") &&
+                        !taskModel.getRescheduleReqeust().get(i).getRequester_id().equals(sessionManager.getUserAccount().getId())) {
+                    if (!taskModel.getStatus().equals(TASK_CANCELLED) && !taskModel.getStatus().equals(TASK_CLOSED)) {
+                        pos = i;
+                        showRescheduleTimeCard(i);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private void initIncreaseBudget() {
+        if(alertType == AlertType.INCREASE_BUDGET){
+            hideAlertBox();
+        }
+        if (taskModel.getAdditionalFund() != null && taskModel.getAdditionalFund().getStatus().equals("pending")) {
+            if (taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
+                showIncreaseBudgetCard();
+            }
+        }
+    }
+
+    private int pos = 0;
+    private void showCustomDialogRescheduleRequest(int pos) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        RescheduleNoticeBottomSheetState dialog = RescheduleNoticeBottomSheetState.newInstance(taskModel, pos);
+        dialog.show(fragmentManager, "");
+    }
+
+    private void showCustomDialogIncreaseBudgetRequest() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        IncreaseBudgetBottomSheet dialog = IncreaseBudgetBottomSheet.newInstance(taskModel, 0);
+        dialog.show(fragmentManager, "");
+    }
+
     // we have 4 possibility to support,
     // ticker cancels, user is ticker
     // ticker cancels, user is poster
@@ -2657,12 +2595,20 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
-    private void showRescheduleTime(int pos){
+    private void showRescheduleTimeCard(int pos){
         String rescheduledByWho = taskModel.getRescheduleReqeust().get(pos).getRequester_id().toString();
         showAlertBox(Html.fromHtml("<b>User with id " + rescheduledByWho + "</b> " +
                 "has requested to reschedule time for this job on <b>" +
                 TimeHelper.convertToShowTimeFormat(taskModel.getRescheduleReqeust().get(pos).getCreated_at())+ "</b>"),
                 ConstantKey.BTN_RESCHEDULE_REQUEST_SENT,AlertType.RESCHEDULE);
+    }
+
+    private void showIncreaseBudgetCard(){
+        String increaseRequestByWho = taskModel.getRescheduleReqeust().get(pos).getRequester_id().toString();
+        showAlertBox(Html.fromHtml("<b>User with id " + increaseRequestByWho + "</b> " +
+                        "has requested to increase price on this job on <b>" +
+                        TimeHelper.convertToShowTimeFormat(taskModel.getRescheduleReqeust().get(pos).getCreated_at())+ "</b>"),
+                ConstantKey.BTN_INCREASE_BUDGET_REQUEST_SENT, AlertType.INCREASE_BUDGET);
     }
 
     //we use spanned to support middle bolds
@@ -2678,9 +2624,48 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         this.alertType = null;
     }
 
+    @Override
+    public void onExtendedAlertButtonClick() {
+        if(alertType == null) return;
+        if(alertType == AlertType.CANCELLATION) {
+            Intent intent;
+            if (tickerCancels && isTicker) {
+                intent = new Intent(this, TTCancellationSummaryActivity.class);
+            } else if (tickerCancels && !isTicker) {
+                intent = new Intent(this, TPCancellationSummaryActivity.class);
+            } else if (!tickerCancels && isTicker) {
+                intent = new Intent(this, PTCancellationSummaryActivity.class);
+            } else {
+                intent = new Intent(this, PPCancellationSummaryActivity.class);
+            }
+            startActivityForResult(intent, 1010);
+        }
+        else if(alertType == AlertType.RESCHEDULE){
+            showCustomDialogRescheduleRequest(pos);
+        }
+    }
+
+    @Override
+    public void onRescheduleTimeAcceptClick(DialogFragment dialogFragment, int pos) {
+        RescheduleRequestAccept(Request.Method.GET, taskModel.getRescheduleReqeust().get(pos).getId() + "/accept");
+        dialogFragment.dismiss();
+    }
+
+    @Override
+    public void onRescheduleTimeDeclineClick(DialogFragment dialogFragment, int pos) {
+        RescheduleRequestAccept(Request.Method.POST, taskModel.getRescheduleReqeust().get(pos).getId() + "/reject");
+        dialogFragment.dismiss();
+    }
+
+    @Override
+    public void onSubmitIncreasePrice() {
+        getData();
+    }
+
     public enum AlertType{
         CANCELLATION,
-        RESCHEDULE
+        RESCHEDULE,
+        INCREASE_BUDGET
         //more we add later
     }
 

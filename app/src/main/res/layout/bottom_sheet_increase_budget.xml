@@ -60,7 +60,6 @@
         android:layout_marginEnd="16dp"
         app:eImeOptions="actionNext"
         app:eInputType="budget"
-        app:eStartFocus="true"
         app:eTitle="New price" />
 
     <RelativeLayout
@@ -92,10 +91,9 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:gravity="end|center_vertical"
-            android:text="@string/old_price"
+            android:text="$ 0.0"
             android:textAppearance="@style/materialText_600_18"
-            android:textColor="@color/textColor"
-            tools:text="$00" />
+            android:textColor="@color/textColor" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="0dp"
@@ -119,10 +117,9 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:gravity="end|center_vertical"
-            android:text="@string/old_price"
+            android:text="$ 0.0"
             android:textAppearance="@style/materialText_700_22"
-            android:textColor="@color/colorPrimary"
-            tools:text="$2000" />
+            android:textColor="@color/colorPrimary" />
     </RelativeLayout>
 
     <com.jobtick.widget.ExtendedCommentText

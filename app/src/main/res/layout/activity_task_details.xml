@@ -401,47 +401,6 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <FrameLayout
-                        android:id="@+id/card_increase_budget"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/txt_titles"
-                            style="@style/materialText_700_18"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/spacing_large"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:layout_marginEnd="@dimen/spacing_large"
-                            android:text="@string/request_for_increase_budget"
-                            android:textColor="@color/textColor" />
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/lyt_btn_view_reqeust"
-                            android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:layout_gravity="bottom"
-                            android:layout_margin="@dimen/spacing_large"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:elevation="@dimen/spacing_middle"
-                            android:visibility="gone"
-                            app:cardCornerRadius="@dimen/spacing_large">
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/txt_view_budget_request"
-                                style="@style/materialText_500_14"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:text="@string/view_request"
-                                android:textAllCaps="true"
-                                android:textColor="@color/white" />
-                        </androidx.cardview.widget.CardView>
-                    </FrameLayout>
-
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_title"
                         style="@style/materialText_700_18"

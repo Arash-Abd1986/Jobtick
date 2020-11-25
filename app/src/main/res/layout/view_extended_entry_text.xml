@@ -38,9 +38,9 @@
         android:layout_marginTop="4dp"
         android:layout_alignStart="@id/title"
         android:textAppearance="@style/materialText_500_14"
-        android:text="$ "
+        android:text=""
         android:textColor="@color/textColor"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/content"

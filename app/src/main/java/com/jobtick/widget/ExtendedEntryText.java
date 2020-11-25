@@ -161,6 +161,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_blue), null);
         }
         if (eInputType == EInputType.BUDGET) {
+            dollar.setText("$ ");
             dollar.setVisibility(View.VISIBLE);
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         }

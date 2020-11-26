@@ -1579,7 +1579,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         //TODO write a review
                         intent = new Intent(TaskDetailsActivity.this, LeaveReviewActivity.class);
                         bundle = new Bundle();
-                        //     bundle.putParcelable(ConstantKey.TASK, taskModel);
+                        bundle.putParcelable(ConstantKey.TASK, taskModel);
                         bundle.putBoolean(ConstantKey.IS_MY_TASK, isMyTask);
                         intent.putExtras(bundle);
                         startActivity(intent);

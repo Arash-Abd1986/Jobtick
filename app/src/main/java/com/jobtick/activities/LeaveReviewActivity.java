@@ -2,18 +2,17 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatRatingBar;
-import androidx.cardview.widget.CardView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -22,11 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.TextView.TextViewSemiBold;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
@@ -34,12 +29,14 @@ import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.Tools;
+import com.jobtick.widget.ExtendedCommentText;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -50,56 +47,38 @@ import timber.log.Timber;
 public class LeaveReviewActivity extends ActivityBase {
 
     private static final String TAG = LeaveReviewActivity.class.getName();
+
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
     @BindView(R.id.img_avatar)
     CircularImageView imgAvatar;
     @BindView(R.id.img_verified_account)
     ImageView imgVerifiedAccount;
-    @BindView(R.id.txt_account_level)
-    TextViewRegular txtAccountLevel;
-    @BindView(R.id.img_level)
-    ImageView imgLevel;
+    @BindView(R.id.account_rating)
+    TextView accountRating;
     @BindView(R.id.txt_full_name)
-    TextViewSemiBold txtFullName;
-    @BindView(R.id.txt_suburb)
-    TextViewRegular txtSuburb;
-    @BindView(R.id.txt_review_count)
-    TextViewRegular txtReviewCount;
-    @BindView(R.id.lyt_total_review_count)
-    LinearLayout lytTotalReviewCount;
-    @BindView(R.id.image_1_left)
-    ImageView image1Left;
-    @BindView(R.id.img_1_right)
-    ImageView img1Right;
-    @BindView(R.id.img_map_pin)
-    ImageView imgMapPin;
-    @BindView(R.id.txt_location)
-    TextViewRegular txtLocation;
-    @BindView(R.id.img_calender)
-    ImageView imgCalender;
+    TextView txtFullName;
+    @BindView(R.id.job_success_percentage)
+    TextView jobSuccessPercentage;
+
+    @BindView(R.id.job_title)
+    TextView jobTitle;
     @BindView(R.id.txt_calender_date)
-    TextViewRegular txtCalenderDate;
+    TextView txtCalenderDate;
+    @BindView(R.id.txt_location)
+    TextView txtLocation;
     @BindView(R.id.txt_amount)
-    TextViewBold txtAmount;
+    TextView txtAmount;
+
     @BindView(R.id.ratingbar)
     AppCompatRatingBar ratingbar;
     @BindView(R.id.txt_progress_ratingbar)
-    TextViewRegular txtProgressRatingbar;
+    TextView txtProgressRatingbar;
+
     @BindView(R.id.edt_write_review)
-    EditTextRegular edtWriteReview;
-    @BindView(R.id.image_2_left)
-    ImageView image2Left;
-    @BindView(R.id.img_2_right)
-    ImageView img2Right;
-    @BindView(R.id.lyt_btn_submit_your_review)
-    LinearLayout lytBtnSubmitYourReview;
-    @BindView(R.id.card_button)
-    CardView cardButton;
-
-
-    @BindView(R.id.edt_description_counter)
-    EditTextRegular edtDescriptionCounter;
+    ExtendedCommentText edtWriteReview;
+    @BindView(R.id.submit)
+    Button submit;
 
     private SessionManager sessionManager;
     private TaskModel taskModel;
@@ -116,19 +95,45 @@ public class LeaveReviewActivity extends ActivityBase {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             isMyTask = bundle.getBoolean(ConstantKey.IS_MY_TASK);
+            taskModel = bundle.getParcelable(ConstantKey.TASK);
         }
-        taskModel= TaskDetailsActivity.taskModel;
 
-
-        toolbar.setNavigationOnClickListener(view -> onBackPressed());
-
+        initToolbar();
         setData();
+    }
 
+    private void initToolbar() {
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Leave a review");
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void setData() {
+
+        jobTitle.setText(taskModel.getTitle());
+        if (taskModel.getLocation() != null) {
+            txtLocation.setText(taskModel.getLocation());
+        } else {
+            txtLocation.setText(R.string.in_person);
+        }
+        txtAmount.setText(String.format(Locale.ENGLISH, "$ %d", taskModel.getAmount()));
+        txtCalenderDate.setText(Tools.getDayMonthDateTimeFormat(taskModel.getDueDate()));
+
         if (isMyTask) {
-            //poster write review
+            //worker write review
             if (taskModel.getPoster().getAvatar() != null && taskModel.getPoster().getAvatar().getThumbUrl() != null) {
                 ImageUtil.displayImage(imgAvatar, taskModel.getPoster().getAvatar().getThumbUrl(), null);
             } else {
@@ -139,113 +144,49 @@ public class LeaveReviewActivity extends ActivityBase {
             } else {
                 imgVerifiedAccount.setVisibility(View.GONE);
             }
-            if (taskModel.getPoster().getEmailVerifiedAt() == null) {
-                imgVerifiedAccount.setVisibility(View.GONE);
-            } else {
-                imgVerifiedAccount.setVisibility(View.VISIBLE);
-            }
+            //TODO this
+            jobSuccessPercentage.setText("999");
             txtFullName.setText(taskModel.getPoster().getName());
-            txtAmount.setText("$ " + taskModel.getAmount());
-            txtAccountLevel.setText("Account Level " + taskModel.getPoster().getPosterTier().getId());
-            if (taskModel.getPoster().getPosterTier().getId() == 1) {
-                imgLevel.setImageDrawable(getResources().getDrawable(R.drawable.ic_level_1));
-            } else if (taskModel.getPoster().getPosterTier().getId() == 2) {
-                imgLevel.setImageDrawable(getResources().getDrawable(R.drawable.ic_level_2));
-            } else if (taskModel.getPoster().getPosterTier().getId() == 3) {
-                imgLevel.setImageDrawable(getResources().getDrawable(R.drawable.ic_level_3));
-            }
-            if (taskModel.getLocation() != null) {
-                txtLocation.setText(taskModel.getLocation());
-            } else {
-                txtLocation.setText("In Person");
-            }
+            accountRating.setText(
+                    String.format(Locale.ENGLISH, "%d (%d)",
+                            taskModel.getPoster().getPosterRatings().getAvgRating(),
+                            taskModel.getPoster().getPosterRatings().getReceivedReviews()));
 
-            if (taskModel.getPoster().getLocation() != null) {
-                txtSuburb.setText(taskModel.getPoster().getLocation());
-                txtSuburb.setVisibility(View.VISIBLE);
-            } else {
-                txtSuburb.setVisibility(View.GONE);
-            }
-            if (taskModel.getPoster().getPosterRatings() != null) {
-                txtReviewCount.setText("(" + taskModel.getPoster().getPosterRatings().getAvgRating() + ")");
-            } else {
-                txtReviewCount.setText("(0.0)");
-            }
-            txtCalenderDate.setText(Tools.getDayMonthDateTimeFormat(taskModel.getDueDate().substring(0, 10)));
         } else {
-            //worker write review
+            //poster write review
             if (taskModel.getWorker().getAvatar() != null && taskModel.getWorker().getAvatar().getThumbUrl() != null) {
                 ImageUtil.displayImage(imgAvatar, taskModel.getWorker().getAvatar().getThumbUrl(), null);
             } else {
                 //deafult image
             }
-            if (taskModel.getWorker().getEmailVerifiedAt() == null) {
-                imgVerifiedAccount.setVisibility(View.GONE);
-            } else {
+            if (taskModel.getWorker().getIsVerifiedAccount() == 1) {
                 imgVerifiedAccount.setVisibility(View.VISIBLE);
+            } else {
+                imgVerifiedAccount.setVisibility(View.GONE);
             }
+            //TODO this
+            jobSuccessPercentage.setText("999");
             txtFullName.setText(taskModel.getWorker().getName());
-            txtAmount.setText("$ " + taskModel.getAmount());
-            txtAccountLevel.setText("Account Level " + taskModel.getWorker().getWorkerTier().getId());
-            if (taskModel.getWorker().getWorkerTier().getId() == 1) {
-                imgLevel.setImageDrawable(getResources().getDrawable(R.drawable.ic_level_1));
-            } else if (taskModel.getWorker().getWorkerTier().getId() == 2) {
-                imgLevel.setImageDrawable(getResources().getDrawable(R.drawable.ic_level_2));
-            } else if (taskModel.getWorker().getWorkerTier().getId() == 3) {
-                imgLevel.setImageDrawable(getResources().getDrawable(R.drawable.ic_level_3));
-            }
-            if (taskModel.getLocation() != null) {
-                txtLocation.setText(taskModel.getLocation());
-            } else {
-                txtLocation.setText("In Person");
-            }
-
-            if (taskModel.getWorker().getLocation() != null) {
-                txtSuburb.setText(taskModel.getWorker().getLocation());
-                txtSuburb.setVisibility(View.VISIBLE);
-            } else {
-                txtSuburb.setVisibility(View.GONE);
-            }
-            if (taskModel.getWorker().getPosterRatings() != null) {
-                txtReviewCount.setText("(" + taskModel.getWorker().getPosterRatings().getAvgRating() + ")");
-            } else {
-                txtReviewCount.setText("(0.0)");
-            }
-
-            txtCalenderDate.setText(Tools.getDayMonthDateTimeFormat(taskModel.getDueDate().substring(0, 10)));
+            accountRating.setText(
+                    String.format(Locale.ENGLISH, "%d (%d)",
+                            taskModel.getWorker().getWorkerRatings().getAvgRating(),
+                            taskModel.getWorker().getWorkerRatings().getReceivedReviews()));
         }
+
         ratingbar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                txtProgressRatingbar.setText("(" + ratingBar.getRating() + ")");
-            }
-        });
+                if (v > 0.5 && v < 1.5)
+                    txtProgressRatingbar.setText("Treble!");
+                if (v > 1.5 && v < 2.5)
+                    txtProgressRatingbar.setText("Bad!");
+                if (v > 2.5 && v < 3.5)
+                    txtProgressRatingbar.setText("OK!");
+                if (v > 3.5 && v < 4.5)
+                    txtProgressRatingbar.setText("Good!");
+                if (v > 4.5)
+                    txtProgressRatingbar.setText("Excellent!");
 
-
-        edtWriteReview.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!s.toString().equalsIgnoreCase("")) {
-                    int length = s.length();
-                    if (length <= 24) {
-                        edtDescriptionCounter.setText(s.length() + "/25+");
-                        edtDescriptionCounter.setTextColor(getResources().getColor(R.color.red_600));
-                    } else {
-                        edtDescriptionCounter.setText(s.length() + "/300");
-                        edtDescriptionCounter.setTextColor(getResources().getColor(R.color.green));
-                    }
-                } else {
-                    edtDescriptionCounter.setText("0/25+");
-                    edtDescriptionCounter.setTextColor(getResources().getColor(R.color.red_600));
-                }
             }
         });
     }
@@ -255,19 +196,15 @@ public class LeaveReviewActivity extends ActivityBase {
         super.onBackPressed();
     }
 
-    @OnClick({R.id.img_avatar, R.id.lyt_btn_submit_your_review})
+    @OnClick({R.id.submit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.img_avatar:
-
-                break;
-            case R.id.lyt_btn_submit_your_review:
-                if (validation()) {
-                    if (isMyTask) {
-                        submitReview(String.valueOf((int) ratingbar.getRating()), edtWriteReview.getText().toString().trim(), Constant.URL_TASKS + "/" + taskModel.getSlug() + "/rating/submit-review");
-                    } else {
-                        submitReview(String.valueOf((int) ratingbar.getRating()), edtWriteReview.getText().toString().trim(), Constant.URL_TASKS + "/" + taskModel.getSlug() + "/rating/submit-review");
-                    }
+            case R.id.submit:
+                if (!validation()) return;
+                if (isMyTask) {
+                    submitReview(String.valueOf((int) ratingbar.getRating()), edtWriteReview.getText().toString().trim(), Constant.URL_TASKS + "/" + taskModel.getSlug() + "/rating/submit-review");
+                } else {
+                    submitReview(String.valueOf((int) ratingbar.getRating()), edtWriteReview.getText().toString().trim(), Constant.URL_TASKS + "/" + taskModel.getSlug() + "/rating/submit-review");
                 }
                 break;
         }
@@ -363,10 +300,19 @@ public class LeaveReviewActivity extends ActivityBase {
     }
 
     private boolean validation() {
-        if (TextUtils.isEmpty(edtWriteReview.getText().toString().trim())) {
-            edtWriteReview.setError("Write a review");
+        if (ratingbar.getRating() < 0.5) {
+            showToast("Please rate!", this);
             return false;
         }
+        if (TextUtils.isEmpty(edtWriteReview.getText().toString().trim())) {
+            edtWriteReview.setError("");
+            return false;
+        }
+        if (edtWriteReview.getText().length() < edtWriteReview.geteMinSize()) {
+            edtWriteReview.setError("");
+            return false;
+        }
+
         return true;
     }
 

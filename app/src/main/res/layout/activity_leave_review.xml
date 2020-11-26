@@ -1,389 +1,288 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/backgroundLightGrey"
     android:orientation="vertical"
     tools:context=".activities.LeaveReviewActivity">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/background"
-        app:contentInsetStartWithNavigation="0dp"
-        app:navigationIcon="@drawable/ic_back"
-        app:title="Leave A Review" />
+    <include layout="@layout/toolbar" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:fillViewport="true"
         android:overScrollMode="never">
 
-
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_large"
-            app:cardCornerRadius="@dimen/spacing_middle"
-            app:cardElevation="0dp">
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical">
 
-            <LinearLayout
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/spacing_large"
-                    android:orientation="vertical">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <RelativeLayout
-                            android:id="@+id/relativelayout_profile"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp">
-
-
-                            <com.mikhaellopez.circularimageview.CircularImageView
-                                android:id="@+id/img_avatar"
-                                android:layout_width="70dp"
-                                android:layout_height="70dp"
-
-                                android:layout_centerHorizontal="true"
-                                android:src="@drawable/pic" />
-
-
-                            <ImageView
-                                android:id="@+id/img_account_shield"
-                                android:layout_width="@dimen/_15sp"
-                                android:layout_height="15dp"
-                                android:layout_alignParentBottom="true"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginBottom="@dimen/_8sp"
-                                android:layout_weight="1"
-
-                                android:background="@drawable/ic_shield" />
-
-                            <ImageView
-                                android:id="@+id/img_account_level"
-                                android:layout_width="25dp"
-                                android:layout_height="35dp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentBottom="true"
-                                android:layout_marginBottom="@dimen/_8sp"
-                                android:layout_weight="1"
-                                android:background="@drawable/ic_user_level" />
-
-
-                        </RelativeLayout>
-
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/spacing_medium"
-                            android:layout_toRightOf="@+id/relativelayout_profile"
-                            android:gravity="center_vertical">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:layout_toStartOf="@+id/lyt_total_review_count"
-                                android:orientation="vertical">
-
-
-                                <com.jobtick.TextView.TextViewSemiBold
-                                    android:id="@+id/txt_full_name"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Jessie Albon"
-                                    android:textColor="@color/textColor"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold" />
-
-                                <com.jobtick.TextView.TextViewRegular
-                                    android:id="@+id/txt_suburb"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-
-                                    android:layout_marginTop="@dimen/spacing_small"
-                                    android:layout_marginBottom="@dimen/spacing_small"
-                                    android:text="Surfers Paradise, Australia"
-                                    android:textColor="@color/grey_70"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <androidx.appcompat.widget.AppCompatRatingBar
-                                    android:id="@+id/Myratingbar"
-                                    style="?android:attr/ratingBarStyleSmall"
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:isIndicator="false"
-                                    android:numStars="5"
-                                    android:rating="5"
-                                    android:stepSize="1"
-                                    android:theme="@style/Yellow.AppCompatRatingBar"
-                                    android:visibility="visible" />
-                            </LinearLayout>
-
-
-                            <LinearLayout
-                                android:id="@+id/lyt_total_review_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:orientation="horizontal"
-                                android:visibility="gone">
-
-
-                                <com.jobtick.TextView.TextViewRegular
-                                    android:id="@+id/txt_review_count"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginEnd="@dimen/spacing_medium"
-                                    android:text="(1)"
-                                    android:textColor="@color/grey_40"
-                                    android:textSize="@dimen/_10sp" />
-
-                                <androidx.appcompat.widget.AppCompatRatingBar
-                                    style="@style/Yellow.AppCompatRatingBar"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="32dp"
-                                    android:layout_centerVertical="true"
-                                    android:layout_toEndOf="@+id/txt_5"
-                                    android:numStars="1"
-                                    android:rating="1"
-                                    android:saveEnabled="true"
-                                    android:stepSize="1"
-                                    android:theme="@style/Yellow.AppCompatRatingBar" />
-
-
-                            </LinearLayout>
-
-
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:visibility="gone">
-
-                            <com.jobtick.TextView.TextViewRegular
-                                android:id="@+id/txt_account_level"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:background="@drawable/shape_rounded_white"
-                                android:backgroundTint="@color/grey_5"
-                                android:paddingStart="@dimen/spacing_xlarge"
-                                android:paddingTop="@dimen/spacing_middle"
-                                android:paddingEnd="@dimen/spacing_large"
-                                android:paddingBottom="@dimen/spacing_middle"
-                                android:text="Account Level 2"
-                                android:textColor="#4f4f4f"
-                                android:textSize="10sp" />
-
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="-15dp"
-                                android:layout_toLeftOf="@+id/txt_account_level">
-
-
-                                <ImageView
-                                    android:id="@+id/img_level"
-                                    android:layout_width="44dp"
-                                    android:layout_height="44dp"
-                                    android:src="@drawable/ic_level_1" />
-
-                            </RelativeLayout>
-
-                        </RelativeLayout>
-                    </RelativeLayout>
-
-
-                </LinearLayout>
+                android:layout_height="wrap_content"
+                android:elevation="0dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_18sp">
-
-                    <ImageView
-                        android:id="@+id/image_1_left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:elevation="@dimen/spacing_middle"
-                        android:src="@drawable/ic_half_circle_left" />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/spacing_middle"
-                        android:layout_marginEnd="@dimen/spacing_middle"
-                        android:layout_toStartOf="@id/img_1_right"
-                        android:layout_toEndOf="@id/image_1_left"
-                        android:src="@drawable/line_dash_grey_20" />
-
-                    <ImageView
-                        android:id="@+id/img_1_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:src="@drawable/ic_half_circle_right" />
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_large">
-
-                    <com.jobtick.TextView.TextViewBold
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Julie Grantt"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_12sp"
-                        android:textStyle="bold" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_middle" />
-
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingTop="26dp">
 
                     <RelativeLayout
-                        android:layout_width="match_parent"
+                        android:id="@+id/profile_container"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_centerHorizontal="true"
+                        android:background="@color/white">
+
+
+                        <com.mikhaellopez.circularimageview.CircularImageView
+                            android:id="@+id/img_avatar"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_place_holder" />
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:id="@+id/holder_img_verified"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_toStartOf="@+id/txt_amount"
-                            android:orientation="vertical">
+                            android:layout_alignStart="@id/img_avatar"
+                            android:layout_alignEnd="@id/img_avatar"
+                            android:layout_alignBottom="@id/img_avatar"
+                            android:layout_marginBottom="-6dp"
+                            android:gravity="center">
 
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <ImageView
-                                    android:id="@+id/img_map_pin"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginEnd="@dimen/spacing_middle"
-                                    android:src="@drawable/ic_map_pin"
-                                    android:tint="@color/textColor" />
-
-
-                                <com.jobtick.TextView.TextViewRegular
-                                    android:id="@+id/txt_location"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerVertical="true"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_toEndOf="@id/img_map_pin"
-                                    android:gravity="center_vertical"
-                                    android:text="Surfers Paradise"
-                                    android:textColor="@color/textColor"
-
-                                    android:textSize="@dimen/_12sp"
-                                    android:tint="@color/textColor" />
-
-                            </RelativeLayout>
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/spacing_middle" />
-
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <ImageView
-                                    android:id="@+id/img_calender"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginEnd="@dimen/spacing_middle"
-                                    android:src="@drawable/calendar"
-                                    android:tint="@color/textColor" />
-
-
-                                <com.jobtick.TextView.TextViewRegular
-                                    android:id="@+id/txt_calender_date"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerVertical="true"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_toEndOf="@id/img_calender"
-                                    android:gravity="center_vertical"
-                                    android:text="Tuesday, March 3"
-                                    android:textColor="@color/textColor"
-                                    android:textSize="@dimen/_12sp" />
-
-                            </RelativeLayout>
-
-
+                            <ImageView
+                                android:id="@+id/img_verified_account"
+                                android:layout_width="12dp"
+                                android:layout_height="16dp"
+                                android:layout_gravity="center_vertical"
+                                android:adjustViewBounds="true"
+                                android:background="@drawable/ic_shield" />
                         </LinearLayout>
 
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_full_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@id/img_avatar"
+                            android:layout_marginStart="12dp"
+                            android:layout_toEndOf="@id/img_avatar"
+                            android:text="Jessie Albon"
+                            android:textAppearance="@style/materialText_600_14"
+                            android:textColor="@color/textColor" />
 
-                        <com.jobtick.TextView.TextViewBold
-                            android:id="@+id/txt_amount"
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/job_success_percentage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/txt_full_name"
+                            android:layout_alignStart="@id/txt_full_name"
+                            android:layout_marginTop="@dimen/spacing_small"
+                            android:layout_marginBottom="@dimen/spacing_small"
+                            android:text="78%"
+                            android:textAppearance="@style/materialText_500_10"
+                            android:textColor="@color/green" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/job_success"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@id/job_success_percentage"
+                            android:layout_toEndOf="@id/job_success_percentage"
+                            android:text=" Job Success"
+                            android:textAppearance="@style/materialText_500_10"
+                            android:textColor="@color/grey_70" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/job_success_percentage"
+                            android:layout_alignStart="@id/txt_full_name"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:id="@+id/star"
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/ic_star_hollow_tiny" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/account_rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="6dp"
+                                android:gravity="center_vertical"
+                                android:text="4.4 (20)"
+                                android:textAppearance="@style/materialText_600_12"
+                                android:textColor="@color/userRating" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/separator"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_below="@id/profile_container"
+                        android:layout_marginTop="23dp">
+
+                        <ImageView
+                            android:id="@+id/image_1_left"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:elevation="@dimen/spacing_middle"
+                            android:src="@drawable/ic_half_circle_left" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="1dp"
+                            android:layout_marginEnd="1dp"
+                            android:layout_toStartOf="@id/img_1_right"
+                            android:layout_toEndOf="@id/image_1_left"
+                            android:src="@drawable/line_dash_grey_20" />
+
+                        <ImageView
+                            android:id="@+id/img_1_right"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:text="$ 200"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_18sp"
-                            android:textStyle="bold" />
+                            android:src="@drawable/ic_half_circle_right" />
 
                     </RelativeLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_mxlarge" />
-
-
-                    <com.jobtick.TextView.TextViewBold
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/job_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Start Rating"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_12sp"
-                        android:textStyle="bold" />
+                        android:layout_below="@+id/separator"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="Clean my bedroom apartment"
+                        android:textAppearance="@style/materialText_600_14"
+                        android:textColor="@color/textColor" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_middle" />
 
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/img_map_pin"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_alignTop="@id/txt_location"
+                        android:layout_alignBottom="@id/txt_location"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/ic_map_pin_grey" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_location"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:orientation="horizontal">
+                        android:layout_below="@id/job_title"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_toEndOf="@id/img_map_pin"
+                        android:gravity="center_vertical"
+                        android:text="Surfers Paradise"
+                        android:textAppearance="@style/materialText_400_12"
+                        android:textColor="@color/textColor" />
+
+                    <ImageView
+                        android:id="@+id/img_calender"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_below="@id/txt_calender_date"
+                        android:layout_alignTop="@id/txt_calender_date"
+                        android:layout_alignBottom="@id/txt_calender_date"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/ic_calendar_grey" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_calender_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/txt_amount"
+                        android:layout_alignBottom="@id/txt_amount"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="8dp"
+                        android:layout_toStartOf="@id/txt_amount"
+                        android:layout_toEndOf="@id/img_calender"
+                        android:gravity="center_vertical"
+                        android:text="Tuesday, March 3"
+                        android:textAppearance="@style/materialText_400_12"
+                        android:textColor="@color/textColor" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txt_location"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="$ 200"
+                        android:textAppearance="@style/materialText_700_18"
+                        android:textColor="@color/colorPrimary" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="Your feedback matters"
+                android:textAppearance="@style/materialText_400_14" />
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:elevation="0dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/rate_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:text="Rate your experience"
+                        android:textAppearance="@style/materialText_600_14"
+                        android:textColor="@color/colorPrimary" />
 
 
                         <androidx.appcompat.widget.AppCompatRatingBar
@@ -392,149 +291,56 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:isIndicator="false"
+                            android:layout_marginTop="16dp"
+                            android:thumbTint="@drawable/ic_star_hollow"
+                            android:tickMarkTint="@drawable/ic_star_solid"
+                            android:layout_below="@id/rate_title"
                             android:numStars="5"
-                            android:rating="5"
+                            android:rating="0"
                             android:stepSize="1"
                             android:theme="@style/Yellow.AppCompatRatingBar"
                             android:visibility="visible" />
 
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_progress_ratingbar"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_alignTop="@id/ratingbar"
+                            android:layout_alignBottom="@id/ratingbar"
+                            android:layout_toEndOf="@id/ratingbar"
                             android:layout_alignParentEnd="true"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/spacing_medium"
-                            android:text="(5)"
-                            android:textColor="@color/grey_40"
-                            android:textSize="@dimen/_10sp" />
-
-
-                    </LinearLayout>
-
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_mxlarge" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <com.jobtick.TextView.TextViewBold
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Write Review"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
-                            android:textStyle="bold" />
-
-                        <com.jobtick.EditText.EditTextRegular
-                            android:id="@+id/edt_description_counter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:background="@null"
-                            android:hint="0/300"
-                            android:singleLine="true"
-                            android:textColor="@color/red_600"
-                            android:textSize="@dimen/_12sp" />
-
-
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_middle" />
-
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/background"
-                        app:cardCornerRadius="@dimen/_15sp"
-                        app:cardElevation="@dimen/_15sp">
-
-
-                        <com.jobtick.EditText.EditTextRegular
-                            android:id="@+id/edt_write_review"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_10sp"
-                            android:background="@null"
-                            android:hint="@string/short_lorem_ipsum"
-                            android:inputType="textMultiLine"
-                            android:textSize="@dimen/_14sp" />
-
-                    </androidx.cardview.widget.CardView>
-
-
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_18sp">
-
-                    <ImageView
-                        android:id="@+id/image_2_left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:src="@drawable/ic_half_circle_left" />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/spacing_middle"
-                        android:layout_marginEnd="@dimen/spacing_middle"
-                        android:layout_toStartOf="@id/img_2_right"
-                        android:layout_toEndOf="@id/image_2_left"
-                        android:src="@drawable/line_dash_grey_20" />
-
-                    <ImageView
-                        android:id="@+id/img_2_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:src="@drawable/ic_half_circle_right" />
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text=""
+                            android:textAppearance="@style/materialText_400_14"
+                            android:textColor="@color/color4D576A" />
 
                 </RelativeLayout>
+            </androidx.cardview.widget.CardView>
 
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/card_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="46dp"
-                    android:layout_margin="@dimen/spacing_large"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:elevation="@dimen/spacing_middle"
-                    app:cardCornerRadius="@dimen/spacing_medium">
+            <com.jobtick.widget.ExtendedCommentText
+                android:id="@+id/edt_write_review"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                app:eIsMandatory="true"
+                android:layout_marginTop="16dp"
+                app:eMaxCharSize="300"
+                app:eMinCharSize="10"
+                app:eTitle="Write review" />
 
-                    <LinearLayout
-                        android:id="@+id/lyt_btn_submit_your_review"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:gravity="center">
-
-                        <com.jobtick.TextView.TextViewMedium
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:clickable="true"
-                            android:gravity="center"
-                            android:text="SUBMIT YOUR REVIEW"
-                            android:textAllCaps="true"
-                            android:textColor="@color/white"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-</LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/submit"
+        style="@style/materialButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:text="Submit your review" />
+
+</RelativeLayout>

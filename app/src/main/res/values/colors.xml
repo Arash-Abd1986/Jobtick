@@ -25,6 +25,7 @@
     <color name="colorRed30">#30FF0041</color>
     <color name="strokeRed">#ff4343</color>
     <color name="lightBlue">#E9EBF6</color>
+    <color name="userRating">#FF922B</color>
 
     <color name="whyhrghdgite">#FFd042</color>
 
@@ -70,6 +71,7 @@
     <color name="greyF3F3F3">#F3F3F3</color>
     <color name="greyC4C4C4">#C4C4C4</color>
     <color name="color545454">#545454</color>
+    <color name="color4D576A">#4D576A</color>
     <!--Material color list from https://material.io/guidelines/style/color.html-->
     <color name="colorDeclineRed">#EB524B</color>
     <color name="red_50">#FFEBEE</color>

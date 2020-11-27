@@ -3,6 +3,7 @@ package com.jobtick.activities;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -31,6 +32,7 @@ import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.TextView.TextViewSemiBold;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.KeyboardUtil;
 import com.jobtick.widget.ExtendedCommentText;
 import com.jobtick.widget.ExtendedEntryText;
 
@@ -485,6 +487,8 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
         spinnerVisible = true;
         spinnerContainer.setVisibility(View.VISIBLE);
         edtDescription.setClickable(false);
+        edtDescription.setFocusable(false);
+        KeyboardUtil.hideKeyboard(this);
         spinnerContainer.animate().alpha(1f).setDuration(250).start();
     }
 
@@ -492,6 +496,7 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
         if(!spinnerVisible) return;
         spinnerVisible = false;
         edtDescription.setClickable(true);
+        edtDescription.setFocusable(true);
         spinnerContainer.animate().alpha(0f).setDuration(250).start();
         spinnerContainer.setVisibility(View.GONE);
     }

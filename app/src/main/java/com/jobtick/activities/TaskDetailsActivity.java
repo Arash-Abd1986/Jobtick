@@ -2454,6 +2454,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void initReview(){
+        if(alertType == AlertType.REVIEW){
+            hideAlertBox();
+        }
         if(!taskModel.getStatus().equals("closed")) return;
         if(taskModel.getReviewModels() == null){
             showReviewCard();
@@ -2634,6 +2637,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
         else if(alertType == AlertType.INCREASE_BUDGET){
             showDialogIncreaseBudgetNoticeRequest();
+        }
+        else if(alertType == AlertType.REVIEW){
+            showReviewCard();
         }
     }
 

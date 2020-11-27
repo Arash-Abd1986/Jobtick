@@ -119,7 +119,7 @@
         <activity android:name=".activities.SavedTaskActivity" />
         <activity android:name=".activities.UserProfileActivity" />
         <activity android:name=".activities.WebViewActivity" />
-        <activity android:name=".activities.ReportActivity" />
+        <activity android:name=".activities.ReportActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activities.EmailNotificationsSettingsActivity" />
         <activity android:name=".activities.PushNotificationsSettingsActivity" />
         <activity android:name=".activities.SMSNotificationsSettingsActivity" />

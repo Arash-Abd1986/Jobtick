@@ -8,11 +8,15 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -21,11 +25,14 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.tabs.TabLayout;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.TextView.TextViewSemiBold;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.widget.ExtendedCommentText;
+import com.jobtick.widget.ExtendedEntryText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,23 +54,38 @@ import static com.jobtick.utils.ConstantKey.KEY_QUESTION_REPORT;
 import static com.jobtick.utils.ConstantKey.KEY_TASK_REPORT;
 import static com.jobtick.utils.ConstantKey.KEY_USER_REPORT;
 
-public class ReportActivity extends ActivityBase {
+public class ReportActivity extends ActivityBase implements ExtendedEntryText.ExtendedViewOnClickListener {
 
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @BindView(R.id.report_root)
+    RelativeLayout root;
 
     @BindView(R.id.edt_subject)
-    TextViewSemiBold edtSubject;
+    ExtendedEntryText edtSubject;
 
     @BindView(R.id.edt_description)
-    EditText edtDescription;
+    ExtendedCommentText edtDescription;
 
-    @BindView(R.id.spinner_report_category)
-    Spinner spinnerReportCategory;
+    @BindView(R.id.submit)
+    Button submit;
 
-    @BindView(R.id.linear_report_category)
-    LinearLayout linearReportCategory;
+    @BindView(R.id.spinner_spam)
+    TextView spinnerSpam;
+
+    @BindView(R.id.spinner_fraud)
+    TextView spinnerFraud;
+
+    @BindView(R.id.spinner_offensive)
+    TextView spinnerOffensive;
+
+    @BindView(R.id.spinner_others)
+    TextView spinnerOthers;
+
+    @BindView(R.id.spinner_container)
+    CardView spinnerContainer;
+
 
     private String str_SLUG = null;
     private int str_USERID = 0;
@@ -105,20 +127,10 @@ public class ReportActivity extends ActivityBase {
             }
 
         }
-
-        spinnerReportCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (isFristTime) {
-                    edtSubject.setText(spinnerReportCategory.getSelectedItem().toString());
-                }
-                isFristTime = true;
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+        edtSubject.setExtendedViewOnClickListener(this);
+        root.setOnClickListener(v ->{
+            if(spinnerVisible)
+                hideSpinner();
         });
     }
 
@@ -130,10 +142,10 @@ public class ReportActivity extends ActivityBase {
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
 
-    @OnClick({R.id.lyt_btn_report, R.id.linear_report_category})
+    @OnClick({R.id.submit, R.id.spinner_spam, R.id.spinner_fraud, R.id.spinner_offensive, R.id.spinner_others })
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.lyt_btn_report:
+            case R.id.submit:
                 if (str_KEY.equals(KEY_USER_REPORT)) {
                     reportUserSpam();
                 } else if (str_KEY.equals(KEY_TASK_REPORT)) {
@@ -146,10 +158,24 @@ public class ReportActivity extends ActivityBase {
                     reportQuestionSpam();
                 }
                 break;
-            case R.id.linear_report_category:
-                spinnerReportCategory.performClick();
+            case R.id.spinner_fraud:
+                selectSpinnerItem(spinnerFraud.getText().toString());
+                break;
+            case R.id.spinner_spam:
+                selectSpinnerItem(spinnerSpam.getText().toString());
+                break;
+            case R.id.spinner_offensive:
+                selectSpinnerItem(spinnerOffensive.getText().toString());
+                break;
+            case R.id.spinner_others:
+                selectSpinnerItem(spinnerOthers.getText().toString());
                 break;
         }
+    }
+
+    private void selectSpinnerItem(String title){
+        edtSubject.setText(title);
+        hideSpinner();
     }
 
     private void reportTaskSpam() {
@@ -449,5 +475,25 @@ public class ReportActivity extends ActivityBase {
     }
 
 
+    @Override
+    public void onClick() {
+        showSpinner();
+    }
+    private boolean spinnerVisible = false;
+    private void showSpinner(){
+        if(spinnerVisible) return;
+        spinnerVisible = true;
+        spinnerContainer.setVisibility(View.VISIBLE);
+        edtDescription.setClickable(false);
+        spinnerContainer.animate().alpha(1f).setDuration(250).start();
+    }
+
+    private void hideSpinner(){
+        if(!spinnerVisible) return;
+        spinnerVisible = false;
+        edtDescription.setClickable(true);
+        spinnerContainer.animate().alpha(0f).setDuration(250).start();
+        spinnerContainer.setVisibility(View.GONE);
+    }
 }
 

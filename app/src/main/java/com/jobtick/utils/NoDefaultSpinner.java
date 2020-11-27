@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.jobtick.R;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -102,8 +104,8 @@ public class NoDefaultSpinner extends AppCompatSpinner {
             if( position<0 ) {
                 final TextView v =
                         (TextView) ((LayoutInflater)getContext().getSystemService(
-                                Context.LAYOUT_INFLATER_SERVICE)).inflate(
-                                android.R.layout.simple_spinner_item,parent,false);
+                                Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.simple_spinner_item,
+                                parent,false);
                 v.setText(getPrompt());
                 return v;
             }

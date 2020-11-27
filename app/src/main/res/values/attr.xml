@@ -103,6 +103,7 @@
             <enum name="suburb" value="5"/>
             <enum name="calendar" value="6"/>
             <enum name="budget" value="7"/>
+            <enum name="spinner" value="8"/>
         </attr>
         <attr name="eImeOptions" format="enum">
             <enum name="actionNext" value="0"/>

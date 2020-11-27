@@ -102,7 +102,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if (eInputType == EInputType.SUBURB || eInputType == EInputType.CALENDAR) {
+        if (eInputType == EInputType.SUBURB || eInputType == EInputType.CALENDAR || eInputType == EInputType.SPINNER) {
             if (extendedViewOnClickListener == null)
                 throw new IllegalStateException(eInputType + " type selected, but ExtendedViewOnClickListener is not implemented.");
 
@@ -143,7 +143,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
         } else if (eInputType == EInputType.PHONE)
             editText.setInputType(InputType.TYPE_CLASS_PHONE);
-        else if (eInputType == EInputType.SUBURB || eInputType == EInputType.CALENDAR) {
+        else if (eInputType == EInputType.SUBURB || eInputType == EInputType.CALENDAR || eInputType == EInputType.SPINNER) {
             editText.setFocusable(false);
             editText.setOnClickListener(v -> {
                 extendedViewOnClickListener.onClick();
@@ -159,6 +159,9 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         }
         if (eInputType == EInputType.CALENDAR) {
             editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_blue), null);
+        }
+        if (eInputType == EInputType.SPINNER) {
+            editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.ic_chevron_down_black), null);
         }
         if (eInputType == EInputType.BUDGET) {
             dollar.setText("$ ");
@@ -284,6 +287,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         int SUBURB = 5;
         int CALENDAR = 6;
         int BUDGET = 7;
+        int SPINNER = 8;
     }
 
     public interface EImeOptions {

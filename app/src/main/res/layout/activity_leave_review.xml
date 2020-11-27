@@ -49,8 +49,8 @@
 
                         <com.mikhaellopez.circularimageview.CircularImageView
                             android:id="@+id/img_avatar"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
                             android:adjustViewBounds="true"
@@ -81,20 +81,22 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignTop="@id/img_avatar"
+                            android:layout_alignParentTop="true"
                             android:layout_marginStart="12dp"
                             android:layout_toEndOf="@id/img_avatar"
                             android:text="Jessie Albon"
-                            android:textAppearance="@style/materialText_600_14"
+                            android:textAppearance="@style/materialText_600_13"
                             android:textColor="@color/textColor" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/job_success_percentage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_above="@id/rating_container"
                             android:layout_below="@id/txt_full_name"
                             android:layout_alignStart="@id/txt_full_name"
                             android:layout_marginTop="@dimen/spacing_small"
-                            android:layout_marginBottom="@dimen/spacing_small"
+                            android:gravity="center_vertical"
                             android:text="78%"
                             android:textAppearance="@style/materialText_500_10"
                             android:textColor="@color/green" />
@@ -104,23 +106,27 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignTop="@id/job_success_percentage"
+                            android:layout_alignBottom="@id/job_success_percentage"
                             android:layout_toEndOf="@id/job_success_percentage"
+                            android:gravity="center_vertical"
                             android:text=" Job Success"
                             android:textAppearance="@style/materialText_500_10"
                             android:textColor="@color/grey_70" />
 
                         <LinearLayout
+                            android:id="@+id/rating_container"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/job_success_percentage"
                             android:layout_alignStart="@id/txt_full_name"
+                            android:layout_alignBottom="@+id/holder_img_verified"
+                            android:layout_marginBottom="-2dp"
                             android:orientation="horizontal">
 
                             <View
                                 android:id="@+id/star"
                                 android:layout_width="12dp"
                                 android:layout_height="12dp"
-                                android:layout_gravity="center"
+                                android:layout_gravity="center_vertical"
                                 android:background="@drawable/ic_star_hollow_tiny" />
 
                             <com.google.android.material.textview.MaterialTextView
@@ -285,35 +291,33 @@
                         android:textColor="@color/colorPrimary" />
 
 
-                        <androidx.appcompat.widget.AppCompatRatingBar
-                            android:id="@+id/ratingbar"
-                            style="@style/Yellow.AppCompatRatingBar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:isIndicator="false"
-                            android:layout_marginTop="16dp"
-                            android:thumbTint="@drawable/ic_star_hollow"
-                            android:tickMarkTint="@drawable/ic_star_solid"
-                            android:layout_below="@id/rate_title"
-                            android:numStars="5"
-                            android:rating="0"
-                            android:stepSize="1"
-                            android:theme="@style/Yellow.AppCompatRatingBar"
-                            android:visibility="visible" />
+                    <androidx.appcompat.widget.AppCompatRatingBar
+                        android:id="@+id/ratingbar"
+                        style="@style/Yellow.AppCompatRatingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/rate_title"
+                        android:layout_marginTop="16dp"
+                        android:isIndicator="false"
+                        android:numStars="5"
+                        android:rating="0"
+                        android:stepSize="1"
+                        android:theme="@style/Yellow.AppCompatRatingBar"
+                        android:visibility="visible" />
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/txt_progress_ratingbar"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignTop="@id/ratingbar"
-                            android:layout_alignBottom="@id/ratingbar"
-                            android:layout_toEndOf="@id/ratingbar"
-                            android:layout_alignParentEnd="true"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text=""
-                            android:textAppearance="@style/materialText_400_14"
-                            android:textColor="@color/color4D576A" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_progress_ratingbar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/ratingbar"
+                        android:layout_alignBottom="@id/ratingbar"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="center"
+                        android:layout_toEndOf="@id/ratingbar"
+                        android:gravity="center"
+                        android:text=""
+                        android:textAppearance="@style/materialText_400_14"
+                        android:textColor="@color/color4D576A" />
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -323,8 +327,8 @@
                 android:id="@+id/edt_write_review"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                app:eIsMandatory="true"
                 android:layout_marginTop="16dp"
+                app:eIsMandatory="true"
                 app:eMaxCharSize="300"
                 app:eMinCharSize="10"
                 app:eTitle="Write review" />

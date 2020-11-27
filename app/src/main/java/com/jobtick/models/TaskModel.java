@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.jobtick.models.review.ReviewModel;
 import com.jobtick.utils.TimeAgo;
 
 import org.json.JSONArray;
@@ -14,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaskModel implements Parcelable {
     String TAG = TaskModel.class.getName();
@@ -42,6 +44,9 @@ public class TaskModel implements Parcelable {
     @SerializedName("cancellation")
     @Expose
     private CancellationModel cancellation;
+    @SerializedName("review")
+    @Expose
+    private List<ReviewModel> reviewModels = new ArrayList<>();
     @SerializedName("additional_fund")
     @Expose
     private AdditionalFundModel additionalFund;
@@ -129,7 +134,7 @@ public class TaskModel implements Parcelable {
                      String status, String taskType, String dueDate, DueTimeModel dueTime, ArrayList<String> musthave,
                      Integer offerCount, UserAccountModel poster, UserAccountModel worker, ConversationModel conversation,
                      ArrayList<AttachmentModel> attachments, ArrayList<OfferModel> offers, Boolean offerSent, Integer questionCount,
-                     ArrayList<QuestionModel> questions, String createdAt, ArrayList<RescheduleReqeust> rescheduleReqeust, Integer bookmarkID, int category_id) {
+                     ArrayList<QuestionModel> questions,ArrayList<ReviewModel> reviewModels, String createdAt, ArrayList<RescheduleReqeust> rescheduleReqeust, Integer bookmarkID, int category_id) {
         this.id = id;
         this.title = title;
         this.slug = slug;
@@ -161,6 +166,7 @@ public class TaskModel implements Parcelable {
         this.rescheduleReqeust = rescheduleReqeust;
         this.bookmarkID = bookmarkID;
         this.category_id = category_id;
+        this.reviewModels = reviewModels;
 
     }
 
@@ -213,6 +219,7 @@ public class TaskModel implements Parcelable {
         worker = in.readParcelable(UserAccountModel.class.getClassLoader());
         conversation = in.readParcelable(ConversationModel.class.getClassLoader());
         attachments = in.createTypedArrayList(AttachmentModel.CREATOR);
+        reviewModels = in.createTypedArrayList(ReviewModel.CREATOR);
         offers = in.createTypedArrayList(OfferModel.CREATOR);
         //rescheduleReqeust=in.createTypedArrayList(RescheduleReqeust.CREATOR);
 
@@ -292,6 +299,7 @@ public class TaskModel implements Parcelable {
         dest.writeParcelable(worker, flags);
         dest.writeParcelable(conversation, flags);
         dest.writeTypedList(attachments);
+        dest.writeTypedList(reviewModels);
         dest.writeTypedList(offers);
         dest.writeByte((byte) (offerSent == null ? 0 : offerSent ? 1 : 2));
         if (questionCount == null) {
@@ -389,6 +397,18 @@ public class TaskModel implements Parcelable {
 
     public void setCancellation(CancellationModel cancellation) {
         this.cancellation = cancellation;
+    }
+
+    public List<ReviewModel> getReviewModels() {
+        return reviewModels;
+    }
+
+    public void setReviewModels(List<ReviewModel> reviewModels) {
+        this.reviewModels = reviewModels;
+    }
+
+    public static Creator<TaskModel> getCREATOR() {
+        return CREATOR;
     }
 
     public Integer getAmount() {
@@ -646,6 +666,13 @@ public class TaskModel implements Parcelable {
                     attachmentList.add(new AttachmentModel().getJsonToModel(jsonObject_attachments));
                 }
                 taskModel.setAttachments(attachmentList);
+            }
+            if (jsonObject.has("review") && !jsonObject.isNull("review")) {
+                JSONArray jsonArray = jsonObject.getJSONArray("review");
+                for (int i = 0; jsonArray.length() > i; i++) {
+                    JSONObject jsonObject_reviewModel = jsonArray.getJSONObject(i);
+                    taskModel.getReviewModels().add(new ReviewModel().getJsonToModel(jsonObject_reviewModel));
+                }
             }
             if (jsonObject.has("offers") && !jsonObject.isNull("offers")) {
                 JSONArray jsonArray = jsonObject.getJSONArray("offers");

@@ -95,7 +95,8 @@ public class LeaveReviewActivity extends ActivityBase {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             isMyTask = bundle.getBoolean(ConstantKey.IS_MY_TASK);
-            taskModel = bundle.getParcelable(ConstantKey.TASK);
+            taskModel = TaskDetailsActivity.taskModel;
+          //  taskModel = bundle.getParcelable(ConstantKey.TASK);
         }
 
         initToolbar();
@@ -132,7 +133,7 @@ public class LeaveReviewActivity extends ActivityBase {
         txtAmount.setText(String.format(Locale.ENGLISH, "$ %d", taskModel.getAmount()));
         txtCalenderDate.setText(Tools.getDayMonthDateTimeFormat(taskModel.getDueDate()));
 
-        if (isMyTask) {
+        if (!isMyTask) {
             //worker write review
             if (taskModel.getPoster().getAvatar() != null && taskModel.getPoster().getAvatar().getThumbUrl() != null) {
                 ImageUtil.displayImage(imgAvatar, taskModel.getPoster().getAvatar().getThumbUrl(), null);
@@ -177,7 +178,7 @@ public class LeaveReviewActivity extends ActivityBase {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                 if (v > 0.5 && v < 1.5)
-                    txtProgressRatingbar.setText("Treble!");
+                    txtProgressRatingbar.setText("Awful!");
                 if (v > 1.5 && v < 2.5)
                     txtProgressRatingbar.setText("Bad!");
                 if (v > 2.5 && v < 3.5)
@@ -227,7 +228,7 @@ public class LeaveReviewActivity extends ActivityBase {
                                 bundle.putBoolean(ConstantKey.WRITE_REVIEW, true);
                                 intent.putExtras(bundle);
                                 setResult(ConstantKey.RESULTCODE_WRITE_REVIEW, intent);
-                                onBackPressed();
+                                finish();
                             } else {
                                 showToast("Something went Wrong", LeaveReviewActivity.this);
                             }

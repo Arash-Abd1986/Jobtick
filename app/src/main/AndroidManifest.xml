@@ -67,7 +67,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".cancellations.CancellationDeclinedActivity" />
         <activity android:name=".cancellations.CancellationSubmitedActivity" />
-        <activity android:name=".activities.LeaveReviewActivity" />
+        <activity android:name=".activities.LeaveReviewActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activities.PaymentReceiptActivity" />
         <activity
             android:name=".activities.ChatActivity"

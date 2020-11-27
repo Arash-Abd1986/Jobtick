@@ -323,6 +323,12 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="materialText_600_13" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/poppins_semi_bold</item>
+        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
     <style name="materialText_600_16" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="fontFamily">@font/poppins_semi_bold</item>
         <item name="android:fontFamily">@font/poppins_semi_bold</item>

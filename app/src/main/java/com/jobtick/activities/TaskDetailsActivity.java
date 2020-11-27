@@ -31,7 +31,6 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -78,7 +77,7 @@ import com.jobtick.models.OfferModel;
 import com.jobtick.models.QuestionModel;
 import com.jobtick.models.TaskModel;
 import com.jobtick.models.UserAccountModel;
-import com.jobtick.models.payments.Task;
+import com.jobtick.models.review.ReviewModel;
 import com.jobtick.retrofit.ApiClient;
 import com.jobtick.utils.CameraUtils;
 import com.jobtick.utils.Constant;
@@ -100,6 +99,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -119,7 +119,6 @@ import static com.jobtick.utils.Constant.ADD_BILLING;
 import static com.jobtick.utils.Constant.BASE_URL;
 import static com.jobtick.utils.Constant.TASK_CANCELLED;
 import static com.jobtick.utils.Constant.TASK_CLOSED;
-import static com.jobtick.utils.Constant.URL_CREATE_RESCHEDULE;
 import static com.jobtick.utils.Constant.URL_TASKS;
 
 public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener,
@@ -723,6 +722,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
         initIncreaseBudget();
         initRescheduleTime();
+        initReview();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             toolbar.getMenu().setGroupDividerEnabled(true);
@@ -1579,10 +1579,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         //TODO write a review
                         intent = new Intent(TaskDetailsActivity.this, LeaveReviewActivity.class);
                         bundle = new Bundle();
-                        bundle.putParcelable(ConstantKey.TASK, taskModel);
+                    //    bundle.putParcelable(ConstantKey.TASK, taskModel);
                         bundle.putBoolean(ConstantKey.IS_MY_TASK, isMyTask);
                         intent.putExtras(bundle);
-                        startActivity(intent);
+                        startActivityForResult(intent, ConstantKey.RESULTCODE_WRITE_REVIEW);
                         break;
 
                 }
@@ -2453,6 +2453,37 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
 
+    private void initReview(){
+        if(!taskModel.getStatus().equals("closed")) return;
+        if(taskModel.getReviewModels() == null){
+            showReviewCard();
+            return;
+        }
+        boolean showReview = true;
+        List<ReviewModel> reviewModels = taskModel.getReviewModels();
+        //for poster
+        if(isMyTask){
+            for (ReviewModel reviewModel: reviewModels) {
+                if(reviewModel.getRateeType().equals("worker")){
+                    showReview = false;
+                    break;
+                }
+            }
+            if(showReview)
+                showReviewCard();
+        } //for worker
+        else{
+            for (ReviewModel reviewModel: reviewModels) {
+                if(reviewModel.getRateeType().equals("poster")){
+                    showReview = false;
+                    break;
+                }
+            }
+            if(showReview)
+                showReviewCard();
+        }
+    }
+
     private void initRescheduleTime(){
         if(alertType == AlertType.RESCHEDULE){
             hideAlertBox();
@@ -2532,19 +2563,41 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void showRescheduleTimeCard(int pos){
-        String rescheduledByWho = taskModel.getRescheduleReqeust().get(pos).getRequester_id().toString();
-        showAlertBox(Html.fromHtml("<b>User with id " + rescheduledByWho + "</b> " +
+        String rescheduledByWho;
+        if(isMyTask)
+            rescheduledByWho = taskModel.getWorker().getName();
+         else
+             rescheduledByWho = taskModel.getPoster().getName();
+
+        showAlertBox(Html.fromHtml("<b>" + rescheduledByWho + "</b> " +
                 "has requested to reschedule time for this job on <b>" +
                 TimeHelper.convertToShowTimeFormat(taskModel.getRescheduleReqeust().get(pos).getCreated_at())+ "</b>"),
                 ConstantKey.BTN_RESCHEDULE_REQUEST_SENT,AlertType.RESCHEDULE);
     }
 
     private void showIncreaseBudgetCard(){
-        String increaseRequestByWho = taskModel.getAdditionalFund().getRequesterId().toString();
-        showAlertBox(Html.fromHtml("<b>User with id " + increaseRequestByWho + "</b> " +
+        String increaseRequestByWho;
+        if(isMyTask)
+            increaseRequestByWho = taskModel.getWorker().getName();
+        else
+            increaseRequestByWho = taskModel.getPoster().getName();
+
+        showAlertBox(Html.fromHtml("<b>" + increaseRequestByWho +"</b> " +
                         "has requested to increase price on this job on <b>" +
                         TimeHelper.convertToShowTimeFormat(taskModel.getAdditionalFund().getCreatedAt())+ "</b>"),
                 ConstantKey.BTN_INCREASE_BUDGET_REQUEST_SENT, AlertType.INCREASE_BUDGET);
+    }
+    
+    private void showReviewCard(){
+        String writeAReviewForWho;
+        if(isMyTask)
+            writeAReviewForWho = taskModel.getWorker().getName();
+        else
+            writeAReviewForWho = taskModel.getPoster().getName();
+
+        showAlertBox(Html.fromHtml(
+                        "Make our community more trusted by leaving a review for <b>" + writeAReviewForWho + "</b>"),
+                ConstantKey.BTN_LEAVE_A_REVIEW, AlertType.REVIEW);
     }
 
     //we use spanned to support middle bolds
@@ -2612,7 +2665,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     public enum AlertType{
         CANCELLATION,
         RESCHEDULE,
-        INCREASE_BUDGET
+        INCREASE_BUDGET,
+        REVIEW
         //more we add later
     }
 

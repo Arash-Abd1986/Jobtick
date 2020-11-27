@@ -1577,12 +1577,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         break;
                     case ConstantKey.BTN_WRITE_A_REVIEW:
                         //TODO write a review
-                        intent = new Intent(TaskDetailsActivity.this, LeaveReviewActivity.class);
-                        bundle = new Bundle();
-                    //    bundle.putParcelable(ConstantKey.TASK, taskModel);
-                        bundle.putBoolean(ConstantKey.IS_MY_TASK, isMyTask);
-                        intent.putExtras(bundle);
-                        startActivityForResult(intent, ConstantKey.RESULTCODE_WRITE_REVIEW);
+                        //button should not exist
                         break;
 
                 }
@@ -2472,8 +2467,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     break;
                 }
             }
-            if(showReview)
-                showReviewCard();
         } //for worker
         else{
             for (ReviewModel reviewModel: reviewModels) {
@@ -2482,9 +2475,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     break;
                 }
             }
-            if(showReview)
-                showReviewCard();
         }
+        if(showReview)
+            showReviewCard();
     }
 
     private void initRescheduleTime(){
@@ -2639,7 +2632,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             showDialogIncreaseBudgetNoticeRequest();
         }
         else if(alertType == AlertType.REVIEW){
-            showReviewCard();
+            Intent intent = new Intent(TaskDetailsActivity.this, LeaveReviewActivity.class);
+            Bundle bundle = new Bundle();
+            //    bundle.putParcelable(ConstantKey.TASK, taskModel);
+            bundle.putBoolean(ConstantKey.IS_MY_TASK, isMyTask);
+            intent.putExtras(bundle);
+            startActivityForResult(intent, ConstantKey.RESULTCODE_WRITE_REVIEW);
         }
     }
 

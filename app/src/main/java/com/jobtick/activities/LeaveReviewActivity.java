@@ -145,13 +145,25 @@ public class LeaveReviewActivity extends ActivityBase {
             } else {
                 imgVerifiedAccount.setVisibility(View.GONE);
             }
-            //TODO this
-            jobSuccessPercentage.setText("999");
             txtFullName.setText(taskModel.getPoster().getName());
+
+            int jobSuccess = 0;
+            if(taskModel.getPoster().getPostTaskStatistics() != null &&
+                    taskModel.getPoster().getPostTaskStatistics().getCompletionRate() != null)
+                jobSuccess = taskModel.getPoster().getPostTaskStatistics().getCompletionRate();
+            jobSuccessPercentage.setText(String.format(Locale.ENGLISH, "%d%%", jobSuccess));
+
+            int avgRating = 0;
+            int reviews = 0;
+            if(taskModel.getPoster().getPosterRatings() != null && taskModel.getPoster().getPosterRatings().getAvgRating() != null)
+                avgRating = taskModel.getPoster().getPosterRatings().getAvgRating();
+
+            if(taskModel.getPoster().getPosterRatings() != null && taskModel.getPoster().getPosterRatings().getReceivedReviews() != null)
+                reviews = taskModel.getPoster().getPosterRatings().getReceivedReviews();
+
             accountRating.setText(
                     String.format(Locale.ENGLISH, "%d (%d)",
-                            taskModel.getPoster().getPosterRatings().getAvgRating(),
-                            taskModel.getPoster().getPosterRatings().getReceivedReviews()));
+                           avgRating, reviews));
 
         } else {
             //poster write review
@@ -165,13 +177,28 @@ public class LeaveReviewActivity extends ActivityBase {
             } else {
                 imgVerifiedAccount.setVisibility(View.GONE);
             }
-            //TODO this
-            jobSuccessPercentage.setText("999");
             txtFullName.setText(taskModel.getWorker().getName());
+
+            int jobSuccess = 0;
+            if(taskModel.getWorker().getWorkTaskStatistics() != null &&
+                    taskModel.getWorker().getWorkTaskStatistics().getCompletionRate() != null)
+                jobSuccess = taskModel.getWorker().getWorkTaskStatistics().getCompletionRate();
+            jobSuccessPercentage.setText(String.format(Locale.ENGLISH, "%d%%", jobSuccess));
+
+            int avgRating = 0;
+            int reviews = 0;
+            if(taskModel.getWorker().getWorkerRatings() != null && taskModel.getWorker().getWorkerRatings().getAvgRating() != null)
+                avgRating = taskModel.getWorker().getWorkerRatings().getAvgRating();
+
+            if(taskModel.getWorker().getWorkerRatings() != null && taskModel.getWorker().getWorkerRatings().getReceivedReviews() != null)
+                reviews = taskModel.getWorker().getWorkerRatings().getReceivedReviews();
+
             accountRating.setText(
                     String.format(Locale.ENGLISH, "%d (%d)",
-                            taskModel.getWorker().getWorkerRatings().getAvgRating(),
-                            taskModel.getWorker().getWorkerRatings().getReceivedReviews()));
+                            avgRating, reviews));
+
+            accountRating.setText(
+                    String.format(Locale.ENGLISH, "%d (%d)", avgRating, reviews));
         }
 
         ratingbar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {

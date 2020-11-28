@@ -86,7 +86,8 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase implements Ext
         taskModel = new TaskModel();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            taskModel = bundle.getParcelable(ConstantKey.TASK);
+        //    taskModel = bundle.getParcelable(ConstantKey.TASK);
+            taskModel = TaskDetailsActivity.taskModel;
         }
 
         if (taskModel != null) {

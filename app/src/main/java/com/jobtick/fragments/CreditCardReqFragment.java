@@ -1,5 +1,6 @@
 package com.jobtick.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;

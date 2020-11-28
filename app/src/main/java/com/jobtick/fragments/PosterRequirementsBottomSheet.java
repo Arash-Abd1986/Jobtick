@@ -1,5 +1,6 @@
 package com.jobtick.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 public class PosterRequirementsBottomSheet extends BottomSheetDialogFragment {
 
     private HashMap<Requirement, Boolean> state;
+    private NoticeListener listener;
 
     public PosterRequirementsBottomSheet() {
     }
@@ -102,10 +104,26 @@ public class PosterRequirementsBottomSheet extends BottomSheetDialogFragment {
                 break;
 
             case 1:
-                ((PaymentOverviewActivity)requireActivity()).getPaymentMethod();
+                listener.onCreditCardAdded();
                 dismiss();
                 break;
         }
+    }
+
+
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            listener = (PosterRequirementsBottomSheet.NoticeListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(this.toString()
+                    + " must implement NoticeListener");
+        }
+    }
+
+    public interface NoticeListener{
+
+        void onCreditCardAdded();
     }
 
     public enum Requirement{

@@ -57,7 +57,7 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
 
     public static RescheduleNoticeBottomSheetState newInstance(TaskModel taskModel, int pos){
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ConstantKey.TASK, taskModel);
+    //    bundle.putParcelable(ConstantKey.TASK, taskModel);
         bundle.putInt(ConstantKey.POSITION, pos);
         RescheduleNoticeBottomSheetState fragment = new RescheduleNoticeBottomSheetState();
         fragment.setArguments(bundle);
@@ -78,7 +78,8 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
         sessionManager = new SessionManager(requireContext());
 
         assert getArguments() != null;
-        taskModel = getArguments().getParcelable(ConstantKey.TASK);
+     //   taskModel = getArguments().getParcelable(ConstantKey.TASK);
+        taskModel = TaskDetailsActivity.taskModel;
         pos = getArguments().getInt(ConstantKey.POSITION);
 
 

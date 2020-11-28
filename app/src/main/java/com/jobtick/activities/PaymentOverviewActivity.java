@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.cardview.widget.CardView;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
@@ -19,8 +21,11 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
+import com.google.gson.Gson;
 import com.jobtick.R;
+import com.jobtick.fragments.CreditCardReqFragment;
 import com.jobtick.fragments.PosterRequirementsBottomSheet;
+import com.jobtick.models.CreditCardModel;
 import com.jobtick.models.OfferModel;
 import com.jobtick.models.TaskModel;
 import com.jobtick.models.UserAccountModel;
@@ -42,7 +47,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class PaymentOverviewActivity extends ActivityBase {
+public class PaymentOverviewActivity extends ActivityBase implements PosterRequirementsBottomSheet.NoticeListener {
 
     private static final String TAG = PaymentOverviewActivity.class.getSimpleName();
     @BindView(R.id.toolbar)
@@ -60,7 +65,7 @@ public class PaymentOverviewActivity extends ActivityBase {
     @BindView(R.id.txt_total_cost)
     MaterialTextView txtTotalCost;
     @BindView(R.id.img_brand)
-    ImageView imgBrand;
+    CardView imgBrand;
     @BindView(R.id.txt_account_number)
     MaterialTextView txtAccountNumber;
     @BindView(R.id.txt_expires_date)
@@ -102,8 +107,8 @@ public class PaymentOverviewActivity extends ActivityBase {
         taskModel = TaskDetailsActivity.taskModel;
         offerModel = TaskDetailsActivity.offerModel;
 
-        setUpData();
         getPaymentMethod();
+        setUpData();
     }
 
     private void initToolbar() {
@@ -139,38 +144,42 @@ public class PaymentOverviewActivity extends ActivityBase {
         return (final_task_cost * taskModel.getPoster().getPosterTier().getServiceFee()) / 100;
     }
 
-    public void getPaymentMethod() {
+    private void getPaymentMethod() {
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PAYMENTS_METHOD,
                 response -> {
                     Timber.e(response);
-                    hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                    JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                                    if (jsonObject_data.has("card") && !jsonObject_data.isNull("card")) {
-                                        JSONObject jsonObject_card = jsonObject_data.getJSONObject("card");
-                                        PaymentMethodModel paymentMethodModel = new PaymentMethodModel().getJsonToModel(jsonObject_card);
-                                        setUpLayout(paymentMethodModel);
-                                    } else {
-                                        showToast("card not Available", PaymentOverviewActivity.this);
-                                    }
 
+                                    String jsonString = jsonObject.toString(); //http request
+                                    Gson gson = new Gson();
+                                    CreditCardModel creditCardModel = gson.fromJson(jsonString, CreditCardModel.class);
+
+                                    if (creditCardModel != null && creditCardModel.getData() != null && creditCardModel.getData().get(0).card != null) {
+                                        setUpLayout(creditCardModel);
+                                    } else {
+                                        setUpAddPaymentLayout();
+                                    }
+                                    hideProgressDialog();
                                 }
                             } else {
-                                showToast("Something went Wrong", PaymentOverviewActivity.this);
+                                setUpAddPaymentLayout();
+                                showToast("Something went Wrong", this);
                             }
                         }
                     } catch (JSONException e) {
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
+                        setUpAddPaymentLayout();
                     }
                 },
                 error -> {
+                    setUpAddPaymentLayout();
                     NetworkResponse networkResponse = error.networkResponse;
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
@@ -181,7 +190,8 @@ public class PaymentOverviewActivity extends ActivityBase {
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             if (jsonObject_error.has("error_code") && !jsonObject_error.isNull("error_code")) {
                                 if (Objects.equals(ConstantKey.NO_PAYMENT_METHOD, jsonObject_error.getString("error_code"))) {
-                                    setUpAddPaymentLayout();
+                                    hideProgressDialog();
+                                    return;
                                 }
                             }
                         } catch (JSONException e) {
@@ -189,6 +199,7 @@ public class PaymentOverviewActivity extends ActivityBase {
                         }
                     }
                     Timber.e(error.toString());
+                    errorHandle1(error.networkResponse);
                     hideProgressDialog();
                 }) {
             @Override
@@ -203,9 +214,8 @@ public class PaymentOverviewActivity extends ActivityBase {
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(PaymentOverviewActivity.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-        Log.e(TAG, stringRequest.getUrl());
     }
 
     private void setUpAddPaymentLayout() {
@@ -215,12 +225,12 @@ public class PaymentOverviewActivity extends ActivityBase {
         lytAddCreditCard.setVisibility(View.VISIBLE);
     }
 
-    private void setUpLayout(PaymentMethodModel paymentMethodModel) {
+    private void setUpLayout(CreditCardModel creditCardModel) {
         btnPay.setEnabled(true);
         btnPay.setAlpha(1.0f);
         lytAddCreditCard.setVisibility(View.GONE);
-        txtAccountNumber.setText("**** **** **** " + paymentMethodModel.getLast4());
-        txtExpiresDate.setText("Expires " + paymentMethodModel.getExpMonth() + "/" + paymentMethodModel.getExpYear());
+        txtAccountNumber.setText("**** **** **** " + creditCardModel.getData().get(0).card.last4);
+        txtExpiresDate.setText("Expiry Date: " + creditCardModel.getData().get(0).card.exp_month + "/" + creditCardModel.getData().get(0).card.exp_year);
         rltPaymentMethod.setVisibility(View.VISIBLE);
     }
 
@@ -350,5 +360,10 @@ public class PaymentOverviewActivity extends ActivityBase {
         txtTaskCost.setText("$ " + final_task_cost);
         txtServiceFee.setText("$ " + final_service_fee);
         txtTotalCost.setText("$ " + final_total_cost);
+    }
+
+    @Override
+    public void onCreditCardAdded() {
+        getPaymentMethod();
     }
 }

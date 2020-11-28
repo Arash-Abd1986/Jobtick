@@ -33,6 +33,7 @@ import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.activities.ActivityBase;
+import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
@@ -73,7 +74,7 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
 
     public static IncreaseBudgetBottomSheet newInstance(TaskModel taskModel, int pos){
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ConstantKey.TASK, taskModel);
+    //    bundle.putParcelable(ConstantKey.TASK, taskModel);
         bundle.putInt(ConstantKey.POSITION, pos);
         IncreaseBudgetBottomSheet fragment = new IncreaseBudgetBottomSheet();
         fragment.setArguments(bundle);
@@ -93,8 +94,9 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_increase_budget, container, false);
         sessionManager = new SessionManager(getContext());
-        assert getArguments() != null;
-        taskModel = getArguments().getParcelable(ConstantKey.TASK);
+     //   assert getArguments() != null;
+     //   taskModel = getArguments().getParcelable(ConstantKey.TASK);
+        taskModel = TaskDetailsActivity.taskModel;
 
         oldPrice = view.findViewById(R.id.old_price);
         serviceFee = view.findViewById(R.id.service_fee);

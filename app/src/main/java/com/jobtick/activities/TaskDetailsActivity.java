@@ -371,6 +371,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         mBehavior = BottomSheetBehavior.from(bottom_sheet);
         requestAcceptListener = this;
         widthDrawListener = this;
+        userAccountModel = new SessionManager(this).getUserAccount();
 
         initialStage();
     }
@@ -817,7 +818,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 case R.id.action_rechedule:
                     intent = new Intent(TaskDetailsActivity.this, RescheduleReqFromWorkerActivity.class);
                     bundle = new Bundle();
-                    bundle.putParcelable(ConstantKey.TASK, taskModel);
+                 //   bundle.putParcelable(ConstantKey.TASK, taskModel);
                     intent.putExtras(bundle);
                     startActivityForResult(intent, ConstantKey.RESULTCODE_INCREASE_BUDGET);
                     break;
@@ -2414,8 +2415,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if(alertType == AlertType.RELEASE_MONEY){
             hideAlertBox();
         }
-        if (taskModel.getConversation() != null && taskModel.getConversation().getTask() != null &&
-                taskModel.getConversation().getTask().getCompletedAt() != null && !taskModel.getConversation().getTask().getCompletedAt().isEmpty()) {
+        if (taskModel.getStatus().equals("completed") && taskModel.getWorker() != null &&
+                taskModel.getWorker().getId().equals(userAccountModel.getId())) {
             showReleaseCard();
         }
     }

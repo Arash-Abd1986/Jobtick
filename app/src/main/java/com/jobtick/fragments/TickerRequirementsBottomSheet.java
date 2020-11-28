@@ -122,9 +122,9 @@ public class TickerRequirementsBottomSheet extends BottomSheetDialogFragment {
         phoneNumberBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         profileBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image_primary));
         bankAccountBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card_grey));
-        birthDayBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_grey));
+        birthDayBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_grey_24dp));
         phoneNumberBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone_grey));
-        billingAddressBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin_grey));
+        billingAddressBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin_grey_24dp));
 
         ImageReqFragment fragment = ImageReqFragment.newInstance();
         getChildFragmentManager().
@@ -142,9 +142,9 @@ public class TickerRequirementsBottomSheet extends BottomSheetDialogFragment {
         phoneNumberBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         profileBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image_cinereous));
         bankAccountBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card_primary));
-        birthDayBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_grey));
+        birthDayBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_grey_24dp));
         phoneNumberBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone_grey));
-        billingAddressBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin_grey));
+        billingAddressBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin_grey_24dp));
 
         AddBankAccountReqFragment fragment = AddBankAccountReqFragment.newInstance();
         getChildFragmentManager().
@@ -161,7 +161,7 @@ public class TickerRequirementsBottomSheet extends BottomSheetDialogFragment {
         phoneNumberBtn.setBackground(ContextCompat.getDrawable(getContext(), R.color.transparent));
         profileBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_image_cinereous));
         bankAccountBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_credit_card_cinereous));
-        birthDayBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_grey));
+        birthDayBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_grey_24dp));
         phoneNumberBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone_grey));
         billingAddressBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin_primary));
 
@@ -255,6 +255,7 @@ public class TickerRequirementsBottomSheet extends BottomSheetDialogFragment {
                 }
                 break;
             case 5:
+                dismiss();
                 TaskModel taskModel = ((TaskDetailsActivity) getActivity()).taskModel;
                 if (taskModel.getMusthave().size() == 0) {
                     Intent intent = new Intent(getContext(), MakeAnOfferActivity.class);

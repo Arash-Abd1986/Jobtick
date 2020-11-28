@@ -147,17 +147,18 @@ public class JobReceiptActivity extends ActivityBase {
 
             txtFullName.setText(taskModel.getPoster().getName());
 
-            //calcualation
-            float totalServiceFee = taskModel.getAmount() * 0.1f;
-            float total = taskModel.getAmount() + totalServiceFee;
-            float gst = totalServiceFee - (totalServiceFee / 1.1f);
-            float jTServiceFee = totalServiceFee - gst;
-
-            serviceFee.setText(String.format(Locale.ENGLISH,"%.2f",totalServiceFee));
-            totalCost.setText(String.format(Locale.ENGLISH,"%.2f",total));
-            jobTickTotalValue.setText(String.format(Locale.ENGLISH,"%.2f",total));
-            jobTickGtsValue.setText(String.format(Locale.ENGLISH,"%.2f",gst));
-            jobTickServiceValue.setText(String.format(Locale.ENGLISH,"%.2f",jTServiceFee));
+             //calcualation
+//            float totalServiceFee = taskModel.getAmount() * 0.1f;
+//            float gst = totalServiceFee * 1.1f;
+//            float total = taskModel.getAmount() + totalServiceFee;
+//            float earning = total
+//            float jTServiceFee = totalServiceFee - gst;
+//
+//            serviceFee.setText(String.format(Locale.ENGLISH,"%.2f",totalServiceFee));
+//            totalCost.setText(String.format(Locale.ENGLISH,"%.2f",total));
+//            jobTickTotalValue.setText(String.format(Locale.ENGLISH,"%.2f",total));
+//            jobTickGtsValue.setText(String.format(Locale.ENGLISH,"%.2f",gst));
+//            jobTickServiceValue.setText(String.format(Locale.ENGLISH,"%.2f",jTServiceFee));
 
         } else {
             //poster
@@ -183,18 +184,17 @@ public class JobReceiptActivity extends ActivityBase {
                 paidOn.setText(String.format(Locale.ENGLISH, "Paid On %s", TimeHelper.convertToShowTimeFormat(taskModel.getConversation().getTask().getClosedAt())));
             }
 
-//            //calcualation
-//            float totalServiceFee = taskModel.getAmount() * 0.1f;
-//            float gst = totalServiceFee * 1.1f;
-//            float total = taskModel.getAmount() + totalServiceFee;
-//            float earning = total
-//            float jTServiceFee = totalServiceFee - gst;
-//
-//            serviceFee.setText(String.format(Locale.ENGLISH,"%.2f",totalServiceFee));
-//            totalCost.setText(String.format(Locale.ENGLISH,"%.2f",total));
-//            jobTickTotalValue.setText(String.format(Locale.ENGLISH,"%.2f",total));
-//            jobTickGtsValue.setText(String.format(Locale.ENGLISH,"%.2f",gst));
-//            jobTickServiceValue.setText(String.format(Locale.ENGLISH,"%.2f",jTServiceFee));
+            //calcualation
+            float totalServiceFee = taskModel.getAmount() * 0.1f;
+            float total = taskModel.getAmount() + totalServiceFee;
+            float gst = totalServiceFee - (totalServiceFee / 1.1f);
+            float jTServiceFee = totalServiceFee - gst;
+
+            serviceFee.setText(String.format(Locale.ENGLISH,"%.2f",totalServiceFee));
+            totalCost.setText(String.format(Locale.ENGLISH,"%.2f",total));
+            jobTickTotalValue.setText(String.format(Locale.ENGLISH,"%.2f",total));
+            jobTickGtsValue.setText(String.format(Locale.ENGLISH,"%.2f",gst));
+            jobTickServiceValue.setText(String.format(Locale.ENGLISH,"%.2f",jTServiceFee));
 
         }
     }

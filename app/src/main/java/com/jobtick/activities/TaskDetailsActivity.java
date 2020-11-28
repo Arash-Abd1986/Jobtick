@@ -2400,6 +2400,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
 
+    private void initAskToRelease() {
+        if(alertType == AlertType.RELEASE_MONEY){
+            hideAlertBox();
+        }
+        if (taskModel.getConversation() != null && taskModel.getConversation().getTask() != null &&
+                taskModel.getConversation().getTask().getCompletedAt() != null && !taskModel.getConversation().getTask().getCompletedAt().isEmpty()) {
+            showReleaseCard();
+        }
+    }
+
     private void initReview(){
         if(alertType == AlertType.REVIEW){
             hideAlertBox();
@@ -2459,16 +2469,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             if (taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
                 showIncreaseBudgetCard();
             }
-        }
-    }
-
-    private void initAskToRelease() {
-        if(alertType == AlertType.RELEASE_MONEY){
-            hideAlertBox();
-        }
-        if (taskModel.getConversation() != null && taskModel.getConversation().getTask() != null &&
-                taskModel.getConversation().getTask().getCompletedAt() != null && !taskModel.getConversation().getTask().getCompletedAt().isEmpty()) {
-            showReleaseCard();
         }
     }
 

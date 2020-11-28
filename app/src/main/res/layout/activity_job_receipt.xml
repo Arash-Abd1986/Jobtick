@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundLightGrey"
+    android:orientation="vertical"
+    tools:context=".activities.LeaveReviewActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:fillViewport="true"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="0dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingTop="26dp">
+
+                    <RelativeLayout
+                        android:id="@+id/profile_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/separator"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="14dp"
+                        android:background="@color/white"
+                        android:paddingBottom="6dp">
+
+
+                        <com.mikhaellopez.circularimageview.CircularImageView
+                            android:id="@+id/img_avatar"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_place_holder" />
+
+                        <LinearLayout
+                            android:id="@+id/holder_img_verified"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignStart="@id/img_avatar"
+                            android:layout_alignEnd="@id/img_avatar"
+                            android:layout_alignBottom="@id/img_avatar"
+                            android:clipChildren="false"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/img_verified_account"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical|bottom"
+                                android:adjustViewBounds="true"
+                                android:background="@drawable/ic_shield"
+                                android:translationY="3dp" />
+                        </LinearLayout>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_full_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@id/img_avatar"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginTop="6dp"
+                            android:layout_toEndOf="@id/img_avatar"
+                            android:textAppearance="@style/materialText_600_15"
+                            android:textColor="@color/textColor"
+                            tools:text="Jessie Albon" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_location"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/txt_full_name"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_toEndOf="@id/img_avatar"
+                            android:gravity="center_vertical"
+                            android:textAppearance="@style/materialText_400_12"
+                            android:textColor="@color/grey_70"
+                            tools:text="Surfers Paradise" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/separator"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_below="@+id/receipt_number"
+                        android:layout_marginTop="23dp">
+
+                        <ImageView
+                            android:id="@+id/image_1_left"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:elevation="@dimen/spacing_middle"
+                            android:src="@drawable/ic_half_circle_left" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="1dp"
+                            android:layout_marginEnd="1dp"
+                            android:layout_toStartOf="@id/img_1_right"
+                            android:layout_toEndOf="@id/image_1_left"
+                            android:src="@drawable/line_dash_grey_20" />
+
+                        <ImageView
+                            android:id="@+id/img_1_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:src="@drawable/ic_half_circle_right" />
+
+                    </RelativeLayout>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/job_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:textAppearance="@style/materialText_600_18"
+                        android:textColor="@color/textColor"
+                        tools:text="Clean my bedroom apartment" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/receipt_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/job_title"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="20dp"
+                        android:text="Receipt Number"
+                        android:textAppearance="@style/materialText_600_13"
+                        android:textColor="@color/colorPrimary" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/receipt_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/receipt_title"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:text="00000000000000"
+                        android:textAppearance="@style/materialText_500_14"
+                        android:textColor="@color/textColor" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/receipt_number"
+                        android:layout_alignTop="@id/receipt_title"
+                        android:layout_alignBottom="@+id/receipt_number"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="center_vertical"
+                        android:text="$ 000"
+                        android:textAppearance="@style/materialText_700_24"
+                        android:textColor="@color/colorPrimary" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/task_receipt_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/profile_container"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="21dp"
+                        android:text="Task Receipt"
+                        android:textAppearance="@style/materialText_600_13"
+                        android:textColor="@color/colorPrimary" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/job_cast_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/task_receipt_title"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_toStartOf="@id/job_cast_value"
+                        android:text="Job Cost"
+                        android:textAppearance="@style/materialText_500_14"
+                        android:textColor="@color/textColor" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/job_cast_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/job_cast_title"
+                        android:layout_alignBottom="@id/job_cast_title"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="16dp"
+                        android:text="000"
+                        android:textAppearance="@style/materialText_700_16"
+                        android:textColor="@color/colorPrimary" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/service_fee_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/job_cast_title"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_toStartOf="@id/service_fee_value"
+                        android:text="Service Fee"
+                        android:textAppearance="@style/materialText_500_14"
+                        android:textColor="@color/textColor" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/service_fee_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/service_fee_title"
+                        android:layout_alignBottom="@id/service_fee_title"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="16dp"
+                        android:text="$00"
+                        android:textAppearance="@style/materialText_700_16"
+                        android:textColor="@color/colorPrimary" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/total_cost_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/total_cost_value"
+                        android:layout_alignBottom="@id/total_cost_value"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_toStartOf="@id/service_fee_value"
+                        android:gravity="center_vertical"
+                        android:text="Total Cost"
+                        android:textAppearance="@style/materialText_700_14"
+                        android:textColor="@color/textColor" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/total_cost_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/service_fee_value"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="$000"
+                        android:textAppearance="@style/materialText_700_20"
+                        android:textColor="@color/colorPrimary" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/card_logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/total_cost_title"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/visa" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/paid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/card_logo"
+                        android:layout_marginStart="12dp"
+                        android:layout_toEndOf="@id/card_logo"
+                        android:text="Paid On "
+                        android:textAppearance="@style/materialText_600_10"
+                        android:textColor="@color/grey_70" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/payment_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/paid"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toEndOf="@id/card_logo"
+                        android:text="Visa ******0000"
+                        android:textAppearance="@style/materialText_600_10"
+                        android:textColor="@color/grey_70" />
+
+                    <RelativeLayout
+                        android:id="@+id/separator2"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_below="@+id/card_logo"
+                        android:layout_marginTop="21dp">
+
+                        <ImageView
+                            android:id="@+id/image_2_left"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:elevation="@dimen/spacing_middle"
+                            android:src="@drawable/ic_half_circle_left" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="1dp"
+                            android:layout_marginEnd="1dp"
+                            android:layout_toStartOf="@id/img_2_right"
+                            android:layout_toEndOf="@id/image_2_left"
+                            android:src="@drawable/line_dash_grey_20" />
+
+                        <ImageView
+                            android:id="@+id/img_2_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:src="@drawable/ic_half_circle_right" />
+
+                    </RelativeLayout>
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tax_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/separator2"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Tax Invoice"
+                        android:textAppearance="@style/materialText_600_14"
+                        android:textColor="@color/colorPrimary" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/job_tick"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_below="@id/tax_title"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:src="@drawable/ic_jobticklogo" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/jobtick_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/job_tick"
+                        android:layout_marginStart="12dp"
+                        android:layout_toEndOf="@id/job_tick"
+                        android:text="@string/jobtick"
+                        android:textAppearance="@style/materialText_600_15"
+                        android:textColor="@color/textColor" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/abn_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/jobtick_text"
+                        android:layout_marginStart="12dp"
+                        android:layout_toEndOf="@id/job_tick"
+                        android:text="ABN: 00 000 000 000"
+                        android:textAppearance="@style/materialText_500_10"
+                        android:textColor="@color/grey_70" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/job_tick_service_fee_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/job_tick_service_fee_value"
+                        android:layout_alignBottom="@id/job_tick_service_fee_value"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_toStartOf="@id/job_tick_service_fee_value"
+                        android:gravity="center_vertical"
+                        android:text="Service Fee"
+                        android:textAppearance="@style/materialText_500_14"
+                        android:textColor="@color/textColor" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/job_tick_service_fee_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/job_tick"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="$00"
+                        android:textAppearance="@style/materialText_700_16"
+                        android:textColor="@color/colorPrimary" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/job_tick_gts_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/job_tick_gts_value"
+                        android:layout_alignBottom="@id/job_tick_gts_value"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_toStartOf="@id/job_tick_gts_value"
+                        android:gravity="center_vertical"
+                        android:text="GST (10%)"
+                        android:textAppearance="@style/materialText_500_14"
+                        android:textColor="@color/textColor" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/job_tick_gts_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/job_tick_service_fee_value"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="$0"
+                        android:textAppearance="@style/materialText_700_16"
+                        android:textColor="@color/colorPrimary" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/job_tick_total_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/job_tick_total_value"
+                        android:layout_alignBottom="@id/job_tick_total_value"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_toStartOf="@id/job_tick_total_value"
+                        android:gravity="center_vertical"
+                        android:text="Total"
+                        android:textAppearance="@style/materialText_700_14"
+                        android:textColor="@color/textColor" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/job_tick_total_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/job_tick_gts_value"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="26dp"
+                        android:text="$00"
+                        android:textAppearance="@style/materialText_700_16"
+                        android:textColor="@color/colorPrimary" />
+
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

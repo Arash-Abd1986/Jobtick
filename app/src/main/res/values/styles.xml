@@ -329,6 +329,12 @@
         <item name="android:textSize">13sp</item>
     </style>
 
+    <style name="materialText_600_15" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/poppins_semi_bold</item>
+        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
     <style name="materialText_600_16" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="fontFamily">@font/poppins_semi_bold</item>
         <item name="android:fontFamily">@font/poppins_semi_bold</item>
@@ -372,6 +378,11 @@
         <item name="fontFamily">@font/poppins_bold</item>
         <item name="android:fontFamily">@font/poppins_bold</item>
         <item name="android:textSize">22sp</item>
+    </style>
+    <style name="materialText_700_24" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">24sp</item>
     </style>
     <style name="materialText_700_28" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="fontFamily">@font/poppins_bold</item>

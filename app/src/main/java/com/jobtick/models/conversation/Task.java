@@ -36,7 +36,7 @@ public class Task implements Parcelable
     private String dueDate;
     @SerializedName("closed_at")
     @Expose
-    private Object closedAt;
+    private String closedAt;
     @SerializedName("completed_at")
     @Expose
     private String completedAt;
@@ -68,7 +68,7 @@ public class Task implements Parcelable
         this.status = ((String) in.readValue((String.class.getClassLoader())));
         this.taskType = ((String) in.readValue((String.class.getClassLoader())));
         this.dueDate = ((String) in.readValue((String.class.getClassLoader())));
-        this.closedAt = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.closedAt = ((String) in.readValue((Object.class.getClassLoader())));
         this.completedAt = ((String) in.readValue((String.class.getClassLoader())));
         this.createdAt = ((String) in.readValue((String.class.getClassLoader())));
     }
@@ -93,7 +93,7 @@ public class Task implements Parcelable
      * @param slug
      * @param status
      */
-    public Task(Integer id, String title, String slug, Integer amount, String status, String taskType, String dueDate, Object closedAt, String completedAt, String createdAt) {
+    public Task(Integer id, String title, String slug, Integer amount, String status, String taskType, String dueDate, String closedAt, String completedAt, String createdAt) {
         super();
         this.id = id;
         this.title = title;
@@ -198,15 +198,15 @@ public class Task implements Parcelable
         return this;
     }
 
-    public Object getClosedAt() {
+    public String getClosedAt() {
         return closedAt;
     }
 
-    public void setClosedAt(Object closedAt) {
+    public void setClosedAt(String closedAt) {
         this.closedAt = closedAt;
     }
 
-    public Task withClosedAt(Object closedAt) {
+    public Task withClosedAt(String closedAt) {
         this.closedAt = closedAt;
         return this;
     }
@@ -275,11 +275,8 @@ public class Task implements Parcelable
                 model.setCompletedAt(jsonObject.getString("completed_at"));
             if (jsonObject.has("created_at") && !jsonObject.isNull("created_at"))
                 model.setCreatedAt(jsonObject.getString("created_at"));
-
-            //TODO: Closed at should be get here
-           // if (jsonObject.has("closed_at") && !jsonObject.isNull("closed_at"))
-             //   model.setClosedAt(jsonObject.getString("closed_at"));
-
+            if (jsonObject.has("closed_at") && !jsonObject.isNull("closed_at"))
+                model.setClosedAt(jsonObject.getString("closed_at"));
 
         }catch (JSONException e) {
             e.printStackTrace();

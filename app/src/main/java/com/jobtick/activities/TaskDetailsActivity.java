@@ -450,6 +450,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusReviewed.setVisibility(View.GONE);
                 txtStatusOpen.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_tab_primary_2dp));
                 txtStatusOpen.setTextColor(ContextCompat.getColor(this, R.color.white));
+
                 if (isMyTask) {
                     cardMakeAnOffer.setVisibility(View.VISIBLE);
                     txtBtnText.setText(ConstantKey.BTN_ASSIGNED);
@@ -723,6 +724,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
 
 
+        initJobReceipt();
         initIncreaseBudget();
         initRescheduleTime();
         initReview();
@@ -818,6 +820,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     bundle.putParcelable(ConstantKey.TASK, taskModel);
                     intent.putExtras(bundle);
                     startActivityForResult(intent, ConstantKey.RESULTCODE_INCREASE_BUDGET);
+                    break;
+                case R.id.action_job_receipt:
+                    intent = new Intent(TaskDetailsActivity.this, JobReceiptActivity.class);
+                    bundle = new Bundle();
+                //    bundle.putParcelable(ConstantKey.TASK, taskModel);
+                    bundle.putBoolean(ConstantKey.IS_MY_TASK, isMyTask);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                     break;
             }
             return false;
@@ -2459,6 +2469,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 }
             }
         }
+    }
+
+    private void initJobReceipt(){
+        toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_job_receipt, taskModel.getStatus().equals(TASK_CLOSED));
     }
 
     private void initIncreaseBudget() {

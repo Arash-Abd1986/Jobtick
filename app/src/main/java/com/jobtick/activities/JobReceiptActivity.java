@@ -1,49 +1,24 @@
 package com.jobtick.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.widget.AppCompatRatingBar;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
 import com.jobtick.models.TaskModel;
-import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
-import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.TimeHelper;
-import com.jobtick.utils.Tools;
-import com.jobtick.widget.ExtendedCommentText;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import timber.log.Timber;
 
 public class JobReceiptActivity extends ActivityBase {
 
@@ -70,7 +45,7 @@ public class JobReceiptActivity extends ActivityBase {
     TextView receiptNumber;
 
     @BindView(R.id.job_cast_value)
-    TextView jobCastValue;
+    TextView jobCostValue;
     @BindView(R.id.service_fee_value)
     TextView serviceFee;
     @BindView(R.id.total_cost_value)
@@ -150,7 +125,7 @@ public class JobReceiptActivity extends ActivityBase {
 
         jobTitle.setText(taskModel.getTitle());
         txtAmount.setText(String.format(Locale.ENGLISH, "$ %d", taskModel.getAmount()));
-        totalCost.setText(String.format(Locale.ENGLISH, "$ %d", taskModel.getAmount()));
+        jobCostValue.setText(String.format(Locale.ENGLISH, "$ %d", taskModel.getAmount()));
 
         if (!isMyTask) {
             //worker
@@ -171,6 +146,18 @@ public class JobReceiptActivity extends ActivityBase {
             }
 
             txtFullName.setText(taskModel.getPoster().getName());
+
+            //calcualation
+            float totalServiceFee = taskModel.getAmount() * 0.1f;
+            float total = taskModel.getAmount() + totalServiceFee;
+            float gst = totalServiceFee - (totalServiceFee / 1.1f);
+            float jTServiceFee = totalServiceFee - gst;
+
+            serviceFee.setText(String.format(Locale.ENGLISH,"%.2f",totalServiceFee));
+            totalCost.setText(String.format(Locale.ENGLISH,"%.2f",total));
+            jobTickTotalValue.setText(String.format(Locale.ENGLISH,"%.2f",total));
+            jobTickGtsValue.setText(String.format(Locale.ENGLISH,"%.2f",gst));
+            jobTickServiceValue.setText(String.format(Locale.ENGLISH,"%.2f",jTServiceFee));
 
         } else {
             //poster
@@ -195,6 +182,20 @@ public class JobReceiptActivity extends ActivityBase {
             //    paymentNumber.setText();
                 paidOn.setText(String.format(Locale.ENGLISH, "Paid On %s", TimeHelper.convertToShowTimeFormat(taskModel.getConversation().getTask().getClosedAt())));
             }
+
+//            //calcualation
+//            float totalServiceFee = taskModel.getAmount() * 0.1f;
+//            float gst = totalServiceFee * 1.1f;
+//            float total = taskModel.getAmount() + totalServiceFee;
+//            float earning = total
+//            float jTServiceFee = totalServiceFee - gst;
+//
+//            serviceFee.setText(String.format(Locale.ENGLISH,"%.2f",totalServiceFee));
+//            totalCost.setText(String.format(Locale.ENGLISH,"%.2f",total));
+//            jobTickTotalValue.setText(String.format(Locale.ENGLISH,"%.2f",total));
+//            jobTickGtsValue.setText(String.format(Locale.ENGLISH,"%.2f",gst));
+//            jobTickServiceValue.setText(String.format(Locale.ENGLISH,"%.2f",jTServiceFee));
+
         }
     }
 }

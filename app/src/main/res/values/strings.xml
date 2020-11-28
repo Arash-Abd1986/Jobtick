@@ -145,7 +145,7 @@
     <string name="assignee">Assignee</string>
     <string name="action_octagon">Octagon</string>
     <string name="doc">Doc</string>
-    <string name="Decline">Decline</string>
+    <string name="decline">Decline</string>
     <string name="accept">Accept</string>
     <string name="Cancellation">Cancellation</string>
     <string name="Reschedule">Reschedule</string>
@@ -434,5 +434,9 @@
     <string name="increase_price">Increase price</string>
     <string name="old_price">Old price</string>
     <string name="new_price">New price</string>
+    <string name="ask_to_release">Ask to release</string>
+    <string name="confirm_release">Confirm release</string>
+    <string name="have_you_complete_the_job">Have you completed the job which you ask to release for?</string>
+    <string name="are_you_sure">Are you sure?</string>
 
 </resources>

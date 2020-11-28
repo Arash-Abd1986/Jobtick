@@ -161,7 +161,7 @@ android:id="@+id/txt_job_title"
                 <com.jobtick.TextView.TextViewRegular
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Decline"
+                    android:text="@string/decline"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14sp" />
 

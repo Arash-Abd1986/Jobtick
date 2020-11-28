@@ -9,6 +9,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.jobtick.models.review.ReviewModel;
 import com.jobtick.utils.TimeAgo;
+import com.jobtick.models.conversation.ConversationModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -605,7 +606,7 @@ public class TaskModel implements Parcelable {
             if (jsonObject.has("worker") && !jsonObject.isNull("worker"))
                 taskModel.setWorker(new UserAccountModel().getJsonToModel(jsonObject.getJSONObject("worker")));
             if (jsonObject.has("conversation") && !jsonObject.isNull("conversation"))
-                taskModel.setConversation(new ConversationModel(context).getJsonToModel(jsonObject.getJSONObject("conversation"), context));
+                taskModel.setConversation(new ConversationModel().getJsonToModel(jsonObject.getJSONObject("conversation")));
             if (jsonObject.has("title") && !jsonObject.isNull("title"))
                 taskModel.setTitle(jsonObject.getString("title"));
             if (jsonObject.has("slug") && !jsonObject.isNull("slug"))

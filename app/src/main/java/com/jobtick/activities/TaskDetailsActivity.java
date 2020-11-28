@@ -60,6 +60,8 @@ import com.jobtick.cancellations.CancellationPosterActivity;
 import com.jobtick.cancellations.CancellationRequestActivity;
 import com.jobtick.cancellations.CancellationRequestSubmittedActivity;
 import com.jobtick.cancellations.CancellationWorkerActivity;
+import com.jobtick.fragments.ConfirmAskToReleaseBottomSheet;
+import com.jobtick.fragments.ConfirmReleaseBottomSheet;
 import com.jobtick.fragments.IncreaseBudgetBottomSheet;
 import com.jobtick.fragments.IncreaseBudgetDeclineBottomSheet;
 import com.jobtick.fragments.IncreaseBudgetNoticeBottomSheet;
@@ -124,7 +126,8 @@ import static com.jobtick.utils.Constant.URL_TASKS;
 public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener,
         QuestionListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, ExtendedAlertBox.OnExtendedAlertButtonClickListener,
         RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener,
-        IncreaseBudgetNoticeBottomSheet.NoticeListener, IncreaseBudgetDeclineBottomSheet.NoticeListener{
+        IncreaseBudgetNoticeBottomSheet.NoticeListener, IncreaseBudgetDeclineBottomSheet.NoticeListener,
+        ConfirmAskToReleaseBottomSheet.NoticeListener, ConfirmReleaseBottomSheet.NoticeListener {
 
     @BindView(R.id.alert_box)
     ExtendedAlertBox alertBox;
@@ -723,6 +726,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         initIncreaseBudget();
         initRescheduleTime();
         initReview();
+        initAskToRelease();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             toolbar.getMenu().setGroupDividerEnabled(true);
@@ -1649,32 +1653,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 requirementState.get(Requirement.PhoneNumber));
     }
 
-    @SuppressLint("SetTextI18n")
-    private void showCustomDialogAskToReleaseMoney() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_show_confirmation);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
-        txtMessage.setText("Are you sure all work is done, and ask to release to money?");
-
-        dialog.findViewById(R.id.btn_yes).setOnClickListener(v -> {
-            submitAskToReleaseMoney();
-            dialog.dismiss();
-        });
-        dialog.findViewById(R.id.btn_no).setOnClickListener(v -> dialog.dismiss());
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-    }
-
     private void submitAskToReleaseMoney() {
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/complete",
@@ -1743,32 +1721,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(TaskDetailsActivity.this);
         requestQueue.add(stringRequest);
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void showCustomDialogReleaseMoney() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_show_confirmation);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
-        txtMessage.setText("Are you sure all work is done, and release to money?");
-
-        dialog.findViewById(R.id.btn_yes).setOnClickListener(v -> {
-            submitReleaseMoney();
-            dialog.dismiss();
-        });
-        dialog.findViewById(R.id.btn_no).setOnClickListener(v -> dialog.dismiss());
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
     }
 
     private void submitReleaseMoney() {
@@ -2510,6 +2462,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
+    private void initAskToRelease() {
+        if(alertType == AlertType.RELEASE_MONEY){
+            hideAlertBox();
+        }
+        if (taskModel.getConversation() != null && taskModel.getConversation().getTask() != null &&
+                taskModel.getConversation().getTask().getCompletedAt() != null && !taskModel.getConversation().getTask().getCompletedAt().isEmpty()) {
+            showReleaseCard();
+        }
+    }
+
     private int pos = 0;
     private void showDialogRescheduleRequest(int pos) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -2533,6 +2495,19 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         dialog.show(fragmentManager, "");
     }
 
+    private void showCustomDialogAskToReleaseMoney() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        ConfirmAskToReleaseBottomSheet dialog = new ConfirmAskToReleaseBottomSheet(getBaseContext());
+        dialog.show(fragmentManager, "");
+
+    }
+
+    private void showCustomDialogReleaseMoney() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        ConfirmReleaseBottomSheet dialog = new ConfirmReleaseBottomSheet(getBaseContext());
+        dialog.show(fragmentManager, "");
+    }
+
     // we have 4 possibility to support,
     // ticker cancels, user is ticker
     // ticker cancels, user is poster
@@ -2547,14 +2522,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if(isTicker && tickerCancels || !isTicker && !tickerCancels) {
             showAlertBox(Html.fromHtml("<b>You</b> have requested to cancel this job on <b>" +
                     TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>"),
-                    ConstantKey.BTN_CANCELLATION_REQUEST_SENT, AlertType.CANCELLATION);
+                    ConstantKey.BTN_CANCELLATION_REQUEST_SENT, AlertType.CANCELLATION,true);
         }
         else{
             String cancelledByWho = taskModel.getCancellation().getRequesterId().toString();
             showAlertBox(Html.fromHtml("<b>User with id " + cancelledByWho + "</b> " +
                     "has requested to cancel this job on <b>" +
                     TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>"),
-                    ConstantKey.BTN_CANCELLATION_REQUEST_SENT, AlertType.CANCELLATION);
+                    ConstantKey.BTN_CANCELLATION_REQUEST_SENT, AlertType.CANCELLATION,true);
         }
     }
 
@@ -2568,7 +2543,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         showAlertBox(Html.fromHtml("<b>" + rescheduledByWho + "</b> " +
                 "has requested to reschedule time for this job on <b>" +
                 TimeHelper.convertToShowTimeFormat(taskModel.getRescheduleReqeust().get(pos).getCreated_at())+ "</b>"),
-                ConstantKey.BTN_RESCHEDULE_REQUEST_SENT,AlertType.RESCHEDULE);
+                ConstantKey.BTN_RESCHEDULE_REQUEST_SENT,AlertType.RESCHEDULE, true);
     }
 
     private void showIncreaseBudgetCard(){
@@ -2581,7 +2556,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         showAlertBox(Html.fromHtml("<b>" + increaseRequestByWho +"</b> " +
                         "has requested to increase price on this job on <b>" +
                         TimeHelper.convertToShowTimeFormat(taskModel.getAdditionalFund().getCreatedAt())+ "</b>"),
-                ConstantKey.BTN_INCREASE_BUDGET_REQUEST_SENT, AlertType.INCREASE_BUDGET);
+                ConstantKey.BTN_INCREASE_BUDGET_REQUEST_SENT, AlertType.INCREASE_BUDGET, true);
     }
     
     private void showReviewCard(){
@@ -2593,14 +2568,24 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
         showAlertBox(Html.fromHtml(
                         "Make our community more trusted by leaving a review for <b>" + writeAReviewForWho + "</b>"),
-                ConstantKey.BTN_LEAVE_A_REVIEW, AlertType.REVIEW);
+                ConstantKey.BTN_LEAVE_A_REVIEW, AlertType.REVIEW,true);
+    }  
+
+    private void showReleaseCard(){
+        if(isMyTask) return;
+
+        showAlertBox(Html.fromHtml(
+                        "You have requested to release money this job on <b>" +
+                                TimeHelper.convertToShowTimeFormat(taskModel.getConversation().getTask().getCompletedAt())+ "</b>"),
+                null, AlertType.RELEASE_MONEY, false);
     }
 
     //we use spanned to support middle bolds
-    private void showAlertBox(Spanned title, String buttonText, AlertType alertType){
+    private void showAlertBox(Spanned title, String buttonText, AlertType alertType, boolean hasButton){
         alertBox.setVisibility(View.VISIBLE);
         this.alertType = alertType;
         alertBox.setTitle(title);
+        alertBox.setHasButton(hasButton);
         alertBox.setButtonText(buttonText);
     }
 
@@ -2642,6 +2627,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     @Override
+    public void onAskToReleaseConfirmClick() {
+        submitAskToReleaseMoney();
+    }
+
+    @Override
+    public void onReleaseConfirmClick() {
+        submitReleaseMoney();
+    }
+
+    @Override
     public void onIncreaseBudgetAcceptClick() {
         getData();
     }
@@ -2670,6 +2665,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         CANCELLATION,
         RESCHEDULE,
         INCREASE_BUDGET,
+        RELEASE_MONEY,
         REVIEW
         //more we add later
     }

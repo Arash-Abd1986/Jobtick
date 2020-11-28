@@ -283,7 +283,7 @@
                 <com.jobtick.TextView.TextViewSemiBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Decline"
+                    android:text="@string/decline"
                     android:textColor="@color/textColor"
                     />
 

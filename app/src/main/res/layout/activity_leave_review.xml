@@ -124,8 +124,8 @@
 
                             <View
                                 android:id="@+id/star"
-                                android:layout_width="12dp"
-                                android:layout_height="12dp"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
                                 android:layout_gravity="center_vertical"
                                 android:background="@drawable/ic_star_hollow_tiny" />
 

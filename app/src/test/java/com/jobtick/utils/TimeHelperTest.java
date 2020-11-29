@@ -37,4 +37,12 @@ public class TimeHelperTest {
 
         Assert.assertEquals("24th Nov. 2020 07:35 PM", showFormat);
     }
+
+    @Test
+    public void getCurrentTimeInShowTimeFormat() {
+        String date = TimeHelper.getCurrentDateTimeInShowTimeFormat();
+
+        //put current date
+        Assert.assertEquals("30th Nov. 2020 12:30 AM", date);
+    }
 }

@@ -22,6 +22,7 @@ import com.jobtick.models.cancellation.reason.CancellationReasonModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.utils.TimeHelper;
 import com.jobtick.widget.ExtendedCommentText;
 
 import org.json.JSONException;
@@ -272,10 +273,17 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
         super.onBackPressed();
     }
 
-    public abstract void setReasons(CancellationReasonModel cancellationReasonModel);
 
+    protected String generateTitle(){
+        return "You have requested to cancel this job on " +
+                TimeHelper.getCurrentDateTimeInShowTimeFormat() +
+                ".";
+    }
+
+    public abstract void setReasons(CancellationReasonModel cancellationReasonModel);
 
     public static final String CANCELLATION_REASON = "cancellation reason";
     public static final String CANCELLATION_COMMENT = "cancellation comment";
     public static final String CANCELLATION_ID = "cancellation id";
+    public static final String CANCELLATION_VALUE = "cancellation value";
 }

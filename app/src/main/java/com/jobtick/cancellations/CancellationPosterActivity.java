@@ -13,9 +13,9 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.activities.PPCancellationSummaryActivity;
-import com.jobtick.activities.TTCancellationSummaryActivity;
 import com.jobtick.models.cancellation.reason.CancellationReasonModel;
 import com.jobtick.models.cancellation.reason.Poster;
+import com.jobtick.utils.ConstantKey;
 
 import java.util.List;
 import java.util.Locale;
@@ -116,7 +116,7 @@ public class CancellationPosterActivity extends
     @OnClick(R.id.btn_submit)
     public void onViewClicked() {
         String str_comment = null;
-        if (TextUtils.isEmpty(commentText.getText().toString().trim())) {
+        if (!TextUtils.isEmpty(commentText.getText().toString().trim())) {
             str_comment = commentText.getText().toString().trim();
         }
 
@@ -124,6 +124,9 @@ public class CancellationPosterActivity extends
         bundle.putInt(CANCELLATION_ID, reasonId);
         bundle.putString(CANCELLATION_REASON, reason);
         bundle.putString(CANCELLATION_COMMENT, str_comment);
+        if(cancellationFeeContainer.getVisibility() == View.VISIBLE)
+            bundle.putFloat(CANCELLATION_VALUE, cancellationFeeValue);
+        bundle.putString(ConstantKey.CANCELLATION_TITLE, generateTitle());
         //we sure this is poster and poster is cancelling, so we go to PP
         Intent intent = new Intent(this, PPCancellationSummaryActivity.class);
 

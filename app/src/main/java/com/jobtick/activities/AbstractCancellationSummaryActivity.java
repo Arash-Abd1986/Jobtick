@@ -128,7 +128,13 @@ public class AbstractCancellationSummaryActivity extends ActivityBase {
             if (strComment == null || strComment.trim().isEmpty())
                 commentBox.setVisibility(View.GONE);
             else
-                cancellationReason.setText(strComment.trim());
+                commentContent.setText(strComment.trim());
+
+            float feeValue = bundle.getFloat(AbstractCancellationReasonsActivity.CANCELLATION_VALUE, 0f);
+            if(feeValue != 0f){
+                feeAmount.setText(String.format(Locale.ENGLISH, "-$ %.1f", feeValue));
+                feeContainer.setVisibility(View.VISIBLE);
+            }
 
             //here we sure the values is in cancellation model, but as usual, we have to check it
         } else if (taskModel.getCancellation() != null) {

@@ -30,6 +30,14 @@ public class TimeHelper {
 
         return getDayWithThFormat(time) + " " + sdf.format(date);
     }
+    public static String getCurrentDateTimeInShowTimeFormat() {
+
+        SimpleDateFormat sdf
+                = new SimpleDateFormat("MMM. yyyy hh:mm aaa", Locale.UK);
+
+        Date date = new Date();
+        return getCurrentDayWithThFormat() + " " + sdf.format(date);
+    }
 
     public static String findDifferenceWithNow(String time) {
 
@@ -59,15 +67,15 @@ public class TimeHelper {
 
         long difference_In_Years
                 = (difference_In_Time
-                / (1000l * 60 * 60 * 24 * 365));
+                / (1000L * 60 * 60 * 24 * 365));
 
         long difference_In_Months
                 = (difference_In_Time
-                / (1000l * 60 * 60 * 24 * 30));
+                / (1000L * 60 * 60 * 24 * 30));
 
         long difference_In_Weeks
                 = (difference_In_Time
-                / (1000l * 60 * 60 * 24 * 7));
+                / (1000L * 60 * 60 * 24 * 7));
 
         long difference_In_Days
                 = (difference_In_Time
@@ -117,6 +125,19 @@ public class TimeHelper {
 
         if(date == null)
             return "-1";
+
+        Calendar cal = Calendar.getInstance(TimeZone.getDefault());
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        return day + getDayOfMonthSuffix(day);
+    }
+
+    private static String getCurrentDayWithThFormat() {
+
+        Date date = new Date();
 
         Calendar cal = Calendar.getInstance(TimeZone.getDefault());
         cal.setTime(date);

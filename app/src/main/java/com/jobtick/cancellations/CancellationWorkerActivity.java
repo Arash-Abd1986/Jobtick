@@ -14,6 +14,8 @@ import com.jobtick.R;
 import com.jobtick.activities.TTCancellationSummaryActivity;
 import com.jobtick.models.cancellation.reason.CancellationReasonModel;
 import com.jobtick.models.cancellation.reason.Worker;
+import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.TimeHelper;
 
 import java.util.List;
 import java.util.Locale;
@@ -114,7 +116,7 @@ public class CancellationWorkerActivity extends AbstractCancellationReasonsActiv
     @OnClick(R.id.btn_submit)
     public void onViewClicked() {
         String str_comment = null;
-        if (TextUtils.isEmpty(commentText.getText().toString().trim())) {
+        if (!TextUtils.isEmpty(commentText.getText().toString().trim())) {
             str_comment = commentText.getText().toString().trim();
         }
 
@@ -122,6 +124,10 @@ public class CancellationWorkerActivity extends AbstractCancellationReasonsActiv
         bundle.putInt(CANCELLATION_ID, reasonId);
         bundle.putString(CANCELLATION_REASON, reason);
         bundle.putString(CANCELLATION_COMMENT, str_comment);
+        if(cancellationFeeContainer.getVisibility() == View.VISIBLE)
+            bundle.putFloat(CANCELLATION_VALUE, cancellationFeeValue);
+        bundle.putString(ConstantKey.CANCELLATION_TITLE, generateTitle());
+
         //we sure this is ticker and ticker is cancelling, so we go to TT
         Intent intent = new Intent(this, TTCancellationSummaryActivity.class);
 

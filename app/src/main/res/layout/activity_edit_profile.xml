@@ -10,6 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -91,12 +92,13 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:src="@drawable/ic_circle_logo"
+                                    android:scaleType="centerCrop"
                                     app:civ_border="false" />
 
                                 <RelativeLayout
                                     android:id="@+id/lytDeletePicture"
-                                    android:layout_width="@dimen/_27sp"
-                                    android:layout_height="@dimen/_27sp"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
                                     android:layout_alignParentBottom="true"
                                     android:layout_marginBottom="@dimen/_9sp"
                                     android:background="@drawable/bg_rounded_play"
@@ -281,6 +283,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_medium"
+                            android:focusable="false"
+                            android:clickable="false"
+                            android:focusableInTouchMode="false"
+                            android:saveEnabled="false"
                             android:layout_marginEnd="@dimen/spacing_large"
                             android:layout_marginBottom="@dimen/spacing_middle"
                             app:eInputType="email"
@@ -715,19 +721,22 @@
                                 </LinearLayout>
 
                             </RelativeLayout>
+
                         </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/card_save_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        style="@style/materialButton.colorPrimary"
+                        android:text="@string/save"
+                        android:layout_marginTop="10dp"
+                        />
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/card_save_profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            style="@style/materialButton.colorPrimary"
-            android:text="@string/save"
-            android:layout_alignParentBottom="true"/>
+
 
     </RelativeLayout>
 

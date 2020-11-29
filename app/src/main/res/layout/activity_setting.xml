@@ -6,9 +6,10 @@
     android:layout_height="match_parent"
     android:background="@color/grey_100"
     android:orientation="vertical"
+    android:paddingTop="20dp"
     tools:context=".activities.SettingActivity">
 
-    <include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"

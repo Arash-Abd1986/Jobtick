@@ -83,7 +83,6 @@ public class AttachmentAdapterEditProfile extends RecyclerView.Adapter<RecyclerV
     public void addItems(List<AttachmentModel> items) {
         this.items.addAll(items);
         notifyDataSetChanged();
-        Log.e("AddItems", "call");
     }
 
     public void addItem(AttachmentModel item)

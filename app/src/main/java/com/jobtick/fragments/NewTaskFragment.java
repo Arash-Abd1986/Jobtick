@@ -82,6 +82,9 @@ public class NewTaskFragment extends Fragment {
             creating_task.putExtras(bundle);
             getContext().startActivity(creating_task);
         });
+        posterCard.setOnClickListener(v -> {
+            lytBtnPost.performClick();
+        });
         sessionManager = new SessionManager(getContext());
         name.setText(sessionManager.getUserAccount().getName());
         final ViewTreeObserver observer = scrollView.getViewTreeObserver();

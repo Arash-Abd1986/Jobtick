@@ -6,9 +6,11 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -95,7 +97,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
     private final int PLACE_SELECTION_REQUEST_CODE = 1;
     private static final int GALLERY_PICKUP_VIDEO_REQUEST_CODE = 300;
-    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
+    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 5200;
     private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
 
     @SuppressLint("NonConstantResourceId")
@@ -241,9 +243,14 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+
         ButterKnife.bind(this);
+
         attachmentArrayList = new ArrayList<>();
         mBehavior = BottomSheetBehavior.from(bottomSheet);
         btnVerify = findViewById(R.id.lyt_btn_close);
@@ -288,18 +295,11 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         } else if (TextUtils.isEmpty(txtSuburb.getText().trim())) {
             txtSuburb.setError("Select your location");
             return false;
-        } else if (TextUtils.isEmpty(edtTagline.getText().trim())) {
-            edtTagline.setError("Enter your tagline");
-            return false;
-        } else if (TextUtils.isEmpty(edtAboutMe.getText().trim())) {
-            edtAboutMe.setError("Enter your about");
-            return false;
         } else if (TextUtils.isEmpty(edtBusinessNumber.getText().trim())) {
             edtBusinessNumber.setError("Enter your Business Number");
             return false;
         } else if (TextUtils.isEmpty(txtBirthDate.getText().toString().trim())) {
             edtBusinessNumber.setError("Enter your Birth Date");
-
         }
         return true;
     }
@@ -323,7 +323,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                         if (response != null) {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                            showToast(jsonObject.getString("message"), EditProfileActivity.this);
+                            showSuccessToast(jsonObject.getString("message"), EditProfileActivity.this);
                             if (onProfileupdatelistener != null) {
                                 onProfileupdatelistener.updateProfile();
                             }
@@ -759,7 +759,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             case R.id.lytDeletePicture:
 
                 new MaterialAlertDialogBuilder(EditProfileActivity.this)
-                        .setTitle("Alert!")
+                        .setTitle("")
                         .setMessage("Remove profile photo?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", (dialog1, id) -> {
@@ -778,13 +778,9 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     }
 
     private void verifyPhone() {
-        if (edtPhoneNumber.length() == 0) {
-            showToast("write number", EditProfileActivity.this);
-            btnVerify.setClickable(false);
-            btnVerify.setEnabled(false);
+        if (edtPhoneNumber.length() !=11) {
+            showToast("Please enter correct phone number", EditProfileActivity.this);
         } else {
-            btnVerify.setClickable(true);
-            btnVerify.setEnabled(true);
             Intent intent = new Intent(this, MobileVerificationActivity.class);
             intent.putExtra("phone_number", edtPhoneNumber.getText().toString());
             startActivity(intent);
@@ -901,12 +897,17 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                 LatLng locationObject = new LatLng(carmenFeature.center().latitude(), carmenFeature.center().longitude());
             }
             if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
+                Log.d("CaptureImage","Enter");
                 if (resultCode == RESULT_OK) {
+                    Log.d("CaptureImage","OK");
                     Uri uri = Uri.parse("file://" + imageStoragePath);
                     Bitmap bitmap = null;
                     try {
+                        Log.d("CaptureImage","TRY");
                         bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+
                     } catch (IOException e) {
+                        Log.d("CaptureImage",e.getLocalizedMessage());
                         e.printStackTrace();
                     }
 
@@ -928,7 +929,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                             "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
                             .show();
                 }
-            } else if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
+            }
+            if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
                 if (resultCode == RESULT_OK) {
                     if (data.getData() != null) {
                         imageStoragePath = CameraUtils.getPath(EditProfileActivity.this, data.getData());
@@ -1189,8 +1191,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
 
-                                showToast("Profile Picture has been  Deleted", EditProfileActivity.this);
-                                imgAvatar.setImageResource(R.drawable.ic_profile_image);
+                                showSuccessToast("Profile Picture has been  Deleted", EditProfileActivity.this);
+                                imgAvatar.setImageResource(R.drawable.ic_circle_logo);
                                 lytDeletePicture.setVisibility(View.GONE);
                                 if (onProfileupdatelistener != null) {
                                     onProfileupdatelistener.updatedSuccesfully("");

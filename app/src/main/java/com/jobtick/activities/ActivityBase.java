@@ -400,6 +400,13 @@ public class ActivityBase extends AppCompatActivity implements HasEditTextRegula
                 .show();
     }
 
+    public void showSuccessToast(String content, Context context) {
+        Alerter.create(this)
+            .setTitle("")
+            .setText(content)
+            .setBackgroundResource(R.color.colorOk)
+                .show();
+    }
 
     public void initProgressDialog() {
         pDialog = new ProgressDialog(this);

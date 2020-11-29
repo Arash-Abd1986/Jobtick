@@ -5,7 +5,9 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -59,6 +61,9 @@ public class MobileVerificationActivity extends ActivityBase {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mobile_verification);
         ButterKnife.bind(this);
@@ -142,8 +147,9 @@ public class MobileVerificationActivity extends ActivityBase {
                             }
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                                Log.d("OTP_ERRORS",jsonObject_errors.toString());
+
                             }
-                            showToast(message, MobileVerificationActivity.this);
 
 
                         } catch (JSONException e) {
@@ -166,8 +172,8 @@ public class MobileVerificationActivity extends ActivityBase {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<>();
-                map1.put("phone_number", mobileNumber.substring(3));
-                map1.put("dialing_code", mobileNumber.substring(0,3));
+                map1.put("mobile", mobileNumber);
+                map1.put("dialing_code", "+61");
                 return map1; }
         };
 

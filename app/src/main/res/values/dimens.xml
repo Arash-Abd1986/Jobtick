@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
@@ -7,7 +7,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="viewpager_margin_overlap">-60dp</dimen>
     <dimen name="viewpager_margin_overlap_payment">-30dp</dimen>
-
     <!--genaral spacing-->
     <dimen name="spacing_line">1dp</dimen>
     <dimen name="spacing_xsmall">2dp</dimen>

@@ -2,14 +2,13 @@ package com.jobtick.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,6 +31,7 @@ import butterknife.ButterKnife;
 
 public class NewSplashActivity extends AppCompatActivity {
     SessionManager sessionManager;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.logo)
     ImageView logo;
     @Override
@@ -43,18 +43,15 @@ public class NewSplashActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         ViewAnimator
                 .animate(logo)
-                .duration(1900)
-                .scale(0.9f,1)
+                .duration(2000)
                 .alpha(0,1)
+                .scale(0.9f,1)
                 .start();
 
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                sessionManager = new SessionManager(NewSplashActivity.this);
-                login();
-            }
+        handler.postDelayed(() -> {
+            sessionManager = new SessionManager(NewSplashActivity.this);
+            login();
         },2000);
     }
 
@@ -97,7 +94,7 @@ public class NewSplashActivity extends AppCompatActivity {
 
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<String, String>();
 
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());

@@ -129,11 +129,15 @@ public class SignInFragment extends FragmentBase implements AuthActivity.EditTex
     }
 
     private boolean validation() {
-        if (TextUtils.isEmpty(edtEmailAddress.getText().toString().trim())) {
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        if (TextUtils.isEmpty(edtEmailAddress.getText().trim())) {
+            edtEmailAddress.setError("Check your email address");
+            return false;
+        }else if(!edtEmailAddress.getText().trim().matches(emailPattern)){
             edtEmailAddress.setError("Check your email address");
             return false;
         }
-        else if (TextUtils.isEmpty(edtPassword.getText().toString().trim())) {
+        else if (TextUtils.isEmpty(edtPassword.getText().trim())) {
             edtPassword.setError("Enter your password");
             return false;
         }else if(edtPassword.getText().toString().trim().length() < 8){

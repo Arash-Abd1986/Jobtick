@@ -3,7 +3,6 @@ package com.jobtick.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +13,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.jobtick.R;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.SessionManager;
@@ -35,12 +33,9 @@ public class SplashActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                sessionManager = new SessionManager(SplashActivity.this);
-                login();
-            }
+        handler.postDelayed(() -> {
+            sessionManager = new SessionManager(SplashActivity.this);
+            login();
         },2000);
     }
 
@@ -60,12 +55,10 @@ public class SplashActivity extends AppCompatActivity {
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_GET_ACCOUNT,
                 response -> {
-                    Log.e("responce_url", response);
 
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
-                        Log.e("json", jsonObject.toString());
                         JSONObject jsonObject_data = jsonObject.getJSONObject("data");
 
                         UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_data);
@@ -77,7 +70,6 @@ public class SplashActivity extends AppCompatActivity {
                         startActivity(main);
 
                     } catch (JSONException e) {
-                        Log.e("EXCEPTION", String.valueOf(e));
                         e.printStackTrace();
                     }
                 },
@@ -102,6 +94,5 @@ public class SplashActivity extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(SplashActivity.this);
         requestQueue.add(stringRequest);
-        Log.e("URL", stringRequest.getUrl());
     }
 }

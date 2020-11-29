@@ -4,10 +4,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -66,6 +68,9 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
         toolbar = findViewById(R.id.toolbar);
         // Tools.clearSystemBarLight(this);
         toolbar.setElevation(0);
@@ -374,9 +379,6 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 return true;
 
             case R.id.nav_refer_a_friend:
-                Toast.makeText(this, "refer a friend", Toast.LENGTH_SHORT).show();
-                //TODO: after implementing app in store active this function
-                //referAFriend();
                 return true;
 
             case R.id.nav_settings:

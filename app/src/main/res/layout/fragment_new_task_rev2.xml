@@ -95,21 +95,21 @@
                             <ImageView
                                 android:layout_width="52dp"
                                 android:layout_height="52dp"
-                                android:src="@drawable/ticker_1"
+                                android:src="@drawable/img_asset_3"
                                 android:layout_marginEnd="16dp"
                                 android:layout_marginStart="16dp"/>
 
                             <ImageView
                                 android:layout_width="52dp"
                                 android:layout_height="52dp"
-                                android:src="@drawable/ticker_2"
+                                android:src="@drawable/img_asset_2"
                                 android:layout_marginEnd="16dp"
                                 android:layout_marginStart="16dp"/>
 
                             <ImageView
                                 android:layout_width="52dp"
                                 android:layout_height="52dp"
-                                android:src="@drawable/ticker_3"
+                                android:src="@drawable/img_asset_1"
                                 android:layout_marginEnd="16dp"
                                 android:layout_marginStart="16dp"/>
                         </LinearLayout>
@@ -172,21 +172,21 @@
                             <ImageView
                                 android:layout_width="52dp"
                                 android:layout_height="52dp"
-                                android:src="@drawable/poster_1"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:src="@drawable/img_asset_4" />
+
+                            <ImageView
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                android:src="@drawable/img_asset_5"
                                 android:layout_marginEnd="16dp"
                                 android:layout_marginStart="16dp"/>
 
                             <ImageView
                                 android:layout_width="52dp"
                                 android:layout_height="52dp"
-                                android:src="@drawable/poster_2"
-                                android:layout_marginEnd="16dp"
-                                android:layout_marginStart="16dp"/>
-
-                            <ImageView
-                                android:layout_width="52dp"
-                                android:layout_height="52dp"
-                                android:src="@drawable/poster_3"
+                                android:src="@drawable/img_asset_6"
                                 android:layout_marginEnd="16dp"
                                 android:layout_marginStart="16dp"/>
                         </LinearLayout>
@@ -225,23 +225,33 @@
 
 
     <LinearLayout
+        android:orientation="vertical"
         android:id="@+id/button_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_marginRight="30dp"
+        android:layout_height="100dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:paddingBottom="24dp"
-        android:gravity="center_horizontal">
+        android:paddingBottom="0dp"
+        android:gravity="center_horizontal"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/lty_btn_post"
-            style="@style/materialButton"
-            android:layout_width="174dp"
-            android:layout_height="56dp"
-            android:gravity="center"
-            android:text="@string/post_a_job"
-            android:textColor="@color/white"
-            android:textAppearance="@style/materialText_500_16"/>
 
-    </LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/lty_btn_post"
+        android:layout_width="65dp"
+        android:src="@drawable/ic_baseline_add"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_height="100dp"
+        app:borderWidth="0dp"
+        app:elevation="2dp"
+        android:layout_marginBottom="20dp"
+        app:rippleColor="@color/colorPrimary"
+        app:fabSize="normal"
+        app:tint="@color/white"
+        app:fabCustomSize="65dp"
+        app:maxImageSize="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"/>
+
 </RelativeLayout>

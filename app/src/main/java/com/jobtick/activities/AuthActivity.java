@@ -656,7 +656,6 @@ public class AuthActivity extends ActivityBase {
 
 
                         } catch (JSONException e) {
-                            Log.e("EXCEPTION", String.valueOf(e));
                             e.printStackTrace();
 
                         }
@@ -669,7 +668,6 @@ public class AuthActivity extends ActivityBase {
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
                         // Print Error!
-                        Log.e("intent22", jsonError);
 
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
@@ -733,7 +731,6 @@ public class AuthActivity extends ActivityBase {
                     } else {
                         showToast("Something Went Wrong", AuthActivity.this);
                     }
-                    Log.e("error", error.toString());
                     hideProgressDialog();
                 }) {
 
@@ -781,7 +778,6 @@ public class AuthActivity extends ActivityBase {
             @Override
             public void onComplete(@NonNull Task<InstanceIdResult> task) {
                 if (!task.isSuccessful()) {
-                    Log.w(AuthActivity.this.getPackageName(), "getInstanceId failed", task.getException());
                     return;
                 }
 
@@ -902,6 +898,7 @@ public class AuthActivity extends ActivityBase {
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
+            Log.d("LoginGoogle","1:"+task.toString());
         } else {
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
@@ -911,6 +908,7 @@ public class AuthActivity extends ActivityBase {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             signInUpdateUI(account);
+            Log.d("LoginGoogle","account:"+account.toString());
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.

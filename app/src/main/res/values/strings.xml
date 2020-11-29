@@ -439,5 +439,6 @@
     <string name="have_you_complete_the_job">Have you completed the job which you ask to release for?</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="job_receipt">Job receipt</string>
+    <string name="splash_logo">Splash logo</string>
 
 </resources>

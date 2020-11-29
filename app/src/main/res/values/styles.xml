@@ -14,7 +14,9 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="sliderStyle">@style/Widget.App.Slider</item>
     </style>
-
+    <style name="Progressbar.White" parent="AppTheme">
+        <item name="colorControlActivated">@color/white</item>
+    </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />

@@ -34,6 +34,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.NewSplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.TTCancellationSummaryActivity" />
         <activity android:name=".activities.TPCancellationSummaryActivity" />
         <activity android:name=".activities.PTCancellationSummaryActivity" />
@@ -57,7 +64,7 @@
         <activity android:name=".activities.JobReceiptActivity" />
         <activity
             android:name=".cancellations.CancellationDeclineActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".cancellations.CancellationAcceptedActivity" />
         <activity android:name=".cancellations.CancellationRequestSubmittedActivity" />
         <activity
@@ -68,13 +75,16 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".cancellations.CancellationDeclinedActivity" />
         <activity android:name=".cancellations.CancellationSubmitedActivity" />
-        <activity android:name=".activities.LeaveReviewActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".activities.LeaveReviewActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activities.PaymentReceiptActivity" />
         <activity
             android:name=".activities.ChatActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activities.PaymentOverviewActivity" />
-        <activity android:name=".activities.MapViewActivity"
+        <activity
+            android:name=".activities.MapViewActivity"
             android:theme="@style/AppTheme.fullScreen" />
         <activity android:name=".activities.ReviewsActivity" />
         <activity android:name=".activities.SkillsTagActivity" />
@@ -115,12 +125,14 @@
         <activity android:name=".activities.SettingActivity" />
         <activity
             android:name=".activities.CompleteRegistrationActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan"></activity>
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity android:name=".activities.TaskCreateActivity" />
         <activity android:name=".activities.SavedTaskActivity" />
         <activity android:name=".activities.UserProfileActivity" />
         <activity android:name=".activities.WebViewActivity" />
-        <activity android:name=".activities.ReportActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".activities.ReportActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activities.EmailNotificationsSettingsActivity" />
         <activity android:name=".activities.PushNotificationsSettingsActivity" />
         <activity android:name=".activities.SMSNotificationsSettingsActivity" />
@@ -133,11 +145,7 @@
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/Splash.AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activities.AuthActivity"
@@ -168,13 +176,15 @@
         </activity>
         <activity android:name=".activities.ActivityBase" />
         <activity android:name=".activities.ViewAllQuestionsActivity" />
-        <activity android:name=".activities.RescheduleReqFromWorkerActivity" android:windowSoftInputMode="stateVisible|adjustPan"/>
+        <activity
+            android:name=".activities.RescheduleReqFromWorkerActivity"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity android:name=".activities.SinginSingupAcitivity" />
         <activity android:name=".activities.CategoryListActivity" />
         <activity android:name=".activities.RescheduleDeclineActivity" />
         <activity android:name=".activities.OnboardActivity" />
         <activity android:name=".activities.SearchCategoryActivity" />
-        <activity android:name=".activities.SearchTaskActivity"></activity>
+        <activity android:name=".activities.SearchTaskActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

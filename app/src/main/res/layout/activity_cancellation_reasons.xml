@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/backgroundLightGrey"
     android:orientation="vertical"
     tools:context=".cancellations.CancellationWorkerActivity">
@@ -48,7 +48,7 @@
                     android:layout_marginTop="16dp"
                     android:button="@drawable/radio_button_selector_size_16"
                     android:paddingStart="@dimen/spacing_large"
-                    android:text="@string/reason_worker_1"
+                    android:text=""
                     android:textAppearance="@style/materialText_400_14" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
@@ -58,7 +58,7 @@
                     android:layout_marginTop="16dp"
                     android:button="@drawable/radio_button_selector_size_16"
                     android:paddingStart="@dimen/spacing_large"
-                    android:text="@string/reason_worker_2"
+                    android:text=""
                     android:textAppearance="@style/materialText_400_14" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
@@ -68,7 +68,7 @@
                     android:layout_marginTop="16dp"
                     android:button="@drawable/radio_button_selector_size_16"
                     android:paddingStart="@dimen/spacing_large"
-                    android:text="@string/reason_worker_3"
+                    android:text=""
                     android:textAppearance="@style/materialText_400_14" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
@@ -78,21 +78,10 @@
                     android:layout_marginTop="16dp"
                     android:button="@drawable/radio_button_selector_size_16"
                     android:paddingStart="@dimen/spacing_large"
-                    android:text="@string/reason_worker_4"
-                    android:textAppearance="@style/materialText_400_14" />
-
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/rb_reason_5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:button="@drawable/radio_button_selector_size_16"
-                    android:paddingStart="@dimen/spacing_large"
-                    android:text="@string/reason_worker_4"
+                    android:text=""
                     android:textAppearance="@style/materialText_400_14" />
 
             </RadioGroup>
-
 
 
             <com.jobtick.widget.ExtendedCommentText
@@ -100,10 +89,69 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:layout_marginTop="24dp"
-                app:eTitle="@string/comments_optional"
+                app:eIsMandatory="false"
                 app:eMaxCharSize="100"
-                app:eIsMandatory="false"/>
+                app:eTitle="@string/comments_optional" />
 
+            <RelativeLayout
+                android:id="@+id/cancellation_fee_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/fee_main_title"
+                    style="@style/materialText_500_12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="16dp"
+                    android:text="You will be charged a Cancellation Fee once the request has been accepted."
+                    android:textColor="@color/grey_70" />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/fee_title"
+                    style="@style/materialText_400_14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fee_main_title"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center_vertical"
+                    android:layout_alignTop="@id/txt_cancellation_fee"
+                    android:layout_alignBottom="@id/txt_cancellation_fee"
+                    android:layout_toStartOf="@+id/txt_cancellation_fee"
+                    android:text="Cancellation Fee"
+                    android:textColor="@color/textColor" />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_cancellation_fee"
+                    style="@style/materialText_600_22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="16dp"
+                    android:layout_below="@id/fee_main_title"
+                    android:layout_centerVertical="true"
+                    android:text="-$ 20"
+                    android:textColor="@color/colorTaskOverDue" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_400_12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_cancellation_fee"
+                    android:layout_marginTop="16dp"
+                    android:text="Learn more about our Policy and Fees"
+                    android:textColor="@color/colorPrimary" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -115,8 +163,10 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/spacing_large"
-        android:text="@string/submit"
-        android:enabled="false"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:enabled="false"
+        android:text="@string/submit" />
 
 </RelativeLayout>

@@ -8,7 +8,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CancellationModel implements Parcelable
+public class CancellationReasonModel implements Parcelable
 {
 
     @SerializedName("worker")
@@ -17,24 +17,24 @@ public class CancellationModel implements Parcelable
     @SerializedName("poster")
     @Expose
     private List<Poster> poster = null;
-    public final static Creator<CancellationModel> CREATOR = new Creator<CancellationModel>() {
+    public final static Creator<CancellationReasonModel> CREATOR = new Creator<CancellationReasonModel>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public CancellationModel createFromParcel(Parcel in) {
-            return new CancellationModel(in);
+        public CancellationReasonModel createFromParcel(Parcel in) {
+            return new CancellationReasonModel(in);
         }
 
-        public CancellationModel[] newArray(int size) {
-            return (new CancellationModel[size]);
+        public CancellationReasonModel[] newArray(int size) {
+            return (new CancellationReasonModel[size]);
         }
 
     }
     ;
 
-    protected CancellationModel(Parcel in) {
+    protected CancellationReasonModel(Parcel in) {
         in.readList(this.worker, (Worker.class.getClassLoader()));
         in.readList(this.poster, (Poster.class.getClassLoader()));
     }
@@ -43,7 +43,7 @@ public class CancellationModel implements Parcelable
      * No args constructor for use in serialization
      * 
      */
-    public CancellationModel() {
+    public CancellationReasonModel() {
     }
 
     /**
@@ -51,7 +51,7 @@ public class CancellationModel implements Parcelable
      * @param worker
      * @param poster
      */
-    public CancellationModel(List<Worker> worker, List<Poster> poster) {
+    public CancellationReasonModel(List<Worker> worker, List<Poster> poster) {
         super();
         this.worker = worker;
         this.poster = poster;

@@ -49,6 +49,7 @@ public class ConstantKey {
     public static final String MAKE_AN_OFFER = "Make An Offer";
     public static final String PAYMENT_OVERVIEW = "payment_overview";
     public static final String CANCELLATION = "Cancellation";
+    public static final String CANCELLATION_TITLE = "Cancellation";
     public static final String PRIVATE_CHAT = "Private_chat";
     public static final String ACCEPT = "Accept";
     public static final String ACCEPTED = "Accepted";

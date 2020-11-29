@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/backgroundLightGrey">
 
     <include layout="@layout/toolbar" />
@@ -41,7 +42,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lineHeight="23dp"
-                        android:text="You have requested to cancel this job on 9th December 2020 9:45 PM."
+                        tools:text="You have requested to cancel this job on 9th December 2020 9:45 PM."
                         android:textAppearance="@style/materialText_500_14"
                         android:textColor="@color/grey_70" />
 
@@ -52,7 +53,7 @@
                         android:layout_below="@id/title"
                         android:layout_marginTop="12dp"
                         android:lineHeight="23dp"
-                        android:text="Your  secured payment will be refunded when you accept the request."
+                        android:text="Your secured payment will be refunded when you accept the request."
                         android:textAppearance="@style/materialText_500_14"
                         android:textColor="@color/grey_70" />
 
@@ -75,7 +76,7 @@
                         android:layout_toStartOf="@id/task_fee"
                         android:layout_toEndOf="@id/ivAvatar"
                         android:lineHeight="18dp"
-                        android:text="Clean my two bedroom apartment"
+                        tools:text="Clean my two bedroom apartment"
                         android:textAppearance="@style/materialText_700_14"
                         android:textColor="@color/textColor" />
 
@@ -89,7 +90,7 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="2dp"
                         android:layout_toEndOf="@id/ivAvatar"
-                        android:text="Nathan Fox"
+                        tools:text="Nathan Fox"
                         android:textAppearance="@style/materialText_400_12"
                         android:textColor="@color/grey_70" />
 
@@ -102,7 +103,7 @@
                         android:layout_alignBottom="@id/ivAvatar"
                         android:layout_alignParentEnd="true"
                         android:gravity="center"
-                        android:text="$200"
+                        tools:text="$200"
                         android:textAppearance="@style/materialText_600_20"
                         android:textColor="@color/colorPrimary" />
 
@@ -123,8 +124,8 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/header_reason"
                         android:layout_marginTop="8dp"
-                        android:text="“I no longer need the job to be done”"
-                        android:textAppearance="@style/materialText_600_14"
+                        tools:text="“I no longer need the job to be done”"
+                        android:textAppearance="@style/materialText_700_14"
                         android:textColor="@color/textColor" />
 
                     <LinearLayout
@@ -150,7 +151,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:lineHeight="20dp"
-                        android:text="officia aliqua tempor fugiat elit non Lorem cillu et proident nulla incididunt officia incididunt veniam occaecat in esse elit"
+                        tools:text="officia aliqua tempor fugiat elit non Lorem cillu et proident nulla incididunt officia incididunt veniam occaecat in esse elit"
                         android:textAppearance="@style/materialText_500_14"
                         android:textColor="@color/textColor" />
                     </LinearLayout>
@@ -167,7 +168,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
                 android:lineHeight="20dp"
-                android:text="The job will be automaticaly cancelled Poster doesn’t respond within 2 days of the request."
+                tools:text="@string/cancellation_respond_ticker"
                 android:textAppearance="@style/materialText_500_14"
                 android:textColor="@color/textColor" />
 
@@ -198,7 +199,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="16dp"
                     android:gravity="end|center_vertical"
-                    android:text="-$20"
+                    tools:text="-$20"
                     android:textAppearance="@style/materialText_600_22"
                     android:textColor="@color/strokeRed" />
 
@@ -213,6 +214,19 @@
                     android:textAppearance="@style/materialText_400_14"
                     android:textColor="@color/colorPrimary" />
 
+                <View
+                    android:id="@+id/normal_needed_space"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_below="@id/learn_more"/>
+
+                <View
+                    android:id="@+id/extra_needed_space"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/normal_needed_space"
+                    android:visibility="gone"/>
+
             </RelativeLayout>
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
@@ -225,7 +239,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
 
         <com.google.android.material.button.MaterialButton
@@ -249,5 +264,49 @@
             android:text="Accept" />
     </LinearLayout>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_submit"
+        style="@style/materialButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/submit"
+        android:visibility="visible"/>
 
+    <LinearLayout
+        android:id="@+id/withdraw_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/materialText_400_14"
+        android:layout_above="@+id/btn_withdraw"
+        android:text="@string/hold_down_the_button_to_withdraw"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="16dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_withdraw"
+        style="@style/materialButton"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginBottom="32dp"
+        android:enabled="false"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/strokeRed"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:text="@string/withdraw_the_request"
+        android:visibility="visible"/>
+
+    </LinearLayout>
 </RelativeLayout>

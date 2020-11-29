@@ -1,5 +1,6 @@
 package com.jobtick.cancellations;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
@@ -10,7 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
-import com.jobtick.models.cancellation.reason.CancellationModel;
+import com.jobtick.activities.TTCancellationSummaryActivity;
+import com.jobtick.models.cancellation.reason.CancellationReasonModel;
 import com.jobtick.models.cancellation.reason.Worker;
 
 import java.util.List;
@@ -56,9 +58,9 @@ public class CancellationWorkerActivity extends AbstractCancellationReasonsActiv
     }
 
     @Override
-    public void setReasons(CancellationModel cancellationModel) {
+    public void setReasons(CancellationReasonModel cancellationReasonModel) {
 
-        List<Worker> reasons = cancellationModel.getWorker();
+        List<Worker> reasons = cancellationReasonModel.getWorker();
 
         for (int i = 0; reasons.size() > i; i++) {
             String reason = reasons.get(i).getReason();
@@ -116,6 +118,15 @@ public class CancellationWorkerActivity extends AbstractCancellationReasonsActiv
             str_comment = commentText.getText().toString().trim();
         }
 
-        cancellationSubmit(reason, str_comment,reasonId);
+        Bundle bundle = new Bundle();
+        bundle.putInt(CANCELLATION_ID, reasonId);
+        bundle.putString(CANCELLATION_REASON, reason);
+        bundle.putString(CANCELLATION_COMMENT, str_comment);
+        //we sure this is ticker and ticker is cancelling, so we go to TT
+        Intent intent = new Intent(this, TTCancellationSummaryActivity.class);
+
+        intent.putExtras(bundle);
+
+        startActivity(intent);
     }
 }

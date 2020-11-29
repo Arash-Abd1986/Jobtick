@@ -1,5 +1,6 @@
 package com.jobtick.cancellations;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
@@ -11,8 +12,11 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
-import com.jobtick.models.cancellation.reason.CancellationModel;
+import com.jobtick.activities.PPCancellationSummaryActivity;
+import com.jobtick.activities.TTCancellationSummaryActivity;
+import com.jobtick.models.cancellation.reason.CancellationReasonModel;
 import com.jobtick.models.cancellation.reason.Poster;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -20,7 +24,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class CancellationPosterActivity extends
-        AbstractCancellationReasonsActivity implements RadioGroup.OnCheckedChangeListener{
+        AbstractCancellationReasonsActivity implements RadioGroup.OnCheckedChangeListener {
 
 
     @BindView(R.id.rb_reason_1)
@@ -56,15 +60,15 @@ public class CancellationPosterActivity extends
     }
 
     @Override
-    public void setReasons(CancellationModel cancellationModel) {
+    public void setReasons(CancellationReasonModel cancellationReasonModel) {
 
-        List<Poster> reasons = cancellationModel.getPoster();
+        List<Poster> reasons = cancellationReasonModel.getPoster();
 
         for (int i = 0; reasons.size() > i; i++) {
             String reason = reasons.get(i).getReason();
-            if(reason.contains("{poster}"))
+            if (reason.contains("{poster}"))
                 reason = reason.replace("{poster}", "<b>" + taskModel.getPoster().getName() + "</b>");
-            if(reason.contains("{worker}"))
+            if (reason.contains("{worker}"))
                 reason = reason.replace("{worker}", "<b>" + taskModel.getWorker().getName() + "</b>");
 
             switch (i) {
@@ -94,13 +98,13 @@ public class CancellationPosterActivity extends
     @Override
     public void onCheckedChanged(RadioGroup group, int id) {
         RadioButton radioButton = (RadioButton) group.findViewById(id);
-        Poster selectedReason = ((Poster)radioButton.getTag());
+        Poster selectedReason = ((Poster) radioButton.getTag());
         if (radioButton.isChecked()) {
             reason = radioButton.getText().toString().trim();
-            if(selectedReason.getResponsiblePersonType().equals("poster")){
+            if (selectedReason.getResponsiblePersonType().equals("poster")) {
                 cancellationFee.setText(String.format(Locale.ENGLISH, "-$%s", cancellationFeeValue));
                 cancellationFeeContainer.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 cancellationFeeContainer.setVisibility(View.GONE);
             }
 
@@ -116,6 +120,15 @@ public class CancellationPosterActivity extends
             str_comment = commentText.getText().toString().trim();
         }
 
-        cancellationSubmit(reason, str_comment,reasonId);
+        Bundle bundle = new Bundle();
+        bundle.putInt(CANCELLATION_ID, reasonId);
+        bundle.putString(CANCELLATION_REASON, reason);
+        bundle.putString(CANCELLATION_COMMENT, str_comment);
+        //we sure this is poster and poster is cancelling, so we go to PP
+        Intent intent = new Intent(this, PPCancellationSummaryActivity.class);
+
+        intent.putExtras(bundle);
+
+        startActivity(intent);
     }
 }

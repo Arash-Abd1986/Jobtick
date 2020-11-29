@@ -2530,21 +2530,44 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     // poster cancels, user is ticker
     private boolean isTicker = false;
     private boolean tickerCancels = false;
+    private String cancellationTitle;
     private void showCancellationCard(boolean isTicker, boolean tickerCancels){
         this.isTicker = isTicker;
         this.tickerCancels = tickerCancels;
 
-        if(isTicker && tickerCancels || !isTicker && !tickerCancels) {
-            showAlertBox(Html.fromHtml("<b>You</b> have requested to cancel this job on <b>" +
-                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>"),
-                    ConstantKey.BTN_CANCELLATION_REQUEST_SENT, AlertType.CANCELLATION,true);
+        if(isTicker && tickerCancels) {
+            cancellationTitle = "<b>You</b> have requested to cancel this job on <b>" +
+                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>";
+
+            showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_CANCELLATION_REQUEST_SENT,
+                    AlertType.CANCELLATION,true);
         }
-        else{
-            String cancelledByWho = taskModel.getCancellation().getRequesterId().toString();
-            showAlertBox(Html.fromHtml("<b>User with id " + cancelledByWho + "</b> " +
+        if(!isTicker && !tickerCancels) {
+            cancellationTitle = "<b>You</b> have requested to cancel this job on <b>" +
+                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>";
+
+            showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_CANCELLATION_REQUEST_SENT,
+                    AlertType.CANCELLATION,true);
+        }
+        if(isTicker && !tickerCancels) {
+            String cancelledByWho = taskModel.getPoster().getName();
+
+            cancellationTitle = "<b>" + cancelledByWho + "</b> " +
                     "has requested to cancel this job on <b>" +
-                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>"),
-                    ConstantKey.BTN_CANCELLATION_REQUEST_SENT, AlertType.CANCELLATION,true);
+                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt()) + "</b>";
+
+            showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_CANCELLATION_REQUEST_SENT,
+                    AlertType.CANCELLATION, true);
+        }
+        if(!isTicker && tickerCancels) {
+            String cancelledByWho = taskModel.getWorker().getName();
+
+            cancellationTitle = "<b>" + cancelledByWho + "</b> " +
+                    "has requested to cancel this job on <b>" +
+                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt()) + "</b>";
+
+            showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_CANCELLATION_REQUEST_SENT,
+                    AlertType.CANCELLATION, true);
         }
     }
 
@@ -2609,6 +2632,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         this.alertType = null;
     }
 
+    // we have 4 possibility to support,
+    // ticker cancels, user is ticker
+    // ticker cancels, user is poster
+    // poster cancels, user is poster
+    // poster cancels, user is ticker
     @Override
     public void onExtendedAlertButtonClick() {
         if(alertType == null) return;
@@ -2623,6 +2651,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             } else {
                 intent = new Intent(this, PPCancellationSummaryActivity.class);
             }
+            Bundle bundle = new Bundle();
+            bundle.putString(ConstantKey.CANCELLATION_TITLE, cancellationTitle);
+            intent.putExtras(bundle);
             startActivityForResult(intent, 1010);
         }
         else if(alertType == AlertType.RESCHEDULE){

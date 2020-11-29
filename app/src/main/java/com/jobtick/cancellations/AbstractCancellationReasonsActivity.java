@@ -1,6 +1,5 @@
 package com.jobtick.cancellations;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,9 +18,8 @@ import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.TaskModel;
 import com.jobtick.models.cancellation.notice.CancellationNoticeModel;
-import com.jobtick.models.cancellation.reason.CancellationModel;
+import com.jobtick.models.cancellation.reason.CancellationReasonModel;
 import com.jobtick.utils.Constant;
-import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.widget.ExtendedCommentText;
@@ -49,7 +47,7 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
 
     protected String str_SLUG = null;
     protected TaskModel taskModel;
-    protected CancellationModel cancellationModel;
+    protected CancellationReasonModel cancellationReasonModel;
     protected SessionManager sessionManager;
 
     protected String reason;
@@ -203,8 +201,8 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
                                 if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                     String data = jsonObject.getString("data");
                                     Gson gson = new Gson();
-                                    this.cancellationModel = gson.fromJson(data, CancellationModel.class);
-                                    setReasons(cancellationModel);
+                                    this.cancellationReasonModel = gson.fromJson(data, CancellationReasonModel.class);
+                                    setReasons(cancellationReasonModel);
                                     getNoticeList();
                                 }
                             } else {
@@ -274,110 +272,10 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
         super.onBackPressed();
     }
 
-
-    protected void cancellationSubmit(String str_reason, String str_comment, int reasonId) {
-        showProgressDialog();
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, Constant.URL_TASKS + "/" + str_SLUG + "/cancellation",
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
-                    try {
-
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-
-                                Intent intent = new Intent();
-                                Bundle bundle = new Bundle();
-                                bundle.putString(ConstantKey.CANCELLATION, "Cancellation submitted successfully.");
-                                intent.putExtras(bundle);
-                                setResult(ConstantKey.RESULTCODE_CANCELLATION, intent);
-
-                                intent = new Intent(AbstractCancellationReasonsActivity.this, cancellationSubmittedActivity.class);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                showToast("Something went Wrong", AbstractCancellationReasonsActivity.this);
-                            }
-                        }
+    public abstract void setReasons(CancellationReasonModel cancellationReasonModel);
 
 
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-
-                    }
-
-
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser();
-                            hideProgressDialog();
-                            return;
-                        }
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                            if (jsonObject_error.has("message")) {
-                                Toast.makeText(AbstractCancellationReasonsActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                            }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        showToast("Something Went Wrong", AbstractCancellationReasonsActivity.this);
-                    }
-                    Timber.e(error.toString());
-                    hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("reason", str_reason);
-                map1.put("reason_id", Integer.toString(reasonId));
-                if (str_comment != null) {
-                    map1.put("comment", str_comment);
-                }
-                Timber.e(String.valueOf(map1.size()));
-                Timber.e(map1.toString());
-                return map1;
-
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(AbstractCancellationReasonsActivity.this);
-        requestQueue.add(stringRequest);
-        Log.e(TAG, stringRequest.getUrl());
-    }
-
-    public abstract void setReasons(CancellationModel cancellationModel);
+    public static final String CANCELLATION_REASON = "cancellation reason";
+    public static final String CANCELLATION_COMMENT = "cancellation comment";
+    public static final String CANCELLATION_ID = "cancellation id";
 }

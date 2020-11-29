@@ -10,11 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import com.jobtick.utils.ConstantKey;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CancellationSubmitedActivity extends AppCompatActivity {
+public class cancellationSubmittedActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
@@ -30,7 +31,7 @@ public class CancellationSubmitedActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initToolbar();
 
-        String desc = getIntent().getExtras().getString(CANCELLATION);
+        String desc = getIntent().getExtras().getString(ConstantKey.CANCELLATION);
         if(desc != null && !desc.equals(""))
             txtTitle.setText(desc);
 
@@ -54,6 +55,4 @@ public class CancellationSubmitedActivity extends AppCompatActivity {
             }
         });
     }
-
-    public static final String CANCELLATION = "cancellation";
 }

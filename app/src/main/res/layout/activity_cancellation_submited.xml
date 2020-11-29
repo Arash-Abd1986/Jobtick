@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/backgroundLightGrey"
-    tools:context=".cancellations.CancellationSubmitedActivity">
+    tools:context=".cancellations.cancellationSubmittedActivity">
 
     <include layout="@layout/toolbar" />
 

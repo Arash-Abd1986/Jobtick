@@ -62,12 +62,12 @@
         <activity android:name=".cancellations.CancellationRequestSubmittedActivity" />
         <activity
             android:name=".cancellations.CancellationWorkerActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".cancellations.CancellationPosterActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".cancellations.CancellationDeclinedActivity" />
-        <activity android:name=".cancellations.CancellationSubmitedActivity" />
+        <activity android:name=".cancellations.cancellationSubmittedActivity" />
         <activity android:name=".activities.LeaveReviewActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activities.PaymentReceiptActivity" />
         <activity

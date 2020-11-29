@@ -290,11 +290,11 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
 
                                 Intent intent = new Intent();
                                 Bundle bundle = new Bundle();
-                                bundle.putBoolean(ConstantKey.CANCELLATION, true);
+                                bundle.putString(ConstantKey.CANCELLATION, "Cancellation submitted successfully.");
                                 intent.putExtras(bundle);
                                 setResult(ConstantKey.RESULTCODE_CANCELLATION, intent);
 
-                                intent = new Intent(AbstractCancellationReasonsActivity.this, CancellationSubmitedActivity.class);
+                                intent = new Intent(AbstractCancellationReasonsActivity.this, cancellationSubmittedActivity.class);
                                 startActivity(intent);
                                 finish();
                             } else {

@@ -2539,14 +2539,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             cancellationTitle = "<b>You</b> have requested to cancel this job on <b>" +
                     TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>";
 
-            showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_CANCELLATION_REQUEST_SENT,
+            showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
                     AlertType.CANCELLATION,true);
         }
         if(!isTicker && !tickerCancels) {
             cancellationTitle = "<b>You</b> have requested to cancel this job on <b>" +
                     TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>";
 
-            showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_CANCELLATION_REQUEST_SENT,
+            showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
                     AlertType.CANCELLATION,true);
         }
         if(isTicker && !tickerCancels) {
@@ -2556,7 +2556,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     "has requested to cancel this job on <b>" +
                     TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt()) + "</b>";
 
-            showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_CANCELLATION_REQUEST_SENT,
+            showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
                     AlertType.CANCELLATION, true);
         }
         if(!isTicker && tickerCancels) {
@@ -2566,7 +2566,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     "has requested to cancel this job on <b>" +
                     TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt()) + "</b>";
 
-            showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_CANCELLATION_REQUEST_SENT,
+            showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
                     AlertType.CANCELLATION, true);
         }
     }

@@ -2,6 +2,7 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -104,7 +105,7 @@ public class AbstractCancellationSummaryActivity extends ActivityBase {
         Bundle bundle = getIntent().getExtras();
         if (bundle == null) throw new IllegalStateException("there is no bundle.");
 
-        title.setText(bundle.getString(ConstantKey.CANCELLATION_TITLE));
+        title.setText(Html.fromHtml(bundle.getString(ConstantKey.CANCELLATION_TITLE)));
 
         if (taskModel.getPoster().getAvatar() != null && taskModel.getPoster().getAvatar().getThumbUrl() != null) {
             ImageUtil.displayImage(imgAvatar, taskModel.getPoster().getAvatar().getThumbUrl(), null);
@@ -112,7 +113,7 @@ public class AbstractCancellationSummaryActivity extends ActivityBase {
             //deafult image
         }
         taskTitle.setText(taskModel.getTitle());
-        taskFee.setText(String.format(Locale.ENGLISH, "%d", taskModel.getAmount()));
+        taskFee.setText(String.format(Locale.ENGLISH, "$ %d", taskModel.getAmount()));
         posterName.setText(taskModel.getPoster().getName());
 
         strComment = bundle.getString(AbstractCancellationReasonsActivity.CANCELLATION_COMMENT, null);
@@ -122,7 +123,8 @@ public class AbstractCancellationSummaryActivity extends ActivityBase {
         //first we check, it the values are inserted in CancellationWorker/PosterActivity
         if (strReason != null) {
             submit.setVisibility(View.VISIBLE);
-            cancellationReason.setText(String.format("\"%s\"", strReason));
+
+            cancellationReason.setText(reasonRectify(strReason));
             if (strComment == null || strComment.trim().isEmpty())
                 commentBox.setVisibility(View.GONE);
             else
@@ -131,7 +133,7 @@ public class AbstractCancellationSummaryActivity extends ActivityBase {
             //here we sure the values is in cancellation model, but as usual, we have to check it
         } else if (taskModel.getCancellation() != null) {
             submit.setVisibility(View.GONE);
-            cancellationReason.setText(String.format("\"%s\"", taskModel.getCancellation().getReason()));
+            cancellationReason.setText(reasonRectify(taskModel.getCancellation().getReason()));
             if (taskModel.getCancellation().getComment() == null || taskModel.getCancellation().getComment().trim().isEmpty())
                 commentBox.setVisibility(View.GONE);
             else
@@ -160,6 +162,17 @@ public class AbstractCancellationSummaryActivity extends ActivityBase {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private String reasonRectify(String reason){
+        if(reason.contains("{worker}"))
+            reason = reason.replace("{worker}", taskModel.getWorker().getName());
+        if(reason.contains("{poster}"))
+            reason = reason.replace("{poster}", taskModel.getWorker().getName());
+
+        reason = String.format("\"%s\"", reason);
+
+        return reason;
     }
 
     protected void decline(){

@@ -128,7 +128,7 @@ public class AttachmentAdapterEditProfile extends RecyclerView.Adapter<RecyclerV
             // super.onBind(position);
             AttachmentModel item = items.get(position);
             if (item.getThumbUrl() != null) {
-                ImageUtil.displayImage(imgView, item.getThumbUrl(), null);
+                ImageUtil.displayImage(imgView, item.getUrl(), null);
 
             }
             if (delete_action) {
@@ -136,20 +136,14 @@ public class AttachmentAdapterEditProfile extends RecyclerView.Adapter<RecyclerV
             } else {
                 imgBtnDelete.setVisibility(View.GONE);
             }
-            imgBtnDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(view, items.get(position), position, "delete");
-                    }
+            imgBtnDelete.setOnClickListener(view -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(view, items.get(position), position, "delete");
                 }
             });
-            imgView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(v, items.get(position), position, "show");
-                    }
+            imgView.setOnClickListener(v -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(v, items.get(position), position, "show");
                 }
             });
 
@@ -169,12 +163,9 @@ public class AttachmentAdapterEditProfile extends RecyclerView.Adapter<RecyclerV
         public void onBind(int position) {
             // super.onBind(position);
             AttachmentModel item = items.get(position);
-            rltAddAttachment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(view, items.get(position), position, "add");
-                    }
+            rltAddAttachment.setOnClickListener(view -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(view, items.get(position), position, "add");
                 }
             });
 

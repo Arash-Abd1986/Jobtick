@@ -48,7 +48,6 @@ public class ImageUtil {
 			.imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
 			.displayer(new FadeInBitmapDisplayer(300, true, false, false))
 			.showImageForEmptyUri(R.drawable.ic_circle_logo)
-			.showImageOnLoading(R.drawable.ic_circle_logo)
 			.showImageOnFail(R.drawable.ic_circle_logo).cacheOnDisk(true)
 			.cacheInMemory(true).bitmapConfig(Config.ARGB_8888);
 

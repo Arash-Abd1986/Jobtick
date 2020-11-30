@@ -698,18 +698,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                 cmonth = calendar.get(Calendar.MONTH);
                 cday = calendar.get(Calendar.DAY_OF_MONTH);
                 showBottomSheetDialogDate();
-//                Calendar calendar = Calendar.getInstance();
-//                year = calendar.get(Calendar.YEAR);
-//                month = calendar.get(Calendar.MONTH);
-//                day = calendar.get(Calendar.DAY_OF_MONTH);
-//
-//                DatePickerDialog dialog = new DatePickerDialog(
-//                        EditProfileActivity.this,
-//                        android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-//                        mDateSetListener,
-//                        year, month, day);
-//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                dialog.show();
+
                 break;
             case R.id.rlt_btn_transportation:
                 intent = new Intent(EditProfileActivity.this, SkillsTagActivity.class);
@@ -782,7 +771,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     }
 
     private void verifyPhone() {
-        if (edtPhoneNumber.length() !=11) {
+        if (edtPhoneNumber.length() != 11) {
             showToast("Please enter correct phone number", EditProfileActivity.this);
         } else {
             Intent intent = new Intent(this, MobileVerificationActivity.class);
@@ -888,7 +877,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("onActivityResult","hi");
+        Log.d("onActivityResult", "hi");
         if (data != null) {
             if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == RESULT_OK) {
 
@@ -937,22 +926,22 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 //            }
             if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
                 String filePath = data.getStringExtra(AnncaConfiguration.Arguments.FILE_PATH);
-                    Uri uri = Uri.parse("file://" + filePath);
-                    Bitmap bitmap = null;
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                Uri uri = Uri.parse("file://" + filePath);
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-                    imgAvatar.setImageBitmap(bitmap);
+                imgAvatar.setImageBitmap(bitmap);
 
-                    if (isUploadPortfolio) {
-                        uploadDataInPortfolioMediaApi(new File(uri.getPath()));
-                    } else {
-                        uploadProfileAvtar(new File(uri.getPath()));
-                    }
+                if (isUploadPortfolio) {
+                    uploadDataInPortfolioMediaApi(new File(uri.getPath()));
+                } else {
+                    uploadProfileAvtar(new File(uri.getPath()));
+                }
             }
             if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
                 if (resultCode == RESULT_OK) {
@@ -1113,6 +1102,10 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private void captureImage() {
         AnncaConfiguration.Builder builder = new AnncaConfiguration.Builder(this, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
         builder.setMediaAction(AnncaConfiguration.MEDIA_ACTION_PHOTO);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
         new Annca(builder.build()).launchCamera();
     }
 
@@ -1208,7 +1201,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-
                                 showSuccessToast("Profile Picture has been  Deleted", EditProfileActivity.this);
                                 imgAvatar.setImageResource(R.drawable.ic_circle_logo);
                                 lytDeletePicture.setVisibility(View.GONE);

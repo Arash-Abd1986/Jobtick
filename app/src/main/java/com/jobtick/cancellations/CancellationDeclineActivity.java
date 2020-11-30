@@ -115,7 +115,7 @@ public class CancellationDeclineActivity extends ActivityBase {
                             if (jsonObject.getBoolean("success")) {
 
                                 Bundle bundle = new Bundle();
-                                bundle.putString(ConstantKey.CANCELLATION_SUBMITTED, "Cancellation submitted successfully.");
+                                bundle.putString(ConstantKey.CANCELLATION_SUBMITTED, "Cancellation request declined.");
                                 Intent intent = new Intent(this, cancellationSubmittedActivity.class);
                                 intent.putExtras(bundle);
                                 startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION);

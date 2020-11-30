@@ -73,7 +73,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
+                            android:layout_marginStart="20dp"
                             android:orientation="vertical">
 
                             <com.google.android.material.textview.MaterialTextView
@@ -217,7 +217,7 @@
                             android:padding="@dimen/_5sp">
 
                             <ImageView
-                                android:id="@+id/img_level"
+                                android:id="@+id/ivMedalBoronz"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_gravity="center"
@@ -236,7 +236,7 @@
                             android:padding="@dimen/_5sp">
 
                             <ImageView
-                                android:id="@+id/ivMedal2"
+                                android:id="@+id/ivMedalSilver"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_gravity="center"
@@ -255,13 +255,13 @@
                             android:padding="@dimen/_5sp">
 
                             <ImageView
-                                android:id="@+id/ivMedal3"
+                                android:id="@+id/ivMedalGOld"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_gravity="center"
                                 android:adjustViewBounds="true"
                                 android:contentDescription="@string/todo"
-                                android:src="@drawable/ic_medal3" />
+                                android:src="@drawable/ic_medal_gold" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -274,7 +274,7 @@
                             android:padding="@dimen/_5sp">
 
                             <ImageView
-                                android:id="@+id/ivMedal4"
+                                android:id="@+id/ivMedalMax"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_gravity="center"
@@ -618,7 +618,7 @@
                                     android:layout_weight="1"
                                     android:background="@drawable/radio_portfolio"
                                     android:button="@null"
-                                    android:checked="false"
+                                    android:checked="true"
                                     android:gravity="center"
                                     android:text="@string/portfolio"
                                     android:textColor="@color/textColor"
@@ -633,7 +633,7 @@
                                     android:layout_weight="1"
                                     android:background="@drawable/radio_portfolio"
                                     android:button="@null"
-                                    android:checked="true"
+                                    android:checked="false"
                                     android:gravity="center"
                                     android:text="@string/skills"
                                     android:textColor="@color/blue" />

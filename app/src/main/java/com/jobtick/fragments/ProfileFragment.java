@@ -129,9 +129,6 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     @BindView(R.id.lyt_transportation)
     LinearLayout lytTransportation;
 
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.img_level)
-    ImageView imgLevel;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_full_name)
@@ -196,6 +193,23 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llEnlarge)
     LinearLayout llEnlarge;
+
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.ivMedalBoronz)
+    ImageView ivMedalBoronz;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.ivMedalSilver)
+    ImageView ivMedalSilver;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.ivMedalGOld)
+    ImageView ivMedalGOld;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.ivMedalMax)
+    ImageView ivMedalMax;
 
     private DashboardActivity dashboardActivity;
     private Toolbar toolbar;
@@ -421,7 +435,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     private void getAllProfileData() {
 
         dashboardActivity.showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + 5,
                 response -> {
                     Timber.e(response);
                     dashboardActivity.hideProgressDialog();
@@ -532,11 +546,32 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             tvPosterCompletionRate.setText("%"+userAccountModel.getPosterRatings().getReceivedReviews().toString());
         }
 
+        switch (userAccountModel.getWorkerTier().getId()){
+            case 1:
+                ivMedalBoronz.setImageResource(R.drawable.ic_boronz_selected);
+                break;
+            case 2:
+                ivMedalBoronz.setImageResource(R.drawable.ic_silver_selected);
+                break;
+            case 3:
+                ivMedalBoronz.setImageResource(R.drawable.ic_gold_selected);
+                break;
+            case 4:
+                ivMedalBoronz.setImageResource(R.drawable.ic_max_selected);
+                break;
+        }
         tagEducation.setTagTypeface(poppins_medium);
         tagSpecialities.setTagTypeface(poppins_medium);
         tagLanguage.setTagTypeface(poppins_medium);
         tagExperience.setTagTypeface(poppins_medium);
         tagTransportation.setTagTypeface(poppins_medium);
+        if (userAccountModel.getAvatar() != null) {
+            ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getThumbUrl(), null);
+        }
+        txtFullName.setText(userAccountModel.getName());
+        txtSuburb.setText(userAccountModel.getLocation());
+        //txtAccountLevel.setText(""+userAccountModel.getWorkerTier().getName());
+        txtLastSeen.setText("Last Seen  " + userAccountModel.getLastOnline());
 
         if (userAccountModel.getIsVerifiedAccount() == 1) {
             imgVerified.setVisibility(View.VISIBLE);
@@ -599,13 +634,6 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
             }
 
-            if (userAccountModel.getAvatar() != null) {
-                ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getThumbUrl(), null);
-            }
-            txtFullName.setText(userAccountModel.getName());
-            txtSuburb.setText(userAccountModel.getLocation());
-            //txtAccountLevel.setText(""+userAccountModel.getWorkerTier().getName());
-            txtLastSeen.setText("Last Seen  " + userAccountModel.getLastOnline());
 
 
             tvViewAllReviews.setOnClickListener(v -> {

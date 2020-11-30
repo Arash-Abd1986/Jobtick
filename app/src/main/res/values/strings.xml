@@ -440,5 +440,6 @@
     <string name="are_you_sure">Are you sure?</string>
     <string name="job_receipt">Job receipt</string>
     <string name="splash_logo">Splash logo</string>
+    <string name="no_skills_added_yet">No skills added yet</string>
 
 </resources>

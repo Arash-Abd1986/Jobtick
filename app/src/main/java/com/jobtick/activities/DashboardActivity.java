@@ -71,7 +71,8 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
+        Intent intent1=new Intent(this, ProfileActivity.class);
+        startActivity(intent1);
         toolbar = findViewById(R.id.toolbar);
         // Tools.clearSystemBarLight(this);
         toolbar.setElevation(0);
@@ -257,6 +258,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 startActivity(rate_us);
                 return true;
             case R.id.action_share:
+
                 referAFriend();
                 return true;
             case R.id.action_privacy_policy:

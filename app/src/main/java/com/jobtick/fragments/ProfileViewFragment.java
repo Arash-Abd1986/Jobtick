@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +34,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
 import com.jobtick.activities.CategoryListActivity;
-import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.EditProfileActivity;
 import com.jobtick.activities.ProfileActivity;
 import com.jobtick.activities.ReviewsActivity;
@@ -69,7 +67,7 @@ import timber.log.Timber;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment implements onProfileUpdateListener, AttachmentAdapter.OnItemClickListener {
+public class ProfileViewFragment extends Fragment implements onProfileUpdateListener, AttachmentAdapter.OnItemClickListener {
     public Integer userId=-1;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view_portfolio)
@@ -186,7 +184,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rbSkills)
-   RadioButton rbSkills;
+    RadioButton rbSkills;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_get_quote)
@@ -213,7 +211,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     @BindView(R.id.ivMedalMax)
     ImageView ivMedalMax;
 
-    private DashboardActivity dashboardActivity;
+    private ProfileActivity profileActivity;
     private Toolbar toolbar;
     private SessionManager sessionManager;
     private UserAccountModel userAccountModel;
@@ -227,7 +225,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     private  ImageView ivLevelInfo,ivProfileInfo;
     private LinearLayout noReview,tickerReview,posterReview,noSkill;
     private TextView txtNoReview,addSkill,addPortFilo;
-    public ProfileFragment() {
+    public ProfileViewFragment() {
     }
 
     @Override
@@ -240,7 +238,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile_view, container, false);
         ButterKnife.bind(this, view);
 
 
@@ -272,37 +270,9 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     }
 
     private void initToolbar() {
-        dashboardActivity = (DashboardActivity) getActivity();
+        profileActivity = (ProfileActivity) getActivity();
         poppins_medium = Typeface.createFromAsset(getActivity().getAssets(), "fonts/poppins_Medium.otf");
         onProfileupdatelistener = this;
-        if (dashboardActivity != null) {
-            toolbar = dashboardActivity.findViewById(R.id.toolbar);
-            toolbar.getMenu().clear();
-            toolbar.inflateMenu(R.menu.menu_profile);
-            ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
-            ivNotification.setVisibility(View.GONE);
-            TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
-            toolbar_title.setVisibility(View.VISIBLE);
-
-            toolbar_title.setText("Profile");
-
-            toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_medium));
-            toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.grey_100));
-            androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
-            params.gravity = Gravity.LEFT;
-            toolbar_title.setLayoutParams(params);
-            btnQuote.setOnClickListener(view12 -> {
-                Intent creating_task = new Intent(getActivity(), CategoryListActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("category", "");
-                creating_task.putExtras(bundle);
-                getContext().startActivity(creating_task);
-            });
-            toolbar.post(() -> {
-                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
-                toolbar.setNavigationIcon(d);
-            });
-        }
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -310,28 +280,16 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        sessionManager = new SessionManager(dashboardActivity);
+        sessionManager = new SessionManager(profileActivity);
         userAccountModel = new UserAccountModel();
         attachmentArrayList = new ArrayList<>();
         badgesModelArrayList = new ArrayList<>();
-        toolbar.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.action_flag:
-
-                    break;
-                case R.id.action_edit:
-                    startActivity(new Intent(dashboardActivity, EditProfileActivity.class));
-
-                    break;
-            }
-            return false;
-        });
 
         init();
 
         getAllProfileData();
         initComponent();
-     //   initComponentScroll(view);
+        //   initComponentScroll(view);
 
     }
 
@@ -387,7 +345,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                 lPort.setVisibility(View.GONE);
             } else {
                 if(attachmentArrayList.size() > 10){
-                    Toast.makeText(dashboardActivity, "MAX 10 picture", Toast.LENGTH_SHORT).show(); }
+                    Toast.makeText(profileActivity, "MAX 10 picture", Toast.LENGTH_SHORT).show(); }
                 recyclerViewPortfolio.setVisibility(View.VISIBLE);
                 noSkill.setVisibility(View.GONE);
                 NoPortfolio.setVisibility(View.GONE);
@@ -397,9 +355,9 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             rbPortfollio.setTextColor(getResources().getColor(R.color.blue));
             rbSkills.setTextColor(getResources().getColor(R.color.textColor));
         } else
-            if (rbSkills.isChecked()) {
+        if (rbSkills.isChecked()) {
             if (tagEducation.size()<=0 && tagExperience.size()<=0 && tagLanguage.size() <= 0
-            && tagSpecialities.size()<=0&& tagTransportation.size()<=0) {
+                    && tagSpecialities.size()<=0&& tagTransportation.size()<=0) {
                 NoPortfolio.setVisibility(View.GONE);
                 noSkill.setVisibility(View.VISIBLE);
                 addSkill.setOnClickListener(view13 -> {
@@ -414,8 +372,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                 lSkill.setVisibility(View.VISIBLE);
                 tvSkills.setVisibility(View.VISIBLE);
             }
-                recyclerViewPortfolio.setVisibility(View.GONE);
-                lPort.setVisibility(View.GONE);
+            recyclerViewPortfolio.setVisibility(View.GONE);
+            lPort.setVisibility(View.GONE);
             rbPortfollio.setTextColor(getResources().getColor(R.color.textColor));
             rbSkills.setTextColor(getResources().getColor(R.color.blue));
 
@@ -424,8 +382,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
     private void init() {
 
-        recyclerViewPortfolio.setLayoutManager(new GridLayoutManager(dashboardActivity, 3));
-        recyclerViewPortfolio.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(dashboardActivity, 3), true));
+        recyclerViewPortfolio.setLayoutManager(new GridLayoutManager(profileActivity, 3));
+        recyclerViewPortfolio.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(profileActivity, 3), true));
         recyclerViewPortfolio.setHasFixedSize(true);
 
         adapter = new AttachmentAdapter(attachmentArrayList, false);
@@ -436,11 +394,11 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     }
 
     private void getAllProfileData() {
-        dashboardActivity.showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
+        profileActivity.showProgressDialog();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + 1,
                 response -> {
                     Timber.e(response);
-                    dashboardActivity.hideProgressDialog();
+                    profileActivity.hideProgressDialog();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -461,7 +419,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                                 lPort.setVisibility(View.VISIBLE);
                             }
                             if(attachmentArrayList.size() > 10){
-                                Toast.makeText(dashboardActivity, "MAX 10 picture", Toast.LENGTH_SHORT).show(); }else {
+                                Toast.makeText(profileActivity, "MAX 10 picture", Toast.LENGTH_SHORT).show(); }else {
                                 adapter.addItems(attachmentArrayList);
                             }
 
@@ -482,18 +440,18 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                                 NoPortfolio.setVisibility(View.GONE);
                             }
                         } else {
-                            dashboardActivity.showToast("Something went wrong", dashboardActivity);
+                            profileActivity.showToast("Something went wrong", profileActivity);
                         }
 
                     } catch (JSONException e) {
-                        dashboardActivity.showToast("JSONException", dashboardActivity);
+                        profileActivity.showToast("JSONException", profileActivity);
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
                     }
                 },
                 error -> {
-                    dashboardActivity.errorHandle1(error.networkResponse);
-                    dashboardActivity.hideProgressDialog();
+                    profileActivity.errorHandle1(error.networkResponse);
+                    profileActivity.hideProgressDialog();
                 }) {
 
 
@@ -510,7 +468,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(dashboardActivity);
+        RequestQueue requestQueue = Volley.newRequestQueue(profileActivity);
         requestQueue.add(stringRequest);
         Timber.e(stringRequest.getUrl());
 
@@ -659,7 +617,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             bundle.putString("WhoIs", Constant.AS_A_WORKER);
             //      bundle.putParcelable(Constant.userAccount, userAccountModel);
 
-            startActivity(new Intent(dashboardActivity, ReviewsActivity.class)
+            startActivity(new Intent(profileActivity, ReviewsActivity.class)
                     .putExtras(bundle));
         });
         onChangeTabBiography();
@@ -675,7 +633,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             bundle.putString("WhoIs", Constant.AS_A_POSTER);
             //        bundle.putParcelable(Constant.userAccount, userAccountModel);
 
-            startActivity(new Intent(dashboardActivity, ReviewsActivity.class)
+            startActivity(new Intent(profileActiviy, ReviewsActivity.class)
                     .putExtras(bundle)
             );
 
@@ -686,7 +644,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             bundle.putString("WhoIs", Constant.AS_A_WORKER);
             //      bundle.putParcelable(Constant.userAccount, userAccountModel);
 
-            startActivity(new Intent(dashboardActivity, ReviewsActivity.class)
+            startActivity(new Intent(profileActiviy, ReviewsActivity.class)
                     .putExtras(bundle));
 
 

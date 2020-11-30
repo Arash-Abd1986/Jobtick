@@ -215,20 +215,21 @@
                     android:textAppearance="@style/materialText_400_14"
                     android:textColor="@color/colorPrimary" />
 
-                <View
-                    android:id="@+id/normal_needed_space"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_below="@id/learn_more" />
-
-                <View
-                    android:id="@+id/extra_needed_space"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_below="@id/normal_needed_space"
-                    android:visibility="gone" />
-
             </RelativeLayout>
+
+            <View
+                android:id="@+id/normal_needed_space"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_below="@id/cancellation_fee_container" />
+
+            <View
+                android:id="@+id/extra_needed_space"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/normal_needed_space"
+                android:visibility="gone" />
+
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 

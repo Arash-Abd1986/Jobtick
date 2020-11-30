@@ -1,6 +1,7 @@
 package com.jobtick.activities;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import com.jobtick.utils.ConstantKey;
 
 /**
  * TT means ticker cancels, ticker see this activity.

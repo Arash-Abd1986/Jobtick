@@ -131,7 +131,6 @@ public class CancellationPosterActivity extends
         Intent intent = new Intent(this, PPCancellationSummaryActivity.class);
 
         intent.putExtras(bundle);
-
-        startActivity(intent);
+        startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION);
     }
 }

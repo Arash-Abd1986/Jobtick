@@ -204,28 +204,20 @@ public class AbstractCancellationSummaryActivity extends ActivityBase {
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
 
-                                Intent intent = new Intent();
                                 Bundle bundle = new Bundle();
-                                bundle.putString(ConstantKey.CANCELLATION, "Cancellation submitted successfully.");
+                                bundle.putString(ConstantKey.CANCELLATION_SUBMITTED, "Cancellation submitted successfully.");
+                                Intent intent = new Intent(this, cancellationSubmittedActivity.class);
                                 intent.putExtras(bundle);
-                                setResult(ConstantKey.RESULTCODE_CANCELLATION, intent);
-
-                                intent = new Intent(this, cancellationSubmittedActivity.class);
-                                startActivity(intent);
-                                finish();
+                                startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION);
                             } else {
                                 showToast("Something went Wrong", this);
                             }
                         }
 
-
                     } catch (JSONException e) {
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
-
                     }
-
-
                 },
                 error -> {
                     NetworkResponse networkResponse = error.networkResponse;
@@ -240,7 +232,6 @@ public class AbstractCancellationSummaryActivity extends ActivityBase {
                         }
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
-
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
@@ -250,7 +241,6 @@ public class AbstractCancellationSummaryActivity extends ActivityBase {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
                             }
                             //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -292,5 +282,16 @@ public class AbstractCancellationSummaryActivity extends ActivityBase {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(requestCode == ConstantKey.RESULTCODE_CANCELLATION){
+                setResult(RESULT_OK, data);
+                finish();
+            }
+        }
     }
 }

@@ -130,9 +130,7 @@ public class CancellationWorkerActivity extends AbstractCancellationReasonsActiv
 
         //we sure this is ticker and ticker is cancelling, so we go to TT
         Intent intent = new Intent(this, TTCancellationSummaryActivity.class);
-
         intent.putExtras(bundle);
-
-        startActivity(intent);
+        startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION);
     }
 }

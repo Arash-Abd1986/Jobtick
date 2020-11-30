@@ -1,5 +1,6 @@
 package com.jobtick.cancellations;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.identity.intents.AddressConstants;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
@@ -31,14 +33,18 @@ public class cancellationSubmittedActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initToolbar();
 
-        String desc = getIntent().getExtras().getString(ConstantKey.CANCELLATION);
+        Bundle bundle = getIntent().getExtras();
+        if(bundle == null)
+            throw new IllegalStateException("there is no bundle attached.");
+
+        String desc = bundle.getString(ConstantKey.CANCELLATION_SUBMITTED);
         if(desc != null && !desc.equals(""))
             txtTitle.setText(desc);
 
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finishActivity();
             }
         });
     }
@@ -51,8 +57,17 @@ public class cancellationSubmittedActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finishActivity();
             }
         });
+    }
+
+    private void finishActivity(){
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ConstantKey.CANCELLATION, true);
+        intent.putExtras(bundle);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

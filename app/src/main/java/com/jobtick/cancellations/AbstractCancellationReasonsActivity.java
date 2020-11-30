@@ -1,5 +1,6 @@
 package com.jobtick.cancellations;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.jobtick.models.TaskModel;
 import com.jobtick.models.cancellation.notice.CancellationNoticeModel;
 import com.jobtick.models.cancellation.reason.CancellationReasonModel;
 import com.jobtick.utils.Constant;
+import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.TimeHelper;
@@ -286,4 +288,15 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
     public static final String CANCELLATION_COMMENT = "cancellation comment";
     public static final String CANCELLATION_ID = "cancellation id";
     public static final String CANCELLATION_VALUE = "cancellation value";
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(requestCode == ConstantKey.RESULTCODE_CANCELLATION){
+                setResult(RESULT_OK, data);
+                finish();
+            }
+        }
+    }
 }

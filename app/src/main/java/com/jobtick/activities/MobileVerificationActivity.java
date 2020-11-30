@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -28,6 +30,7 @@ import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.fragments.SignInFragment;
 import com.jobtick.utils.Constant;
+import com.jobtick.widget.ExtendedEntryText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +58,10 @@ public class MobileVerificationActivity extends ActivityBase {
     LinearLayout lytBtnUpdate;
 
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.edt_verification_code)
+    ExtendedEntryText etOtp;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_bottom)
     LinearLayout lytBottom;
     private String phoneNumber;
@@ -68,12 +75,15 @@ public class MobileVerificationActivity extends ActivityBase {
         setContentView(R.layout.activity_mobile_verification);
         ButterKnife.bind(this);
         phoneNumber = getIntent().getStringExtra("phone_number");
-        String str = phoneVerifyMessage.getText().toString() +
+        String str = phoneVerifyMessage.getText().toString() +" "+
                 phoneNumber;
         phoneVerifyMessage.setText(str);
         initToolbar();
 
         getOTP(phoneNumber);
+        lytBtnUpdate.setOnClickListener(v -> {
+            getOTPVerified(etOtp.getText());
+        });
     }
 
 
@@ -117,7 +127,7 @@ public class MobileVerificationActivity extends ActivityBase {
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                showCustomDialog();
+                                showSuccessToast("Successfully sent",this);
                             }
                         }
 
@@ -140,10 +150,6 @@ public class MobileVerificationActivity extends ActivityBase {
                             String message = jsonObject_error.getString("message");
                             if (message.equalsIgnoreCase("unauthorized")) {
                                 Fragment fragment = new SignInFragment();
-                                //   switchContent(fragment);
-                              /*  FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                                ft.replace(R.id.container, fragment);
-                                ft.commit();*/
                             }
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
@@ -183,6 +189,90 @@ public class MobileVerificationActivity extends ActivityBase {
         requestQueue.add(stringRequest);
     }
 
+    public void getOTPVerified
+            (String otp) {
+        if(otp.length()!=6) {
+            showToast("otp must be 6 digits",this);
+        }
+        showProgressDialog();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_OTP_VERIFICATION,
+                response -> {
+
+                    hideProgressDialog();
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(response);
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+                                showSuccessToast("Verification Done! ",this);
+                            }
+                        }
+
+                    } catch (JSONException e) {
+                        Log.e("EXCEPTION", String.valueOf(e));
+                        e.printStackTrace();
+
+                    }
+
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Log.e("intent22", jsonError);
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            String message = jsonObject_error.getString("message");
+                            if (message.equalsIgnoreCase("unauthorized")) {
+                                Fragment fragment = new SignInFragment();
+                                //   switchContent(fragment);
+                              /*  FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                                ft.replace(R.id.container, fragment);
+                                ft.commit();*/
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            showToast(message, MobileVerificationActivity.this);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", MobileVerificationActivity.this);
+                    }
+                    hideProgressDialog();
+                }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("phone_number", phoneNumber);
+                map1.put("otp", otp);
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
     @SuppressLint("SetTextI18n")
     private void showCustomDialog() {
         final Dialog dialog = new Dialog(this);

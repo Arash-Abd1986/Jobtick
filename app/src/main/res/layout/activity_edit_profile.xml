@@ -236,6 +236,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_5sp"
+                                        app:eInputType="integer"
                                         android:background="@null"
                                         android:hint=""
                                         android:inputType="textMultiLine"

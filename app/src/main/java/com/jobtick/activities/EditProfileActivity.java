@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -81,6 +83,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.github.memfis19.annca.Annca;
+import io.github.memfis19.annca.internal.configuration.AnncaConfiguration;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -884,6 +888,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("onActivityResult","hi");
         if (data != null) {
             if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == RESULT_OK) {
 
@@ -896,18 +901,48 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                 str_longitude = String.valueOf(carmenFeature.center().longitude());
                 LatLng locationObject = new LatLng(carmenFeature.center().latitude(), carmenFeature.center().longitude());
             }
-            if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
-                Log.d("CaptureImage","Enter");
-                if (resultCode == RESULT_OK) {
-                    Log.d("CaptureImage","OK");
-                    Uri uri = Uri.parse("file://" + imageStoragePath);
+//            if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
+//                Log.d("CaptureImage","Enter");
+//                if (resultCode == RESULT_OK) {
+//                    Log.d("CaptureImage","OK");
+//                    Uri uri = Uri.parse("file://" + imageStoragePath);
+//                    Bitmap bitmap = null;
+//                    try {
+//                        Log.d("CaptureImage","TRY");
+//                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+//
+//                    } catch (IOException e) {
+//                        Log.d("CaptureImage",e.getLocalizedMessage());
+//                        e.printStackTrace();
+//                    }
+//
+//                    imgAvatar.setImageBitmap(bitmap);
+//
+//                    if (isUploadPortfolio) {
+//                        uploadDataInPortfolioMediaApi(new File(uri.getPath()));
+//                    } else {
+//                        uploadProfileAvtar(new File(uri.getPath()));
+//                    }
+//                } else if (resultCode == RESULT_CANCELED) {
+//                    // user cancelled Image capture
+//                    Toast.makeText(getApplicationContext(),
+//                            "User cancelled image capture", Toast.LENGTH_SHORT)
+//                            .show();
+//                } else {
+//                    // failed to capture image
+//                    Toast.makeText(getApplicationContext(),
+//                            "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
+//                            .show();
+//                }
+//            }
+            if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
+                String filePath = data.getStringExtra(AnncaConfiguration.Arguments.FILE_PATH);
+                    Uri uri = Uri.parse("file://" + filePath);
                     Bitmap bitmap = null;
                     try {
-                        Log.d("CaptureImage","TRY");
                         bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
 
                     } catch (IOException e) {
-                        Log.d("CaptureImage",e.getLocalizedMessage());
                         e.printStackTrace();
                     }
 
@@ -918,17 +953,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                     } else {
                         uploadProfileAvtar(new File(uri.getPath()));
                     }
-                } else if (resultCode == RESULT_CANCELED) {
-                    // user cancelled Image capture
-                    Toast.makeText(getApplicationContext(),
-                            "User cancelled image capture", Toast.LENGTH_SHORT)
-                            .show();
-                } else {
-                    // failed to capture image
-                    Toast.makeText(getApplicationContext(),
-                            "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
-                            .show();
-                }
             }
             if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
                 if (resultCode == RESULT_OK) {
@@ -1087,15 +1111,9 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
      * Capturing Camera Image will launch camera app requested image capture
      */
     private void captureImage() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File file = CameraUtils.getOutputMediaFile(ConstantKey.MEDIA_TYPE_IMAGE);
-        if (file != null) {
-            imageStoragePath = file.getAbsolutePath();
-        }
-        Uri fileUri = CameraUtils.getOutputMediaFileUri(getApplicationContext(), file);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        // start the image capture Intent
-        startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+        AnncaConfiguration.Builder builder = new AnncaConfiguration.Builder(this, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+        builder.setMediaAction(AnncaConfiguration.MEDIA_ACTION_PHOTO);
+        new Annca(builder.build()).launchCamera();
     }
 
     private void uploadProfileAvtar(File pictureFile) {

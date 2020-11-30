@@ -689,6 +689,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 break;
         }
 
+        initCancelled();
         initCancellation();
         initJobReceipt();
         initIncreaseBudget();
@@ -2376,6 +2377,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
 
+    private void initCancelled(){
+        if(alertType == AlertType.CANCELLED){
+            hideAlertBox();
+        }
+
+        if(taskModel.getStatus().equals("cancelled")){
+            showCancelledCard();
+        }
+    }
+
     private void initCancellation() {
         if(alertType == AlertType.CANCELLATION){
             hideAlertBox();
@@ -2527,6 +2538,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         dialog.show(fragmentManager, "");
     }
 
+    private void showCancelledCard(){
+        showAlertBox(Html.fromHtml("This job has been canceled"),
+                ConstantKey.BTN_POST_NEW_JOB, AlertType.CANCELLED, true);
+    }
+
     // we have 4 possibility to support,
     // ticker cancels, user is ticker
     // ticker cancels, user is poster
@@ -2673,6 +2689,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             intent.putExtras(bundle);
             startActivityForResult(intent, ConstantKey.RESULTCODE_WRITE_REVIEW);
         }
+        else if(alertType == AlertType.CANCELLED){
+            Intent intent = new Intent(this, CategoryListActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -2715,7 +2735,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         RESCHEDULE,
         INCREASE_BUDGET,
         RELEASE_MONEY,
-        REVIEW
+        REVIEW,
+        CANCELLED
         //more we add later
     }
 

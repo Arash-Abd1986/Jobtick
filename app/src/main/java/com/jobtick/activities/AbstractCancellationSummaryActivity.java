@@ -195,10 +195,86 @@ public class AbstractCancellationSummaryActivity extends ActivityBase {
     }
 
     protected void accept(){
+        //no need to check null, we sure we have it
+        int cancellationId = taskModel.getCancellation().getId();
+        showProgressDialog();
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, Constant.BASE_URL + "cancellation/" + cancellationId + "/accept",
+                response -> {
+                    Timber.e(response);
+                    try {
 
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString(ConstantKey.CANCELLATION_SUBMITTED, "The job is cancelled successfully.");
+                                Intent intent = new Intent(this, cancellationSubmittedActivity.class);
+                                intent.putExtras(bundle);
+                                startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION);
+
+                            } else {
+                                showToast("Something went Wrong", this);
+                            }
+                        }
+                        hideProgressDialog();
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                        hideProgressDialog();
+                    }
+                },
+                error -> {
+                    hideProgressDialog();
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
+                            return;
+                        }
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+                            if (jsonObject_error.has("message")) {
+                                Toast.makeText(this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", this);
+                    }
+                    Timber.e(error.toString());
+                }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
-    protected void withdraw(){
 
+    protected void withdraw(){
         //no need to check null, we sure we have it
         int cancellationId = taskModel.getCancellation().getId();
         showProgressDialog();

@@ -11,7 +11,10 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import com.jobtick.cancellations.AbstractCancellationReasonsActivity;
 import com.jobtick.utils.ResizeWidthAnimation;
+
+import java.util.Locale;
 
 /**
  * PP means poster cancels, poster see this activity.
@@ -53,5 +56,10 @@ public class PPCancellationSummaryActivity extends AbstractCancellationSummaryAc
         }
 
         withdraw.setOnTouchListener(this);
+    }
+
+    @Override
+    protected String getUserType() {
+        return "poster";
     }
 }

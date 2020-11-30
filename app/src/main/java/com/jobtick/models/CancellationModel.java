@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.jobtick.models.cancellation.reason.ReasonModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,16 +49,17 @@ public class CancellationModel implements Parcelable {
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
+    @SerializedName("reason_model")
+    @Expose
+    private ReasonModel reasonModel;
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public CancellationModel() {
     }
 
     /**
-     *
      * @param reason
      * @param createdAt
      * @param autoAcceptedAt
@@ -71,7 +73,7 @@ public class CancellationModel implements Parcelable {
      * @param acceptedAt
      * @param updatedAt
      */
-    public CancellationModel(Integer id, Integer requesterId, Integer taskId, String reason, String comment, String status, String acceptedAt, String autoAcceptedAt, String declinedAt, String declinedReason, String createdAt, String updatedAt) {
+    public CancellationModel(Integer id, Integer requesterId, Integer taskId, String reason, String comment, String status, String acceptedAt, String autoAcceptedAt, String declinedAt, String declinedReason, String createdAt, String updatedAt, ReasonModel reasonModel) {
         super();
         this.id = id;
         this.requesterId = requesterId;
@@ -85,6 +87,7 @@ public class CancellationModel implements Parcelable {
         this.declinedReason = declinedReason;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.reasonModel = reasonModel;
     }
 
     protected CancellationModel(Parcel in) {
@@ -112,6 +115,7 @@ public class CancellationModel implements Parcelable {
         declinedReason = in.readString();
         createdAt = in.readString();
         updatedAt = in.readString();
+        reasonModel = in.readParcelable(ReasonModel.class.getClassLoader());
     }
 
     @Override
@@ -143,6 +147,7 @@ public class CancellationModel implements Parcelable {
         dest.writeString(declinedReason);
         dest.writeString(createdAt);
         dest.writeString(updatedAt);
+        dest.writeParcelable(reasonModel, flags);
     }
 
     @Override
@@ -258,36 +263,48 @@ public class CancellationModel implements Parcelable {
         this.updatedAt = updatedAt;
     }
 
-    public CancellationModel getJsonToModel(JSONObject jsonObject){
-        CancellationModel cancellationModel = new CancellationModel();
-        try{
-            if(jsonObject.has("id") && !jsonObject.isNull("id"))
-                cancellationModel.setId(jsonObject.getInt("id"));
-            if(jsonObject.has("requester_id") && !jsonObject.isNull("requester_id"))
-                cancellationModel.setRequesterId(jsonObject.getInt("requester_id"));
-            if(jsonObject.has("task_id") && !jsonObject.isNull("task_id"))
-                cancellationModel.setTaskId(jsonObject.getInt("task_id"));
-            if(jsonObject.has("reason") && !jsonObject.isNull("reason"))
-                cancellationModel.setReason(jsonObject.getString("reason"));
-            if(jsonObject.has("comment") && !jsonObject.isNull("comment"))
-                cancellationModel.setComment(jsonObject.getString("comment"));
-            if(jsonObject.has("status") && !jsonObject.isNull("status"))
-                cancellationModel.setStatus(jsonObject.getString("status"));
-            if(jsonObject.has("accepted_at") && !jsonObject.isNull("accepted_at"))
-                cancellationModel.setAcceptedAt(jsonObject.getString("accepted_at"));
-            if(jsonObject.has("auto_accepted_at") && !jsonObject.isNull("auto_accepted_at"))
-                cancellationModel.setAutoAcceptedAt(jsonObject.getString("auto_accepted_at"));
-            if(jsonObject.has("declined_at") && !jsonObject.isNull("declined_at"))
-                cancellationModel.setDeclinedAt(jsonObject.getString("declined_at"));
-            if(jsonObject.has("declined_reason") && !jsonObject.isNull("declined_reason"))
-                cancellationModel.setDeclinedReason(jsonObject.getString("declined_reason"));
-            if(jsonObject.has("created_at") && !jsonObject.isNull("created_at"))
-                cancellationModel.setCreatedAt(jsonObject.getString("created_at"));
-            if(jsonObject.has("updated_at") && !jsonObject.isNull("updated_at"))
-                cancellationModel.setUpdatedAt(jsonObject.getString("updated_at"));
 
-        }catch (JSONException e){
-            Log.e(TAG,e.toString());
+    public ReasonModel getReasonModel() {
+        return reasonModel;
+    }
+
+    public void setReasonModel(ReasonModel reasonModel) {
+        this.reasonModel = reasonModel;
+    }
+
+
+    public CancellationModel getJsonToModel(JSONObject jsonObject) {
+        CancellationModel cancellationModel = new CancellationModel();
+        try {
+            if (jsonObject.has("id") && !jsonObject.isNull("id"))
+                cancellationModel.setId(jsonObject.getInt("id"));
+            if (jsonObject.has("requester_id") && !jsonObject.isNull("requester_id"))
+                cancellationModel.setRequesterId(jsonObject.getInt("requester_id"));
+            if (jsonObject.has("task_id") && !jsonObject.isNull("task_id"))
+                cancellationModel.setTaskId(jsonObject.getInt("task_id"));
+            if (jsonObject.has("reason") && !jsonObject.isNull("reason"))
+                cancellationModel.setReason(jsonObject.getString("reason"));
+            if (jsonObject.has("comment") && !jsonObject.isNull("comment"))
+                cancellationModel.setComment(jsonObject.getString("comment"));
+            if (jsonObject.has("status") && !jsonObject.isNull("status"))
+                cancellationModel.setStatus(jsonObject.getString("status"));
+            if (jsonObject.has("accepted_at") && !jsonObject.isNull("accepted_at"))
+                cancellationModel.setAcceptedAt(jsonObject.getString("accepted_at"));
+            if (jsonObject.has("auto_accepted_at") && !jsonObject.isNull("auto_accepted_at"))
+                cancellationModel.setAutoAcceptedAt(jsonObject.getString("auto_accepted_at"));
+            if (jsonObject.has("declined_at") && !jsonObject.isNull("declined_at"))
+                cancellationModel.setDeclinedAt(jsonObject.getString("declined_at"));
+            if (jsonObject.has("declined_reason") && !jsonObject.isNull("declined_reason"))
+                cancellationModel.setDeclinedReason(jsonObject.getString("declined_reason"));
+            if (jsonObject.has("created_at") && !jsonObject.isNull("created_at"))
+                cancellationModel.setCreatedAt(jsonObject.getString("created_at"));
+            if (jsonObject.has("updated_at") && !jsonObject.isNull("updated_at"))
+                cancellationModel.setUpdatedAt(jsonObject.getString("updated_at"));
+            if (jsonObject.has("reason_model") && !jsonObject.isNull("reason_model"))
+                cancellationModel.setReasonModel(new ReasonModel().getJsonToModel(jsonObject.getJSONObject("reason_model")));
+
+        } catch (JSONException e) {
+            Log.e(TAG, e.toString());
             e.printStackTrace();
         }
         return cancellationModel;

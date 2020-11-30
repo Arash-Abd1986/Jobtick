@@ -59,4 +59,9 @@ public class PTCancellationSummaryActivity extends AbstractCancellationSummaryAc
             accept();
         });
     }
+
+    @Override
+    protected String getUserType() {
+        return "worker";
+    }
 }

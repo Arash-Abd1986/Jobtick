@@ -47,4 +47,9 @@ public class TTCancellationSummaryActivity extends AbstractCancellationSummaryAc
 
         withdraw.setOnTouchListener(this);
     }
+
+    @Override
+    protected String getUserType() {
+        return "worker";
+    }
 }

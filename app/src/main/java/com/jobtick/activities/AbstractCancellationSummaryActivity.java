@@ -18,11 +18,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.gson.Gson;
 import com.jobtick.R;
 import com.jobtick.cancellations.AbstractCancellationReasonsActivity;
 import com.jobtick.cancellations.CancellationDeclineActivity;
 import com.jobtick.cancellations.cancellationSubmittedActivity;
 import com.jobtick.models.TaskModel;
+import com.jobtick.models.cancellation.notice.CancellationNoticeModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
@@ -38,7 +40,7 @@ import java.util.Map;
 
 import timber.log.Timber;
 
-public class AbstractCancellationSummaryActivity extends ActivityBase implements View.OnTouchListener{
+public abstract class AbstractCancellationSummaryActivity extends ActivityBase implements View.OnTouchListener {
 
     private MaterialToolbar toolbar;
     private TextView title;
@@ -64,6 +66,7 @@ public class AbstractCancellationSummaryActivity extends ActivityBase implements
     private String strReason;
     private String strComment;
     private int reasonId;
+    protected float cancellationFeeValue;
 
 
     @Override
@@ -134,7 +137,7 @@ public class AbstractCancellationSummaryActivity extends ActivityBase implements
                 commentContent.setText(strComment.trim());
 
             float feeValue = bundle.getFloat(AbstractCancellationReasonsActivity.CANCELLATION_VALUE, 0f);
-            if(feeValue != 0f){
+            if (feeValue != 0f) {
                 feeAmount.setText(String.format(Locale.ENGLISH, "-$ %.1f", feeValue));
                 feeContainer.setVisibility(View.VISIBLE);
             }
@@ -147,12 +150,20 @@ public class AbstractCancellationSummaryActivity extends ActivityBase implements
                 commentBox.setVisibility(View.GONE);
             else
                 commentContent.setText(taskModel.getCancellation().getComment().trim());
+
+            if (taskModel.getCancellation().getReasonModel() != null &&
+                    taskModel.getCancellation().getReasonModel().getReason() != null &&
+                    taskModel.getCancellation().getReasonModel().getReason().equals(getUserType())) {
+
+                getNoticeList();
+
+            }
         }
-
-        //TODO: set value to fee, show it or not
-
-
     }
+
+
+
+
 
     private void initToolbar() {
         toolbar.setNavigationIcon(R.drawable.ic_back);
@@ -173,10 +184,10 @@ public class AbstractCancellationSummaryActivity extends ActivityBase implements
         return super.onOptionsItemSelected(item);
     }
 
-    private String reasonRectify(String reason){
-        if(reason.contains("{worker}"))
+    private String reasonRectify(String reason) {
+        if (reason.contains("{worker}"))
             reason = reason.replace("{worker}", taskModel.getWorker().getName());
-        if(reason.contains("{poster}"))
+        if (reason.contains("{poster}"))
             reason = reason.replace("{poster}", taskModel.getWorker().getName());
 
         reason = String.format("\"%s\"", reason);
@@ -184,7 +195,7 @@ public class AbstractCancellationSummaryActivity extends ActivityBase implements
         return reason;
     }
 
-    protected void decline(){
+    protected void decline() {
         Bundle bundle = new Bundle();
         bundle.putInt(ConstantKey.KEY_TASK_CANCELLATION_ID, taskModel.getCancellation().getId());
         Intent intent = new Intent(this, CancellationDeclineActivity.class);
@@ -192,7 +203,90 @@ public class AbstractCancellationSummaryActivity extends ActivityBase implements
         startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION);
     }
 
-    protected void accept(){
+    protected void getNoticeList() {
+
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, Constant.BASE_URL + "cancellation/notice",
+                response -> {
+                    Timber.e(response);
+                    hideProgressDialog();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+                                if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                                    String data = jsonObject.getString("data");
+                                    Gson gson = new Gson();
+                                    CancellationNoticeModel notice = gson.fromJson(data, CancellationNoticeModel.class);
+                                    cancellationFeeValue = calculateCancellationFee(notice);
+                                    feeAmount.setText(String.format(Locale.ENGLISH, "-$%s", cancellationFeeValue));
+                                    feeContainer.setVisibility(View.VISIBLE);
+                                    hideProgressDialog();
+                                }
+                            } else {
+                                showToast("Something went Wrong", this);
+                                hideProgressDialog();
+                            }
+                        }
+
+
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                        hideProgressDialog();
+                    }
+
+
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
+                            hideProgressDialog();
+                            return;
+                        }
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            if (jsonObject_error.has("message")) {
+                                Toast.makeText(this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", this);
+                    }
+                    Timber.e(error.toString());
+                    hideProgressDialog();
+                }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    protected void accept() {
         //no need to check null, we sure we have it
         int cancellationId = taskModel.getCancellation().getId();
         showProgressDialog();
@@ -272,7 +366,7 @@ public class AbstractCancellationSummaryActivity extends ActivityBase implements
         requestQueue.add(stringRequest);
     }
 
-    protected void withdraw(){
+    protected void withdraw() {
         //no need to check null, we sure we have it
         int cancellationId = taskModel.getCancellation().getId();
         showProgressDialog();
@@ -446,11 +540,20 @@ public class AbstractCancellationSummaryActivity extends ActivityBase implements
         requestQueue.add(stringRequest);
     }
 
+    private float calculateCancellationFee(CancellationNoticeModel notice) {
+
+        float fee = (Integer.parseInt(notice.getFeePercentage()) / 100.00f) * taskModel.getAmount();
+        float maxFee = Integer.parseInt(notice.getMaxFeeAmount());
+        maxFee = Math.min(maxFee, fee);
+
+        return maxFee;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK){
-            if(requestCode == ConstantKey.RESULTCODE_CANCELLATION){
+        if (resultCode == RESULT_OK) {
+            if (requestCode == ConstantKey.RESULTCODE_CANCELLATION) {
                 setResult(RESULT_OK, data);
                 finish();
             }
@@ -458,22 +561,23 @@ public class AbstractCancellationSummaryActivity extends ActivityBase implements
     }
 
     private boolean defaultSize = true;
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if(defaultSize) {
+                if (defaultSize) {
                     animFirstWidth = v.getWidth();
                     defaultSize = false;
                 }
-                ResizeWidthAnimation animGo = new ResizeWidthAnimation(v, (int)(animFirstWidth * 1.5));
+                ResizeWidthAnimation animGo = new ResizeWidthAnimation(v, (int) (animFirstWidth * 1.5));
                 animGo.setOnFinish(this::withdraw);
                 animGo.setDuration(3000);
                 v.startAnimation(animGo);
                 break;
             case MotionEvent.ACTION_UP:
-                ResizeWidthAnimation animBack = new ResizeWidthAnimation(v, (int)(animFirstWidth));
+                ResizeWidthAnimation animBack = new ResizeWidthAnimation(v, (int) (animFirstWidth));
                 animBack.setDuration(1000);
                 v.startAnimation(animBack);
                 break;
@@ -481,4 +585,6 @@ public class AbstractCancellationSummaryActivity extends ActivityBase implements
 
         return true;
     }
+
+    protected abstract String getUserType();
 }

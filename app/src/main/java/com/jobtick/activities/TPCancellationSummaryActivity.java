@@ -43,7 +43,7 @@ public class TPCancellationSummaryActivity extends AbstractCancellationSummaryAc
 
     private void init(){
         securedPayment.setVisibility(View.VISIBLE);
-        respondHeader.setText(getBaseContext().getString(R.string.cancellation_respond_ticker));
+        respondHeader.setText(getBaseContext().getString(R.string.cancellation_respond_you));
 
         if(taskModel.getCancellation() != null && taskModel.getCancellation().getStatus().equals("pending")){
             cancellationButtons.setVisibility(View.VISIBLE);

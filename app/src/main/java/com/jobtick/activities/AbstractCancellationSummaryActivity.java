@@ -24,6 +24,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.cancellations.AbstractCancellationReasonsActivity;
+import com.jobtick.cancellations.CancellationDeclineActivity;
 import com.jobtick.cancellations.cancellationSubmittedActivity;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
@@ -186,8 +187,13 @@ public class AbstractCancellationSummaryActivity extends ActivityBase {
     }
 
     protected void decline(){
-
+        Bundle bundle = new Bundle();
+        bundle.putInt(ConstantKey.KEY_TASK_CANCELLATION_ID, taskModel.getCancellation().getId());
+        Intent intent = new Intent(this, CancellationDeclineActivity.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION);
     }
+
     protected void accept(){
 
     }

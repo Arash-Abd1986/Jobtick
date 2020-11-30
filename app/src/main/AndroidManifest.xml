@@ -57,7 +57,7 @@
         <activity android:name=".activities.JobReceiptActivity" />
         <activity
             android:name=".cancellations.CancellationDeclineActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustPan|stateVisible"/>
         <activity android:name=".cancellations.CancellationAcceptedActivity" />
         <activity android:name=".cancellations.CancellationRequestSubmittedActivity" />
         <activity

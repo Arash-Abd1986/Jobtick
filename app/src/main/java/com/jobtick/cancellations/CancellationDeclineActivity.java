@@ -17,6 +17,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
+import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
@@ -46,8 +47,6 @@ public class CancellationDeclineActivity extends ActivityBase {
     MaterialButton lytBtnSubmit;
 
     private SessionManager sessionManager;
-    private TaskModel taskModel;
-    private Boolean isMyTask = false;
     private int cancellationID = 0;
 
 
@@ -61,7 +60,6 @@ public class CancellationDeclineActivity extends ActivityBase {
 
         Bundle bundle = getIntent().getExtras();
         cancellationID = bundle.getInt(ConstantKey.KEY_TASK_CANCELLATION_ID);
-        isMyTask = bundle.getBoolean(ConstantKey.IS_MY_TASK);
 
         initToolbar();
     }
@@ -93,7 +91,11 @@ public class CancellationDeclineActivity extends ActivityBase {
 
     private boolean validation() {
         if(TextUtils.isEmpty(edtComments.getText().toString().trim())){
-            edtComments.setError("?");
+            edtComments.setError("");
+            return false;
+        }
+        if(edtComments.getText().length() < edtComments.geteMinSize()){
+            edtComments.setError("");
             return false;
         }
         return true;
@@ -112,15 +114,12 @@ public class CancellationDeclineActivity extends ActivityBase {
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
 
-                                Intent intent = new Intent();
                                 Bundle bundle = new Bundle();
-                                bundle.putBoolean(ConstantKey.DECLINE, true);
+                                bundle.putString(ConstantKey.CANCELLATION_SUBMITTED, "Cancellation submitted successfully.");
+                                Intent intent = new Intent(this, cancellationSubmittedActivity.class);
                                 intent.putExtras(bundle);
-                                setResult(ConstantKey.RESULTCODE_CANCELLATION_DECLINE, intent);
+                                startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION);
 
-                                intent = new Intent(CancellationDeclineActivity.this, CancellationDeclinedActivity.class);
-                                startActivity(intent);
-                                finish();
                             } else {
                                 showToast("Something went Wrong", CancellationDeclineActivity.this);
                             }
@@ -199,4 +198,16 @@ public class CancellationDeclineActivity extends ActivityBase {
         requestQueue.add(stringRequest);
         Log.e(TAG, stringRequest.getUrl());
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(requestCode == ConstantKey.RESULTCODE_CANCELLATION){
+                setResult(RESULT_OK, data);
+                finish();
+            }
+        }
+    }
+
 }

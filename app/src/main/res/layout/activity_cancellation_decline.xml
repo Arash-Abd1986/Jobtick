@@ -31,6 +31,8 @@
                 app:eTitle="Comment"
                 app:eMaxCharSize="100"
                 app:eMinCharSize="25"
+                app:eImeOptionsComment="actionDone"
+                app:eStartFocusComment="true"
                 android:layout_margin="6dp"
                 app:eIsMandatory="true"/>
         </LinearLayout>

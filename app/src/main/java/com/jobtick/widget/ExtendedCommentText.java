@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -23,6 +24,8 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
     private boolean isMandatory;
     private int eMinSize;
     private int eMaxSize;
+    private boolean eStartFocus;
+    private int eImeOptions;
 
     private TextView textView;
     private TextView counter;
@@ -49,9 +52,14 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
             eTitle = sharedAttribute.getString(R.styleable.ExtendedCommentText_eTitle);
             eContent = sharedAttribute.getString(R.styleable.ExtendedCommentText_eContent);
             eHint = sharedAttribute.getString(R.styleable.ExtendedCommentText_eHint);
+            eStartFocus = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_eStartFocusComment, false);
             eMinSize = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMinCharSize, 10);
             eMaxSize = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMaxCharSize, 100);
             isMandatory = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_eIsMandatory, false);
+
+            String imeOptions = sharedAttribute.getString(R.styleable.ExtendedCommentText_eImeOptionsComment);
+            if (imeOptions != null && !imeOptions.isEmpty())
+                eImeOptions = Integer.parseInt(imeOptions);
         } finally {
             sharedAttribute.recycle();
         }
@@ -72,7 +80,17 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
         editText.addTextChangedListener(this);
         setOnClickListener(this);
 
+        setImeOptions();
         init();
+    }
+
+    private void setImeOptions(){
+        if(eImeOptions == ExtendedEntryText.EImeOptions.ACTION_NEXT)
+            editText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        if(eImeOptions == ExtendedEntryText.EImeOptions.ACTION_DONE)
+            editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        if(eImeOptions == ExtendedEntryText.EImeOptions.NORMAL)
+            editText.setImeOptions(EditorInfo.IME_ACTION_UNSPECIFIED);
     }
 
     private void init(){
@@ -83,6 +101,11 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
         else {
             counter.setText("0/" + eMaxSize);
             counter.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
+        }
+
+        if(eStartFocus){
+            editText.requestFocus();
+            showKeyboard(editText);
         }
     }
 

@@ -245,7 +245,7 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancellation_accept"
+            android:id="@+id/cancellation_decline"
             style="@style/materialButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -256,7 +256,7 @@
             android:textColor="@color/textColor" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancellation_decline"
+            android:id="@+id/cancellation_accept"
             style="@style/materialButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

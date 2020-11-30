@@ -89,6 +89,7 @@
     <attr name="eContent" format="string"/>
     <attr name="eHint" format="string"/>
 
+
     <declare-styleable name="ExtendedEntryText">
         <attr name="eTitle"/>
         <attr name="eContent"/>
@@ -132,9 +133,15 @@
         <attr name="eTitle"/>
         <attr name="eContent"/>
         <attr name="eHint"/>
+        <attr name="eStartFocusComment" format="boolean"/>
         <attr name="eMinCharSize" format="integer"/>
         <attr name="eMaxCharSize" format="integer"/>
         <attr name="eIsMandatory" format="boolean"/>
+        <attr name="eImeOptionsComment" format="enum">
+            <enum name="actionNext" value="0"/>
+            <enum name="actionDone" value="1"/>
+            <enum name="normal" value="2"/>
+        </attr>
     </declare-styleable>
 
 

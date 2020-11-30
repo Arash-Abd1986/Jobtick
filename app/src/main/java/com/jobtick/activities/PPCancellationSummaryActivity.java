@@ -46,7 +46,7 @@ public class PPCancellationSummaryActivity extends AbstractCancellationSummaryAc
         securedPayment.setVisibility(View.VISIBLE);
         respondHeader.setText(getBaseContext().getString(R.string.cancellation_respond_ticker));
 
-        if(taskModel.getCancellation() != null){
+        if(taskModel.getCancellation() != null && taskModel.getCancellation().getStatus().equals("pending")){
             cancellationButtons.setVisibility(View.GONE);
             withdrawContainer.setVisibility(View.VISIBLE);
             extraSpace.setVisibility(View.VISIBLE);

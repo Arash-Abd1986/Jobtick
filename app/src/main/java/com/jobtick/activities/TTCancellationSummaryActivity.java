@@ -1,15 +1,14 @@
 package com.jobtick.activities;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
-import com.jobtick.utils.ConstantKey;
 
 /**
  * TT means ticker cancels, ticker see this activity.
@@ -21,7 +20,7 @@ public class TTCancellationSummaryActivity extends AbstractCancellationSummaryAc
     private View cancellationButtons;
     private Button accept;
     private Button decline;
-    private MaterialButton withdraw;
+    private LinearLayout withdraw;
     private View extraSpace;
     private View withdrawContainer;
 
@@ -52,18 +51,11 @@ public class TTCancellationSummaryActivity extends AbstractCancellationSummaryAc
             extraSpace.setVisibility(View.VISIBLE);
         }
 
-        decline.setOnClickListener(v -> {
-            decline();
-        });
+        withdraw.setOnClickListener(v -> {
 
-        accept.setOnClickListener(v -> {
-            accept();
-        });
-
-        withdraw.setOnLongClickListener(v -> {
-
-            //withdraw()
-            return false;
+            withdraw();
         });
     }
+
+
 }

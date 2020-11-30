@@ -462,25 +462,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
                     cardPrivateChat.setVisibility(View.VISIBLE);
                     //Cancellation
-                    if (taskModel.getCancellation() != null) {
-                        if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING)) {
-                            if (taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId())) {
-                                //sent a Cancellation request
-                                showCancellationCard(false, false);
-                                txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_SENT);
-                            } else {
-                                //received Cancellation request
-                                showCancellationCard(false, true);
-                                txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_RECEIVED);
-                            }
-                            cardMakeAnOffer.setVisibility(View.VISIBLE);
-                            toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
-                        } else if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_DECLINED)) {
-
-                        } else if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_ACCEPTED)) {
-
-                        }
-                    }
 
                 } else {
                     // worker task
@@ -500,22 +481,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, true);
                         cardPrivateChat.setVisibility(View.VISIBLE);
                         //Cancellation
-                        if (taskModel.getCancellation() != null) {
-                            if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING)) {
-                                if (taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId())) {
-                                    //sent a Cancellation request
-                                    showCancellationCard(true, true);
-                                    txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_SENT);
-                                } else {
-                                    //received Cancellation request
-                                    showCancellationCard(true, false);
-                                    txtBtnText.setText(ConstantKey.BTN_CANCELLATION_REQUEST_RECEIVED);
-                                }
-                                cardMakeAnOffer.setVisibility(View.VISIBLE);
-                                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
-                            }
-                        }
-
                     }
                 }
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_edit, false);
@@ -724,7 +689,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 break;
         }
 
-
+        initCancellation();
         initJobReceipt();
         initIncreaseBudget();
         initRescheduleTime();
@@ -812,20 +777,20 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 //                        startActivityForResult(intent, ConstantKey.RESULTCODE_INCREASE_BUDGET);
                     } else {
                         showDialogIncreaseBudgetRequest();
-                     //   startActivityForResult(intent, ConstantKey.RESULTCODE_INCREASE_BUDGET);
+                        //   startActivityForResult(intent, ConstantKey.RESULTCODE_INCREASE_BUDGET);
                     }
                     break;
                 case R.id.action_rechedule:
                     intent = new Intent(TaskDetailsActivity.this, RescheduleReqFromWorkerActivity.class);
                     bundle = new Bundle();
-                 //   bundle.putParcelable(ConstantKey.TASK, taskModel);
+                    //   bundle.putParcelable(ConstantKey.TASK, taskModel);
                     intent.putExtras(bundle);
                     startActivityForResult(intent, ConstantKey.RESULTCODE_INCREASE_BUDGET);
                     break;
                 case R.id.action_job_receipt:
                     intent = new Intent(TaskDetailsActivity.this, JobReceiptActivity.class);
                     bundle = new Bundle();
-                //    bundle.putParcelable(ConstantKey.TASK, taskModel);
+                    //    bundle.putParcelable(ConstantKey.TASK, taskModel);
                     bundle.putBoolean(ConstantKey.IS_MY_TASK, isMyTask);
                     intent.putExtras(bundle);
                     startActivity(intent);
@@ -2411,8 +2376,44 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
 
+    private void initCancellation() {
+        if(alertType == AlertType.CANCELLATION){
+            hideAlertBox();
+        }
+        if (taskModel.getCancellation() == null) return;
+        if (isMyTask) {
+            if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING)) {
+                if (taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId())) {
+                    //poster is cancelling, user is poster too
+                    showCancellationCard(false, false);
+                } else {
+                    //ticker is cancelling, user is poster
+                    showCancellationCard(false, true);
+                }
+                txtBtnText.setVisibility(View.GONE);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
+            } else if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_DECLINED)) {
+
+            } else if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_ACCEPTED)) {
+
+            }
+        } else {
+            if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING)) {
+                if (taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId())) {
+                    //ticker is cancelling, user is ticker too
+                    showCancellationCard(true, true);
+                } else {
+                    //poster is cancelling, user is ticker
+                    showCancellationCard(true, false);
+                }
+                txtBtnText.setVisibility(View.GONE);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
+            }
+        }
+    }
+
     private void initAskToRelease() {
-        if(alertType == AlertType.RELEASE_MONEY){
+        if (alertType == AlertType.RELEASE_MONEY) {
             hideAlertBox();
         }
         if (taskModel.getStatus().equals("completed") && taskModel.getWorker() != null &&
@@ -2421,40 +2422,40 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
-    private void initReview(){
-        if(alertType == AlertType.REVIEW){
+    private void initReview() {
+        if (alertType == AlertType.REVIEW) {
             hideAlertBox();
         }
-        if(!taskModel.getStatus().equals("closed")) return;
-        if(taskModel.getReviewModels() == null){
+        if (!taskModel.getStatus().equals("closed")) return;
+        if (taskModel.getReviewModels() == null) {
             showReviewCard();
             return;
         }
         boolean showReview = true;
         List<ReviewModel> reviewModels = taskModel.getReviewModels();
         //for poster
-        if(isMyTask){
-            for (ReviewModel reviewModel: reviewModels) {
-                if(reviewModel.getRateeType().equals("worker")){
+        if (isMyTask) {
+            for (ReviewModel reviewModel : reviewModels) {
+                if (reviewModel.getRateeType().equals("worker")) {
                     showReview = false;
                     break;
                 }
             }
         } //for worker
-        else{
-            for (ReviewModel reviewModel: reviewModels) {
-                if(reviewModel.getRateeType().equals("poster")){
+        else {
+            for (ReviewModel reviewModel : reviewModels) {
+                if (reviewModel.getRateeType().equals("poster")) {
                     showReview = false;
                     break;
                 }
             }
         }
-        if(showReview)
+        if (showReview)
             showReviewCard();
     }
 
-    private void initRescheduleTime(){
-        if(alertType == AlertType.RESCHEDULE){
+    private void initRescheduleTime() {
+        if (alertType == AlertType.RESCHEDULE) {
             hideAlertBox();
         }
         if (taskModel.getRescheduleReqeust() != null && taskModel.getRescheduleReqeust().size() > 0) {
@@ -2472,12 +2473,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
-    private void initJobReceipt(){
+    private void initJobReceipt() {
         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_job_receipt, taskModel.getStatus().equals(TASK_CLOSED));
     }
 
     private void initIncreaseBudget() {
-        if(alertType == AlertType.INCREASE_BUDGET){
+        if (alertType == AlertType.INCREASE_BUDGET) {
             hideAlertBox();
         }
         if (taskModel.getAdditionalFund() != null && taskModel.getAdditionalFund().getStatus().equals("pending")) {
@@ -2488,6 +2489,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private int pos = 0;
+
     private void showDialogRescheduleRequest(int pos) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         RescheduleNoticeBottomSheetState dialog = RescheduleNoticeBottomSheetState.newInstance(taskModel, pos);
@@ -2499,11 +2501,13 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         IncreaseBudgetBottomSheet dialog = IncreaseBudgetBottomSheet.newInstance(taskModel, 0);
         dialog.show(fragmentManager, "");
     }
+
     private void showDialogIncreaseBudgetNoticeRequest() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         IncreaseBudgetNoticeBottomSheet dialog = IncreaseBudgetNoticeBottomSheet.newInstance(taskModel);
         dialog.show(fragmentManager, "");
     }
+
     private void showDialogIncreaseBudgetDeclineRequest() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         IncreaseBudgetDeclineBottomSheet dialog = IncreaseBudgetDeclineBottomSheet.newInstance(taskModel);
@@ -2531,25 +2535,26 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private boolean isTicker = false;
     private boolean tickerCancels = false;
     private String cancellationTitle;
-    private void showCancellationCard(boolean isTicker, boolean tickerCancels){
+
+    private void showCancellationCard(boolean isTicker, boolean tickerCancels) {
         this.isTicker = isTicker;
         this.tickerCancels = tickerCancels;
 
-        if(isTicker && tickerCancels) {
+        if (isTicker && tickerCancels) {
             cancellationTitle = "<b>You</b> have requested to cancel this job on <b>" +
-                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>";
+                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt()) + "</b>";
 
             showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
-                    AlertType.CANCELLATION,true);
+                    AlertType.CANCELLATION, true);
         }
-        if(!isTicker && !tickerCancels) {
+        if (!isTicker && !tickerCancels) {
             cancellationTitle = "<b>You</b> have requested to cancel this job on <b>" +
-                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt())+ "</b>";
+                    TimeHelper.convertToShowTimeFormat(taskModel.getCancellation().getCreatedAt()) + "</b>";
 
             showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
-                    AlertType.CANCELLATION,true);
+                    AlertType.CANCELLATION, true);
         }
-        if(isTicker && !tickerCancels) {
+        if (isTicker && !tickerCancels) {
             String cancelledByWho = taskModel.getPoster().getName();
 
             cancellationTitle = "<b>" + cancelledByWho + "</b> " +
@@ -2559,7 +2564,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
                     AlertType.CANCELLATION, true);
         }
-        if(!isTicker && tickerCancels) {
+        if (!isTicker && tickerCancels) {
             String cancelledByWho = taskModel.getWorker().getName();
 
             cancellationTitle = "<b>" + cancelledByWho + "</b> " +
@@ -2571,55 +2576,56 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
-    private void showRescheduleTimeCard(int pos){
+    private void showRescheduleTimeCard(int pos) {
         String rescheduledByWho;
-        if(isMyTask)
+        if (isMyTask)
             rescheduledByWho = taskModel.getWorker().getName();
-         else
-             rescheduledByWho = taskModel.getPoster().getName();
+        else
+            rescheduledByWho = taskModel.getPoster().getName();
 
         showAlertBox(Html.fromHtml("<b>" + rescheduledByWho + "</b> " +
-                "has requested to reschedule time for this job on <b>" +
-                TimeHelper.convertToShowTimeFormat(taskModel.getRescheduleReqeust().get(pos).getCreated_at())+ "</b>"),
-                ConstantKey.BTN_RESCHEDULE_REQUEST_SENT,AlertType.RESCHEDULE, true);
+                        "has requested to reschedule time for this job on <b>" +
+                        TimeHelper.convertToShowTimeFormat(taskModel.getRescheduleReqeust().get(pos).getCreated_at()) + "</b>"),
+                ConstantKey.BTN_RESCHEDULE_REQUEST_SENT, AlertType.RESCHEDULE, true);
     }
 
-    private void showIncreaseBudgetCard(){
+    private void showIncreaseBudgetCard() {
         String increaseRequestByWho;
-        if(isMyTask)
+        if (isMyTask)
             increaseRequestByWho = taskModel.getWorker().getName();
         else
             increaseRequestByWho = taskModel.getPoster().getName();
 
-        showAlertBox(Html.fromHtml("<b>" + increaseRequestByWho +"</b> " +
+        showAlertBox(Html.fromHtml("<b>" + increaseRequestByWho + "</b> " +
                         "has requested to increase price on this job on <b>" +
-                        TimeHelper.convertToShowTimeFormat(taskModel.getAdditionalFund().getCreatedAt())+ "</b>"),
+                        TimeHelper.convertToShowTimeFormat(taskModel.getAdditionalFund().getCreatedAt()) + "</b>"),
                 ConstantKey.BTN_INCREASE_BUDGET_REQUEST_SENT, AlertType.INCREASE_BUDGET, true);
     }
-    
-    private void showReviewCard(){
+
+    private void showReviewCard() {
         String writeAReviewForWho;
-        if(isMyTask)
+        if (isMyTask)
             writeAReviewForWho = taskModel.getWorker().getName();
         else
             writeAReviewForWho = taskModel.getPoster().getName();
 
         showAlertBox(Html.fromHtml(
-                        "Make our community more trusted by leaving a review for <b>" + writeAReviewForWho + "</b>"),
-                ConstantKey.BTN_LEAVE_A_REVIEW, AlertType.REVIEW,true);
-    }  
+                "Make our community more trusted by leaving a review for <b>" + writeAReviewForWho + "</b>"),
+                ConstantKey.BTN_LEAVE_A_REVIEW, AlertType.REVIEW, true);
+    }
 
-    private void showReleaseCard(){
-        if(isMyTask) return;
+    private void showReleaseCard() {
+        if (isMyTask) return;
 
         showAlertBox(Html.fromHtml(
-                        "You have requested to release money this job on <b>" +
-                                TimeHelper.convertToShowTimeFormat(taskModel.getConversation().getTask().getCompletedAt())+ "</b>"),
+                "You have requested to release money this job on <b>" +
+                        TimeHelper.convertToShowTimeFormat(taskModel.getConversation().getTask().getCompletedAt()) + "</b>"),
                 null, AlertType.RELEASE_MONEY, false);
     }
 
     //we use spanned to support middle bolds
-    private void showAlertBox(Spanned title, String buttonText, AlertType alertType, boolean hasButton){
+    private void showAlertBox(Spanned title, String buttonText, AlertType alertType,
+                              boolean hasButton) {
         alertBox.setVisibility(View.VISIBLE);
         this.alertType = alertType;
         alertBox.setTitle(title);
@@ -2627,7 +2633,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         alertBox.setButtonText(buttonText);
     }
 
-    private void hideAlertBox(){
+    private void hideAlertBox() {
         alertBox.setVisibility(View.GONE);
         this.alertType = null;
     }
@@ -2639,8 +2645,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     // poster cancels, user is ticker
     @Override
     public void onExtendedAlertButtonClick() {
-        if(alertType == null) return;
-        if(alertType == AlertType.CANCELLATION) {
+        if (alertType == null) return;
+        if (alertType == AlertType.CANCELLATION) {
             Intent intent;
             if (tickerCancels && isTicker) {
                 intent = new Intent(this, TTCancellationSummaryActivity.class);
@@ -2654,15 +2660,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             Bundle bundle = new Bundle();
             bundle.putString(ConstantKey.CANCELLATION_TITLE, cancellationTitle);
             intent.putExtras(bundle);
-            startActivityForResult(intent, 1010);
-        }
-        else if(alertType == AlertType.RESCHEDULE){
+            startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION);
+        } else if (alertType == AlertType.RESCHEDULE) {
             showDialogRescheduleRequest(pos);
-        }
-        else if(alertType == AlertType.INCREASE_BUDGET){
+        } else if (alertType == AlertType.INCREASE_BUDGET) {
             showDialogIncreaseBudgetNoticeRequest();
-        }
-        else if(alertType == AlertType.REVIEW){
+        } else if (alertType == AlertType.REVIEW) {
             Intent intent = new Intent(TaskDetailsActivity.this, LeaveReviewActivity.class);
             Bundle bundle = new Bundle();
             //    bundle.putParcelable(ConstantKey.TASK, taskModel);
@@ -2707,7 +2710,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         getData();
     }
 
-    public enum AlertType{
+    public enum AlertType {
         CANCELLATION,
         RESCHEDULE,
         INCREASE_BUDGET,

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/backgroundLightGrey">
 
     <include layout="@layout/toolbar" />
@@ -25,8 +25,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/toolbar"
-                android:elevation="0dp"
                 android:layout_margin="16dp"
+                android:elevation="0dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="0dp">
@@ -42,9 +42,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lineHeight="23dp"
-                        tools:text="You have requested to cancel this job on 9th December 2020 9:45 PM."
                         android:textAppearance="@style/materialText_500_14"
-                        android:textColor="@color/grey_70" />
+                        android:textColor="@color/grey_70"
+                        tools:text="You have requested to cancel this job on 9th December 2020 9:45 PM." />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/secured_payment"
@@ -71,14 +71,14 @@
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@id/ivAvatar"
                         android:layout_marginStart="12dp"
-                        android:layout_marginEnd="16dp"
                         android:layout_marginTop="2dp"
+                        android:layout_marginEnd="16dp"
                         android:layout_toStartOf="@id/task_fee"
                         android:layout_toEndOf="@id/ivAvatar"
                         android:lineHeight="18dp"
-                        tools:text="Clean my two bedroom apartment"
                         android:textAppearance="@style/materialText_700_14"
-                        android:textColor="@color/textColor" />
+                        android:textColor="@color/textColor"
+                        tools:text="Clean my two bedroom apartment" />
 
 
                     <com.google.android.material.textview.MaterialTextView
@@ -90,9 +90,9 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="2dp"
                         android:layout_toEndOf="@id/ivAvatar"
-                        tools:text="Nathan Fox"
                         android:textAppearance="@style/materialText_400_12"
-                        android:textColor="@color/grey_70" />
+                        android:textColor="@color/grey_70"
+                        tools:text="Nathan Fox" />
 
 
                     <com.google.android.material.textview.MaterialTextView
@@ -103,9 +103,9 @@
                         android:layout_alignBottom="@id/ivAvatar"
                         android:layout_alignParentEnd="true"
                         android:gravity="center"
-                        tools:text="$200"
                         android:textAppearance="@style/materialText_600_20"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="@color/colorPrimary"
+                        tools:text="$200" />
 
 
                     <com.google.android.material.textview.MaterialTextView
@@ -124,9 +124,9 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/header_reason"
                         android:layout_marginTop="8dp"
-                        tools:text="“I no longer need the job to be done”"
                         android:textAppearance="@style/materialText_700_14"
-                        android:textColor="@color/textColor" />
+                        android:textColor="@color/textColor"
+                        tools:text="“I no longer need the job to be done”" />
 
                     <LinearLayout
                         android:id="@+id/comment_box"
@@ -137,23 +137,23 @@
                         android:gravity="start|top"
                         android:orientation="vertical">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Comment"
-                        android:textAppearance="@style/materialText_600_14"
-                        android:textColor="@color/colorPrimary" />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Comment"
+                            android:textAppearance="@style/materialText_600_14"
+                            android:textColor="@color/colorPrimary" />
 
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/comment_content"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:lineHeight="20dp"
-                        tools:text="officia aliqua tempor fugiat elit non Lorem cillu et proident nulla incididunt officia incididunt veniam occaecat in esse elit"
-                        android:textAppearance="@style/materialText_500_14"
-                        android:textColor="@color/textColor" />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/comment_content"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:lineHeight="20dp"
+                            android:textAppearance="@style/materialText_500_14"
+                            android:textColor="@color/textColor"
+                            tools:text="officia aliqua tempor fugiat elit non Lorem cillu et proident nulla incididunt officia incididunt veniam occaecat in esse elit" />
                     </LinearLayout>
 
                 </RelativeLayout>
@@ -168,9 +168,9 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
                 android:lineHeight="20dp"
-                tools:text="@string/cancellation_respond_ticker"
                 android:textAppearance="@style/materialText_500_14"
-                android:textColor="@color/textColor" />
+                android:textColor="@color/textColor"
+                tools:text="@string/cancellation_respond_ticker" />
 
             <RelativeLayout
                 android:id="@+id/cancellation_fee_container"
@@ -200,9 +200,9 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="16dp"
                     android:gravity="end|center_vertical"
-                    tools:text="-$20"
                     android:textAppearance="@style/materialText_600_22"
-                    android:textColor="@color/strokeRed" />
+                    android:textColor="@color/strokeRed"
+                    tools:text="-$20" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/learn_more"
@@ -219,14 +219,14 @@
                     android:id="@+id/normal_needed_space"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:layout_below="@id/learn_more"/>
+                    android:layout_below="@id/learn_more" />
 
                 <View
                     android:id="@+id/extra_needed_space"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_below="@id/normal_needed_space"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </RelativeLayout>
         </RelativeLayout>
@@ -281,33 +281,39 @@
         android:id="@+id/withdraw_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:orientation="vertical"
         android:visibility="gone">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/materialText_400_14"
-        android:layout_above="@+id/btn_withdraw"
-        android:text="@string/hold_down_the_button_to_withdraw"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="16dp"/>
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_horizontal"
+            android:text="@string/hold_down_the_button_to_withdraw"
+            android:textAppearance="@style/materialText_400_14" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_withdraw"
-        style="@style/materialButton"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginBottom="32dp"
-        android:enabled="false"
-        android:layout_gravity="center"
-        android:backgroundTint="@color/strokeRed"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        android:text="@string/withdraw_the_request"
-        android:visibility="visible"/>
+        <LinearLayout
+            android:id="@+id/btn_withdraw"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/rectangle_round_corners_red"
+            android:orientation="horizontal"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/withdraw_the_request"
+            android:textAppearance="@style/materialText_400_14"
+            android:textColor="@color/white"
+            android:visibility="visible" />
+        </LinearLayout>
 
     </LinearLayout>
 </RelativeLayout>

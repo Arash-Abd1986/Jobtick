@@ -4,6 +4,7 @@ package com.jobtick.activities;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -19,7 +20,7 @@ public class PTCancellationSummaryActivity extends AbstractCancellationSummaryAc
     private View cancellationButtons;
     private Button accept;
     private Button decline;
-    private MaterialButton withdraw;
+    private LinearLayout withdraw;
     private View extraSpace;
     private View withdrawContainer;
 
@@ -58,12 +59,6 @@ public class PTCancellationSummaryActivity extends AbstractCancellationSummaryAc
 
         accept.setOnClickListener(v -> {
             accept();
-        });
-
-        withdraw.setOnLongClickListener(v -> {
-
-            //withdraw()
-            return false;
         });
     }
 }

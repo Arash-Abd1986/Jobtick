@@ -3,16 +3,20 @@ package com.jobtick.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -189,6 +193,84 @@ public class AbstractCancellationSummaryActivity extends ActivityBase {
     }
     protected void withdraw(){
 
+        //no need to check null, we sure we have it
+        int cancellationId = taskModel.getCancellation().getId();
+        showProgressDialog();
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, Constant.BASE_URL + "cancellation/" + cancellationId,
+                response -> {
+                    Timber.e(response);
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+                                Intent intent = new Intent();
+                                Bundle bundle = new Bundle();
+                                bundle.putBoolean(ConstantKey.CANCELLATION, true);
+                                intent.putExtras(bundle);
+                                setResult(RESULT_OK, intent);
+                                finish();
+
+                            } else {
+                                showToast("Something went Wrong", this);
+                            }
+                        }
+                        hideProgressDialog();
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                        hideProgressDialog();
+                    }
+                },
+                error -> {
+                    hideProgressDialog();
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
+                            return;
+                        }
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+                            if (jsonObject_error.has("message")) {
+                                Toast.makeText(this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", this);
+                    }
+                    Timber.e(error.toString());
+                }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
     protected void cancellationSubmit(String str_reason, String str_comment, int reasonId) {

@@ -3,8 +3,6 @@ package com.jobtick.activities;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -13,14 +11,12 @@ import com.jobtick.R;
 /**
  * TT means ticker cancels, ticker see this activity.
  */
-public class TTCancellationSummaryActivity extends AbstractCancellationSummaryActivity {
+public class TTCancellationSummaryActivity extends AbstractCancellationSummaryActivity implements View.OnTouchListener  {
 
     private TextView securedPayment;
     private TextView respondHeader;
     private View cancellationButtons;
-    private Button accept;
-    private Button decline;
-    private LinearLayout withdraw;
+    private MaterialButton withdraw;
     private View extraSpace;
     private View withdrawContainer;
 
@@ -31,8 +27,6 @@ public class TTCancellationSummaryActivity extends AbstractCancellationSummaryAc
         securedPayment = findViewById(R.id.secured_payment);
         respondHeader = findViewById(R.id.cancellation_respond_header);
         cancellationButtons = findViewById(R.id.cancellation_buttons);
-        accept = findViewById(R.id.cancellation_accept);
-        decline = findViewById(R.id.cancellation_decline);
 
         withdraw = findViewById(R.id.btn_withdraw);
         withdrawContainer = findViewById(R.id.withdraw_container);
@@ -51,11 +45,6 @@ public class TTCancellationSummaryActivity extends AbstractCancellationSummaryAc
             extraSpace.setVisibility(View.VISIBLE);
         }
 
-        withdraw.setOnClickListener(v -> {
-
-            withdraw();
-        });
+        withdraw.setOnTouchListener(this);
     }
-
-
 }

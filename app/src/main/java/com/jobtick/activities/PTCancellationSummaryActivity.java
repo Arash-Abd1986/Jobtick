@@ -20,7 +20,6 @@ public class PTCancellationSummaryActivity extends AbstractCancellationSummaryAc
     private View cancellationButtons;
     private Button accept;
     private Button decline;
-    private LinearLayout withdraw;
     private View extraSpace;
     private View withdrawContainer;
 
@@ -36,7 +35,6 @@ public class PTCancellationSummaryActivity extends AbstractCancellationSummaryAc
         accept = findViewById(R.id.cancellation_accept);
         decline = findViewById(R.id.cancellation_decline);
 
-        withdraw = findViewById(R.id.btn_withdraw);
         withdrawContainer = findViewById(R.id.withdraw_container);
         extraSpace = findViewById(R.id.extra_needed_space);
 

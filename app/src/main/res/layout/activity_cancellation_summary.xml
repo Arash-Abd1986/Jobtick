@@ -294,26 +294,17 @@
             android:text="@string/hold_down_the_button_to_withdraw"
             android:textAppearance="@style/materialText_400_14" />
 
-        <LinearLayout
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_withdraw"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginBottom="32dp"
-            android:background="@drawable/rectangle_round_corners_red"
-            android:orientation="horizontal"
             android:paddingStart="24dp"
-            android:paddingEnd="24dp">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:text="@string/withdraw_the_request"
-            android:textAppearance="@style/materialText_400_14"
-            android:textColor="@color/white"
-            android:visibility="visible" />
-        </LinearLayout>
+            style="@style/materialButton"
+            android:backgroundTint="@color/strokeRed"
+            android:paddingEnd="24dp"/>
 
     </LinearLayout>
 </RelativeLayout>

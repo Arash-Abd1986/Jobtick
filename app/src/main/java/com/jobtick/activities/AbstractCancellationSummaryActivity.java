@@ -3,25 +3,21 @@ package com.jobtick.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.cancellations.AbstractCancellationReasonsActivity;
 import com.jobtick.cancellations.CancellationDeclineActivity;
@@ -31,6 +27,7 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.ImageUtil;
+import com.jobtick.utils.ResizeWidthAnimation;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +38,7 @@ import java.util.Map;
 
 import timber.log.Timber;
 
-public class AbstractCancellationSummaryActivity extends ActivityBase {
+public class AbstractCancellationSummaryActivity extends ActivityBase implements View.OnTouchListener{
 
     private MaterialToolbar toolbar;
     private TextView title;
@@ -59,6 +56,7 @@ public class AbstractCancellationSummaryActivity extends ActivityBase {
     private TextView learnMore;
 
     private Button submit;
+    private int animFirstWidth;
 
     protected TaskModel taskModel;
     protected String str_SLUG = null;
@@ -457,5 +455,30 @@ public class AbstractCancellationSummaryActivity extends ActivityBase {
                 finish();
             }
         }
+    }
+
+    private boolean defaultSize = true;
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if(defaultSize) {
+                    animFirstWidth = v.getWidth();
+                    defaultSize = false;
+                }
+                ResizeWidthAnimation animGo = new ResizeWidthAnimation(v, (int)(animFirstWidth * 1.5));
+                animGo.setOnFinish(this::withdraw);
+                animGo.setDuration(3000);
+                v.startAnimation(animGo);
+                break;
+            case MotionEvent.ACTION_UP:
+                ResizeWidthAnimation animBack = new ResizeWidthAnimation(v, (int)(animFirstWidth));
+                animBack.setDuration(1000);
+                v.startAnimation(animBack);
+                break;
+        }
+
+        return true;
     }
 }

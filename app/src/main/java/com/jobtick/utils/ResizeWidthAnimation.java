@@ -14,7 +14,8 @@ public class ResizeWidthAnimation extends Animation implements Animation.Animati
     public ResizeWidthAnimation(View view, int width) {
         mView = view;
         mWidth = width;
-        mStartWidth = view.getWidth();;
+        mStartWidth = view.getWidth();
+        this.setAnimationListener(this);
     }
 
     @Override

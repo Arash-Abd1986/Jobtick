@@ -74,19 +74,19 @@ public class CancellationWorkerActivity extends AbstractCancellationReasonsActiv
             switch (i) {
                 case 0:
                     rbReason1.setText(Html.fromHtml(reason));
-                    rbReason1.setTag(reasons.get(i).getResponsiblePersonType());
+                    rbReason1.setTag(reasons.get(i));
                     break;
                 case 1:
                     rbReason2.setText(Html.fromHtml(reason));
-                    rbReason2.setTag(reasons.get(i).getResponsiblePersonType());
+                    rbReason2.setTag(reasons.get(i));
                     break;
                 case 2:
                     rbReason3.setText(Html.fromHtml(reason));
-                    rbReason3.setTag(reasons.get(i).getResponsiblePersonType());
+                    rbReason3.setTag(reasons.get(i));
                     break;
                 case 3:
                     rbReason4.setText(Html.fromHtml(reason));
-                    rbReason4.setTag(reasons.get(i).getResponsiblePersonType());
+                    rbReason4.setTag(reasons.get(i));
                     break;
                 case 4:
                     throw new IllegalStateException("cancellation reason worker list is more than expected.");

@@ -87,9 +87,6 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         Intent intent1=new Intent(this, ProfileActivity.class);

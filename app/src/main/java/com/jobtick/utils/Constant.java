@@ -136,6 +136,8 @@ public class Constant {
     public static String URL_SEND_OTP = BASE_URL + "account/phone_send_otp";
     public static String URL_OTP_VERIFICATION = BASE_URL + "account/phone_verification";
 
+    public static String CASH_OUT = "cash out";
+
     Constant(Context context) {
         this.context = context;
     }

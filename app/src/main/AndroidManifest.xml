@@ -222,6 +222,7 @@
             android:name="io.github.memfis19.annca.internal.ui.preview.PreviewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeFullscreen" />
+        <activity android:name=".activities.CashOutActivity" />
     </application>
 
 </manifest>

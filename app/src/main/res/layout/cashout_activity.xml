@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/backgroundLightGrey">
+
+    <include layout="@layout/toolbar"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/available_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/materialText_500_18"
+        android:layout_below="@+id/toolbar"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:textColor="@color/grey_70"
+        tools:text="$300 Available"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_below="@id/available_balance"
+        android:padding="8dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rectangle_card_round_corners_outlined">
+
+        <EditText
+            android:id="@+id/requested_cashout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="center"
+            android:hint="$0"
+            android:inputType="number"
+            android:imeOptions="actionDone"
+            android:textAppearance="@style/materialText_400_16"
+            android:textSize="36dp"
+            android:textColor="@color/textColor"/>
+
+    </LinearLayout>
+    
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cashout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/cash_out"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

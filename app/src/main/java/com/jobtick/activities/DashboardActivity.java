@@ -81,6 +81,8 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     CardView btnCashOut;
     TextView myBalance;
 
+    private CreditCardModel creditCardModel;
+
 
     public static onProfileUpdateListener onProfileupdatelistenerSideMenu;
 
@@ -89,8 +91,6 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        Intent intent1=new Intent(this, ProfileActivity.class);
-        startActivity(intent1);
         toolbar = findViewById(R.id.toolbar);
         // Tools.clearSystemBarLight(this);
         toolbar.setElevation(0);
@@ -113,7 +113,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
         btnCashOut.setOnClickListener( v -> {
             drawerLayout.close();
-            CashOutBottomSheet cashOutBottomSheet = CashOutBottomSheet.newInstance();
+            CashOutBottomSheet cashOutBottomSheet = CashOutBottomSheet.newInstance(creditCardModel);
             cashOutBottomSheet.show(getSupportFragmentManager(), "");
         });
 
@@ -202,6 +202,11 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 }
             }
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         getBalance();
     }
@@ -407,10 +412,10 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
                                     String jsonString = jsonObject.toString(); //http request
                                     Gson gson = new Gson();
-                                    CreditCardModel creditCardModel = gson.fromJson(jsonString, CreditCardModel.class);
+                                    creditCardModel = gson.fromJson(jsonString, CreditCardModel.class);
 
-                                    if (creditCardModel != null && creditCardModel.getData() != null && creditCardModel.getData().get(0).wallet != null) {
-                                        myBalance.setText(String.format(Locale.ENGLISH, "$ %d", creditCardModel.getData().get(0).wallet.balance));
+                                    if (creditCardModel != null && creditCardModel.getData() != null && creditCardModel.getData().get(1).getWallet() != null) {
+                                        myBalance.setText(String.format(Locale.ENGLISH, "$ %d", creditCardModel.getData().get(1).getWallet().getBalance()));
                                     }
                                 }
                             } else {

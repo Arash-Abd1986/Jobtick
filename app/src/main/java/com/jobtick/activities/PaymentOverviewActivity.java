@@ -160,7 +160,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
                                     Gson gson = new Gson();
                                     CreditCardModel creditCardModel = gson.fromJson(jsonString, CreditCardModel.class);
 
-                                    if (creditCardModel != null && creditCardModel.getData() != null && creditCardModel.getData().get(0).card != null) {
+                                    if (creditCardModel != null && creditCardModel.getData() != null && creditCardModel.getData().get(0).getCard() != null) {
                                         setUpLayout(creditCardModel);
                                     } else {
                                         setUpAddPaymentLayout();
@@ -229,8 +229,8 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
         btnPay.setEnabled(true);
         btnPay.setAlpha(1.0f);
         lytAddCreditCard.setVisibility(View.GONE);
-        txtAccountNumber.setText("**** **** **** " + creditCardModel.getData().get(0).card.last4);
-        txtExpiresDate.setText("Expiry Date: " + creditCardModel.getData().get(0).card.exp_month + "/" + creditCardModel.getData().get(0).card.exp_year);
+        txtAccountNumber.setText("**** **** **** " + creditCardModel.getData().get(0).getCard().getLast4());
+        txtExpiresDate.setText("Expiry Date: " + creditCardModel.getData().get(0).getCard().getExp_month() + "/" + creditCardModel.getData().get(0).getCard().getExp_year());
         rltPaymentMethod.setVisibility(View.VISIBLE);
     }
 

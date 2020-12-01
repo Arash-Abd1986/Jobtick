@@ -446,5 +446,7 @@
     <string name="hold_down_the_button_to_withdraw">Hold down the button to Withdraw</string>
     <string name="splash_logo">Splash logo</string>
     <string name="no_skills_added_yet">No skills added yet</string>
+    <string name="this_text_description_for_time_cash_out">This text description for time cash out.</string>
+    <string name="cash_out">Cash Out</string>
 
 </resources>

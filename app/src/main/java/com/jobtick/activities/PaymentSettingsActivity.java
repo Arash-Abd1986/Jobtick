@@ -493,13 +493,13 @@ public class PaymentSettingsActivity extends ActivityBase {
                                     Gson gson = new Gson();
                                     creditCardModel = gson.fromJson(jsonString, CreditCardModel.class);
 
-                                    if (creditCardModel != null && creditCardModel.getData() != null && creditCardModel.getData().get(0).card != null) {
+                                    if (creditCardModel != null && creditCardModel.getData() != null && creditCardModel.getData().get(0).getCard() != null) {
 
                                         setupViewCreditCard(true);
 
-                                        cardType.setText(creditCardModel.getData().get(0).card.brand);
-                                        edtExpiryDate.setText("Expiry Date: " + creditCardModel.getData().get(0).card.exp_month + "/" + creditCardModel.getData().get(0).card.exp_year);
-                                        creditAccountNumber.setText("xxxx xxxx xxxx " + creditCardModel.getData().get(0).card.last4);
+                                        cardType.setText(creditCardModel.getData().get(0).getCard().getBrand());
+                                        edtExpiryDate.setText("Expiry Date: " + creditCardModel.getData().get(0).getCard().getExp_month() + "/" + creditCardModel.getData().get(0).getCard().getExp_year());
+                                        creditAccountNumber.setText("xxxx xxxx xxxx " + creditCardModel.getData().get(0).getCard().getLast4());
                                     } else {
                                         setupViewCreditCard(false);
                                     }

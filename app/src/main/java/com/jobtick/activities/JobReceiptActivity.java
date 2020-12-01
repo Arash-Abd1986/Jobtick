@@ -44,6 +44,9 @@ public class JobReceiptActivity extends ActivityBase {
     @BindView(R.id.receipt_number)
     TextView receiptNumber;
 
+    @BindView(R.id.service_fee_title)
+    TextView serviceFeeTitle;
+
     @BindView(R.id.job_cast_value)
     TextView jobCostValue;
     @BindView(R.id.service_fee_value)
@@ -90,6 +93,10 @@ public class JobReceiptActivity extends ActivityBase {
         initToolbar();
         init();
         setData();
+
+        serviceFeeTitle.setOnClickListener(v -> {
+
+        });
     }
 
     private void init(){
@@ -124,7 +131,6 @@ public class JobReceiptActivity extends ActivityBase {
     private void setData() {
 
         jobTitle.setText(taskModel.getTitle());
-        txtAmount.setText(String.format(Locale.ENGLISH, "$ %d", taskModel.getAmount()));
         jobCostValue.setText(String.format(Locale.ENGLISH, "$ %d", taskModel.getAmount()));
 
         if (!isMyTask) {
@@ -147,18 +153,18 @@ public class JobReceiptActivity extends ActivityBase {
 
             txtFullName.setText(taskModel.getPoster().getName());
 
-             //calcualation
-//            float totalServiceFee = taskModel.getAmount() * 0.1f;
-//            float gst = totalServiceFee * 1.1f;
-//            float total = taskModel.getAmount() + totalServiceFee;
-//            float earning = total
-//            float jTServiceFee = totalServiceFee - gst;
-//
-//            serviceFee.setText(String.format(Locale.ENGLISH,"%.2f",totalServiceFee));
-//            totalCost.setText(String.format(Locale.ENGLISH,"%.2f",total));
-//            jobTickTotalValue.setText(String.format(Locale.ENGLISH,"%.2f",total));
-//            jobTickGtsValue.setText(String.format(Locale.ENGLISH,"%.2f",gst));
-//            jobTickServiceValue.setText(String.format(Locale.ENGLISH,"%.2f",jTServiceFee));
+             // calculation
+            float totalServiceFee = taskModel.getAmount() * 0.1f;
+            float total = taskModel.getAmount() + totalServiceFee;
+            float gst = totalServiceFee - (totalServiceFee / 1.1f);
+            float jTServiceFee = totalServiceFee - gst;
+
+            serviceFee.setText(String.format(Locale.ENGLISH,"%.2f",totalServiceFee));
+            totalCost.setText(String.format(Locale.ENGLISH,"%.2f",total));
+            txtAmount.setText(String.format(Locale.ENGLISH,"%.2f",total));
+            jobTickTotalValue.setText(String.format(Locale.ENGLISH,"%.2f",totalServiceFee));
+            jobTickGtsValue.setText(String.format(Locale.ENGLISH,"%.2f",gst));
+            jobTickServiceValue.setText(String.format(Locale.ENGLISH,"%.2f",jTServiceFee));
 
         } else {
             //poster
@@ -184,7 +190,7 @@ public class JobReceiptActivity extends ActivityBase {
                 paidOn.setText(String.format(Locale.ENGLISH, "Paid On %s", TimeHelper.convertToShowTimeFormat(taskModel.getConversation().getTask().getClosedAt())));
             }
 
-            //calcualation
+            //calculation
             float totalServiceFee = taskModel.getAmount() * 0.1f;
             float total = taskModel.getAmount() + totalServiceFee;
             float gst = totalServiceFee - (totalServiceFee / 1.1f);
@@ -192,7 +198,8 @@ public class JobReceiptActivity extends ActivityBase {
 
             serviceFee.setText(String.format(Locale.ENGLISH,"%.2f",totalServiceFee));
             totalCost.setText(String.format(Locale.ENGLISH,"%.2f",total));
-            jobTickTotalValue.setText(String.format(Locale.ENGLISH,"%.2f",total));
+            txtAmount.setText(String.format(Locale.ENGLISH,"%.2f",total));
+            jobTickTotalValue.setText(String.format(Locale.ENGLISH,"%.2f",totalServiceFee));
             jobTickGtsValue.setText(String.format(Locale.ENGLISH,"%.2f",gst));
             jobTickServiceValue.setText(String.format(Locale.ENGLISH,"%.2f",jTServiceFee));
 

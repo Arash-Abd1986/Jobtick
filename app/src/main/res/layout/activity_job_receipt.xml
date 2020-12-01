@@ -232,24 +232,26 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/service_fee_title"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/job_cast_title"
                         android:layout_alignParentStart="true"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:layout_toStartOf="@id/service_fee_value"
-                        android:text="Service Fee"
+                        android:text="Fee "
+                        android:drawableEnd="@drawable/ic_alert_circle_grey_12dp"
                         android:textAppearance="@style/materialText_500_14"
                         android:textColor="@color/textColor" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/service_fee_value"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@id/service_fee_title"
                         android:layout_alignBottom="@id/service_fee_title"
+                        android:layout_toEndOf="@+id/service_fee_title"
                         android:layout_alignParentEnd="true"
+                        android:gravity="end"
                         android:layout_marginEnd="16dp"
                         android:text="$00"
                         android:textAppearance="@style/materialText_700_16"

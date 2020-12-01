@@ -206,11 +206,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
             }
         }
 
-
-    }
-
-    private void getBalance(){
-
+        getBalance();
     }
 
     private void setHeaderLayout() {
@@ -401,7 +397,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         return false;
     }
 
-    private void getPaymentMethod() {
+    private void getBalance() {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PAYMENTS_METHOD,
                 response -> {
                     Timber.e(response);

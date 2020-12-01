@@ -61,9 +61,6 @@ public class CategoryListActivity extends ActivityBase implements TaskCategoryAd
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_list);
         ButterKnife.bind(this);

@@ -52,7 +52,6 @@ public class ImagePagerAdapter extends PagerAdapter
 
         Glide.with(context)
                 .load(arrayList.get(position).getModalUrl())
-                .thumbnail(Glide.with(context).load(R.drawable.image_load))
                 .into(ivZoom);
 
         container.addView(itemView);

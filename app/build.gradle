@@ -86,6 +86,7 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'            // image loader
+    implementation 'io.github.memfis19:annca:0.3.7'
 
     // Make HTTP Calls
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
@@ -95,13 +96,14 @@ dependencies {
 
     // Recommended: Add the Firebase SDK for Google Analytics.
     implementation 'com.google.firebase:firebase-analytics:17.5.0'
+    implementation 'com.tapadoo.android:alerter:6.2.1'
 
     // Add the Firebase SDK for Crashlytics.
     implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+//    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
-
+    implementation 'com.github.florent37:viewanimator:1.1.0'
     implementation 'com.mikhaellopez:circularimageview:4.2.0'          // circle image view
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-places-v8:0.9.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.1.0'

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/black"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
@@ -23,7 +24,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:padding="15dp"
-            android:src="@drawable/ic_back"
+            android:src="@drawable/ic_back_white"
             tools:ignore="ContentDescription" />
 
         <com.jobtick.TextView.TextViewMedium

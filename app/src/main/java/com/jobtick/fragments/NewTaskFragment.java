@@ -23,6 +23,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jobtick.R;
 import com.jobtick.activities.CategoryListActivity;
 import com.jobtick.activities.DashboardActivity;
@@ -45,7 +46,7 @@ public class NewTaskFragment extends Fragment {
     @BindView(R.id.name)
     TextView name;
     @BindView(R.id.lty_btn_post)
-    MaterialButton lytBtnPost;
+    FloatingActionButton lytBtnPost;
 
     @BindView(R.id.scrollView)
     NestedScrollView scrollView;
@@ -81,7 +82,11 @@ public class NewTaskFragment extends Fragment {
             creating_task.putExtras(bundle);
             getContext().startActivity(creating_task);
         });
-
+        posterCard.setOnClickListener(v -> {
+            lytBtnPost.performClick();
+        });
+        sessionManager = new SessionManager(getContext());
+        name.setText(sessionManager.getUserAccount().getName());
         final ViewTreeObserver observer = scrollView.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override

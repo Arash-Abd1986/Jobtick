@@ -4,24 +4,36 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.fragments.CashOutBottomSheet;
 import com.jobtick.fragments.LogOutBottomSheet;
 import com.jobtick.interfaces.onProfileUpdateListener;
+import com.jobtick.models.CreditCardModel;
 import com.jobtick.models.PushNotificationModel;
+import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
@@ -40,6 +52,16 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+
+import timber.log.Timber;
+
 import static com.jobtick.utils.ConstantKey.PUSH_COMMENT;
 import static com.jobtick.utils.ConstantKey.PUSH_CONVERSATION;
 import static com.jobtick.utils.ConstantKey.PUSH_CONVERSATION_ID;
@@ -57,6 +79,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     TextView txtUserName;
     TextView txtAccountLevel;
     CardView btnCashOut;
+    TextView myBalance;
 
 
     public static onProfileUpdateListener onProfileupdatelistenerSideMenu;
@@ -64,8 +87,13 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        Intent intent1=new Intent(this, ProfileActivity.class);
+        startActivity(intent1);
         toolbar = findViewById(R.id.toolbar);
         // Tools.clearSystemBarLight(this);
         toolbar.setElevation(0);
@@ -80,6 +108,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         txtUserName = headerView.findViewById(R.id.txt_user_name);
         txtAccountLevel = headerView.findViewById(R.id.txt_account_level);
         btnCashOut = headerView.findViewById(R.id.btn_cashout);
+        myBalance = headerView.findViewById(R.id.my_balance);
 
         setHeaderLayout();
         navigationView.setNavigationItemSelectedListener(this);
@@ -180,6 +209,10 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
     }
 
+    private void getBalance(){
+
+    }
+
     private void setHeaderLayout() {
 
         if (sessionManager.getUserAccount().getAvatar() != null && sessionManager.getUserAccount().getAvatar().getThumbUrl() != null) {
@@ -251,6 +284,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 startActivity(rate_us);
                 return true;
             case R.id.action_share:
+
                 referAFriend();
                 return true;
             case R.id.action_privacy_policy:
@@ -286,33 +320,6 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         }
     }
 
-
-    private void logout_dialog_box() {
-
-        new MaterialAlertDialogBuilder(DashboardActivity.this)
-                .setTitle("Logout")
-                .setMessage("Are you sure you want to log out?")
-                .setCancelable(false)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                        sessionManager.setUserAccount(null);
-                        sessionManager.setLogin(false);
-                        sessionManager.setTokenType(null);
-                        sessionManager.setAccessToken(null);
-                        Intent i;
-                        i = new Intent(DashboardActivity.this, AuthActivity.class);
-                        openActivity(i);
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //  Action for 'NO' Button
-                        dialog.cancel();
-
-                    }
-                }).show();
-    }
 
     private void openActivity(Intent intent) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -374,9 +381,6 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 return true;
 
             case R.id.nav_refer_a_friend:
-                Toast.makeText(this, "refer a friend", Toast.LENGTH_SHORT).show();
-                //TODO: after implementing app in store active this function
-                //referAFriend();
                 return true;
 
             case R.id.nav_settings:
@@ -395,6 +399,73 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 return true;
         }
         return false;
+    }
+
+    private void getPaymentMethod() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PAYMENTS_METHOD,
+                response -> {
+                    Timber.e(response);
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+                                if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+
+                                    String jsonString = jsonObject.toString(); //http request
+                                    Gson gson = new Gson();
+                                    CreditCardModel creditCardModel = gson.fromJson(jsonString, CreditCardModel.class);
+
+                                    if (creditCardModel != null && creditCardModel.getData() != null && creditCardModel.getData().get(0).wallet != null) {
+                                        myBalance.setText(String.format(Locale.ENGLISH, "$ %d", creditCardModel.getData().get(0).wallet.balance));
+                                    }
+                                }
+                            } else {
+                                showToast("Something went Wrong", this);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            if (jsonObject_error.has("error_code") && !jsonObject_error.isNull("error_code")) {
+                                if (Objects.equals(ConstantKey.NO_PAYMENT_METHOD, jsonObject_error.getString("error_code"))) {
+                                    hideProgressDialog();
+                                    return;
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    Timber.e(error.toString());
+                    errorHandle1(error.networkResponse);
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                // map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
 

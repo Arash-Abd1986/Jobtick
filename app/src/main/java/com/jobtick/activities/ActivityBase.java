@@ -65,6 +65,7 @@ import com.jobtick.utils.CameraUtils;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.CustomToast;
 import com.jobtick.utils.SessionManager;
+import com.tapadoo.alerter.Alerter;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -238,7 +239,6 @@ public class ActivityBase extends AppCompatActivity implements HasEditTextRegula
         if (mCurrentLocation != null) {
             sessionManager.setLatitude(String.valueOf(mCurrentLocation.getLatitude()));
             sessionManager.setLongitude(String.valueOf(mCurrentLocation.getLongitude()));
-            Log.e("location", sessionManager.getLatitude() + " , " + sessionManager.getLongitude());
         }
     }
 
@@ -263,7 +263,6 @@ public class ActivityBase extends AppCompatActivity implements HasEditTextRegula
                     @SuppressLint("MissingPermission")
                     @Override
                     public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-                        Log.i(TAG, "All location settings are satisfied.");
 
                         //   Toast.makeText(getApplicationContext(), "Started location updates!", Toast.LENGTH_SHORT).show();
 
@@ -280,21 +279,18 @@ public class ActivityBase extends AppCompatActivity implements HasEditTextRegula
                         int statusCode = ((ApiException) e).getStatusCode();
                         switch (statusCode) {
                             case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                                Log.i(TAG, "Location settings are not satisfied. Attempting to upgrade " +
-                                        "location settings ");
+
                                 try {
                                     // Show the dialog by calling startResolutionForResult(), and check the
                                     // result in onActivityResult().
                                     ResolvableApiException rae = (ResolvableApiException) e;
                                     rae.startResolutionForResult(ActivityBase.this, REQUEST_CHECK_SETTINGS);
                                 } catch (IntentSender.SendIntentException sie) {
-                                    Log.i(TAG, "PendingIntent unable to execute request.");
                                 }
                                 break;
                             case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
                                 String errorMessage = "Location settings are inadequate, and cannot be " +
                                         "fixed here. Fix in Settings.";
-                                Log.e(TAG, errorMessage);
 
                                 Toast.makeText(ActivityBase.this, errorMessage, Toast.LENGTH_LONG).show();
                         }
@@ -355,11 +351,9 @@ public class ActivityBase extends AppCompatActivity implements HasEditTextRegula
             case REQUEST_CHECK_SETTINGS:
                 switch (resultCode) {
                     case Activity.RESULT_OK:
-                        Log.e(TAG, "User agreed to make required location settings changes.");
                         // Nothing to do. startLocationupdates() gets called in onResume again.
                         break;
                     case Activity.RESULT_CANCELED:
-                        Log.e(TAG, "User chose not to make required location settings changes.");
                         mRequestingLocationUpdates = false;
                         break;
                 }
@@ -399,12 +393,20 @@ public class ActivityBase extends AppCompatActivity implements HasEditTextRegula
     }
 
     public void showToast(String content, Context context) {
-        CustomToast toast = new CustomToast(context);
-        toast.setCustomView(content);
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.show();
+        Alerter.create(this)
+            .setTitle("")
+            .setText(content)
+            .setBackgroundResource(R.color.colorRedError)
+                .show();
     }
 
+    public void showSuccessToast(String content, Context context) {
+        Alerter.create(this)
+            .setTitle("")
+            .setText(content)
+            .setBackgroundResource(R.color.colorOk)
+                .show();
+    }
 
     public void initProgressDialog() {
         pDialog = new ProgressDialog(this);

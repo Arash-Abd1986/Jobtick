@@ -3,6 +3,8 @@ package com.jobtick.activities;
 import android.app.Activity;
 
 import android.os.Bundle;
+import android.view.WindowManager;
+
 import androidx.viewpager.widget.ViewPager;
 import com.jobtick.R;
 import com.jobtick.adapers.ImagePagerAdapter;
@@ -28,6 +30,8 @@ public class ZoomImageActivity extends ActivityBase {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zoom_img);
 

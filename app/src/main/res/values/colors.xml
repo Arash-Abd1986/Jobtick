@@ -9,6 +9,8 @@
     <color name="orange_new">#dc6e15</color>
     <color name="green_new">#00C957</color>
     <color name="grey_new">#4d4848</color>
+    <color name="colorRedError">#d0021b</color>
+    <color name="colorOk">#43A047</color>
 
     <color name="blue">#5568FE</color>
     <color name="blue_dark">#3B5999</color>

@@ -21,7 +21,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/default_image"
                 android:visibility="visible" />
 
             <ImageView
@@ -32,7 +31,6 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_cancel"
-                android:tint="@color/red"
                 android:background="@drawable/ic_close_portfollio"
                 android:id="@+id/img_btn_delete"
                 android:layout_alignParentEnd="true"

@@ -120,7 +120,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             // super.onBind(position);
             AttachmentModel item = items.get(position);
             if (item.getThumbUrl() != null) {
-                ImageUtil.displayImage(imgView, item.getThumbUrl(), null);
+                ImageUtil.displayImage(imgView, item.getUrl(), null);
 
             }
             if (delete_action) {

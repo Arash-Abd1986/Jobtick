@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.CashOutActivity;
@@ -22,7 +21,7 @@ import com.jobtick.utils.Constant;
 import java.util.Locale;
 
 
-public class CashOutBottomSheet extends BottomSheetDialogFragment {
+public class CashOutBottomSheet extends AbstractStateExpandedBottomSheet {
 
 
     private Button button;

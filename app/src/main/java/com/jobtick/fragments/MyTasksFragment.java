@@ -3,7 +3,6 @@ package com.jobtick.fragments;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -40,7 +39,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.R;
-
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.SearchTaskActivity;
@@ -69,7 +67,7 @@ import timber.log.Timber;
 
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 import static com.jobtick.utils.Constant.TASK_ASSIGNED_CASE_UPPER_FIRST;
-import static com.jobtick.utils.Constant.TASK_CLOSED_CASE_UPPER_FIRST;
+import static com.jobtick.utils.Constant.TASK_COMPLETED_CASE_UPPER_FIRST;
 import static com.jobtick.utils.Constant.TASK_DRAFT_CASE_ALL_JOB_KEY;
 import static com.jobtick.utils.Constant.TASK_DRAFT_CASE_ALL_JOB_VALUE;
 import static com.jobtick.utils.Constant.TASK_DRAFT_CASE_UPPER_FIRST;
@@ -80,7 +78,7 @@ import static com.jobtick.utils.Constant.TASK_OPEN_CASE_UPPER_FIRST;
  * A simple {@link Fragment} subclass.
  */
 public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener,
-TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListener{
+        TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListener {
 
 
     @BindView(R.id.recycler_view_status)
@@ -105,13 +103,13 @@ TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListen
     FrameLayout bottomSheet;
 
 
-
     private String single_choice_selected = null;
     private String temp_single_choice_selected = null;
     private String str_search = null;
     private String temp_str_search = null;
     private Toolbar toolbar;
     private LinearLayout noJobs;
+
     public MyTasksFragment() {
         // Required empty public constructor
     }
@@ -121,9 +119,9 @@ TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       View view = inflater.inflate(R.layout.fragment_my_tasks, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_tasks, container, false);
         ButterKnife.bind(this, view);
-        noJobs =view.findViewById(R.id.no_jobs_container);
+        noJobs = view.findViewById(R.id.no_jobs_container);
         swipeRefresh.setOnRefreshListener(this);
         initToolbar();
         setHasOptionsMenu(true);
@@ -298,7 +296,7 @@ TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListen
                             if (currentPage < totalPage) {
                                 taskListAdapter.addLoading();
                             } else {
-                                if(currentPage == totalPage)
+                                if (currentPage == totalPage)
                                     taskListAdapter.removeLoading();
                                 isLastPage = true;
                             }
@@ -338,7 +336,7 @@ TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListen
 
     }
 
-    private void resetTaskListAdapter(){
+    private void resetTaskListAdapter() {
         taskListAdapter = new TaskListAdapter(new ArrayList<>());
         taskListAdapter.setOnItemClickListener(this);
         taskListAdapter.setOnDraftDeleteListener(this);
@@ -457,7 +455,7 @@ TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListen
         RelativeLayout relativeCompleted = view.findViewById(R.id.relativeCompleted);
         RelativeLayout relativeAllJobs = view.findViewById(R.id.relativeAllJobs);
         RelativeLayout relativeDraft = view.findViewById(R.id.relativeDraft);
-        RelativeLayout relativeCancelled = view.findViewById(R.id.relativePosted);
+        RelativeLayout relativePosted = view.findViewById(R.id.relativePosted);
         RelativeLayout relativeAssigned = view.findViewById(R.id.relativeAssigned);
         RelativeLayout relativeOffer = view.findViewById(R.id.relativeOffer);
 
@@ -465,7 +463,7 @@ TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListen
             radioDraft.performClick();
         });
 
-        relativeCancelled.setOnClickListener(v -> {
+        relativePosted.setOnClickListener(v -> {
             radioPosted.performClick();
 
         });
@@ -474,14 +472,17 @@ TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListen
             radioAssigned.performClick();
         });
 
-        relativeOffer.setOnClickListener(v ->
-        {
-            relativeOffer.performClick();
+        relativeOffer.setOnClickListener(v -> {
+            radioOffer.performClick();
         });
 
 
         relativeAllJobs.setOnClickListener(v -> {
             rbAll.performClick();
+        });
+
+        relativeCompleted.setOnClickListener(v -> {
+            radioCompleted.performClick();
         });
 
         if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_VALUE)) {
@@ -494,14 +495,9 @@ TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListen
             radioOffer.setChecked(true);
         } else if (single_choice_selected.equals(TASK_DRAFT_CASE_UPPER_FIRST)) {
             radioDraft.setChecked(true);
-        }  else if (single_choice_selected.equals(TASK_CLOSED_CASE_UPPER_FIRST)) {
+        } else if (single_choice_selected.equals(TASK_COMPLETED_CASE_UPPER_FIRST)) {
             radioCompleted.setChecked(true);
         }
-
-
-        relativeCompleted.setOnClickListener(v -> {
-            radioCompleted.performClick();
-        });
 
 
         radioDraft.setOnClickListener(v -> {
@@ -684,7 +680,7 @@ TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListen
                                 onRefresh();
 
                             } else {
-                                ((ActivityBase)requireActivity()).showToast("Something went Wrong", requireContext());
+                                ((ActivityBase) requireActivity()).showToast("Something went Wrong", requireContext());
                             }
                         }
                     } catch (JSONException e) {
@@ -699,7 +695,7 @@ TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListen
                         // Print Error!
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            ((ActivityBase)requireActivity()).unauthorizedUser();
+                            ((ActivityBase) requireActivity()).unauthorizedUser();
                             return;
                         }
                         try {
@@ -707,7 +703,7 @@ TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListen
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                                ((ActivityBase)requireActivity()).showToast(jsonObject_error.getString("message"), requireContext());
+                                ((ActivityBase) requireActivity()).showToast(jsonObject_error.getString("message"), requireContext());
                             }
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
@@ -718,7 +714,7 @@ TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListen
                             e.printStackTrace();
                         }
                     } else {
-                        ((ActivityBase)requireActivity()).showToast("Something Went Wrong", requireContext());
+                        ((ActivityBase) requireActivity()).showToast("Something Went Wrong", requireContext());
                     }
                     Timber.e(error.toString());
                 }) {
@@ -742,6 +738,7 @@ TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListen
     }
 
     private TaskModel taskModel;
+
     @Override
     public void onDraftDeleteButtonClick(View view, TaskModel taskModel) {
         this.taskModel = taskModel;

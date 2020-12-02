@@ -655,7 +655,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         tagExperience.setTagTypeface(poppins_medium);
         tagTransportation.setTagTypeface(poppins_medium);
         if (userAccountModel.getAvatar() != null) {
-            ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getThumbUrl(), null);
+            ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getUrl(), null);
         }
         txtFullName.setText(userAccountModel.getName());
         txtSuburb.setText(userAccountModel.getLocation());

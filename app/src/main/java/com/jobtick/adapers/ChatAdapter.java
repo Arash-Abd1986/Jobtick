@@ -245,39 +245,39 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
 //            ONLY MESSAGE FILE
             if (item.getAttachment() != null) {
-                view_text_chat.setVisibility(View.GONE);
-                view_file_chat.setVisibility(View.VISIBLE);
-                txtShowMessageF.setText(item.getAttachment().getFileName());
-                String time = parseCreatedMessage(item.getCreatedAt());
-                if (time != null) {
-                    txtMsgTimeF.setVisibility(View.VISIBLE);
-                    txtMsgTimeF.setText(time);
-                } else {
-                    txtMsgTimeF.setVisibility(View.GONE);
-                }
+                    view_text_chat.setVisibility(View.GONE);
+                    view_file_chat.setVisibility(View.VISIBLE);
+                    txtShowMessageF.setText(item.getAttachment().getFileName());
+                    String time = parseCreatedMessage(item.getCreatedAt());
+                    if (time != null) {
+                        txtMsgTimeF.setVisibility(View.VISIBLE);
+                        txtMsgTimeF.setText(time);
+                    } else {
+                        txtMsgTimeF.setVisibility(View.GONE);
+                    }
 
-                if (item.getSenderId().equals(sender_id)) {
-                    if (item.getIsSeen() == 1) {
-                        doubleTickF.setVisibility(View.VISIBLE);
+                    if (item.getSenderId().equals(sender_id)) {
+                        if (item.getIsSeen() == 1) {
+                            doubleTickF.setVisibility(View.VISIBLE);
+                        } else {
+                            doubleTickF.setVisibility(View.GONE);
+                        }
                     } else {
                         doubleTickF.setVisibility(View.GONE);
                     }
-                } else {
-                    doubleTickF.setVisibility(View.GONE);
-                }
 
-                ImageUtil.displayImage(imagePathF, item.getAttachment().getModalUrl(), null);
-                imagePathF.setOnClickListener(v -> {
-                    ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
-                    AttachmentModel model = new AttachmentModel();
-                    model.setModalUrl(item.getAttachment().getModalUrl());
-                    attachmentArrayList.add(model);
-                    Intent intent = new Intent(context, ZoomImageActivity.class);
-                    intent.putExtra("url", attachmentArrayList);
-                    intent.putExtra("title", "");
-                    intent.putExtra("pos", position);
-                    context.startActivity(intent);
-                });
+                    ImageUtil.displayImage(imagePathF, item.getAttachment().getModalUrl(), null);
+                    imagePathF.setOnClickListener(v -> {
+                        ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
+                        AttachmentModel model = new AttachmentModel();
+                        model.setModalUrl(item.getAttachment().getModalUrl());
+                        attachmentArrayList.add(model);
+                        Intent intent = new Intent(context, ZoomImageActivity.class);
+                        intent.putExtra("url", attachmentArrayList);
+                        intent.putExtra("title", "");
+                        intent.putExtra("pos", position);
+                        context.startActivity(intent);
+                    });
             }
 
 //TODO:            ONLY MESSAGE VIDEO

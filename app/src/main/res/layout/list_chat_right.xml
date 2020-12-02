@@ -32,13 +32,19 @@
             tools:text="11-06-2016" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layoutDate"
         android:layout_alignParentEnd="true"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        app:cardMaxElevation="0dp"
+        app:cardUseCompatPadding="true"
+        app:cardPreventCornerOverlap="false"
         android:layout_marginStart="74dp"
-        android:background="@drawable/shapr_bg_chat_primary">
+        >
 
         <androidx.cardview.widget.CardView
             android:id="@+id/view_text_chat"
@@ -46,8 +52,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:visibility="visible"
+            app:cardElevation="0dp"
+            app:cardMaxElevation="0dp"
             app:cardBackgroundColor="@color/colorPrimary"
-            app:cardCornerRadius="10dp">
+            app:cardCornerRadius="8dp">
 
             <include layout="@layout/view_text_chat" />
         </androidx.cardview.widget.CardView>
@@ -59,10 +67,12 @@
             android:layout_margin="3dp"
             android:maxHeight="76dp"
             android:visibility="gone"
+            app:cardElevation="0dp"
+            app:cardMaxElevation="0dp"
             app:cardBackgroundColor="@color/colorPrimary"
-            app:cardCornerRadius="10dp">
+            app:cardCornerRadius="8dp">
 
             <include layout="@layout/view_file_chat" />
         </androidx.cardview.widget.CardView>
-    </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>

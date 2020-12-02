@@ -2,18 +2,24 @@ package com.jobtick.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -152,6 +158,12 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txtCount)
     TextViewMedium txtCount;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.pbLoading)
+    ProgressBar pbLoading;
+
+
     private ConversationModel conversationModel;
     private ChatAdapter adapter;
     private ArrayList<ChatModel> chatModelArrayList;
@@ -162,6 +174,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     // Activity request codes
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
+    private static final int PICKUP_File_REQUEST_CODE = 1024;
     private static String imageStoragePath;
     PrivateChannel channel;
     PresenceChannel presenceChannel;
@@ -176,6 +189,9 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
@@ -493,6 +509,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     }
 
     private void doApiCall() {
+
         ArrayList<ChatModel> items = new ArrayList<>();
         Helper.closeKeyboard(ChatActivity.this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_CHAT + "/" + conversationModel.getId() + "/messages" + "?page=" + currentPage,
@@ -618,8 +635,12 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
     private void addCommentIntoServer(String str_message) {
         // showpDialog();
+        pbLoading.setVisibility(View.VISIBLE);
+        imgBtnSend.setVisibility(View.GONE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_CHAT + "/send",
                 response -> {
+                    pbLoading.setVisibility(View.GONE);
+                    imgBtnSend.setVisibility(View.VISIBLE);
                     Timber.e(response);
                     // hidepDialog();
                     try {
@@ -647,6 +668,8 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                     }
                 },
                 error -> {
+                    pbLoading.setVisibility(View.GONE);
+                    imgBtnSend.setVisibility(View.VISIBLE);
                     NetworkResponse networkResponse = error.networkResponse;
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
@@ -762,7 +785,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
             @Override
             public void onResponse(@NotNull Call<String> call, retrofit2.@NotNull Response<String> response) {
                 hideProgressDialog();
-                Timber.e(response.toString());
+               Log.d("FileUpload",response.toString());
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     showToast(response.message(), ChatActivity.this);
                     return;
@@ -802,7 +825,8 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
                 hideProgressDialog();
-                Timber.e(call.toString());
+                Log.d("FileUpload",t.toString());
+
             }
         });
 
@@ -815,11 +839,28 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         }
         return true;
     }
+    public static String getMimeType(Context context, Uri uri) {
+        String extension;
 
+        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+            final MimeTypeMap mime = MimeTypeMap.getSingleton();
+            extension = mime.getExtensionFromMimeType(context.getContentResolver().getType(uri));
+        } else {
+            extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(new File(uri.getPath())).toString());
+
+        }
+
+        return extension;
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
+            if (requestCode == PICKUP_File_REQUEST_CODE && resultCode==RESULT_OK) {
+                Uri uri = data.getData();
+                Log.d("FileUpload",uri.getPath());
+                uploadDataInPortfolioMediaApi(new File(uri.getPath()));
+            }
             if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
                 if (resultCode == RESULT_OK) {
                     Uri uri = Uri.parse("file://" + imageStoragePath);
@@ -926,7 +967,16 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
             lyrBtnVideoCamera.setVisibility(View.INVISIBLE);
         }
 
+        lytBtnCamera.setOnClickListener(v -> {
 
+        });
+
+        lytBtnVideo.setOnClickListener(v -> {
+            Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            opengallary.setType("video/*, image/*");
+            startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), PICKUP_File_REQUEST_CODE);
+            mBottomSheetDialog.hide();
+        });
         lytBtnCamera.setOnClickListener(view1 -> {
             // Checking availability of the camera
             if (!CameraUtils.isDeviceSupportCamera(getApplicationContext())) {

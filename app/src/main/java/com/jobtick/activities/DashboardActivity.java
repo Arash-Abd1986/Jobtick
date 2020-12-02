@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,12 +72,12 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        Intent intent1=new Intent(this, ProfileActivity.class);
-        startActivity(intent1);
+
         toolbar = findViewById(R.id.toolbar);
         // Tools.clearSystemBarLight(this);
         toolbar.setElevation(0);
         sessionManager = new SessionManager(this);
+        Log.d("Access_token",sessionManager.getAccessToken());
         onProfileupdatelistenerSideMenu = this;
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);

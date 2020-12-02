@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         style="@style/materialButton"
-        android:backgroundTint="@color/colorGrayC9C9C9"
+        android:backgroundTint="@color/white"
         android:text="Logout"
         android:stateListAnimator="@null"
         android:textColor="@color/strokeRed"

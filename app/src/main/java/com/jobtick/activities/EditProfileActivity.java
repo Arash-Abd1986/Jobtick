@@ -292,17 +292,22 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private boolean validation() {
         if (TextUtils.isEmpty(edtFirstName.getText().trim())) {
             edtFirstName.setError("Enter first name");
+            showToast("Please fill inputs",this);
             return false;
         } else if (TextUtils.isEmpty(edtLastName.getText().trim())) {
             edtLastName.setError("Enter last name");
+            showToast("Please fill inputs",this);
             return false;
         } else if (TextUtils.isEmpty(txtSuburb.getText().trim())) {
+            showToast("Please fill inputs",this);
             txtSuburb.setError("Select your location");
             return false;
         } else if (TextUtils.isEmpty(edtBusinessNumber.getText().trim())) {
+            showToast("Please fill inputs",this);
             edtBusinessNumber.setError("Enter your Business Number");
             return false;
         } else if (TextUtils.isEmpty(txtBirthDate.getText().toString().trim())) {
+            showToast("Please fill inputs",this);
             edtBusinessNumber.setError("Enter your Birth Date");
         }
         return true;
@@ -487,7 +492,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         edtEmailAddress.seteContent(userAccountModel.getEmail());
         txtBirthDate.setText(userAccountModel.getDob());
         if (userAccountModel.getAvatar() != null) {
-            ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getThumbUrl(), null);
+            ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getUrl(), null);
             lytDeletePicture.setVisibility(View.VISIBLE);
         } else {
             lytDeletePicture.setVisibility(View.GONE);

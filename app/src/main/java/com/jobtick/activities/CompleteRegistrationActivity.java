@@ -65,10 +65,13 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
     @BindView(R.id.suburb)
     ExtendedEntryText suburb;
 
+
     private int PLACE_SELECTION_REQUEST_CODE = 1;
 
     private String str_latitude = null;
     private String str_longitude = null;
+
+
 
     Context context;
 
@@ -93,6 +96,9 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
                     .build(CompleteRegistrationActivity.this);
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
+
+
+
 
         cbWorker.setOnClickListener(this);
         cbPoster.setOnClickListener(this);
@@ -129,19 +135,17 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
         Helper.closeKeyboard(this);
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_USER_PROFILE_INFO,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_SIGNUP,
                 new Response.Listener<String>() {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.e("responce_url", response);
 
                         hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
 
-                            Log.e("json", jsonObject.toString());
 
 
                             JSONObject jsonObject_user = jsonObject.getJSONObject("data");
@@ -159,7 +163,6 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
 
 
                         } catch (JSONException e) {
-                            Log.e("EXCEPTION", String.valueOf(e));
                             e.printStackTrace();
 
                         }
@@ -174,8 +177,6 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
                         if (networkResponse != null && networkResponse.data != null) {
                             String jsonError = new String(networkResponse.data);
                             // Print Error!
-                            Log.e("intent22", jsonError);
-
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonError);
 
@@ -227,7 +228,6 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
                 if (cbWorker.isChecked()) {
                     map1.put("role[" + count[0] + "]", "worker");
                 }
-
                 map1.put("location", suburb);
                 map1.put("latitude", str_latitude);
                 map1.put("longitude", str_longitude);

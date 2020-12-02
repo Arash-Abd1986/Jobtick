@@ -16,6 +16,7 @@
         android:gravity="start"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
+        android:textSize="13sp"
         android:paddingTop="4dp"
         android:textColor="@color/white" />
 
@@ -34,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_medium"
             android:gravity="end"
+            android:textSize="13sp"
             android:layout_gravity="center_vertical"
             android:textColor="@color/white"
             tools:text="11:40" />

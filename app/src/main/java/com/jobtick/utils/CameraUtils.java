@@ -177,6 +177,40 @@ public class CameraUtils {
         return path;
     }
 
+    public static String getFilePath(Activity activity, Uri uri,String type) {
+        Cursor cursor = activity.getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
+        cursor.close();
+        String path="";
+        switch (type) {
+            case "image":
+                cursor = activity.getContentResolver().query(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+                cursor.moveToFirst();
+
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+
+                cursor.close();
+
+                return path;
+            case "video":
+                cursor = activity.getContentResolver().query(
+                        MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                        null, MediaStore.Video.Media._ID + " = ? ", new String[]{document_id}, null);
+                cursor.moveToFirst();
+
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+
+                cursor.close();
+
+                return path;
+        }
+        return  "";
+    }
+
 
     public static void showLimitDialog(Context context) {
         new MaterialAlertDialogBuilder(context)

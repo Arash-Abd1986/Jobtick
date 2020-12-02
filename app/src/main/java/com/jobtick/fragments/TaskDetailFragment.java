@@ -42,6 +42,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.BuildConfig;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewMedium;
@@ -100,9 +101,6 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     @BindView(R.id.lyt_btn_details)
     LinearLayout lytBtnDetails;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.float_btn_card)
-    CardView float_btn_card;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_bnt_date_time)
     LinearLayout lytBntDateTime;
     @SuppressLint("NonConstantResourceId")
@@ -142,8 +140,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     @BindView(R.id.card_location)
     LinearLayout cardLocation;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_next)
-    LinearLayout lytBtnNext;
+    @BindView(R.id.btn_next)
+    MaterialButton btnNext;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bottom_sheet)
     FrameLayout bottomSheet;
@@ -250,9 +248,9 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                 getViewLifecycleOwner(),
                 isOpen -> {
                     if (isOpen) {
-                        float_btn_card.setVisibility(View.GONE);
+                        btnNext.setVisibility(View.GONE);
                     } else {
-                        float_btn_card.setVisibility(View.VISIBLE);
+                        btnNext.setVisibility(View.VISIBLE);
                     }
                 });
 
@@ -425,7 +423,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     }
 
     @SuppressLint("NonConstantResourceId")
-    @OnClick({R.id.rlt_add_must_have, R.id.lyt_btn_details, R.id.lyt_bnt_date_time, R.id.lyt_btn_budget, R.id.checkbox_online, R.id.lyt_btn_next
+    @OnClick({R.id.rlt_add_must_have, R.id.lyt_btn_details, R.id.lyt_bnt_date_time, R.id.lyt_btn_budget, R.id.checkbox_online, R.id.btn_next
     })
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -449,7 +447,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                     cardLocation.setClickable(true);
                 }
                 break;
-            case R.id.lyt_btn_next:
+            case R.id.btn_next:
                 switch (getValidationCode()) {
                     case 0:
                         //success
@@ -621,7 +619,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         RecyclerView recyclerAddMustHaveBottomSheet = view.findViewById(R.id.recycler_add_must_have_bottom_sheet);
         TextView txtTotalCount = view.findViewById(R.id.txt_total_count);
 
-        CardView addBtnNext = view.findViewById(R.id.lyt_btn_next);
+        MaterialButton btnAdd = view.findViewById(R.id.btn_add);
         EditText edtAddTag = view.findViewById(R.id.edtAddTag);
         recyclerAddMustHaveBottomSheet.setLayoutManager(new GridLayoutManager(taskCreateActivity, 1));
         recyclerAddMustHaveBottomSheet.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true));
@@ -633,18 +631,18 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             tagAdapter.updateItem(addTagList);
 
             if (addTagList.size() < 3) {
-                addBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
-                addBtnNext.setEnabled(true);
+                btnAdd.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
+                btnAdd.setEnabled(true);
             } else {
-                addBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disable));
-                addBtnNext.setEnabled(false);
+                btnAdd.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disable));
+                btnAdd.setEnabled(false);
             }
         });
 
         recyclerAddMustHaveBottomSheet.setAdapter(tagAdapterBottomSheet);
         txtCount.setText(addTagList.size() + "");
 
-        addBtnNext.setOnClickListener(v -> {
+        btnAdd.setOnClickListener(v -> {
                     if (TextUtils.isEmpty(edtAddTag.getText().toString().trim())) {
                         edtAddTag.setError("Text is empty");
                         return;
@@ -652,11 +650,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
                     if (addTagList.size() < 3) {
                         if (addTagList.size() == 2) {
-                            addBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disable));
-                            addBtnNext.setEnabled(false);
+                            btnAdd.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disable));
+                            btnAdd.setEnabled(false);
                         } else {
-                            addBtnNext.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
-                            addBtnNext.setEnabled(true);
+                            btnAdd.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
+                            btnAdd.setEnabled(true);
                         }
 
                         txtCount.setText(addTagList.size() + 1 + "");

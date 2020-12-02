@@ -1173,6 +1173,9 @@ public class AuthActivity extends ActivityBase {
                 map1.put("latitude", sessionManager.getLatitude());
                 map1.put("longitude", sessionManager.getLongitude());
 
+//                map1.put("fname", "user");
+//                map1.put("location", "no location");
+
                 return map1;
             }
         };

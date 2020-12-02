@@ -37,9 +37,23 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int VIEW_TYPE_NORMAL = 1;
     private Context context;
     private OnItemClickListener mOnItemClickListener;
+    private OnDraftDeleteListener mOnDraftDeleteListener;
 
     public interface OnItemClickListener {
         void onItemClick(View view, TaskModel obj, int position, String action);
+
+    }
+    public interface OnDraftDeleteListener{
+
+        void onDraftDeleteButtonClick(View view, TaskModel taskModel);
+    }
+
+    public OnDraftDeleteListener getOnDraftDeleteListener() {
+        return mOnDraftDeleteListener;
+    }
+
+    public void setOnDraftDeleteListener(OnDraftDeleteListener mOnDraftDeleteListener) {
+        this.mOnDraftDeleteListener = mOnDraftDeleteListener;
     }
 
     public void setOnItemClickListener(OnItemClickListener mItemClickListener) {
@@ -276,6 +290,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             cardTaskBackground.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemClick(v, item, getAdapterPosition(), "action");
+                }
+            });
+
+            tvDelete.setOnClickListener(v ->{
+                if(mOnDraftDeleteListener != null){
+                    mOnDraftDeleteListener.onDraftDeleteButtonClick(v, item);
                 }
             });
         }

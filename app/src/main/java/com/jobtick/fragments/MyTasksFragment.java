@@ -18,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -41,6 +43,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.R;
 
+import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.SearchTaskActivity;
 import com.jobtick.activities.TaskCreateActivity;
@@ -51,6 +54,7 @@ import com.jobtick.pagination.PaginationListener;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.Helper;
+import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
 
 import org.json.JSONArray;
@@ -80,7 +84,8 @@ import static com.jobtick.utils.Constant.TASK_PENDING_CASE_UPPER_FIRST;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener,
+TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListener{
 
 
     @BindView(R.id.recycler_view_status)
@@ -170,9 +175,8 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(dashboardActivity);
         recyclerViewStatus.setLayoutManager(layoutManager);
-        taskListAdapter = new TaskListAdapter(new ArrayList<>());
+        resetTaskListAdapter();
         recyclerViewStatus.setAdapter(taskListAdapter);
-        taskListAdapter.setOnItemClickListener(this);
         swipeRefresh.setRefreshing(true);
         single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
         getStatusList();
@@ -351,8 +355,9 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
     private void resetTaskListAdapter(){
         taskListAdapter = new TaskListAdapter(new ArrayList<>());
-        recyclerViewStatus.setAdapter(taskListAdapter);
         taskListAdapter.setOnItemClickListener(this);
+        taskListAdapter.setOnDraftDeleteListener(this);
+        recyclerViewStatus.setAdapter(taskListAdapter);
     }
 
 
@@ -656,91 +661,6 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     }
 
 
-    private void showSingleChoiceDialog() {
-
-
-        temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
-
-
-        // custom dialog
-        final Dialog dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.custom_task_filter);
-
-        // set the custom dialog components - text, image and button
-
-
-        RadioGroup radioFilter = dialog.findViewById(R.id.radioFilter);
-
-
-        radioFilter.setOnCheckedChangeListener((group, checkedId) -> {
-            RadioButton rb = (RadioButton) dialog.findViewById(checkedId);
-            temp_single_choice_selected = rb.getText().toString();
-            if (temp_single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
-                temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
-            }
-
-        });
-
-
-        LinearLayout lyt_btn_cancel = dialog.findViewById(R.id.lyt_btn_cancel);
-        lyt_btn_cancel.setOnClickListener(v -> {
-            temp_single_choice_selected = null;
-
-            dialog.dismiss();
-        });
-
-
-        LinearLayout lyt_btn_ok = dialog.findViewById(R.id.lyt_btn_ok);
-        lyt_btn_ok.setOnClickListener(v -> {
-
-
-            if (temp_single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
-                temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
-            }
-            single_choice_selected = temp_single_choice_selected;
-            temp_single_choice_selected = null;
-            currentPage = PAGE_START;
-            isLastPage = false;
-            taskListAdapter.clear();
-            getStatusList();
-
-            dialog.dismiss();
-        });
-
-
-        dialog.show();
-
-
-
-     /*   AlertDialog.Builder builder = new AlertDialog.Builder(dashboardActivity);
-
-        ViewGroup viewGroup = dashboardActivity.findViewById(android.R.id.content);
-        View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.c, viewGroup, false);
-
-
-        builder.setTitle("Sort By");
-        builder.setSingleChoiceItems(status, 0, (dialogInterface, i) -> temp_single_choice_selected = status[i]);
-
-        builder.setPositiveButton(R.string.OK, (dialogInterface, i) -> {
-            if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
-                single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
-            }
-            single_choice_selected = temp_single_choice_selected;
-            temp_single_choice_selected = null;
-            currentPage = PAGE_START;
-            isLastPage = false;
-            taskListAdapter.clear();
-            getStatusList();
-            dialogInterface.dismiss();
-        });
-        builder.setNegativeButton(R.string.CANCEL, (dialog, which) -> {
-            temp_single_choice_selected = null;
-            dialog.dismiss();
-        });
-        builder.show();*/
-    }
-
-
     @Override
     public void onRefresh() {
         swipeRefresh.setRefreshing(true);
@@ -764,5 +684,91 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                 }
             }
         }
+    }
+
+    protected void deleteTask(TaskModel taskModel) {
+        swipeRefresh.setRefreshing(true);
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, Constant.URL_TASKS + "/" + taskModel.getSlug(),
+                response -> {
+                    Timber.e(response);
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+
+                            if (jsonObject.getBoolean("success")) {
+                                onRefresh();
+
+                            } else {
+                                ((ActivityBase)requireActivity()).showToast("Something went Wrong", requireContext());
+                            }
+                        }
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            ((ActivityBase)requireActivity()).unauthorizedUser();
+                            return;
+                        }
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+                            if (jsonObject_error.has("message")) {
+                                ((ActivityBase)requireActivity()).showToast(jsonObject_error.getString("message"), requireContext());
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        ((ActivityBase)requireActivity()).showToast("Something Went Wrong", requireContext());
+                    }
+                    Timber.e(error.toString());
+                }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+        requestQueue.add(stringRequest);
+    }
+
+    private TaskModel taskModel;
+    @Override
+    public void onDraftDeleteButtonClick(View view, TaskModel taskModel) {
+        this.taskModel = taskModel;
+        ConfirmDeleteTaskBottomSheet confirmBottomSheet = new ConfirmDeleteTaskBottomSheet(requireContext());
+        confirmBottomSheet.setListener(this);
+        confirmBottomSheet.show(requireActivity().getSupportFragmentManager(), "");
+    }
+
+    @Override
+    public void onDeleteConfirmClick() {
+        deleteTask(taskModel);
     }
 }

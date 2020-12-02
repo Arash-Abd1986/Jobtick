@@ -117,9 +117,10 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         } else {
             taskModel = new TaskModel();
         }
-        if (bundle != null && bundle.containsKey("categoryID")) {
-            taskModel.setCategory_id(bundle.getInt("categoryID"));
+        if (bundle != null && bundle.containsKey(ConstantKey.CATEGORY_ID)) {
+            taskModel.setCategory_id(bundle.getInt(ConstantKey.CATEGORY_ID, 1));
         }
+
         title = ConstantKey.CREATE_A_JOB;
         if (bundle != null && bundle.getString(ConstantKey.TITLE) != null) {
             title = bundle.getString(ConstantKey.TITLE);
@@ -469,14 +470,14 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                     } else {
                         showToast("Something Went Wrong", TaskCreateActivity.this);
                     }
-                    Timber.e(error.toString());
+                    System.out.println(error.toString());
                     hideProgressDialog();
                 }) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/json");
+                map1.put("Accept", "application/json");
                 map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
             }
@@ -484,7 +485,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<>();
-                map1.put("category_id", "1");
+                map1.put("category_id", Integer.toString(taskModel.getCategory_id()));
                 map1.put("title", taskModel.getTitle());
                 if (taskModel.getDescription() != null)
                     map1.put("description", taskModel.getDescription());
@@ -545,8 +546,9 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                 if (draft) {
                     map1.put("draft", "1");
                 }
-                Timber.e(String.valueOf(map1.size()));
-                Timber.e(map1.toString());
+                System.out.println((String.valueOf(map1.size())));
+                System.out.println((map1.toString()));
+
                 return map1;
             }
         };

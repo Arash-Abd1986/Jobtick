@@ -195,7 +195,7 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
             public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/json");
+                map1.put("Accept", "application/json");
                 map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
             }

@@ -593,7 +593,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
 
                     adapter.notifyItemInserted(0);
                     //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
-                    showToast("attachment added", AttachmentActivity.this);
+
                 } catch (JSONException e) {
                     showToast("Something went wrong", AttachmentActivity.this);
 

@@ -413,7 +413,7 @@ public class TaskFragment extends Fragment {
                         int id = jsonObject_data.getInt("id");
                         attachment_id.add(id);
                     }
-                    Toast.makeText(getActivity(), "attachment added", Toast.LENGTH_SHORT).show();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

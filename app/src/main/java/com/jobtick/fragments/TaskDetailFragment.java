@@ -544,7 +544,6 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             attachmentArrayList.remove(position);
             attachmentAdapter.notifyItemRemoved(position);
             attachmentAdapter.notifyItemRangeRemoved(position, attachmentArrayList.size());
-            taskCreateActivity.showToast("Deleted that attachment", taskCreateActivity);
         } else if (action.equalsIgnoreCase("show")) {
             showBottomSheetDialogViewFullImage(obj.getModalUrl(), position);
         }
@@ -581,7 +580,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             attachmentArrayList.remove(currentPosition);
             attachmentAdapter.notifyItemRemoved(currentPosition);
             attachmentAdapter.notifyItemRangeRemoved(currentPosition, attachmentArrayList.size());
-            taskCreateActivity.showToast("Deleted that attachment", taskCreateActivity);
+
             mBottomSheetDialog.dismiss();
         });
 
@@ -862,7 +861,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                         }
                     }
                     attachmentAdapter.notifyItemInserted(0);
-                    taskCreateActivity.showToast("attachment added", taskCreateActivity);
+
                 } catch (JSONException e) {
                     taskCreateActivity.showToast("Something went wrong", taskCreateActivity);
                     e.printStackTrace();

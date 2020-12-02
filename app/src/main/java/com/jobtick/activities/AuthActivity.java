@@ -1170,8 +1170,6 @@ public class AuthActivity extends ActivityBase {
                 map1.put("device_token", str_device_id);
                 map1.put("device_type", str_device);
                 map1.put("fcm_token", str_fcm_token);
-                map1.put("fname", "no name");
-                map1.put("location", "no location");
                 map1.put("latitude", sessionManager.getLatitude());
                 map1.put("longitude", sessionManager.getLongitude());
 

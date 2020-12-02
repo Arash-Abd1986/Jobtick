@@ -476,7 +476,8 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
             public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Content-Type", "application/json");
+                map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
             }
 

@@ -125,7 +125,8 @@ public class CompleteMessageActivity extends AppCompatActivity {
 
                 break;
             case R.id.lyt_btn_view_your_job:
-                onBackPressed();
+                //TODO: go to my job fragment
+
                 break;
             case R.id.lyt_btn_new_job:
 

@@ -216,7 +216,7 @@
                         android:layout_alignParentEnd="true"
                         android:button="@drawable/radio_button_fill_selector"
                         android:paddingStart="@dimen/_15sp"
-                        android:tag="Completed" />
+                        android:tag="Closed" />
 
                 </RelativeLayout>
 

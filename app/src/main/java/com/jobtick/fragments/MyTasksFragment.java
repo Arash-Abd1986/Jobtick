@@ -1,6 +1,5 @@
 package com.jobtick.fragments;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -71,15 +69,12 @@ import timber.log.Timber;
 
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 import static com.jobtick.utils.Constant.TASK_ASSIGNED_CASE_UPPER_FIRST;
-import static com.jobtick.utils.Constant.TASK_CANCELLED_CASE_UPPER_FIRST;
 import static com.jobtick.utils.Constant.TASK_CLOSED_CASE_UPPER_FIRST;
-import static com.jobtick.utils.Constant.TASK_COMPLETED_CASE_UPPER_FIRST;
 import static com.jobtick.utils.Constant.TASK_DRAFT_CASE_ALL_JOB_KEY;
 import static com.jobtick.utils.Constant.TASK_DRAFT_CASE_ALL_JOB_VALUE;
 import static com.jobtick.utils.Constant.TASK_DRAFT_CASE_UPPER_FIRST;
 import static com.jobtick.utils.Constant.TASK_OFFERED_CASE_UPPER_FIRST;
 import static com.jobtick.utils.Constant.TASK_OPEN_CASE_UPPER_FIRST;
-import static com.jobtick.utils.Constant.TASK_PENDING_CASE_UPPER_FIRST;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -110,16 +105,6 @@ TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListen
     FrameLayout bottomSheet;
 
 
-    private String[] status = new String[]{
-            TASK_DRAFT_CASE_ALL_JOB_KEY,
-            TASK_DRAFT_CASE_UPPER_FIRST,
-            Constant.TASK_CANCELLED_CASE_UPPER_FIRST,
-            TASK_ASSIGNED_CASE_UPPER_FIRST,
-            TASK_OPEN_CASE_UPPER_FIRST,
-            TASK_PENDING_CASE_UPPER_FIRST,
-            Constant.TASK_COMPLETED_CASE_UPPER_FIRST,
-            TASK_OFFERED_CASE_UPPER_FIRST
-    };
 
     private String single_choice_selected = null;
     private String temp_single_choice_selected = null;
@@ -501,18 +486,16 @@ TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListen
 
         if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_VALUE)) {
             rbAll.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_DRAFT_CASE_UPPER_FIRST)) {
-            radioDraft.setChecked(true);
         } else if (single_choice_selected.equals(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
             radioAssigned.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_COMPLETED_CASE_UPPER_FIRST)) {
-            radioCompleted.setChecked(true);
+        } else if (single_choice_selected.equals(TASK_OPEN_CASE_UPPER_FIRST)) {
+            radioPosted.setChecked(true);
         } else if (single_choice_selected.equals(TASK_OFFERED_CASE_UPPER_FIRST)) {
             radioOffer.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_CLOSED_CASE_UPPER_FIRST)) {
+        } else if (single_choice_selected.equals(TASK_DRAFT_CASE_UPPER_FIRST)) {
+            radioDraft.setChecked(true);
+        }  else if (single_choice_selected.equals(TASK_CLOSED_CASE_UPPER_FIRST)) {
             radioCompleted.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_CANCELLED_CASE_UPPER_FIRST)) {
-            radioPosted.setChecked(true);
         }
 
 

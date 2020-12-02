@@ -346,19 +346,12 @@ public class AuthActivity extends ActivityBase {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 
 
 
 
-        getWindow().clearFlags(
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         authActivityPresenter = new AuthActivityPresenter(this);
         ButterKnife.bind(this);
         sessionManager = new SessionManager(this);
@@ -1177,6 +1170,8 @@ public class AuthActivity extends ActivityBase {
                 map1.put("device_token", str_device_id);
                 map1.put("device_type", str_device);
                 map1.put("fcm_token", str_fcm_token);
+                map1.put("fname", "no name");
+                map1.put("location", "no location");
                 map1.put("latitude", sessionManager.getLatitude());
                 map1.put("longitude", sessionManager.getLongitude());
 

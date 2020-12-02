@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
                 android:gravity="end"
-                android:text="$ 300"
+                android:text="$ 0"
                 android:textColor="@color/white"
                 android:textAppearance="@style/materialText_600_12" />
 

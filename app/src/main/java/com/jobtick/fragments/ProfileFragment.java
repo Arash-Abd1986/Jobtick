@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -212,6 +213,14 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ivMedalMax)
     ImageView ivMedalMax;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.pbLoading)
+    ProgressBar pbLoading;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.content)
+    LinearLayout content;
 
     private DashboardActivity dashboardActivity;
     private Toolbar toolbar;
@@ -436,11 +445,12 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     }
 
     private void getAllProfileData() {
-        dashboardActivity.showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
                 response -> {
                     Timber.e(response);
-                    dashboardActivity.hideProgressDialog();
+                    content.setVisibility(View.VISIBLE);
+                    pbLoading.setVisibility(View.GONE);
+                    btnQuote.setVisibility(View.VISIBLE);
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -493,7 +503,6 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                 },
                 error -> {
                     dashboardActivity.errorHandle1(error.networkResponse);
-                    dashboardActivity.hideProgressDialog();
                 }) {
 
 
@@ -646,7 +655,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         tagExperience.setTagTypeface(poppins_medium);
         tagTransportation.setTagTypeface(poppins_medium);
         if (userAccountModel.getAvatar() != null) {
-            ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getThumbUrl(), null);
+            ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getUrl(), null);
         }
         txtFullName.setText(userAccountModel.getName());
         txtSuburb.setText(userAccountModel.getLocation());

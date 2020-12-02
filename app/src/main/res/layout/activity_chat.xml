@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:paddingTop="10dp"
+    android:background="#E5E5E5"
     android:orientation="vertical"
     tools:context=".activities.ChatActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
+        android:background="#E5E5E5"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
@@ -19,7 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
-            android:background="@color/background"
             app:contentInsetStartWithNavigation="0dp"
             app:menu="@menu/menu_chat"
             app:navigationIcon="@drawable/ic_back"
@@ -29,7 +29,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -38,6 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="5dp"
+                    app:civ_border_width="0dp"
                     tools:src="@drawable/pic" />
 
                 <LinearLayout
@@ -70,76 +70,98 @@
         </androidx.appcompat.widget.Toolbar>
 
         <LinearLayout
-            android:id="@+id/lyt_task_details"
+            android:id="@+id/holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/toolbar"
             android:layout_gravity="center"
-            android:layout_margin="15dp"
-            android:background="@color/white"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+            <ImageView
+                android:background="#11000000"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <LinearLayout
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_job_title"
-                style="@style/materialText_600_12"
-                android:layout_width="wrap_content"
+                android:id="@+id/lyt_task_details"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:maxLines="2"
-                android:textColor="@color/textColor"
-                tools:text="Clean my two bedroom apartment" />
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:ignore="UselessLeaf" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_status"
-                android:layout_width="@dimen/_70dp"
-                android:layout_height="@dimen/_35sp"
-                android:layout_margin="@dimen/spacing_line"
-                android:backgroundTint="@color/colorTaskAssigned"
-                android:elevation="@dimen/spacing_middle"
-                android:padding="8dp"
-                app:cardCornerRadius="@dimen/spacing_middle">
+                android:layout_below="@+id/toolbar"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_status"
-                    style="@style/materialText_600_10"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:id="@+id/txt_job_title"
+                    style="@style/materialText_600_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:maxLines="2"
+                    android:textColor="@color/textColor"
+                    tools:text="Clean my two bedroom apartment" />
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    tools:ignore="UselessLeaf" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_status"
+                    android:layout_width="@dimen/_70dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="@dimen/spacing_line"
+                    android:backgroundTint="@color/colorTaskAssigned"
+                    android:elevation="0dp"
+                    android:padding="8dp"
+                    app:cardCornerRadius="3dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_status"
+                        style="@style/materialText_600_10"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:text="@string/assigned"
+                        android:textColor="@color/white" />
+                </androidx.cardview.widget.CardView>
+
+                <ImageView
+                    android:id="@+id/img_btn_task_action"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:gravity="center"
-                    android:text="@string/assigned"
-                    android:textColor="@color/white" />
-            </androidx.cardview.widget.CardView>
-
+                    android:background="@drawable/shape_tab_primary"
+                    android:contentDescription="@string/todo"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_forward" />
+            </LinearLayout
+                >
             <ImageView
-                android:id="@+id/img_btn_task_action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/shape_tab_primary"
-                android:contentDescription="@string/todo"
-                android:padding="8dp"
-                android:src="@drawable/ic_chevron_right" />
+                android:background="#11000000"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
         </LinearLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_below="@+id/lyt_task_details"
+            android:layout_below="@+id/holder"
             android:layout_alignParentBottom="true"
             android:layout_weight="1"
-            android:background="@drawable/shape_background_two_corner_white_1"
             android:orientation="vertical">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -162,13 +184,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_marginEnd="@dimen/spacing_mlarge"
-                android:layout_marginBottom="@dimen/spacing_mlarge"
+                android:layout_marginBottom="70dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="@dimen/_10sp"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <RelativeLayout
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:ignore="UselessParent">
@@ -178,6 +201,7 @@
                         android:layout_height="30dp"
                         android:layout_below="@+id/txtCount"
                         android:layout_gravity="center"
+                        android:visibility="gone"
                         android:background="@drawable/round_shape_primary_white"
                         android:contentDescription="@string/todo"
                         android:padding="@dimen/_10sp"
@@ -218,10 +242,16 @@
                 app:cardCornerRadius="4dp"
                 tools:ignore="UselessParent">
 
-                <RelativeLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/spacing_xsmall">
+                    android:elevation="5dp"
+                    android:padding="@dimen/spacing_xsmall"
+                    android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    >
 
                     <ImageView
                         android:id="@+id/img_btn_image_select"
@@ -238,17 +268,23 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_comment_message"
                         style="@style/materialText_400_14"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/spacing_middle"
                         android:layout_toEndOf="@+id/img_btn_image_select"
                         android:background="@null"
-                        android:hint="@string/reply_to_Subash_ch"
+                        android:layout_marginEnd="45dp"
+                        android:hint="@string/message"
                         android:inputType="textMultiLine"
                         android:maxLines="5"
                         tools:ignore="RelativeOverlap" />
 
+                    <FrameLayout
+                        android:layout_width="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_height="40dp">
                     <ImageView
                         android:id="@+id/img_btn_send"
                         android:layout_width="40dp"
@@ -257,10 +293,20 @@
                         android:layout_centerVertical="true"
                         android:layout_margin="@dimen/spacing_small"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:padding="@dimen/spacing_middle"
+                        android:padding="8dp"
                         android:src="@drawable/ic_send_primary"
                         tools:ignore="ContentDescription" />
+                        <ProgressBar
+                            android:id="@+id/pbLoading"
+                            android:layout_gravity="center"
+                            android:layout_width="15dp"
+                            android:visibility="gone"
+                            android:layout_height="15dp"/>
+                    </FrameLayout>
+
                 </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
 

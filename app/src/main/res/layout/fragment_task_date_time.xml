@@ -19,8 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include
-                layout="@layout/view_post_job_tab"/>
+            <include layout="@layout/view_post_job_tab" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,7 +56,7 @@
                             android:layout_toStartOf="@id/img_location_pin"
                             android:hint="Select a Date"
                             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                            android:textColor="@color/textColor"/>
+                            android:textColor="@color/textColor" />
 
                         <ImageView
                             android:id="@+id/img_location_pin"
@@ -160,67 +159,6 @@
                         </RelativeLayout>
 
                         <RelativeLayout
-                            android:id="@+id/rlt_btn_midday"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/spacing_middle">
-
-                            <CheckBox
-                                android:id="@+id/cb_midday"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_alignParentStart="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginEnd="@dimen/_15sp"
-                                android:background="@drawable/radio_button_selector"
-                                android:button="@null"
-                                android:gravity="center" />
-
-                            <ImageView
-                                android:id="@+id/img_midday"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="@dimen/spacing_middle"
-                                android:layout_marginBottom="@dimen/spacing_medium"
-                                android:src="@drawable/ic_midday"
-                                android:visibility="gone"
-                                tools:ignore="ContentDescription" />
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_toEndOf="@+id/cb_midday">
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/txt_title_midday"
-                                    style="@style/materialText_500_16"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/afternoon"
-                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                    android:textColor="@color/textColor" />
-
-                                <com.jobtick.TextView.TextViewRegular
-                                    android:id="@+id/txt_subtitle_midday"
-                                    style="@style/materialText_400_12"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/txt_title_midday"
-                                    android:text="From 12:00 PM to 06:00 PM"
-                                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                                    android:textColor="@color/grey_40"
-                                    tools:ignore="HardcodedText" />
-                            </RelativeLayout>
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <RelativeLayout
                             android:id="@+id/rlt_btn_afternoon"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -257,7 +195,7 @@
                                     style="@style/materialText_500_16"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/evening"
+                                    android:text="@string/afternoon"
                                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                     android:textColor="@color/textColor" />
 
@@ -267,16 +205,12 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/txt_title_afternoon"
-                                    android:text="After 06:00 PM+"
+                                    android:text="From 12:00 PM to 06:00 PM"
                                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                                     android:textColor="@color/grey_40"
                                     tools:ignore="HardcodedText" />
                             </RelativeLayout>
                         </RelativeLayout>
-
-                        <View
-                            android:layout_width="@dimen/spacing_middle"
-                            android:layout_height="match_parent" />
 
                         <RelativeLayout
                             android:id="@+id/rlt_btn_evening"
@@ -315,7 +249,7 @@
                                     style="@style/materialText_500_16"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/anyTime"
+                                    android:text="@string/evening"
                                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                     android:textColor="@color/textColor" />
 
@@ -325,12 +259,68 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/txt_title_evening"
+                                    android:text="After 06:00 PM+"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                                    android:textColor="@color/grey_40"
+                                    tools:ignore="HardcodedText" />
+                            </RelativeLayout>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rlt_btn_midday"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/spacing_middle">
+
+                            <CheckBox
+                                android:id="@+id/cb_midday"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/_15sp"
+                                android:background="@drawable/radio_button_selector"
+                                android:button="@null"
+                                android:gravity="center" />
+
+                            <ImageView
+                                android:id="@+id/img_midday"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="@dimen/spacing_middle"
+                                android:layout_marginBottom="@dimen/spacing_medium"
+                                android:src="@drawable/ic_midday"
+                                android:visibility="gone"
+                                tools:ignore="ContentDescription" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@+id/cb_midday">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/txt_title_midday"
+                                    style="@style/materialText_500_16"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/anytime"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                    android:textColor="@color/textColor" />
+
+                                <com.jobtick.TextView.TextViewRegular
+                                    android:id="@+id/txt_subtitle_midday"
+                                    style="@style/materialText_400_12"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/txt_title_midday"
                                     android:text="From 05:00 AM to 12:00 AM"
                                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                                     android:textColor="@color/grey_40"
                                     tools:ignore="HardcodedText" />
                             </RelativeLayout>
                         </RelativeLayout>
+
                     </LinearLayout>
 
                     <View

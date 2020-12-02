@@ -6,12 +6,17 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.jobtick.R;
 import com.jobtick.fragments.ProfileFragment;
 import com.jobtick.fragments.ProfileViewFragment;
 
+import butterknife.BindView;
+
 public class ProfileActivity extends ActivityBase {
+    @BindView(R.id.btnBack)
+    LinearLayout btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -20,8 +25,9 @@ public class ProfileActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_porfile);
 
+        btnBack.setOnClickListener(v -> ProfileActivity.super.onBackPressed());
 
-        if(getIntent().getIntExtra("id",1)==1){
+        if(getIntent().getIntExtra("id",-1)!=-1){
             Bundle b = new Bundle();
             b.putInt("userId",getIntent().getIntExtra("id",-1));
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

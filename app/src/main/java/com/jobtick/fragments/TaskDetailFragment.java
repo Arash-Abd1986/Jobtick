@@ -65,8 +65,6 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
-
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -243,16 +241,6 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         task.setLocation(getArguments().getString("LOCATION"));
         task.setPosition(getArguments().getParcelable("POSITION"));
 
-        KeyboardVisibilityEvent.setEventListener(
-                getActivity(),
-                getViewLifecycleOwner(),
-                isOpen -> {
-                    if (isOpen) {
-                        btnNext.setVisibility(View.GONE);
-                    } else {
-                        btnNext.setVisibility(View.VISIBLE);
-                    }
-                });
 
         taskCreateActivity.setActionDraftTaskDetails(taskModel -> {
             if (taskModel.getTitle() != null && taskModel.getDescription() != null) {
@@ -374,6 +362,9 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                 }
             }
         });
+
+        edtTitle.requestFocus();
+        edtDescription.performClick();
     }
 
     private void setComponent() {
@@ -631,10 +622,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             tagAdapter.updateItem(addTagList);
 
             if (addTagList.size() < 3) {
-                btnAdd.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
                 btnAdd.setEnabled(true);
             } else {
-                btnAdd.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disable));
                 btnAdd.setEnabled(false);
             }
         });
@@ -650,10 +639,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
                     if (addTagList.size() < 3) {
                         if (addTagList.size() == 2) {
-                            btnAdd.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary_disable));
                             btnAdd.setEnabled(false);
                         } else {
-                            btnAdd.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_tab_primary));
                             btnAdd.setEnabled(true);
                         }
 

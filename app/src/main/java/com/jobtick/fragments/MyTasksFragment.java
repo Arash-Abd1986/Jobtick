@@ -189,25 +189,9 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_search:
-                   /* Menu menu = toolbar.getMenu();
-                    SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-                    searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                        @Override
-                        public boolean onQueryTextSubmit(String query) {
-                            str_search = query;
-                            onRefresh();
-                            return true;
-                        }
-
-                        @Override
-                        public boolean onQueryTextChange(String newText) {
-                            str_search = newText;
-                            return false;
-                        }
-                    });*/
 
                     Intent intent = new Intent(dashboardActivity, SearchTaskActivity.class);
+                    intent.putExtra(ConstantKey.FROM_MY_JOBS_WITH_LOVE, true);
                     dashboardActivity.startActivity(intent);
 
                     break;

@@ -82,13 +82,14 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
     private int totalPage = 10;
     private boolean isLoading = false;
 
-    private String query = "";
+    private boolean isFromMyJobs = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_all);
         ButterKnife.bind(this);
+        isFromMyJobs = getIntent().getBooleanExtra(ConstantKey.FROM_MY_JOBS_WITH_LOVE, false);
         //  RelativeLayout emptySearch = findViewById(R.id.empty_search);
         sessionManager = new SessionManager(this);
         edtSearch.setHint("Search Jobs");
@@ -138,7 +139,11 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
 
         ArrayList<TaskModel> items = new ArrayList<>();
         Helper.closeKeyboard(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS + "?search_query=" +  queryParameter + "&page=" + currentPage,
+        String url = Constant.URL_TASKS + "?search_query=" +  queryParameter + "&page=" + currentPage;
+        if(isFromMyJobs)
+            url = Constant.URL_TASKS + ConstantKey.ALL_MY_JOBS_URL_FILTER + "search_query=" +  queryParameter + "&page=" + currentPage;
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
                     Log.e("responce_url", response);
                     try {

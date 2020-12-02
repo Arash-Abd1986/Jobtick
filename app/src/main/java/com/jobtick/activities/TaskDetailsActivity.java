@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -102,6 +103,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -128,7 +130,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener,
         IncreaseBudgetNoticeBottomSheet.NoticeListener, IncreaseBudgetDeclineBottomSheet.NoticeListener,
         ConfirmAskToReleaseBottomSheet.NoticeListener, ConfirmReleaseBottomSheet.NoticeListener {
-
     @BindView(R.id.alert_box)
     ExtendedAlertBox alertBox;
 
@@ -183,6 +184,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_message)
     LinearLayout lytBtnMessage;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.llLocation)
+    LinearLayout llLocation;
     //    @BindView(R.id.card_message)
 //    CardView cardMessage;
     @SuppressLint("NonConstantResourceId")
@@ -363,11 +367,15 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window w = getWindow();
+            w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_details);
         ButterKnife.bind(this);
         alertBox.setOnExtendedAlertButtonClickListener(this);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         mBehavior = BottomSheetBehavior.from(bottom_sheet);
         requestAcceptListener = this;
         widthDrawListener = this;
@@ -494,7 +502,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 } else {
                     cardQuestionsLayout.setVisibility(View.GONE);
                 }
-                txtBudget.setText("$ " + taskModel.getAmount());
+                txtBudget.setText("$" + taskModel.getAmount());
                 break;
             case Constant.TASK_OPEN:
                 txtStatusOpen.setSelected(true);
@@ -554,7 +562,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 }
                 cardOfferLayout.setVisibility(View.VISIBLE);
                 cardQuestionsLayout.setVisibility(View.VISIBLE);
-                txtBudget.setText("$ " + taskModel.getBudget());
+                txtBudget.setText("$" + taskModel.getBudget());
                 break;
             case TASK_CANCELLED:
                 cardMakeAnOffer.setVisibility(View.GONE);
@@ -589,7 +597,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, false);
 
 
-                txtBudget.setText("$ " + taskModel.getAmount());
+                txtBudget.setText("$" + taskModel.getAmount());
                 break;
             case Constant.TASK_OVERDUE:
             case Constant.TASK_COMPLETED:
@@ -640,7 +648,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.setVisibility(View.GONE);
                 cardQuestionsLayout.setVisibility(View.GONE);
-                txtBudget.setText("$ " + taskModel.getAmount());
+                txtBudget.setText("$" + taskModel.getAmount());
                 break;
             case Constant.TASK_DRAFT:
                 break;
@@ -685,7 +693,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.setVisibility(View.GONE);
                 cardQuestionsLayout.setVisibility(View.GONE);
-                txtBudget.setText("$ " + taskModel.getAmount());
+                txtBudget.setText("$" + taskModel.getAmount());
                 break;
         }
 
@@ -849,6 +857,15 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 getBankAccountAddress();
                                 getBillingAddress();
 
+                                if(taskModel.getTaskType().equals("physical")) {
+                                    llLocation.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:<" + taskModel.getPosition().getLatitude() + ">,<" + taskModel.getPosition().getLongitude() + ">?q=<" + taskModel.getPosition().getLatitude() + ">,<" + taskModel.getPosition().getLongitude() + ">(" + "job address" + ")"));
+                                            startActivity(intent);
+                                        }
+                                    });
+                                }
                                 questionListAdapter.addItems(taskModel.getQuestions());
 
                                 for (int i = 0; i < taskModel.getQuestions().size(); i++) {
@@ -1149,9 +1166,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
         if (taskModel.getPoster().getLocation() != null && taskModel.getPoster().getLocation().length() > 0) {
             txtPosterLocation.setVisibility(View.VISIBLE);
-            txtPosterLocation.setText(taskModel.getLocation());
+//            txtPosterLocation.setText(taskModel.getLocation());
         } else {
-            txtPosterLocation.setVisibility(View.INVISIBLE);
+            txtPosterLocation.setVisibility(View.VISIBLE);
         }
 
         txtPosterLastOnline.setText("Active " + taskModel.getPoster().getLastOnline());
@@ -1938,6 +1955,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             image.setAdjustViewBounds(true);
             if (attachment.getUrl() != null) {
                 ImageUtil.displayImage(image, attachment.getUrl(), null);
+                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
             } else {
                 if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
                     Tools.displayImageOriginal(act, image, attachment.getDrawable());
@@ -1949,7 +1967,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     image.setBackgroundResource(R.drawable.banner_red);
                 }
 
-                image.setScaleType(ImageView.ScaleType.FIT_XY);
+                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
             }
             image.setOnClickListener(v1 -> {
              /*   if (onItemClickListener != null) {
@@ -2207,10 +2225,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     public void addToBookmark() {
-        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/bookmark",
                 response -> {
-                    hideProgressDialog();
                     if (isShowBookmarked) {
                         toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_black);
                     } else {
@@ -2219,7 +2235,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     getData();
                 },
                 error -> {
-                    hideProgressDialog();
                     errorHandle1(error.networkResponse);
                 }) {
 
@@ -2249,7 +2264,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void removeBookmark() {
-        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, BASE_URL + "bookmarks/" + taskModel.getBookmarkID(),
                 response -> {
                     Timber.e(response);
@@ -2274,7 +2288,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         } else {
                             showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
                         }
-                        hideProgressDialog();
                     } catch (JSONException e) {
                         hideProgressDialog();
                         e.printStackTrace();
@@ -2282,8 +2295,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
                 },
                 error -> {
-                    hideProgressDialog();
-
                     //  swipeRefresh.setRefreshing(false);
                     errorHandle1(error.networkResponse);
                 }) {

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
     android:background="#ffffff"
     tools:context=".activities.TaskDetailsActivity">
 
@@ -11,7 +12,6 @@
         android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="-25dp"
         android:clipToPadding="false"
         android:paddingBottom="@dimen/spacing_large"
         android:scrollbars="none"
@@ -26,28 +26,29 @@
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/app_bar_layout"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 app:elevation="0dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="300dp">
+                    android:layout_height="340dp">
 
                     <com.google.android.material.appbar.CollapsingToolbarLayout
                         android:id="@+id/collapsing_toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
                         app:contentScrim="?attr/background"
                         app:titleEnabled="false">
 
                         <FrameLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="340dp">
 
                             <androidx.viewpager.widget.ViewPager
                                 android:id="@+id/pager"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent">
+                                android:layout_height="340dp">
 
                                 <LinearLayout
                                     android:id="@+id/lyt_btn_view_all_offers"
@@ -133,14 +134,13 @@
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_budgets"
-                                style="@style/materialText_500_18"
+                                style="@style/materialText_500_18_bold"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="30dp"
                                 android:background="@drawable/shape_tab_primary"
                                 android:gravity="center"
-                                android:minWidth="@dimen/_50dp"
-                                android:padding="4dp"
-                                android:paddingBottom="@dimen/spacing_xsmall"
+                                android:paddingRight="14dp"
+                                android:paddingLeft="14dp"
                                 android:textColor="@color/white"
                                 tools:text="@string/_200" />
                         </LinearLayout>
@@ -167,7 +167,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="?attr/actionBarSize"
                             android:layout_gravity="top"
-                            android:layout_marginTop="@dimen/spacing_xlarge"
+                            android:layout_marginTop="10dp"
                             android:layout_marginBottom="@dimen/spacing_mlarge"
                             app:contentInsetLeft="0dp"
                             app:contentInsetStart="0dp"
@@ -204,9 +204,9 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="35dp"
                     android:layout_marginStart="@dimen/_16sp"
-                    android:layout_marginTop="@dimen/_24sp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="@dimen/_16sp"
                     android:layout_marginBottom="@dimen/spacing_middle"
                     android:orientation="horizontal">
@@ -403,9 +403,10 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_title"
-                        style="@style/materialText_700_18"
+                        style="@style/bigFont"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
                         android:layout_marginStart="@dimen/spacing_smlarge"
                         android:layout_marginEnd="@dimen/spacing_smlarge"
                         android:textColor="@color/textColor" />
@@ -420,9 +421,11 @@
                         android:weightSum="1">
 
                         <LinearLayout
+                            android:id="@+id/llLocation"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
+                            android:layout_marginTop="9dp"
                             android:orientation="horizontal"
                             tools:ignore="UselessParent">
 
@@ -435,12 +438,13 @@
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_location"
-                                style="@style/materialText_500_10"
+                                style="@style/fontSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:ellipsize="end"
                                 android:maxLines="1"
+                                android:layout_marginLeft="10dp"
                                 android:textColor="@color/colorPrimary"
                                 tools:text="123" />
 
@@ -452,7 +456,7 @@
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_created_date"
-                                style="@style/materialText_500_10"
+                                style="@style/fontSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -465,7 +469,7 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_description"
-                        style="@style/materialText_500_14"
+                        style="@style/materialText_500_13"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
@@ -495,7 +499,11 @@
                             tools:listitem="@layout/item_must_have" />
 
                     </androidx.cardview.widget.CardView>
-
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spacing_line"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/grey_10" />
                     <RelativeLayout
                         android:id="@+id/postedByLyt"
                         android:layout_width="match_parent"
@@ -578,15 +586,16 @@
 
                                 <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_poster_location"
-                                    style="@style/materialText_400_10"
+                                    style="@style/fontSmall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:singleLine="true"
+                                    android:text="queensland"
                                     android:textColor="@color/grey_40" />
 
                                 <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_poster_last_online"
-                                    style="@style/materialText_400_10"
+                                    style="@style/fontSmall"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/grey_40"

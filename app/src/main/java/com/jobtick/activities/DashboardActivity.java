@@ -90,13 +90,16 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR|View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         toolbar = findViewById(R.id.toolbar);
         // Tools.clearSystemBarLight(this);
         toolbar.setElevation(0);
         sessionManager = new SessionManager(this);
-        Log.d("Access_token",sessionManager.getAccessToken());
         onProfileupdatelistenerSideMenu = this;
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);

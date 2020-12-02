@@ -449,5 +449,6 @@
     <string name="this_text_description_for_time_cash_out">This text description for time cash out.</string>
     <string name="cash_out">Cash Out</string>
     <string name="message">Message</string>
+    <string name="content_description">slider</string>
 
 </resources>

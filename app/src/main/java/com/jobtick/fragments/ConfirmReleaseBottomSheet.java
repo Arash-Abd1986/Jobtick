@@ -22,13 +22,13 @@ public class ConfirmReleaseBottomSheet extends AbstractConfirmBottomSheet{
     }
 
     @Override
-    void onPositiveButtonClick() {
+    void onBlueButtonClick() {
         listener.onReleaseConfirmClick();
         dismiss();
     }
 
     @Override
-    void onNegativeButtonClick() {
+    void onRedButtonClick() {
         dismiss();
     }
 

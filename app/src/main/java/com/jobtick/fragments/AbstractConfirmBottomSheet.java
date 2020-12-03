@@ -29,11 +29,11 @@ public abstract class AbstractConfirmBottomSheet extends BottomSheetDialogFragme
     private String cPositiveButton;
     private String cNegativeButton;
 
-    public AbstractConfirmBottomSheet(String title, String description, String positiveButtonText, String negativeButtonText) {
+    public AbstractConfirmBottomSheet(String title, String description, String blueButtonText, String redButtonText) {
         this.cTitle = title;
         this.cDescription = description;
-        this.cPositiveButton = positiveButtonText;
-        this.cNegativeButton = negativeButtonText;
+        this.cPositiveButton = blueButtonText;
+        this.cNegativeButton = redButtonText;
     }
 
 
@@ -55,11 +55,11 @@ public abstract class AbstractConfirmBottomSheet extends BottomSheetDialogFragme
         accept = view.findViewById(R.id.btn_accept);
 
         decline.setOnClickListener(v -> {
-            onNegativeButtonClick();
+            onRedButtonClick();
         });
 
         accept.setOnClickListener(v -> {
-            onPositiveButtonClick();
+            onBlueButtonClick();
         });
 
         init();
@@ -95,6 +95,6 @@ public abstract class AbstractConfirmBottomSheet extends BottomSheetDialogFragme
             pDialog.dismiss();
     }
 
-    abstract void onPositiveButtonClick();
-    abstract void onNegativeButtonClick();
+    abstract void onBlueButtonClick();
+    abstract void onRedButtonClick();
 }

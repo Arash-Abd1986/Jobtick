@@ -261,7 +261,7 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
         sessionManager.setPreviewModel(previewCategorySetModel, SearchCategoryActivity.class);
         Intent creating_task = new Intent(SearchCategoryActivity.this, TaskCreateActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("categoryID", obj.getId());
+        bundle.putInt(ConstantKey.CATEGORY_ID, obj.getId());
         creating_task.putExtras(bundle);
         startActivityForResult(creating_task, ConstantKey.RESULTCODE_CATEGORY);
         finish();

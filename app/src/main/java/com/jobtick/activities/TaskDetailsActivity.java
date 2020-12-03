@@ -2168,7 +2168,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
                         adapter.notifyItemInserted(0);
                         //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
-                        showToast("attachment added", TaskDetailsActivity.this);
+
 
                     } else {
                         showToast("Something went wrong", TaskDetailsActivity.this);

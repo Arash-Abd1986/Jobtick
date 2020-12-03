@@ -29,8 +29,6 @@ import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
 
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -149,17 +147,6 @@ public class TaskBudgetFragment extends Fragment {
         lytBtnBack.setOnClickListener(view1 -> {
             //onBackPressed();
         });
-
-        KeyboardVisibilityEvent.setEventListener(
-                getActivity(),
-                getViewLifecycleOwner(),
-                isOpen -> {
-                    if (isOpen) {
-                        card_btn_post_task.setVisibility(View.GONE);
-                    } else {
-                        card_btn_post_task.setVisibility(View.VISIBLE);
-                    }
-                });
 
         cardBudgetH = view.findViewById(R.id.card_budgetH);
         edtBudgetH = view.findViewById(R.id.edt_budgetH);

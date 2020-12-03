@@ -1,10 +1,8 @@
 package com.jobtick.fragments;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,6 +29,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -40,7 +39,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.R;
-
+import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.SearchTaskActivity;
 import com.jobtick.activities.TaskCreateActivity;
@@ -51,6 +50,7 @@ import com.jobtick.pagination.PaginationListener;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.Helper;
+import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
 
 import org.json.JSONArray;
@@ -67,20 +67,18 @@ import timber.log.Timber;
 
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 import static com.jobtick.utils.Constant.TASK_ASSIGNED_CASE_UPPER_FIRST;
-import static com.jobtick.utils.Constant.TASK_CANCELLED_CASE_UPPER_FIRST;
-import static com.jobtick.utils.Constant.TASK_CLOSED_CASE_UPPER_FIRST;
 import static com.jobtick.utils.Constant.TASK_COMPLETED_CASE_UPPER_FIRST;
 import static com.jobtick.utils.Constant.TASK_DRAFT_CASE_ALL_JOB_KEY;
 import static com.jobtick.utils.Constant.TASK_DRAFT_CASE_ALL_JOB_VALUE;
 import static com.jobtick.utils.Constant.TASK_DRAFT_CASE_UPPER_FIRST;
 import static com.jobtick.utils.Constant.TASK_OFFERED_CASE_UPPER_FIRST;
 import static com.jobtick.utils.Constant.TASK_OPEN_CASE_UPPER_FIRST;
-import static com.jobtick.utils.Constant.TASK_PENDING_CASE_UPPER_FIRST;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener,
+        TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListener {
 
 
     @BindView(R.id.recycler_view_status)
@@ -105,23 +103,13 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     FrameLayout bottomSheet;
 
 
-    private String[] status = new String[]{
-            TASK_DRAFT_CASE_ALL_JOB_KEY,
-            TASK_DRAFT_CASE_UPPER_FIRST,
-            Constant.TASK_CANCELLED_CASE_UPPER_FIRST,
-            TASK_ASSIGNED_CASE_UPPER_FIRST,
-            TASK_OPEN_CASE_UPPER_FIRST,
-            TASK_PENDING_CASE_UPPER_FIRST,
-            Constant.TASK_COMPLETED_CASE_UPPER_FIRST,
-            TASK_OFFERED_CASE_UPPER_FIRST
-    };
-
     private String single_choice_selected = null;
     private String temp_single_choice_selected = null;
     private String str_search = null;
     private String temp_str_search = null;
     private Toolbar toolbar;
     private LinearLayout noJobs;
+
     public MyTasksFragment() {
         // Required empty public constructor
     }
@@ -131,9 +119,9 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       View view = inflater.inflate(R.layout.fragment_my_tasks, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_tasks, container, false);
         ButterKnife.bind(this, view);
-        noJobs =view.findViewById(R.id.no_jobs_container);
+        noJobs = view.findViewById(R.id.no_jobs_container);
         swipeRefresh.setOnRefreshListener(this);
         initToolbar();
         setHasOptionsMenu(true);
@@ -170,9 +158,8 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(dashboardActivity);
         recyclerViewStatus.setLayoutManager(layoutManager);
-        taskListAdapter = new TaskListAdapter(new ArrayList<>());
+        resetTaskListAdapter();
         recyclerViewStatus.setAdapter(taskListAdapter);
-        taskListAdapter.setOnItemClickListener(this);
         swipeRefresh.setRefreshing(true);
         single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
         getStatusList();
@@ -202,25 +189,9 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_search:
-                   /* Menu menu = toolbar.getMenu();
-                    SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-                    searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                        @Override
-                        public boolean onQueryTextSubmit(String query) {
-                            str_search = query;
-                            onRefresh();
-                            return true;
-                        }
-
-                        @Override
-                        public boolean onQueryTextChange(String newText) {
-                            str_search = newText;
-                            return false;
-                        }
-                    });*/
 
                     Intent intent = new Intent(dashboardActivity, SearchTaskActivity.class);
+                    intent.putExtra(ConstantKey.FROM_MY_JOBS_WITH_LOVE, true);
                     dashboardActivity.startActivity(intent);
 
                     break;
@@ -309,7 +280,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                             if (currentPage < totalPage) {
                                 taskListAdapter.addLoading();
                             } else {
-                                if(currentPage == totalPage)
+                                if (currentPage == totalPage)
                                     taskListAdapter.removeLoading();
                                 isLastPage = true;
                             }
@@ -349,10 +320,11 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
     }
 
-    private void resetTaskListAdapter(){
+    private void resetTaskListAdapter() {
         taskListAdapter = new TaskListAdapter(new ArrayList<>());
-        recyclerViewStatus.setAdapter(taskListAdapter);
         taskListAdapter.setOnItemClickListener(this);
+        taskListAdapter.setOnDraftDeleteListener(this);
+        recyclerViewStatus.setAdapter(taskListAdapter);
     }
 
 
@@ -467,7 +439,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         RelativeLayout relativeCompleted = view.findViewById(R.id.relativeCompleted);
         RelativeLayout relativeAllJobs = view.findViewById(R.id.relativeAllJobs);
         RelativeLayout relativeDraft = view.findViewById(R.id.relativeDraft);
-        RelativeLayout relativeCancelled = view.findViewById(R.id.relativePosted);
+        RelativeLayout relativePosted = view.findViewById(R.id.relativePosted);
         RelativeLayout relativeAssigned = view.findViewById(R.id.relativeAssigned);
         RelativeLayout relativeOffer = view.findViewById(R.id.relativeOffer);
 
@@ -475,7 +447,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             radioDraft.performClick();
         });
 
-        relativeCancelled.setOnClickListener(v -> {
+        relativePosted.setOnClickListener(v -> {
             radioPosted.performClick();
 
         });
@@ -484,9 +456,8 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             radioAssigned.performClick();
         });
 
-        relativeOffer.setOnClickListener(v ->
-        {
-            relativeOffer.performClick();
+        relativeOffer.setOnClickListener(v -> {
+            radioOffer.performClick();
         });
 
 
@@ -494,26 +465,23 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             rbAll.performClick();
         });
 
-        if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_VALUE)) {
-            rbAll.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_DRAFT_CASE_UPPER_FIRST)) {
-            radioDraft.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
-            radioAssigned.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_COMPLETED_CASE_UPPER_FIRST)) {
-            radioCompleted.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_OFFERED_CASE_UPPER_FIRST)) {
-            radioOffer.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_CLOSED_CASE_UPPER_FIRST)) {
-            radioCompleted.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_CANCELLED_CASE_UPPER_FIRST)) {
-            radioPosted.setChecked(true);
-        }
-
-
         relativeCompleted.setOnClickListener(v -> {
             radioCompleted.performClick();
         });
+
+        if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_VALUE)) {
+            rbAll.setChecked(true);
+        } else if (single_choice_selected.equals(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
+            radioAssigned.setChecked(true);
+        } else if (single_choice_selected.equals(TASK_OPEN_CASE_UPPER_FIRST)) {
+            radioPosted.setChecked(true);
+        } else if (single_choice_selected.equals(TASK_OFFERED_CASE_UPPER_FIRST)) {
+            radioOffer.setChecked(true);
+        } else if (single_choice_selected.equals(TASK_DRAFT_CASE_UPPER_FIRST)) {
+            radioDraft.setChecked(true);
+        } else if (single_choice_selected.equals(TASK_COMPLETED_CASE_UPPER_FIRST)) {
+            radioCompleted.setChecked(true);
+        }
 
 
         radioDraft.setOnClickListener(v -> {
@@ -656,91 +624,6 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     }
 
 
-    private void showSingleChoiceDialog() {
-
-
-        temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
-
-
-        // custom dialog
-        final Dialog dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.custom_task_filter);
-
-        // set the custom dialog components - text, image and button
-
-
-        RadioGroup radioFilter = dialog.findViewById(R.id.radioFilter);
-
-
-        radioFilter.setOnCheckedChangeListener((group, checkedId) -> {
-            RadioButton rb = (RadioButton) dialog.findViewById(checkedId);
-            temp_single_choice_selected = rb.getText().toString();
-            if (temp_single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
-                temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
-            }
-
-        });
-
-
-        LinearLayout lyt_btn_cancel = dialog.findViewById(R.id.lyt_btn_cancel);
-        lyt_btn_cancel.setOnClickListener(v -> {
-            temp_single_choice_selected = null;
-
-            dialog.dismiss();
-        });
-
-
-        LinearLayout lyt_btn_ok = dialog.findViewById(R.id.lyt_btn_ok);
-        lyt_btn_ok.setOnClickListener(v -> {
-
-
-            if (temp_single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
-                temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
-            }
-            single_choice_selected = temp_single_choice_selected;
-            temp_single_choice_selected = null;
-            currentPage = PAGE_START;
-            isLastPage = false;
-            taskListAdapter.clear();
-            getStatusList();
-
-            dialog.dismiss();
-        });
-
-
-        dialog.show();
-
-
-
-     /*   AlertDialog.Builder builder = new AlertDialog.Builder(dashboardActivity);
-
-        ViewGroup viewGroup = dashboardActivity.findViewById(android.R.id.content);
-        View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.c, viewGroup, false);
-
-
-        builder.setTitle("Sort By");
-        builder.setSingleChoiceItems(status, 0, (dialogInterface, i) -> temp_single_choice_selected = status[i]);
-
-        builder.setPositiveButton(R.string.OK, (dialogInterface, i) -> {
-            if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
-                single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
-            }
-            single_choice_selected = temp_single_choice_selected;
-            temp_single_choice_selected = null;
-            currentPage = PAGE_START;
-            isLastPage = false;
-            taskListAdapter.clear();
-            getStatusList();
-            dialogInterface.dismiss();
-        });
-        builder.setNegativeButton(R.string.CANCEL, (dialog, which) -> {
-            temp_single_choice_selected = null;
-            dialog.dismiss();
-        });
-        builder.show();*/
-    }
-
-
     @Override
     public void onRefresh() {
         swipeRefresh.setRefreshing(true);
@@ -764,5 +647,92 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                 }
             }
         }
+    }
+
+    protected void deleteTask(TaskModel taskModel) {
+        swipeRefresh.setRefreshing(true);
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, Constant.URL_TASKS + "/" + taskModel.getSlug(),
+                response -> {
+                    Timber.e(response);
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+
+                            if (jsonObject.getBoolean("success")) {
+                                onRefresh();
+
+                            } else {
+                                ((ActivityBase) requireActivity()).showToast("Something went Wrong", requireContext());
+                            }
+                        }
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            ((ActivityBase) requireActivity()).unauthorizedUser();
+                            return;
+                        }
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+                            if (jsonObject_error.has("message")) {
+                                ((ActivityBase) requireActivity()).showToast(jsonObject_error.getString("message"), requireContext());
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        ((ActivityBase) requireActivity()).showToast("Something Went Wrong", requireContext());
+                    }
+                    Timber.e(error.toString());
+                }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+        requestQueue.add(stringRequest);
+    }
+
+    private TaskModel taskModel;
+
+    @Override
+    public void onDraftDeleteButtonClick(View view, TaskModel taskModel) {
+        this.taskModel = taskModel;
+        ConfirmDeleteTaskBottomSheet confirmBottomSheet = new ConfirmDeleteTaskBottomSheet(requireContext());
+        confirmBottomSheet.setListener(this);
+        confirmBottomSheet.show(requireActivity().getSupportFragmentManager(), "");
+    }
+
+    @Override
+    public void onDeleteConfirmClick() {
+        deleteTask(taskModel);
     }
 }

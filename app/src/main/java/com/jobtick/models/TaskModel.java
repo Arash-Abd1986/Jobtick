@@ -601,6 +601,8 @@ public class TaskModel implements Parcelable {
         try {
             if (jsonObject.has("id") && !jsonObject.isNull("id"))
                 taskModel.setId(jsonObject.getInt("id"));
+            if (jsonObject.has("category_id") && !jsonObject.isNull("category_id"))
+                taskModel.setCategory_id(jsonObject.getInt("category_id"));
             if (jsonObject.has("poster") && !jsonObject.isNull("poster"))
                 taskModel.setPoster(new UserAccountModel().getJsonToModel(jsonObject.getJSONObject("poster")));
             if (jsonObject.has("worker") && !jsonObject.isNull("worker"))

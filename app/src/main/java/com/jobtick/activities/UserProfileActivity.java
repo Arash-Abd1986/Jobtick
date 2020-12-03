@@ -176,7 +176,7 @@ public class UserProfileActivity extends ActivityBase implements AttachmentAdapt
             toolbar.getMenu().setGroupDividerEnabled(true);
         }
         toolbar.getMenu().findItem(R.id.action_flag).setVisible(true);
-        toolbar.getMenu().findItem(R.id.item_three_dot).setVisible(false);
+//        toolbar.getMenu().findItem(R.id.item_three_dot).setVisible(false);
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_flag:

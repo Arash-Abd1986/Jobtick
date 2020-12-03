@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -58,6 +60,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -167,6 +170,13 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
     TextView tvTickerReview;
 
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.content)
+    LinearLayout content;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.pbLoading)
+    ProgressBar pbLoading;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvPosterReview)
     TextView tvPosterReview;
 
@@ -266,6 +276,8 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
             levelInfoBottomSheet.show(getParentFragmentManager(), "");
         });
         initToolbar();
+        Bundle b = getArguments();
+        userId = Objects.requireNonNull(b).getInt("userId",-1);
         return view;
     }
 
@@ -394,12 +406,13 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
     }
 
     private void getAllProfileData() {
-        profileActivity.showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + 1,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + userId,
                 response -> {
                     Timber.e(response);
-                    profileActivity.hideProgressDialog();
+                    content.setVisibility(View.VISIBLE);
+                    pbLoading.setVisibility(View.GONE);
                     try {
+
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {

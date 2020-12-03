@@ -1158,6 +1158,13 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             ImageUtil.displayImage(imgAvtarPoster, taskModel.getPoster().getAvatar().getThumbUrl(), null);
         }  //TODO DUMMY IMAGE
 
+        imgAvtarPoster.setOnClickListener(v -> {
+            if(taskModel.getPoster().getId()!=null) {
+                Intent intent = new Intent(TaskDetailsActivity.this, ProfileActivity.class);
+                intent.putExtra("id",taskModel.getPoster().getId());
+                startActivity(intent);
+            }
+        });
         txtPosterName.setText(taskModel.getPoster().getName());
         if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
             txtLocation.setText(taskModel.getLocation());

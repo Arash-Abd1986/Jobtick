@@ -13,6 +13,7 @@ import com.jobtick.fragments.ProfileFragment;
 import com.jobtick.fragments.ProfileViewFragment;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ProfileActivity extends ActivityBase {
     @BindView(R.id.btnBack)
@@ -25,6 +26,7 @@ public class ProfileActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_porfile);
 
+        ButterKnife.bind(this);
         btnBack.setOnClickListener(v -> ProfileActivity.super.onBackPressed());
 
         if(getIntent().getIntExtra("id",-1)!=-1){

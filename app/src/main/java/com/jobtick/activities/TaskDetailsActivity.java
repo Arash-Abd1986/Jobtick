@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,6 +144,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.app_bar_layout)
     AppBarLayout appBarLayout;
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_completion_rate)
+    TextView txtCompletionRate;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_status_open)
     TextView txtStatusOpen;
     @SuppressLint("NonConstantResourceId")
@@ -154,6 +158,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_due_date)
     TextView txtDueDate;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_rating_value)
+    TextView txtRatingValue;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_due_time)
     TextView txtDueTime;
@@ -231,18 +238,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_worker_name)
     TextView txtWorkerName;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_worker_location)
-    TextView txtWorkerLocation;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_worker_last_online)
-    TextView txtWorkerLastOnline;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_private_chat)
-    LinearLayout lytBtnPrivateChat;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.card_private_chat)
-    CardView cardPrivateChat;
+
+//    @SuppressLint("NonConstantResourceId")
+//    @BindView(R.id.card_private_chat)
+//    CardView cardPrivateChat;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_assignee_layout)
     CardView cardAssigneeLayout;
@@ -458,7 +457,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.GONE);
                 txtStatusOpen.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_tab_primary_2dp));
-                txtStatusOpen.setTextColor(ContextCompat.getColor(this, R.color.white));
 
                 if (isMyTask) {
                     cardMakeAnOffer.setVisibility(View.VISIBLE);
@@ -468,7 +466,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, true);
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, true);
 
-                    cardPrivateChat.setVisibility(View.VISIBLE);
+//                    cardPrivateChat.setVisibility(View.VISIBLE);
                     //Cancellation
 
                 } else {
@@ -480,14 +478,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
 
-                        cardPrivateChat.setVisibility(View.GONE);
+//                        cardPrivateChat.setVisibility(View.GONE);
                     } else {
                         cardMakeAnOffer.setVisibility(View.VISIBLE);
                         txtBtnText.setText(ConstantKey.BTN_ASK_TO_RELEASE_MONEY);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_copy, true);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, true);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, true);
-                        cardPrivateChat.setVisibility(View.VISIBLE);
+//                        cardPrivateChat.setVisibility(View.VISIBLE);
                         //Cancellation
                     }
                 }
@@ -547,7 +545,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
 //                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.GONE);
-                cardPrivateChat.setVisibility(View.GONE);
+//                cardPrivateChat.setVisibility(View.GONE);
                 if (taskModel.getOffers().size() != 0) {
                     recyclerViewOffers.setVisibility(View.VISIBLE);
                     offerListAdapter.addItems(taskModel.getOffers());
@@ -586,7 +584,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
 //                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.VISIBLE);
-                cardPrivateChat.setVisibility(View.VISIBLE);
+//                cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.setVisibility(View.GONE);
                 cardQuestionsLayout.setVisibility(View.GONE);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_edit, false);
@@ -645,7 +643,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
 //                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.VISIBLE);
-                cardPrivateChat.setVisibility(View.VISIBLE);
+//                cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.setVisibility(View.GONE);
                 cardQuestionsLayout.setVisibility(View.GONE);
                 txtBudget.setText("$" + taskModel.getAmount());
@@ -690,7 +688,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
 //                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.VISIBLE);
-                cardPrivateChat.setVisibility(View.VISIBLE);
+//                cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.setVisibility(View.GONE);
                 cardQuestionsLayout.setVisibility(View.GONE);
                 txtBudget.setText("$" + taskModel.getAmount());
@@ -829,6 +827,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void getData() {
+        Log.d("str_slug",str_slug);
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_TASKS + "/" + str_slug,
                 response -> {
@@ -911,7 +910,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     public void getAllUserProfileDetails() {
-        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
                 response -> {
                     try {
@@ -921,18 +919,15 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                             userAccountModel = new UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"));
                         } else {
-                            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (JSONException e) {
-                        Toast.makeText(this, "JSONException", Toast.LENGTH_SHORT).show();
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
                     }
                 },
                 error -> {
                     errorHandle1(error.networkResponse);
-                    hideProgressDialog();
                 }) {
 
             @Override
@@ -1364,8 +1359,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }  //TODO DUMMY IMAGE
 
             txtWorkerName.setText(taskModel.getWorker().getName());
-            txtWorkerLocation.setText(taskModel.getWorker().getLocation());
-            txtWorkerLastOnline.setText("Active " + taskModel.getWorker().getLastOnline());
+            if (taskModel.getWorker() != null && taskModel.getWorker().getWorkerRatings() != null && taskModel.getWorker().getWorkerRatings().getAvgRating() != null) {
+                txtRatingValue.setText("(" + taskModel.getWorker().getWorkerRatings().getAvgRating() + ")");
+            }
+            if(taskModel.getWorker().getWorkTaskStatistics()!=null)
+            txtCompletionRate.setText(taskModel.getWorker().getWorkTaskStatistics().getCompletionRate().toString()+"%");
         }
     }
 
@@ -1485,16 +1483,19 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     @SuppressLint("NonConstantResourceId")
     @OnClick({R.id.lyt_btn_view_all_questions, R.id.lyt_btn_comment_send, R.id.lyt_btn_message, R.id.first_offer,
-            R.id.lyt_btn_private_chat, R.id.lyt_btn_view_all_offers, R.id.txt_btn_text, R.id.lyt_btn_make_an_offer,
+            R.id.lyt_btn_view_all_offers, R.id.txt_btn_text, R.id.lyt_btn_make_an_offer,
             R.id.card_cancelled, R.id.li_repost, R.id.liAssign, R.id.linearUserProfile})
     public void onViewClicked(View view) {
+        Intent intent;
+        Bundle bundle;
         switch (view.getId()) {
             case R.id.lyt_btn_comment_send:
                 if (TextUtils.isEmpty(edtComment.getText().toString().trim())) {
                     edtComment.setError("?");
                     return;
                 } else {
-                    attachmentArrayList_question.remove(attachmentArrayList_question.size() - 1);
+                    if(attachmentArrayList_question.size()>0)
+                        attachmentArrayList_question.remove(attachmentArrayList_question.size() - 1);
                     if (attachmentArrayList_question.size() == 0) {
                         postComment(
                                 edtComment.getText().toString().trim(),
@@ -1509,15 +1510,20 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 }
                 break;
             case R.id.lyt_btn_message:
+//                intent = new Intent(TaskDetailsActivity.this, ChatActivity.class);
+//                bundle = new Bundle();
+//                bundle.putParcelable(ConstantKey.CONVERSATION, taskModel.getConversation());
+//                intent.putExtras(bundle);
+//                startActivity(intent);
                 break;
 
-            case R.id.lyt_btn_private_chat:
-                Intent intent = new Intent(TaskDetailsActivity.this, ChatActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(ConstantKey.CONVERSATION, taskModel.getConversation());
-                intent.putExtras(bundle);
-                startActivity(intent);
-                break;
+//            case R.id.lyt_btn_private_chat:
+//                intent = new Intent(TaskDetailsActivity.this, ChatActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelable(ConstantKey.CONVERSATION, taskModel.getConversation());
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+//                break;
             case R.id.lyt_btn_view_all_offers:
                 intent = new Intent(TaskDetailsActivity.this, ViewAllOffersActivity.class);
                 bundle = new Bundle();
@@ -1592,19 +1598,13 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 copyTask(taskModel);
                 break;
             case R.id.liAssign:
-                Bundle bundleProfile = new Bundle();
-                bundleProfile.putInt(Constant.userID, taskModel.getWorker().getId());
-                intent = new Intent(TaskDetailsActivity.this, UserProfileActivity.class);
-                intent.putExtras(bundleProfile);
-                startActivity(intent);
-                break;
-
+                Intent workerIntent = new Intent(TaskDetailsActivity.this, ProfileActivity.class);
+                workerIntent.putExtra("id",taskModel.getWorker().getId());
+                startActivity(workerIntent);
             case R.id.linearUserProfile:
-                Bundle bundle1 = new Bundle();
-                bundle1.putInt(Constant.userID, taskModel.getPoster().getId());
-                intent = new Intent(TaskDetailsActivity.this, UserProfileActivity.class);
-                intent.putExtras(bundle1);
-                startActivity(intent);
+                Intent posterIntent = new Intent(TaskDetailsActivity.this, ProfileActivity.class);
+                posterIntent.putExtra("id",taskModel.getPoster().getId());
+                startActivity(posterIntent);
                 break;
         }
     }
@@ -1814,6 +1814,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void postComment(String str_comment, ArrayList<AttachmentModel> attachmentModels) {
+        if(str_comment.length()<5) {
+            showToast("The question text must be at least 5 characters", this);
+            return;
+        }
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_QUESTIONS + "/" + taskModel.getId() + "/create",
                 response -> {
@@ -1822,7 +1826,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            edtComment.setText(null);
+                            edtComment.setText("");
                             attachmentArrayList_question.clear();
                             attachmentArrayList_question.add(new AttachmentModel());
                             adapter.notifyDataSetChanged();
@@ -1848,6 +1852,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     NetworkResponse networkResponse = error.networkResponse;
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
+
                         // Print Error!
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
@@ -2064,9 +2069,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 }
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled recording
-                Toast.makeText(getApplicationContext(),
-                        "User cancelled Pickup Image", Toast.LENGTH_SHORT)
-                        .show();
+
             } else {
                 // failed to record video
                 Toast.makeText(getApplicationContext(),

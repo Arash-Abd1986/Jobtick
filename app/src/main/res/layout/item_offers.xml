@@ -75,17 +75,6 @@
                         android:visibility="gone"
                         android:contentDescription="@string/todo" />
 
-                    <ImageView
-                        android:id="@+id/img_verified_account"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="@dimen/spacing_small"
-                        android:layout_marginBottom="@dimen/spacing_small"
-                        android:background="@drawable/ic_correct"
-                        android:visibility="gone"
-                        android:contentDescription="@string/todo" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -93,14 +82,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginEnd="9dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_600_12"
+                        style="@style/materialText_700_12"
                         android:id="@+id/txt_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -166,8 +155,8 @@
                     android:padding="3dp">
 
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
                         android:layout_gravity="center"
                         android:layout_marginEnd="@dimen/_8dp"
                         android:padding="@dimen/spacing_small"
@@ -201,7 +190,7 @@
                         android:layout_marginStart="1dp"
                         android:gravity="center_vertical"
                         android:text="@string/reply"
-                        android:textColor="@color/colorPrimary"/>
+                        android:textColor="@color/colorPrimary" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -316,7 +305,7 @@
                 android:layout_height="@dimen/spacing_middle" />
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_500_14"
+                style="@style/materialText_500_12"
                 android:id="@+id/txt_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -388,16 +377,15 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/spacing_middle"
                         android:gravity="center_vertical"
-                        android:text="@string/more"
+                        android:text="More >"
                         android:textColor="@color/colorPrimary"/>
                 </LinearLayout>
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_500_12"
+                    style="@style/materialText_500_10"
                     android:id="@+id/txt_created_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_medium"
-                    android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginEnd="@dimen/spacing_medium"
                     android:layout_marginBottom="@dimen/spacing_medium"
                     android:text="21 min. ago"
@@ -446,7 +434,7 @@
                         android:layout_width="36dp"
                         android:layout_height="@dimen/_1sp"
                         android:layout_gravity="center"
-                        android:background="@color/grey_70" />
+                        android:background="@color/grey_110" />
 
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/materialText_500_12"
@@ -457,6 +445,8 @@
                         android:background="?attr/selectableItemBackground"
                         android:gravity="center_vertical"
                         android:padding="@dimen/spacing_small"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
                         android:text="@string/more_replies"
                         android:textColor="@color/grey_70"/>
                 </LinearLayout>

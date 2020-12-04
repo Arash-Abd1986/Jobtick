@@ -17,7 +17,9 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jobtick.activities.ProfileActivity;
 import com.jobtick.activities.ReportActivity;
+import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.activities.UserProfileActivity;
 import com.jobtick.activities.VideoPlayerActivity;
 import com.jobtick.utils.ConstantKey;
@@ -217,9 +219,6 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.card_deleteOffer)
         CardView cardDeleteOffer;
 
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.img_verified_account)
-        ImageView imgVerifiedAccount;
 
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.linear_user_profile)
@@ -246,6 +245,12 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         public void onBind(int position) {
             super.onBind(position);
             OfferModel item = mItems.get(position);
+            imgAvatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    linearUserProfile.performClick();
+                }
+            });
             if (item.getWorker().getAvatar() != null) {
                 ImageUtil.displayImage(imgAvatar, item.getWorker().getAvatar().getThumbUrl(), null);
             }
@@ -269,7 +274,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 if (remaining_number == 1) {
                     txtMoreReply.setText("view 1 reply");
                 } else {
-                    txtMoreReply.setText("view" + remaining_number + "  replies");
+                    txtMoreReply.setText("view " + remaining_number + " replies");
                     txtMoreReply.setTextColor(context.getResources().getColor(R.color.grey_70));
                 }
                 linearMoreReply.setVisibility(View.VISIBLE);
@@ -289,12 +294,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             }
 
-            if (item.getWorker().getIsVerifiedAccount() == 1) {
-                imgVerifiedAccount.setVisibility(View.VISIBLE);
-            } else {
-                imgVerifiedAccount.setVisibility(View.GONE);
 
-            }
             txtBudget.setText("$ " + item.getOfferPrice());
             txtName.setText(item.getWorker().getName());
             if (item.getWorker() != null && item.getWorker().getWorkerRatings() != null && item.getWorker().getWorkerRatings().getAvgRating() != null) {
@@ -367,10 +367,8 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             });
 
             linearUserProfile.setOnClickListener(v -> {
-                Bundle bundleProfile = new Bundle();
-                bundleProfile.putInt(Constant.userID, item.getWorker().getId());
-                Intent intent = new Intent(context, UserProfileActivity.class);
-                intent.putExtras(bundleProfile);
+                Intent intent = new Intent(context, ProfileActivity.class);
+                intent.putExtra("id",item.getWorker().getId());
                 context.startActivity(intent);
             });
 

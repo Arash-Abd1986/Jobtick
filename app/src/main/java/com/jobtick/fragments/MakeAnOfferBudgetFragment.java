@@ -159,30 +159,6 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
         }
     }
 
-//    private void initComponentScroll() {
-//        NestedScrollView nested_content = (NestedScrollView) getActivity().findViewById(R.id.nested_scroll_view);
-//        nested_content.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                if (scrollY < oldScrollY) { // up
-//                    animateFab(false);
-//                }
-//                if (scrollY > oldScrollY) { // down
-//                    animateFab(true);
-//                }
-//            }
-//        });
-//    }
-//
-//    boolean isFabHide = false;
-
-//    private void animateFab(final boolean hide) {
-//        if (isFabHide && hide || !isFabHide && !hide) return;
-//        isFabHide = hide;
-//        int moveY = hide ? (2 * cardContinue.getHeight()) : 0;
-//        cardContinue.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
-//    }
-
     @OnClick({R.id.btn_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {

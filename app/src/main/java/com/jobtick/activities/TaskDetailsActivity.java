@@ -1808,7 +1808,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private void postComment(String str_comment, ArrayList<AttachmentModel> attachmentModels) {
         if(str_comment.length()<5) {
             showToast("The question text must be at least 5 characters", this);
-            return
+            return;
         }
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_QUESTIONS + "/" + taskModel.getId() + "/create",

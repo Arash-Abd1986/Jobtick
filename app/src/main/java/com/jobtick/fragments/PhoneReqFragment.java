@@ -2,7 +2,6 @@ package com.jobtick.fragments;
 
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,7 +82,7 @@ public class PhoneReqFragment extends Fragment implements TextWatcher {
             public void onSuccess(SuccessType successType) {
                 ((ActivityBase) getActivity()).hideProgressDialog();
                 if(successType == SuccessType.OTP){
-                    ((ActivityBase) getActivity()).showToast("OTP is sent successfully.", requireContext());
+                    ((ActivityBase) getActivity()).showSuccessToast("OTP is sent successfully.", requireContext());
                     otpSent = true;
                 }
                 else if( successType == SuccessType.Verify){
@@ -101,7 +100,8 @@ public class PhoneReqFragment extends Fragment implements TextWatcher {
 
             @Override
             public void onValidationError(ErrorType errorType, String message) {
-                if(errorType == ErrorType.UnAuthenticatedUser)
+                ((ActivityBase) getActivity()).hideProgressDialog();
+                if(errorType == ErrorType.UN_AUTHENTICATED_USER)
                     ((ActivityBase) getActivity()).unauthorizedUser();
                 else
                     ((ActivityBase) getActivity()).showToast(message, requireContext());
@@ -117,15 +117,15 @@ public class PhoneReqFragment extends Fragment implements TextWatcher {
 
 
     private boolean validationPhone() {
-        if (TextUtils.isEmpty(phone.getText().toString().trim())) {
-            phone.setError("Enter mobile number");
+        if (phone.getText().length() != 12) {
+            phone.setError("Enter correct phone number");
             return false;
         }
         return true;
     }
     private boolean validationVerify() {
-         if (TextUtils.isEmpty(verify.getText().toString().trim())) {
-            verify.setError("Enter verify");
+         if (verify.getText().length() != 6) {
+            verify.setError("Enter 6 digits verification code.");
             return false;
         }
         return true;

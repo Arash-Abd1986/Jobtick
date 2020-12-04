@@ -70,9 +70,6 @@ public class SkillsTagActivity extends ActivityBase {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_skills_tag);
 

@@ -128,7 +128,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
         if (!number.matches("0\\d{0}") || number.length() <= 5 || Integer.parseInt(number) <= 5) {
             //!number.matches("9\\d{9}") ||
             // !number.matches("(\\+98|0)?9\\d{9}") ||
-            Toast.makeText(getActivity(), "between 5 - 9999!", Toast.LENGTH_LONG).show();
+
         } else {
             edtBudget.addTextChangedListener(new TextWatcher() {
                 @Override

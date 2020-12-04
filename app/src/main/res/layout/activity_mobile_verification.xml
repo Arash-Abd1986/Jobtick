@@ -5,27 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background"
-    android:paddingTop="10dp"
+    android:background="@color/backgroundLightGrey"
     tools:context=".activities.MobileVerificationActivity">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_marginTop="15dp"
-        android:layout_height="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_back"
-        app:title="Mobile number verification"
-        android:background="@color/backgroundLightGrey"
-        app:contentInsetStartWithNavigation="0dp"/>
+    <include layout="@layout/toolbar"/>
 
     <ScrollView
         android:layout_below="@+id/toolbar"
         android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/lyt_bottom"
-        android:background="@color/backgroundLightGrey">
+        android:layout_above="@+id/lyt_bottom">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,7 +37,6 @@
                 android:textColor="@color/grey_70" />
 
             <com.jobtick.widget.ExtendedEntryText
-
                 android:id="@+id/edt_verification_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,6 +44,8 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="20dp"
                 app:eInputType="integer"
+                app:eStartFocus="true"
+                app:eImeOptions="actionDone"
                 android:layout_marginBottom="@dimen/spacing_middle"
                 app:eTitle="@string/sms_verification_code" />
 

@@ -1,7 +1,6 @@
 package com.jobtick.payment;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -26,6 +25,7 @@ public abstract class VerifyPhoneNumberImpl implements VerifyPhoneNumber {
     private SessionManager sessionManager;
 
     private String phoneNumber;
+    private String hashCheckToken;
 
     public VerifyPhoneNumberImpl(Context context, SessionManager sessionManager) {
         this.context = context;
@@ -42,13 +42,13 @@ public abstract class VerifyPhoneNumberImpl implements VerifyPhoneNumber {
 
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
+                            if (jsonObject.getBoolean("success") && !jsonObject.isNull("data")) {
+                                hashCheckToken = jsonObject.getJSONObject("data").getString("hash_check_token");
                                 onSuccess(SuccessType.OTP);
                             }
                         }
 
                     } catch (JSONException e) {
-                        Log.e("EXCEPTION", String.valueOf(e));
                         e.printStackTrace();
                         onError(e);
                     }
@@ -59,13 +59,12 @@ public abstract class VerifyPhoneNumberImpl implements VerifyPhoneNumber {
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
                         // Print Error!
-                        Log.e("intent22", jsonError);
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             String message = jsonObject_error.getString("message");
                             if (message.equalsIgnoreCase("unauthorized")) {
-                                onValidationError(ErrorType.UnAuthenticatedUser, "user is not authorized.");
+                                onValidationError(ErrorType.UN_AUTHENTICATED_USER, "user is not authorized.");
                             }
                             if (Objects.equals(jsonObject_error.getString("error_code"), "400")) {
                                 onError(new Exception("This phone number is already verified."));
@@ -95,7 +94,7 @@ public abstract class VerifyPhoneNumberImpl implements VerifyPhoneNumber {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("phone_number", phoneNumber.substring(3));
+                map1.put("mobile", phoneNumber.substring(3));
                 map1.put("dialing_code", phoneNumber.substring(0,3));
                 return map1;
             }
@@ -123,7 +122,6 @@ public abstract class VerifyPhoneNumberImpl implements VerifyPhoneNumber {
                         }
 
                     } catch (JSONException e) {
-                        Log.e("EXCEPTION", String.valueOf(e));
                         e.printStackTrace();
                         onError(e);
                     }
@@ -134,18 +132,14 @@ public abstract class VerifyPhoneNumberImpl implements VerifyPhoneNumber {
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
                         // Print Error!
-                        Log.e("intent22", jsonError);
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             String message = jsonObject_error.getString("message");
                             if (message.equalsIgnoreCase("unauthorized")) {
-                                onValidationError(ErrorType.UnAuthenticatedUser, "user is not authorized.");
+                                onValidationError(ErrorType.UN_AUTHENTICATED_USER, "user is not authorized.");
                             }
-                            if (jsonObject_error.has("errors")) {
-                                onError(new Exception(jsonObject_error.getJSONObject("errors").getString("errors")));
-                            }else
-                                onError(new Exception("something went wrong"));
+                            onValidationError(ErrorType.GENERAL, message);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -161,7 +155,6 @@ public abstract class VerifyPhoneNumberImpl implements VerifyPhoneNumber {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
@@ -170,7 +163,7 @@ public abstract class VerifyPhoneNumberImpl implements VerifyPhoneNumber {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("phone_number", phoneNumber);
+                map1.put("hash_check_token", hashCheckToken);
                 map1.put("otp", otp);
                 return map1;
             }
@@ -192,7 +185,8 @@ public abstract class VerifyPhoneNumberImpl implements VerifyPhoneNumber {
     public abstract void onValidationError(ErrorType errorType, String message);
 
     public enum ErrorType{
-        UnAuthenticatedUser
+        UN_AUTHENTICATED_USER,
+        GENERAL
     }
 
     public enum SuccessType {

@@ -16,6 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.jobtick.activities.ProfileActivity;
+import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.activities.UserProfileActivity;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.R;
@@ -150,8 +153,6 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         CardView cardImgFile;
         @BindView(R.id.lyt_btn_reply)
         LinearLayout lytBtnReply;
-        @BindView(R.id.img_more_less_arrow)
-        ImageView imgMoreLessArrow;
         @BindView(R.id.txt_more_less)
         TextView txtMoreLess;
         @BindView(R.id.lyt_btn_more)
@@ -264,14 +265,12 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     txtMessage.setMaxLines(Integer.MAX_VALUE);
                     lytBtnMore.setVisibility(View.VISIBLE);
                     txtMoreLess.setText("Less");
-                    imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_up_blue));
                     mItems.get(getAdapterPosition()).setStrMore("Less");
                     item.setStrMore("Less");
                 } else {
                     txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_2);
                     lytBtnMore.setVisibility(View.VISIBLE);
                     txtMoreLess.setText("More");
-                    imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_down_blue));
                     mItems.get(getAdapterPosition()).setStrMore("More");
                     item.setStrMore("More");
                 }
@@ -298,10 +297,8 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
 
             linearUserProfile.setOnClickListener(v -> {
-                Bundle bundleProfile = new Bundle();
-                bundleProfile.putInt(Constant.userID, item.getUser().getId());
-                Intent intent = new Intent(context, UserProfileActivity.class);
-                intent.putExtras(bundleProfile);
+                Intent intent = new Intent(context, ProfileActivity.class);
+                intent.putExtra("id",item.getUser().getId());
                 context.startActivity(intent);
             });
             PublicChatListAdapter publicChatListAdapter = new PublicChatListAdapter(context, new ArrayList<>());

@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jobtick.activities.ProfileActivity;
 import com.jobtick.activities.ReportActivity;
 import com.jobtick.utils.ConstantKey;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -181,9 +182,6 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         @BindView(R.id.lyt_btn_more)
         LinearLayout lytBtnMore;
         @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.img_more_less_arrow)
-        ImageView imgMoreLessArrow;
-        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.card_img_file)
         CardView cardImgFile;
 
@@ -306,20 +304,27 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
                 }
             });
 
+            imgAvatar.setOnClickListener(v -> {
+                Intent intent = new Intent(context, ProfileActivity.class);
+                intent.putExtra("id",item.getUser().getId());
+                context.startActivity(intent);
+            });
+
+            txtName.setOnClickListener(v -> {
+                imgAvatar.performClick();
+            });
 
             lytBtnMore.setOnClickListener(v -> {
                 if (item.getStrMore().equalsIgnoreCase("More")) {
                     txtMessage.setMaxLines(Integer.MAX_VALUE);
                     lytBtnMore.setVisibility(View.VISIBLE);
                     txtMoreLess.setText("Less");
-                    imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_up_blue));
                     mItems.get(getAdapterPosition()).setStrMore("Less");
                     item.setStrMore("Less");
                 } else {
                     txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
                     lytBtnMore.setVisibility(View.VISIBLE);
                     txtMoreLess.setText("More");
-                    imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_down_blue));
                     mItems.get(getAdapterPosition()).setStrMore("More");
                     item.setStrMore("More");
                 }

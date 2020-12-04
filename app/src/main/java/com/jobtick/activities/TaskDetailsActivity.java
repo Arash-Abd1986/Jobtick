@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -911,7 +912,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     public void getAllUserProfileDetails() {
-        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
                 response -> {
                     try {
@@ -921,18 +921,15 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                             userAccountModel = new UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"));
                         } else {
-                            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (JSONException e) {
-                        Toast.makeText(this, "JSONException", Toast.LENGTH_SHORT).show();
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
                     }
                 },
                 error -> {
                     errorHandle1(error.networkResponse);
-                    hideProgressDialog();
                 }) {
 
             @Override
@@ -1494,7 +1491,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     edtComment.setError("?");
                     return;
                 } else {
-                    attachmentArrayList_question.remove(attachmentArrayList_question.size() - 1);
+                    if(attachmentArrayList_question.size()>0)
+                        attachmentArrayList_question.remove(attachmentArrayList_question.size() - 1);
                     if (attachmentArrayList_question.size() == 0) {
                         postComment(
                                 edtComment.getText().toString().trim(),
@@ -1592,19 +1590,13 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 copyTask(taskModel);
                 break;
             case R.id.liAssign:
-                Bundle bundleProfile = new Bundle();
-                bundleProfile.putInt(Constant.userID, taskModel.getWorker().getId());
-                intent = new Intent(TaskDetailsActivity.this, UserProfileActivity.class);
-                intent.putExtras(bundleProfile);
-                startActivity(intent);
-                break;
-
+                Intent workerIntent = new Intent(TaskDetailsActivity.this, ProfileActivity.class);
+                workerIntent.putExtra("id",taskModel.getWorker().getId());
+                startActivity(workerIntent);
             case R.id.linearUserProfile:
-                Bundle bundle1 = new Bundle();
-                bundle1.putInt(Constant.userID, taskModel.getPoster().getId());
-                intent = new Intent(TaskDetailsActivity.this, UserProfileActivity.class);
-                intent.putExtras(bundle1);
-                startActivity(intent);
+                Intent posterIntent = new Intent(TaskDetailsActivity.this, ProfileActivity.class);
+                posterIntent.putExtra("id",taskModel.getPoster().getId());
+                startActivity(posterIntent);
                 break;
         }
     }
@@ -1814,6 +1806,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void postComment(String str_comment, ArrayList<AttachmentModel> attachmentModels) {
+        if(str_comment.length()<5) {
+            showToast("The question text must be at least 5 characters", this);
+            return
+        }
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_QUESTIONS + "/" + taskModel.getId() + "/create",
                 response -> {
@@ -1822,7 +1818,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            edtComment.setText(null);
+                            edtComment.setText("");
                             attachmentArrayList_question.clear();
                             attachmentArrayList_question.add(new AttachmentModel());
                             adapter.notifyDataSetChanged();
@@ -1848,6 +1844,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     NetworkResponse networkResponse = error.networkResponse;
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
+
                         // Print Error!
                         Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
@@ -2064,9 +2061,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 }
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled recording
-                Toast.makeText(getApplicationContext(),
-                        "User cancelled Pickup Image", Toast.LENGTH_SHORT)
-                        .show();
+
             } else {
                 // failed to record video
                 Toast.makeText(getApplicationContext(),

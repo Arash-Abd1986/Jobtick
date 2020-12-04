@@ -24,11 +24,11 @@
             app:civ_border="false" />
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/materialText_600_12"
+            style="@style/materialText_700_12"
             android:id="@+id/txt_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="9dp"
             android:layout_weight="1"
             android:singleLine="true"
             android:text="@string/nathan_fox"
@@ -45,8 +45,8 @@
             android:padding="3dp">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/_8dp"
                 android:padding="@dimen/spacing_small"
@@ -72,7 +72,7 @@
                 android:contentDescription="@string/todo" />
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_500_12"
+                style="@style/materialText_500_10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -91,7 +91,7 @@
         android:orientation="vertical">
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/materialText_500_14"
+            style="@style/materialText_500_12"
             android:id="@+id/txt_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -140,12 +140,6 @@
                 android:padding="@dimen/spacing_small"
                 tools:ignore="RelativeOverlap,RtlHardcoded">
 
-                <ImageView
-                    android:id="@+id/img_more_less_arrow"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_arrow_down_blue"
-                    android:contentDescription="@string/todo" />
 
                 <com.google.android.material.textview.MaterialTextView
                     style="@style/materialText_500_12"

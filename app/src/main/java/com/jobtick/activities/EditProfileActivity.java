@@ -478,6 +478,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
         edtFirstName.seteContent(userAccountModel.getFname());
         edtLastName.seteContent(userAccountModel.getLname());
+        edtLastName.seteContent(userAccountModel.getLname());
+        edtPhoneNumber.setText(userAccountModel.getMobile());
         //edtPaymentId.setText(userAccountModel.get());
         if (userAccountModel.getLocation() != null) {
             txtSuburb.seteContent(userAccountModel.getLocation());

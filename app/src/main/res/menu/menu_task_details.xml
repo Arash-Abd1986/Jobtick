@@ -50,7 +50,7 @@
             <group android:id="@+id/grp_increase_budget">
                 <item
                     android:id="@+id/action_increase_budget"
-                    android:icon="@drawable/ic_menu_dollar"
+                    android:icon="@drawable/ic_dollar_sign"
                     android:title="@string/increase_budget"
                     app:showAsAction="withText" />
             </group>

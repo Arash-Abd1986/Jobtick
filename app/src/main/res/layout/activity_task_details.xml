@@ -238,7 +238,7 @@
                             android:layout_marginEnd="@dimen/_3dp"
                             android:layout_weight="1"
                             android:background="@drawable/shape_tab_gray10"
-                            android:backgroundTint="@color/green_gray_selected"
+                            android:backgroundTint="@color/assigned_selected"
                             android:gravity="center"
                             android:singleLine="true"
                             android:text="@string/assigned"
@@ -723,27 +723,60 @@
                                 android:layout_toEndOf="@+id/img_avtar_worker"
                                 android:orientation="vertical">
 
-                                <com.jobtick.TextView.TextViewRegular
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_worker_name"
+                                    style="@style/materialText_600_10"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorPrimary" />
+                                    android:textColor="@color/textColor" />
 
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/txt_worker_location"
-                                    style="@style/materialText_500_10"
+                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:singleLine="true"
-                                    android:textColor="@color/grey_40" />
+                                    android:orientation="horizontal">
 
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/txt_worker_last_online"
-                                    style="@style/materialText_600_12"
+                                    <com.google.android.material.textview.MaterialTextView
+                                        style="@style/materialText_500_10"
+                                        android:id="@+id/txt_completion_rate"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="2dp"
+                                        android:text="@string/_00"
+                                        android:layout_marginEnd="5dp"
+                                        android:textColor="@color/green"/>
+
+                                    <com.google.android.material.textview.MaterialTextView
+                                        style="@style/materialText_500_10"
+                                        android:text="@string/job_success"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/_4f4f4f"/>
+                                </LinearLayout>
+
+
+                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/grey_40"
-                                    tools:ignore="SpUsage" />
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:id="@+id/ratingbar_worker"
+                                        android:layout_width="15dp"
+                                        android:layout_height="15dp"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/rating_fill"
+                                        android:contentDescription="@string/todo" />
+
+                                    <com.google.android.material.textview.MaterialTextView
+                                        style="@style/materialText_600_12"
+                                        android:id="@+id/txt_rating_value"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:gravity="center_vertical"
+                                        android:text="@string/_4_4_20"
+                                        android:textColor="#FF922B"/>
+                                </LinearLayout>
                             </LinearLayout>
                         </RelativeLayout>
 
@@ -758,6 +791,7 @@
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/card_private_chat"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="46dp"
                             android:layout_margin="@dimen/spacing_large"
@@ -765,13 +799,6 @@
                             android:elevation="@dimen/spacing_middle"
                             app:cardCornerRadius="@dimen/spacing_medium">
 
-                            <LinearLayout
-                                android:id="@+id/lyt_btn_private_chat"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="?attr/selectableItemBackground"
-                                android:gravity="center"
-                                android:orientation="vertical" />
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

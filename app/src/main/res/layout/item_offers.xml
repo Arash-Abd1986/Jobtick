@@ -75,17 +75,6 @@
                         android:visibility="gone"
                         android:contentDescription="@string/todo" />
 
-                    <ImageView
-                        android:id="@+id/img_verified_account"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="@dimen/spacing_small"
-                        android:layout_marginBottom="@dimen/spacing_small"
-                        android:background="@drawable/ic_correct"
-                        android:visibility="gone"
-                        android:contentDescription="@string/todo" />
                 </RelativeLayout>
 
                 <LinearLayout

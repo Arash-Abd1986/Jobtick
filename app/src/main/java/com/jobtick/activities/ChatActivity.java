@@ -220,7 +220,11 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             if (bundle.getParcelable(ConstantKey.CONVERSATION) != null) {
-                conversationModel = bundle.getParcelable(ConstantKey.CONVERSATION);
+                try {
+                    conversationModel = bundle.getParcelable(ConstantKey.CONVERSATION);
+                }catch (Exception e){
+
+                }
             }
         }
 

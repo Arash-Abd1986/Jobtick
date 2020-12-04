@@ -383,6 +383,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     }
 
     private void onChangeTabBiography() {
+        if(getContext()==null)
+            return;
         if (rbPortfollio.isChecked()) {
             //lytAbout.setVisibility(View.VISIBLE);
             if (attachmentArrayList.size() <= 0) {

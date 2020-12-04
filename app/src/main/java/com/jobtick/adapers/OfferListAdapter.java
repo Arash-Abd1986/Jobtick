@@ -219,9 +219,6 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.card_deleteOffer)
         CardView cardDeleteOffer;
 
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.img_verified_account)
-        ImageView imgVerifiedAccount;
 
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.linear_user_profile)
@@ -297,12 +294,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             }
 
-            if (item.getWorker().getIsVerifiedAccount() == 1) {
-                imgVerifiedAccount.setVisibility(View.VISIBLE);
-            } else {
-                imgVerifiedAccount.setVisibility(View.GONE);
 
-            }
             txtBudget.setText("$ " + item.getOfferPrice());
             txtName.setText(item.getWorker().getName());
             if (item.getWorker() != null && item.getWorker().getWorkerRatings() != null && item.getWorker().getWorkerRatings().getAvgRating() != null) {

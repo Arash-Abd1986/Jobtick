@@ -217,7 +217,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
         }
         if (Integer.parseInt(edtBudget.getText().toString()) < makeAnOfferModel.getOffer_price()) {
             if (showToast)
-                ((ActivityBase) requireActivity()).showToast("You can't offer lower than job budget.", requireContext());
+                ((ActivityBase) requireActivity()).showToast("You can't offer lower than poster offer.", requireContext());
             return false;
         }
         if (Integer.parseInt(edtBudget.getText().toString()) > 9999) {

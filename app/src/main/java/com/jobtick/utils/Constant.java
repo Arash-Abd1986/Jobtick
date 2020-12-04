@@ -126,6 +126,9 @@ public class Constant {
     // login
     public static String URL_SIGNIN_FACEBOOK = BASE_URL + "facebook/signin";
 
+    //email verification
+    public static String URL_EMAIL_VERIFICATION = BASE_URL + "email-verification";
+
 
     // Forgot Password
     public static String URL_FORGOT_PASSWORD = BASE_URL + "reset-password/verify";

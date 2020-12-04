@@ -1173,8 +1173,8 @@ public class AuthActivity extends ActivityBase {
                 map1.put("latitude", sessionManager.getLatitude());
                 map1.put("longitude", sessionManager.getLongitude());
 
-//                map1.put("fname", "user");
-//                map1.put("location", "no location");
+                map1.put("fname", "no name");
+                map1.put("location", "no location");
 
                 return map1;
             }
@@ -1279,6 +1279,108 @@ public class AuthActivity extends ActivityBase {
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("email", str_email);
                 map1.put("password", str_password);
+                map1.put("otp", str_otp);
+
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+    }
+
+    public void newVerification(String email, String otp) {
+        showProgressDialog();
+        String str_email = email;
+        String str_otp = otp;
+        Helper.closeKeyboard(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_EMAIL_VERIFICATION,
+                response -> {
+                    Log.e("responce_url", response);
+                    hideProgressDialog();
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(response);
+
+                        Log.e("json", jsonObject.toString());
+
+
+                        JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+
+                        sessionManager.setAccessToken(jsonObject_data.getString("access_token"));
+                        sessionManager.setTokenType(jsonObject_data.getString("token_type"));
+
+                        JSONObject jsonObject_user = jsonObject_data.getJSONObject("user");
+                        UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
+                        sessionManager.setUserAccount(userAccountModel);
+
+                        sessionManager.setLogin(true);
+
+                        //  showToast("Login SuccessFully!!!", AuthActivity.this);
+
+                        Intent intent = new Intent(AuthActivity.this, CompleteRegistrationActivity.class);
+                        openActivity(intent);
+
+
+                    } catch (JSONException e) {
+                        Log.e("EXCEPTION", String.valueOf(e));
+                        e.printStackTrace();
+
+                    }
+
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        NetworkResponse networkResponse = error.networkResponse;
+                        if (networkResponse != null && networkResponse.data != null) {
+                            String jsonError = new String(networkResponse.data);
+                            // Print Error!
+                            Log.e("intent22", jsonError);
+                            try {
+                                JSONObject jsonObject = new JSONObject(jsonError);
+                                JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                                String message = jsonObject_error.getString("message");
+                                if (message.equalsIgnoreCase("unauthorized")) {
+                                    Fragment fragment = new SignInFragment();
+                                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                                    ft.replace(R.id.container, fragment);
+                                    ft.commit();
+                                }
+                                if (jsonObject_error.has("errors")) {
+                                    JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                                }
+                                showToast(message, AuthActivity.this);
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            showToast("Something Went Wrong", AuthActivity.this);
+                        }
+                        Log.e("error", error.toString());
+                        hideProgressDialog();
+                    }
+                }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("email", str_email);
                 map1.put("otp", str_otp);
 
                 return map1;

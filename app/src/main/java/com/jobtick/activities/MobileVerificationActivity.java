@@ -1,47 +1,22 @@
 package com.jobtick.activities;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.fragment.app.Fragment;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.fragments.SignInFragment;
-import com.jobtick.utils.Constant;
+import com.jobtick.payment.VerifyPhoneNumber;
+import com.jobtick.payment.VerifyPhoneNumberImpl;
 import com.jobtick.widget.ExtendedEntryText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import timber.log.Timber;
+
+import static com.jobtick.activities.EditProfileActivity.PHONE_VERIFICATION_REQUEST_CODE;
 
 public class MobileVerificationActivity extends ActivityBase {
 
@@ -65,12 +40,12 @@ public class MobileVerificationActivity extends ActivityBase {
     @BindView(R.id.lyt_bottom)
     LinearLayout lytBottom;
     private String phoneNumber;
+    private boolean otpSent;
+
+    private VerifyPhoneNumber verifyPhoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mobile_verification);
         ButterKnife.bind(this);
@@ -80,19 +55,56 @@ public class MobileVerificationActivity extends ActivityBase {
         phoneVerifyMessage.setText(str);
         initToolbar();
 
-        getOTP(phoneNumber);
         lytBtnUpdate.setOnClickListener(v -> {
-            getOTPVerified(etOtp.getText());
+            if(otpSent){
+                if(!validationVerify()) return;
+                showProgressDialog();
+                verifyPhoneNumber.verify(etOtp.getText());
+            }
+            else{
+                MobileVerificationActivity.this.showToast("Request SMS verification first.", MobileVerificationActivity.this);
+            }
         });
-    }
 
+        verifyPhoneNumber = new VerifyPhoneNumberImpl(this, sessionManager) {
+            @Override
+            public void onSuccess(VerifyPhoneNumberImpl.SuccessType successType) {
+                MobileVerificationActivity.this.hideProgressDialog();
+                if(successType == VerifyPhoneNumberImpl.SuccessType.OTP){
+                    MobileVerificationActivity.this.showSuccessToast("SMS verification code is sent.", MobileVerificationActivity.this);
+                    otpSent = true;
+                }
+                else if( successType == VerifyPhoneNumberImpl.SuccessType.Verify){
+                    setResult(PHONE_VERIFICATION_REQUEST_CODE);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                MobileVerificationActivity.this.hideProgressDialog();
+                MobileVerificationActivity.this.showToast(e.getMessage(), MobileVerificationActivity.this);
+            }
+
+            @Override
+            public void onValidationError(VerifyPhoneNumberImpl.ErrorType errorType, String message) {
+                MobileVerificationActivity.this.hideProgressDialog();
+                if(errorType == VerifyPhoneNumberImpl.ErrorType.UN_AUTHENTICATED_USER)
+                    MobileVerificationActivity.this.unauthorizedUser();
+                else
+                    MobileVerificationActivity.this.showToast(message, MobileVerificationActivity.this);
+            }
+        };
+
+        verifyPhoneNumber.sendOTP(phoneNumber);
+    }
 
     private void initToolbar() {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Mobile number verification");
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -108,197 +120,11 @@ public class MobileVerificationActivity extends ActivityBase {
         super.onBackPressed();
     }
 
-
-    @SuppressLint("NonConstantResourceId")
-    @OnClick({R.id.lyt_btn_verify})
-    public void onViewClicked(View view) {
-        view.getId();
-    }
-
-    public void getOTP(String mobileNumber) {
-        showProgressDialog();
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_SEND_OTP,
-                response -> {
-
-                    hideProgressDialog();
-                    try {
-
-                        JSONObject jsonObject = new JSONObject(response);
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                showSuccessToast("Successfully sent",this);
-                            }
-                        }
-
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-
-                    }
-
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            String message = jsonObject_error.getString("message");
-                            if (message.equalsIgnoreCase("unauthorized")) {
-                                Fragment fragment = new SignInFragment();
-                            }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                                Log.d("OTP_ERRORS",jsonObject_errors.toString());
-
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        showToast("Something Went Wrong", MobileVerificationActivity.this);
-                    }
-                    hideProgressDialog();
-                }) {
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;}
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("mobile", mobileNumber);
-                map1.put("dialing_code", "+61");
-                return map1; }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
-
-    public void getOTPVerified
-            (String otp) {
-        if(otp.length()!=6) {
-            showToast("otp must be 6 digits",this);
+    private boolean validationVerify() {
+        if (etOtp.getText().length() != 6) {
+            etOtp.setError("Enter 6 digits verification code.");
+            return false;
         }
-        showProgressDialog();
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_OTP_VERIFICATION,
-                response -> {
-
-                    hideProgressDialog();
-                    try {
-
-                        JSONObject jsonObject = new JSONObject(response);
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                showSuccessToast("Verification Done! ",this);
-                            }
-                        }
-
-                    } catch (JSONException e) {
-                        Log.e("EXCEPTION", String.valueOf(e));
-                        e.printStackTrace();
-
-                    }
-
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Log.e("intent22", jsonError);
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            String message = jsonObject_error.getString("message");
-                            if (message.equalsIgnoreCase("unauthorized")) {
-                                Fragment fragment = new SignInFragment();
-                                //   switchContent(fragment);
-                              /*  FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                                ft.replace(R.id.container, fragment);
-                                ft.commit();*/
-                            }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            showToast(message, MobileVerificationActivity.this);
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        showToast("Something Went Wrong", MobileVerificationActivity.this);
-                    }
-                    hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("phone_number", phoneNumber);
-                map1.put("otp", otp);
-                return map1;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
+        return true;
     }
-    @SuppressLint("SetTextI18n")
-    private void showCustomDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_show_warning);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
-        txtMessage.setText("We have send OTP to your mobile number");
-
-        ((AppCompatButton) dialog.findViewById(R.id.btn_ok)).setOnClickListener(v -> {
-            dialog.dismiss();
-            Intent intent = new Intent(MobileVerificationActivity.this, MobileOtpVerifyActivity.class);
-            intent.putExtra("phone_number", phoneNumber);
-            startActivity(intent);
-            finish();
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-    }
-
-
 }

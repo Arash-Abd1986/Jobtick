@@ -106,7 +106,7 @@
         <activity android:name=".activities.FiltersActivity" />
         <activity android:name=".activities.AddTagActivity" />
         <activity android:name=".activities.AttachmentActivity" />
-        <activity android:name=".activities.MobileVerificationActivity" />
+        <activity android:name=".activities.MobileVerificationActivity" android:windowSoftInputMode="adjustPan|stateVisible" />
         <activity
             android:name=".activities.BillingAddressActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />

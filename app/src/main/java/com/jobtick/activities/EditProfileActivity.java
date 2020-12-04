@@ -103,6 +103,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private static final int GALLERY_PICKUP_VIDEO_REQUEST_CODE = 300;
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 5200;
     private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
+    public static final int PHONE_VERIFICATION_REQUEST_CODE = 500;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_first_name)
@@ -773,12 +774,13 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     }
 
     private void verifyPhone() {
-        if (edtPhoneNumber.length() != 11) {
+        //it should work with Australian Numbers, format: +61*********
+        if (edtPhoneNumber.length() != 12) {
             showToast("Please enter correct phone number", EditProfileActivity.this);
         } else {
             Intent intent = new Intent(this, MobileVerificationActivity.class);
             intent.putExtra("phone_number", edtPhoneNumber.getText().toString());
-            startActivity(intent);
+            startActivityForResult(intent, PHONE_VERIFICATION_REQUEST_CODE);
         }
 
 
@@ -976,6 +978,9 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                             "Sorry! Failed to Pickup Image", Toast.LENGTH_SHORT)
                             .show();
                 }
+            }
+            if (requestCode == PHONE_VERIFICATION_REQUEST_CODE && resultCode == RESULT_OK) {
+                getAllUserProfileDetails();
             }
 
 

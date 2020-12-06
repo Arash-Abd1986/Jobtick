@@ -140,6 +140,7 @@
                             android:textSize="@dimen/_11sp" />
 
                         <com.jobtick.TextView.TextViewMedium
+                            android:id="@+id/quickOfferDesc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"

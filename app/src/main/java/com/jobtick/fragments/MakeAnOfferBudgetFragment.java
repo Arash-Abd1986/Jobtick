@@ -81,6 +81,8 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
     private UserAccountModel userAccountModel;
     private SessionManager sessionManager;
 
+    private int posterBudget;
+
     public static MakeAnOfferBudgetFragment newInstance(MakeAnOfferModel makeAnOfferModel, BudgetCallbackFunction budgetCallbackFunction) {
 
         Bundle args = new Bundle();
@@ -118,6 +120,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
         userAccountModel = sessionManager.getUserAccount();
         if (getArguments() != null && getArguments().getParcelable(ConstantKey.MAKE_AN_OFFER_MODEL) != null) {
             makeAnOfferModel = getArguments().getParcelable(ConstantKey.MAKE_AN_OFFER_MODEL);
+            posterBudget = makeAnOfferModel.getOffer_price();
         }
         /*if (getArguments() != null && getArguments().getParcelable(ConstantKey.TASK) != null) {
             taskModel = getArguments().getParcelable(ConstantKey.TASK);
@@ -150,7 +153,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
 
     private void initLayout() {
         //edtBudget.setText(String.format("%d", makeAnOfferModel.getOffer_price()));
-        tvOffer.setText("$" + String.format("%d", makeAnOfferModel.getOffer_price()));
+        tvOffer.setText(String.format(Locale.ENGLISH, "$%d", posterBudget));
         txtAccountLevel.setText("Level " + userAccountModel.getWorkerTier().getId());
 
         if (userAccountModel.getWorkerTier().getId() == 1) {

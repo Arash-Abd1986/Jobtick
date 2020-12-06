@@ -62,6 +62,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -89,6 +90,9 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
     @BindView(R.id.saveQuickOfferTxt)
     TextView saveQuickOfferTxt;
+
+    @BindView(R.id.quickOfferDesc)
+    TextView quickOfferDesc;
 
     @BindView(R.id.lyt_btn_make_a_live_video)
     LinearLayout lytBtnMakeALiveVideo;
@@ -221,6 +225,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
             } else if (currentText.equals("")) {
                 saveQuickOfferTxt.setEnabled(true);
                 saveQuickOfferTxt.setText("Use Quick Offer");
+                quickOfferDesc.setText(String.format(Locale.ENGLISH, "%s...", quickOffer.trim().substring(0, 19)));
                 saveQuickOfferTxt.setOnClickListener(v -> edtDescription.setText(quickOffer));
             } else {
                 saveQuickOfferTxt.setOnClickListener(v -> {

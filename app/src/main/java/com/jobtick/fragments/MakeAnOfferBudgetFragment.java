@@ -206,7 +206,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
                 ((ActivityBase) requireActivity()).showToast("You can't offer lower than 5 dollars.", requireContext());
             return false;
         }
-        if (Integer.parseInt(edtBudget.getText().toString()) < makeAnOfferModel.getOffer_price()) {
+        if (Integer.parseInt(edtBudget.getText().toString()) < taskModel.getBudget()) {
             if (showToast)
                 ((ActivityBase) requireActivity()).showToast("You can't offer lower than poster offer.", requireContext());
             return false;

@@ -121,7 +121,7 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
 
     @Override
     public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-        if (actionId == EditorInfo.IME_ACTION_DONE) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
             //set adapter to online mode (previewMode will be false)
             setOnlineAdapter();
             setLoadMoreListener();

@@ -1,5 +1,6 @@
 package com.jobtick.activities;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -61,6 +62,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
+import butterknife.BindView;
 import timber.log.Timber;
 
 import static com.jobtick.utils.ConstantKey.PUSH_COMMENT;
@@ -83,6 +85,9 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     TextView myBalance;
 
     private CreditCardModel creditCardModel;
+
+    @SuppressLint("NonConstantResourceId")
+    ImageView ivNotification;
 
 
     public static onProfileUpdateListener onProfileupdatelistenerSideMenu;
@@ -159,6 +164,12 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
+
+        ivNotification = findViewById(R.id.ivNotification);
+        ivNotification.setOnClickListener(v ->{
+            Intent intent = new Intent(this, NotificationActivity.class);
+            startActivity(intent);
+        });
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {

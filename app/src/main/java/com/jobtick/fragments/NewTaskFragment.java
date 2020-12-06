@@ -27,6 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jobtick.R;
 import com.jobtick.activities.CategoryListActivity;
 import com.jobtick.activities.DashboardActivity;
+import com.jobtick.activities.SearchTaskActivity;
 import com.jobtick.adapers.TaskCategoryAdapter;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.SessionManager;
@@ -82,9 +83,15 @@ public class NewTaskFragment extends Fragment {
             creating_task.putExtras(bundle);
             getContext().startActivity(creating_task);
         });
+
         posterCard.setOnClickListener(v -> {
             lytBtnPost.performClick();
         });
+        tickerCard.setOnClickListener(v -> {
+            Intent searchTask = new Intent(getActivity(), SearchTaskActivity.class);
+            getContext().startActivity(searchTask);
+        });
+
         sessionManager = new SessionManager(getContext());
         name.setText(sessionManager.getUserAccount().getName());
         final ViewTreeObserver observer = scrollView.getViewTreeObserver();

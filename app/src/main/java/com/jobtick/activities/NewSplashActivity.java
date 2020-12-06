@@ -86,10 +86,19 @@ public class NewSplashActivity extends AppCompatActivity {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        Intent sign = new Intent(NewSplashActivity.this, SinginSingupAcitivity.class);
+                        sign.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        sign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(sign);
+                        finish();
                     }
                 },
                 error -> {
-
+                    Intent sign = new Intent(NewSplashActivity.this, SinginSingupAcitivity.class);
+                    sign.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    sign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(sign);
+                    finish();
                 }) {
 
 

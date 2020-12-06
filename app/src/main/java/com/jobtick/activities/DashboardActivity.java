@@ -219,6 +219,10 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
         if(getIntent().getBooleanExtra(ConstantKey.GO_TO_MY_JOBS, false))
             navController.navigate(R.id.navigation_my_tasks);
+
+        //TODO: when this activity is openning again, (for second time) tool bar background becomes white.
+        //the workaround is here but need to fix it in true way.
+        toolbar.setBackgroundResource(R.color.backgroundLightGrey);
     }
 
     @Override

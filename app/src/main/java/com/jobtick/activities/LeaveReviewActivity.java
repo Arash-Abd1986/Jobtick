@@ -162,7 +162,7 @@ public class LeaveReviewActivity extends ActivityBase {
                 reviews = taskModel.getPoster().getPosterRatings().getReceivedReviews();
 
             accountRating.setText(
-                    String.format(Locale.ENGLISH, "%d (%d)",
+                    String.format(Locale.ENGLISH, "  %d (%d)",
                            avgRating, reviews));
 
         } else {
@@ -194,11 +194,8 @@ public class LeaveReviewActivity extends ActivityBase {
                 reviews = taskModel.getWorker().getWorkerRatings().getReceivedReviews();
 
             accountRating.setText(
-                    String.format(Locale.ENGLISH, "%d (%d)",
+                    String.format(Locale.ENGLISH, "  %d (%d)",
                             avgRating, reviews));
-
-            accountRating.setText(
-                    String.format(Locale.ENGLISH, "%d (%d)", avgRating, reviews));
         }
 
         ratingbar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {

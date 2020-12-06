@@ -151,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/location_container"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="8dp"
                 android:layout_toEndOf="@id/separator"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -183,7 +183,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/calendar_container"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
                 android:layout_toEndOf="@id/separator"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">

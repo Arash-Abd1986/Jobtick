@@ -62,7 +62,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:overScrollMode="never"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    tools:listitem="@layout/item_task_view"/>
 
             </FrameLayout>
 

@@ -52,7 +52,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickListener, TextWatcher {
+public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
 
     @BindView(R.id.edt_budget)
     ExtendedEntryText edtBudget;
@@ -137,6 +137,15 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
             }
         });
         edtBudget.addTextChangedListener(this);
+
+        btnNext.setOnClickListener(v -> {
+            if (budgetCallbackFunction != null) {
+                if (!validation(true)) return;
+
+                makeAnOfferModel.setOffer_price(Integer.parseInt(edtBudget.getText().toString().trim()));
+                budgetCallbackFunction.continueButtonBudget(makeAnOfferModel);
+            }
+        });
     }
 
     private void initLayout() {
@@ -156,28 +165,6 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
         } else if (userAccountModel.getWorkerTier().getId() == 4) {
             //TODO change image level 4
             imgLevel.setImageDrawable(makeAnOfferActivity.getResources().getDrawable(R.drawable.ic_medal4));
-        }
-    }
-
-    @OnClick({R.id.btn_next})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-
-            case R.id.btn_next:
-                if (budgetCallbackFunction != null) {
-                    if (!validation(true)) return;
-
-                    makeAnOfferModel.setOffer_price(Integer.parseInt(edtBudget.getText().toString().trim()));
-                    budgetCallbackFunction.continueButtonBudget(makeAnOfferModel);
-                }
-                break;
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (budgetCallbackFunction != null) {
-            budgetCallbackFunction.backButtonBudget();
         }
     }
 

@@ -196,8 +196,8 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
         btnNext.setEnabled(true);
 
         if(!validation(false)){
-            txtServiceFee.setText("00");
-            txtFinalBudget.setText("00");
+            txtServiceFee.setText("$00");
+            txtFinalBudget.setText("$00");
             txtCurrentServiceFee.setText("0%");
             return;
         }
@@ -238,8 +238,8 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
                         String data = jsonObject.getString("data");
 
                         EarningCalculationModel model = gson.fromJson(data, EarningCalculationModel.class);
-                        txtServiceFee.setText(String.format(Locale.ENGLISH, "%.1f", (model.getServiceFee() + model.getGstAmount())));
-                        txtFinalBudget.setText(String.format(Locale.ENGLISH, "%.1f", model.getNetEarning()));
+                        txtServiceFee.setText(String.format(Locale.ENGLISH, "$%.1f", (model.getServiceFee() + model.getGstAmount())));
+                        txtFinalBudget.setText(String.format(Locale.ENGLISH, "$%.1f", model.getNetEarning()));
                         txtCurrentServiceFee.setText(String.format(Locale.ENGLISH, "%s", model.getServiceFeeRate()));
 
                     } catch (JSONException e) {

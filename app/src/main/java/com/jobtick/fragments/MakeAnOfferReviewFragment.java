@@ -24,6 +24,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.jobtick.R;
+import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.activities.VideoPlayerActivity;
 import com.jobtick.models.MakeAnOfferModel;
@@ -188,6 +189,10 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
                 }
                 break;
             case R.id.img_btn_play:
+                if(makeAnOfferModel.getAttachment() == null || makeAnOfferModel.getAttachment().getUrl() == null){
+                    ((ActivityBase)requireActivity()).showToast("Sorry, there is no video to play.", requireContext());
+                    return;
+                }
                 Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
                 intent.putExtra(ConstantKey.VIDEO_PATH, "" + makeAnOfferModel.getAttachment().getUrl());
                 getActivity().startActivity(intent);

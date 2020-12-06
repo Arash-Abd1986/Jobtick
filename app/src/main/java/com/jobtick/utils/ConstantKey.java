@@ -153,6 +153,8 @@ public class ConstantKey {
     public static final String ALL_MY_JOBS_URL_FILTER = "?mytask=draft,open,assigned,offered,completed,closed,cancelled";
     public static boolean IS_CHAT_SCREEN = false;
 
+    public static final String GO_TO_MY_JOBS = "go to my jobs";
+
 
     //  public static ArrayList<Integer> integerArrayList = new ArrayList<>();
 }

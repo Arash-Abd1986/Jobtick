@@ -13,6 +13,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewBold;
 import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.models.TaskModel;
+import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 
 import butterknife.BindView;
@@ -36,6 +38,8 @@ public class CompleteMessageActivity extends AppCompatActivity {
     LinearLayout lytBtnFinish;
 
     public int from = 0;
+
+    private TaskModel taskModel;
 
 
     @BindView(R.id.linearTaskCompleted)
@@ -68,6 +72,9 @@ public class CompleteMessageActivity extends AppCompatActivity {
             }
             if (bundle.containsKey(ConstantKey.COMPLETES_MESSAGE_FROM)) {
                 from = bundle.getInt(ConstantKey.COMPLETES_MESSAGE_FROM, 0);
+            }
+            if(bundle.containsKey(ConstantKey.TASK)){
+                taskModel = bundle.getParcelable(ConstantKey.TASK);
             }
         }
 
@@ -126,7 +133,9 @@ public class CompleteMessageActivity extends AppCompatActivity {
                 break;
             case R.id.lyt_btn_view_your_job:
                 //TODO: go to my job fragment
-
+                Intent intent = new Intent(this, DashboardActivity.class);
+                intent.putExtra(ConstantKey.GO_TO_MY_JOBS, true);
+                startActivity(intent);
                 break;
             case R.id.lyt_btn_new_job:
 

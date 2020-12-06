@@ -451,5 +451,7 @@
     <string name="cash_out">Cash Out</string>
     <string name="message">Message</string>
     <string name="content_description">slider</string>
+    <string name="use_quick_offer">Use Quick Offer</string>
+    <string name="job_details">Job details</string>
 
 </resources>

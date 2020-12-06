@@ -140,13 +140,14 @@
                             android:textSize="@dimen/_11sp" />
 
                         <com.jobtick.TextView.TextViewMedium
+                            android:id="@+id/quickOfferDesc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:gravity="center_vertical"
                             android:paddingLeft="@dimen/_15sp"
                             android:paddingRight="@dimen/_15sp"
-                            android:text="This is quick offer ..."
+                            tools:text="This is quick offer ..."
                             android:textColor="@color/grey_70"
                             android:textSize="@dimen/_10sp" />
 

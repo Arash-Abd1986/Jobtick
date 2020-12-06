@@ -122,21 +122,14 @@
                             android:layout_marginBottom="-2dp"
                             android:orientation="horizontal">
 
-                            <View
-                                android:id="@+id/star"
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:layout_gravity="center_vertical"
-                                android:background="@drawable/ic_star_hollow_tiny" />
-
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/account_rating"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginStart="6dp"
+                                android:drawableStart="@drawable/ic_star_hollow_tiny"
                                 android:gravity="center_vertical"
-                                android:text="4.4 (20)"
+                                android:text="  4.4 (20)"
                                 android:textAppearance="@style/materialText_600_12"
                                 android:textColor="@color/userRating" />
                         </LinearLayout>
@@ -332,6 +325,10 @@
                 app:eMaxCharSize="300"
                 app:eMinCharSize="10"
                 app:eTitle="Write review" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="80dp"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

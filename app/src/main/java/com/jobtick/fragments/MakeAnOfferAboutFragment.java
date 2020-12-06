@@ -36,6 +36,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.activities.VideoPlayerActivity;
 import com.jobtick.utils.ImageUtil;
@@ -62,6 +63,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -89,6 +91,9 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
     @BindView(R.id.saveQuickOfferTxt)
     TextView saveQuickOfferTxt;
+
+    @BindView(R.id.quickOfferDesc)
+    TextView quickOfferDesc;
 
     @BindView(R.id.lyt_btn_make_a_live_video)
     LinearLayout lytBtnMakeALiveVideo;
@@ -175,7 +180,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
         View view = inflater.inflate(R.layout.fragment_make_an_offer_about, container, false);
         ButterKnife.bind(this, view);
         mBehavior = BottomSheetBehavior.from(bottomSheet);
-        SessionManager sessionManager = new SessionManager(getContext());
+        sessionManager = new SessionManager(getContext());
 
         quickOffer = sessionManager.getQuickOffer();
 
@@ -221,11 +226,11 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
             } else if (currentText.equals("")) {
                 saveQuickOfferTxt.setEnabled(true);
                 saveQuickOfferTxt.setText("Use Quick Offer");
+                loadQuickOffer();
                 saveQuickOfferTxt.setOnClickListener(v -> edtDescription.setText(quickOffer));
             } else {
                 saveQuickOfferTxt.setOnClickListener(v -> {
-                    Toast.makeText(getContext(), "Quick offer saved", Toast.LENGTH_SHORT).show();
-                    sessionManager.setQuickOffer(currentText);
+                    saveQuickOffer(currentText);
                 });
                 saveQuickOfferTxt.setEnabled(true);
                 saveQuickOfferTxt.setText("Update Quick Offer");
@@ -234,8 +239,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
             saveQuickOfferTxt.setText("Save as a Quick Offer");
 
             saveQuickOfferTxt.setOnClickListener(v -> {
-                Toast.makeText(getContext(), "Quick offer saved", Toast.LENGTH_SHORT).show();
-                sessionManager.setQuickOffer(currentText);
+                saveQuickOffer(currentText);
             });
 
             if (currentText.equals("")) {
@@ -248,6 +252,17 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                 saveQuickOfferTxt.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_save_as_quick_offer_enabled));
             }
         }
+    }
+
+    private void saveQuickOffer(String currentQuickOffer){
+        ((ActivityBase)requireActivity()).showSuccessToast("Quick offer saved", getContext());
+        quickOfferDesc.setText(String.format(Locale.ENGLISH, "%s...", currentQuickOffer.trim().substring(0, Math.min(currentQuickOffer.trim().length() - 1, 19))));
+        sessionManager.setQuickOffer(currentQuickOffer);
+    }
+
+    private void loadQuickOffer(){
+        String quickOffer = sessionManager.getQuickOffer();
+        quickOfferDesc.setText(String.format(Locale.ENGLISH, "%s...", quickOffer.trim().substring(0, Math.min(quickOffer.trim().length() - 1, 19))));
     }
 
     private void setLayoout() {

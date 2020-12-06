@@ -30,7 +30,9 @@ import com.google.gson.Gson;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.MakeAnOfferActivity;
+import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.MakeAnOfferModel;
+import com.jobtick.models.TaskModel;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.models.calculation.EarningCalculationModel;
 import com.jobtick.utils.Constant;
@@ -52,7 +54,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickListener, TextWatcher {
+public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
 
     @BindView(R.id.edt_budget)
     ExtendedEntryText edtBudget;
@@ -79,6 +81,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
     private MakeAnOfferActivity makeAnOfferActivity;
     BudgetCallbackFunction budgetCallbackFunction;
     private UserAccountModel userAccountModel;
+    private TaskModel taskModel;
     private SessionManager sessionManager;
 
     public static MakeAnOfferBudgetFragment newInstance(MakeAnOfferModel makeAnOfferModel, BudgetCallbackFunction budgetCallbackFunction) {
@@ -122,6 +125,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
         /*if (getArguments() != null && getArguments().getParcelable(ConstantKey.TASK) != null) {
             taskModel = getArguments().getParcelable(ConstantKey.TASK);
         }*/
+        taskModel = TaskDetailsActivity.taskModel;
         if (makeAnOfferModel != null) {
             initLayout();
         }
@@ -137,11 +141,20 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
             }
         });
         edtBudget.addTextChangedListener(this);
+
+        btnNext.setOnClickListener(v -> {
+            if (budgetCallbackFunction != null) {
+                if (!validation(true)) return;
+
+                makeAnOfferModel.setOffer_price(Integer.parseInt(edtBudget.getText().toString().trim()));
+                budgetCallbackFunction.continueButtonBudget(makeAnOfferModel);
+            }
+        });
     }
 
     private void initLayout() {
         //edtBudget.setText(String.format("%d", makeAnOfferModel.getOffer_price()));
-        tvOffer.setText("$" + String.format("%d", makeAnOfferModel.getOffer_price()));
+        tvOffer.setText(String.format(Locale.ENGLISH, "$%d", taskModel.getBudget()));
         txtAccountLevel.setText("Level " + userAccountModel.getWorkerTier().getId());
 
         if (userAccountModel.getWorkerTier().getId() == 1) {
@@ -156,28 +169,6 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
         } else if (userAccountModel.getWorkerTier().getId() == 4) {
             //TODO change image level 4
             imgLevel.setImageDrawable(makeAnOfferActivity.getResources().getDrawable(R.drawable.ic_medal4));
-        }
-    }
-
-    @OnClick({R.id.btn_next})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-
-            case R.id.btn_next:
-                if (budgetCallbackFunction != null) {
-                    if (!validation(true)) return;
-
-                    makeAnOfferModel.setOffer_price(Integer.parseInt(edtBudget.getText().toString().trim()));
-                    budgetCallbackFunction.continueButtonBudget(makeAnOfferModel);
-                }
-                break;
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (budgetCallbackFunction != null) {
-            budgetCallbackFunction.backButtonBudget();
         }
     }
 
@@ -196,8 +187,8 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
         btnNext.setEnabled(true);
 
         if(!validation(false)){
-            txtServiceFee.setText("00");
-            txtFinalBudget.setText("00");
+            txtServiceFee.setText("$00");
+            txtFinalBudget.setText("$00");
             txtCurrentServiceFee.setText("0%");
             return;
         }
@@ -215,7 +206,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
                 ((ActivityBase) requireActivity()).showToast("You can't offer lower than 5 dollars.", requireContext());
             return false;
         }
-        if (Integer.parseInt(edtBudget.getText().toString()) < makeAnOfferModel.getOffer_price()) {
+        if (Integer.parseInt(edtBudget.getText().toString()) < taskModel.getBudget()) {
             if (showToast)
                 ((ActivityBase) requireActivity()).showToast("You can't offer lower than poster offer.", requireContext());
             return false;
@@ -238,8 +229,8 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
                         String data = jsonObject.getString("data");
 
                         EarningCalculationModel model = gson.fromJson(data, EarningCalculationModel.class);
-                        txtServiceFee.setText(String.format(Locale.ENGLISH, "%.1f", (model.getServiceFee() + model.getGstAmount())));
-                        txtFinalBudget.setText(String.format(Locale.ENGLISH, "%.1f", model.getNetEarning()));
+                        txtServiceFee.setText(String.format(Locale.ENGLISH, "$%.1f", (model.getServiceFee() + model.getGstAmount())));
+                        txtFinalBudget.setText(String.format(Locale.ENGLISH, "$%.1f", model.getNetEarning()));
                         txtCurrentServiceFee.setText(String.format(Locale.ENGLISH, "%s", model.getServiceFeeRate()));
 
                     } catch (JSONException e) {

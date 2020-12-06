@@ -1353,7 +1353,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         setOfferView(taskModel.getOfferCount());
         setQuestionView(taskModel.getQuestionCount());
         initIncreaseBudget();
-        budget.setText("$ " + taskModel.getBudget());
+        budget.setText("$" + taskModel.getBudget());
         setAttachmentAndSlider();
         setWorker();
     }

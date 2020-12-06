@@ -216,6 +216,9 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 }
             }
         }
+
+        if(getIntent().getBooleanExtra(ConstantKey.GO_TO_MY_JOBS, false))
+            navController.navigate(R.id.navigation_my_tasks);
     }
 
     @Override

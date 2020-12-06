@@ -136,7 +136,6 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
                 expYear = selectedYear;
                 edtExpiryDate.setText(selectedMonth + " /" + selectedYear);
                 Log.d("aa", "selectedMonth : " + selectedMonth + " selectedYear : " + selectedYear);
-                Toast.makeText(requireContext(), "Date set with month " + selectedMonth + " year " + selectedYear, Toast.LENGTH_SHORT).show();
             }
         }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
 

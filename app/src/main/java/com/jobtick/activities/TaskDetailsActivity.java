@@ -453,6 +453,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusOverdue.setSelected(false);
                 txtStatusReviewed.setSelected(false);
                 txtStatusOpen.setVisibility(View.VISIBLE);
+                cardMakeAnOffer.setBackgroundTintList(ContextCompat.getColorStateList(TaskDetailsActivity.this,
+                        R.color.colorTaskAssigned));
                 txtStatusAssigned.setVisibility(View.VISIBLE);
                 txtStatusCompleted.setVisibility(View.VISIBLE);
                 txtStatusCancelled.setVisibility(View.GONE);
@@ -484,7 +486,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 //                        cardPrivateChat.setVisibility(View.GONE);
                     } else {
                         cardMakeAnOffer.setVisibility(View.VISIBLE);
-                        cardMakeAnOffer.setCardBackgroundColor(ContextCompat.getColor(this, R.color.colorTaskAssigned));
                         txtBtnText.setText(ConstantKey.BTN_ASK_TO_RELEASE_MONEY);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_copy, true);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, true);
@@ -522,7 +523,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.GONE);
                 lineOpenState.setVisibility(View.GONE);
-
+                cardMakeAnOffer.setCardBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+                cardMakeAnOffer.setBackgroundTintList(ContextCompat.getColorStateList(TaskDetailsActivity.this,
+                        R.color.colorPrimary));
 
                 if (isMyTask) {
                     //poster task
@@ -570,7 +573,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             case TASK_CANCELLED:
                 cardMakeAnOffer.setVisibility(View.GONE);
                 lineOpenState.setVisibility(View.GONE);
-
+                cardMakeAnOffer.setBackgroundTintList(ContextCompat.getColorStateList(TaskDetailsActivity.this,
+                        R.color.colorPrimary));
                 txtStatusOpen.setSelected(false);
                 txtStatusAssigned.setSelected(false);
                 txtStatusCompleted.setSelected(false);
@@ -618,7 +622,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusCancelled.setVisibility(View.GONE);
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.GONE);
-
+                cardMakeAnOffer.setBackgroundTintList(ContextCompat.getColorStateList(TaskDetailsActivity.this,
+                        R.color.colorPrimary));
                 if (isMyTask) {
                     txtStatusOverdue.setVisibility(View.VISIBLE);
                     // poster task
@@ -2453,6 +2458,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void initAskToRelease() {
+
         if (alertType == AlertType.RELEASE_MONEY) {
             hideAlertBox();
         }

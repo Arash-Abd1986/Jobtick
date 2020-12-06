@@ -4,8 +4,7 @@
         <layer-list>
             <item
                 android:drawable="@drawable/ic_delete"
-                android:start="@dimen/spacing_middle"
-                android:end="@dimen/spacing_middle"/>
+                />
         </layer-list>
     </item>
 

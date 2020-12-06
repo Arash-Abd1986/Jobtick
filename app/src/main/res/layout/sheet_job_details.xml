@@ -46,7 +46,7 @@
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/ivAvatar"
             android:layout_width="32dp"
-            android:layout_height="match_parent"
+            android:layout_height="32dp"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:src="@drawable/ic_place_holder" />
@@ -115,7 +115,7 @@
             android:textAppearance="@style/materialText_500_14"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="32dp"
-            android:text="Excepteur qui qui fugiat et esse palar voluptate exercitation esse officia cillum occaecat culpa pariatur. Nisi in ut tempor laborum are officia dolore ad occaecat. Anim a voluptate proident ea commodo qui velit officia minim."
+            tools:text="Excepteur qui qui fugiat et esse palar voluptate exercitation esse officia cillum occaecat culpa pariatur. Nisi in ut tempor laborum are officia dolore ad occaecat. Anim a voluptate proident ea commodo qui velit officia minim."
             android:textColor="@color/textColor" />
 
 </LinearLayout>

@@ -1292,7 +1292,7 @@ public class AuthActivity extends ActivityBase {
 
     }
 
-    public void newVerification(String email, String otp) {
+    public void newEmailVerification(String email, String otp) {
         showProgressDialog();
         String str_email = email;
         String str_otp = otp;
@@ -1493,6 +1493,90 @@ public class AuthActivity extends ActivityBase {
 
         Helper.closeKeyboard(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_RESEND_OTP,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("responce_url", response);
+
+                        hideProgressDialog();
+                        onResendOtp.success();
+                    }
+                },
+                error -> {
+                    onResendOtp.failure();
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Log.e("intent22", jsonError);
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+                            String message = jsonObject_error.getString("message");
+                            if (jsonObject_error.has("error_code")) {
+                                if (jsonObject_error.getInt("error_code") == 1002) {
+                                    // resendOtp(str_email,str_password);
+                                }
+                            }
+
+                            if (jsonObject_error.has("errors")) {
+
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+
+                                String error_email = null;
+                                if (jsonObject_errors.has("email")) {
+                                    JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
+                                    error_email = jsonArray_mobile.getString(0);
+                                }
+                                editTextError.error(error_email, "");
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", AuthActivity.this);
+                    }
+                    Log.e("error", error.toString());
+                    hideProgressDialog();
+                }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("email", str_email);
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+    }
+
+    public void newResendOtp(String email) {
+        showProgressDialog();
+        String str_email = email;
+
+        Helper.closeKeyboard(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_NEW_RESEND_OTP,
                 new Response.Listener<String>() {
 
                     @Override

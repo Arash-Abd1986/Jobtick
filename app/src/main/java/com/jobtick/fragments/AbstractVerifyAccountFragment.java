@@ -77,7 +77,7 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
         emailVerifyMessage.setText(email);
         authActivity.setOnResendOtp(this);
 
-        timer = new CountDownTimer(600000, 1000) {
+        timer = new CountDownTimer(6000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 timeLimit.setText(
@@ -133,7 +133,7 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
                 whatNext();
                 break;
             case R.id.resend_otp:
-                authActivity.resendOtp(email);
+                authActivity.newResendOtp(email);
                 break;
         }
     }
@@ -154,7 +154,7 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
 
     @Override
     public void success() {
-        authActivity.showToast("Code resent successfully.", getContext());
+        authActivity.showSuccessToast("Code resent successfully.", getContext());
         timer.start();
     }
 

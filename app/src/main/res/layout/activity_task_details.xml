@@ -501,8 +501,10 @@
 
                         </androidx.cardview.widget.CardView>
                         <View
+                            android:id="@+id/lineOpen"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/spacing_line"
+                            android:visibility="gone"
                             android:layout_marginTop="15dp"
                             android:background="@color/grey_10" />
                         <RelativeLayout

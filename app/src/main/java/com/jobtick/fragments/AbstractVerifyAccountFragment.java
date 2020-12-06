@@ -77,7 +77,7 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
         emailVerifyMessage.setText(email);
         authActivity.setOnResendOtp(this);
 
-        timer = new CountDownTimer(90000, 1000) {
+        timer = new CountDownTimer(600000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 timeLimit.setText(

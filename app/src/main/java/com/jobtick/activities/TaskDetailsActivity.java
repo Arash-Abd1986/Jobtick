@@ -134,6 +134,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.alert_box)
     ExtendedAlertBox alertBox;
 
+
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -238,7 +239,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_worker_name)
     TextView txtWorkerName;
-
+    @BindView(R.id.lineOpen)
+    View lineOpenState;
 //    @SuppressLint("NonConstantResourceId")
 //    @BindView(R.id.card_private_chat)
 //    CardView cardPrivateChat;
@@ -457,7 +459,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.GONE);
                 txtStatusOpen.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_tab_primary_2dp));
-
                 if (isMyTask) {
                     cardMakeAnOffer.setVisibility(View.VISIBLE);
                     txtBtnText.setText(ConstantKey.BTN_ASSIGNED);
@@ -470,6 +471,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     //Cancellation
 
                 } else {
+                    lineOpenState.setVisibility(View.GONE);
+
                     // worker task
                     if (noActionAvailable) {
                         cardMakeAnOffer.setVisibility(View.GONE);
@@ -481,6 +484,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 //                        cardPrivateChat.setVisibility(View.GONE);
                     } else {
                         cardMakeAnOffer.setVisibility(View.VISIBLE);
+                        cardMakeAnOffer.setCardBackgroundColor(ContextCompat.getColor(this, R.color.colorTaskAssigned));
                         txtBtnText.setText(ConstantKey.BTN_ASK_TO_RELEASE_MONEY);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_copy, true);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, true);
@@ -517,6 +521,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusCancelled.setVisibility(View.GONE);
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.GONE);
+                lineOpenState.setVisibility(View.GONE);
 
 
                 if (isMyTask) {
@@ -564,6 +569,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 break;
             case TASK_CANCELLED:
                 cardMakeAnOffer.setVisibility(View.GONE);
+                lineOpenState.setVisibility(View.GONE);
 
                 txtStatusOpen.setSelected(false);
                 txtStatusAssigned.setSelected(false);
@@ -599,6 +605,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 break;
             case Constant.TASK_OVERDUE:
             case Constant.TASK_COMPLETED:
+                lineOpenState.setVisibility(View.VISIBLE);
                 txtStatusOpen.setSelected(false);
                 txtStatusAssigned.setSelected(false);
                 txtStatusCompleted.setSelected(true);
@@ -651,6 +658,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             case Constant.TASK_DRAFT:
                 break;
             case Constant.TASK_CLOSED:
+                lineOpenState.setVisibility(View.VISIBLE);
                 txtStatusOpen.setSelected(false);
                 txtStatusAssigned.setSelected(false);
                 txtStatusCompleted.setSelected(false);

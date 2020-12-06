@@ -2768,15 +2768,4 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         CANCELLED
         //more we add later
     }
-
-//    private String findCancellerName(){
-//
-//        ArrayList<OfferModel> offers = taskModel.getOffers();
-//
-//        OfferModel offerModel = offers.stream().filter(offer -> Objects.equals(
-//                offer.getWorker().getId(),
-//                taskModel.getCancellation().getRequesterId())).collect(Collectors.toList()).get(0);
-//
-//        return offerModel.getWorker().getName();
-//    }
 }

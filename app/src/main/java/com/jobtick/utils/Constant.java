@@ -126,6 +126,9 @@ public class Constant {
     // login
     public static String URL_SIGNIN_FACEBOOK = BASE_URL + "facebook/signin";
 
+    //email verification
+    public static String URL_EMAIL_VERIFICATION = BASE_URL + "email-verification";
+
 
     // Forgot Password
     public static String URL_FORGOT_PASSWORD = BASE_URL + "reset-password/verify";
@@ -135,6 +138,10 @@ public class Constant {
     //Mobile verification
     public static String URL_SEND_OTP = BASE_URL + "account/phone_send_otp";
     public static String URL_OTP_VERIFICATION = BASE_URL + "account/phone_verification";
+
+
+    public static String URL_OFFERS_EARNING_CALCULATION = BASE_URL + "offers/earning_calculation";
+
 
     public static String CASH_OUT = "cash out";
 

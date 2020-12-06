@@ -92,7 +92,7 @@
             android:name=".activities.PublicChatActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activities.PortfolioActivity" />
-        <activity android:name=".activities.MakeAnOfferActivity" />
+        <activity android:name=".activities.MakeAnOfferActivity" android:windowSoftInputMode="adjustPan|stateVisible" />
         <activity
             android:name=".activities.TaskDetailsActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -146,7 +146,7 @@
             android:theme="@style/Splash.AppTheme"></activity>
         <activity
             android:name=".activities.AuthActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan|stateVisible" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -1,35 +1,49 @@
 package com.jobtick.fragments;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputFilter;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.button.MaterialButton;
+import com.google.gson.Gson;
 import com.jobtick.R;
+import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.models.MakeAnOfferModel;
 import com.jobtick.models.UserAccountModel;
+import com.jobtick.models.calculation.EarningCalculationModel;
+import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
-import com.jobtick.utils.MinMaxFilter;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.widget.ExtendedEntryText;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,10 +52,10 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickListener {
+public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickListener, TextWatcher {
 
     @BindView(R.id.edt_budget)
-    EditText edtBudget;
+    ExtendedEntryText edtBudget;
     @BindView(R.id.txt_service_fee)
     TextView txtServiceFee;
     @BindView(R.id.txt_final_budget)
@@ -52,14 +66,14 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
     TextView txtCurrentServiceFee;
     @BindView(R.id.txt_learn_how_level_affects_service_fee)
     TextView txtLearnHowLevelAffectsServiceFee;
-    @BindView(R.id.lyt_btn_continue)
-    LinearLayout lytBtnContinue;
-    @BindView(R.id.card_continue)
-    CardView cardContinue;
+    @BindView(R.id.btn_next)
+    MaterialButton btnNext;
     @BindView(R.id.img_level)
     ImageView imgLevel;
     @BindView(R.id.tvOffer)
     TextView tvOffer;
+
+    Gson gson;
 
     private MakeAnOfferModel makeAnOfferModel;
     private MakeAnOfferActivity makeAnOfferActivity;
@@ -88,6 +102,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_make_an_offer_budget, container, false);
         ButterKnife.bind(this, view);
+        gson = new Gson();
         return view;
     }
 
@@ -121,60 +136,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
                 makeAnOfferActivity.onBackPressed();
             }
         });
-        cardContinue.setClickable(false);
-
-        //setupBudget(Integer.parseInt(edtBudget.getText().toString().trim()));
-        final String number = edtBudget.getText().toString();
-        if (!number.matches("0\\d{0}") || number.length() <= 5 || Integer.parseInt(number) <= 5) {
-            //!number.matches("9\\d{9}") ||
-            // !number.matches("(\\+98|0)?9\\d{9}") ||
-
-        } else {
-            edtBudget.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
-                    String currentText = editable.toString();
-                    int currentLength = currentText.length();
-
-                    if (currentLength >= 1) {
-                        cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorPrimary));
-                        cardContinue.setClickable(true);
-                    } else {
-                        cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorAccent));
-                        cardContinue.setClickable(false);
-                    }
-
-                    if (currentLength == 0) {
-                        //reset all data
-                    } else {
-                        setupBudget(Integer.parseInt(editable.toString()));
-                    }
-                }
-            });
-        }
-
-
-        // .setFilters(new InputFilter[]{new MinMaxFilter(5, 9999)});
-
-        initComponentScroll();
-    }
-
-    private void setupBudget(int budget) {
-        float worker_service_fee = userAccountModel.getWorkerTier().getServiceFee();
-        txtCurrentServiceFee.setText(worker_service_fee + "%");
-        float service_fee = ((budget * worker_service_fee) / 100);
-        txtServiceFee.setText("$" + service_fee);
-        float total_budget = budget - ((budget * worker_service_fee) / 100);
-        txtFinalBudget.setText("$" + total_budget);
+        edtBudget.addTextChangedListener(this);
     }
 
     private void initLayout() {
@@ -197,99 +159,18 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
         }
     }
 
-    private void initComponentScroll() {
-        NestedScrollView nested_content = (NestedScrollView) getActivity().findViewById(R.id.nested_scroll_view);
-        nested_content.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY < oldScrollY) { // up
-                    animateFab(false);
-                }
-                if (scrollY > oldScrollY) { // down
-                    animateFab(true);
-                }
-            }
-        });
-    }
-
-    boolean isFabHide = false;
-
-    private void animateFab(final boolean hide) {
-        if (isFabHide && hide || !isFabHide && !hide) return;
-        isFabHide = hide;
-        int moveY = hide ? (2 * cardContinue.getHeight()) : 0;
-        cardContinue.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
-    }
-
-    @OnClick({R.id.lyt_btn_continue})
+    @OnClick({R.id.btn_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
-            case R.id.lyt_btn_continue:
+            case R.id.btn_next:
                 if (budgetCallbackFunction != null) {
-                    if (TextUtils.isEmpty(edtBudget.getText().toString().trim())) {
-                        //edtBudget.setText("Budget is empty");
-                        Toast.makeText(getActivity(), "Please enter offer amount", Toast.LENGTH_SHORT).show();
-                        return;
-                    } else if (Float.parseFloat(edtBudget.getText().toString()) < 5) {
-                        //Toast.makeText(getActivity(),"Offer only accept max $5",Toast.LENGTH_SHORT).show();
+                    if (!validation(true)) return;
 
-                        new MaterialAlertDialogBuilder(getActivity())
-                                .setTitle("Alert!")
-                                .setMessage("Offer price only allowed minimum $5")
-                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .show();
-                        return;
-                    } else if (Float.parseFloat(edtBudget.getText().toString()) > 9999) {
-
-
-                        new MaterialAlertDialogBuilder(getActivity())
-                                .setTitle("Alert!")
-                                .setMessage("Offer price only allowed maximum $9999")
-                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        dialog.dismiss();
-                                    }
-                                }).show();
-                        return;
-                    } else {
-                        makeAnOfferModel.setOffer_price(Integer.parseInt(edtBudget.getText().toString().trim()));
-                        budgetCallbackFunction.continueButtonBudget(makeAnOfferModel);
-                    }
+                    makeAnOfferModel.setOffer_price(Integer.parseInt(edtBudget.getText().toString().trim()));
+                    budgetCallbackFunction.continueButtonBudget(makeAnOfferModel);
                 }
                 break;
-        }
-    }
-
-    private void budgetModification(String sign) {
-        try {
-            int budget = Integer.parseInt(edtBudget.getText().toString().trim());
-            if (sign.equalsIgnoreCase("-")) {
-                if (budget > 0) {
-                    --budget;
-                    edtBudget.setText(String.format("%d", budget));
-                } else {
-                    edtBudget.setText(String.format("%d", 0));
-                }
-            } else {
-                if (budget > 0) {
-                    ++budget;
-                    edtBudget.setText(String.format("%d", budget));
-                } else {
-                    edtBudget.setText(String.format("%d", 1));
-                }
-            }
-            edtBudget.setSelection(edtBudget.getText().length());
-        } catch (Exception e) {
-            e.printStackTrace();
-            edtBudget.setText(String.format("%d", 0));
         }
     }
 
@@ -299,6 +180,118 @@ public class MakeAnOfferBudgetFragment extends Fragment implements View.OnClickL
             budgetCallbackFunction.backButtonBudget();
         }
     }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        btnNext.setEnabled(true);
+
+        if(!validation(false)){
+            txtServiceFee.setText("00");
+            txtFinalBudget.setText("00");
+            txtCurrentServiceFee.setText("0%");
+            return;
+        }
+        calculate(editable.toString());
+    }
+
+    private boolean validation(boolean showToast) {
+        if(edtBudget.getText().length() == 0){
+            if (showToast)
+                ((ActivityBase) requireActivity()).showToast("Please enter your offer.", requireContext());
+            return false;
+        }
+        if (Integer.parseInt(edtBudget.getText().toString()) < 5) {
+            if (showToast)
+                ((ActivityBase) requireActivity()).showToast("You can't offer lower than 5 dollars.", requireContext());
+            return false;
+        }
+        if (Integer.parseInt(edtBudget.getText().toString()) < makeAnOfferModel.getOffer_price()) {
+            if (showToast)
+                ((ActivityBase) requireActivity()).showToast("You can't offer lower than poster offer.", requireContext());
+            return false;
+        }
+        if (Integer.parseInt(edtBudget.getText().toString()) > 9999) {
+            if (showToast)
+                ((ActivityBase) requireActivity()).showToast("You can't offer more than 9999 dollars.", requireContext());
+            return false;
+        }
+        return true;
+    }
+
+
+    public void calculate(String amount) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_OFFERS_EARNING_CALCULATION,
+                response -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String data = jsonObject.getString("data");
+
+                        EarningCalculationModel model = gson.fromJson(data, EarningCalculationModel.class);
+                        txtServiceFee.setText(String.format(Locale.ENGLISH, "%.1f", (model.getServiceFee() + model.getGstAmount())));
+                        txtFinalBudget.setText(String.format(Locale.ENGLISH, "%.1f", model.getNetEarning()));
+                        txtCurrentServiceFee.setText(String.format(Locale.ENGLISH, "%s", model.getServiceFeeRate()));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        NetworkResponse networkResponse = error.networkResponse;
+                        if (networkResponse != null && networkResponse.data != null) {
+                            String jsonError = new String(networkResponse.data);
+                            try {
+                                JSONObject jsonObject = new JSONObject(jsonError);
+                                JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                                String message = jsonObject_error.getString("message");
+                                ((ActivityBase) requireActivity()).showToast(message, requireContext());
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                ((ActivityBase) requireActivity()).showToast("Something went wrong", requireContext());
+                            }
+                        } else {
+                            ((ActivityBase) requireActivity()).showToast("Something went wrong", requireContext());
+                        }
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+
+                return map1;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("amount", amount);
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+        requestQueue.add(stringRequest);
+    }
+
 
     public interface BudgetCallbackFunction {
         void backButtonBudget();

@@ -28,6 +28,6 @@ public class VerifyAccountFragment extends AbstractVerifyAccountFragment {
         String otp = edtVerificationCode.getText().toString().trim();
 
         if (validation())
-            authActivity.verification(email, password, otp);
+            authActivity.newVerification(email, otp);
     }
 }

@@ -30,7 +30,9 @@ import com.google.gson.Gson;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.MakeAnOfferActivity;
+import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.MakeAnOfferModel;
+import com.jobtick.models.TaskModel;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.models.calculation.EarningCalculationModel;
 import com.jobtick.utils.Constant;
@@ -79,9 +81,8 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
     private MakeAnOfferActivity makeAnOfferActivity;
     BudgetCallbackFunction budgetCallbackFunction;
     private UserAccountModel userAccountModel;
+    private TaskModel taskModel;
     private SessionManager sessionManager;
-
-    private int posterBudget;
 
     public static MakeAnOfferBudgetFragment newInstance(MakeAnOfferModel makeAnOfferModel, BudgetCallbackFunction budgetCallbackFunction) {
 
@@ -120,11 +121,11 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
         userAccountModel = sessionManager.getUserAccount();
         if (getArguments() != null && getArguments().getParcelable(ConstantKey.MAKE_AN_OFFER_MODEL) != null) {
             makeAnOfferModel = getArguments().getParcelable(ConstantKey.MAKE_AN_OFFER_MODEL);
-            posterBudget = makeAnOfferModel.getOffer_price();
         }
         /*if (getArguments() != null && getArguments().getParcelable(ConstantKey.TASK) != null) {
             taskModel = getArguments().getParcelable(ConstantKey.TASK);
         }*/
+        taskModel = TaskDetailsActivity.taskModel;
         if (makeAnOfferModel != null) {
             initLayout();
         }
@@ -153,7 +154,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
 
     private void initLayout() {
         //edtBudget.setText(String.format("%d", makeAnOfferModel.getOffer_price()));
-        tvOffer.setText(String.format(Locale.ENGLISH, "$%d", posterBudget));
+        tvOffer.setText(String.format(Locale.ENGLISH, "$%d", taskModel.getBudget()));
         txtAccountLevel.setText("Level " + userAccountModel.getWorkerTier().getId());
 
         if (userAccountModel.getWorkerTier().getId() == 1) {

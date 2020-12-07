@@ -91,6 +91,7 @@ public class ConstantKey {
     public static final String BTN_POST_NEW_JOB = "Post a new job";
     public static final String BTN_LEAVE_A_REVIEW = "Leave a review";
     public static final String BTN_INCREASE_BUDGET_REQUEST_SENT = "View increase price request";
+    public static final String BTN_CONFIRM_RELEASE_MONEY= "View release money request";
     public static final String BTN_RESCHEDULE_REQUEST_SENT = "View reschedule time request";
     public static final String BTN_CANCELLATION_REQUEST_SENT = "CANCELLATION REQUEST SENT";
     public static final String BTN_VIEW_CANCELLATION_REQUEST = "View cancellation request";
@@ -154,6 +155,10 @@ public class ConstantKey {
     public static boolean IS_CHAT_SCREEN = false;
 
     public static final String GO_TO_MY_JOBS = "go to my jobs";
+    public static final String GO_TO_HOME = "go to home";
+    public static final String GO_TO_EXPLORE = "go to explore";
+    public static final String GO_TO_CHAT = "go to chat";
+    public static final String GO_TO_PROFILE = "go to profile";
 
 
     //  public static ArrayList<Integer> integerArrayList = new ArrayList<>();

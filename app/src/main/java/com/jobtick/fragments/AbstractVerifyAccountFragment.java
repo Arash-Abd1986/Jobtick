@@ -38,6 +38,8 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
     AuthActivity authActivity;
     CountDownTimer timer;
 
+    int wholeTime = 600000;
+
     private final String zeroTime = "0:00";
 
     @BindView(R.id.verify)
@@ -77,18 +79,20 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
         emailVerifyMessage.setText(email);
         authActivity.setOnResendOtp(this);
 
-        timer = new CountDownTimer(600000, 1000) {
+        timer = new CountDownTimer(wholeTime, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 timeLimit.setText(
                         TimeHelper.convertSecondsToMinAndSeconds((int)(millisUntilFinished / 1000)));
 
+                lytBtnFinish.setEnabled(true);
                 resendOtp.setEnabled(false);
                 resendOtp.setAlpha(0.4F);
                 timeLimit.setAlpha(1F);
             }
 
             public void onFinish() {
+                lytBtnFinish.setEnabled(false);
                 timeLimit.setText(zeroTime);
                 resendOtp.setEnabled(true);
                 resendOtp.setAlpha(1F);
@@ -133,7 +137,7 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
                 whatNext();
                 break;
             case R.id.resend_otp:
-                authActivity.resendOtp(email);
+                onResendOtp();
                 break;
         }
     }
@@ -150,11 +154,12 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
     }
 
     abstract void whatNext();
+    abstract void onResendOtp();
 
 
     @Override
     public void success() {
-        authActivity.showToast("Code resent successfully.", getContext());
+        authActivity.showSuccessToast("Code resent successfully.", getContext());
         timer.start();
     }
 

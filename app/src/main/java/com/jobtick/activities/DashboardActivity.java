@@ -92,6 +92,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
     public static onProfileUpdateListener onProfileupdatelistenerSideMenu;
 
+    NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +151,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 .build();
 
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
         //    NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
@@ -217,12 +218,37 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
             }
         }
 
+        goToFragment();
+    }
+
+    private void goToFragment(){
         if(getIntent().getBooleanExtra(ConstantKey.GO_TO_MY_JOBS, false))
             navController.navigate(R.id.navigation_my_tasks);
+        else if(getIntent().getBooleanExtra(ConstantKey.GO_TO_HOME, false))
+            navController.navigate(R.id.navigation_new_task);
+        else if(getIntent().getBooleanExtra(ConstantKey.GO_TO_EXPLORE, false))
+            navController.navigate(R.id.navigation_browse);
+        else if(getIntent().getBooleanExtra(ConstantKey.GO_TO_CHAT, false))
+            navController.navigate(R.id.navigation_inbox);
+        else if(getIntent().getBooleanExtra(ConstantKey.GO_TO_PROFILE, false))
+            navController.navigate(R.id.navigation_profile);
 
-        //TODO: when this activity is openning again, (for second time) tool bar background becomes white.
+        //TODO: when this activity is opening again, (for second time) tool bar background becomes white.
         //the workaround is here but need to fix it in true way.
         toolbar.setBackgroundResource(R.color.backgroundLightGrey);
+    }
+
+    public void goToFragment(Fragment fragment){
+        if(fragment == Fragment.MY_JOBS)
+            navController.navigate(R.id.navigation_my_tasks);
+        else if(fragment == Fragment.HOME)
+            navController.navigate(R.id.navigation_new_task);
+        else if(fragment == Fragment.EXPLORE)
+            navController.navigate(R.id.navigation_browse);
+        else if(fragment == Fragment.CHAT)
+            navController.navigate(R.id.navigation_inbox);
+        else if(fragment == Fragment.PROFILE)
+            navController.navigate(R.id.navigation_profile);
     }
 
     @Override
@@ -499,5 +525,13 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
     @Override
     public void updateProfile() {
+    }
+
+    public enum Fragment{
+        HOME,
+        MY_JOBS,
+        EXPLORE,
+        CHAT,
+        PROFILE
     }
 }

@@ -76,9 +76,13 @@ public class ForgotPassword1Fragment extends Fragment implements AuthActivity.Ed
         }
     }
 
+    @Override
+    public void onEmailError(String emailError) {
+        edtEmailAddress.setError(emailError);
+    }
 
     @Override
-    public void error(String email, String password) {
-        edtEmailAddress.setError(email);
+    public void onPasswordError(String passwordError) {
+
     }
 }

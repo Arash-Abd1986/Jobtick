@@ -94,6 +94,7 @@ public class Constant {
     public static final String URL_TASKS_CREATE = BASE_URL + "tasks/create";
     // resend-otp
     public static String URL_RESEND_OTP = BASE_URL + "resend-otp";
+    public static String URL_NEW_RESEND_OTP = BASE_URL + "email-verification/resent-otp";
     public static final String URL_DELETE_TASK_MEDIA = BASE_URL + "tasks";
     public static final String URL_UPDATE_TASK = BASE_URL + "tasks";
     public static final String URL_LIST_USER_TASK = BASE_URL + "tasks";

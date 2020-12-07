@@ -29,6 +29,13 @@ import butterknife.OnClick;
  */
 public class ForgotPassword2Fragment extends AbstractVerifyAccountFragment {
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //we need 90 seconds in entering password step, the whole time for these 2 steps is 10 min.
+        //so first step should be 510 seconds
+        wholeTime = 510000;
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -46,5 +53,10 @@ public class ForgotPassword2Fragment extends AbstractVerifyAccountFragment {
          else {
             authActivity.showToast("check otp", authActivity);
         }
+    }
+
+    @Override
+    void onResendOtp() {
+        authActivity.resendOtpForResetPassword(email);
     }
 }

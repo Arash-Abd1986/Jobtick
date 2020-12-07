@@ -70,9 +70,7 @@ public class NewSplashActivity extends AppCompatActivity {
     private void getAccountDetails() {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_GET_ACCOUNT,
                 response -> {
-
                     try {
-
                         JSONObject jsonObject = new JSONObject(response);
                         JSONObject jsonObject_data = jsonObject.getJSONObject("data");
 

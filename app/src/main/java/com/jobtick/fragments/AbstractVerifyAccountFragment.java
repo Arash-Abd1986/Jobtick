@@ -38,6 +38,8 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
     AuthActivity authActivity;
     CountDownTimer timer;
 
+    int wholeTime = 600000;
+
     private final String zeroTime = "0:00";
 
     @BindView(R.id.verify)
@@ -77,7 +79,7 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
         emailVerifyMessage.setText(email);
         authActivity.setOnResendOtp(this);
 
-        timer = new CountDownTimer(60000, 1000) {
+        timer = new CountDownTimer(wholeTime, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 timeLimit.setText(

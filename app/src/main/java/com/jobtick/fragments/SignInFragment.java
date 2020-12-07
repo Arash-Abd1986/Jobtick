@@ -148,8 +148,12 @@ public class SignInFragment extends FragmentBase implements AuthActivity.EditTex
     }
 
     @Override
-    public void error(String email, String password) {
-        edtEmailAddress.setError(email);
-        edtPassword.setError(password);
+    public void onEmailError(String emailError) {
+        edtEmailAddress.setError(emailError);
+    }
+
+    @Override
+    public void onPasswordError(String passwordError) {
+        edtPassword.setError(passwordError);
     }
 }

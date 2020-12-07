@@ -2,12 +2,9 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -44,7 +41,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.jobtick.R;
-import com.jobtick.fragments.AbstractVerifyAccountFragment;
 import com.jobtick.fragments.ForgotPassword1Fragment;
 import com.jobtick.fragments.ForgotPassword2Fragment;
 import com.jobtick.fragments.ForgotPassword3Fragment;
@@ -341,15 +337,15 @@ public class AuthActivity extends ActivityBase {
     }
 
     public interface EditTextError {
-        void error(String email, String password);
+        void onEmailError(String emailError);
+
+        void onPasswordError(String passwordError);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
-
-
 
 
         authActivityPresenter = new AuthActivityPresenter(this);
@@ -685,34 +681,36 @@ public class AuthActivity extends ActivityBase {
                                 if (jsonObject_errors.has("email")) {
                                     JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
                                     error_email = jsonArray_mobile.getString(0);
+                                    showToast(error_email,this);
+                                    editTextError.onEmailError(error_email);
                                 }
-                                if (jsonObject_errors.has("password")) {
+                                else if (jsonObject_errors.has("password")) {
                                     JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("password");
                                     error_password = jsonArray_mobile.getString(0);
+                                    showToast(error_password,this);
+                                    editTextError.onPasswordError(error_email);
                                 }
-                                if (jsonObject_errors.has("device_token")) {
+                                else if (jsonObject_errors.has("device_token")) {
                                     JSONArray jsonArray_device_token = jsonObject_errors.getJSONArray("device_token");
                                     showToast(jsonArray_device_token.getString(0), AuthActivity.this);
                                 }
-                                if (jsonObject_errors.has("device_type")) {
+                                else if (jsonObject_errors.has("device_type")) {
                                     JSONArray jsonArray_device_type = jsonObject_errors.getJSONArray("device_type");
                                     showToast(jsonArray_device_type.getString(0), AuthActivity.this);
                                 }
-                                if (jsonObject_errors.has("fcm_token")) {
+                                else if (jsonObject_errors.has("fcm_token")) {
                                     JSONArray jsonArray_fcm_token = jsonObject_errors.getJSONArray("fcm_token");
                                     showToast(jsonArray_fcm_token.getString(0), AuthActivity.this);
                                 }
-                                if (jsonObject_errors.has("latitude")) {
+                                else if (jsonObject_errors.has("latitude")) {
                                     JSONArray jsonArray_latitude = jsonObject_errors.getJSONArray("latitude");
                                     showToast(jsonArray_latitude.getString(0), AuthActivity.this);
                                 }
-                                if (jsonObject_errors.has("longitude")) {
+                                else if (jsonObject_errors.has("longitude")) {
                                     JSONArray jsonArray_longitude = jsonObject_errors.getJSONArray("longitude");
                                     showToast(jsonArray_longitude.getString(0), AuthActivity.this);
                                 }
 
-
-                                editTextError.error(error_email, error_password);
                             } else {
                                 String message = jsonObject_error.getString("message");
                                 showToast(message, AuthActivity.this);
@@ -892,7 +890,7 @@ public class AuthActivity extends ActivityBase {
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
-            Log.d("LoginGoogle","1:"+task.toString());
+            Log.d("LoginGoogle", "1:" + task.toString());
         } else {
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
@@ -902,7 +900,7 @@ public class AuthActivity extends ActivityBase {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             signInUpdateUI(account);
-            Log.d("LoginGoogle","account:"+account.toString());
+            Log.d("LoginGoogle", "account:" + account.toString());
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -1038,7 +1036,7 @@ public class AuthActivity extends ActivityBase {
                             map1.put("email", str_email);
                             map1.put("device_token", str_device_id);
                             map1.put("device_type", str_device);
-                            if(str_fcm_token != null && !str_fcm_token.isEmpty())
+                            if (str_fcm_token != null && !str_fcm_token.isEmpty())
                                 map1.put("fcm_token", str_fcm_token);
                             map1.put("access_token", str_id_token);
                             map1.put("latitude", sessionManager.getLatitude());
@@ -1115,26 +1113,24 @@ public class AuthActivity extends ActivityBase {
 
                                 JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
-                                if (jsonObject_error.has("message")) {
-                                    Timber.d("AuthActivity: " + jsonObject_error.getString("message"));
-                                    showToast(jsonObject_error.getString("message"), AuthActivity.this);
-                                }
                                 if (jsonObject_error.has("errors")) {
                                     JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
                                     String error_email = "", error_password = "";
                                     if (jsonObject_errors.has("email")) {
                                         JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
                                         error_email = jsonArray_mobile.getString(0);
-
-                                    }
-                                    if (jsonObject_errors.has("password")) {
+                                        showToast(error_email, AuthActivity.this);
+                                        editTextError.onEmailError(error_email);
+                                    } else if (jsonObject_errors.has("password")) {
                                         JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("password");
                                         error_password = jsonArray_mobile.getString(0);
-
+                                        showToast(error_password, AuthActivity.this);
+                                        editTextError.onPasswordError(error_password);
                                     }
                                     // signUpFragment.error(error_email,error_password);
-                                    editTextError.error("error_email", "error_password");
 
+                                } else if (jsonObject_error.has("message")) {
+                                    showToast(jsonObject_error.getString("message"), AuthActivity.this);
                                 }
 
 
@@ -1428,27 +1424,27 @@ public class AuthActivity extends ActivityBase {
 
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
-
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                            String message = jsonObject_error.getString("message");
-                            if (jsonObject_error.has("error_code")) {
-                                if (jsonObject_error.getInt("error_code") == 1002) {
-                                    // resendOtp(str_email,str_password);
-                                }
-                            }
 
                             if (jsonObject_error.has("errors")) {
 
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
 
-                                String error_email = null;
+                                String str_error = null;
                                 if (jsonObject_errors.has("email")) {
                                     JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
-                                    error_email = jsonArray_mobile.getString(0);
+                                    str_error = jsonArray_mobile.getString(0);
+                                    showToast(str_error, this);
+                                    editTextError.onEmailError(str_error);
+                                } else if (jsonObject_errors.has("password")) {
+                                    JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("password");
+                                    str_error = jsonArray_mobile.getString(0);
+                                    showToast(str_error, this);
+                                    editTextError.onPasswordError(str_error);
+                                } else {
+                                    String message = jsonObject_error.getString("message");
+                                    showToast(message, this);
                                 }
-                                editTextError.error(error_email, "");
-
                             }
 
 
@@ -1458,7 +1454,6 @@ public class AuthActivity extends ActivityBase {
                     } else {
                         showToast("Something Went Wrong", AuthActivity.this);
                     }
-                    Log.e("error", error.toString());
                     hideProgressDialog();
                 }) {
 
@@ -1508,20 +1503,11 @@ public class AuthActivity extends ActivityBase {
                     NetworkResponse networkResponse = error.networkResponse;
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Log.e("intent22", jsonError);
 
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
 
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                            String message = jsonObject_error.getString("message");
-                            if (jsonObject_error.has("error_code")) {
-                                if (jsonObject_error.getInt("error_code") == 1002) {
-                                    // resendOtp(str_email,str_password);
-                                }
-                            }
 
                             if (jsonObject_error.has("errors")) {
 
@@ -1531,11 +1517,15 @@ public class AuthActivity extends ActivityBase {
                                 if (jsonObject_errors.has("email")) {
                                     JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
                                     error_email = jsonArray_mobile.getString(0);
+                                    showToast(error_email, this);
+                                    editTextError.onEmailError(error_email);
                                 }
-                                editTextError.error(error_email, "");
+                            }
+                            else {
+                                String message = jsonObject_error.getString("message");
+                                showToast(message, this);
 
                             }
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1543,7 +1533,6 @@ public class AuthActivity extends ActivityBase {
                     } else {
                         showToast("Something Went Wrong", AuthActivity.this);
                     }
-                    Log.e("error", error.toString());
                     hideProgressDialog();
                 }) {
 
@@ -1600,13 +1589,6 @@ public class AuthActivity extends ActivityBase {
 
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
-                            String message = jsonObject_error.getString("message");
-                            if (jsonObject_error.has("error_code")) {
-                                if (jsonObject_error.getInt("error_code") == 1002) {
-                                    // resendOtp(str_email,str_password);
-                                }
-                            }
-
                             if (jsonObject_error.has("errors")) {
 
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
@@ -1615,11 +1597,15 @@ public class AuthActivity extends ActivityBase {
                                 if (jsonObject_errors.has("email")) {
                                     JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
                                     error_email = jsonArray_mobile.getString(0);
+                                    showToast(error_email, this);
+                                    editTextError.onEmailError(error_email);
                                 }
-                                editTextError.error(error_email, "");
+                            }
+                            else {
+                                String message = jsonObject_error.getString("message");
+                                showToast(message, this);
 
                             }
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1666,6 +1652,7 @@ public class AuthActivity extends ActivityBase {
     public interface OnResendOtp {
 
         void success();
+
         void failure();
     }
 

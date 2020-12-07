@@ -47,4 +47,9 @@ public class ForgotPassword2Fragment extends AbstractVerifyAccountFragment {
             authActivity.showToast("check otp", authActivity);
         }
     }
+
+    @Override
+    void onResendOtp() {
+        authActivity.resendOtp(email);
+    }
 }

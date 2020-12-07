@@ -30,4 +30,9 @@ public class VerifyAccountFragment extends AbstractVerifyAccountFragment {
         if (validation())
             authActivity.newEmailVerification(email, otp);
     }
+
+    @Override
+    void onResendOtp() {
+        authActivity.newResendOtp(email);
+    }
 }

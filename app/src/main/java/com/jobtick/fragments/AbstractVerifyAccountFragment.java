@@ -77,18 +77,20 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
         emailVerifyMessage.setText(email);
         authActivity.setOnResendOtp(this);
 
-        timer = new CountDownTimer(600000, 1000) {
+        timer = new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 timeLimit.setText(
                         TimeHelper.convertSecondsToMinAndSeconds((int)(millisUntilFinished / 1000)));
 
+                lytBtnFinish.setEnabled(true);
                 resendOtp.setEnabled(false);
                 resendOtp.setAlpha(0.4F);
                 timeLimit.setAlpha(1F);
             }
 
             public void onFinish() {
+                lytBtnFinish.setEnabled(false);
                 timeLimit.setText(zeroTime);
                 resendOtp.setEnabled(true);
                 resendOtp.setAlpha(1F);
@@ -133,7 +135,7 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
                 whatNext();
                 break;
             case R.id.resend_otp:
-                authActivity.newResendOtp(email);
+                onResendOtp();
                 break;
         }
     }
@@ -150,6 +152,7 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
     }
 
     abstract void whatNext();
+    abstract void onResendOtp();
 
 
     @Override

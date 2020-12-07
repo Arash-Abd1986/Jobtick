@@ -91,6 +91,7 @@ public class ConstantKey {
     public static final String BTN_POST_NEW_JOB = "Post a new job";
     public static final String BTN_LEAVE_A_REVIEW = "Leave a review";
     public static final String BTN_INCREASE_BUDGET_REQUEST_SENT = "View increase price request";
+    public static final String BTN_CONFIRM_RELEASE_MONEY= "View release money request";
     public static final String BTN_RESCHEDULE_REQUEST_SENT = "View reschedule time request";
     public static final String BTN_CANCELLATION_REQUEST_SENT = "CANCELLATION REQUEST SENT";
     public static final String BTN_VIEW_CANCELLATION_REQUEST = "View cancellation request";

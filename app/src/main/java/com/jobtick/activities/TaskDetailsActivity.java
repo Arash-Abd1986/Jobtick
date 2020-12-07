@@ -104,7 +104,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -241,7 +240,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     TextView txtWorkerName;
     @BindView(R.id.lineOpen)
     View lineOpenState;
-//    @SuppressLint("NonConstantResourceId")
+    //    @SuppressLint("NonConstantResourceId")
 //    @BindView(R.id.card_private_chat)
 //    CardView cardPrivateChat;
     @SuppressLint("NonConstantResourceId")
@@ -714,7 +713,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         initIncreaseBudget();
         initRescheduleTime();
         initReview();
-        initAskToRelease();
+        initReleaseMoney();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             toolbar.getMenu().setGroupDividerEnabled(true);
@@ -840,7 +839,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void getData() {
-        Log.d("str_slug",str_slug);
+        Log.d("str_slug", str_slug);
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_TASKS + "/" + str_slug,
                 response -> {
@@ -869,7 +868,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 getBankAccountAddress();
                                 getBillingAddress();
 
-                                if(taskModel.getTaskType().equals("physical")) {
+                                if (taskModel.getTaskType().equals("physical")) {
                                     llLocation.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -1167,9 +1166,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }  //TODO DUMMY IMAGE
 
         imgAvtarPoster.setOnClickListener(v -> {
-            if(taskModel.getPoster().getId()!=null) {
+            if (taskModel.getPoster().getId() != null) {
                 Intent intent = new Intent(TaskDetailsActivity.this, ProfileActivity.class);
-                intent.putExtra("id",taskModel.getPoster().getId());
+                intent.putExtra("id", taskModel.getPoster().getId());
                 startActivity(intent);
             }
         });
@@ -1375,8 +1374,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             if (taskModel.getWorker() != null && taskModel.getWorker().getWorkerRatings() != null && taskModel.getWorker().getWorkerRatings().getAvgRating() != null) {
                 txtRatingValue.setText("(" + taskModel.getWorker().getWorkerRatings().getAvgRating() + ")");
             }
-            if(taskModel.getWorker().getWorkTaskStatistics()!=null)
-            txtCompletionRate.setText(taskModel.getWorker().getWorkTaskStatistics().getCompletionRate().toString()+"%");
+            if (taskModel.getWorker().getWorkTaskStatistics() != null)
+                txtCompletionRate.setText(taskModel.getWorker().getWorkTaskStatistics().getCompletionRate().toString() + "%");
         }
     }
 
@@ -1507,7 +1506,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     edtComment.setError("?");
                     return;
                 } else {
-                    if(attachmentArrayList_question.size()>0)
+                    if (attachmentArrayList_question.size() > 0)
                         attachmentArrayList_question.remove(attachmentArrayList_question.size() - 1);
                     if (attachmentArrayList_question.size() == 0) {
                         postComment(
@@ -1612,11 +1611,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 break;
             case R.id.liAssign:
                 Intent workerIntent = new Intent(TaskDetailsActivity.this, ProfileActivity.class);
-                workerIntent.putExtra("id",taskModel.getWorker().getId());
+                workerIntent.putExtra("id", taskModel.getWorker().getId());
                 startActivity(workerIntent);
             case R.id.linearUserProfile:
                 Intent posterIntent = new Intent(TaskDetailsActivity.this, ProfileActivity.class);
-                posterIntent.putExtra("id",taskModel.getPoster().getId());
+                posterIntent.putExtra("id", taskModel.getPoster().getId());
                 startActivity(posterIntent);
                 break;
         }
@@ -1827,7 +1826,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void postComment(String str_comment, ArrayList<AttachmentModel> attachmentModels) {
-        if(str_comment.length()<5) {
+        if (str_comment.length() < 5) {
             showToast("The question text must be at least 5 characters", this);
             return;
         }
@@ -2411,18 +2410,18 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
 
-    private void initCancelled(){
-        if(alertType == AlertType.CANCELLED){
+    private void initCancelled() {
+        if (alertType == AlertType.CANCELLED) {
             hideAlertBox();
         }
 
-        if(taskModel.getStatus().equals("cancelled")){
+        if (taskModel.getStatus().toLowerCase().equals("cancelled")) {
             showCancelledCard();
         }
     }
 
     private void initCancellation() {
-        if(alertType == AlertType.CANCELLATION){
+        if (alertType == AlertType.CANCELLATION) {
             hideAlertBox();
         }
         if (taskModel.getCancellation() == null) return;
@@ -2457,14 +2456,20 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
     }
 
-    private void initAskToRelease() {
+    private void initReleaseMoney() {
 
-        if (alertType == AlertType.RELEASE_MONEY) {
+        if (alertType == AlertType.ASK_TO_RELEASE && !isMyTask) {
             hideAlertBox();
         }
-        if (taskModel.getStatus().equals("completed") && taskModel.getWorker() != null &&
+        else if (alertType == AlertType.CONFIRM_RELEASE && isMyTask) {
+            hideAlertBox();
+        }
+        if (taskModel.getStatus().toLowerCase().equals("completed") && taskModel.getWorker() != null &&
                 taskModel.getWorker().getId().equals(userAccountModel.getId())) {
-            showReleaseCard();
+            showAskToReleaseCard();
+        } else if ((taskModel.getStatus().toLowerCase().equals("overdue") && taskModel.getPoster() != null &&
+                taskModel.getPoster().getId().equals(userAccountModel.getId()))) {
+            showConfirmReleaseCard();
         }
     }
 
@@ -2472,7 +2477,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (alertType == AlertType.REVIEW) {
             hideAlertBox();
         }
-        if (!taskModel.getStatus().equals("closed")) return;
+        if (!taskModel.getStatus().toLowerCase().equals("closed")) return;
         if (taskModel.getReviewModels() == null) {
             showReviewCard();
             return;
@@ -2509,7 +2514,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             for (int i = 0; i < taskModel.getRescheduleReqeust().size(); i++) {
                 if (taskModel.getRescheduleReqeust().get(i).getStatus().equals("pending") &&
                         !taskModel.getRescheduleReqeust().get(i).getRequester_id().equals(sessionManager.getUserAccount().getId())) {
-                    if (!taskModel.getStatus().equals(TASK_CANCELLED) && !taskModel.getStatus().equals(TASK_CLOSED)) {
+                    if (!taskModel.getStatus().toLowerCase().equals(TASK_CANCELLED) && !taskModel.getStatus().toLowerCase().equals(TASK_CLOSED)) {
                         pos = i;
                         showRescheduleTimeCard(i);
                         break;
@@ -2520,7 +2525,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void initJobReceipt() {
-        toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_job_receipt, taskModel.getStatus().equals(TASK_CLOSED));
+        toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_job_receipt, taskModel.getStatus().toLowerCase().equals(TASK_CLOSED));
     }
 
     private void initIncreaseBudget() {
@@ -2573,7 +2578,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         dialog.show(fragmentManager, "");
     }
 
-    private void showCancelledCard(){
+    private void showCancelledCard() {
         showAlertBox(Html.fromHtml("This job has been canceled"),
                 ConstantKey.BTN_POST_NEW_JOB, AlertType.CANCELLED, true);
     }
@@ -2665,13 +2670,24 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 ConstantKey.BTN_LEAVE_A_REVIEW, AlertType.REVIEW, true);
     }
 
-    private void showReleaseCard() {
+    private void showAskToReleaseCard() {
         if (isMyTask) return;
 
         showAlertBox(Html.fromHtml(
                 "You have requested to release money this job on <b>" +
                         TimeHelper.convertToShowTimeFormat(taskModel.getConversation().getTask().getCompletedAt()) + "</b>"),
-                null, AlertType.RELEASE_MONEY, false);
+                null, AlertType.ASK_TO_RELEASE, false);
+    }
+
+    private void showConfirmReleaseCard() {
+        if (!isMyTask) return;
+
+        String whoRequestToReleaseMoney = taskModel.getWorker().getName();
+
+        showAlertBox(Html.fromHtml("<b>" + whoRequestToReleaseMoney + "</b> " +
+                        " have requested to release money this job on <b>" +
+                        TimeHelper.convertToShowTimeFormat(taskModel.getConversation().getTask().getCompletedAt()) + "</b>"),
+                ConstantKey.BTN_CONFIRM_RELEASE_MONEY, AlertType.CONFIRM_RELEASE, true);
     }
 
     //we use spanned to support middle bolds
@@ -2723,10 +2739,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             bundle.putBoolean(ConstantKey.IS_MY_TASK, isMyTask);
             intent.putExtras(bundle);
             startActivityForResult(intent, ConstantKey.RESULTCODE_WRITE_REVIEW);
-        }
-        else if(alertType == AlertType.CANCELLED){
+        } else if (alertType == AlertType.CANCELLED) {
             Intent intent = new Intent(this, CategoryListActivity.class);
             startActivity(intent);
+        }
+        else if(alertType == AlertType.CONFIRM_RELEASE){
+            showCustomDialogReleaseMoney();
         }
     }
 
@@ -2769,7 +2787,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         CANCELLATION,
         RESCHEDULE,
         INCREASE_BUDGET,
-        RELEASE_MONEY,
+        ASK_TO_RELEASE,
+        CONFIRM_RELEASE,
         REVIEW,
         CANCELLED
         //more we add later

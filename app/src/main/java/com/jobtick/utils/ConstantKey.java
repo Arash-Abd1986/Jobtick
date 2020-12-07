@@ -154,6 +154,10 @@ public class ConstantKey {
     public static boolean IS_CHAT_SCREEN = false;
 
     public static final String GO_TO_MY_JOBS = "go to my jobs";
+    public static final String GO_TO_HOME = "go to home";
+    public static final String GO_TO_EXPLORE = "go to explore";
+    public static final String GO_TO_CHAT = "go to chat";
+    public static final String GO_TO_PROFILE = "go to profile";
 
 
     //  public static ArrayList<Integer> integerArrayList = new ArrayList<>();

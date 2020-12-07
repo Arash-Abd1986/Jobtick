@@ -88,8 +88,7 @@ public class NewTaskFragment extends Fragment {
             lytBtnPost.performClick();
         });
         tickerCard.setOnClickListener(v -> {
-            Intent searchTask = new Intent(getActivity(), SearchTaskActivity.class);
-            getContext().startActivity(searchTask);
+            ((DashboardActivity)requireActivity()).goToFragment(DashboardActivity.Fragment.EXPLORE);
         });
 
         sessionManager = new SessionManager(getContext());

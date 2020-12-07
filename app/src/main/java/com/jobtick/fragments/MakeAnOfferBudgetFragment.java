@@ -7,13 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
@@ -21,8 +18,6 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
@@ -49,7 +44,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -186,7 +180,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
     public void afterTextChanged(Editable editable) {
         btnNext.setEnabled(true);
 
-        if(!validation(false)){
+        if (!validation(false)) {
             txtServiceFee.setText("$00");
             txtFinalBudget.setText("$00");
             txtCurrentServiceFee.setText("0%");
@@ -196,7 +190,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
     }
 
     private boolean validation(boolean showToast) {
-        if(edtBudget.getText().length() == 0){
+        if (edtBudget.getText().length() == 0) {
             if (showToast)
                 ((ActivityBase) requireActivity()).showToast("Please enter your offer.", requireContext());
             return false;
@@ -237,26 +231,24 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
                         e.printStackTrace();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        NetworkResponse networkResponse = error.networkResponse;
-                        if (networkResponse != null && networkResponse.data != null) {
-                            String jsonError = new String(networkResponse.data);
-                            try {
-                                JSONObject jsonObject = new JSONObject(jsonError);
-                                JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                                String message = jsonObject_error.getString("message");
-                                ((ActivityBase) requireActivity()).showToast(message, requireContext());
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            String message = jsonObject_error.getString("message");
+                            ((ActivityBase) requireActivity()).showToast(message, requireContext());
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                ((ActivityBase) requireActivity()).showToast("Something went wrong", requireContext());
-                            }
-                        } else {
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                             ((ActivityBase) requireActivity()).showToast("Something went wrong", requireContext());
                         }
+                    } else {
+                        ((ActivityBase) requireActivity()).showToast("Something went wrong", requireContext());
                     }
+
                 }) {
 
             @Override

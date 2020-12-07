@@ -16,7 +16,7 @@ public class ConfirmReleaseBottomSheet extends AbstractConfirmBottomSheet{
 
         super(
                 context.getString(R.string.confirm_release),
-                context.getString(R.string.are_you_sure),
+                context.getString(R.string.are_you_satisfied_with_the_job),
                 context.getString(R.string.accept),
                 context.getString(R.string.decline));
     }

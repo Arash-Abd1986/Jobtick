@@ -52,12 +52,6 @@ public class NewTaskFragment extends Fragment {
     @BindView(R.id.scrollView)
     NestedScrollView scrollView;
 
-    @BindView(R.id.dynamic_space)
-    LinearLayout dynamicSpace;
-
-    @BindView(R.id.button_container)
-    View buttonContainer;
-
     View root;
     TextView toolbar_title;
 
@@ -93,14 +87,6 @@ public class NewTaskFragment extends Fragment {
 
         sessionManager = new SessionManager(getContext());
         name.setText(sessionManager.getUserAccount().getName());
-        final ViewTreeObserver observer = scrollView.getViewTreeObserver();
-        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                calculateSpaceHeight();
-                scrollView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            }
-        });
 
         return root;
     }
@@ -142,21 +128,5 @@ public class NewTaskFragment extends Fragment {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void calculateSpaceHeight() {
-
-        int scrollHeight = scrollView.getChildAt(0).getHeight();
-        int totalHeight = root.getHeight();
-        int bottomHeight = buttonContainer.getHeight();
-
-        //24 for shadow and ...
-        int space = (int) (((scrollHeight + bottomHeight) - totalHeight) + 24);
-
-        if (space > 0) {
-            LinearLayout.LayoutParams dynamicParams = new LinearLayout.LayoutParams(root.getWidth(), space);
-            dynamicParams.setMargins(0, 0, 0, 0);
-            dynamicSpace.setLayoutParams(dynamicParams);
-        }
     }
 }

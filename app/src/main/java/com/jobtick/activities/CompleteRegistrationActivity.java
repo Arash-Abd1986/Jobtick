@@ -135,7 +135,7 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
         Helper.closeKeyboard(this);
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_SIGNUP,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_USER_PROFILE_INFO,
                 new Response.Listener<String>() {
 
                     @Override

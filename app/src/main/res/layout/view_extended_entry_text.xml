@@ -62,6 +62,26 @@
         android:textColor="@color/textColor"
         tools:text="sedighi.66@gmail.com" />
 
+    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+        android:id="@+id/content_auto_complete"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_below="@id/title"
+        android:layout_alignStart="@id/title"
+        android:layout_gravity="center"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        android:background="@null"
+        android:gravity="center_vertical"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:minHeight="22dp"
+        android:textAppearance="@style/materialText_500_14"
+        android:textColor="@color/textColor"
+        tools:text="Auto complete text ..."
+        android:visibility="gone"/>
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/img_btn_password_toggle"
         android:layout_width="20dp"

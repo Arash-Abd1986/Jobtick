@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:eTitle="@string/state"
-                app:eInputType="text"
+                app:eInputType="autoComplete"
                 app:eImeOptions="actionNext" />
 
             <com.jobtick.widget.ExtendedEntryText
@@ -77,6 +77,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:eTitle="@string/country"
+                app:eContent="AU"
+                app:eIsEnable="false"
                 app:eInputType="text"
                 app:eImeOptions="actionDone" />
 

@@ -94,6 +94,7 @@
         <attr name="eTitle"/>
         <attr name="eContent"/>
         <attr name="eHint" />
+        <attr name="eIsEnable" format="boolean"/>
         <attr name="eStartFocus" format="boolean"/>
         <attr name="eInputType" format="enum">
             <enum name="text" value="0"/>
@@ -105,6 +106,7 @@
             <enum name="calendar" value="6"/>
             <enum name="budget" value="7"/>
             <enum name="spinner" value="8"/>
+            <enum name="autoComplete" value="9"/>
         </attr>
         <attr name="eImeOptions" format="enum">
             <enum name="actionNext" value="0"/>

@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -29,6 +31,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     private String eContent;
     private String eHint;
     private TextView textView;
+    private AutoCompleteTextView autoCompleteTextView;
     private TextView errorView;
     private TextView dollar;
     private EditText editText;
@@ -39,6 +42,8 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     private int eImeOptions;
     private boolean password_hide = true;
     private ExtendedViewOnClickListener extendedViewOnClickListener;
+
+    private boolean eIsEnable = true;
 
     public ExtendedEntryText(Context context) {
         this(context, null);
@@ -60,6 +65,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             eTitle = sharedAttribute.getString(R.styleable.ExtendedEntryText_eTitle);
             eContent = sharedAttribute.getString(R.styleable.ExtendedEntryText_eContent);
             eHint = sharedAttribute.getString(R.styleable.ExtendedEntryText_eHint);
+            eIsEnable = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eIsEnable, true);
             eStartFocus = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eStartFocus, false);
             String inputType = sharedAttribute.getString(R.styleable.ExtendedEntryText_eInputType);
             if (inputType != null && !inputType.isEmpty())
@@ -78,7 +84,12 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
         setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
 
-        editText = (EditText) findViewById(R.id.content);
+        autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.content_auto_complete);
+        if(eInputType == EInputType.AUTOCOMPLETE)
+            editText = (EditText) autoCompleteTextView;
+        else
+            editText = (EditText) findViewById(R.id.content);
+
         textView = (TextView) findViewById(R.id.title);
         errorView = (TextView) findViewById(R.id.error);
         imageView = (ImageView) findViewById(R.id.img_btn_password_toggle);
@@ -87,6 +98,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         textView.setText(eTitle);
         editText.setText(eContent);
         editText.setHint(eHint);
+        editText.setEnabled(eIsEnable);
 
         editText.setOnFocusChangeListener(this);
         editText.setOnEditorActionListener(this);
@@ -168,7 +180,20 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             dollar.setVisibility(View.VISIBLE);
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         }
+        if(eInputType == EInputType.AUTOCOMPLETE){
+            editText.setVisibility(View.GONE);
+            autoCompleteTextView.setVisibility(View.VISIBLE);
+        }
 
+    }
+
+    public void setAdapter(String[] items){
+        if(eInputType != EInputType.AUTOCOMPLETE)
+            throw new IllegalStateException("for using adapter, you must select autoComplete as input type.");
+
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, items);
+        autoCompleteTextView.setAdapter(adapter);
     }
 
 
@@ -276,6 +301,13 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         return false;
     }
 
+    public boolean isIsEnable() {
+        return eIsEnable;
+    }
+
+    public void setIsEnable(boolean eIsEnable) {
+        this.eIsEnable = eIsEnable;
+    }
 
     public interface EInputType {
 
@@ -288,6 +320,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         int CALENDAR = 6;
         int BUDGET = 7;
         int SPINNER = 8;
+        int AUTOCOMPLETE = 9;
     }
 
     public interface EImeOptions {

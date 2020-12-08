@@ -849,17 +849,19 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         cardMakeAnOffer.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
     }
 
+    @BindView(R.id.content)
+    LinearLayout content;
+    @BindView(R.id.llLoading)
+    LinearLayout llLoading;
     private void getData() {
         getAllUserProfileDetails();
         getBankAccountAddress();
         getBillingAddress();
-        Log.d("str_slug", str_slug);
-        showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_TASKS + "/" + str_slug,
                 response -> {
-                    hideProgressDialog();
                     try {
-
+                        llLoading.setVisibility(View.GONE);
+                        content.setVisibility(View.VISIBLE);
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
                         System.out.println(jsonObject.toString());
@@ -917,7 +919,87 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     //    fl_task_details.setVisibility(View.GONE);
 
                     errorHandle1(error.networkResponse);
-                    hideProgressDialog();
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                // map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(TaskDetailsActivity.this);
+        requestQueue.add(stringRequest);
+
+    }
+    private void getDataOnlyQuestions() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_TASKS + "/" + str_slug,
+                response -> {
+                    try {
+                        llLoading.setVisibility(View.GONE);
+                        content.setVisibility(View.VISIBLE);
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        System.out.println(jsonObject.toString());
+                        if (jsonObject.has("success") &&
+                                !jsonObject.isNull("success") &&
+                                jsonObject.getBoolean("success")) {
+
+                            if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                                JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+                                String ss = jsonObject.getString("data");
+                                taskModel = new TaskModel().getJsonToModel(jsonObject_data, TaskDetailsActivity.this);
+
+                                setOwnerTask();
+//                                initOfferList();
+                                initStatusTask(taskModel.getStatus().toLowerCase());
+                                initComponent();
+                                setDataInLayout(taskModel);
+                                initQuestion();
+                                setChatButton(taskModel.getStatus().toLowerCase(),jsonObject_data);
+                                setPosterChatButton(taskModel.getStatus().toLowerCase(),jsonObject_data);
+
+
+
+                                if (taskModel.getTaskType().equals("physical")) {
+                                    llLocation.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:<" + taskModel.getPosition().getLatitude() + ">,<" + taskModel.getPosition().getLongitude() + ">?q=<" + taskModel.getPosition().getLatitude() + ">,<" + taskModel.getPosition().getLongitude() + ">(" + "job address" + ")"));
+                                            startActivity(intent);
+                                        }
+                                    });
+                                }
+                                questionListAdapter.clear();
+                                questionListAdapter.addItems(taskModel.getQuestions());
+
+                                for (int i = 0; i < taskModel.getQuestions().size(); i++) {
+                                    if (taskModel.getQuestions().get(i).getId() == pushQuestionID) {
+                                        onItemQuestionClick(null, taskModel.getQuestions().get(i), i, "reply");
+                                        break;
+                                    }
+                                }
+                            }
+                        } else {
+                            showToast("Something went wrong", TaskDetailsActivity.this);
+                        }
+
+                    } catch (JSONException e) {
+
+                        showToast("JSONException", TaskDetailsActivity.this);
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    //    fl_task_details.setVisibility(View.GONE);
+
+                    errorHandle1(error.networkResponse);
                 }) {
             @Override
             public Map<String, String> getHeaders() {
@@ -1281,6 +1363,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void initQuestion() {
+        attachmentArrayList_question.clear();
         attachmentArrayList_question.add(new AttachmentModel());
         recyclerViewQuestionAttachment.setLayoutManager(new LinearLayoutManager(TaskDetailsActivity.this, RecyclerView.HORIZONTAL, false));
         recyclerViewQuestionAttachment.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(TaskDetailsActivity.this, 5), true));
@@ -1995,6 +2078,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         } else {
                             showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
                         }
+                        getDataOnlyQuestions();
                         hideProgressDialog();
                     } catch (JSONException e) {
                         hideProgressDialog();

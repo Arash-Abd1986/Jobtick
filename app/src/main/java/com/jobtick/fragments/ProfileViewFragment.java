@@ -452,6 +452,11 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
                             }else{
                                 NoPortfolio.setVisibility(View.GONE);
                             }
+                            if(rbPortfollio.isChecked())
+                            {
+                                lSkill.setVisibility(View.GONE);
+                                noSkill.setVisibility(View.GONE);
+                            }
                         } else {
                             profileActivity.showToast("Something went wrong", profileActivity);
                         }

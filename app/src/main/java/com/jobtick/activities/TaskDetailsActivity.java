@@ -436,6 +436,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(TaskDetailsActivity.this);
         recyclerViewOffers.setLayoutManager(layoutManager);
+
         offerListAdapter = new OfferListAdapter(TaskDetailsActivity.this, isMyTask, new ArrayList<>());
         recyclerViewOffers.setAdapter(offerListAdapter);
         offerListAdapter.setOnItemClickListener(this);
@@ -555,6 +556,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 //                cardPrivateChat.setVisibility(View.GONE);
                 if (taskModel.getOffers().size() != 0) {
                     recyclerViewOffers.setVisibility(View.VISIBLE);
+                    if(offerListAdapter!=null)
+                        offerListAdapter.clear();
                     offerListAdapter.addItems(taskModel.getOffers());
                     for (int i = 0; i < taskModel.getOffers().size(); i++) {
                         if (taskModel.getOffers().get(i).getId() == pushOfferID) {
@@ -877,6 +880,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                         }
                                     });
                                 }
+                                questionListAdapter.clear();
                                 questionListAdapter.addItems(taskModel.getQuestions());
 
                                 for (int i = 0; i < taskModel.getQuestions().size(); i++) {
@@ -1139,6 +1143,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void initQuestion() {
+        attachmentArrayList_question.clear();
         attachmentArrayList_question.add(new AttachmentModel());
         recyclerViewQuestionAttachment.setLayoutManager(new LinearLayoutManager(TaskDetailsActivity.this, RecyclerView.HORIZONTAL, false));
         recyclerViewQuestionAttachment.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(TaskDetailsActivity.this, 5), true));

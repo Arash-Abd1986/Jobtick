@@ -81,6 +81,10 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     CircularImageView imgAvatar;
 
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.ivCall)
+    ImageView ivCall;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_about)
     TextView txtAbout;
 
@@ -425,8 +429,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                 lSkill.setVisibility(View.VISIBLE);
                 tvSkills.setVisibility(View.VISIBLE);
             }
-                recyclerViewPortfolio.setVisibility(View.GONE);
-                lPort.setVisibility(View.GONE);
+            recyclerViewPortfolio.setVisibility(View.GONE);
+            lPort.setVisibility(View.GONE);
             rbPortfollio.setTextColor(getResources().getColor(R.color.textColor));
             rbSkills.setTextColor(getResources().getColor(R.color.blue));
 
@@ -463,7 +467,6 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                             adapter.clear();
                             badgesModelArrayList = userAccountModel.getBadges();
 
-
                             if (attachmentArrayList.size() <= 0) {
                                 NoPortfolio.setVisibility(View.VISIBLE);
                                 lPort.setVisibility(View.GONE);
@@ -493,8 +496,14 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                             }else{
                                 NoPortfolio.setVisibility(View.GONE);
                             }
+
+                            if(rbPortfollio.isChecked())
+                            {
+                                lSkill.setVisibility(View.GONE);
+                                noSkill.setVisibility(View.GONE);
+                            }
                         } else {
-                            dashboardActivity.showToast("Something went wrong", dashboardActivity);
+                            dashboardActivity.showToast("Connection error", dashboardActivity);
                         }
 
                     } catch (JSONException e) {
@@ -529,8 +538,15 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
     @SuppressLint("SetTextI18n")
     private void setUpAllEditFields(UserAccountModel userAccountModel) {
+        if(userAccountModel==null)
+            return;
+
         tvAboutHeading.setTypeface(txtAbout.getTypeface(), Typeface.BOLD_ITALIC);
 
+        if(userAccountModel.getMobileVerifiedAt() != null)
+        {
+            ivCall.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable);
+        }
         if (userAccountModel.getAbout() == null || userAccountModel.getAbout().equals("")) {
             txtAbout.setText("Nothing to show");
         } else {
@@ -673,8 +689,10 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             startActivity(new Intent(dashboardActivity, ReviewsActivity.class)
                     .putExtras(bundle));
         });
+
         onChangeTabBiography();
         onChangeTabUser();
+
     }
 
     public void onViewClicked() {

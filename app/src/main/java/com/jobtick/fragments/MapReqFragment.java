@@ -138,7 +138,7 @@ public class MapReqFragment extends Fragment implements TextWatcher {
 
         addBillingAddress.add(edtAddressLine1.getText().toString(),"",
                 edtSuburs.getText().toString(),
-                edtState.getText().toString(),
+                stateHelper.getStateAbr(edtState.getText().toString()),
                 edtPostcode.getText().toString(),
                 edtCountry.getText().toString());
 
@@ -169,6 +169,10 @@ public class MapReqFragment extends Fragment implements TextWatcher {
         }
         if (TextUtils.isEmpty(edtCountry.getText().toString().trim())) {
             edtCountry.setError("Please Enter Country");
+            return false;
+        }
+        if(!stateHelper.isCorrectState(edtState.getText())) {
+            edtState.setError("State is not correct!");
             return false;
         }
         return true;

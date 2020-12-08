@@ -1143,7 +1143,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void initQuestion() {
-        attachmentArrayList_question.clear();
         attachmentArrayList_question.add(new AttachmentModel());
         recyclerViewQuestionAttachment.setLayoutManager(new LinearLayoutManager(TaskDetailsActivity.this, RecyclerView.HORIZONTAL, false));
         recyclerViewQuestionAttachment.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(TaskDetailsActivity.this, 5), true));
@@ -1472,11 +1471,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
 
         //TODO taskModel.getOfferCount() > 5
-        if (offerCount > 5) {
-            cardViewAllOffers.setVisibility(View.VISIBLE);
-        } else {
-            cardViewAllOffers.setVisibility(View.GONE);
-        }
+//        if (offerCount > 5) {
+//            cardViewAllOffers.setVisibility(View.VISIBLE);
+//        } else {
+//            cardViewAllOffers.setVisibility(View.GONE);
+//        }
     }
 
     private void addBottomDots(LinearLayout layout_dots, int size, int current) {
@@ -2115,6 +2114,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             //     bundle.putParcelable(ConstantKey.OFFER_LIST_MODEL, obj);
             intent.putExtras(bundle);
             startActivityForResult(intent, ConstantKey.RESULTCODE_PAYMENTOVERVIEW);
+        }else if(action.equalsIgnoreCase("report")){
+            Intent intent = new Intent(TaskDetailsActivity.this, ReportActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString(ConstantKey.SLUG, taskModel.getSlug());
+            bundle.putString("key", ConstantKey.KEY_OFFER_REPORT);
+
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
     }
 
@@ -2128,6 +2135,13 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             //bundle.putParcelable(ConstantKey.QUESTION_LIST_MODEL, obj);
             intent.putExtras(bundle);
             startActivityForResult(intent, 21);
+        }else if(action.equalsIgnoreCase("report")){
+            Intent intent = new Intent(TaskDetailsActivity.this, ReportActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString(ConstantKey.SLUG, taskModel.getSlug());
+            bundle.putString("key", ConstantKey.KEY_COMMENT_REPORT);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
     }
 

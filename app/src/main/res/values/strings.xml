@@ -455,5 +455,6 @@
     <string name="use_quick_offer">Use Quick Offer</string>
     <string name="job_details">Job details</string>
     <string name="wallet">Wallet</string>
+    <string name="search_inbox">Search inbox</string>
 
 </resources>

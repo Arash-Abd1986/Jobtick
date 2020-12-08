@@ -34,8 +34,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.ProfileActivity"/>
-        <activity android:name=".activities.NewSplashActivity" android:theme="@style/NewSplash.AppTheme">
+        <activity android:name=".activities.ChatSearchActivity"/>
+        <activity android:name=".activities.ProfileActivity" />
+        <activity
+            android:name=".activities.NewSplashActivity"
+            android:theme="@style/NewSplash.AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -65,7 +68,7 @@
         <activity android:name=".activities.JobReceiptActivity" />
         <activity
             android:name=".cancellations.CancellationDeclineActivity"
-            android:windowSoftInputMode="adjustPan|stateVisible"/>
+            android:windowSoftInputMode="adjustPan|stateVisible" />
         <activity android:name=".cancellations.CancellationAcceptedActivity" />
         <activity android:name=".cancellations.CancellationRequestSubmittedActivity" />
         <activity
@@ -76,7 +79,9 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".cancellations.CancellationDeclinedActivity" />
         <activity android:name=".cancellations.cancellationSubmittedActivity" />
-        <activity android:name=".activities.LeaveReviewActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".activities.LeaveReviewActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activities.PaymentReceiptActivity" />
         <activity
             android:name=".activities.ChatActivity"
@@ -92,7 +97,9 @@
             android:name=".activities.PublicChatActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activities.PortfolioActivity" />
-        <activity android:name=".activities.MakeAnOfferActivity" android:windowSoftInputMode="adjustPan|stateVisible" />
+        <activity
+            android:name=".activities.MakeAnOfferActivity"
+            android:windowSoftInputMode="adjustPan|stateVisible" />
         <activity
             android:name=".activities.TaskDetailsActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -106,7 +113,9 @@
         <activity android:name=".activities.FiltersActivity" />
         <activity android:name=".activities.AddTagActivity" />
         <activity android:name=".activities.AttachmentActivity" />
-        <activity android:name=".activities.MobileVerificationActivity" android:windowSoftInputMode="adjustPan|stateVisible" />
+        <activity
+            android:name=".activities.MobileVerificationActivity"
+            android:windowSoftInputMode="adjustPan|stateVisible" />
         <activity
             android:name=".activities.BillingAddressActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />
@@ -125,7 +134,9 @@
         <activity
             android:name=".activities.CompleteRegistrationActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />
-        <activity android:name=".activities.TaskCreateActivity" android:windowSoftInputMode="adjustPan|stateVisible" />
+        <activity
+            android:name=".activities.TaskCreateActivity"
+            android:windowSoftInputMode="adjustPan|stateVisible" />
         <activity android:name=".activities.SavedTaskActivity" />
         <activity android:name=".activities.UserProfileActivity" />
         <activity android:name=".activities.WebViewActivity" />
@@ -143,7 +154,7 @@
             android:label="@string/title_activity_dashboard" />
         <activity
             android:name=".activities.SplashActivity"
-            android:theme="@style/Splash.AppTheme"></activity>
+            android:theme="@style/Splash.AppTheme" />
         <activity
             android:name=".activities.AuthActivity"
             android:windowSoftInputMode="adjustPan|stateVisible" />

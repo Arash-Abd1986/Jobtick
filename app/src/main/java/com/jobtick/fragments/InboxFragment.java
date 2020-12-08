@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +33,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jobtick.R;
 import com.jobtick.activities.ChatActivity;
+import com.jobtick.activities.ChatSearchActivity;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.adapers.InboxListAdapter;
 import com.jobtick.models.ConversationModel;
@@ -198,7 +201,17 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
         toolbar = dashboardActivity.findViewById(R.id.toolbar);
         toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.menu_new_task);
-        toolbar.getMenu().findItem(R.id.action_search).setVisible(true);
+        toolbar.getMenu().findItem(R.id.action_search).setVisible(false);
+        toolbar.getMenu().findItem(R.id.action_search_chat).setVisible(true);
+        toolbar.getMenu().findItem(R.id.action_search_chat).setOnMenuItemClickListener(null);
+        toolbar.getMenu().findItem(R.id.action_search_chat).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getContext(), ChatSearchActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
         ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
         ivNotification.setVisibility(View.GONE);
         toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);

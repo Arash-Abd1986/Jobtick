@@ -121,7 +121,7 @@
                     android:padding="2dp">
 
                     <ImageView
-                        android:id="@+id/ivMedal3"
+                        android:id="@+id/ivMedal"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
                         android:layout_gravity="center"

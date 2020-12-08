@@ -20,9 +20,11 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
         android:layout_alignParentBottom="true"
-        app:itemIconSize="@dimen/_21sp"
+        app:itemIconSize="19sp"
+        app:itemRippleColor="@color/colorPrimary"
+        android:theme="@style/Widget.BottomNavigationView"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav_menu" />
 </RelativeLayout>

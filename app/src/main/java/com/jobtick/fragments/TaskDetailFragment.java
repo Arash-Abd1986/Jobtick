@@ -447,7 +447,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                                 addTagList,
                                 checkboxOnline.isChecked() ? "remote" : "physical",
                                 txtSuburb.getText().toString().trim(),
-                                task.getPosition()
+                                task.getPosition(),
+                                attachmentArrayList
                         );
                         operationsListener.onValidDataFilled();
                         break;
@@ -462,62 +463,6 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                         break;
                 }
                 break;
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 25) {
-            addTagList.clear();
-            addTagList.addAll(data.getStringArrayListExtra("TAG"));
-            tagAdapter.notifyDataSetChanged();
-            tagAdapterBottomSheet.notifyDataSetChanged();
-        }
-
-        if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
-
-            // Retrieve the information from the selected location's CarmenFeature
-
-            CarmenFeature carmenFeature = PlacePicker.getPlace(data);
-            Helper.Logger(TAG, "CarmenFeature = " + carmenFeature.toJson());
-            //No Need to get fine location, suburb is OK.
-//            GeocodeObject geocodeObject = Helper.getGeoCodeObject(getActivity(), carmenFeature.center().latitude()
-//                    , carmenFeature.center().longitude());
-            txtSuburb.setText(carmenFeature.placeName());
-
-
-            //txtSuburb.setText(geocodeObject.getAddress());
-            // editArea.setText(geocodeObject.getKnownName());
-            PositionModel positionModel = new PositionModel();
-            positionModel.setLatitude(carmenFeature.center().latitude());
-            positionModel.setLongitude(carmenFeature.center().longitude());
-            task.setPosition(positionModel);
-            LatLng locationObject = new LatLng(carmenFeature.center().latitude(), carmenFeature.center().longitude());
-        }
-
-        if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
-            Uri filePath = data.getData();
-            String imagePath = getPath(data.getData());
-            File file = new File(imagePath);
-            uploadDataInTempApi(file);
-        }
-
-        if (requestCode == CAMERA_REQUEST && resultCode == getActivity().RESULT_OK) {
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            File pictureFile = new File(taskCreateActivity.getExternalCacheDir(), "jobtick");
-            FileOutputStream fos = null;
-            try {
-                fos = new FileOutputStream(pictureFile);
-                if (bitmap != null) {
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                }
-                fos.close();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            uploadDataInTempApi(pictureFile);
         }
     }
 
@@ -549,7 +494,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     }
 
     public interface OperationsListener {
-        void onNextClick(String title, String description, ArrayList<String> musthave, String task_type, String location, PositionModel positionModel);
+        void onNextClick(String title, String description, ArrayList<String> musthave, String task_type, String location,
+                         PositionModel positionModel, ArrayList<AttachmentModel> attachmentArrayList);
 
         void onValidDataFilled();
 
@@ -869,7 +815,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                             attachmentArrayList.add(attachmentArrayList.size() - 1, attachment);
                         }
                     }
-                    attachmentAdapter.notifyItemInserted(0);
+                    attachmentAdapter.notifyItemInserted(attachmentArrayList.size() - 1);
 
                 } catch (JSONException e) {
                     taskCreateActivity.showToast("Something went wrong", taskCreateActivity);
@@ -922,6 +868,62 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             lytBtnDetails.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
             lytBntDateTime.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
             lytBtnBudget.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 25) {
+            addTagList.clear();
+            addTagList.addAll(data.getStringArrayListExtra("TAG"));
+            tagAdapter.notifyDataSetChanged();
+            tagAdapterBottomSheet.notifyDataSetChanged();
+        }
+
+        if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
+
+            // Retrieve the information from the selected location's CarmenFeature
+
+            CarmenFeature carmenFeature = PlacePicker.getPlace(data);
+            Helper.Logger(TAG, "CarmenFeature = " + carmenFeature.toJson());
+            //No Need to get fine location, suburb is OK.
+//            GeocodeObject geocodeObject = Helper.getGeoCodeObject(getActivity(), carmenFeature.center().latitude()
+//                    , carmenFeature.center().longitude());
+            txtSuburb.setText(carmenFeature.placeName());
+
+
+            //txtSuburb.setText(geocodeObject.getAddress());
+            // editArea.setText(geocodeObject.getKnownName());
+            PositionModel positionModel = new PositionModel();
+            positionModel.setLatitude(carmenFeature.center().latitude());
+            positionModel.setLongitude(carmenFeature.center().longitude());
+            task.setPosition(positionModel);
+            LatLng locationObject = new LatLng(carmenFeature.center().latitude(), carmenFeature.center().longitude());
+        }
+
+        if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
+            Uri filePath = data.getData();
+            String imagePath = getPath(data.getData());
+            File file = new File(imagePath);
+            uploadDataInTempApi(file);
+       }
+
+        if (requestCode == CAMERA_REQUEST && resultCode == getActivity().RESULT_OK) {
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            File pictureFile = new File(taskCreateActivity.getExternalCacheDir(), "jobtick");
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(pictureFile);
+                if (bitmap != null) {
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                }
+                fos.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            uploadDataInTempApi(pictureFile);
         }
     }
 }

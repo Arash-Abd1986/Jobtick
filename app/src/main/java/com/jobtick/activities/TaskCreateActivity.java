@@ -296,13 +296,14 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
 
     @Override
     public void onNextClick(String title, String description, ArrayList<String> musthave, String task_type,
-                            String location, PositionModel positionModel) {
+                            String location, PositionModel positionModel, ArrayList<AttachmentModel> attachmentArrayList) {
         taskModel.setTitle(title);
         taskModel.setDescription(description);
         taskModel.setMusthave(musthave);
         taskModel.setPosition(positionModel);
         taskModel.setLocation(location);
         taskModel.setTaskType(task_type);
+        taskModel.setAttachments(attachmentArrayList);
         viewPager.setCurrentItem(1);
         selectDateTimeBtn();
     }

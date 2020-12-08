@@ -24,6 +24,7 @@ import com.jobtick.models.notification.NotifDatum;
 import com.jobtick.models.notification.PushNotificationModel2;
 import com.jobtick.pagination.PaginationListener;
 import com.jobtick.utils.Constant;
+import com.jobtick.utils.ConstantKey;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +38,8 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
+import static com.jobtick.utils.ConstantKey.PUSH_COMMENT;
+import static com.jobtick.utils.ConstantKey.PUSH_TASK;
 
 public class NotificationActivity extends ActivityBase implements NotificationListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
@@ -231,29 +234,29 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
 
     @Override
     public void onItemClick(View view, NotifDatum obj, int position, String action) {
-//        if (obj.getTrigger() != null) {
-//            Intent intent = new Intent(NotificationActivity.this, TaskDetailsActivity.class);
-//            Bundle bundleintent = new Bundle();
-//            if (obj.getTrigger().equals(PUSH_TASK)) {
-//                bundleintent.putString(ConstantKey.SLUG, obj.getModel_slug());
-//                intent.putExtras(bundleintent);
-//                startActivity(intent);
-//            }
-//            if (obj.getTrigger().equals(PUSH_COMMENT)) {
-//
-//                if (obj.getOffer_id() != 0) {
-//                    bundleintent.putString(ConstantKey.SLUG, obj.getModel_slug());
-//                    bundleintent.putInt(ConstantKey.PUSH_OFFER_ID, obj.getOffer_id());
-//                    intent.putExtras(bundleintent);
-//                    startActivity(intent);
-//                }
+        if (obj.getData() != null && obj.getData().getTrigger() != null) {
+            Intent intent = new Intent(NotificationActivity.this, TaskDetailsActivity.class);
+            Bundle bundleIntent = new Bundle();
+            if (obj.getData().getTrigger().equals(PUSH_TASK)) {
+                bundleIntent.putString(ConstantKey.SLUG, obj.getData().getTaskSlug());
+                intent.putExtras(bundleIntent);
+                startActivity(intent);
+            }
+            if (obj.getData().getTrigger().equals(PUSH_COMMENT)) {
+
+                if (obj.getData().getOffer().getId() != 0) {
+                    bundleIntent.putString(ConstantKey.SLUG, obj.getData().getTaskSlug());
+                    bundleIntent.putInt(ConstantKey.PUSH_OFFER_ID, obj.getData().getOffer().getId());
+                    intent.putExtras(bundleIntent);
+                    startActivity(intent);
+                }
 //                if (obj.getQuestion_id() != 0) {
-//                    bundleintent.putString(ConstantKey.SLUG, obj.getModel_slug());
-//                    bundleintent.putInt(ConstantKey.PUSH_QUESTION_ID, obj.getQuestion_id());
-//                    intent.putExtras(bundleintent);
+//                    bundleIntent.putString(ConstantKey.SLUG, obj.getModel_slug());
+//                    bundleIntent.putInt(ConstantKey.PUSH_QUESTION_ID, obj.getQuestion_id());
+//                    intent.putExtras(bundleIntent);
 //                    startActivity(intent);
 //                }
-//            }
+            }
 //            if (obj.getTrigger().equals(PUSH_CONVERSATION)) {
 //
 //               /* Bundle bundle1 = new Bundle();
@@ -263,7 +266,7 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
 //                navController.setGraph(graph, bundle1);
 //*/
 //            }
-//
-//        }
+
+        }
     }
 }

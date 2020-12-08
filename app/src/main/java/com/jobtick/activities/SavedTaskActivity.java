@@ -3,6 +3,7 @@ package com.jobtick.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
 import com.jobtick.adapers.TaskListAdapter;
 import com.jobtick.interfaces.OnRemoveSavedTaskListener;
@@ -58,17 +60,10 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
 
-  //  @BindView(R.id.ivNoPosst)
-    //public GifImageView ivNoPost;
-
     private LinearLayout noPosts;
-/*
+
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
-*/
-
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
 
     public static OnRemoveSavedTaskListener onRemoveSavedtasklistener;
 
@@ -89,12 +84,26 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
         taskListAdapter.setOnItemClickListener(this);
         swipeRefresh.setOnRefreshListener(this);
 
+        initToolbar();
+
         // swipeRefresh.setRefreshing(true);
         getStatusList();
+    }
 
-        //toolbar.setNavigationOnClickListener(view -> onBackPressed());
-        ivBack.setOnClickListener(v -> finish());
+    private void initToolbar() {
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Saved Jobs");
+    }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

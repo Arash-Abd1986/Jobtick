@@ -46,7 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_16sp"
-                    android:text="@string/write_maximum_three_things_you_expect_from_ticker_before_he_she_makes_offer_nfor_example_n_licence_required_for_doing_the_job_n_should_have_and_bring_required_tools_to_complete_the_job"
+                    android:text="@string/write_maximum_three_things_you_expect"
                     android:textColor="@color/grey_70" />
             </LinearLayout>
 
@@ -143,8 +143,8 @@
                             android:layout_height="wrap_content"
                             android:background="@null"
                             android:hint="@string/what_requirements_they_must_have"
-                            android:inputType="textShortMessage"
-                            android:imeOptions="actionDone"
+                            android:inputType="text"
+                            android:imeOptions="actionSend"
                             android:maxLines="1"
                             android:textColor="@color/textColor" />
                     </LinearLayout>

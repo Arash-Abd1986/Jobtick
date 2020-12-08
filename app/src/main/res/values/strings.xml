@@ -323,7 +323,7 @@
     <string name="writeTitleForJob">Write a title for you job</string>
     <string name="job_description">Job description</string>
     <string name="can_the_job_be_done_remotely">Can the job be done remotely?</string>
-    <string name="write_maximum_three_things_you_expect_from_ticker_before_he_she_makes_offer_nfor_example_n_licence_required_for_doing_the_job_n_should_have_and_bring_required_tools_to_complete_the_job">Write maximum three things you expect from Ticker before he/she makes offer.\nFor example:\n · Licence required for doing the job. \n · Should have and bring required tools to complete the job.</string>
+    <string name="write_maximum_three_things_you_expect">Write maximum three things you expect from Ticker before he/she makes offer.\nFor example:\n · Licence required for doing the job. \n · Should have and bring required tools to complete the job.</string>
     <string name="what_requirements_they_must_have">What requirements they must have ?</string>
     <string name="time">Time</string>
     <string name="afternoon">Afternoon</string>

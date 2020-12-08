@@ -70,7 +70,7 @@
                 android:layout_marginTop="8dp"
                 app:eTitle="@string/post_code"
                 app:eInputType="integer"
-                app:eImeOptions="actionNext"
+                app:eImeOptions="actionDone"
                 app:eBoxSize="small"/>
 
             <com.jobtick.widget.ExtendedEntryText

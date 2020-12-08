@@ -23,6 +23,8 @@ import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.payment.AddBillingAddress;
 import com.jobtick.payment.AddBillingAddressImpl;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.utils.StateHelper;
+import com.jobtick.widget.ExtendedEntryText;
 
 import java.util.Objects;
 
@@ -32,14 +34,15 @@ import butterknife.OnClick;
 public class MapReqFragment extends Fragment implements TextWatcher {
 
     MaterialButton btnNext;
-    EditTextRegular edtAddressLine1;
-    EditTextRegular edtSuburs;
-    EditTextRegular edtState;
-    EditTextRegular edtPostcode;
-    EditTextRegular edtCountry;
+    ExtendedEntryText edtAddressLine1;
+    ExtendedEntryText edtSuburs;
+    ExtendedEntryText edtState;
+    ExtendedEntryText edtPostcode;
+    ExtendedEntryText edtCountry;
     SessionManager sessionManager;
 
     private AddBillingAddress addBillingAddress;
+    private StateHelper stateHelper;
 
     public MapReqFragment() {
     }
@@ -57,11 +60,14 @@ public class MapReqFragment extends Fragment implements TextWatcher {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sessionManager = new SessionManager(getContext());
+        stateHelper = new StateHelper(getContext());
         edtAddressLine1 = view.findViewById(R.id.edt_address_line_1);
         edtSuburs = view.findViewById(R.id.edt_suburs);
         edtState = view.findViewById(R.id.edt_state);
         edtPostcode = view.findViewById(R.id.edt_postcode);
         edtCountry = view.findViewById(R.id.edt_Country);
+
+        edtState.setAdapter(stateHelper.getStates());
 
         edtState.addTextChangedListener(this);
         edtSuburs.addTextChangedListener(this);

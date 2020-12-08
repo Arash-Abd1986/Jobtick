@@ -35,6 +35,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     private TextView errorView;
     private TextView dollar;
     private EditText editText;
+    private EditText secondEditText;
     private ImageView imageView;
     private int eBoxSize = 0;
     private boolean eIsPassword;
@@ -93,8 +94,10 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
 
         autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.content_auto_complete);
-        if(eInputType == EInputType.AUTOCOMPLETE)
+        if(eInputType == EInputType.AUTOCOMPLETE){
             editText = (EditText) autoCompleteTextView;
+            secondEditText = (EditText) findViewById(R.id.content);
+        }
         else
             editText = (EditText) findViewById(R.id.content);
 
@@ -189,8 +192,9 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         }
         if(eInputType == EInputType.AUTOCOMPLETE){
-            editText.setVisibility(View.GONE);
+            secondEditText.setVisibility(View.GONE);
             autoCompleteTextView.setVisibility(View.VISIBLE);
+            editText.setInputType(TYPE_CLASS_TEXT);
         }
 
     }

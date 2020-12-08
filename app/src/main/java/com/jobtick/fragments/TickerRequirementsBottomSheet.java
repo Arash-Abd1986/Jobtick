@@ -27,7 +27,7 @@ import com.jobtick.utils.SessionManager;
 
 import java.util.HashMap;
 
-public class TickerRequirementsBottomSheet extends BottomSheetDialogFragment {
+public class TickerRequirementsBottomSheet extends AbstractStateExpandedBottomSheet {
 
     protected ProgressDialog pDialog;
     private ImageView profileBtn, bankAccountBtn, billingAddressBtn, birthDayBtn, phoneNumberBtn;

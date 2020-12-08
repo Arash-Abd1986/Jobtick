@@ -355,13 +355,13 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT,
                     "\n\nhttps://play.google.com/store/apps/details?id=" + getPackageName() +
-                            " Sponsor code : " + sessionManager.getUserAccount().getFname() +
+                            "\n Sponsor code : " + sessionManager.getUserAccount().getFname() +
                             "\n\nThankYou\n" +
                             "Team " + getResources().getString(R.string.app_name));
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
         } catch (Exception e) {
-
+            Log.d("why_in_cash",e.getMessage());
         }
     }
 
@@ -426,6 +426,8 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 return true;
 
             case R.id.nav_refer_a_friend:
+                referAFriend();
+
                 return true;
 
             case R.id.nav_settings:

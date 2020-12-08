@@ -237,6 +237,7 @@
                     android:padding="@dimen/_5sp">
 
                     <ImageView
+                        android:id="@+id/ivMedal"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_gravity="center"

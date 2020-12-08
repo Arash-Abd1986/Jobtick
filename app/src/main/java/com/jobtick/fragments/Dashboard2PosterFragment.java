@@ -12,6 +12,21 @@ public class Dashboard2PosterFragment extends AbstractDashboard2Fragment {
 
     @Override
     public void setData() {
+        txtAccountLevel.setText(sessionManager.getUserAccount().getPosterTier().getName());
+        switch (userAccountModel.getPosterTier().getId()){
+            case 1:
+                ivMedal.setImageResource(R.drawable.ic_boronz_selected);
+                break;
+            case 2:
+                ivMedal.setImageResource(R.drawable.ic_silver_selected);
+                break;
+            case 3:
+                ivMedal.setImageResource(R.drawable.ic_gold_selected);
+                break;
+            case 4:
+                ivMedal.setImageResource(R.drawable.ic_max_selected);
+                break;
+        }
 
         txtAwaitingOffer.setTitle("Awaiting \nfor offer");
         txtReleasedMoney.setTitle("Released\nMoney");

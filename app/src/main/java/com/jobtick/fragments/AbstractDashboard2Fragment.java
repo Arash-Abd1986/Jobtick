@@ -1,6 +1,7 @@
 package com.jobtick.fragments;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,9 @@ public abstract class AbstractDashboard2Fragment extends Fragment {
 
     @BindView(R.id.txt_user_name)
     TextView txtUserName;
+
+    @BindView(R.id.ivMedal)
+    ImageView ivMedal;
 
     @BindView(R.id.txt_account_level)
     TextView txtAccountLevel;

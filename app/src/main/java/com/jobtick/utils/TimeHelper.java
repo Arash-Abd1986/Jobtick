@@ -10,6 +10,23 @@ import java.util.TimeZone;
 
 public class TimeHelper {
 
+
+    //format 2021-01-07
+    public static Long convertDateToLong(String date){
+
+        SimpleDateFormat sdf
+                = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
+
+        try {
+            Date d = sdf.parse(date);
+            assert d != null;
+            return d.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return -1L;
+        }
+    }
+
     public static String convertSecondsToMinAndSeconds(int seconds){
         int min = seconds / 60;
         int sec = seconds % 60;

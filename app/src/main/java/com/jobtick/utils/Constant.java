@@ -169,4 +169,6 @@ public class Constant {
 
     public static final String userID = "userID";
     public static final String userAccount = "userAccount";
+
+    public static final int MAX_RESCHEDULE_DAY = 14;
 }

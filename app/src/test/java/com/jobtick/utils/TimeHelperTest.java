@@ -8,6 +8,8 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class TimeHelperTest {
 
+
+
     @Test
     public void findDifferenceWithNow() {
 
@@ -44,5 +46,17 @@ public class TimeHelperTest {
 
         //put current date
         Assert.assertEquals("30th Nov. 2020 12:30 AM", date);
+    }
+
+    @Test
+    public void convertDateToLong() {
+        String today = "2021-01-07";
+        String tomorrow = "2021-01-08";
+        long longTimeToday = TimeHelper.convertDateToLong(today);
+        long longTimeTomorrow = TimeHelper.convertDateToLong(tomorrow);
+
+        long delta = longTimeTomorrow - longTimeToday;
+
+        Assert.assertEquals(86400000L, delta);
     }
 }

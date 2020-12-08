@@ -2396,6 +2396,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 bundle.putInt("budget", taskModel.getBudget());
                 intent.putExtras(bundle);
                 startActivity(intent);
+                mBottomSheetDialog.dismiss();
             } else {
                 Toast.makeText(TaskDetailsActivity.this, "Please select all must-have requirement", Toast.LENGTH_LONG).show();
             }

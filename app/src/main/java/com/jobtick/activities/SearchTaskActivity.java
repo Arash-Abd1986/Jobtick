@@ -205,7 +205,7 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
 
 
     private void setPreviewAdapter() {
-        previewTaskSetModel = sessionManager.getPreviewTaskModel(SearchTaskActivity.class);
+        previewTaskSetModel = sessionManager.getPreviewTaskModel(SearchTaskActivity.class, isFromMyJobs);
         if (previewTaskSetModel == null)
             previewTaskSetModel = new PreviewTaskSetModel();
 
@@ -271,7 +271,7 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
         bundle.putInt(ConstantKey.USER_ID, obj.getUserId());
         intent.putExtras(bundle);
         startActivity(intent);
-        sessionManager.setPreviewTaskModel(previewTaskSetModel, SearchTaskActivity.class);
+        sessionManager.setPreviewTaskModel(previewTaskSetModel, SearchTaskActivity.class, isFromMyJobs);
     }
 }
 

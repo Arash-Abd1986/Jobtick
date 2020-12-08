@@ -205,6 +205,12 @@
         <item name="android:minHeight">10dip</item>
     </style>
 
+    <style name="RatingBar_32dp" parent="android:Widget.DeviceDefault.Light.RatingBar.Indicator">
+        <item name="android:progressDrawable">@drawable/rating_bar_32dp</item>
+        <item name="android:minHeight">32dip</item>
+        <item name="android:maxHeight">32dip</item>
+    </style>
+
 
     <style name="NavigationView" parent="@android:style/TextAppearance.Medium">
         <item name="fontFamily">@font/poppins_medium</item>

@@ -149,17 +149,19 @@ public class SessionManager {
         editor.commit();
     }
 
-    public PreviewTaskSetModel getPreviewTaskModel(Class<?> cls){
-        String json = pref.getString(cls.getName(), null);
+    public PreviewTaskSetModel getPreviewTaskModel(Class<?> cls, boolean isMyTasks){
+        String previewTaskSavedName = cls.getName() + isMyTasks;
+        String json = pref.getString(previewTaskSavedName, null);
         Type type = new TypeToken<PreviewTaskSetModel>(){}.getType();
         Gson gson = new Gson();
         return gson.fromJson(json, type);
     }
 
-    public void setPreviewTaskModel(PreviewTaskSetModel previewTaskSetModel, Class<?> cls){
+    public void setPreviewTaskModel(PreviewTaskSetModel previewTaskSetModel, Class<?> cls, boolean isMyTasks){
+        String previewTaskSavedName = cls.getName() + isMyTasks;
         Gson gson = new Gson();
         String previewJson = gson.toJson(previewTaskSetModel);
-        editor.putString(cls.getName(), previewJson);
+        editor.putString(previewTaskSavedName, previewJson);
         editor.apply();
     }
 

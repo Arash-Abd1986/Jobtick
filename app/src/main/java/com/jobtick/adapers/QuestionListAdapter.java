@@ -161,6 +161,8 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         TextView txtMoreReplyQuestion;
         @BindView(R.id.recycler_view_questions_chat)
         RecyclerView recyclerViewQuestionsChat;
+        @BindView(R.id.ivReport)
+        ImageView ivReport;
 
 
         @BindView(R.id.linear_user_profile)
@@ -282,6 +284,12 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     if (mOnItemClickListener != null) {
                         mOnItemClickListener.onItemQuestionClick(v, item, getAdapterPosition(), "reply");
                     }
+                }
+            });
+
+            ivReport.setOnClickListener(v -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemQuestionClick(v, item, getAdapterPosition(), "report");
                 }
             });
 

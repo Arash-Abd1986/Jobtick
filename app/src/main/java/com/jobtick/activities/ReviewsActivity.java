@@ -94,6 +94,10 @@ public class ReviewsActivity extends ActivityBase {
     @BindView(R.id.progress_bar_5_star)
     ProgressBar progress_bar_5_star;
 
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.ivMedal)
+    ImageView ivMedal;
+
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.progress_bar_4_star)
@@ -249,11 +253,25 @@ public class ReviewsActivity extends ActivityBase {
 
     @SuppressLint("SetTextI18n")
     public void setData() {
-
         if (userAccountModel.getIsVerifiedAccount() == 1) {
             img_verified_account.setVisibility(View.VISIBLE);
         } else {
             img_verified_account.setVisibility(View.GONE);
+        }
+
+        switch (userAccountModel.getPosterTier().getId()){
+            case 1:
+                ivMedal.setImageResource(R.drawable.ic_boronz_selected);
+                break;
+            case 2:
+                ivMedal.setImageResource(R.drawable.ic_silver_selected);
+                break;
+            case 3:
+                ivMedal.setImageResource(R.drawable.ic_gold_selected);
+                break;
+            case 4:
+                ivMedal.setImageResource(R.drawable.ic_max_selected);
+                break;
         }
 
         if (userAccountModel.getAvatar() != null) {
@@ -266,7 +284,7 @@ public class ReviewsActivity extends ActivityBase {
         if (userAccountModel.getWorkerRatings() != null) {
             ratingBar.setRating(userAccountModel.getWorkerRatings().getAvgRating());
             txtRatingValue.setText(userAccountModel.getWorkerRatings().getAvgRating().toString());
-            txtReviewCounts.setText(userAccountModel.getWorkerRatings().getReceivedReviews().toString() + "Review");
+            txtReviewCounts.setText(userAccountModel.getWorkerRatings().getReceivedReviews().toString() + " Review");
             if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().getBreakdownModel().get1() != null) {
                 progress_bar_1_star.setProgress(userAccountModel.getWorkerRatings().getBreakdownModel().get1());
                 txt_review_count_1_star.setText("(" + userAccountModel.getWorkerRatings().getBreakdownModel().get1().toString() + ")");
@@ -314,7 +332,7 @@ public class ReviewsActivity extends ActivityBase {
         if (userAccountModel.getPosterRatings() != null) {
             ratingbar.setRating(userAccountModel.getPosterRatings().getAvgRating());
             txtRatingValueP.setText(userAccountModel.getPosterRatings().getAvgRating().toString());
-            txtReviewCountsP.setText(userAccountModel.getPosterRatings().getReceivedReviews().toString() + "Review");
+            txtReviewCountsP.setText(userAccountModel.getPosterRatings().getReceivedReviews().toString() + " Review");
             if (userAccountModel.getPosterRatings() != null && userAccountModel.getPosterRatings().getBreakdownModel().get1() != null) {
                 progress_bar_1_starP.setProgress(userAccountModel.getPosterRatings().getBreakdownModel().get1());
                 txt_review_count_1_starP.setText("(" + userAccountModel.getPosterRatings().getBreakdownModel().get1().toString() + ")");

@@ -45,6 +45,7 @@
             android:padding="3dp">
 
             <ImageView
+                android:id="@+id/ivReport"
                 android:layout_width="23dp"
                 android:layout_height="23dp"
                 android:layout_gravity="center"

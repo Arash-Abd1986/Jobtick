@@ -74,6 +74,7 @@ import com.jobtick.interfaces.OnWidthDrawListener;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.BankAccountModel;
 import com.jobtick.models.BillingAdreessModel;
+import com.jobtick.models.ConversationModel;
 import com.jobtick.models.DueTimeModel;
 import com.jobtick.models.MustHaveModel;
 import com.jobtick.models.OfferDeleteModel;
@@ -121,8 +122,13 @@ import static com.jobtick.fragments.TickerRequirementsBottomSheet.Requirement;
 import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
 import static com.jobtick.utils.Constant.ADD_BILLING;
 import static com.jobtick.utils.Constant.BASE_URL;
+import static com.jobtick.utils.Constant.TASK_ASSIGNED;
 import static com.jobtick.utils.Constant.TASK_CANCELLED;
 import static com.jobtick.utils.Constant.TASK_CLOSED;
+import static com.jobtick.utils.Constant.TASK_COMPLETE;
+import static com.jobtick.utils.Constant.TASK_DRAFT;
+import static com.jobtick.utils.Constant.TASK_OPEN;
+import static com.jobtick.utils.Constant.TASK_PENDING;
 import static com.jobtick.utils.Constant.URL_TASKS;
 
 public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener,
@@ -137,6 +143,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
@@ -842,6 +850,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void getData() {
+        getAllUserProfileDetails();
+        getBankAccountAddress();
+        getBillingAddress();
         Log.d("str_slug", str_slug);
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_TASKS + "/" + str_slug,
@@ -867,9 +878,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 initComponent();
                                 setDataInLayout(taskModel);
                                 initQuestion();
-                                getAllUserProfileDetails();
-                                getBankAccountAddress();
-                                getBillingAddress();
+                                setChatButton(taskModel.getStatus().toLowerCase(),jsonObject_data);
+                                setPosterChatButton(taskModel.getStatus().toLowerCase(),jsonObject_data);
+
+
 
                                 if (taskModel.getTaskType().equals("physical")) {
                                     llLocation.setOnClickListener(new View.OnClickListener() {
@@ -922,6 +934,128 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(TaskDetailsActivity.this);
         requestQueue.add(stringRequest);
+
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.tvPrivateChatName)
+    TextView tvPrivateChatName;
+    @BindView(R.id.tvPrivateChatLocation)
+    TextView tvPrivateChatLocation;
+    @BindView(R.id.tvPrivateChatLastOnline)
+    TextView tvPrivateChatLastOnline;
+    @BindView(R.id.imgAvatarChat)
+    CircularImageView imgAvatarChat;
+    @BindView(R.id.llBtnPrivateMessageDisable)
+    LinearLayout llBtnPrivateMessageDisable;
+    @BindView(R.id.llBtnPrivateMessageEnable)
+    LinearLayout llBtnPrivateMessageEnable;
+    @BindView(R.id.llBtnPosterMessageEnable)
+    LinearLayout llBtnPosterMessageEnable;
+
+    private void setChatButton(String state,JSONObject jsonObject) {
+        if(!isMyTask || taskModel.getWorker()==null)
+            return;
+
+        relPrivateChat.setVisibility(View.VISIBLE);
+        if (taskModel.getWorker().getAvatar() != null && taskModel.getWorker().getAvatar().getThumbUrl() != null) {
+            ImageUtil.displayImage(imgAvatarChat, taskModel.getWorker().getAvatar().getThumbUrl(), null);
+        }
+
+        imgAvatarChat.setOnClickListener(v -> {
+            if (taskModel.getWorker().getId() != null) {
+                Intent intent = new Intent(TaskDetailsActivity.this, ProfileActivity.class);
+                intent.putExtra("id", taskModel.getWorker().getId());
+                startActivity(intent);
+            }
+        });
+        tvPrivateChatName.setText(taskModel.getWorker().getName());
+        if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
+            tvPrivateChatLocation.setText(taskModel.getLocation());
+        } else {
+            tvPrivateChatLocation.setText("Remote Task");
+        }
+        if (taskModel.getWorker().getLocation() != null && taskModel.getWorker().getLocation().length() > 0) {
+            tvPrivateChatLocation.setVisibility(View.VISIBLE);
+//            txtPosterLocation.setText(taskModel.getLocation());
+        } else {
+            tvPrivateChatLocation.setVisibility(View.VISIBLE);
+        }
+
+        tvPrivateChatLastOnline.setText("Active " + taskModel.getWorker().getLastOnline());
+
+        llBtnPrivateMessageEnable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    JSONObject conversation = jsonObject.getJSONObject("conversation");
+                    ConversationModel conversationModel = new ConversationModel(TaskDetailsActivity.this).getJsonToModel(conversation,
+                            TaskDetailsActivity.this);
+                    Intent intent = new Intent(TaskDetailsActivity.this, ChatActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(ConstantKey.CONVERSATION, conversationModel);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+            }
+        });
+            switch (state){
+                case TASK_DRAFT:
+                case TASK_PENDING:
+                case TASK_OPEN:
+                    llBtnPrivateMessageDisable.setVisibility(View.VISIBLE);
+                    llBtnPrivateMessageEnable.setVisibility(View.GONE);
+                    break;
+                 default:
+                     llBtnPrivateMessageDisable.setVisibility(View.GONE);
+                     llBtnPrivateMessageEnable.setVisibility(View.VISIBLE);
+                    break;
+            }
+
+    }
+    private void setPosterChatButton(String state,JSONObject jsonObject) {
+        if(taskModel.getWorker()==null)
+            return;
+
+
+        if (!taskModel.getWorker().getId().equals(sessionManager.getUserAccount().getId()))
+            return;
+
+
+        llBtnPosterMessageEnable.setOnClickListener(v -> {
+            try {
+                JSONObject conversation = jsonObject.getJSONObject("conversation");
+                ConversationModel conversationModel = new ConversationModel(TaskDetailsActivity.this).getJsonToModel(conversation,
+                        TaskDetailsActivity.this);
+                Intent intent = new Intent(TaskDetailsActivity.this, ChatActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(ConstantKey.CONVERSATION, conversationModel);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+
+        });
+            switch (state){
+                case TASK_DRAFT:
+                case TASK_PENDING:
+                case TASK_OPEN:
+                    lytBtnMessage.setVisibility(View.VISIBLE);
+                    llBtnPosterMessageEnable.setVisibility(View.GONE);
+                    break;
+                 default:
+                     lytBtnMessage.setVisibility(View.GONE);
+                     llBtnPosterMessageEnable.setVisibility(View.VISIBLE);
+                    break;
+            }
 
     }
 
@@ -1120,6 +1254,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         requestQueue.add(stringRequest);
     }
 
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.relPrivateChat)
+    RelativeLayout relPrivateChat;
+
     private void setOwnerTask() {
         if (taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
             //this is self task
@@ -1143,7 +1281,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void initQuestion() {
-        attachmentArrayList_question.clear();
         attachmentArrayList_question.add(new AttachmentModel());
         recyclerViewQuestionAttachment.setLayoutManager(new LinearLayoutManager(TaskDetailsActivity.this, RecyclerView.HORIZONTAL, false));
         recyclerViewQuestionAttachment.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(TaskDetailsActivity.this, 5), true));
@@ -1472,11 +1609,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
 
         //TODO taskModel.getOfferCount() > 5
-        if (offerCount > 5) {
-            cardViewAllOffers.setVisibility(View.VISIBLE);
-        } else {
-            cardViewAllOffers.setVisibility(View.GONE);
-        }
+//        if (offerCount > 5) {
+//            cardViewAllOffers.setVisibility(View.VISIBLE);
+//        } else {
+//            cardViewAllOffers.setVisibility(View.GONE);
+//        }
     }
 
     private void addBottomDots(LinearLayout layout_dots, int size, int current) {
@@ -2115,6 +2252,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             //     bundle.putParcelable(ConstantKey.OFFER_LIST_MODEL, obj);
             intent.putExtras(bundle);
             startActivityForResult(intent, ConstantKey.RESULTCODE_PAYMENTOVERVIEW);
+        }else if(action.equalsIgnoreCase("report")){
+            Intent intent = new Intent(TaskDetailsActivity.this, ReportActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString(ConstantKey.SLUG, taskModel.getSlug());
+            bundle.putString("key", ConstantKey.KEY_OFFER_REPORT);
+
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
     }
 
@@ -2128,6 +2273,13 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             //bundle.putParcelable(ConstantKey.QUESTION_LIST_MODEL, obj);
             intent.putExtras(bundle);
             startActivityForResult(intent, 21);
+        }else if(action.equalsIgnoreCase("report")){
+            Intent intent = new Intent(TaskDetailsActivity.this, ReportActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString(ConstantKey.SLUG, taskModel.getSlug());
+            bundle.putString("key", ConstantKey.KEY_COMMENT_REPORT);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
     }
 

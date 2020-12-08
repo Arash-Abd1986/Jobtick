@@ -18,10 +18,12 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -362,9 +364,6 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                 }
             }
         });
-
-        edtTitle.requestFocus();
-        edtDescription.performClick();
     }
 
     private void setComponent() {
@@ -611,6 +610,16 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         MaterialButton btnAdd = view.findViewById(R.id.btn_add);
         EditText edtAddTag = view.findViewById(R.id.edtAddTag);
+        edtAddTag.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEND) {
+                    btnAdd.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
         recyclerAddMustHaveBottomSheet.setLayoutManager(new GridLayoutManager(taskCreateActivity, 1));
         recyclerAddMustHaveBottomSheet.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true));
         recyclerAddMustHaveBottomSheet.setHasFixedSize(true);

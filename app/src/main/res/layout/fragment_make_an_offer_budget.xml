@@ -100,7 +100,6 @@
                         app:eHint="5 - 9999"
                         app:eImeOptions="normal"
                         app:eInputType="budget"
-                        app:eStartFocus="true"
                         app:eTitle="Your offer" />
 
                     <FrameLayout

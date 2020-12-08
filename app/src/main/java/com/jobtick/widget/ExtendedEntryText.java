@@ -36,14 +36,15 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     private TextView dollar;
     private EditText editText;
     private ImageView imageView;
+    private int eBoxSize = 0;
     private boolean eIsPassword;
     private boolean eStartFocus;
     private int eInputType;
     private int eImeOptions;
     private boolean password_hide = true;
+    private boolean eIsEnable = true;
     private ExtendedViewOnClickListener extendedViewOnClickListener;
 
-    private boolean eIsEnable = true;
 
     public ExtendedEntryText(Context context) {
         this(context, null);
@@ -71,6 +72,10 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             if (inputType != null && !inputType.isEmpty())
                 eInputType = Integer.parseInt(inputType);
 
+            String boxSize = sharedAttribute.getString(R.styleable.ExtendedEntryText_eBoxSize);
+            if (boxSize != null && !boxSize.isEmpty())
+                eBoxSize = Integer.parseInt(boxSize);
+
             String imeOptions = sharedAttribute.getString(R.styleable.ExtendedEntryText_eImeOptions);
             if (imeOptions != null && !imeOptions.isEmpty())
                 eImeOptions = Integer.parseInt(imeOptions);
@@ -80,7 +85,10 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         }
 
         //Inflate and attach the content
-        LayoutInflater.from(context).inflate(R.layout.view_extended_entry_text, this);
+        if(eBoxSize == EBoxSize.NORMAL)
+            LayoutInflater.from(context).inflate(R.layout.view_extended_entry_text, this);
+        else if(eBoxSize == EBoxSize.SMALL)
+            LayoutInflater.from(context).inflate(R.layout.view_extended_entry_text_small, this);
 
         setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
 
@@ -328,6 +336,11 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         int ACTION_NEXT = 0;
         int ACTION_DONE = 1;
         int NORMAL = 2;
+    }
+
+    public interface EBoxSize{
+        int NORMAL = 0;
+        int SMALL = 1;
     }
 
     public interface ExtendedViewOnClickListener {

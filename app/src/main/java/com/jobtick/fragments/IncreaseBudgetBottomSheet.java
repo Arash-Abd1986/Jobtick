@@ -316,7 +316,7 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
             return false;
         }
         else if(reason.getText().length() < reason.geteMinSize()){
-            newPrice.setError("");
+            reason.setError("");
             return false;
         }
         return true;

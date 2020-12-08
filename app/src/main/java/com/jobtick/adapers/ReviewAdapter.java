@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatRatingBar;
@@ -117,19 +118,19 @@ public class ReviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
 
         @BindView(R.id.txt_post_title)
-        TextViewBold txtPostTitle;
+        TextView txtPostTitle;
 
         @BindView(R.id.txt_user_name)
-        TextViewRegular txtUserName;
+        TextView txtUserName;
 
         @BindView(R.id.ratingbar)
         AppCompatRatingBar ratingBar;
 
         @BindView(R.id.txt_created_date)
-        TextViewRegular txtCreatedDate;
+        TextView txtCreatedDate;
 
         @BindView(R.id.txt_review_message)
-        TextViewRegular txtReviewMessage;
+        TextView txtReviewMessage;
 
         ViewHolder(View itemView) {
             super(itemView);

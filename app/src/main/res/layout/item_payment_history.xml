@@ -1,107 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dateTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:lines="1"
+        android:visibility="visible"
+        android:singleLine="true"
+        android:textAppearance="@style/materialText_500_10"
+        android:textColor="@color/grey_70"
+        tools:text="Feb 21, 2020" />
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/dateTxt"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/ic_place_holder"
+        app:civ_border="false" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/descriptionTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/ivAvatar"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="1dp"
+        android:layout_toStartOf="@id/priceTxt"
+        android:layout_toEndOf="@id/ivAvatar"
+        android:gravity="top|start"
+        android:lines="1"
+        android:textAppearance="@style/materialText_500_14"
+        android:textColor="@color/textColor"
+        tools:ignore="SpUsage"
+        tools:text="Clean my two bedroom apartment which is very dirty" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/nameTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/ivAvatar"
+        android:layout_marginStart="12dp"
+        android:lines="1"
+        android:layout_toStartOf="@id/priceTxt"
+        android:layout_toEndOf="@id/ivAvatar"
+        android:textAppearance="@style/materialText_400_12"
+        android:textColor="@color/grey_70"
+        tools:text="Cody Lane" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/priceTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/descriptionTxt"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:gravity="end|center_vertical"
+        android:lines="1"
+        android:textAppearance="@style/materialText_700_20"
+        android:textColor="@color/colorPrimary"
+        tools:text="$100" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/debitedTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/priceTxt"
+        android:layout_alignEnd="@id/priceTxt"
+        android:layout_alignStart="@id/priceTxt"
+        android:gravity="end"
+        android:lines="1"
+        android:textAppearance="@style/materialText_600_10"
+        android:textColor="@color/textColor"
+        tools:text="Debited" />
+
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/spacing_line"
-        android:background="@color/colorF0F0F0" />
+        android:background="@color/colorF0F0F0"
+        android:layout_alignEnd="@id/priceTxt"
+        android:layout_alignStart="@id/nameTxt"
+        android:layout_below="@id/debitedTxt"
+        android:layout_marginTop="12dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_5sp"
-        android:orientation="vertical"
-        android:padding="@dimen/spacing_large">
 
-        <com.jobtick.TextView.TextViewMedium
-            android:id="@+id/dateTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_middle"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:text="Feb 21, 2020"
-            android:textColor="@color/grey_70"
-            android:textSize="@dimen/_11sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_3sp"
-            android:orientation="horizontal">
-
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/ivAvatar"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_place_holder"
-                app:civ_border="false" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/spacing_middle"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <com.jobtick.TextView.TextViewSemiBold
-                    android:id="@+id/descriptionTxt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="2"
-                    android:singleLine="true"
-                    android:textColor="#2b3240"
-                    android:textSize="12dp"
-                    tools:ignore="SpUsage"
-                    tools:text="Clean my two bedroom apartment" />
-
-                <com.jobtick.TextView.TextViewRegular
-                    android:id="@+id/nameTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:textColor="#4D576A"
-                    android:textSize="10dp"
-                    tools:text="Cody Lane" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/spacing_middle"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <com.jobtick.TextView.TextViewBold
-                    android:id="@+id/priceTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:maxLines="2"
-                    android:singleLine="true"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    tools:text="$100" />
-
-                <com.jobtick.TextView.TextViewSemiBold
-                    android:id="@+id/debitedTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textColor="#2B3240"
-                    android:textSize="8dp"
-                    tools:text="Debited" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

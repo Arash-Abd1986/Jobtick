@@ -35,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,6 +141,7 @@ public class PaymentPaidFragment extends Fragment {
         totalPayment.setText(StringUtils.getPriceTxt(total_amount));
         totalTransaction.setText(data.size() + " transactions");
         paymentHistoryList.setLayoutManager(new LinearLayoutManager(getContext()));
+        Collections.reverse(data);
         paymentHistoryList.setAdapter(new PaymentHistoryListAdapter(data, true, paymentHistory -> {
             PaymentHistoryBottomSheet paymentPaidBottomSheet = PaymentHistoryBottomSheet.newInstance(paymentHistory);
             paymentPaidBottomSheet.show(getParentFragmentManager(), "");

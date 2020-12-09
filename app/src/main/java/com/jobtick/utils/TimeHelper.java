@@ -5,10 +5,20 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.IllegalFormatException;
 import java.util.Locale;
 import java.util.TimeZone;
 
 public class TimeHelper {
+
+    //Format: T separator of date and time
+    public static String convertToJustDateFormat(String dateTime){
+        if(!dateTime.contains("T")){
+            return "-1";
+        }
+
+        return dateTime.substring(0, dateTime.indexOf("T"));
+    }
 
 
     //format 2021-01-07

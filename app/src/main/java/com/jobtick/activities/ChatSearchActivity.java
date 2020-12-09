@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -92,7 +93,7 @@ public class ChatSearchActivity extends ActivityBase implements InboxListAdapter
     @BindView(R.id.pbLoading)
     ProgressBar pbLoading;
     @BindView(R.id.iv_back)
-    ProgressBar iv_back;
+    ImageView iv_back;
     private InboxListAdapter adapter;
     private RelativeLayout noMessages;
     private RecyclerView chatList;

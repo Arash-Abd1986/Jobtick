@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -23,8 +22,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.models.TaskModel;
-import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
+import com.jobtick.utils.TimeHelper;
 import com.jobtick.utils.Tools;
 import com.jobtick.widget.ExtendedCommentText;
 import com.jobtick.widget.ExtendedEntryText;
@@ -41,10 +40,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
+import static com.jobtick.utils.Constant.MAX_RESCHEDULE_DAY;
 import static com.jobtick.utils.Constant.URL_CREATE_RESCHEDULE;
 import static com.jobtick.utils.Constant.URL_TASKS;
 
-public class RescheduleReqFromWorkerActivity extends ActivityBase implements ExtendedEntryText.ExtendedViewOnClickListener{
+public class RescheduleTimeRequestActivity extends ActivityBase implements ExtendedEntryText.ExtendedViewOnClickListener{
 
 
     @BindView(R.id.toolbar)
@@ -60,6 +60,7 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase implements Ext
     TextView getTxtPreviousTime;
 
     int year, month, day;
+    long dueDate;
     DatePickerDialog.OnDateSetListener mDateSetListener;
     String str_due_date = null;
 
@@ -91,7 +92,9 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase implements Ext
         }
 
         if (taskModel != null) {
+            //format 2021-01-07
             txtPreviousDate.setText(taskModel.getDueDate());
+            dueDate = TimeHelper.convertDateToLong(taskModel.getDueDate());
             if(taskModel.getDueTime().getAfternoon())
                 getTxtPreviousTime.setText("Afternoon");
             if(taskModel.getDueTime().getEvening())
@@ -175,7 +178,7 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase implements Ext
                             if (jsonObject.getBoolean("success")) {
                                 finish();
                             } else {
-                                showToast("Something went Wrong", RescheduleReqFromWorkerActivity.this);
+                                showToast("Something went Wrong", RescheduleTimeRequestActivity.this);
                             }
                         }
                     } catch (JSONException e) {
@@ -213,7 +216,7 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase implements Ext
                             e.printStackTrace();
                         }
                     } else {
-                        showToast("Something Went Wrong", RescheduleReqFromWorkerActivity.this);
+                        showToast("Something Went Wrong", RescheduleTimeRequestActivity.this);
                     }
                     Timber.e(error.toString());
                     hideProgressDialog();
@@ -240,7 +243,7 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase implements Ext
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(RescheduleReqFromWorkerActivity.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(RescheduleTimeRequestActivity.this);
         requestQueue.add(stringRequest);
     }
 
@@ -272,11 +275,15 @@ public class RescheduleReqFromWorkerActivity extends ActivityBase implements Ext
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog dialog = new DatePickerDialog(
-                RescheduleReqFromWorkerActivity.this,
+                RescheduleTimeRequestActivity.this,
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                 mDateSetListener,
                 year, month, day);
-        dialog.getDatePicker().setMinDate(((System.currentTimeMillis() - 1000) + 86400000));
+        //set min date to tomorrow
+        long oneDay = 86400000;
+        dialog.getDatePicker().setMinDate(((System.currentTimeMillis() - 1000) + oneDay));
+        //set max date to 14 days after due date
+        dialog.getDatePicker().setMaxDate(dueDate + oneDay * MAX_RESCHEDULE_DAY + 1000);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }

@@ -15,6 +15,7 @@ import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.models.PushNotificationModel;
 import com.jobtick.payment.AddBillingAddress;
 import com.jobtick.payment.AddBillingAddressImpl;
+import com.jobtick.utils.StateHelper;
 import com.jobtick.widget.ExtendedEntryText;
 
 import butterknife.BindView;
@@ -51,14 +52,17 @@ public class BillingAddressActivity extends ActivityBase {
 
     private AddBillingAddress addBillingAddress;
 
+    private StateHelper stateHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_billing_address);
         ButterKnife.bind(this);
+        stateHelper = new StateHelper(this);
         initToolbar();
         initUi();
-
+        edtState.setAdapter(stateHelper.getStates());
         addBillingAddress = new AddBillingAddressImpl(this, sessionManager) {
             @Override
             public void onSuccess() {
@@ -92,7 +96,8 @@ public class BillingAddressActivity extends ActivityBase {
 
         edtAddressLine1.setText(billingAdreessModel.getData().getLine1());
         edtAddressLine2.setText(billingAdreessModel.getData().getLine2());
-        edtState.setText(billingAdreessModel.getData().getState());
+        String state = stateHelper.getStateName(billingAdreessModel.getData().getState());
+        edtState.setText(state);
         edtSuburs.setText(billingAdreessModel.getData().getCity());
         edtPostcode.setText(billingAdreessModel.getData().getPost_code());
         edtCountry.setText(billingAdreessModel.getData().getCountry());
@@ -131,7 +136,7 @@ public class BillingAddressActivity extends ActivityBase {
         addBillingAddress.add(edtAddressLine1.getText().toString(),
                 edtAddressLine2.getText().toString(),
                 edtSuburs.getText().toString(),
-                edtState.getText().toString(),
+                stateHelper.getStateAbr(edtState.getText().toString()),
                 edtPostcode.getText().toString(),
                 edtCountry.getText().toString());
 
@@ -167,6 +172,10 @@ public class BillingAddressActivity extends ActivityBase {
         }
         if (TextUtils.isEmpty(edtCountry.getText().toString().trim())) {
             edtCountry.setError("Please Enter Country");
+            return false;
+        }
+        if(!stateHelper.isCorrectState(edtState.getText())) {
+            edtState.setError("State is not correct!");
             return false;
         }
         return true;

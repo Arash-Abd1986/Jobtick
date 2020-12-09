@@ -22,15 +22,16 @@ import com.jobtick.models.BankAccountModel;
 import com.jobtick.payment.AddBankAccount;
 import com.jobtick.payment.AddBankAccountImpl;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.widget.ExtendedEntryText;
 
 import java.util.Objects;
 
 public class AddBankAccountReqFragment extends Fragment implements TextWatcher {
 
     private MaterialButton btnNext;
-    private EditTextMedium edtAccountName;
-    private EditTextMedium edtBsb;
-    private EditTextMedium edtAccountNumber;
+    private ExtendedEntryText edtAccountName;
+    private ExtendedEntryText edtBsb;
+    private ExtendedEntryText edtAccountNumber;
     private SessionManager sessionManager;
 
     private AddBankAccount addBankAccount;

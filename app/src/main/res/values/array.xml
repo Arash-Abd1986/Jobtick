@@ -6,6 +6,29 @@
         <item>9999</item>
     </array>
 
+    <!-- ARRAYS -->
+    <string-array name="au_states_array">
+        <item>AUSTRALIAN CAPITAL TERRITORY</item>
+        <item>NEW SOUTH WALES</item>
+        <item>NORTHERN TERRITORY</item>
+        <item>QUEENSLAND</item>
+        <item>SOUTH AUSTRALIA</item>
+        <item>TASMANIA</item>
+        <item>VICTORIA</item>
+        <item>WESTERN AUSTRALIA</item>
+    </string-array>
+
+    <string-array name="au_states_array_abr">
+        <item>ACT</item>
+        <item>NSW</item>
+        <item>NT</item>
+        <item>QLD</item>
+        <item>SA</item>
+        <item>TAS</item>
+        <item>VIC</item>
+        <item>WA</item>
+    </string-array>
+
 
 
     <integer-array name="category_image_0">
@@ -72,8 +95,6 @@
         <item>Anything\n Else</item>
 
     </string-array>
-
-
 
 
 </resources>

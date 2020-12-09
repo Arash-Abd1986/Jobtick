@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/map_frame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,185 +17,80 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
 
             <com.jobtick.TextView.TextViewMedium
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/spacing_mlarge"
-                android:gravity="left"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
+                android:gravity="start"
                 android:text="@string/provide_a_billing_address"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/_14sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_medium"
-                    android:background="@drawable/greay_border_bg">
+            <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/edt_address_line_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:eStartFocus="true"
+                app:eTitle="@string/address_line_1"
+                app:eInputType="text"
+                app:eImeOptions="actionNext"
+                app:eBoxSize="small"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/spacing_large">
+            <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/edt_suburs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:eTitle="@string/suburb"
+                app:eInputType="text"
+                app:eImeOptions="actionNext"
+                app:eBoxSize="small"/>
 
-                        <com.jobtick.TextView.TextViewSemiBold
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Address"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
-                            android:textStyle="bold" />
 
-                        <com.jobtick.EditText.EditTextRegular
-                            android:id="@+id/edt_address_line_1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:inputType="text"
-                            android:textSize="@dimen/_14sp" />
-                    </LinearLayout>
-                </LinearLayout>
+            <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/edt_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:eTitle="@string/state"
+                app:eInputType="autoComplete"
+                app:eImeOptions="actionNext"
+                app:eBoxSize="small"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_medium"
-                    android:background="@drawable/greay_border_bg">
+            <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/edt_postcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:eTitle="@string/post_code"
+                app:eInputType="integer"
+                app:eImeOptions="actionDone"
+                app:eBoxSize="small"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/spacing_large">
-
-                        <com.jobtick.TextView.TextViewSemiBold
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Suburs"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
-                            android:textStyle="bold" />
-
-                        <com.jobtick.EditText.EditTextRegular
-                            android:id="@+id/edt_suburs"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:inputType="text"
-                            android:textSize="@dimen/_14sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_medium"
-                    android:background="@drawable/greay_border_bg">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/spacing_large">
-
-                        <com.jobtick.TextView.TextViewSemiBold
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="State"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
-                            android:textStyle="bold" />
-
-                        <com.jobtick.EditText.EditTextRegular
-                            android:id="@+id/edt_state"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:inputType="text"
-                            android:textSize="@dimen/_14sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_medium"
-                    android:background="@drawable/greay_border_bg">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/spacing_large">
-
-                        <com.jobtick.TextView.TextViewSemiBold
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Postcode"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
-                            android:textStyle="bold" />
-
-                        <com.jobtick.EditText.EditTextRegular
-                            android:id="@+id/edt_postcode"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:inputType="number"
-                            android:maxLength="4"
-                            android:textSize="@dimen/_14sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
-                    android:background="@drawable/greay_border_bg">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/spacing_large">
-
-                        <com.jobtick.TextView.TextViewSemiBold
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Country"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_12sp"
-                            android:textStyle="bold" />
-
-                        <com.jobtick.EditText.EditTextRegular
-                            android:id="@+id/edt_Country"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:inputType="text"
-                            android:textSize="@dimen/_14sp" />
-                    </LinearLayout>
-                </LinearLayout>
+            <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/edt_Country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:eTitle="@string/country"
+                app:eContent="AU"
+                app:eIsEnable="false"
+                app:eInputType="text"
+                app:eImeOptions="actionDone"
+                app:eBoxSize="small"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_add_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 style="@style/materialButton"
                 android:text="@string/next"
                 android:enabled="false" />

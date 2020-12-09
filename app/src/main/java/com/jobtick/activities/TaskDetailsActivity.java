@@ -811,7 +811,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     }
                     break;
                 case R.id.action_rechedule:
-                    intent = new Intent(TaskDetailsActivity.this, RescheduleReqFromWorkerActivity.class);
+                    intent = new Intent(TaskDetailsActivity.this, RescheduleTimeRequestActivity.class);
                     bundle = new Bundle();
                     //   bundle.putParcelable(ConstantKey.TASK, taskModel);
                     intent.putExtras(bundle);

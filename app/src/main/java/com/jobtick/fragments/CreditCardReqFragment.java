@@ -23,6 +23,7 @@ import com.jobtick.activities.ActivityBase;
 import com.jobtick.payment.AddCreditCard;
 import com.jobtick.payment.AddCreditCardImpl;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.widget.ExtendedEntryText;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import java.util.Calendar;
@@ -34,10 +35,10 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
     @BindView(R.id.btn_add_card)
     MaterialButton btnAddCard;
 
-    EditText edtFullName;
-    EditText edtCardNumber;
-    TextView edtExpiryDate;
-    EditText edtSecurityNumber;
+    ExtendedEntryText edtFullName;
+    ExtendedEntryText edtCardNumber;
+    ExtendedEntryText edtExpiryDate;
+    ExtendedEntryText edtSecurityNumber;
 
     private int expMonth;
     private int expYear;
@@ -82,9 +83,7 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
         edtSecurityNumber.addTextChangedListener(this);
         edtExpiryDate.addTextChangedListener(this);
 
-        edtExpiryDate.setOnClickListener(v -> {
-            displayDialog();
-        });
+        edtExpiryDate.setExtendedViewOnClickListener(this::displayDialog);
 
 
         addCreditCard = new AddCreditCardImpl(requireContext(), sessionManager) {

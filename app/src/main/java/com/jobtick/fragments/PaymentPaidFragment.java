@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.CalendarView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,9 +22,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jobtick.R;
+import com.jobtick.TextView.TextViewMedium;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.adapers.PaymentHistoryListAdapter;
 import com.jobtick.models.payments.PaymentHistory;
@@ -35,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +61,20 @@ public class PaymentPaidFragment extends Fragment {
     @BindView(R.id.container)
     CardView container;
 
+    @BindView(R.id.filter)
+    TextView filter;
+    @BindView(R.id.download)
+    TextView download;
+    @BindView(R.id.txt_filter)
+    TextView txtFilter;
+
+
     private SessionManager sessionManager;
+
+    private int cyear, cmonth, cday;
+    private String from;
+    private String to;
+    private BottomSheetDialog mBottomSheetDialog;
 
     private PaymentPaidFragment() {
         // Required empty public constructor
@@ -82,6 +100,15 @@ public class PaymentPaidFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_payment_history_outgoing, container, false);
         ButterKnife.bind(this, view);
+
+        filter.setOnClickListener(v -> {
+            showBottomSheetDialogDate(true);
+        });
+
+        download.setOnClickListener(v -> {
+
+        });
+
         return view;
     }
 
@@ -148,5 +175,92 @@ public class PaymentPaidFragment extends Fragment {
 
         }));
 
+    }
+
+    private void showBottomSheetDialogDate(boolean from) {
+
+        final View view = getLayoutInflater().inflate(R.layout.sheet_date, null);
+
+        mBottomSheetDialog = new BottomSheetDialog(getContext());
+        mBottomSheetDialog.setContentView(view);
+        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        TextView title = view.findViewById(R.id.title);
+        title.setVisibility(View.VISIBLE);
+
+        if(from)
+            title.setText("From");
+        else
+            title.setText("To");
+
+
+        CalendarView calendarView = view.findViewById(R.id.calenderView);
+        TextViewMedium txtCancel = view.findViewById(R.id.txt_cancel);
+        LinearLayout lytBtnDone = view.findViewById(R.id.lyt_btn_done);
+
+        calendarView.setMinDate(System.currentTimeMillis());
+
+        Calendar now = Calendar.getInstance();
+        Calendar min = Calendar.getInstance();
+        if(from)
+            min.add(Calendar.MONTH, -12);
+        else
+            min.set(cyear, cmonth, cday);
+
+
+        calendarView.setMaxDate(now.getTimeInMillis());
+        calendarView.setMinDate(min.getTimeInMillis());
+
+        Calendar calendar = Calendar.getInstance();
+        cyear = calendar.get(Calendar.YEAR);
+        cmonth = calendar.get(Calendar.MONTH);
+        cday = calendar.get(Calendar.DAY_OF_MONTH);
+
+
+        txtCancel.setOnClickListener(v -> {
+            mBottomSheetDialog.dismiss();
+            txtFilter.setText("All date");
+            filter.setText("All");
+            setFilterToList(false);
+        });
+
+
+
+        lytBtnDone.setOnClickListener(v -> {
+            if(from) {
+                this.from = cday + "/" + cmonth + "/" + cyear;
+                mBottomSheetDialog.dismiss();
+                showBottomSheetDialogDate(false);
+            }
+            else{
+                this.to = cday + "/" + cmonth + "/" + cyear;
+                txtFilter.setText(String.format("%s to %s", this.from, this.to));
+                filter.setText("Custom range");
+                mBottomSheetDialog.dismiss();
+                setFilterToList(true);
+            }
+        });
+
+        calendarView.setOnDateChangeListener((arg0, year, month, date) -> {
+
+            cmonth = month;
+            cyear = year;
+            cday = date;
+        });
+
+
+        // set background transparent
+        ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
+
+        mBottomSheetDialog.show();
+        mBottomSheetDialog.setOnDismissListener(dialog ->{
+                if(!from)
+                    mBottomSheetDialog = null;
+        });
+    }
+
+    private void setFilterToList(boolean isFilterSet) {
+
+        ((ActivityBase)requireActivity()).showSuccessToast("filter is " + isFilterSet, getContext());
     }
 }

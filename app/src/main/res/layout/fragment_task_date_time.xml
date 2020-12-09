@@ -65,7 +65,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:src="@drawable/ic_date_gray"
-                            android:tint="@color/colorPrimary"
+                            app:tint="@color/colorPrimary"
                             tools:ignore="ContentDescription" />
                     </RelativeLayout>
                 </LinearLayout>

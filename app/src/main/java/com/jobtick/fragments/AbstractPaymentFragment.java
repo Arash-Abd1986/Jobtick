@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,12 +42,13 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PaymentPaidFragment extends Fragment {
+public abstract class AbstractPaymentFragment extends Fragment {
 
     @BindView(R.id.txt_total_payment)
     TextView totalPayment;
@@ -73,32 +73,28 @@ public class PaymentPaidFragment extends Fragment {
 
     private int cyear, cmonth, cday;
     private String from;
+    private String fromApiFormat;
     private String to;
+    private String toApiFormat;
     private BottomSheetDialog mBottomSheetDialog;
 
-    private PaymentPaidFragment() {
+    public AbstractPaymentFragment() {
         // Required empty public constructor
     }
 
-    public static PaymentPaidFragment newInstance() {
-        PaymentPaidFragment fragment = new PaymentPaidFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sessionManager = new SessionManager(getActivity());
-        getPoster();
+        getPaymentHistory(null, null);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_payment_history_outgoing, container, false);
+        View view = inflater.inflate(R.layout.fragment_payment_history, container, false);
         ButterKnife.bind(this, view);
 
         filter.setOnClickListener(v -> {
@@ -112,13 +108,28 @@ public class PaymentPaidFragment extends Fragment {
         return view;
     }
 
-    public void getPoster() {
+    public void getPaymentHistory(String from, String to) {
+        String type;
+        if(isPoster())
+           type = "poster_payment_filter=true";
+        else
+            type = "woker_payment_filter=true";
+
+        String url;
+
+        boolean firstInit = from == null && to == null;
+
+        if(!firstInit){
+            url = Constant.URL_GET_PAYMENT_HISTORY_FILTER + "?" +
+                    type + "&date_from=" + from + "&date_to=" + to;
+        }else
+            url = Constant.URL_GET_PAYMENT_HISTORY_FILTER + "?" + type ;
+
         ((ActivityBase) getActivity()).showProgressDialog();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_GET_PAYMENT_HISTORY_POSTER,
-                response -> {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
 
-                    ((ActivityBase) getActivity()).hideProgressDialog();
+                response -> {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && jsonObject.has("data")) {
@@ -127,12 +138,12 @@ public class PaymentPaidFragment extends Fragment {
                             Type listType = new TypeToken<List<PaymentHistory>>() {
                             }.getType();
                             List<PaymentHistory> jsonObjList = googleJson.fromJson(jsonObject_data.toString(), listType);
-                            fillData(jsonObjList, jsonObject.getString("total_amount"));
+                            fillData(jsonObjList, jsonObject.getString("total_amount"), firstInit);
                         }
                     } catch (JSONException e) {
-                        Log.e("EXCEPTION", String.valueOf(e));
                         e.printStackTrace();
                     }
+                    ((ActivityBase) getActivity()).hideProgressDialog();
                 },
                 error -> {
                     ((ActivityBase) getActivity()).errorHandle1(error.networkResponse);
@@ -154,14 +165,13 @@ public class PaymentPaidFragment extends Fragment {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
-        Log.e("URL", stringRequest.getUrl());
     }
 
-    private void fillData(List<PaymentHistory> data, String total_amount) {
-        if (data.size() == 0) {
+    private void fillData(List<PaymentHistory> data, String total_amount, boolean firstInit) {
+        if (data.size() == 0 && firstInit) {
             noTransactions.setVisibility(View.VISIBLE);
             container.setVisibility(View.GONE);
-        } else {
+        } else if (firstInit){
             noTransactions.setVisibility(View.GONE);
             container.setVisibility(View.VISIBLE);
         }
@@ -228,12 +238,14 @@ public class PaymentPaidFragment extends Fragment {
 
         lytBtnDone.setOnClickListener(v -> {
             if(from) {
-                this.from = cday + "/" + cmonth + "/" + cyear;
+                this.from = String.format(Locale.ENGLISH, "%d/%d/%d", cday , cmonth + 1, cyear);
+                this.fromApiFormat = String.format(Locale.ENGLISH, "%d-%d-%d", cyear , cmonth + 1, cday);
                 mBottomSheetDialog.dismiss();
                 showBottomSheetDialogDate(false);
             }
             else{
-                this.to = cday + "/" + cmonth + "/" + cyear;
+                this.to = String.format(Locale.ENGLISH, "%d/%d/%d", cday , cmonth + 1, cyear);
+                this.toApiFormat = String.format(Locale.ENGLISH, "%d-%d-%d", cyear , cmonth + 1, cday);
                 txtFilter.setText(String.format("%s to %s", this.from, this.to));
                 filter.setText("Custom range");
                 mBottomSheetDialog.dismiss();
@@ -261,6 +273,11 @@ public class PaymentPaidFragment extends Fragment {
 
     private void setFilterToList(boolean isFilterSet) {
 
-        ((ActivityBase)requireActivity()).showSuccessToast("filter is " + isFilterSet, getContext());
+        if(isFilterSet)
+            getPaymentHistory(fromApiFormat, toApiFormat);
+        else
+            getPaymentHistory(null, null);
     }
+
+    abstract boolean isPoster();
 }

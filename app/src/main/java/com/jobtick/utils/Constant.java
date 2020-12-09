@@ -102,6 +102,7 @@ public class Constant {
     public static final String URL_GET_ACCOUNT = BASE_URL + "account";
     public static final String URL_GET_PAYMENT_HISTORY_POSTER = BASE_URL + "payments/list?poster_payment_filter[]";
     public static final String URL_GET_PAYMENT_HISTORY_WORKER = BASE_URL + "payments/list?worker_payment_filter[]";
+    public static final String URL_GET_PAYMENT_HISTORY_FILTER = BASE_URL + "payments/list";
 
     public static final String URL_CREATE_RESCHEDULE = "reschedule";
 

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -14,8 +13,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
 import com.jobtick.adapers.SectionsPagerAdapter;
-import com.jobtick.fragments.PaymentEarnedFragment;
-import com.jobtick.fragments.PaymentPaidFragment;
+import com.jobtick.fragments.PaymentPosterFragment;
+import com.jobtick.fragments.PaymentTickerFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -127,8 +126,8 @@ public class PaymentHistoryActivity extends ActivityBase {
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(PaymentPaidFragment.newInstance(), getResources().getString(R.string.date_time));
-        adapter.addFragment(PaymentEarnedFragment.newInstance(), getResources().getString(R.string.details));
+        adapter.addFragment(PaymentPosterFragment.newInstance(), getResources().getString(R.string.date_time));
+        adapter.addFragment(PaymentTickerFragment.newInstance(), getResources().getString(R.string.details));
         viewPager.setAdapter(adapter);
     }
 }

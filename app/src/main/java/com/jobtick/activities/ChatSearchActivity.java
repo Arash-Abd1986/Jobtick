@@ -83,11 +83,16 @@ public class ChatSearchActivity extends ActivityBase implements InboxListAdapter
                     noMessages.setVisibility(View.GONE);
             }
         });
+        iv_back.setOnClickListener(v -> {
+           super.onBackPressed();
+        });
     }
     @BindView(R.id.edt_search_categoreis)
     EditText etSearch;
     @BindView(R.id.pbLoading)
     ProgressBar pbLoading;
+    @BindView(R.id.iv_back)
+    ProgressBar iv_back;
     private InboxListAdapter adapter;
     private RelativeLayout noMessages;
     private RecyclerView chatList;

@@ -48,7 +48,6 @@ import com.jobtick.fragments.SignInFragment;
 import com.jobtick.fragments.SignUpFragment;
 import com.jobtick.fragments.VerifyAccountFragment;
 import com.jobtick.models.UserAccountModel;
-import com.jobtick.presenter.AuthActivityPresenter;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.SessionManager;
@@ -74,7 +73,6 @@ public class AuthActivity extends ActivityBase {
     VerifyAccountFragment verifyAccountFragment;
     @BindView(R.id.auth_layout)
     FrameLayout authLayout;
-    AuthActivityPresenter authActivityPresenter;
     CallbackManager callbackManager;
     GoogleSignInClient mGoogleSignInClient;
     SessionManager sessionManager;
@@ -348,7 +346,6 @@ public class AuthActivity extends ActivityBase {
         setContentView(R.layout.activity_auth);
 
 
-        authActivityPresenter = new AuthActivityPresenter(this);
         ButterKnife.bind(this);
         sessionManager = new SessionManager(this);
         signInFragment = new SignInFragment();

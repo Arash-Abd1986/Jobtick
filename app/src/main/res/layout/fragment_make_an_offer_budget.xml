@@ -34,7 +34,7 @@
                     android:padding="@dimen/_5sp"
                     android:src="@drawable/ic_back" />
 
-                <com.jobtick.TextView.TextViewMedium
+                <com.jobtick.text_view.TextViewMedium
                     android:id="@+id/toolbar_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                         android:orientation="horizontal"
                         android:padding="@dimen/_8sp">
 
-                        <com.jobtick.TextView.TextViewMedium
+                        <com.jobtick.text_view.TextViewMedium
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -81,7 +81,7 @@
                             android:textColor="@color/grey_70"
                             android:textSize="@dimen/_14sp" />
 
-                        <com.jobtick.TextView.TextViewBold
+                        <com.jobtick.text_view.TextViewBold
                             android:id="@+id/tvOffer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                                 android:layout_marginTop="@dimen/_5sp"
                                 android:orientation="horizontal">
 
-                                <com.jobtick.TextView.TextViewMedium
+                                <com.jobtick.text_view.TextViewMedium
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -131,7 +131,7 @@
                                     android:textColor="@color/grey_70"
                                     android:textSize="@dimen/_14sp" />
 
-                                <com.jobtick.TextView.TextViewSemiBold
+                                <com.jobtick.text_view.TextViewSemiBold
                                     android:id="@+id/txt_service_fee"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
                                 android:orientation="horizontal"
                                 android:paddingBottom="@dimen/_3sp">
 
-                                <com.jobtick.TextView.TextViewSemiBold
+                                <com.jobtick.text_view.TextViewSemiBold
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -160,7 +160,7 @@
                                     android:textColor="@color/textColor"
                                     android:textSize="@dimen/_14sp" />
 
-                                <com.jobtick.TextView.TextViewBold
+                                <com.jobtick.text_view.TextViewBold
                                     android:id="@+id/txt_final_budget"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -216,7 +216,7 @@
                             </RelativeLayout>
 
                             <!--assign level number-->
-                            <com.jobtick.TextView.TextViewMedium
+                            <com.jobtick.text_view.TextViewMedium
                                 android:id="@+id/txt_account_level"
                                 android:layout_width="5dp"
                                 android:layout_height="1dp"
@@ -234,7 +234,7 @@
                                 android:layout_marginEnd="@dimen/_10sp"
                                 android:orientation="horizontal">
 
-                                <com.jobtick.TextView.TextViewSemiBold
+                                <com.jobtick.text_view.TextViewSemiBold
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -242,7 +242,7 @@
                                     android:textColor="@color/textColor"
                                     android:textSize="@dimen/_13sp" />
 
-                                <com.jobtick.TextView.TextViewSemiBold
+                                <com.jobtick.text_view.TextViewSemiBold
                                     android:id="@+id/txt_current_service_fee"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -261,7 +261,7 @@
                                 android:layout_marginEnd="@dimen/_10sp"
                                 android:orientation="vertical">
 
-                                <com.jobtick.TextView.TextViewMedium
+                                <com.jobtick.text_view.TextViewMedium
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:lineHeight="20dp"
@@ -269,7 +269,7 @@
                                     android:textColor="@color/grey_70"
                                     android:textSize="@dimen/_14sp" />
 
-                                <com.jobtick.TextView.TextViewRegular
+                                <com.jobtick.text_view.TextViewRegular
                                     android:id="@+id/txt_learn_how_level_affects_service_fee"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

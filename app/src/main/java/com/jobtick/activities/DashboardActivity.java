@@ -1,21 +1,16 @@
 package com.jobtick.activities;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -25,11 +20,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.fragments.CashOutBottomSheet;
 import com.jobtick.fragments.LogOutBottomSheet;
 import com.jobtick.interfaces.onProfileUpdateListener;
@@ -45,7 +39,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -62,7 +55,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-import butterknife.BindView;
 import timber.log.Timber;
 
 import static com.jobtick.utils.ConstantKey.PUSH_COMMENT;

@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
+import com.jobtick.text_view.TextViewBold;
 import com.jobtick.models.BadgesModel;
 import com.jobtick.utils.ImageUtil;
 

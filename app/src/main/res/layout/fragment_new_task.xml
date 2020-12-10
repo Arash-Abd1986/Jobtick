@@ -47,7 +47,7 @@
                 app:srcCompat="@drawable/ic_search"
                 android:contentDescription="@string/todo" />
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.jobtick.text_view.TextViewRegular
                 style="@style/materialText_400_14"
                 android:id="@+id/edt_search_categories"
                 android:layout_width="0dp"
@@ -68,7 +68,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.jobtick.TextView.TextViewRegular
+    <com.jobtick.text_view.TextViewRegular
         android:id="@+id/txt_btn_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.jobtick.radioButton;
+package com.jobtick.text_view;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -6,20 +6,20 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 
-public class RadioButtonRegular extends androidx.appcompat.widget.AppCompatRadioButton {
-    public RadioButtonRegular(Context context) {
+public class TextViewRegular extends androidx.appcompat.widget.AppCompatTextView {
+    public TextViewRegular(Context context) {
         super(context);
         Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_Regular.otf");
         this.setTypeface(face);
     }
 
-    public RadioButtonRegular(Context context, AttributeSet attrs) {
+    public TextViewRegular(Context context, AttributeSet attrs) {
         super(context, attrs);
         Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_Regular.otf");
         this.setTypeface(face);
     }
 
-    public RadioButtonRegular(Context context, AttributeSet attrs, int defStyle) {
+    public TextViewRegular(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_Regular.otf");
         this.setTypeface(face);

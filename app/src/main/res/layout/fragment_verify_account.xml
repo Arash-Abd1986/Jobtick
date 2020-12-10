@@ -34,7 +34,7 @@
             android:gravity="center">
 
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.jobtick.text_view.TextViewRegular
                 android:layout_width="match_parent"
                 android:layout_height="21dp"
                 android:gravity="start"
@@ -44,7 +44,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/grey_70" />
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.jobtick.text_view.TextViewRegular
                 android:layout_width="match_parent"
                 android:layout_height="21dp"
                 android:id="@+id/email_verify_message"

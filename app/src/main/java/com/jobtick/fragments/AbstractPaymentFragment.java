@@ -25,7 +25,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
+import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.adapers.PaymentHistoryListAdapter;
 import com.jobtick.models.payments.PaymentHistory;

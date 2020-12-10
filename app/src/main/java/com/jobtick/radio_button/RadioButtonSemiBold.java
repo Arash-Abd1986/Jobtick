@@ -1,33 +1,28 @@
-package com.jobtick.TextView;
+package com.jobtick.radio_button;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 
 
-public class TextViewSemiBold extends androidx.appcompat.widget.AppCompatTextView {
-    public TextViewSemiBold(Context context) {
+public class RadioButtonSemiBold extends androidx.appcompat.widget.AppCompatRadioButton {
+    public RadioButtonSemiBold(Context context) {
         super(context);
         Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_SemiBold.otf");
         this.setTypeface(face);
     }
 
-    public TextViewSemiBold(Context context, AttributeSet attrs) {
+    public RadioButtonSemiBold(Context context, AttributeSet attrs) {
         super(context, attrs);
         Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_SemiBold.otf");
         this.setTypeface(face);
     }
 
-    public TextViewSemiBold(Context context, AttributeSet attrs, int defStyle) {
+    public RadioButtonSemiBold(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_SemiBold.otf");
         this.setTypeface(face);
     }
 
-    protected void onDraw (Canvas canvas) {
-        super.onDraw(canvas);
 
-
-    }
 }

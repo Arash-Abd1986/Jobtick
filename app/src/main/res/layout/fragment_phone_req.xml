@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.jobtick.TextView.TextViewMedium
+            <com.jobtick.text_view.TextViewMedium
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -55,7 +55,7 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <com.jobtick.TextView.TextViewSemiBold
+                        <com.jobtick.text_view.TextViewSemiBold
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Mobile number"
@@ -93,7 +93,7 @@
                             android:background="?attr/selectableItemBackground"
                             android:gravity="center">
 
-                            <com.jobtick.TextView.TextViewMedium
+                            <com.jobtick.text_view.TextViewMedium
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
@@ -113,7 +113,7 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.jobtick.text_view.TextViewRegular
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -142,7 +142,7 @@
                     android:orientation="vertical"
                     android:padding="@dimen/spacing_large">
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.jobtick.text_view.TextViewSemiBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/sms_verification_code"

@@ -68,7 +68,7 @@
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:orientation="vertical">
 
-                <com.jobtick.TextView.TextViewMedium
+                <com.jobtick.text_view.TextViewMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/spacing_medium"

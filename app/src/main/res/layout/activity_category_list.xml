@@ -28,7 +28,7 @@
                 android:src="@drawable/ic_back"
                 tools:ignore="ContentDescription" />
 
-            <com.jobtick.TextView.TextViewMedium
+            <com.jobtick.text_view.TextViewMedium
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -75,7 +75,7 @@
                 android:src="@drawable/ic_search"
                 tools:ignore="ContentDescription" />
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.jobtick.text_view.TextViewRegular
                 android:id="@+id/edt_search_categoreis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.activities.AuthActivity;
 import com.jobtick.utils.Helper;
 import com.jobtick.widget.ExtendedEntryText;

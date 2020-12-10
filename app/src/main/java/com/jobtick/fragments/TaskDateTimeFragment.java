@@ -24,7 +24,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
+import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.models.DueTimeModel;
 import com.jobtick.models.TaskModel;

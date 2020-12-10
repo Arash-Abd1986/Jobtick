@@ -60,7 +60,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/spacing_middle" />
 
-                        <com.jobtick.TextView.TextViewSemiBold
+                        <com.jobtick.text_view.TextViewSemiBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/details"
@@ -96,7 +96,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/spacing_middle" />
 
-                        <com.jobtick.TextView.TextViewSemiBold
+                        <com.jobtick.text_view.TextViewSemiBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/date_time"
@@ -131,7 +131,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/spacing_middle" />
 
-                        <com.jobtick.TextView.TextViewSemiBold
+                        <com.jobtick.text_view.TextViewSemiBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/budget"
@@ -513,7 +513,7 @@
                     android:orientation="vertical"
                     android:padding="@dimen/spacing_large">
 
-                    <com.jobtick.TextView.TextViewRegular
+                    <com.jobtick.text_view.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/back"
@@ -553,7 +553,7 @@
                     android:orientation="vertical"
                     android:padding="@dimen/spacing_large">
 
-                    <com.jobtick.TextView.TextViewRegular
+                    <com.jobtick.text_view.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Post the job"

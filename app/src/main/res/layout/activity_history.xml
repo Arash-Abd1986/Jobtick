@@ -88,7 +88,7 @@
                 android:orientation="horizontal"
                 android:weightSum="3">
 
-                <com.jobtick.TextView.TextViewRegular
+                <com.jobtick.text_view.TextViewRegular
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -96,10 +96,10 @@
                     android:text="Showing :"
                     android:textColor="@color/textColor">
 
-                </com.jobtick.TextView.TextViewRegular>
+                </com.jobtick.text_view.TextViewRegular>
 
 
-                <com.jobtick.TextView.TextViewBold
+                <com.jobtick.text_view.TextViewBold
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -108,7 +108,7 @@
 
                     android:textColor="@color/blue">
 
-                </com.jobtick.TextView.TextViewBold>
+                </com.jobtick.text_view.TextViewBold>
 
 
                 <androidx.cardview.widget.CardView
@@ -138,7 +138,7 @@
                                  android:id="@+id/lyt_btn_sign_in"
                                  style="@style/LytBtn">-->
 
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.jobtick.text_view.TextViewRegular
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -168,7 +168,7 @@
                     android:layout_alignParentRight="true"
                     android:orientation="vertical">
 
-                    <com.jobtick.TextView.TextViewBold
+                    <com.jobtick.text_view.TextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -176,21 +176,21 @@
                         android:text="Net outgoing"
                         android:textColor="@color/textColor">
 
-                    </com.jobtick.TextView.TextViewBold>
+                    </com.jobtick.text_view.TextViewBold>
 
 
-                    <com.jobtick.TextView.TextViewRegular
+                    <com.jobtick.text_view.TextViewRegular
                         android:layout_width="wrap_content"
 
                         android:layout_height="wrap_content"
                         android:text="3 transactions">
 
 
-                    </com.jobtick.TextView.TextViewRegular>
+                    </com.jobtick.text_view.TextViewRegular>
                 </LinearLayout>
 
 
-                <com.jobtick.TextView.TextViewBold
+                <com.jobtick.text_view.TextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -201,7 +201,7 @@
 
                     android:textSize="20dp">
 
-                </com.jobtick.TextView.TextViewBold>
+                </com.jobtick.text_view.TextViewBold>
 
             </RelativeLayout>
         </LinearLayout>

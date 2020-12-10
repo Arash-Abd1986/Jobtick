@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
 
-    <com.jobtick.TextView.TextViewMedium
+    <com.jobtick.text_view.TextViewMedium
         android:id="@+id/txt_skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         android:text="Skip"
         android:textColor="@color/blue">
 
-    </com.jobtick.TextView.TextViewMedium>
+    </com.jobtick.text_view.TextViewMedium>
 
 
     <androidx.viewpager.widget.ViewPager

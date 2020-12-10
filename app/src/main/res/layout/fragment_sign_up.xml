@@ -28,7 +28,7 @@
             android:src="@mipmap/ic_launcher_foreground" />
 
 
-        <com.jobtick.TextView.TextViewSemiBold
+        <com.jobtick.text_view.TextViewSemiBold
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -115,7 +115,7 @@
             android:visibility="gone"
             android:orientation="horizontal">
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.jobtick.text_view.TextViewRegular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
@@ -128,7 +128,7 @@
                 android:textSize="@dimen/_12sp" />
 
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.jobtick.text_view.TextViewRegular
                 android:id="@+id/txt_btn_terms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.jobtick.text_view.TextViewRegular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
@@ -163,7 +163,7 @@
                 android:textColor="@color/grey_40"
                 android:textSize="@dimen/_12sp" />
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.jobtick.text_view.TextViewRegular
                 android:id="@+id/txt_btn_sign_in"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

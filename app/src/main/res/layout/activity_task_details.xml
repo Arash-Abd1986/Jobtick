@@ -1178,7 +1178,7 @@
                         android:layout_marginBottom="@dimen/spacing_middle"
                         android:orientation="vertical">
 
-                        <com.jobtick.TextView.TextViewBold
+                        <com.jobtick.text_view.TextViewBold
                             android:id="@+id/txt_questions_count"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

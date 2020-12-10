@@ -1,7 +1,6 @@
-package com.jobtick.TextView;
+package com.jobtick.text_view;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 

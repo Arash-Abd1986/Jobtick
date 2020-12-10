@@ -28,7 +28,7 @@
             android:src="@mipmap/ic_launcher_foreground" />
 
 
-        <com.jobtick.TextView.TextViewSemiBold
+        <com.jobtick.text_view.TextViewSemiBold
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -90,7 +90,7 @@
                 android:layout_marginBottom="@dimen/spacing_medium"
                 android:gravity="end">
 
-                <com.jobtick.TextView.TextViewMedium
+                <com.jobtick.text_view.TextViewMedium
                     android:id="@+id/txt_forgot_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
             android:orientation="horizontal">
 
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.jobtick.text_view.TextViewRegular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
@@ -149,7 +149,7 @@
                 android:textStyle="bold" />
 
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.jobtick.text_view.TextViewRegular
                 android:id="@+id/txt_btn_sign_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

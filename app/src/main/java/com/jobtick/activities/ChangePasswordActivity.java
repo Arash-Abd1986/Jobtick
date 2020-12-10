@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -27,7 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.widget.ExtendedEntryText;

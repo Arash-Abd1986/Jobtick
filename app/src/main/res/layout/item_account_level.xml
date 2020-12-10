@@ -21,7 +21,7 @@
             android:background="@drawable/shape_rounded_white"
             android:backgroundTint="@color/grey_10"/>
 
-        <com.jobtick.TextView.TextViewRegular
+        <com.jobtick.text_view.TextViewRegular
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

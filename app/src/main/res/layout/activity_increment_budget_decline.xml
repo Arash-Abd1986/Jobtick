@@ -36,7 +36,7 @@
             android:orientation="vertical"
             android:padding="@dimen/spacing_large">
 
-            <com.jobtick.TextView.TextViewBold
+            <com.jobtick.text_view.TextViewBold
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Comments"
@@ -76,7 +76,7 @@
             android:background="?attr/selectableItemBackground"
             android:gravity="center">
 
-            <com.jobtick.TextView.TextViewMedium
+            <com.jobtick.text_view.TextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"

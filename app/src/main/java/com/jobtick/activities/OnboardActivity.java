@@ -17,8 +17,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
-import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.text_view.TextViewMedium;
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.models.AttachmentModel;
 
 import java.util.ArrayList;

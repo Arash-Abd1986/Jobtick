@@ -25,7 +25,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.edit_text.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;

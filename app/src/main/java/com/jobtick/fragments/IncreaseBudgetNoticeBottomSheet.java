@@ -1,11 +1,9 @@
 package com.jobtick.fragments;
 
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -22,21 +20,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.DialogFragment;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.activities.ActivityBase;
-import com.jobtick.activities.CompleteMessageActivity;
-import com.jobtick.activities.TaskDetailsActivity;
-import com.jobtick.incrementbudget.IncrementBudgetRequestViewActivity;
 import com.jobtick.models.TaskModel;
-import com.jobtick.models.payments.PaymentMethodModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;

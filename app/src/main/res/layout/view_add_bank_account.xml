@@ -18,7 +18,7 @@
             android:padding="16dp">
 
 
-            <com.jobtick.TextView.TextViewMedium
+            <com.jobtick.text_view.TextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -28,7 +28,7 @@
                 android:textSize="@dimen/_14sp" />
 
 
-            <com.jobtick.TextView.TextViewMedium
+            <com.jobtick.text_view.TextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/tv_bsb"
@@ -38,7 +38,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14sp" />
 
-            <com.jobtick.TextView.TextViewMedium
+            <com.jobtick.text_view.TextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/tv_account_number"
@@ -49,7 +49,7 @@
                 android:textSize="@dimen/_14sp" />
 
 
-            <com.jobtick.TextView.TextViewMedium
+            <com.jobtick.text_view.TextViewMedium
                 android:id="@+id/tv_account_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14sp" />
 
-            <com.jobtick.TextView.TextViewMedium
+            <com.jobtick.text_view.TextViewMedium
                 android:id="@+id/tv_bsb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

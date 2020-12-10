@@ -199,7 +199,7 @@
                                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                     android:textColor="@color/textColor" />
 
-                                <com.jobtick.TextView.TextViewRegular
+                                <com.jobtick.text_view.TextViewRegular
                                     android:id="@+id/txt_subtitle_afternoon"
                                     style="@style/materialText_400_12"
                                     android:layout_width="wrap_content"
@@ -253,7 +253,7 @@
                                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                     android:textColor="@color/textColor" />
 
-                                <com.jobtick.TextView.TextViewRegular
+                                <com.jobtick.text_view.TextViewRegular
                                     android:id="@+id/txt_subtitle_evening"
                                     style="@style/materialText_400_12"
                                     android:layout_width="wrap_content"
@@ -308,7 +308,7 @@
                                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                     android:textColor="@color/textColor" />
 
-                                <com.jobtick.TextView.TextViewRegular
+                                <com.jobtick.text_view.TextViewRegular
                                     android:id="@+id/txt_subtitle_midday"
                                     style="@style/materialText_400_12"
                                     android:layout_width="wrap_content"

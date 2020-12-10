@@ -31,7 +31,7 @@
                     android:layout_marginStart="@dimen/_10sp"
                     android:src="@drawable/ic_back" />
 
-                <com.jobtick.TextView.TextViewMedium
+                <com.jobtick.text_view.TextViewMedium
                     android:id="@+id/toolbar_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
 
-                                <com.jobtick.TextView.TextViewSemiBold
+                                <com.jobtick.text_view.TextViewSemiBold
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -87,7 +87,7 @@
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="@dimen/_12sp" />
 
-                                <com.jobtick.TextView.TextViewSemiBold
+                                <com.jobtick.text_view.TextViewSemiBold
                                     android:id="@+id/tvCount"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
                         android:orientation="horizontal">
 
 
-                        <com.jobtick.TextView.TextViewMedium
+                        <com.jobtick.text_view.TextViewMedium
                             android:id="@+id/saveQuickOfferTxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
                             android:textColor="@color/quickOfferColor"
                             android:textSize="@dimen/_11sp" />
 
-                        <com.jobtick.TextView.TextViewMedium
+                        <com.jobtick.text_view.TextViewMedium
                             android:id="@+id/quickOfferDesc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
                             android:background="@color/colorGrayC9C9C9" />
 
 
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.jobtick.text_view.TextViewRegular
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_20sp"
@@ -213,7 +213,7 @@
                         android:orientation="vertical">
 
 
-                        <com.jobtick.TextView.TextViewMedium
+                        <com.jobtick.text_view.TextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -286,7 +286,7 @@
                                         android:orientation="vertical">
 
 
-                                        <com.jobtick.TextView.TextViewSemiBold
+                                        <com.jobtick.text_view.TextViewSemiBold
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
@@ -354,7 +354,7 @@
                                     android:orientation="vertical">
 
 
-                                    <com.jobtick.TextView.TextViewSemiBold
+                                    <com.jobtick.text_view.TextViewSemiBold
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="REC"
@@ -366,7 +366,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/spacing_large" />
 
-                                <com.jobtick.TextView.TextViewRegular
+                                <com.jobtick.text_view.TextViewRegular
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
@@ -393,7 +393,7 @@
                         android:layout_marginEnd="@dimen/spacing_mlarge"
                         android:orientation="vertical">
 
-                        <com.jobtick.TextView.TextViewMedium
+                        <com.jobtick.text_view.TextViewMedium
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -427,7 +427,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center">
 
-                <com.jobtick.TextView.TextViewMedium
+                <com.jobtick.text_view.TextViewMedium
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

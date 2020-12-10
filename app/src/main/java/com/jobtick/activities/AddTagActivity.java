@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.edit_text.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewSemiBold;
+import com.jobtick.text_view.TextViewSemiBold;
 import com.jobtick.adapers.AddTagAdapter;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.Tools;

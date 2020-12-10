@@ -59,7 +59,7 @@
                         android:layout_width="@dimen/spacing_large"
                         android:layout_height="match_parent" />
 
-                    <com.jobtick.TextView.TextViewRegular
+                    <com.jobtick.text_view.TextViewRegular
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Your payment will be securely held until you’re happy the task has been completed."
@@ -124,7 +124,7 @@
                         android:orientation="vertical">
 
 
-                        <com.jobtick.TextView.TextViewBold
+                        <com.jobtick.text_view.TextViewBold
                             android:id="@+id/txt_user_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                             android:textSize="@dimen/_16sp"
                             android:textStyle="bold" />
 
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.jobtick.text_view.TextViewRegular
                             android:id="@+id/txt_post_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -167,7 +167,7 @@
                     android:padding="@dimen/spacing_large">
 
 
-                    <com.jobtick.TextView.TextViewBold
+                    <com.jobtick.text_view.TextViewBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Budget"
@@ -190,7 +190,7 @@
                             android:layout_toStartOf="@+id/lyt_button_minus_plus"
                             android:orientation="horizontal">
 
-                            <com.jobtick.TextView.TextViewBold
+                            <com.jobtick.text_view.TextViewBold
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
@@ -199,7 +199,7 @@
                                 android:textSize="@dimen/_18sp"
                                 android:textStyle="bold" />
 
-                            <com.jobtick.TextView.TextViewSemiBold
+                            <com.jobtick.text_view.TextViewSemiBold
                                 android:id="@+id/txt_budget"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -222,7 +222,7 @@
                             android:layout_centerVertical="true"
                             android:orientation="horizontal">
 
-                            <com.jobtick.TextView.TextViewRegular
+                            <com.jobtick.text_view.TextViewRegular
                                 android:id="@+id/txt_btn_update_amount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -273,7 +273,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <com.jobtick.TextView.TextViewBold
+                        <com.jobtick.text_view.TextViewBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
@@ -284,7 +284,7 @@
                             android:textStyle="bold" />
 
 
-                        <com.jobtick.TextView.TextViewBold
+                        <com.jobtick.text_view.TextViewBold
                             android:id="@+id/txt_total_cost"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -307,7 +307,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <com.jobtick.TextView.TextViewBold
+                        <com.jobtick.text_view.TextViewBold
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Payment Method"
@@ -344,7 +344,7 @@
                                 android:layout_toEndOf="@id/img_brand"
                                 android:orientation="vertical">
 
-                                <com.jobtick.TextView.TextViewBold
+                                <com.jobtick.text_view.TextViewBold
                                     android:id="@+id/txt_account_number"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -355,7 +355,7 @@
                                     android:textSize="@dimen/_16sp"
                                     android:textStyle="bold" />
 
-                                <com.jobtick.TextView.TextViewMedium
+                                <com.jobtick.text_view.TextViewMedium
                                     android:id="@+id/txt_expires_date"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -429,7 +429,7 @@
                                     android:background="?attr/selectableItemBackground"
                                     android:gravity="center">
 
-                                    <com.jobtick.TextView.TextViewMedium
+                                    <com.jobtick.text_view.TextViewMedium
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
@@ -464,7 +464,7 @@
                     android:padding="@dimen/spacing_large">
 
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.jobtick.text_view.TextViewSemiBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Note"
@@ -525,7 +525,7 @@
             android:background="?attr/selectableItemBackground"
             android:gravity="center">
 
-            <com.jobtick.TextView.TextViewMedium
+            <com.jobtick.text_view.TextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"

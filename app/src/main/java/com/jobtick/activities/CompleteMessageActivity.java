@@ -11,10 +11,9 @@ import androidx.cardview.widget.CardView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.text_view.TextViewBold;
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.models.TaskModel;
-import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 
 import butterknife.BindView;

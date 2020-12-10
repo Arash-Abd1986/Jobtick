@@ -49,7 +49,7 @@
             android:orientation="vertical"
             android:padding="@dimen/spacing_large">
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.jobtick.text_view.TextViewRegular
                 android:id="@+id/txt_username_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/spacing_large" />
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.jobtick.text_view.TextViewRegular
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Once you accept the request, the payment secured will be refunded."
@@ -95,7 +95,7 @@
                         android:layout_toEndOf="@+id/img_user_avtar"
                         android:orientation="vertical">
 
-                        <com.jobtick.TextView.TextViewBold
+                        <com.jobtick.text_view.TextViewBold
                             android:id="@+id/txt_post_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
                             android:textStyle="bold"/>
 
 
-                        <com.jobtick.TextView.TextViewRegular
+                        <com.jobtick.text_view.TextViewRegular
                             android:id="@+id/txt_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
                     </LinearLayout>
 
 
-                    <com.jobtick.TextView.TextViewBold
+                    <com.jobtick.text_view.TextViewBold
                         android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
                         android:id="@+id/txt_amount"
@@ -136,7 +136,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/spacing_large"/>
 
-                <com.jobtick.TextView.TextViewBold
+                <com.jobtick.text_view.TextViewBold
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Reason For Cancellation"
@@ -148,7 +148,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/spacing_middle" />
 
-                <com.jobtick.TextView.TextViewBold
+                <com.jobtick.text_view.TextViewBold
                     android:id="@+id/txt_cancellation_reason"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -170,7 +170,7 @@
 
 
 
-                    <com.jobtick.TextView.TextViewBold
+                    <com.jobtick.text_view.TextViewBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Comments"
@@ -182,7 +182,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_middle" />
 
-                    <com.jobtick.TextView.TextViewRegular
+                    <com.jobtick.text_view.TextViewRegular
                         android:id="@+id/txt_comment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -224,7 +224,7 @@
             android:orientation="vertical"
             android:padding="@dimen/spacing_large">
 
-            <com.jobtick.TextView.TextViewBold
+            <com.jobtick.text_view.TextViewBold
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Accept The Cancellation Request?"
@@ -236,7 +236,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/spacing_medium"/>
 
-            <com.jobtick.TextView.TextViewRegular
+            <com.jobtick.text_view.TextViewRegular
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="If you do not respond within 48 hours of the request, the task will be automatically cancelled and the payment refunded."
@@ -280,7 +280,7 @@
                 android:gravity="center"
                 android:id="@+id/lyt_btn_decline">
 
-                <com.jobtick.TextView.TextViewSemiBold
+                <com.jobtick.text_view.TextViewSemiBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/decline"
@@ -311,7 +311,7 @@
                 android:gravity="center"
                 android:id="@+id/lyt_btn_accept">
 
-                <com.jobtick.TextView.TextViewSemiBold
+                <com.jobtick.text_view.TextViewSemiBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/accept"

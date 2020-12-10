@@ -21,7 +21,7 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/spacing_middle">
 
-            <com.jobtick.TextView.TextViewSemiBold
+            <com.jobtick.text_view.TextViewSemiBold
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/spacing_large"

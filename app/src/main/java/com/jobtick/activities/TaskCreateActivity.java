@@ -26,7 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
+import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.adapers.SectionsPagerAdapter;
 import com.jobtick.fragments.TaskBudgetFragment;
 import com.jobtick.fragments.TaskDateTimeFragment;

@@ -1,27 +1,25 @@
-package com.jobtick.TextView;
+package com.jobtick.radio_button;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Typeface;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
 
-public class TextViewRegular extends androidx.appcompat.widget.AppCompatTextView {
-    public TextViewRegular(Context context) {
+public class RadioButtonRegular extends androidx.appcompat.widget.AppCompatRadioButton {
+    public RadioButtonRegular(Context context) {
         super(context);
         Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_Regular.otf");
         this.setTypeface(face);
     }
 
-    public TextViewRegular(Context context, AttributeSet attrs) {
+    public RadioButtonRegular(Context context, AttributeSet attrs) {
         super(context, attrs);
         Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_Regular.otf");
         this.setTypeface(face);
     }
 
-    public TextViewRegular(Context context, AttributeSet attrs, int defStyle) {
+    public RadioButtonRegular(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_Regular.otf");
         this.setTypeface(face);

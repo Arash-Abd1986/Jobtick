@@ -11,8 +11,6 @@ import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewRegular;
 import com.jobtick.models.ReviewModel;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.TimeAgo;

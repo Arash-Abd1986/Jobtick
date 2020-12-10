@@ -15,7 +15,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
+import com.jobtick.text_view.TextViewBold;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;

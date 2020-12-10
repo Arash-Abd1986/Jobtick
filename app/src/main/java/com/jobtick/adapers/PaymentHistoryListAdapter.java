@@ -12,6 +12,7 @@ import com.jobtick.interfaces.PaymentOnClick;
 import com.jobtick.models.payments.PaymentHistory;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.StringUtils;
+import com.jobtick.utils.TimeHelper;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
@@ -82,6 +83,21 @@ public class PaymentHistoryListAdapter extends RecyclerView.Adapter<PaymentHisto
             holder.debitedTxt.setVisibility(View.VISIBLE);
         } else {
             holder.debitedTxt.setVisibility(View.GONE);
+        }
+
+        if(position == 0) {
+            holder.dateTxt.setText(TimeHelper.convertToJustDateFormat(temp.getCreatedAt()));
+            holder.dateTxt.setVisibility(View.VISIBLE);
+        }
+        else{
+            if(!TimeHelper.convertToJustDateFormat(items.get(position - 1).getCreatedAt()).equals(
+                    TimeHelper.convertToJustDateFormat(temp.getCreatedAt()))){
+                
+                holder.dateTxt.setText(TimeHelper.convertToJustDateFormat(temp.getCreatedAt()));
+                holder.dateTxt.setVisibility(View.VISIBLE);
+            }
+            else
+                holder.dateTxt.setVisibility(View.GONE);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

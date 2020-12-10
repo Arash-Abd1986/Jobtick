@@ -34,6 +34,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBn7MobZ_pLOEXrUrjIe4MvzU3DFq9shV0" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
         <activity android:name=".activities.ChatSearchActivity"/>
         <activity android:name=".activities.ProfileActivity" />
         <activity
@@ -154,14 +162,6 @@
         <activity
             android:name=".activities.AuthActivity"
             android:windowSoftInputMode="adjustPan|stateVisible" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBn7MobZ_pLOEXrUrjIe4MvzU3DFq9shV0" />
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -183,7 +183,7 @@
         <activity
             android:name=".activities.RescheduleTimeRequestActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />
-        <activity android:name=".activities.SinginSingupAcitivity" />
+        <activity android:name=".activities.SigInSigUpActivity" />
         <activity android:name=".activities.CategoryListActivity" />
         <activity android:name=".activities.RescheduleDeclineActivity" />
         <activity android:name=".activities.OnboardActivity" />

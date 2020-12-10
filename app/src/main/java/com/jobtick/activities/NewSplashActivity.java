@@ -39,8 +39,9 @@ public class NewSplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_splash);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         ButterKnife.bind(this);
+
+
         ViewAnimator
                 .animate(logo)
                 .duration(2000)
@@ -59,7 +60,7 @@ public class NewSplashActivity extends AppCompatActivity {
         if (sessionManager.getLogin()) {
             getAccountDetails();
         } else {
-            Intent sign = new Intent(NewSplashActivity.this, SinginSingupAcitivity.class);
+            Intent sign = new Intent(NewSplashActivity.this, SigInSigUpActivity.class);
             sign.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             sign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(sign);
@@ -84,7 +85,7 @@ public class NewSplashActivity extends AppCompatActivity {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Intent sign = new Intent(NewSplashActivity.this, SinginSingupAcitivity.class);
+                        Intent sign = new Intent(NewSplashActivity.this, SigInSigUpActivity.class);
                         sign.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         sign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(sign);
@@ -92,7 +93,7 @@ public class NewSplashActivity extends AppCompatActivity {
                     }
                 },
                 error -> {
-                    Intent sign = new Intent(NewSplashActivity.this, SinginSingupAcitivity.class);
+                    Intent sign = new Intent(NewSplashActivity.this, SigInSigUpActivity.class);
                     sign.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     sign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(sign);

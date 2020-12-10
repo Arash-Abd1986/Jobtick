@@ -43,7 +43,7 @@ public class SplashActivity extends AppCompatActivity {
         if (sessionManager.getLogin()) {
             getAccountDetails();
         } else {
-            Intent sign = new Intent(SplashActivity.this, SinginSingupAcitivity.class);
+            Intent sign = new Intent(SplashActivity.this, SigInSigUpActivity.class);
             sign.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             sign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(sign);
@@ -71,7 +71,7 @@ public class SplashActivity extends AppCompatActivity {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Intent sign = new Intent(SplashActivity.this, SinginSingupAcitivity.class);
+                        Intent sign = new Intent(SplashActivity.this, SigInSigUpActivity.class);
                         sign.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         sign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(sign);
@@ -79,7 +79,7 @@ public class SplashActivity extends AppCompatActivity {
                     }
                 },
                 error -> {
-                    Intent sign = new Intent(SplashActivity.this, SinginSingupAcitivity.class);
+                    Intent sign = new Intent(SplashActivity.this, SigInSigUpActivity.class);
                     sign.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     sign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(sign);

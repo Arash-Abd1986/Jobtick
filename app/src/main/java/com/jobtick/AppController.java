@@ -2,6 +2,8 @@ package com.jobtick;
 
 import android.app.Application;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.jobtick.utils.MyNotificationOpenedHandler;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -11,6 +13,10 @@ import com.stripe.android.PaymentConfiguration;
 
 
 public class AppController extends Application {
+
+    public FirebaseAnalytics mFirebaseAnalytics;
+    public FirebaseCrashlytics mCrashlytics;
+
 
     @Override
     public void onCreate() {
@@ -32,6 +38,11 @@ public class AppController extends Application {
                 .unsubscribeWhenNotificationsAreDisabled(true)
                 .init();
 
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        // Operations on FirebaseCrashlytics.
+        mCrashlytics = FirebaseCrashlytics.getInstance();
+        mCrashlytics.setCrashlyticsCollectionEnabled(true);
 
     }
 }

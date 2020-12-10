@@ -28,9 +28,12 @@ public class Data implements Parcelable
     @SerializedName("task_status")
     @Expose
     private String taskStatus;
-    @SerializedName("offer")
+    @SerializedName("question")
     @Expose
-    private Offer offer;
+    private Question question;
+    @SerializedName("conversation")
+    @Expose
+    private Conversation conversation;
     public final static Creator<Data> CREATOR = new Creator<Data>() {
 
 
@@ -55,7 +58,8 @@ public class Data implements Parcelable
         this.taskId = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.taskSlug = ((String) in.readValue((String.class.getClassLoader())));
         this.taskStatus = ((String) in.readValue((String.class.getClassLoader())));
-        this.offer = ((Offer) in.readValue((Offer.class.getClassLoader())));
+        this.question = ((Question) in.readValue((Question.class.getClassLoader())));
+        this.conversation = ((Conversation) in.readValue((Conversation.class.getClassLoader())));
     }
 
     /**
@@ -67,15 +71,16 @@ public class Data implements Parcelable
 
     /**
      * 
-     * @param offer
+     * @param question
      * @param trigger
      * @param title
      * @param userId
      * @param taskSlug
      * @param taskId
      * @param taskStatus
+     * @param conversation
      */
-    public Data(String trigger, String title, Integer userId, Integer taskId, String taskSlug, String taskStatus, Offer offer) {
+    public Data(String trigger, String title, Integer userId, Integer taskId, String taskSlug, String taskStatus, Question question, Conversation conversation) {
         super();
         this.trigger = trigger;
         this.title = title;
@@ -83,7 +88,8 @@ public class Data implements Parcelable
         this.taskId = taskId;
         this.taskSlug = taskSlug;
         this.taskStatus = taskStatus;
-        this.offer = offer;
+        this.question = question;
+        this.conversation = conversation;
     }
 
     public String getTrigger() {
@@ -134,12 +140,20 @@ public class Data implements Parcelable
         this.taskStatus = taskStatus;
     }
 
-    public Offer getOffer() {
-        return offer;
+    public Question getQuestion() {
+        return question;
     }
 
-    public void setOffer(Offer offer) {
-        this.offer = offer;
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    public Conversation getConversation() {
+        return conversation;
+    }
+
+    public void setConversation(Conversation conversation) {
+        this.conversation = conversation;
     }
 
     public void writeToParcel(Parcel dest, int flags) {
@@ -149,7 +163,8 @@ public class Data implements Parcelable
         dest.writeValue(taskId);
         dest.writeValue(taskSlug);
         dest.writeValue(taskStatus);
-        dest.writeValue(offer);
+        dest.writeValue(question);
+        dest.writeValue(conversation);
     }
 
     public int describeContents() {

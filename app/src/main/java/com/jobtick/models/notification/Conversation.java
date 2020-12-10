@@ -7,30 +7,30 @@ import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Offer implements Parcelable
+public class Conversation implements Parcelable
 {
 
     @SerializedName("id")
     @Expose
     private Integer id;
-    public final static Creator<Offer> CREATOR = new Creator<Offer>() {
+    public final static Creator<Conversation> CREATOR = new Creator<Conversation>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public Offer createFromParcel(Parcel in) {
-            return new Offer(in);
+        public Conversation createFromParcel(Parcel in) {
+            return new Conversation(in);
         }
 
-        public Offer[] newArray(int size) {
-            return (new Offer[size]);
+        public Conversation[] newArray(int size) {
+            return (new Conversation[size]);
         }
 
     }
     ;
 
-    protected Offer(Parcel in) {
+    protected Conversation(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
     }
 
@@ -38,14 +38,14 @@ public class Offer implements Parcelable
      * No args constructor for use in serialization
      * 
      */
-    public Offer() {
+    public Conversation() {
     }
 
     /**
      * 
      * @param id
      */
-    public Offer(Integer id) {
+    public Conversation(Integer id) {
         super();
         this.id = id;
     }

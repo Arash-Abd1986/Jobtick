@@ -7,7 +7,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.jobtick.models.MetaDTO;
 
 public class PushNotificationModel2 implements Parcelable
 {
@@ -20,7 +19,7 @@ public class PushNotificationModel2 implements Parcelable
     private Links links;
     @SerializedName("meta")
     @Expose
-    private MetaDTO meta;
+    private Meta meta;
     public final static Creator<PushNotificationModel2> CREATOR = new Creator<PushNotificationModel2>() {
 
 
@@ -41,7 +40,7 @@ public class PushNotificationModel2 implements Parcelable
     protected PushNotificationModel2(Parcel in) {
         in.readList(this.data, (NotifDatum.class.getClassLoader()));
         this.links = ((Links) in.readValue((Links.class.getClassLoader())));
-        this.meta = ((MetaDTO) in.readValue((MetaDTO.class.getClassLoader())));
+        this.meta = ((Meta) in.readValue((Meta.class.getClassLoader())));
     }
 
     /**
@@ -57,7 +56,7 @@ public class PushNotificationModel2 implements Parcelable
      * @param meta
      * @param links
      */
-    public PushNotificationModel2(List<NotifDatum> data, Links links, MetaDTO meta) {
+    public PushNotificationModel2(List<NotifDatum> data, Links links, Meta meta) {
         super();
         this.data = data;
         this.links = links;
@@ -80,11 +79,11 @@ public class PushNotificationModel2 implements Parcelable
         this.links = links;
     }
 
-    public MetaDTO getMeta() {
+    public Meta getMeta() {
         return meta;
     }
 
-    public void setMeta(MetaDTO meta) {
+    public void setMeta(Meta meta) {
         this.meta = meta;
     }
 

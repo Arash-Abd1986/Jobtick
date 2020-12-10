@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -242,31 +241,6 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
                 intent.putExtras(bundleIntent);
                 startActivity(intent);
             }
-            if (obj.getData().getTrigger().equals(PUSH_COMMENT)) {
-
-                if (obj.getData().getOffer().getId() != 0) {
-                    bundleIntent.putString(ConstantKey.SLUG, obj.getData().getTaskSlug());
-                    bundleIntent.putInt(ConstantKey.PUSH_OFFER_ID, obj.getData().getOffer().getId());
-                    intent.putExtras(bundleIntent);
-                    startActivity(intent);
-                }
-//                if (obj.getQuestion_id() != 0) {
-//                    bundleIntent.putString(ConstantKey.SLUG, obj.getModel_slug());
-//                    bundleIntent.putInt(ConstantKey.PUSH_QUESTION_ID, obj.getQuestion_id());
-//                    intent.putExtras(bundleIntent);
-//                    startActivity(intent);
-//                }
-            }
-//            if (obj.getTrigger().equals(PUSH_CONVERSATION)) {
-//
-//               /* Bundle bundle1 = new Bundle();
-//                bundle1.putInt(PUSH_CONVERSATION_ID, obj.getConversation_id());
-//                NavGraph graph = navController.getGraph();
-//                graph.setStartDestination(R.id.navigation_inbox);
-//                navController.setGraph(graph, bundle1);
-//*/
-//            }
-
         }
     }
 }

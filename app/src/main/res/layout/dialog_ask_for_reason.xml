@@ -32,7 +32,7 @@
                 android:textStyle="bold" />
 
 
-            <com.jobtick.EditText.EditTextRegular
+            <com.jobtick.edit_text.EditTextRegular
                 android:id="@+id/edt_reason"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                 android:textSize="@dimen/_14sp" />
 
 
-            <com.jobtick.EditText.EditTextRegular
+            <com.jobtick.edit_text.EditTextRegular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"

@@ -3,16 +3,14 @@ package com.jobtick.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.EditText.EditTextRegular;
+import com.jobtick.edit_text.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewSemiBold;
 import com.jobtick.adapers.AddTagAdapter;

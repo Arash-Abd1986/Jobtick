@@ -30,7 +30,7 @@
             android:layout_height="@dimen/spacing_line"
             android:background="@color/grey_10"/>
 
-        <com.jobtick.Button.ButtonRegular
+        <com.jobtick.button.ButtonRegular
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/OK"

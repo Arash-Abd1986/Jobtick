@@ -1,4 +1,4 @@
-package com.jobtick.AutoComplete;
+package com.jobtick.auto_complete;
 
 import android.content.Context;
 import android.graphics.Canvas;

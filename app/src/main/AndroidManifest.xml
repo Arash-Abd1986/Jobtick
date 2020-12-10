@@ -60,8 +60,6 @@
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
 
-        <activity android:name=".activities.RequestForIncreaseBudgetActivity" />
-        <activity android:name=".activities.AddCouponPaymentOverviewActivity" />
         <activity android:name=".activities.Dashboard2Activity" />
         <activity android:name=".activities.PaymentHistoryActivity" />
         <activity android:name=".cancellations.CancellationRequestActivity" />
@@ -82,7 +80,6 @@
         <activity
             android:name=".activities.LeaveReviewActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activities.PaymentReceiptActivity" />
         <activity
             android:name=".activities.ChatActivity"
             android:windowSoftInputMode="adjustResize" />
@@ -146,7 +143,6 @@
         <activity android:name=".activities.EmailNotificationsSettingsActivity" />
         <activity android:name=".activities.PushNotificationsSettingsActivity" />
         <activity android:name=".activities.SMSNotificationsSettingsActivity" />
-        <activity android:name=".activities.MobileOtpVerifyActivity" />
         <activity android:name=".activities.ZoomImageActivity" />
         <activity android:name=".activities.VideoPlayerActivity" />
         <activity

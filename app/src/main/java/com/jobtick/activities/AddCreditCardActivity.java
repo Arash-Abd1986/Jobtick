@@ -9,47 +9,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.models.BillingAdreessModel;
-import com.jobtick.models.CreditCardModel;
 import com.jobtick.payment.AddCreditCard;
 import com.jobtick.payment.AddCreditCardImpl;
-import com.jobtick.utils.Constant;
 import com.jobtick.utils.Tools;
 import com.jobtick.widget.ExtendedEntryText;
-import com.stripe.android.ApiResultCallback;
-import com.stripe.android.Stripe;
-import com.stripe.android.model.Card;
-import com.stripe.android.model.CardBrand;
-import com.stripe.android.model.PaymentMethod;
-import com.stripe.android.model.PaymentMethodCreateParams;
-import com.stripe.android.view.CardMultilineWidget;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import timber.log.Timber;
-
-import static com.jobtick.activities.PaymentSettingsActivity.onBankaccountadded;
-import static com.jobtick.utils.ConstantKey.PUBLISHABLE_KEY;
 
 public class AddCreditCardActivity extends ActivityBase implements ExtendedEntryText.ExtendedViewOnClickListener {
 

@@ -1,4 +1,4 @@
-package com.jobtick.Button;
+package com.jobtick.button;
 
 import android.content.Context;
 import android.graphics.Canvas;

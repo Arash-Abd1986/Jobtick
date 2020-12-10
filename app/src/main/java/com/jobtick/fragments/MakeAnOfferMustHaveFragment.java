@@ -1,32 +1,22 @@
 package com.jobtick.fragments;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.EditText.EditTextBold;
 import com.jobtick.R;
 import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.activities.AddTagActivity;
 import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.activities.TaskDetailsActivity;
-import com.jobtick.adapers.AddTagAdapter;
 import com.jobtick.adapers.MustHaveListAdapter;
 import com.jobtick.models.MakeAnOfferModel;
 import com.jobtick.models.MustHaveModel;

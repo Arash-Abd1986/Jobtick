@@ -5,7 +5,7 @@
     android:id="@+id/map_frame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".fragments.MapReqFragment">
+    tools:context=".fragments.AddBillingReqFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

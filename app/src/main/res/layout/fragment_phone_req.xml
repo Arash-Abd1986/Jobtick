@@ -62,7 +62,7 @@
                             android:textColor="@color/colorPrimary"
                             android:textSize="12sp" />
 
-                        <com.jobtick.EditText.EditTextMedium
+                        <com.jobtick.edit_text.EditTextMedium
                             android:id="@+id/edt_phone_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
                         android:textSize="@dimen/_12sp"
                         android:textStyle="bold" />
 
-                    <com.jobtick.EditText.EditTextRegular
+                    <com.jobtick.edit_text.EditTextRegular
                         android:id="@+id/edt_sms"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

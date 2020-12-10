@@ -12,10 +12,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.TaskDetailsActivity;
@@ -31,7 +29,7 @@ import java.util.Objects;
 import butterknife.OnClick;
 
 
-public class MapReqFragment extends Fragment implements TextWatcher {
+public class AddBillingReqFragment extends Fragment implements TextWatcher {
 
     MaterialButton btnNext;
     ExtendedEntryText edtAddressLine1;
@@ -44,11 +42,11 @@ public class MapReqFragment extends Fragment implements TextWatcher {
     private AddBillingAddress addBillingAddress;
     private StateHelper stateHelper;
 
-    public MapReqFragment() {
+    public AddBillingReqFragment() {
     }
 
-    public static MapReqFragment newInstance() {
-        return new MapReqFragment();
+    public static AddBillingReqFragment newInstance() {
+        return new AddBillingReqFragment();
     }
 
     @Override

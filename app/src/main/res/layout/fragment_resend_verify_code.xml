@@ -97,7 +97,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_large"/>
 
-                    <com.jobtick.Button.ButtonRegular
+                    <com.jobtick.button.ButtonRegular
                         android:id="@+id/btn_resend_code"
                         android:lineSpacingExtra="@dimen/spacing_small"
                         android:layout_width="match_parent"

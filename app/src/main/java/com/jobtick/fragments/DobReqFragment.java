@@ -40,7 +40,7 @@ import timber.log.Timber;
 import static com.jobtick.utils.Constant.BASE_URL;
 import static com.jobtick.utils.Constant.PROFILE_INFO;
 
-public class CalenderReqFragment extends Fragment {
+public class DobReqFragment extends Fragment {
 
     private UserAccountModel userAccountModel;
     MaterialButton btnNext;
@@ -52,12 +52,12 @@ public class CalenderReqFragment extends Fragment {
     DatePickerDialog.OnDateSetListener mDateSetListener;
     TextView txtBirthDate;
 
-    public CalenderReqFragment() {
+    public DobReqFragment() {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static CalenderReqFragment newInstance() {
-        return new CalenderReqFragment();
+    public static DobReqFragment newInstance() {
+        return new DobReqFragment();
     }
 
     @Override
@@ -107,7 +107,7 @@ public class CalenderReqFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_calender_req, container, false);
+        return inflater.inflate(R.layout.fragment_dob_req, container, false);
     }
 
     private void updateBirthDate() {

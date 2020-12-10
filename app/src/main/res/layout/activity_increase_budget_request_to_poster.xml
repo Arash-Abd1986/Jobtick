@@ -160,7 +160,7 @@
                             android:textColor="@color/grey_40"
                             android:textSize="@dimen/_14sp" />
 
-                        <com.jobtick.EditText.EditTextRegular
+                        <com.jobtick.edit_text.EditTextRegular
                             android:id="@+id/edt_budget"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -224,7 +224,7 @@
                                 android:textColor="@color/grey_40"
                                 android:textSize="@dimen/_14sp" />
 
-                            <com.jobtick.EditText.EditTextRegular
+                            <com.jobtick.edit_text.EditTextRegular
                                 android:id="@+id/edt_hourly_rate"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -267,7 +267,7 @@
                             android:textStyle="bold" />
 
 
-                        <com.jobtick.EditText.EditTextRegular
+                        <com.jobtick.edit_text.EditTextRegular
                             android:id="@+id/edt_hour"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -309,7 +309,7 @@
                         android:textStyle="bold" />
 
 
-                    <com.jobtick.EditText.EditTextRegular
+                    <com.jobtick.edit_text.EditTextRegular
                         android:id="@+id/edt_note"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -322,7 +322,7 @@
                         android:textSize="@dimen/_14sp" />
 
 
-                    <com.jobtick.EditText.EditTextRegular
+                    <com.jobtick.edit_text.EditTextRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"

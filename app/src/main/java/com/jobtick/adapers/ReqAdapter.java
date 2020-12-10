@@ -5,10 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.jobtick.fragments.CalenderReqFragment;
+import com.jobtick.fragments.DobReqFragment;
 import com.jobtick.fragments.AddBankAccountReqFragment;
-import com.jobtick.fragments.ImageReqFragment;
-import com.jobtick.fragments.MapReqFragment;
+import com.jobtick.fragments.ProfileReqFragment;
+import com.jobtick.fragments.AddBillingReqFragment;
 import com.jobtick.fragments.PhoneReqFragment;
 
 import java.util.ArrayList;
@@ -27,13 +27,13 @@ public class ReqAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return new ImageReqFragment();
+                return new ProfileReqFragment();
             case 1:
                 return new AddBankAccountReqFragment();
             case 2:
-                return new MapReqFragment();
+                return new AddBillingReqFragment();
             case 3:
-                return new CalenderReqFragment();
+                return new DobReqFragment();
             case 4:
                 return new PhoneReqFragment();
             default:

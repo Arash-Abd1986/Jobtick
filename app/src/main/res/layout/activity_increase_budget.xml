@@ -125,7 +125,7 @@
                                 app:cardCornerRadius="@dimen/spacing_medium"
                                 app:cardElevation="0dp">
 
-                                <com.jobtick.EditText.EditTextSemiBold
+                                <com.jobtick.edit_text.EditTextSemiBold
                                     android:layout_gravity="center"
                                     android:gravity="center"
                                     android:id="@+id/edt_increase_budget"
@@ -232,7 +232,7 @@
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_12sp"
                         android:textStyle="bold" />
-                    <com.jobtick.EditText.EditTextRegular
+                    <com.jobtick.edit_text.EditTextRegular
                         android:id="@+id/edt_increase_budget_reason"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

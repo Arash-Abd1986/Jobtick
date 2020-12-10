@@ -25,7 +25,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SignUpFragment extends FragmentBase implements AuthActivity.EditTextError {
+public class SignUpFragment extends Fragment implements AuthActivity.EditTextError {
 
 
     @BindView(R.id.email)

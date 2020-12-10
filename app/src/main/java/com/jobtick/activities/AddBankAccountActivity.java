@@ -5,45 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
-import com.jobtick.AppExecutors;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
 import com.jobtick.models.BankAccountModel;
-import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.payment.AddBankAccount;
 import com.jobtick.payment.AddBankAccountImpl;
-import com.jobtick.utils.ConstantKey;
-import com.jobtick.utils.HttpStatus;
 import com.jobtick.widget.ExtendedEntryText;
-import com.stripe.Stripe;
-import com.stripe.exception.StripeException;
-import com.stripe.model.Token;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import timber.log.Timber;
-
-import static com.jobtick.activities.PaymentSettingsActivity.onBankaccountadded;
-import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
-import static com.jobtick.utils.Constant.BASE_URL;
 
 public class AddBankAccountActivity extends ActivityBase {
 

@@ -69,7 +69,7 @@ import static com.jobtick.activities.DashboardActivity.onProfileupdatelistenerSi
 import static com.jobtick.fragments.ProfileFragment.onProfileupdatelistener;
 import static com.jobtick.utils.ConstantKey.TAG;
 
-public class ImageReqFragment extends Fragment implements AttachmentAdapterEditProfile.OnItemClickListener {
+public class ProfileReqFragment extends Fragment implements AttachmentAdapterEditProfile.OnItemClickListener {
 
     private final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     private final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
@@ -84,11 +84,11 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
     private FrameLayout btmSheet;
     MaterialButton btnNext;
 
-    public ImageReqFragment() {
+    public ProfileReqFragment() {
     }
 
-    public static ImageReqFragment newInstance() {
-        return new ImageReqFragment();
+    public static ProfileReqFragment newInstance() {
+        return new ProfileReqFragment();
     }
 
     @Override
@@ -110,7 +110,7 @@ public class ImageReqFragment extends Fragment implements AttachmentAdapterEditP
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_image_req, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile_req, container, false);
         ButterKnife.bind(this, view);
         return view;
     }

@@ -687,8 +687,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.VISIBLE);
                 if (isMyTask) {
-                    cardMakeAnOffer.setVisibility(View.VISIBLE);
+                    cardMakeAnOffer.setVisibility(View.GONE);
                     txtBtnText.setText(ConstantKey.BTN_WRITE_A_REVIEW);
+
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, false);
                 } else {
                     // worker task
@@ -696,7 +697,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         cardMakeAnOffer.setVisibility(View.GONE);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, false);
                     } else {
-                        cardMakeAnOffer.setVisibility(View.VISIBLE);
+                        cardMakeAnOffer.setVisibility(View.GONE);
                         txtBtnText.setText(ConstantKey.BTN_WRITE_A_REVIEW);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, false);
 

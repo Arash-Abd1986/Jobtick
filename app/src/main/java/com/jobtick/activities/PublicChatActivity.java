@@ -413,9 +413,8 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                                     //TODO update recycler view
                                     JSONObject jsonObject_offer_chat = jsonObject.getJSONObject("data");
                                     CommentModel commentModel = new CommentModel().getJsonToModel(jsonObject_offer_chat);
-                                    edtCommentMessage.setHint("reply to " + commentModel.getUser().getFname());
+                                    edtCommentMessage.setHint("Question");
                                     publicChatListAdapter.addItem(commentModel);
-
                                 } else {
                                     showToast("Something went Wrong", PublicChatActivity.this);
                                 }
@@ -524,6 +523,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                             }
 
                             Collections.reverse(items);
+                            publicChatListAdapter.clear();
                             publicChatListAdapter.addItems(items);
 
                             recyclerViewOfferChat.scrollToPosition(items.size() - 1);

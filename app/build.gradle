@@ -45,10 +45,13 @@ android {
         }
 
         release {
-            minifyEnabled true
-            // we disable proguard due to unpredictable crashes
-         //   proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
         }
+
     }
 
 }

@@ -67,7 +67,7 @@
                         android:id="@+id/img_verified_account"
                         android:layout_width="@dimen/_40dp"
                         android:layout_height="@dimen/_40dp"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:background="@drawable/ic_pick_camera"
                         tools:ignore="ContentDescription" />

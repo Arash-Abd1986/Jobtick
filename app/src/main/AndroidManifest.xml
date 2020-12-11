@@ -135,7 +135,6 @@
             android:name=".activities.TaskCreateActivity"
             android:windowSoftInputMode="adjustPan|stateVisible" />
         <activity android:name=".activities.SavedTaskActivity" />
-        <activity android:name=".activities.UserProfileActivity" />
         <activity android:name=".activities.WebViewActivity" />
         <activity
             android:name=".activities.ReportActivity"

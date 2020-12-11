@@ -253,7 +253,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
         calculate(Float.toString(final_task_cost));
     }
 
-    @OnClick({R.id.lyt_add_credit_card, R.id.btn_new, R.id.btn_pay, R.id.card_view_user})
+    @OnClick({R.id.lyt_add_credit_card, R.id.btn_new, R.id.btn_pay})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_pay:
@@ -265,14 +265,6 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
                 break;
             case R.id.lyt_add_credit_card:
                 showCreditCardRequirementBottomSheet();
-
-                break;
-            case R.id.card_view_user:
-                Bundle bundleProfile = new Bundle();
-                bundleProfile.putInt(Constant.userID, sessionManager.getUserAccount().getId());
-                Intent intent = new Intent(PaymentOverviewActivity.this, UserProfileActivity.class);
-                intent.putExtras(bundleProfile);
-                startActivity(intent);
                 break;
         }
     }

@@ -889,7 +889,7 @@ public class AuthActivity extends ActivityBase {
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
-            Timber.tag("LoginGoogle").d("1:" + task.toString());
+            Timber.tag("LoginGoogle").d(task.toString());
         } else {
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
@@ -899,7 +899,7 @@ public class AuthActivity extends ActivityBase {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             signInUpdateUI(account);
-            Timber.d("account:" + account.toString());
+            Timber.d("LoginGoogle account:%s", account.toString());
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.

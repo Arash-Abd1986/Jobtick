@@ -20,7 +20,7 @@
     <string name="task_location">Task Location</string>
     <string name="due_date">Due Date</string>
     <string name="you_are_not_authorize">You are not authorize.</string>
-    <string name="clientId"> 582071119574-lfgbfr35iaug3sgb418uiplbr86rp5ls.apps.googleusercontent.com </string>
+    <string name="clientId">582071119574-lfgbfr35iaug3sgb418uiplbr86rp5ls.apps.googleusercontent.com</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

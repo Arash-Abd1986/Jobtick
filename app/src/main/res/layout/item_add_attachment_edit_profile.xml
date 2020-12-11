@@ -40,7 +40,7 @@
                 android:clickable="true"
                 android:padding="@dimen/spacing_medium"
                 android:src="@drawable/ic_cancel"
-                android:tint="@color/red"
+                app:tint="@color/strokeRed"
                 android:visibility="gone"
                 tools:ignore="ContentDescription" />
         </RelativeLayout>

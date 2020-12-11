@@ -6,7 +6,6 @@
 
     </item>
 
-    <item android:drawable="@android:color/transparent"
-        android:state_checked="false"></item>
+    <item android:drawable="@android:color/transparent" android:state_checked="false" />
 
 </selector>

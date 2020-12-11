@@ -1,7 +1,5 @@
 package com.jobtick.models;
 
-import android.util.Log;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,6 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 public class CancellationReasonModel {
     String TAG = CancellationReasonModel.class.getName();
@@ -80,7 +80,7 @@ public class CancellationReasonModel {
                 cancellationReasonModel.setPoster(poster_list);
             }
         }catch (JSONException e){
-            Log.e(TAG,e.toString());
+            Timber.e(e.toString());
             e.printStackTrace();
         }
         return cancellationReasonModel;

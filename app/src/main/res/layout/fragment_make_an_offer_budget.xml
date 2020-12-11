@@ -32,7 +32,8 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_10sp"
                     android:padding="@dimen/_5sp"
-                    android:src="@drawable/ic_back" />
+                    android:src="@drawable/ic_back"
+                     />
 
                 <com.jobtick.text_view.TextViewMedium
                     android:id="@+id/toolbar_title"
@@ -196,12 +197,14 @@
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:src="@drawable/shape_circle_gray_level" />
+                                    android:src="@drawable/shape_circle_gray_level"
+                                     />
 
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:src="@drawable/bg_level_squre_diamond" />
+                                    android:src="@drawable/bg_level_squre_diamond"
+                                     />
 
                                 <ImageView
                                     android:id="@+id/img_level"
@@ -210,7 +213,8 @@
                                     android:layout_centerInParent="true"
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
-                                    android:src="@drawable/ic_medal3" />
+                                    android:src="@drawable/ic_medal3"
+                                     />
 
 
                             </RelativeLayout>

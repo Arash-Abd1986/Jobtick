@@ -2,7 +2,6 @@ package com.jobtick.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -11,6 +10,8 @@ import com.jobtick.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import timber.log.Timber;
 
 public class AttachmentModel implements Parcelable{
     String TAG = AttachmentModel.class.getName();
@@ -225,7 +226,7 @@ public class AttachmentModel implements Parcelable{
                 attachment.setCreatedAt(Tools.getGlobalFormat(jsonObject.getString("created_at")));
             attachment.setType(AttachmentAdapter.VIEW_TYPE_IMAGE);
         }catch (JSONException e){
-            Log.e(TAG,e.toString());
+            Timber.e(e.toString());
             e.printStackTrace();
         }
         return attachment;

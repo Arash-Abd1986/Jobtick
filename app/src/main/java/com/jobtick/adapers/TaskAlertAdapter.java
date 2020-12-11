@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.task.TaskAlert;
 
 import java.util.ArrayList;
@@ -43,12 +45,16 @@ public class TaskAlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_minus)
         ImageView imgMinus;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_keyword)
         TextView txtKeyword;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_type_detail)
         TextView txtTypeDetail;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.item_keyword)
         RelativeLayout itemKeyword;
 

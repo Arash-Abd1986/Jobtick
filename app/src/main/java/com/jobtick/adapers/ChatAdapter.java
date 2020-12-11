@@ -1,6 +1,5 @@
 package com.jobtick.adapers;
 
-import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -16,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.ZoomImageActivity;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.ChatModel;

@@ -1,6 +1,5 @@
 package com.jobtick.adapers;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
@@ -16,6 +15,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ImageUtil;
@@ -130,24 +131,34 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class ViewHolder extends BaseViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_avatar)
         CircularImageView imgAvatar;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_offer_count)
         TextView txtOfferCount;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_title)
         TextView txtTitle;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_location)
         TextView txtLocation;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_due_date)
         TextView txtDueDate;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_due_time)
         TextView txtDueTime;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_budget)
         TextView txtBudget;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_status)
         TextView txtStatus;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.tv_delete)
         ImageView tvDelete;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.card_task_background)
         CardView cardTaskBackground;
 

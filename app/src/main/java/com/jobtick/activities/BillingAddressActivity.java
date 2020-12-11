@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.payment.AddBillingAddress;
 import com.jobtick.payment.AddBillingAddressImpl;
@@ -21,27 +23,35 @@ import butterknife.OnClick;
 
 public class BillingAddressActivity extends ActivityBase {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_address_line_1)
     ExtendedEntryText edtAddressLine1;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_address_line_2)
     ExtendedEntryText edtAddressLine2;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_suburs)
     ExtendedEntryText edtSuburs;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_state)
     ExtendedEntryText edtState;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_postcode)
     ExtendedEntryText edtPostcode;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_Country)
     ExtendedEntryText edtCountry;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_change_billing_address)
     MaterialButton lytBtnChangeBillingAddress;
 

@@ -1,11 +1,11 @@
 package com.jobtick.models.payments;
 
-import android.util.Log;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONObject;
+
+import timber.log.Timber;
 
 public class ThreeDSecureUsage {
     String TAG = ThreeDSecureUsage.class.getName();
@@ -43,7 +43,7 @@ public class ThreeDSecureUsage {
             if(jsonObject.has("supported") && !jsonObject.isNull("supported"))
                 threeDSecureUsage.setSupported(jsonObject.getBoolean("supported"));
         }catch (Exception e){
-            Log.e(TAG,e.toString());
+            Timber.e(e.toString());
             e.printStackTrace();
         }
         return threeDSecureUsage;

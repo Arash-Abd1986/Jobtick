@@ -12,7 +12,6 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +46,8 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.models.AttachmentModel;
@@ -74,6 +75,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -83,54 +85,71 @@ import static android.app.Activity.RESULT_OK;
 public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickListener {
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_description)
     EditText edtDescription;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.checkbox_save_as_template)
     CheckBox checkboxSaveAsTemplate;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.saveQuickOfferTxt)
     TextView saveQuickOfferTxt;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.quickOfferDesc)
     TextView quickOfferDesc;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_make_a_live_video)
     LinearLayout lytBtnMakeALiveVideo;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lytRecord2)
     LinearLayout lytRecord2;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_continue)
     LinearLayout lytBtnContinue;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_continue)
     CardView cardContinue;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_live_video)
     CardView cardLiveVideo;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ivBack)
     ImageView ivBack;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.imgThumbnail)
     ImageView imgThumbnail;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.LytVideoPlay)
     RelativeLayout LytVideoPlay;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llPlayVideo)
     LinearLayout llPlayVideo;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvCount)
     TextView tvCount;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bottom_sheet)
     FrameLayout bottomSheet;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llJobDetails)
     LinearLayout llJobDetails;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llCancelVideo)
     LinearLayout llCancelVideo;
 
@@ -560,7 +579,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
             @Override
             public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
                 makeAnOfferActivity.hideProgressDialog();
-                Log.e("Response", response.toString());
+                Timber.tag("Response").e(response.toString());
                 if (response.code() == 422) {
                     makeAnOfferActivity.showToast(response.message(), makeAnOfferActivity);
                     return;
@@ -568,9 +587,9 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
                 try {
                     String strResponse = response.body();
-                    Log.e("body", strResponse);
+                    Timber.tag("body").e(strResponse);
                     JSONObject jsonObject = new JSONObject(strResponse);
-                    Log.e("json", jsonObject.toString());
+                    Timber.e(jsonObject.toString());
                     if (jsonObject.has("data")) {
                         AttachmentModel attachment = new AttachmentModel();
                         JSONObject jsonObject_data = jsonObject.getJSONObject("data");
@@ -625,7 +644,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
                 makeAnOfferActivity.hideProgressDialog();
-                Log.e("Response", call.toString());
+                Timber.tag("Response").e(call.toString());
             }
         });
 

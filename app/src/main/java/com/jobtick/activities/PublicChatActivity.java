@@ -1,13 +1,11 @@
 package com.jobtick.activities;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,6 +36,8 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.PublicChatListAdapter;
 import com.jobtick.models.AttachmentModel;
@@ -200,6 +200,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     private final int totalPage = 10;
     private final boolean isLoading = false;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.iv_verified_account)
     ImageView ivVerifiedAccount;
 
@@ -399,7 +400,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("response", response);
+                        Timber.e(response);
                         hideProgressDialog();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
@@ -474,7 +475,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                 if (attachment.getThumbUrl() != null) {
                     map1.put("attachments", String.valueOf(id));
                 }
-                Log.e("MAP", String.valueOf(map1.size()));
+                Timber.tag("MAP").e(String.valueOf(map1.size()));
                 Timber.e(map1.toString());
                 return map1;
 
@@ -485,7 +486,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(PublicChatActivity.this);
         requestQueue.add(stringRequest);
-        Log.e("PublicChatActivity", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
     private boolean validation() {
@@ -505,11 +506,11 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("responce_url", response);
+                        Timber.e(response);
                         // categoryArrayList.clear();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            Log.e("json", jsonObject.toString());
+                            Timber.e(jsonObject.toString());
                             JSONArray jsonArray_data = jsonObject.getJSONArray("data");
                             for (int i = 0; jsonArray_data.length() > i; i++) {
                                 JSONObject jsonObject_offer_chat = jsonArray_data.getJSONObject(i);
@@ -527,7 +528,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
 
                         } catch (JSONException e) {
                             hideProgressDialog();
-                            Log.e("EXCEPTION", String.valueOf(e));
+                            Timber.e(String.valueOf(e));
                             e.printStackTrace();
                         }
                     }
@@ -552,7 +553,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(PublicChatActivity.this);
         requestQueue.add(stringRequest);
-        Log.e("url", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
 
@@ -568,7 +569,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
             @Override
             public void onResponse(Call<String> call, retrofit2.Response<String> response) {
                 hideProgressDialog();
-                Log.e("Response", response.toString());
+                Timber.tag("Response").e(response.toString());
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     showToast(response.message(), PublicChatActivity.this);
                     return;
@@ -584,9 +585,9 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                         return;
                     }
                     if (response.code() == HttpStatus.SUCCESS) {
-                        Log.e("body", strResponse);
+                        Timber.tag("body").e(strResponse);
                         JSONObject jsonObject = new JSONObject(strResponse);
-                        Log.e("json", jsonObject.toString());
+                        Timber.e(jsonObject.toString());
                         if (jsonObject.has("data")) {
                             JSONObject jsonObject_data = jsonObject.getJSONObject("data");
                             attachment = new AttachmentModel().getJsonToModel(jsonObject_data);
@@ -605,7 +606,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 hideProgressDialog();
-                Log.e("Response", call.toString());
+                Timber.tag("Response").e(call.toString());
             }
         });
 

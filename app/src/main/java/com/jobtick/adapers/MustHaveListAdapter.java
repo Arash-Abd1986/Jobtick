@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.MustHaveModel;
 
 import java.util.ArrayList;
@@ -53,11 +55,14 @@ public class MustHaveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.cb_receive_alerts)
         CheckBox cbReceiveAlerts;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_btn_add_must_have)
         TextView txtBtnAddMustHave;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lytMain)
         LinearLayout lytMain;
 

@@ -1,6 +1,5 @@
 package com.jobtick.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -21,6 +20,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.CategoryListActivity;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.adapers.TaskCategoryAdapter;
@@ -35,15 +36,20 @@ public class NewTaskFragment extends Fragment {
     @SuppressLint("NonConstantResourceId")
     SessionManager sessionManager;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ticker_card)
     CardView tickerCard;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.poster_card)
     CardView posterCard;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.name)
     TextView name;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lty_btn_post)
     FloatingActionButton lytBtnPost;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.scrollView)
     NestedScrollView scrollView;
 

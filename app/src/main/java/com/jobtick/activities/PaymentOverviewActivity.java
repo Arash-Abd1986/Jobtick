@@ -2,7 +2,6 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,6 +21,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.fragments.PosterRequirementsBottomSheet;
 import com.jobtick.models.CreditCardModel;
 import com.jobtick.models.OfferModel;
@@ -49,37 +50,52 @@ import timber.log.Timber;
 public class PaymentOverviewActivity extends ActivityBase implements PosterRequirementsBottomSheet.NoticeListener {
 
     private static final String TAG = PaymentOverviewActivity.class.getSimpleName();
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_avatar)
     CircularImageView imgAvatar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_user_name)
     MaterialTextView txtUserName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_post_title)
     MaterialTextView txtPostTitle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_task_cost)
     MaterialTextView txtTaskCost;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_service_fee)
     MaterialTextView txtServiceFee;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_wallet_value)
     MaterialTextView txtWallet;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_total_cost)
     MaterialTextView txtTotalCost;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_brand)
     CardView imgBrand;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_account_number)
     MaterialTextView txtAccountNumber;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_expires_date)
     MaterialTextView txtExpiresDate;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_new)
     MaterialButton btnNew;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rlt_payment_method)
     RelativeLayout rltPaymentMethod;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_pay)
     MaterialButton btnPay;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_add_credit_card)
     LinearLayout lytAddCreditCard;
 
@@ -96,6 +112,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
     float final_total_cost;
     float wallet;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_view_user)
     LinearLayout cardViewUser;
 
@@ -272,7 +289,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
 
                     @Override
                     public void onResponse(String response) {
-                        Log.e("response", response);
+                        Timber.e(response);
                         //   hidepDialog();
                         try {
 
@@ -353,7 +370,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(PaymentOverviewActivity.this);
         requestQueue.add(stringRequest);
-        Log.e(TAG, stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
     public void calculate(String amount) {

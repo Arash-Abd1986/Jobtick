@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.NewTaskAlertsActivity;
 import com.jobtick.models.task.TaskAlert;
 import com.jobtick.utils.SessionManager;
@@ -26,8 +28,10 @@ import butterknife.OnClick;
  */
 public class NewTaskAlertsRemoteFragment extends Fragment {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_keyword)
     ExtendedEntryText edtKeyword;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_update_alert)
     MaterialButton btnUpdate;
     NewTaskAlertsActivity newTaskAlertsActivity;

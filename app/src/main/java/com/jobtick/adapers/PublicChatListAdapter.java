@@ -1,6 +1,5 @@
 package com.jobtick.adapers;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +19,8 @@ import com.jobtick.activities.ReportActivity;
 import com.jobtick.utils.ConstantKey;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.CommentModel;
 import com.jobtick.models.OfferModel;
 import com.jobtick.models.QuestionModel;
@@ -186,7 +187,8 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         CardView cardImgFile;
 
 
-/*        @BindView(R.id.textViewOptions)
+/*        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.textViewOptions)
         TextView textViewOptions;*/
 
         @SuppressLint("NonConstantResourceId")

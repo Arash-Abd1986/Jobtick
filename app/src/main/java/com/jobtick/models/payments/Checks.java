@@ -1,11 +1,11 @@
 package com.jobtick.models.payments;
 
-import android.util.Log;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONObject;
+
+import timber.log.Timber;
 
 public class Checks {
     String TAG = Checks.class.getName();
@@ -74,7 +74,7 @@ public class Checks {
                 checks.setCvcCheck(jsonObject.getString("cvc_check"));
 
         }catch (Exception e){
-            Log.e(TAG,e.toString());
+            Timber.e(e.toString());
             e.printStackTrace();
         }
         return checks;

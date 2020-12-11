@@ -53,6 +53,7 @@
         app:borderWidth="0dp"
         app:elevation="@dimen/_16sp"
         app:fabSize="normal"
-        app:tint="@color/white" />
+        app:tint="@color/white"
+         />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -74,7 +74,8 @@
                         android:layout_height="25dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_calendar_primary"
-                        app:tint="@color/colorPrimary" />
+                        app:tint="@color/colorPrimary"
+                         />
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>

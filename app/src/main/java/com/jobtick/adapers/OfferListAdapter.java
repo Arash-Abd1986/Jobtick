@@ -1,6 +1,5 @@
 package com.jobtick.adapers;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +23,8 @@ import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.SessionManager;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.CommentModel;
 import com.jobtick.models.OfferModel;
 import com.jobtick.models.QuestionModel;
@@ -149,8 +150,6 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_name)
         TextView txtName;
-//        @BindView(R.id.ratingbar_worker)
-//        AppCompatRatingBar ratingbarWorker;
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_rating_value)
         TextView txtRatingValue;
@@ -169,7 +168,8 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lyt_budget_status)
         LinearLayout lytBudgetStatus;
-        /*        @BindView(R.id.txt_type)
+        /*        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.txt_type)
                 TextView txtType;*/
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_created_date)
@@ -222,7 +222,8 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.linear_user_profile)
         LinearLayout linearUserProfile;
 
-/*        @BindView(R.id.textViewOptions)
+/*        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.textViewOptions)
         TextView textViewOptions;*/
 
         @SuppressLint("NonConstantResourceId")

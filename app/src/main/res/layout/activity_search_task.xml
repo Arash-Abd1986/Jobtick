@@ -30,7 +30,8 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:padding="12dp"
-                android:src="@drawable/ic_back">
+                android:src="@drawable/ic_back"
+                >
 
             </ImageView>
 
@@ -110,7 +111,8 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_no_search_found">
+                    android:src="@drawable/ic_no_search_found"
+                    >
 
                 </ImageView>
 

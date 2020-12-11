@@ -2,7 +2,6 @@ package com.jobtick.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +15,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.SessionManager;

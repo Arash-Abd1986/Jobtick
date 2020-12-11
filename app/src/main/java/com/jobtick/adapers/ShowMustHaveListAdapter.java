@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
+import android.annotation.SuppressLint;
 
 import java.util.List;
 
@@ -28,9 +29,11 @@ public class ShowMustHaveListAdapter extends RecyclerView.Adapter<ShowMustHaveLi
     }
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_btn_add_must_have)
         TextView txtBtnAddMustHave;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lytMain)
         LinearLayout lytMain;
 

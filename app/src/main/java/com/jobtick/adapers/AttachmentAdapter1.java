@@ -1,6 +1,5 @@
 package com.jobtick.adapers;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.utils.ImageUtil;
 

@@ -7,7 +7,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,7 +138,7 @@ public class IncreaseBudgetDeclineBottomSheet extends BottomSheetDialogFragment 
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
                         // Print Error!
-                        Log.e("error", jsonError);
+                        Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             ((ActivityBase)requireActivity()).unauthorizedUser();
                             ((ActivityBase)requireActivity()).hideProgressDialog();

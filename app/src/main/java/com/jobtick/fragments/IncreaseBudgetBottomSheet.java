@@ -9,7 +9,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -178,7 +177,7 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
-                        Log.e("json", jsonObject.toString());
+                        Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 listener.onSubmitIncreasePrice();
@@ -202,7 +201,7 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
                         // Print Error!
-                        Log.e("error", jsonError);
+                        Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             ((ActivityBase)requireActivity()).unauthorizedUser();
                             hideProgressDialog();

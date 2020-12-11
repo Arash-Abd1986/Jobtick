@@ -1,6 +1,5 @@
 package com.jobtick.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,6 +18,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.RangeSlider;
 import com.google.android.material.slider.Slider;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.FiltersActivity;
 import com.jobtick.models.FilterModel;
 import com.jobtick.utils.Constant;
@@ -39,21 +40,29 @@ import butterknife.OnClick;
 public abstract class AbstractFilterFragment extends Fragment {
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_suburb)
     ExtendedEntryText txtSuburb;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_distance_km)
     TextView txtDistanceKm;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.sk_distance)
     Slider skDistance;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_price_min_max)
     TextView txtPriceMinMax;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.sk_price)
     RangeSlider skPrice;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cb_open_tasks)
     CheckBox cbOpenTasks;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_save_filter)
     MaterialButton lytBtnSaveFilter;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.distance_container)
     LinearLayout distanceContainer;
 

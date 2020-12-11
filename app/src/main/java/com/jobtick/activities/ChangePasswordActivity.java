@@ -26,6 +26,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.HttpStatus;
@@ -46,12 +48,16 @@ import timber.log.Timber;
 
 public class ChangePasswordActivity extends ActivityBase implements TextWatcher {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.old_password)
     ExtendedEntryText oldPassword;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.new_password)
     ExtendedEntryText newPassword;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_change_password)
     MaterialButton btnChangePassword;
 

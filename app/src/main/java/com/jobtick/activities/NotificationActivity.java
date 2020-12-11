@@ -1,6 +1,5 @@
 package com.jobtick.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,6 +19,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.adapers.NotificationListAdapter;
 import com.jobtick.models.notification.NotifDatum;
 import com.jobtick.models.notification.PushNotificationModel2;

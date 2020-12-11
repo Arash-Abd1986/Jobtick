@@ -11,6 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.TTCancellationSummaryActivity;
 import com.jobtick.models.cancellation.reason.CancellationReasonModel;
 import com.jobtick.models.cancellation.reason.Worker;
@@ -26,25 +28,33 @@ public class CancellationWorkerActivity extends AbstractCancellationReasonsActiv
         implements RadioGroup.OnCheckedChangeListener{
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_reason_1)
     RadioButton rbReason1;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_reason_2)
     RadioButton rbReason2;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_reason_3)
     RadioButton rbReason3;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_reason_4)
     RadioButton rbReason4;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_submit)
     MaterialButton btnSubmit;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cancellation_fee_container)
     RelativeLayout cancellationFeeContainer;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_cancellation_fee)
     TextView cancellationFee;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rg_reason_message)
     RadioGroup rgReasonMessage;
 

@@ -2,7 +2,6 @@ package com.jobtick.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -10,6 +9,8 @@ import com.jobtick.models.cancellation.reason.ReasonModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import timber.log.Timber;
 
 public class CancellationModel implements Parcelable {
     String TAG = CancellationModel.class.getName();
@@ -304,7 +305,7 @@ public class CancellationModel implements Parcelable {
                 cancellationModel.setReasonModel(new ReasonModel().getJsonToModel(jsonObject.getJSONObject("reason_model")));
 
         } catch (JSONException e) {
-            Log.e(TAG, e.toString());
+            Timber.e(e.toString());
             e.printStackTrace();
         }
         return cancellationModel;

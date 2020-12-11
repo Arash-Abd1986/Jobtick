@@ -81,7 +81,8 @@
             <ImageView
                 android:background="#11000000"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:layout_height="1dp"
+                 />
             <LinearLayout
 
                 android:id="@+id/lyt_task_details"
@@ -152,7 +153,8 @@
             <ImageView
                 android:background="#11000000"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:layout_height="1dp"
+                 />
         </LinearLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
+import android.annotation.SuppressLint;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_data)
         TextView txtData;
 

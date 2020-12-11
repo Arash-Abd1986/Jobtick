@@ -2,13 +2,14 @@ package com.jobtick.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import timber.log.Timber;
 
 public class AccountStatusModel implements Parcelable {
     String TAG = TierModel.class.getName();
@@ -152,7 +153,7 @@ public class AccountStatusModel implements Parcelable {
 
 
         }catch (JSONException e){
-            Log.e(TAG,e.toString());
+            Timber.tag(TAG).e(e.toString());
             e.printStackTrace();
         }
         return statusModel;

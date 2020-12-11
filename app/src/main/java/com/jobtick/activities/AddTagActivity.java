@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.edit_text.EditTextRegular;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewSemiBold;
 import com.jobtick.adapers.AddTagAdapter;
 import com.jobtick.utils.ConstantKey;
@@ -26,16 +28,21 @@ import butterknife.OnClick;
 
 public class AddTagActivity extends ActivityBase {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     AddTagAdapter adapter;
     ArrayList<String> addTagList;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_title)
     TextViewSemiBold txtTitle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_add_tag)
     EditTextRegular edtAddTag;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_btn_add_tag)
     ImageView imgBtnAddTag;
     String action_bar_title;

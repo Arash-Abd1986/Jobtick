@@ -58,7 +58,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_master_card" />
+                android:src="@drawable/ic_master_card"
+                 />
 
             <com.jobtick.text_view.TextViewMedium
                 android:id="@+id/credit_account_number"

@@ -3,7 +3,7 @@ package com.jobtick.utils;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+
 
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.models.PushNotificationModel;
@@ -13,6 +13,8 @@ import com.onesignal.OneSignal;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import timber.log.Timber;
 
 import static com.jobtick.utils.ConstantKey.ID;
 import static com.jobtick.utils.ConstantKey.PUSH_CONVERSATION;
@@ -87,7 +89,7 @@ public class MyNotificationOpenedHandler implements OneSignal.NotificationOpened
         // React to button pressed
         OSNotificationAction.ActionType actionType = result.action.type;
         if (actionType == OSNotificationAction.ActionType.ActionTaken)
-            Log.i("OneSignalExample", "Button pressed with id: " + result.action.actionID);
+            Timber.tag("OneSignalExample").i("Button pressed with id: " + result.action.actionID);
 
         // Launch new activity using Application object
     }

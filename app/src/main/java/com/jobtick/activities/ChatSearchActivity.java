@@ -20,6 +20,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.adapers.InboxListAdapter;
 import com.jobtick.models.ConversationModel;
 import com.jobtick.utils.Constant;
@@ -83,10 +85,13 @@ public class ChatSearchActivity extends ActivityBase implements InboxListAdapter
            super.onBackPressed();
         });
     }
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_search_categoreis)
     EditText etSearch;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.pbLoading)
     ProgressBar pbLoading;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.iv_back)
     ImageView iv_back;
     private InboxListAdapter adapter;

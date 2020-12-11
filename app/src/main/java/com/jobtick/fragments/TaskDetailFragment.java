@@ -1,7 +1,6 @@
 package com.jobtick.fragments;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -46,6 +45,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.BuildConfig;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.adapers.AddTagAdapter;

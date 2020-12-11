@@ -25,6 +25,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jobtick.R;
+
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.adapers.PaymentHistoryListAdapter;
@@ -50,21 +53,29 @@ import butterknife.ButterKnife;
 
 public abstract class AbstractPaymentFragment extends Fragment {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_total_payment)
     TextView totalPayment;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_total_transactions)
     TextView totalTransaction;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.payment_history_list)
     RecyclerView paymentHistoryList;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.no_transaction_container)
     LinearLayout noTransactions;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.container)
     CardView container;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.filter)
     TextView filter;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.download)
     TextView download;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_filter)
     TextView txtFilter;
 

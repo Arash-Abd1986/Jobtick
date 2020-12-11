@@ -34,7 +34,8 @@
                 android:background="@drawable/ic_close_portfollio"
                 android:id="@+id/img_btn_delete"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"/>
+                android:layout_alignParentTop="true"
+                 />
 
 
         </RelativeLayout>

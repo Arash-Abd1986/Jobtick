@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
@@ -29,6 +28,8 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.Helper;
@@ -42,24 +43,32 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class CompleteRegistrationActivity extends ActivityBase implements View.OnClickListener{
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.first_name)
     ExtendedEntryText edtFirstName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.last_name)
     ExtendedEntryText edtLastName;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_complete_registration)
     MaterialButton lytBtnCompleteRegistration;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cb_poster)
     RadioButton cbPoster;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cb_worker)
     RadioButton cbWorker;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.suburb)
     ExtendedEntryText suburb;
 
@@ -198,7 +207,7 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
                         } else {
                             showToast("Something Went Wrong", context);
                         }
-                        Log.e("error", error.toString());
+                        Timber.e(error.toString());
                         hideProgressDialog();
                     }
                 }) {

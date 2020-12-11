@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import com.jobtick.R;
+import android.annotation.SuppressLint;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,6 +16,7 @@ import butterknife.ButterKnife;
 public class PushNotificationsSettingsActivity extends ActivityBase{
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 

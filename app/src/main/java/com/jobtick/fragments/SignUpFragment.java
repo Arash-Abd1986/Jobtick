@@ -13,6 +13,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.activities.AuthActivity;
 import com.jobtick.utils.Helper;
@@ -28,22 +30,30 @@ import butterknife.OnClick;
 public class SignUpFragment extends Fragment implements AuthActivity.EditTextError {
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.email)
     ExtendedEntryText edtEmailAddress;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.password)
     ExtendedEntryText edtPassword;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.confirm_password)
     ExtendedEntryText edtRepeatPassword;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_sign_up)
     MaterialButton lytBtnSignUp;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_google)
     LinearLayout lytBtnGoogle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_facebook)
     LinearLayout lytBtnFacebook;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_btn_sign_in)
     TextViewRegular txtBtnSignIn;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_btn_terms)
     TextViewRegular txtBtnTerms;
 

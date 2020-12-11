@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.utils.ImageUtil;
 
@@ -110,8 +112,10 @@ public class AttachmentAdapterEditProfile extends RecyclerView.Adapter<RecyclerV
     }
 
     public class IMAGEViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_view)
         ImageView imgView;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_btn_delete)
         ImageView imgBtnDelete;
 
@@ -150,6 +154,7 @@ public class AttachmentAdapterEditProfile extends RecyclerView.Adapter<RecyclerV
     }
 
     public class ADDViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.rlt_add_attachment)
         RelativeLayout rltAddAttachment;
 

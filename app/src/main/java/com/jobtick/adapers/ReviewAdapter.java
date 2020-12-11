@@ -11,6 +11,8 @@ import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.ReviewModel;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.TimeAgo;
@@ -115,18 +117,23 @@ public class ReviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public class ViewHolder extends BaseViewHolder {
 
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_post_title)
         TextView txtPostTitle;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_user_name)
         TextView txtUserName;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.ratingbar)
         AppCompatRatingBar ratingBar;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_created_date)
         TextView txtCreatedDate;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_review_message)
         TextView txtReviewMessage;
 

@@ -1,6 +1,5 @@
 package com.jobtick.activities;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -51,6 +50,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.MustHaveListAdapter;
@@ -133,6 +134,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener,
         IncreaseBudgetNoticeBottomSheet.NoticeListener, IncreaseBudgetDeclineBottomSheet.NoticeListener,
         ConfirmAskToReleaseBottomSheet.NoticeListener, ConfirmReleaseBottomSheet.NoticeListener {
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.alert_box)
     ExtendedAlertBox alertBox;
 
@@ -199,8 +201,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llLocation)
     LinearLayout llLocation;
-    //    @BindView(R.id.card_message)
-//    CardView cardMessage;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.postedByLyt)
     RelativeLayout postedByLyt;
@@ -243,11 +243,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_worker_name)
     TextView txtWorkerName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lineOpen)
     View lineOpenState;
-    //    @SuppressLint("NonConstantResourceId")
-//    @BindView(R.id.card_private_chat)
-//    CardView cardPrivateChat;
+
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_assignee_layout)
     CardView cardAssigneeLayout;
@@ -847,8 +846,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         cardMakeAnOffer.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.content)
     LinearLayout content;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llLoading)
     LinearLayout llLoading;
     private void getData() {
@@ -1020,16 +1021,22 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvPrivateChatName)
     TextView tvPrivateChatName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvPrivateChatLocation)
     TextView tvPrivateChatLocation;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvPrivateChatLastOnline)
     TextView tvPrivateChatLastOnline;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.imgAvatarChat)
     CircularImageView imgAvatarChat;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llBtnPrivateMessageDisable)
     LinearLayout llBtnPrivateMessageDisable;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llBtnPrivateMessageEnable)
     LinearLayout llBtnPrivateMessageEnable;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llBtnPosterMessageEnable)
     LinearLayout llBtnPosterMessageEnable;
 

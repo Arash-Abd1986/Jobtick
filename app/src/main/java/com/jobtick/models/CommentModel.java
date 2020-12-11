@@ -2,7 +2,6 @@ package com.jobtick.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -14,6 +13,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class CommentModel implements Parcelable{
     String TAG = CommentModel.class.getName();
@@ -221,7 +222,7 @@ public class CommentModel implements Parcelable{
                 commentModel.setAttachments(attachmentList);
             }
         }catch (JSONException e){
-            Log.e(TAG,e.toString());
+            Timber.e(e.toString());
             e.printStackTrace();
         }
         return commentModel;

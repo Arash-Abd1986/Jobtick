@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_tick"
             android:layout_gravity="center"
-            />
+             />
 
         <View
             android:layout_width="match_parent"

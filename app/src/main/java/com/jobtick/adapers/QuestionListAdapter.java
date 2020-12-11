@@ -1,9 +1,7 @@
 package com.jobtick.adapers;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jobtick.activities.ProfileActivity;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
+import timber.log.Timber;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.CommentModel;
 import com.jobtick.models.OfferModel;
@@ -138,28 +139,39 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_created_date)
         TextView txtCreatedDate;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_message)
         TextView txtMessage;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.recycler_view_question)
         RecyclerView recyclerViewQuestion;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_file)
         ImageView imgFile;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.card_img_file)
         CardView cardImgFile;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lyt_btn_reply)
         LinearLayout lytBtnReply;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_more_less)
         TextView txtMoreLess;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lyt_btn_more)
         LinearLayout lytBtnMore;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_more_reply_question)
         TextView txtMoreReplyQuestion;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.recycler_view_questions_chat)
         RecyclerView recyclerViewQuestionsChat;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.ivReport)
         ImageView ivReport;
 
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.linear_user_profile)
         LinearLayout linearUserProfile;
 
@@ -218,7 +230,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 @Override
                 public void run() {
                     int lineCount = txtMessage.getLineCount();
-                    Log.e("COUNT", String.valueOf(lineCount));
+                    Timber.tag("COUNT").e(String.valueOf(lineCount));
                     if (lineCount > Constant.MAX_LINE_TEXTVIEW_MORE_2) {
                         // view.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE);
                         lytBtnMore.setVisibility(View.VISIBLE);

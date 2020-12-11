@@ -1,6 +1,5 @@
 package com.jobtick.utils;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.ClipData;
@@ -11,7 +10,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.util.Log;
+
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
@@ -31,6 +30,8 @@ import androidx.core.widget.NestedScrollView;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.GoogleMap;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+import timber.log.Timber;
 
 
 import java.text.ParseException;
@@ -534,7 +535,6 @@ public class Tools {
                     DatePicker datePicker = (DatePicker) datePickerDialogField.get(dpd);
                     java.lang.reflect.Field[] datePickerFields = datePickerDialogField.getType().getDeclaredFields();
                     for (java.lang.reflect.Field datePickerField : datePickerFields) {
-                        Log.i("test", datePickerField.getName());
                         if ("mDaySpinner".equals(datePickerField.getName())) {
                             datePickerField.setAccessible(true);
                             Object dayPicker = datePickerField.get(datePicker);
@@ -544,7 +544,7 @@ public class Tools {
                 }
             }
         } catch (Exception ex) {
-            Log.e("EX", ex.getMessage());
+            Timber.tag("EX").e(ex);
         }
         return dpd;
     }

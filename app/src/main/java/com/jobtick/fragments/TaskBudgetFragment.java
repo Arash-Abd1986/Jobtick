@@ -1,12 +1,10 @@
 package com.jobtick.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +22,8 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.models.TaskModel;
@@ -32,6 +32,7 @@ import com.jobtick.utils.Constant;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,36 +51,52 @@ public class TaskBudgetFragment extends Fragment {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btns)
     LinearLayout card_btn_post_task;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_details)
     LinearLayout lytBtnDetails;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_date_time)
     LinearLayout lytBtnDateTime;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_budget)
     LinearLayout lytBtnBudget;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_hourly)
     RadioButton rbHourly;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_total)
     RadioButton rbTotal;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rg_hourly_total)
     RadioGroup rgHourlyTotal;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_hours)
     EditText txtHours;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_btn_minus)
     ImageView imgBtnMinus;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_btn_add)
     ImageView imgBtnAdd;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_time)
     LinearLayout cardTime;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_estimated_budget_h)
     TextView txtEstimatedBudget;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_us_h)
     TextView txtUs;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_back)
     LinearLayout lytBtnBack;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_button)
     CardView cardButton;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_post_task)
     LinearLayout lytBtnPostTask;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_button)
     LinearLayout lytButton;
     @SuppressLint("NonConstantResourceId")
@@ -439,14 +456,14 @@ public class TaskBudgetFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        Log.e("budget", "destory");
+        Timber.e("destory");
         super.onDestroy();
 
     }
 
     @Override
     public void onDestroyView() {
-        Log.e("budget", "destoryview");
+        Timber.e("destoryview");
         super.onDestroyView();
 
     }

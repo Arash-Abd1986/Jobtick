@@ -24,6 +24,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.adapers.TaskAlertAdapter;
 import com.jobtick.models.task.TaskAlert;
@@ -46,13 +48,17 @@ import timber.log.Timber;
 public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter.OnItemClickListener {
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cb_receive_alerts)
     CheckBox cbReceiveAlerts;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_btn_add_custom_alert)
     TextView txtBtnAddCustomAlert;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
@@ -60,9 +66,11 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
     TaskAlertAdapter adapter;
     ArrayList<TaskAlert> taskAlertArrayList;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.no_alerts_container)
     LinearLayout noAlerts;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.alerts_container)
     LinearLayout alerts;
 

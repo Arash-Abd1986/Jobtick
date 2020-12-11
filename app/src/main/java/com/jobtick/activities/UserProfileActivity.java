@@ -3,7 +3,7 @@ package com.jobtick.activities;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +26,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.hootsuite.nachos.NachoTextView;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewBold;
 import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.text_view.TextViewSemiBold;
@@ -59,76 +61,112 @@ import static com.jobtick.utils.ConstantKey.KEY_USER_REPORT;
  */
 public class UserProfileActivity extends ActivityBase implements AttachmentAdapter.OnItemClickListener {
     private static final String TAG = UserProfileActivity.class.getName();
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_account_level)
     TextViewRegular txtAccountLevel;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_get_a_quote)
     LinearLayout lytBtnGetAQuote;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_as_a_ticker)
     RadioButton rbAsATicker;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_as_a_poster)
     RadioButton rbAsAPoster;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rg_ticker_poster)
     RadioGroup rgTickerPoster;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_about)
     RadioButton rbAbout;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_skills)
     RadioButton rbSkills;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_badges)
     RadioButton rbBadges;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_portfolio)
     RadioButton rbPortfolio;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rg_about_skills_badges_portfolio)
     RadioGroup rgAboutSkillsBadgesPortfolio;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_about)
     LinearLayout lytAbout;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tag_education)
     NachoTextView tagEducation;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_education)
     LinearLayout lytEducation;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tag_specialities)
     NachoTextView tagSpecialities;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_specialities)
     LinearLayout lytSpecialities;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tag_language)
     NachoTextView tagLanguage;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_language)
     LinearLayout lytLanguage;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tag_experience)
     NachoTextView tagExperience;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_experience)
     LinearLayout lytExperience;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tag_transportation)
     NachoTextView tagTransportation;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_transportation)
     LinearLayout lytTransportation;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_skills)
     LinearLayout lytSkills;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view_portfolio)
     RecyclerView recyclerViewPortfolio;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.relativeLayout)
     NestedScrollView relativeLayout;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_about)
     TextViewRegular txtAbout;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_avatar)
     CircularImageView imgAvatar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_verified)
     ImageView imgVerified;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_level)
     ImageView imgLevel;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_full_name)
     TextViewSemiBold txtFullName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_suburb)
     TextViewRegular txtSuburb;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_last_seen)
     TextViewSemiBold txtLastSeen;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ratingbar)
     AppCompatRatingBar ratingbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_completion_rate)
     TextViewRegular txtCompletionRate;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_rating_value)
     TextViewRegular txtRatingValue;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_reviews_count)
     TextViewBold txtReviewsCount;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_btn_see_reviews)
     TextViewBold txtBtnSeeReviews;
     private SessionManager sessionManager;
@@ -137,6 +175,7 @@ public class UserProfileActivity extends ActivityBase implements AttachmentAdapt
     private AttachmentAdapter adapter;
     public static onProfileUpdateListener onProfileupdatelistener;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
@@ -329,7 +368,7 @@ public class UserProfileActivity extends ActivityBase implements AttachmentAdapt
                              * */
                             setUpAllEditFields(userAccountModel);
                             attachmentArrayList = userAccountModel.getPortfolio();
-                            Log.e(TAG, attachmentArrayList.size() + "");
+                            Timber.i(Integer.toString(attachmentArrayList.size()));
                             if (attachmentArrayList.size() != 0) {
                                 // recyclerViewPortfolio.setVisibility(View.VISIBLE);
                                 adapter.addItems(attachmentArrayList);
@@ -365,7 +404,7 @@ public class UserProfileActivity extends ActivityBase implements AttachmentAdapt
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(UserProfileActivity.this);
         requestQueue.add(stringRequest);
-        Log.e(TAG, stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
 
     }
 

@@ -1,12 +1,12 @@
 package com.jobtick.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
 
 
 public class CustomToast extends Toast {

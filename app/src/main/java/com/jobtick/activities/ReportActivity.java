@@ -22,6 +22,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
@@ -51,33 +53,43 @@ import static com.jobtick.utils.ConstantKey.KEY_USER_REPORT;
 
 public class ReportActivity extends ActivityBase implements ExtendedEntryText.ExtendedViewOnClickListener {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.report_root)
     RelativeLayout root;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_subject)
     ExtendedEntryText edtSubject;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_description)
     ExtendedCommentText edtDescription;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.submit)
     Button submit;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.spinner_spam)
     TextView spinnerSpam;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.spinner_fraud)
     TextView spinnerFraud;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.spinner_offensive)
     TextView spinnerOffensive;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.spinner_others)
     TextView spinnerOthers;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.spinner_container)
     CardView spinnerContainer;
 

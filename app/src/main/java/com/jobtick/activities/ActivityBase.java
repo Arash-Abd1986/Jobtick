@@ -1,7 +1,6 @@
 package com.jobtick.activities;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -15,7 +14,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -61,6 +59,8 @@ import com.pusher.client.connection.ConnectionStateChange;
 import com.pusher.client.util.HttpAuthorizer;
 import com.jobtick.BuildConfig;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.utils.CameraUtils;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.SessionManager;
@@ -74,6 +74,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import timber.log.Timber;
 
 
 public class ActivityBase extends AppCompatActivity implements HasEditTextRegular {
@@ -164,7 +166,7 @@ public class ActivityBase extends AppCompatActivity implements HasEditTextRegula
         pusher.connect(new ConnectionEventListener() {
             @Override
             public void onConnectionStateChange(ConnectionStateChange change) {
-                Log.e("connection", change.getCurrentState() + "");
+                Timber.tag("connection").e(change.getCurrentState() + "");
                 System.out.println("State changed to " + change.getCurrentState() +
                         " from " + change.getPreviousState());
                 if (change.getCurrentState() == ConnectionState.CONNECTED) {

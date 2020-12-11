@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.EditProfileActivity;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.ImageUtil;
@@ -27,63 +29,83 @@ import butterknife.ButterKnife;
 public abstract class AbstractDashboard2Fragment extends Fragment {
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_user_name)
     TextView txtUserName;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ivMedal)
     ImageView ivMedal;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_account_level)
     TextView txtAccountLevel;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.awaiting_for_offer)
     ExtendedJobInfo txtAwaitingOffer;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.assigned)
     ExtendedJobInfo txtAssigend;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.overdue)
     ExtendedJobInfo txtOverDue;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.released_money)
     ExtendedJobInfo txtReleasedMoney;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.complete)
     ExtendedJobInfo txtCompleted;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cancelled)
     ExtendedJobInfo extCancelled;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rbPortfollio)
     MaterialRadioButton rbProfile;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rbSkills)
     MaterialRadioButton rbSkills;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rgTabs)
     RadioGroup rgTabs;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.iv_green_account)
     ImageView iv_green_account;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.iv_payment)
     ImageView iv_payment;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.iv_skills)
     ImageView iv_skills;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.iv_badges)
     ImageView iv_badges;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_user_avatar)
     ImageView imgUserAvatar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.profile_progress)
     PercentageChartView percentageChartView;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.profile_container)
     RelativeLayout profileContainer;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.complete_profile)
     TextView completeProfile;
 

@@ -3,7 +3,6 @@ package com.jobtick.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +21,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
@@ -48,35 +49,49 @@ public class LeaveReviewActivity extends ActivityBase {
 
     private static final String TAG = LeaveReviewActivity.class.getName();
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_avatar)
     CircularImageView imgAvatar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_verified_account)
     ImageView imgVerifiedAccount;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.account_rating)
     TextView accountRating;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_full_name)
     TextView txtFullName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.job_success_percentage)
     TextView jobSuccessPercentage;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.job_title)
     TextView jobTitle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_calender_date)
     TextView txtCalenderDate;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_location)
     TextView txtLocation;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_amount)
     TextView txtAmount;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ratingbar)
     AppCompatRatingBar ratingbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_progress_ratingbar)
     TextView txtProgressRatingbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_write_review)
     ExtendedCommentText edtWriteReview;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.submit)
     Button submit;
 
@@ -321,7 +336,7 @@ public class LeaveReviewActivity extends ActivityBase {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(LeaveReviewActivity.this);
         requestQueue.add(stringRequest);
-        Log.e(TAG, stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
     private boolean validation() {

@@ -1,6 +1,5 @@
 package com.jobtick.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -34,6 +33,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.CategoryListActivity;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.EditProfileActivity;

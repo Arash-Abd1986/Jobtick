@@ -26,7 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginEnd="@dimen/spacing_middle"
-            android:src="@drawable/ic_alert_circle"/>
+            android:src="@drawable/ic_alert_circle"
+             />
 
         <com.google.android.material.textview.MaterialTextView
             style="@style/materialText_500_14"

@@ -3,7 +3,6 @@ package com.jobtick.cancellations;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -16,6 +15,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
@@ -37,10 +38,13 @@ import timber.log.Timber;
 public class CancellationDeclineActivity extends ActivityBase {
 
     private static final String TAG = CancellationDeclineActivity.class.getName();
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.comment_box)
     ExtendedCommentText edtComments;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.submit)
     MaterialButton lytBtnSubmit;
 
@@ -194,7 +198,7 @@ public class CancellationDeclineActivity extends ActivityBase {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(CancellationDeclineActivity.this);
         requestQueue.add(stringRequest);
-        Log.e(TAG, stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
     @Override

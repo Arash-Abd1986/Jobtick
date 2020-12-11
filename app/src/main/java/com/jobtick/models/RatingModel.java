@@ -2,7 +2,6 @@ package com.jobtick.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
@@ -10,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import timber.log.Timber;
 
 public class RatingModel implements Parcelable {
     String TAG = RatingModel.class.getName();
@@ -207,7 +208,7 @@ public class RatingModel implements Parcelable {
                 ratingModel.setBreakdownModel(breakdownModel);
             }
         } catch (JSONException e) {
-            Log.e(TAG, e.toString());
+            Timber.e(e.toString());
             e.printStackTrace();
         }
         return ratingModel;

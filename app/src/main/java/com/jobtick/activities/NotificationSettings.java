@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.widget.ExtendedSettingItem;
 
 import butterknife.BindView;
@@ -18,15 +20,19 @@ import butterknife.OnClick;
 public class NotificationSettings extends ActivityBase {
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.email_notifications)
     ExtendedSettingItem rtlBtnEmailNotification;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.push_notifications)
     ExtendedSettingItem rtlBtnPushNotifications;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.sms_notifications)
     ExtendedSettingItem rtlBtnSMSNotifications;
 

@@ -20,6 +20,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.HttpStatus;
@@ -47,15 +49,19 @@ import static com.jobtick.utils.Constant.URL_TASKS;
 public class RescheduleTimeRequestActivity extends ActivityBase implements ExtendedEntryText.ExtendedViewOnClickListener{
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_date)
     ExtendedEntryText txtDate;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_previous_date)
     TextView txtPreviousDate;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_previous_time)
     TextView getTxtPreviousTime;
 
@@ -68,6 +74,7 @@ public class RescheduleTimeRequestActivity extends ActivityBase implements Exten
     private TaskModel taskModel;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_note)
     ExtendedCommentText edtNote;
 

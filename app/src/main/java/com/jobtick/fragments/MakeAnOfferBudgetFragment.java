@@ -23,6 +23,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.activities.TaskDetailsActivity;
@@ -50,22 +52,31 @@ import butterknife.ButterKnife;
  */
 public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_budget)
     ExtendedEntryText edtBudget;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_service_fee)
     TextView txtServiceFee;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_final_budget)
     TextView txtFinalBudget;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_account_level)
     TextView txtAccountLevel;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_current_service_fee)
     TextView txtCurrentServiceFee;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_learn_how_level_affects_service_fee)
     TextView txtLearnHowLevelAffectsServiceFee;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_next)
     MaterialButton btnNext;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_level)
     ImageView imgLevel;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvOffer)
     TextView tvOffer;
 

@@ -2,7 +2,6 @@ package com.jobtick.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -10,6 +9,8 @@ import com.jobtick.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import timber.log.Timber;
 
 
 public class AdditionalFundModel implements Parcelable {
@@ -204,7 +205,7 @@ public class AdditionalFundModel implements Parcelable {
                 additionalFundModel.setCreationReason(jsonObject.getString("creation_reason"));
 
         }catch (JSONException e){
-            Log.e(TAG,e.toString());
+            Timber.e(e.toString());
             e.printStackTrace();
         }
         return additionalFundModel;

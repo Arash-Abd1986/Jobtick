@@ -76,7 +76,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:layout_toStartOf="@+id/txt_unseen_count"
                     android:textColor="@color/colorPrimary"
                     tools:text="Nathan Fox" />
 

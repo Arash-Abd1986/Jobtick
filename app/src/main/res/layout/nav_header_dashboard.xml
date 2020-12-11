@@ -35,7 +35,8 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/ic_shield" />
+        android:background="@drawable/ic_shield"
+         />
     </LinearLayout>
 
     <com.google.android.material.textview.MaterialTextView

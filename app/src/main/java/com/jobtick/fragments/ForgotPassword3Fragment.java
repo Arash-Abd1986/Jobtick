@@ -3,7 +3,6 @@ package com.jobtick.fragments;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.AuthActivity;
 import com.jobtick.utils.TimeHelper;
@@ -22,6 +23,7 @@ import com.jobtick.widget.ExtendedEntryText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,17 +33,22 @@ public class ForgotPassword3Fragment extends Fragment {
     CountDownTimer timer;
     private final String zeroTime = "0:00";
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.time_limit)
     TextView timeLimit;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.password)
     ExtendedEntryText edtNewPassword;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.confirm_password)
     ExtendedEntryText edtRepeatNewPassword;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_verify)
     MaterialButton lytBtnUpdate;
 
     AuthActivity authActivity;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
@@ -88,7 +95,7 @@ public class ForgotPassword3Fragment extends Fragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_btn_verify:
-                Log.i("forgotPass3", "email: " + email + " atp: " + otp);
+                Timber.tag("forgotPass3").i("email: " + email + " atp: " + otp);
                 if(verification())
                     authActivity.resetPassword(email,otp, edtNewPassword.getText().trim());
                 break;

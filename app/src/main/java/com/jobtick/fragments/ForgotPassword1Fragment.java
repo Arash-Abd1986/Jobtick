@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.AuthActivity;
 import com.jobtick.widget.ExtendedEntryText;
 
@@ -24,12 +26,15 @@ import butterknife.OnClick;
 public class ForgotPassword1Fragment extends Fragment implements AuthActivity.EditTextError {
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.email)
     ExtendedEntryText edtEmailAddress;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_next)
     MaterialButton lytBtnNext;
     AuthActivity authActivity;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 

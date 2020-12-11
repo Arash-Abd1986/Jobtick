@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="@dimen/spacing_large"
-        android:src="@drawable/ic_down"/>
+        android:src="@drawable/ic_down"
+         />
 
     <com.jobtick.text_view.TextViewMedium
         android:layout_width="match_parent"
@@ -51,7 +52,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_file_manager" />
+                    android:src="@drawable/ic_file_manager"
+                     />
 
                 <com.jobtick.text_view.TextViewRegular
                     android:layout_width="wrap_content"
@@ -79,7 +81,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_gallery" />
+                    android:src="@drawable/ic_gallery"
+                     />
 
                 <com.jobtick.text_view.TextViewRegular
                     android:layout_width="match_parent"
@@ -107,7 +110,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_camera" />
+                    android:src="@drawable/ic_camera"
+                     />
 
                 <com.jobtick.text_view.TextViewRegular
                     android:layout_width="match_parent"
@@ -143,7 +147,8 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_video_recorder" />
+                    android:src="@drawable/ic_video_recorder"
+                     />
 
                 <com.jobtick.text_view.TextViewRegular
                     android:layout_width="wrap_content"
@@ -166,7 +171,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_file_plus" />
+                    android:src="@drawable/ic_file_plus"
+                     />
 
                 <com.jobtick.text_view.TextViewRegular
                     android:layout_width="wrap_content"

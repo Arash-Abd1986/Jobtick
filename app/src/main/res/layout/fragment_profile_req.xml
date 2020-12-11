@@ -60,7 +60,8 @@
                             android:layout_weight="1"
                             android:clickable="true"
                             android:src="@drawable/ic_profile_remove"
-                            android:visibility="visible" />
+                            android:visibility="visible"
+                             />
                     </RelativeLayout>
 
                     <ImageView

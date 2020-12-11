@@ -20,6 +20,8 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.NewTaskAlertsActivity;
 import com.jobtick.models.task.TaskAlert;
 import com.jobtick.utils.Helper;
@@ -33,17 +35,22 @@ import butterknife.OnClick;
  * A simple {@link Fragment} subclass.
  */
 public class NewTaskAlertsInPersonFragment extends Fragment {
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_update_alert)
     MaterialButton btnUpdate;
     private final int PLACE_SELECTION_REQUEST_CODE = 1;
     private final String TAG = TaskDetailFragment.class.getName();
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_keyword)
     ExtendedEntryText edtKeyword;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_suburb)
     ExtendedEntryText txtSuburb;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_distance_km)
     TextView txtDistanceKm;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.sk_distance)
     SeekBar skDistance;
 

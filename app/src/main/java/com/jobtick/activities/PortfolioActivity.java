@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -35,6 +34,8 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.retrofit.ApiClient;
@@ -67,10 +68,13 @@ import timber.log.Timber;
 
 public class  PortfolioActivity extends ActivityBase implements AttachmentAdapter.OnItemClickListener {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bottom_sheet)
     FrameLayout bottomSheet;
     private BottomSheetBehavior mBehavior;
@@ -361,7 +365,7 @@ public class  PortfolioActivity extends ActivityBase implements AttachmentAdapte
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 hideProgressDialog();
-                Log.e("Response", response.toString());
+                Timber.tag("Response").e(response.toString());
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     showToast(response.message(), PortfolioActivity.this);
                     return;
@@ -377,9 +381,9 @@ public class  PortfolioActivity extends ActivityBase implements AttachmentAdapte
                         return;
                     }
                     if (response.code() == HttpStatus.SUCCESS) {
-                        Log.e("body", strResponse);
+                        Timber.tag("body").e(strResponse);
                         JSONObject jsonObject = new JSONObject(strResponse);
-                        Log.e("json", jsonObject.toString());
+                        Timber.e(jsonObject.toString());
                         if (jsonObject.has("data")) {
                             AttachmentModel attachment = new AttachmentModel();
                             JSONObject jsonObject_data = jsonObject.getJSONObject("data");
@@ -419,7 +423,7 @@ public class  PortfolioActivity extends ActivityBase implements AttachmentAdapte
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 hideProgressDialog();
-                Log.e("Response", call.toString());
+                Timber.tag("Response").e(call.toString());
             }
         });
 
@@ -509,7 +513,7 @@ public class  PortfolioActivity extends ActivityBase implements AttachmentAdapte
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(PortfolioActivity.this);
         requestQueue.add(stringRequest);
-        Log.e("AttachmentActivity", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
 
@@ -560,7 +564,7 @@ public class  PortfolioActivity extends ActivityBase implements AttachmentAdapte
         } else if (requestCode == GALLERY_PICKUP_VIDEO_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 imageStoragePath = CameraUtils.getImagePath(PortfolioActivity.this, data.getData());
-                Log.e("path", imageStoragePath);
+                Timber.tag("path").e(imageStoragePath);
                 if(imageStoragePath != null) {
                     MediaPlayer mpl = MediaPlayer.create(PortfolioActivity.this, Uri.parse(imageStoragePath));
                     int si = mpl.getDuration();
@@ -574,10 +578,10 @@ public class  PortfolioActivity extends ActivityBase implements AttachmentAdapte
                         showToast("Maximum video size exceeds(20 MB)", PortfolioActivity.this);
                         imageStoragePath = null;
                     } else {
-                        Log.e("Duration: ", duration + "");
-                        Log.e("Size: ", file_size + "");
+                        Timber.tag("Duration: ").e(duration + "");
+                        Timber.tag("Size: ").e(file_size + "");
                         // uploadUrl = strVideoPath;
-                        Log.e("VIDEO", "video");
+                        Timber.tag("VIDEO").e("video");
                         uploadDataInPortfolioMediaApi(file);
                     }
                 }

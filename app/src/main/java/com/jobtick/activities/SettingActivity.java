@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.widget.ExtendedSettingItem;
 
 import butterknife.BindView;
@@ -17,14 +19,19 @@ import butterknife.OnClick;
 
 public class SettingActivity extends AppCompatActivity {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edit_account)
     ExtendedSettingItem btnEditAccount;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.payment_settings)
     ExtendedSettingItem btnPaymentSettings;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.notification_settings)
     ExtendedSettingItem btnNotificationSettings;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.change_password)
     ExtendedSettingItem btnChangePassword;
 

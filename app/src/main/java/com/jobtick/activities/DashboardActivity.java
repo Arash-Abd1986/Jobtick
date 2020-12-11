@@ -1,10 +1,8 @@
 package com.jobtick.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +21,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.fragments.CashOutBottomSheet;
 import com.jobtick.fragments.LogOutBottomSheet;
@@ -353,7 +353,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
         } catch (Exception e) {
-            Log.d("why_in_cash",e.getMessage());
+            Timber.d(e.getMessage());
         }
     }
 

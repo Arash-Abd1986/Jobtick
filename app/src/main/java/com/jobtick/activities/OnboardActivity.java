@@ -17,6 +17,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.models.AttachmentModel;
@@ -34,17 +36,21 @@ public class OnboardActivity extends ActivityBase {
     ArrayList<Integer> lottieAnimList;
     ArrayList<Integer> descriptionList;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.pager)
     ViewPager viewPager;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.layout_dots)
     LinearLayout layoutDots;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_next)
     MaterialButton lytBtnNext;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_skip)
     TextViewMedium txtSkip;
 

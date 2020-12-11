@@ -1,6 +1,5 @@
 package com.jobtick.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -29,6 +28,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.ChatActivity;
 import com.jobtick.activities.ChatSearchActivity;
 import com.jobtick.activities.DashboardActivity;

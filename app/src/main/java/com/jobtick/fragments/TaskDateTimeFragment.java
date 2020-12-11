@@ -1,11 +1,9 @@
 package com.jobtick.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +22,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+import timber.log.Timber;
 import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.models.DueTimeModel;
@@ -43,16 +43,22 @@ public class TaskDateTimeFragment extends Fragment {
 
     TaskModel task;
     OperationsListener operationsListener;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_date)
     TextView txtDate;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cb_morning)
     CheckBox cbMorning;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cb_midday)
     CheckBox cbMidday;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cb_afternoon)
     CheckBox cbAfternoon;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cb_evening)
     CheckBox cbEvening;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bottom_sheet)
     FrameLayout bottomSheet;
     @SuppressLint("NonConstantResourceId")
@@ -327,14 +333,14 @@ public class TaskDateTimeFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        Log.e("datetime", "destory");
+        Timber.e("destory");
         super.onDestroy();
 
     }
 
     @Override
     public void onDestroyView() {
-        Log.e("datetime", "destoryview");
+        Timber.e("destoryview");
         super.onDestroyView();
     }
 

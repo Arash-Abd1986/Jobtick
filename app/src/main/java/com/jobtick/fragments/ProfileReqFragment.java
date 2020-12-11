@@ -8,7 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.R;
+
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.adapers.AttachmentAdapter;
@@ -61,6 +62,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import timber.log.Timber;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -119,7 +121,7 @@ public class ProfileReqFragment extends Fragment implements AttachmentAdapterEdi
         try {
             ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getUrl(), null);
         } catch (Exception ex) {
-            Log.e(TAG, "EXCEPTION CAUGHT WHILE EXECUTING DATABASE TRANSACTION");
+            Timber.tag(TAG).e("EXCEPTION CAUGHT WHILE EXECUTING DATABASE TRANSACTION");
             ex.printStackTrace();
         }
     }

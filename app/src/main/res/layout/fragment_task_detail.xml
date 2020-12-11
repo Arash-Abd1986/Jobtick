@@ -174,7 +174,8 @@
                     android:layout_width="35dp"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_add_white" />
+                    android:src="@drawable/ic_add_white"
+                     />
 
                 <com.google.android.material.textview.MaterialTextView
                     style="@style/materialText_500_14"
@@ -259,7 +260,8 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:src="@drawable/ic_map_pin"
-                            app:tint="@color/colorPrimary" />
+                            app:tint="@color/colorPrimary"
+                             />
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>

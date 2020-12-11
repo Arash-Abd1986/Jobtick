@@ -191,7 +191,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/ic_shield" />
+                        android:src="@drawable/ic_shield"
+                         />
                 </LinearLayout>
 
 
@@ -242,7 +243,8 @@
                         android:layout_height="50dp"
                         android:layout_gravity="center"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/ic_medal3" />
+                        android:src="@drawable/ic_medal3"
+                         />
 
                 </LinearLayout>
 
@@ -306,11 +308,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:src="@drawable/ic_progress_checked" />
+                            android:src="@drawable/ic_progress_checked"
+                             />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_account"
-                            lines="1"
+                            android:lines="1"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
@@ -335,7 +338,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:src="@drawable/ic_progress_path" />
+                            android:src="@drawable/ic_progress_path"
+                             />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_payment"
@@ -363,7 +367,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:src="@drawable/ic_progress_path" />
+                            android:src="@drawable/ic_progress_path"
+                             />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_skills"
@@ -391,7 +396,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:src="@drawable/ic_progress_path" />
+                            android:src="@drawable/ic_progress_path"
+                             />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_badges"

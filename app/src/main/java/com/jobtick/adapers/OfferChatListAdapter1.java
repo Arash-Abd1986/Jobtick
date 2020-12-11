@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewBold;
 import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.models.CommentModel;
@@ -133,24 +135,34 @@ public class OfferChatListAdapter1 extends RecyclerView.Adapter<BaseViewHolder> 
     }
 
     public class ViewHolder extends BaseViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_avatar)
         CircularImageView imgAvatar;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_name)
         TextViewBold txtName;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_created_date)
         TextViewRegular txtCreatedDate;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_message)
         TextViewRegular txtMessage;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_more_less)
         TextViewBold txtMoreLess;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_file)
         ImageView imgFile;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lyt_btn_reply)
         LinearLayout lytBtnReply;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lyt_btn_more)
         LinearLayout lytBtnMore;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_more_less_arrow)
         ImageView imgMoreLessArrow;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.card_img_file)
         CardView cardImgFile;
 

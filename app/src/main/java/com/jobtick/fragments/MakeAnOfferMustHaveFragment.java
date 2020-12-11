@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewBold;
 import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.activities.TaskDetailsActivity;
@@ -38,6 +40,7 @@ import butterknife.OnClick;
  */
 public class MakeAnOfferMustHaveFragment extends Fragment implements View.OnClickListener {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
@@ -48,9 +51,11 @@ public class MakeAnOfferMustHaveFragment extends Fragment implements View.OnClic
     private UserAccountModel userAccountModel;
     private SessionManager sessionManager;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txtMustHave)
     TextViewBold txtMustHave;
 

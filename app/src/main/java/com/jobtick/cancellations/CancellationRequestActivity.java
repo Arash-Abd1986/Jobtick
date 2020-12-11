@@ -6,6 +6,8 @@ import android.widget.LinearLayout;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewBold;
 import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.activities.ActivityBase;
@@ -22,24 +24,34 @@ import butterknife.OnClick;
 
 public class CancellationRequestActivity extends ActivityBase {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_username_date)
     TextViewRegular txtUsernameDate;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_user_avtar)
     CircularImageView imgUserAvtar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_post_title)
     TextViewBold txtPostTitle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_name)
     TextViewRegular txtName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_amount)
     TextViewBold txtAmount;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_cancellation_reason)
     TextViewBold txtCancellationReason;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_comment)
     TextViewRegular txtComment;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_comments)
     LinearLayout lytComments;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_cancellation_fee)
     TextViewBold txtCancellationFee;
 

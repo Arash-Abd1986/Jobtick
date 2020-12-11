@@ -110,7 +110,8 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/ic_delete"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                     />
             </LinearLayout>
 
             <LinearLayout
@@ -129,7 +130,8 @@
                     android:layout_height="12dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/ic_map_pin" />
+                    android:src="@drawable/ic_map_pin"
+                     />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_location"
@@ -161,7 +163,8 @@
                     android:layout_height="12dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/ic_calendar" />
+                    android:src="@drawable/ic_calendar"
+                     />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_due_date"
@@ -193,7 +196,8 @@
                     android:layout_height="12dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/ic_clock_10" />
+                    android:src="@drawable/ic_clock_10"
+                     />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_due_time"

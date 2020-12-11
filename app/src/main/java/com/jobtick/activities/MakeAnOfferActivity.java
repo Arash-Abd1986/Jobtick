@@ -3,7 +3,6 @@ package com.jobtick.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -19,6 +18,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.fragments.MakeAnOfferAboutFragment;
 import com.jobtick.fragments.MakeAnOfferBudgetFragment;
 import com.jobtick.fragments.MakeAnOfferMustHaveFragment;
@@ -42,6 +43,7 @@ import timber.log.Timber;
 public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMustHaveFragment.MustHaveCallbackFunction, MakeAnOfferBudgetFragment.BudgetCallbackFunction, MakeAnOfferAboutFragment.AboutCallbackFunction, MakeAnOfferReviewFragment.ReviewCallbackFunction {
 
     private static final String TAG = "MakeAnOfferActivity";
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.make_an_offer_layout)
     FrameLayout makeAnOfferLayout;
     MakeAnOfferModel makeAnOfferModel;
@@ -264,6 +266,6 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(MakeAnOfferActivity.this);
         requestQueue.add(stringRequest);
-        Log.e(TAG, stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 }

@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.BankAccountModel;
 import com.jobtick.payment.AddBankAccount;
 import com.jobtick.payment.AddBankAccountImpl;
@@ -20,18 +22,23 @@ import butterknife.OnClick;
 
 public class AddBankAccountActivity extends ActivityBase {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_account_name)
     ExtendedEntryText edtAccountName;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_bsb)
     ExtendedEntryText edtBsb;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_account_number)
     ExtendedEntryText edtAccountNumber;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_add_bank_account)
     MaterialButton lytBtnAddBankAccount;
 

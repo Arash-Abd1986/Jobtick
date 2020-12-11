@@ -1,10 +1,8 @@
 package com.jobtick.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -24,6 +22,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.adapers.PreviewTaskAdapter;
 import com.jobtick.adapers.TaskListAdapter;
 import com.jobtick.models.PreviewTaskModel;
@@ -46,6 +46,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
@@ -64,6 +65,7 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
     @BindView(R.id.back_to_activity)
     MaterialButton lytCategories;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.list)
     RecyclerView recyclerView;
 
@@ -145,10 +147,10 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
-                    Log.e("responce_url", response);
+                    Timber.e(response);
                     try {
                         JSONObject jsonObject = new JSONObject(response);
-                        Log.e("json", jsonObject.toString());
+                        Timber.e(jsonObject.toString());
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                             JSONArray jsonArray_data = jsonObject.getJSONArray("data");
                             for (int i = 0; jsonArray_data.length() > i; i++) {
@@ -180,7 +182,7 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
                         isLoading = false;
                     } catch (JSONException e) {
                         hideProgressDialog();
-                        Log.e("EXCEPTION", String.valueOf(e));
+                        Timber.e(String.valueOf(e));
                         e.printStackTrace();
                     }
                 },
@@ -200,7 +202,7 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-        Log.e("url", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
 

@@ -6,6 +6,8 @@ import android.view.WindowManager;
 
 import androidx.viewpager.widget.ViewPager;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.adapers.ImagePagerAdapter;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.utils.TouchImageView;
@@ -17,10 +19,12 @@ import butterknife.OnClick;
 public class ZoomImageActivity extends ActivityBase {
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ivZoom)
     TouchImageView ivZoom;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.vpBanner)
     ViewPager vpBanner;
 

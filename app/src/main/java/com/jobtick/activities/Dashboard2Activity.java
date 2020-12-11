@@ -3,7 +3,6 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -23,6 +22,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.adapers.NotificationListAdapter;
 import com.jobtick.adapers.SectionsPagerAdapter;
 import com.jobtick.fragments.Dashboard2PosterFragment;
@@ -49,24 +50,31 @@ import static com.jobtick.utils.ConstantKey.PUSH_TASK;
 public class Dashboard2Activity extends ActivityBase implements NotificationListAdapter.OnItemClickListener, ViewPager.OnPageChangeListener {
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_as_ticker)
     RadioButton rbAsATicker;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_as_poster)
     RadioButton rbAsAPoster;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rg_ticker_poster)
     RadioGroup rgTickerPoster;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.no_notifications_container)
     LinearLayout noNotifications;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ticker_poster_view_pager)
     ContentWrappingViewPager viewPager;
 
@@ -136,7 +144,7 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(Dashboard2Activity.this);
         requestQueue.add(stringRequest);
-        Log.e("url", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
 
     }
 

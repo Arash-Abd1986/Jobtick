@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +19,7 @@ import static com.jobtick.utils.Constant.URL_privacy_policy;
 
 public class HelpActivity extends AppCompatActivity {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 

@@ -2,7 +2,6 @@ package com.jobtick.cancellations;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -15,6 +14,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.text_view.TextViewBold;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.utils.Constant;
@@ -36,16 +37,22 @@ import timber.log.Timber;
 public class CancellationAcceptedActivity extends ActivityBase {
 
     private static final String TAG = CancellationAcceptedActivity.class.getName();
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_title)
     TextViewBold txtTitle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_cancellation_reason)
     TextViewBold txtCancellationReason;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_no)
     LinearLayout lytBtnNo;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_yes)
     LinearLayout lytBtnYes;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_bottom)
     LinearLayout lytBottom;
 
@@ -175,7 +182,7 @@ public class CancellationAcceptedActivity extends ActivityBase {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(CancellationAcceptedActivity.this);
         requestQueue.add(stringRequest);
-        Log.e(TAG, stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
 

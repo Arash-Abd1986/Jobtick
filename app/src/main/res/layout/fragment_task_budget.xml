@@ -490,7 +490,6 @@
             android:id="@+id/lyt_btns"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:orientation="horizontal"
             android:weightSum="2">
 
@@ -498,7 +497,6 @@
                 android:id="@+id/card_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:layout_marginEnd="@dimen/spacing_medium"
@@ -538,7 +536,6 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:layout_marginEnd="@dimen/spacing_large"

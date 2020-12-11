@@ -39,7 +39,6 @@
                 android:layout_marginTop="@dimen/spacing_middle"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <com.jobtick.text_view.TextViewSemiBold

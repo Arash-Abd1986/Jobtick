@@ -68,7 +68,6 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
-                            android:layout_weight="1"
                             android:background="@drawable/ic_correct"
                              />
 
@@ -489,7 +488,6 @@
                     <com.jobtick.text_view.TextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:text="About Me"
                         android:textColor="@color/colorPrimary"
                         android:textSize="12sp"
@@ -521,7 +519,6 @@
                     <com.jobtick.text_view.TextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:text="SKILLS"
                         android:textColor="@color/colorPrimary"
                         android:textSize="12sp"
@@ -540,7 +537,6 @@
                         <com.jobtick.text_view.TextViewBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
                             android:text="Education"
                             android:textColor="@color/colorPrimary"
                             android:textSize="12sp"
@@ -564,7 +560,6 @@
                         <com.jobtick.text_view.TextViewBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
                             android:text="Specialities"
                             android:textColor="@color/colorPrimary"
                             android:textSize="12sp"
@@ -588,7 +583,6 @@
                         <com.jobtick.text_view.TextViewBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
                             android:text="Language"
                             android:textColor="@color/colorPrimary"
                             android:textSize="12sp"
@@ -613,7 +607,6 @@
                         <com.jobtick.text_view.TextViewBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
                             android:text="Work"
                             android:textColor="@color/colorPrimary"
                             android:textSize="12sp"
@@ -639,7 +632,6 @@
                         <com.jobtick.text_view.TextViewBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
                             android:text="Transportation"
                             android:textColor="@color/colorPrimary"
                             android:textSize="12sp"

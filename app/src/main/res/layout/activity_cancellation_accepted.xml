@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background"
+    android:background="@color/backgroundLightGrey"
     tools:context=".cancellations.CancellationAcceptedActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -14,7 +14,7 @@
         android:layout_height="?attr/actionBarSize"
         app:navigationIcon="@drawable/ic_cancel"
         app:title="Cancellation Accepted"
-        android:background="@color/background"
+        android:background="@color/backgroundLightGrey"
         app:contentInsetStartWithNavigation="0dp"/>
 
     <LinearLayout

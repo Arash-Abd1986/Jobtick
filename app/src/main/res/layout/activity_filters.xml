@@ -92,7 +92,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:layout_below="@+id/card_selection_view"
         android:background="@color/grey_100"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

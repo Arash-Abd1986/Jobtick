@@ -312,7 +312,6 @@
                     android:id="@+id/card_submit_offer"
                     android:layout_width="match_parent"
                     android:layout_height="46dp"
-                    android:layout_alignParentBottom="true"
                     android:layout_gravity="bottom"
                     android:layout_margin="@dimen/spacing_large"
                     android:layout_marginStart="@dimen/_10sp"

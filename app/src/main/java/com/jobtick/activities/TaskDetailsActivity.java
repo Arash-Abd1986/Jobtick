@@ -355,7 +355,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private final ArrayList<AttachmentModel> attachmentArrayList_question = new ArrayList<>();
 
     private String str_slug = "";
-    private boolean isMyTask = false;
+    private boolean isUserThePoster = false;
+    private boolean isUserTheTicker = false;
     boolean isFabHide = false;
     boolean isShowBookmarked = false;
     private OfferListAdapter offerListAdapter;
@@ -405,7 +406,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (bundle.getInt(ConstantKey.USER_ID) != 0) {
             int userId = bundle.getInt(ConstantKey.USER_ID);
             SessionManager sessionManager = new SessionManager(this);
-            isMyTask = userId == sessionManager.getUserAccount().getId();
+            isUserThePoster = userId == sessionManager.getUserAccount().getId();
         }
         if (bundle.getInt(ConstantKey.PUSH_OFFER_ID) != 0) {
             pushOfferID = bundle.getInt(ConstantKey.PUSH_OFFER_ID);
@@ -443,7 +444,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         LinearLayoutManager layoutManager = new LinearLayoutManager(TaskDetailsActivity.this);
         recyclerViewOffers.setLayoutManager(layoutManager);
 
-        offerListAdapter = new OfferListAdapter(TaskDetailsActivity.this, isMyTask, new ArrayList<>());
+        offerListAdapter = new OfferListAdapter(TaskDetailsActivity.this, isUserThePoster, new ArrayList<>());
         recyclerViewOffers.setAdapter(offerListAdapter);
         offerListAdapter.setOnItemClickListener(this);
     }
@@ -467,7 +468,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.GONE);
                 txtStatusOpen.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_tab_primary_2dp));
-                if (isMyTask) {
+                if (isUserThePoster) {
                     cardMakeAnOffer.setVisibility(View.VISIBLE);
                     txtBtnText.setText(ConstantKey.BTN_ASSIGNED);
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, true);
@@ -533,7 +534,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 cardMakeAnOffer.setBackgroundTintList(ContextCompat.getColorStateList(TaskDetailsActivity.this,
                         R.color.colorPrimary));
 
-                if (isMyTask) {
+                if (isUserThePoster) {
                     //poster task
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_edit, true);
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_delete, true);
@@ -587,7 +588,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusAssigned.setSelected(false);
                 txtStatusCompleted.setSelected(false);
                 txtStatusCancelled.setSelected(true);
-                if (isMyTask) {
+                if (isUserThePoster) {
                     cardCancelled.setVisibility(View.VISIBLE);
                     cardCancelBackground.setVisibility(View.VISIBLE);
                 }
@@ -632,7 +633,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusReviewed.setVisibility(View.GONE);
                 cardMakeAnOffer.setBackgroundTintList(ContextCompat.getColorStateList(TaskDetailsActivity.this,
                         R.color.colorPrimary));
-                if (isMyTask) {
+                if (isUserThePoster) {
                     txtStatusOverdue.setVisibility(View.VISIBLE);
                     // poster task
                     if (noActionAvailable) {
@@ -684,7 +685,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusCancelled.setVisibility(View.GONE);
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.VISIBLE);
-                if (isMyTask) {
+                if (isUserThePoster) {
                     cardMakeAnOffer.setVisibility(View.GONE);
                     txtBtnText.setText(ConstantKey.BTN_WRITE_A_REVIEW);
 
@@ -783,7 +784,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 case R.id.action_cancellation:
                     Intent intent;
                     Bundle bundle;
-                    if (isMyTask) {
+                    if (isUserThePoster) {
                         intent = new Intent(TaskDetailsActivity.this, CancellationPosterActivity.class);
                         // bundle.putParcelable(ConstantKey.TASK, taskModel);
                     } else {
@@ -796,7 +797,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION);
                     break;
                 case R.id.action_increase_budget:
-                    if (isMyTask) {
+                    if (isUserThePoster) {
                         //TODO: we should not have the menu if it is user post, So I comment these lines and add this toast
                         showToast("You can not increase budget of your job!", this);
 //                        intent = new Intent(TaskDetailsActivity.this, IncreaseBudgetFromPosterActivity.class);
@@ -820,7 +821,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     intent = new Intent(TaskDetailsActivity.this, JobReceiptActivity.class);
                     bundle = new Bundle();
                     //    bundle.putParcelable(ConstantKey.TASK, taskModel);
-                    bundle.putBoolean(ConstantKey.IS_MY_TASK, isMyTask);
+                    bundle.putBoolean(ConstantKey.IS_MY_TASK, isUserThePoster);
                     intent.putExtras(bundle);
                     startActivity(intent);
                     break;
@@ -1043,7 +1044,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     LinearLayout llBtnPosterMessageEnable;
 
     private void setChatButton(String state,JSONObject jsonObject) {
-        if(!isMyTask || taskModel.getWorker()==null)
+        if(!isUserThePoster || taskModel.getWorker()==null)
             return;
 
         relPrivateChat.setVisibility(View.VISIBLE);
@@ -1350,20 +1351,24 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private void setOwnerTask() {
         if (taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
             //this is self task
-            isMyTask = true;
+            isUserThePoster = true;
+            isUserTheTicker = false;
             postedByLyt.setVisibility(View.GONE);
         } else {
             //this is another tasks
             postedByLyt.setVisibility(View.VISIBLE);
             if (taskModel.getWorker() != null) {
                 if (taskModel.getWorker().getId().equals(sessionManager.getUserAccount().getId())) {
-                    isMyTask = false;
+                    isUserThePoster = false;
+                    isUserTheTicker = true;
                     noActionAvailable = false;
                 } else {
                     noActionAvailable = true;
+                    isUserTheTicker = false;
                 }
             } else {
-                isMyTask = false;
+                isUserThePoster = false;
+                isUserTheTicker = false;
                 noActionAvailable = false;
             }
         }
@@ -1663,7 +1668,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     @SuppressLint("SetTextI18n")
     private void setQuestionView(int questionCount) {
-        if (isMyTask) {
+        if (isUserThePoster) {
             rltQuestionAdd.setVisibility(View.GONE);
         } else {
             rltQuestionAdd.setVisibility(View.VISIBLE);
@@ -1688,7 +1693,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (offerCount == 0) {
             txtOffersCount.setText(getString(R.string.offer));
             txtWaitingForOffer.setVisibility(View.VISIBLE);
-            if (isMyTask) {
+            if (isUserThePoster) {
                 firstOfferLyt.setVisibility(View.GONE);
             } else {
                 firstOfferLyt.setVisibility(View.VISIBLE);
@@ -2664,12 +2669,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             hideAlertBox();
         }
         if (taskModel.getCancellation() == null) return;
-        if (isMyTask) {
+        if (isUserThePoster) {
             if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING)) {
                 //poster is cancelling, user is poster too
                 //ticker is cancelling, user is poster
                 showCancellationCard(false, !taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId()));
-                txtBtnText.setVisibility(View.GONE);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
             } else if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_DECLINED)) {
 
@@ -2677,11 +2681,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
             }
         } else {
-            if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING)) {
+            if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING) &&
+            isUserTheTicker) {
                 //ticker is cancelling, user is ticker too
                 //poster is cancelling, user is ticker
                 showCancellationCard(true, taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId()));
-                txtBtnText.setVisibility(View.GONE);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
             }
         }
@@ -2689,17 +2693,17 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     private void initReleaseMoney() {
 
-        if (alertType == AlertType.ASK_TO_RELEASE && !isMyTask) {
+        if (alertType == AlertType.ASK_TO_RELEASE && !isUserThePoster) {
             hideAlertBox();
         }
-        else if (alertType == AlertType.CONFIRM_RELEASE && isMyTask) {
+        else if (alertType == AlertType.CONFIRM_RELEASE && isUserThePoster) {
             hideAlertBox();
         }
         if (taskModel.getStatus().toLowerCase().equals("completed") && taskModel.getWorker() != null &&
-                taskModel.getWorker().getId().equals(userAccountModel.getId())) {
+                isUserTheTicker) {
             showAskToReleaseCard();
-        } else if ((taskModel.getStatus().toLowerCase().equals("overdue") && taskModel.getPoster() != null &&
-                taskModel.getPoster().getId().equals(userAccountModel.getId()))) {
+        } else if (taskModel.getStatus().toLowerCase().equals("overdue") && taskModel.getPoster() != null &&
+                isUserThePoster) {
             showConfirmReleaseCard();
         }
     }
@@ -2709,14 +2713,15 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             hideAlertBox();
         }
         if (!taskModel.getStatus().toLowerCase().equals("closed")) return;
-        if (taskModel.getReviewModels() == null) {
+        if (taskModel.getReviewModels() == null && (isUserThePoster || isUserTheTicker)) {
+
             showReviewCard();
             return;
         }
         boolean showReview = true;
         List<ReviewModel> reviewModels = taskModel.getReviewModels();
         //for poster
-        if (isMyTask) {
+        if (isUserThePoster) {
             for (ReviewModel reviewModel : reviewModels) {
                 if (reviewModel.getRateeType().equals("worker")) {
                     showReview = false;
@@ -2732,7 +2737,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 }
             }
         }
-        if (showReview)
+        if (showReview && (isUserTheTicker || isUserThePoster))
             showReviewCard();
     }
 
@@ -2747,8 +2752,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         !taskModel.getRescheduleReqeust().get(i).getRequester_id().equals(sessionManager.getUserAccount().getId())) {
                     if (!taskModel.getStatus().toLowerCase().equals(TASK_CANCELLED) && !taskModel.getStatus().toLowerCase().equals(TASK_CLOSED)) {
                         pos = i;
-                        showRescheduleTimeCard(i);
-                        break;
+                        if(isUserThePoster || isUserTheTicker) {
+                            showRescheduleTimeCard(i);
+                            break;
+                        }
                     }
                 }
             }
@@ -2756,7 +2763,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void initJobReceipt() {
-        toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_job_receipt, taskModel.getStatus().toLowerCase().equals(TASK_CLOSED));
+        toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_job_receipt, false);
+        if(isUserTheTicker || isUserThePoster)
+            toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_job_receipt, taskModel.getStatus().toLowerCase().equals(TASK_CLOSED));
     }
 
     private void initIncreaseBudget() {
@@ -2764,14 +2773,18 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             hideAlertBox();
         }
         if (taskModel.getAdditionalFund() != null && taskModel.getAdditionalFund().getStatus().equals("pending")) {
-            if (taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
+            if (isUserThePoster) {
                 showIncreaseBudgetCard();
+            }
+            else if(isUserTheTicker){
+                //TODO: updated design of mahan should be applied here
+
+
             }
         }
     }
 
     private int pos = 0;
-
     private void showDialogRescheduleRequest(int pos) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         RescheduleNoticeBottomSheetState dialog = RescheduleNoticeBottomSheetState.newInstance(taskModel, pos);
@@ -2865,7 +2878,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     private void showRescheduleTimeCard(int pos) {
         String rescheduledByWho;
-        if (isMyTask)
+        if (isUserThePoster)
             rescheduledByWho = taskModel.getWorker().getName();
         else
             rescheduledByWho = taskModel.getPoster().getName();
@@ -2878,7 +2891,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     private void showIncreaseBudgetCard() {
         String increaseRequestByWho;
-        if (isMyTask)
+        if (isUserThePoster)
             increaseRequestByWho = taskModel.getWorker().getName();
         else
             increaseRequestByWho = taskModel.getPoster().getName();
@@ -2891,7 +2904,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     private void showReviewCard() {
         String writeAReviewForWho;
-        if (isMyTask)
+        if (isUserThePoster)
             writeAReviewForWho = taskModel.getWorker().getName();
         else
             writeAReviewForWho = taskModel.getPoster().getName();
@@ -2902,7 +2915,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void showAskToReleaseCard() {
-        if (isMyTask) return;
+        if (isUserThePoster) return;
 
         showAlertBox(Html.fromHtml(
                 "You have requested to release money this job on <b>" +
@@ -2911,7 +2924,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void showConfirmReleaseCard() {
-        if (!isMyTask) return;
+        if (!isUserThePoster) return;
 
         String whoRequestToReleaseMoney = taskModel.getWorker().getName();
 
@@ -2967,7 +2980,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             Intent intent = new Intent(TaskDetailsActivity.this, LeaveReviewActivity.class);
             Bundle bundle = new Bundle();
             //    bundle.putParcelable(ConstantKey.TASK, taskModel);
-            bundle.putBoolean(ConstantKey.IS_MY_TASK, isMyTask);
+            bundle.putBoolean(ConstantKey.IS_MY_TASK, isUserThePoster);
             intent.putExtras(bundle);
             startActivityForResult(intent, ConstantKey.RESULTCODE_WRITE_REVIEW);
         } else if (alertType == AlertType.CANCELLED) {

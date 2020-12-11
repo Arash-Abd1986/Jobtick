@@ -2693,18 +2693,21 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     private void initReleaseMoney() {
 
-        if (alertType == AlertType.ASK_TO_RELEASE && !isUserThePoster) {
+        if (alertType == AlertType.ASK_TO_RELEASE) {
             hideAlertBox();
         }
-        else if (alertType == AlertType.CONFIRM_RELEASE && isUserThePoster) {
+        else if (alertType == AlertType.CONFIRM_RELEASE) {
             hideAlertBox();
         }
-        if (taskModel.getStatus().toLowerCase().equals("completed") && taskModel.getWorker() != null &&
-                isUserTheTicker) {
-            showAskToReleaseCard();
-        } else if (taskModel.getStatus().toLowerCase().equals("overdue") && taskModel.getPoster() != null &&
-                isUserThePoster) {
-            showConfirmReleaseCard();
+        //TODO: when a task is completed and when it is overdue?
+        //according of that rectify this block of code
+        if (taskModel.getStatus().toLowerCase().equals("completed") ||
+                taskModel.getStatus().toLowerCase().equals("overdue")) {
+            if(isUserThePoster){
+                showConfirmReleaseCard();
+            } else if (isUserTheTicker){
+                showAskToReleaseCard();
+            }
         }
     }
 
@@ -2713,9 +2716,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             hideAlertBox();
         }
         if (!taskModel.getStatus().toLowerCase().equals("closed")) return;
-        if (taskModel.getReviewModels() == null && (isUserThePoster || isUserTheTicker)) {
+        if (taskModel.getReviewModels() == null) {
 
-            showReviewCard();
+            if(isUserThePoster || isUserTheTicker)
+                showReviewCard();
+
             return;
         }
         boolean showReview = true;
@@ -2915,8 +2920,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void showAskToReleaseCard() {
-        if (isUserThePoster) return;
-
         showAlertBox(Html.fromHtml(
                 "You have requested to release money this job on <b>" +
                         TimeHelper.convertToShowTimeFormat(taskModel.getConversation().getTask().getCompletedAt()) + "</b>"),
@@ -2924,10 +2927,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void showConfirmReleaseCard() {
-        if (!isUserThePoster) return;
-
         String whoRequestToReleaseMoney = taskModel.getWorker().getName();
-
         showAlertBox(Html.fromHtml("<b>" + whoRequestToReleaseMoney + "</b> " +
                         " have requested to release money this job on <b>" +
                         TimeHelper.convertToShowTimeFormat(taskModel.getConversation().getTask().getCompletedAt()) + "</b>"),

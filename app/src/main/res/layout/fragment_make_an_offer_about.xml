@@ -180,7 +180,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:layout_marginLeft="@dimen/_20sp"
+                            android:layout_marginStart="@dimen/_20sp"
                             android:layout_weight="1"
                             android:background="@color/colorGrayC9C9C9" />
 
@@ -188,7 +188,7 @@
                         <com.jobtick.text_view.TextViewRegular
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_20sp"
+                            android:layout_marginStart="@dimen/_20sp"
                             android:layout_marginRight="@dimen/_20sp"
                             android:text="or"
                             android:textColor="@color/grey_70"
@@ -300,7 +300,7 @@
                                         android:id="@+id/llPlayVideo"
                                         android:layout_width="@dimen/_40sp"
                                         android:layout_height="@dimen/_40sp"
-                                        android:layout_marginLeft="@dimen/_12sp"
+                                        android:layout_marginStart="@dimen/_12sp"
                                         android:background="@drawable/bg_rounded_play"
                                         android:gravity="center"
                                         android:orientation="vertical">
@@ -317,7 +317,7 @@
                                         android:id="@+id/llCancelVideo"
                                         android:layout_width="@dimen/_40sp"
                                         android:layout_height="@dimen/_40sp"
-                                        android:layout_marginLeft="@dimen/_12sp"
+                                        android:layout_marginStart="@dimen/_12sp"
                                         android:background="@drawable/bg_rounded_play"
                                         android:gravity="center"
                                         android:orientation="vertical">

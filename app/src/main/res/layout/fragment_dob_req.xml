@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/spacing_mlarge"
-            android:gravity="left"
+            android:gravity="start"
             android:text="@string/provide_a_date_of_birth"
             android:textColor="@color/textColor"
             android:textSize="@dimen/_14sp" />

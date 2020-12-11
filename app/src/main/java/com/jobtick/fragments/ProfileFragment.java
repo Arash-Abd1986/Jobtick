@@ -300,7 +300,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_medium));
             toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.grey_100));
             androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
-            params.gravity = Gravity.LEFT;
+            params.gravity = Gravity.START;
             toolbar_title.setLayoutParams(params);
             btnQuote.setOnClickListener(view12 -> {
                 Intent creating_task = new Intent(getActivity(), CategoryListActivity.class);

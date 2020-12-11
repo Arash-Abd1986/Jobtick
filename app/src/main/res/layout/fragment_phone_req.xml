@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/spacing_mlarge"
-                android:gravity="left"
+                android:gravity="start"
                 android:text="@string/provide_your_mobile_number"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/_14sp" />
@@ -121,7 +121,7 @@
                 android:layout_marginTop="@dimen/spacing_mlarge"
                 android:layout_marginEnd="@dimen/spacing_mlarge"
                 android:layout_marginBottom="@dimen/spacing_medium"
-                android:gravity="left"
+                android:gravity="start"
                 android:text="@string/enter_verification_code_sent"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/_14sp" />

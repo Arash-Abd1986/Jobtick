@@ -465,7 +465,7 @@
                                         android:layout_gravity="center"
                                         android:ellipsize="end"
                                         android:maxLines="1"
-                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginStart="10dp"
                                         android:textColor="@color/colorPrimary"
                                         tools:text="123" />
 

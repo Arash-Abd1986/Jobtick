@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,15 +28,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.jobtick.R;
 import com.jobtick.activities.ChatActivity;
 import com.jobtick.activities.ChatSearchActivity;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.adapers.InboxListAdapter;
 import com.jobtick.models.ConversationModel;
-import com.jobtick.models.JobTickDTO;
 import com.jobtick.pagination.PaginationListener;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
@@ -61,10 +57,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

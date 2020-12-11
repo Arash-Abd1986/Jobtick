@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.models.BillingAdreessModel;
-import com.jobtick.models.PushNotificationModel;
 import com.jobtick.payment.AddBillingAddress;
 import com.jobtick.payment.AddBillingAddressImpl;
 import com.jobtick.utils.StateHelper;
@@ -21,8 +18,6 @@ import com.jobtick.widget.ExtendedEntryText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.jobtick.utils.ConstantKey.PUSH_NOTIFICATION_MODEL;
 
 public class BillingAddressActivity extends ActivityBase {
 

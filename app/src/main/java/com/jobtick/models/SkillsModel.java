@@ -11,7 +11,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 
 public class SkillsModel implements Parcelable {

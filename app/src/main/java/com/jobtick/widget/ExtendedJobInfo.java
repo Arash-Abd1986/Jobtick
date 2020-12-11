@@ -2,24 +2,14 @@ package com.jobtick.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.text.InputType;
-import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 
 import com.jobtick.R;
-
-import static android.text.InputType.TYPE_CLASS_TEXT;
 
 
 public class ExtendedJobInfo extends FrameLayout {

@@ -16,13 +16,9 @@ import org.json.JSONObject;
 
 import static com.jobtick.utils.ConstantKey.ID;
 import static com.jobtick.utils.ConstantKey.PUSH_CONVERSATION;
-import static com.jobtick.utils.ConstantKey.PUSH_CONVERSATION_ID;
 import static com.jobtick.utils.ConstantKey.PUSH_OFFER;
-import static com.jobtick.utils.ConstantKey.PUSH_OFFER_ID;
 import static com.jobtick.utils.ConstantKey.PUSH_QUESTION;
-import static com.jobtick.utils.ConstantKey.PUSH_QUESTION_ID;
 import static com.jobtick.utils.ConstantKey.PUSH_STATUS;
-import static com.jobtick.utils.ConstantKey.PUSH_TASK;
 import static com.jobtick.utils.ConstantKey.PUSH_TASK_ID;
 import static com.jobtick.utils.ConstantKey.PUSH_TASK_SLUG;
 import static com.jobtick.utils.ConstantKey.PUSH_TRIGGER;

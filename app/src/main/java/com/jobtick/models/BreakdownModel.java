@@ -2,13 +2,9 @@ package com.jobtick.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class BreakdownModel implements Parcelable {
     String TAG = RatingModel.class.getName();

@@ -10,9 +10,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
-import com.jobtick.models.MustHaveModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

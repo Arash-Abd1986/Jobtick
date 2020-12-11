@@ -19,8 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.activities.ProfileActivity;
 import com.jobtick.activities.ReportActivity;
-import com.jobtick.activities.TaskDetailsActivity;
-import com.jobtick.activities.UserProfileActivity;
 import com.jobtick.activities.VideoPlayerActivity;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.SessionManager;

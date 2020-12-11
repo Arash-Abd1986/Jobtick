@@ -1,7 +1,6 @@
 package com.jobtick.fragments;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,7 +34,6 @@ import com.jobtick.R;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.FiltersActivity;
 import com.jobtick.activities.MapViewActivity;
-import com.jobtick.activities.SearchCategoryActivity;
 import com.jobtick.activities.SearchTaskActivity;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.adapers.FilterAdapter;

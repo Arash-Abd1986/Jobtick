@@ -3,8 +3,6 @@ package com.jobtick.fragments;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -17,7 +15,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
-import com.jobtick.AppExecutors;
 import com.jobtick.R;
 import com.jobtick.activities.AuthActivity;
 import com.jobtick.utils.Helper;

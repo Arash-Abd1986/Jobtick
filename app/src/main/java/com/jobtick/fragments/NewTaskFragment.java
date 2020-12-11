@@ -2,15 +2,12 @@ package com.jobtick.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,12 +19,10 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jobtick.R;
 import com.jobtick.activities.CategoryListActivity;
 import com.jobtick.activities.DashboardActivity;
-import com.jobtick.activities.SearchTaskActivity;
 import com.jobtick.adapers.TaskCategoryAdapter;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.SessionManager;

@@ -21,7 +21,6 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 import com.jobtick.R;
 import com.jobtick.activities.NewTaskAlertsActivity;
-import com.jobtick.models.GeocodeObject;
 import com.jobtick.models.task.TaskAlert;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.SessionManager;

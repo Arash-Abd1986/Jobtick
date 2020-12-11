@@ -44,7 +44,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static com.jobtick.utils.ConstantKey.PUSH_COMMENT;
 import static com.jobtick.utils.ConstantKey.PUSH_TASK;
 
 public class Dashboard2Activity extends ActivityBase implements NotificationListAdapter.OnItemClickListener, ViewPager.OnPageChangeListener {

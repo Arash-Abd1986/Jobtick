@@ -63,7 +63,6 @@ import com.jobtick.BuildConfig;
 import com.jobtick.R;
 import com.jobtick.utils.CameraUtils;
 import com.jobtick.utils.Constant;
-import com.jobtick.utils.CustomToast;
 import com.jobtick.utils.SessionManager;
 import com.tapadoo.alerter.Alerter;
 

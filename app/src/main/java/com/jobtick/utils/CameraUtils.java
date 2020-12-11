@@ -21,7 +21,6 @@ import androidx.core.content.FileProvider;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.BuildConfig;
-import com.jobtick.activities.AttachmentActivity;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

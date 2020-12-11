@@ -1,7 +1,5 @@
 package com.jobtick.utils;
 
-import android.util.Log;
-
 import com.onesignal.NotificationExtenderService;
 import com.onesignal.OSNotificationReceivedResult;
 

@@ -5,9 +5,6 @@ import android.os.Parcelable;
 
 import com.jobtick.utils.Constant;
 
-import java.io.Serializable;
-import java.util.Map;
-
 public class FilterModel implements Parcelable {
     private String query;
     private String section = Constant.FILTER_ALL_QUERY;

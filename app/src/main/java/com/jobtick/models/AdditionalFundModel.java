@@ -3,11 +3,9 @@ package com.jobtick.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.jobtick.utils.TimeAgo;
 import com.jobtick.utils.Tools;
 
 import org.json.JSONException;

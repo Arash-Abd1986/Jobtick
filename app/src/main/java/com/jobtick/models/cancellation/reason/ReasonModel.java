@@ -4,11 +4,9 @@ package com.jobtick.models.cancellation.reason;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.jobtick.models.CancellationModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;

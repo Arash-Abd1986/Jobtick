@@ -4,8 +4,6 @@ import android.os.Bundle;
 import com.jobtick.models.FilterModel;
 import com.jobtick.utils.Constant;
 
-import java.util.logging.Filter;
-
 public class FilterAllFragment extends AbstractFilterFragment {
 
     private FragmentCallbackFilterAll fragmentCallbackFilterAll;

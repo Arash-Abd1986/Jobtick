@@ -1,15 +1,11 @@
 package com.jobtick.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.jobtick.R;
-import com.jobtick.fragments.ProfileFragment;
 import com.jobtick.fragments.ProfileViewFragment;
 
 import butterknife.BindView;

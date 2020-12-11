@@ -1,15 +1,11 @@
 
 package com.jobtick.models.conversation;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
-import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.jobtick.models.DueTimeModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;

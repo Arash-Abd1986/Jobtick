@@ -2,9 +2,7 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -20,9 +18,6 @@ import com.jobtick.R;
 import com.jobtick.fragments.FilterAllFragment;
 import com.jobtick.fragments.FilterInPersonFragment;
 import com.jobtick.fragments.FilterRemotelyFragment;
-import com.jobtick.fragments.TaskBudgetFragment;
-import com.jobtick.fragments.TaskDateTimeFragment;
-import com.jobtick.fragments.TaskDetailFragment;
 import com.jobtick.models.FilterModel;
 import com.jobtick.utils.Constant;
 

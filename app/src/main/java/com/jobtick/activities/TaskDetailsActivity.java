@@ -52,6 +52,10 @@ import com.google.gson.Gson;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
+import com.jobtick.cancellations.PPCancellationSummaryActivity;
+import com.jobtick.cancellations.PTCancellationSummaryActivity;
+import com.jobtick.cancellations.TPCancellationSummaryActivity;
+import com.jobtick.cancellations.TTCancellationSummaryActivity;
 import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.MustHaveListAdapter;
@@ -59,8 +63,6 @@ import com.jobtick.adapers.OfferListAdapter;
 import com.jobtick.adapers.QuestionListAdapter;
 import com.jobtick.adapers.ShowMustHaveListAdapter;
 import com.jobtick.cancellations.CancellationPosterActivity;
-import com.jobtick.cancellations.CancellationRequestActivity;
-import com.jobtick.cancellations.CancellationRequestSubmittedActivity;
 import com.jobtick.cancellations.CancellationWorkerActivity;
 import com.jobtick.fragments.ConfirmAskToReleaseBottomSheet;
 import com.jobtick.fragments.ConfirmReleaseBottomSheet;
@@ -1813,20 +1815,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         Toast.makeText(TaskDetailsActivity.this, "offer pending", Toast.LENGTH_SHORT).show();
                         break;
                     case ConstantKey.BTN_CANCELLATION_REQUEST_RECEIVED:
-                        intent = new Intent(TaskDetailsActivity.this, CancellationRequestSubmittedActivity.class);
-                        bundle = new Bundle();
-                        // bundle.putParcelable(ConstantKey.TASK, taskModel);
-                        bundle.putBoolean(ConstantKey.IS_MY_TASK, isMyTask);
-                        intent.putExtras(bundle);
-                        startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION_DONE);
+                        //TODO: this button should not be viewed in this stage
                         break;
                     case ConstantKey.BTN_CANCELLATION_REQUEST_SENT:
-                        intent = new Intent(TaskDetailsActivity.this, CancellationRequestActivity.class);
-                        bundle = new Bundle();
-                        //  bundle.putParcelable(ConstantKey.TASK, taskModel);
-                        bundle.putBoolean(ConstantKey.IS_MY_TASK, isMyTask);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
+                        //TODO: this button should not be viewed in this stage
                         break;
                     case ConstantKey.BTN_WRITE_A_REVIEW:
                         //TODO write a review

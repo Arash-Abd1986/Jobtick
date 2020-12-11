@@ -1,4 +1,4 @@
-package com.jobtick.activities;
+package com.jobtick.cancellations;
 
 
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.jobtick.R;
+import com.jobtick.activities.AbstractCancellationSummaryActivity;
 
 /**
  * TP means ticker cancels, poster see this activity.

@@ -53,10 +53,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.TTCancellationSummaryActivity" />
-        <activity android:name=".activities.TPCancellationSummaryActivity" />
-        <activity android:name=".activities.PTCancellationSummaryActivity" />
-        <activity android:name=".activities.PPCancellationSummaryActivity" />
+        <activity android:name=".cancellations.TTCancellationSummaryActivity" />
+        <activity android:name=".cancellations.TPCancellationSummaryActivity" />
+        <activity android:name=".cancellations.PTCancellationSummaryActivity" />
+        <activity android:name=".cancellations.PPCancellationSummaryActivity" />
         <activity android:name=".activities.NotificationSettings" />
 
         <meta-data
@@ -65,13 +65,10 @@
 
         <activity android:name=".activities.Dashboard2Activity" />
         <activity android:name=".activities.PaymentHistoryActivity" />
-        <activity android:name=".cancellations.CancellationRequestActivity" />
         <activity android:name=".activities.JobReceiptActivity" />
         <activity
             android:name=".cancellations.CancellationDeclineActivity"
             android:windowSoftInputMode="adjustPan|stateVisible" />
-        <activity android:name=".cancellations.CancellationAcceptedActivity" />
-        <activity android:name=".cancellations.CancellationRequestSubmittedActivity" />
         <activity
             android:name=".cancellations.CancellationWorkerActivity"
             android:windowSoftInputMode="adjustPan" />

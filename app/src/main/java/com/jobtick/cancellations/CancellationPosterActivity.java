@@ -14,7 +14,6 @@ import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
-import com.jobtick.activities.PPCancellationSummaryActivity;
 import com.jobtick.models.cancellation.reason.CancellationReasonModel;
 import com.jobtick.models.cancellation.reason.Poster;
 import com.jobtick.utils.ConstantKey;

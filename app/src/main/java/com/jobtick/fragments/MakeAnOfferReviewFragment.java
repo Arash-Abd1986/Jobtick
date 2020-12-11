@@ -162,9 +162,9 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
     private void setupBudget(int budget) {
         int worker_service_fee = userAccountModel.getWorkerTier().getServiceFee();
         float service_fee = (float) ((budget * worker_service_fee) / 100);
-        txtServiceFee.setText("$" + service_fee);
+        txtServiceFee.setText(String.format("$%s", service_fee));
         float total_budget = budget - (float) ((budget * worker_service_fee) / 100);
-        txtReceiveBudget.setText("$" + total_budget);
+        txtReceiveBudget.setText(String.format("$%s", total_budget));
     }
 
     private void reviewConditions() {

@@ -114,7 +114,7 @@ public class MakeAnOfferMustHaveFragment extends Fragment implements View.OnClic
 
     public void init() {
 
-        txtMustHave.setText(taskModel.getPoster().getName() + " has a few must-haves for this task. Please check these before you make an offer.");
+        txtMustHave.setText(String.format("%s has a few must-haves for this task. Please check these before you make an offer.", taskModel.getPoster().getName()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(getContext(), 5), true));
         recyclerView.setHasFixedSize(true);

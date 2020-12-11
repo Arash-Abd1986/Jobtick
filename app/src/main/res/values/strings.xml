@@ -456,5 +456,21 @@
     <string name="job_details">Job details</string>
     <string name="wallet">Wallet</string>
     <string name="search_inbox">Search inbox</string>
+    <string name="level_1">Level 1</string>
+    <string name="level_2">Level 2</string>
+    <string name="level_3">Level 3</string>
+    <string name="level_0">Level 0</string>
+    <string name="awful">Awful!</string>
+    <string name="bad">Bad!</string>
+    <string name="ok">OK!</string>
+    <string name="good">Good!</string>
+    <string name="excellent">Excellent!</string>
+    <string name="update_quick_offer">Update Quick Offer</string>
+    <string name="save_as_a_Quick_offer">Save as a Quick Offer</string>
+    <string name="dollar_00">$00</string>
+    <string name="my_jobs">My jobs</string>
+    <string name="one_more_reply">1 more reply</string>
+    <string name="less">Less</string>
+    <string name="remote_task">Remote Task</string>
 
 </resources>

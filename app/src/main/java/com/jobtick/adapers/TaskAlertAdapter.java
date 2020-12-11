@@ -17,6 +17,7 @@ import com.jobtick.models.task.TaskAlert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,9 +83,9 @@ public class TaskAlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             view.txtKeyword.setText(taskAlert.getKetword());
 
             if (taskAlert.getAlert_type().equalsIgnoreCase("remote")) {
-                view.txtTypeDetail.setText("Remote Task");
+                view.txtTypeDetail.setText(R.string.remote_task);
             } else {
-                view.txtTypeDetail.setText(taskAlert.getSuburb() + ", " + taskAlert.getDistance() + " KM Radius");
+                view.txtTypeDetail.setText(String.format(Locale.ENGLISH, "%s, %d KM Radius", taskAlert.getSuburb(), taskAlert.getDistance()));
             }
 
             view.imgMinus.setOnClickListener(v -> {

@@ -27,6 +27,8 @@ import com.jobtick.models.task.TaskAlert;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.SessionManager;
 
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -114,8 +116,8 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
             txtSuburb.setText(taskAlert.getSuburb());
             edtKeyword.setText(taskAlert.getKetword());
             skDistance.setProgress(taskAlert.getDistance());
-            txtDistanceKm.setText(taskAlert.getDistance() + " KM");
-            btnUpdate.setText("Update alert");
+            txtDistanceKm.setText(String.format(Locale.ENGLISH, "%d KM", taskAlert.getDistance()));
+            btnUpdate.setText(R.string.update_alert);
         } else {
          //   txtSaveUpdateAlert.setText("save alert");
         }
@@ -126,7 +128,7 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
         skDistance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                txtDistanceKm.setText(progress + " KM");
+                txtDistanceKm.setText(String.format(Locale.ENGLISH, "%d KM", progress));
             }
 
             @Override

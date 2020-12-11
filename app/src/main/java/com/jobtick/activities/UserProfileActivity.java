@@ -47,6 +47,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -281,36 +282,36 @@ public class UserProfileActivity extends ActivityBase implements AttachmentAdapt
         if (rbAsAPoster.isChecked()) {
             if (userAccountModel.getPosterRatings() != null && userAccountModel.getPosterRatings().getAvgRating() != null) {
                 ratingbar.setProgress(userAccountModel.getPosterRatings().getAvgRating());
-                txtRatingValue.setText("(" + userAccountModel.getPosterRatings().getAvgRating() + ")");
+                txtRatingValue.setText(String.format(Locale.ENGLISH, "(%d)", userAccountModel.getPosterRatings().getAvgRating()));
             }
             if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCompletionRate() != null) {
-                txtCompletionRate.setText(userAccountModel.getPostTaskStatistics().getCompletionRate() + "% Completion Rate");
+                txtCompletionRate.setText(String.format(Locale.ENGLISH, "%d%% Completion Rate", userAccountModel.getPostTaskStatistics().getCompletionRate()));
             }
             if (userAccountModel.getPosterRatings() != null &&
                     userAccountModel.getPosterRatings().getReceivedReviews() != null) {
                 if (userAccountModel.getPosterRatings().getReceivedReviews() <= 1) {
-                    txtReviewsCount.setText(userAccountModel.getPosterRatings().getReceivedReviews() + " review");
+                    txtReviewsCount.setText(String.format(Locale.ENGLISH, "%d review", userAccountModel.getPosterRatings().getReceivedReviews()));
                 } else {
-                    txtReviewsCount.setText(userAccountModel.getPosterRatings().getReceivedReviews() + " reviews");
+                    txtReviewsCount.setText(String.format(Locale.ENGLISH, "%d reviews", userAccountModel.getPosterRatings().getReceivedReviews()));
                 }
             }
         } else {
 
             if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().getAvgRating() != null) {
                 ratingbar.setProgress(userAccountModel.getWorkerRatings().getAvgRating());
-                txtRatingValue.setText("(" + userAccountModel.getWorkerRatings().getAvgRating() + ")");
+                txtRatingValue.setText(String.format(Locale.ENGLISH, "(%d)", userAccountModel.getWorkerRatings().getAvgRating()));
             }
             if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getCompletionRate() != null) {
-                txtCompletionRate.setText(userAccountModel.getWorkTaskStatistics().getCompletionRate() + "% Completion Rate");
+                txtCompletionRate.setText(String.format(Locale.ENGLISH, "%d%% Completion Rate", userAccountModel.getWorkTaskStatistics().getCompletionRate()));
             }
 
             if (userAccountModel.getWorkerRatings() != null
                     && userAccountModel.getWorkerRatings().getReceivedReviews() != null) {
 
                 if (userAccountModel.getWorkerRatings().getReceivedReviews() <= 1) {
-                    txtReviewsCount.setText(userAccountModel.getWorkerRatings().getReceivedReviews() + " review");
+                    txtReviewsCount.setText(String.format(Locale.ENGLISH, "%d review", userAccountModel.getWorkerRatings().getReceivedReviews()));
                 } else {
-                    txtReviewsCount.setText(userAccountModel.getWorkerRatings().getReceivedReviews() + " reviews");
+                    txtReviewsCount.setText(String.format(Locale.ENGLISH, "%d reviews", userAccountModel.getWorkerRatings().getReceivedReviews()));
                 }
             }
 
@@ -458,7 +459,7 @@ public class UserProfileActivity extends ActivityBase implements AttachmentAdapt
         }
         txtFullName.setText(userAccountModel.getName());
         txtSuburb.setText(userAccountModel.getLocation());
-        txtLastSeen.setText("Last Seen  " + userAccountModel.getLastOnline());
+        txtLastSeen.setText(String.format("Last Seen  %s", userAccountModel.getLastOnline()));
     }
 
     @OnClick(R.id.txt_btn_see_reviews)

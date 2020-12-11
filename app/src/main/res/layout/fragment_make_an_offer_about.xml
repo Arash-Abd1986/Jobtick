@@ -81,7 +81,7 @@
                                 android:orientation="horizontal">
 
                                 <com.jobtick.text_view.TextViewSemiBold
-                                    android:layout_width="match_parent"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="Why are you the best person for this job?"
@@ -189,7 +189,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_20sp"
-                            android:layout_marginRight="@dimen/_20sp"
+                            android:layout_marginEnd="@dimen/_20sp"
                             android:text="or"
                             android:textColor="@color/grey_70"
                             android:textSize="@dimen/_12sp" />
@@ -197,7 +197,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:layout_marginRight="@dimen/_20sp"
+                            android:layout_marginEnd="@dimen/_20sp"
                             android:layout_weight="1"
                             android:background="@color/colorGrayC9C9C9" />
                     </LinearLayout>
@@ -398,7 +398,7 @@
 
                         <com.jobtick.text_view.TextViewMedium
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:layout_weight="1"
                             android:text="Forget the job details?"
                             android:textColor="@color/colorPrimary"

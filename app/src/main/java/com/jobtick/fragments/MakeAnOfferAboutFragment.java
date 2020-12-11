@@ -65,6 +65,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -223,7 +224,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                 setQuickOffer(quickOffer, currentText);
                 int currentLength = currentText.length();
 
-                tvCount.setText("" + currentLength + "/300");
+                tvCount.setText(String.format(Locale.ENGLISH, "%d/300", currentLength));
                 if (currentLength >= 1) {
                     tvCount.setTextColor(getResources().getColor(R.color.colorReleasedMoney));
                     cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorPrimary));
@@ -244,7 +245,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                 saveQuickOfferTxt.setEnabled(false);
             } else if (currentText.equals("")) {
                 saveQuickOfferTxt.setEnabled(true);
-                saveQuickOfferTxt.setText("Use Quick Offer");
+                saveQuickOfferTxt.setText(R.string.use_quick_offer);
                 loadQuickOffer();
                 saveQuickOfferTxt.setOnClickListener(v -> edtDescription.setText(quickOffer));
             } else {
@@ -252,10 +253,10 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                     saveQuickOffer(currentText);
                 });
                 saveQuickOfferTxt.setEnabled(true);
-                saveQuickOfferTxt.setText("Update Quick Offer");
+                saveQuickOfferTxt.setText(R.string.update_quick_offer);
             }
         } else {
-            saveQuickOfferTxt.setText("Save as a Quick Offer");
+            saveQuickOfferTxt.setText(R.string.save_as_a_Quick_offer);
 
             saveQuickOfferTxt.setOnClickListener(v -> {
                 saveQuickOffer(currentText);
@@ -263,12 +264,12 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
             if (currentText.equals("")) {
                 saveQuickOfferTxt.setEnabled(false);
-                saveQuickOfferTxt.setTextColor(ContextCompat.getColor(getContext(), R.color.quickOfferColorDisable));
-                saveQuickOfferTxt.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_save_as_quick_offer_disabled));
+                saveQuickOfferTxt.setTextColor(ContextCompat.getColor(requireContext(), R.color.quickOfferColorDisable));
+                saveQuickOfferTxt.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_save_as_quick_offer_disabled));
             } else {
                 saveQuickOfferTxt.setEnabled(true);
-                saveQuickOfferTxt.setTextColor(ContextCompat.getColor(getContext(), R.color.quickOfferColor));
-                saveQuickOfferTxt.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_save_as_quick_offer_enabled));
+                saveQuickOfferTxt.setTextColor(ContextCompat.getColor(requireContext(), R.color.quickOfferColor));
+                saveQuickOfferTxt.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_save_as_quick_offer_enabled));
             }
         }
     }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
@@ -160,20 +161,20 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
     private void initLayout() {
         //edtBudget.setText(String.format("%d", makeAnOfferModel.getOffer_price()));
         tvOffer.setText(String.format(Locale.ENGLISH, "$%d", taskModel.getBudget()));
-        txtAccountLevel.setText("Level " + userAccountModel.getWorkerTier().getId());
+        txtAccountLevel.setText(String.format(Locale.ENGLISH, "Level %d", userAccountModel.getWorkerTier().getId()));
 
         if (userAccountModel.getWorkerTier().getId() == 1) {
             //TODO change image level 1
-            imgLevel.setImageDrawable(makeAnOfferActivity.getResources().getDrawable(R.drawable.ic_medal1));
+            imgLevel.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_medal1));
         } else if (userAccountModel.getWorkerTier().getId() == 2) {
             //TODO change image level 2
-            imgLevel.setImageDrawable(makeAnOfferActivity.getResources().getDrawable(R.drawable.ic_medal2));
+            imgLevel.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_medal2));
         } else if (userAccountModel.getWorkerTier().getId() == 3) {
             //TODO change image level 3
-            imgLevel.setImageDrawable(makeAnOfferActivity.getResources().getDrawable(R.drawable.ic_medal3));
+            imgLevel.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_medal3));
         } else if (userAccountModel.getWorkerTier().getId() == 4) {
             //TODO change image level 4
-            imgLevel.setImageDrawable(makeAnOfferActivity.getResources().getDrawable(R.drawable.ic_medal4));
+            imgLevel.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_medal4));
         }
     }
 
@@ -192,8 +193,8 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
         btnNext.setEnabled(true);
 
         if (!validation(false)) {
-            txtServiceFee.setText("$00");
-            txtFinalBudget.setText("$00");
+            txtServiceFee.setText(R.string.dollar_00);
+            txtFinalBudget.setText(R.string.dollar_00);
             txtCurrentServiceFee.setText("0%");
             return;
         }

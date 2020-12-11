@@ -270,14 +270,14 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
         if (sessionManager.getUserAccount().getPosterTier() != null) {
             if (sessionManager.getUserAccount().getPosterTier().getId() == 1) {
-                txtAccountLevel.setText("Level 1");
+                txtAccountLevel.setText(R.string.level_1);
             } else if (sessionManager.getUserAccount().getPosterTier().getId() == 2) {
-                txtAccountLevel.setText("Level 2");
+                txtAccountLevel.setText(R.string.level_2);
             } else if (sessionManager.getUserAccount().getPosterTier().getId() == 3) {
-                txtAccountLevel.setText("Level 3");
+                txtAccountLevel.setText(R.string.level_3);
             }
         } else {
-            txtAccountLevel.setText("Level 0");
+            txtAccountLevel.setText(R.string.level_0);
         }
 
         if (sessionManager.getUserAccount().getName() != null) {

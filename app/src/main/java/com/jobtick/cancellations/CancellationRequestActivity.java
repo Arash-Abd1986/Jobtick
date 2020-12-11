@@ -18,6 +18,8 @@ import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -91,7 +93,7 @@ public class CancellationRequestActivity extends ActivityBase {
 
     private void setData() {
         if (isMyTask) {
-            txtUsernameDate.setText(taskModel.getPoster().getName() + " required to cancel this task on " + taskModel.getCancellation().getCreatedAt() + ".");
+            txtUsernameDate.setText(String.format("%s required to cancel this task on %s.", taskModel.getPoster().getName(), taskModel.getCancellation().getCreatedAt()));
             txtName.setText(taskModel.getPoster().getName());
             if (taskModel.getPoster().getAvatar() != null && taskModel.getPoster().getAvatar().getThumbUrl() != null) {
                 ImageUtil.displayImage(imgUserAvtar, taskModel.getPoster().getAvatar().getThumbUrl(), null);
@@ -99,9 +101,9 @@ public class CancellationRequestActivity extends ActivityBase {
                 //set default image
             }
             txtPostTitle.setText(taskModel.getTitle());
-            txtAmount.setText(taskModel.getAmount() + "");
+            txtAmount.setText(String.format(Locale.ENGLISH, "%d", taskModel.getAmount()));
         } else {
-            txtUsernameDate.setText(taskModel.getWorker().getName() + " required to cancel this task on " + taskModel.getCancellation().getCreatedAt() + ".");
+            txtUsernameDate.setText(String.format("%s required to cancel this task on %s.", taskModel.getWorker().getName(), taskModel.getCancellation().getCreatedAt()));
             txtName.setText(taskModel.getWorker().getName());
             if (taskModel.getWorker().getAvatar() != null && taskModel.getWorker().getAvatar().getThumbUrl() != null) {
                 ImageUtil.displayImage(imgUserAvtar, taskModel.getWorker().getAvatar().getThumbUrl(), null);
@@ -109,9 +111,9 @@ public class CancellationRequestActivity extends ActivityBase {
                 //set default image
             }
             txtPostTitle.setText(taskModel.getTitle());
-            txtAmount.setText("$ " + taskModel.getAmount());
+            txtAmount.setText(String.format(Locale.ENGLISH, "$ %d", taskModel.getAmount()));
         }
-        txtCancellationReason.setText("“" + taskModel.getCancellation().getReason() + "“");
+        txtCancellationReason.setText(String.format("“%s“", taskModel.getCancellation().getReason()));
         if (taskModel.getCancellation().getComment() != null) {
             lytComments.setVisibility(View.VISIBLE);
             txtComment.setText(taskModel.getCancellation().getComment());

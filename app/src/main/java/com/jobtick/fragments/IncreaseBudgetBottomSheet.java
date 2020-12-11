@@ -45,6 +45,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -135,16 +136,16 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
     }
 
     private void init(){
-        oldPrice.setText(taskModel.getAmount().toString());
+        oldPrice.setText(String.format(Locale.ENGLISH, "%d", taskModel.getAmount()));
     }
 
 
     private void setupBudget(int budget) {
         float worker_service_fee = taskModel.getWorker().getWorkerTier().getServiceFee();
         float service_fee = ((budget * worker_service_fee) / 100);
-        serviceFee.setText("$ " + service_fee);
+        serviceFee.setText(String.format("$ %s", service_fee));
         total_budget = (int) (budget - ((budget * worker_service_fee) / 100));
-        receiveMoney.setText("$ " + total_budget);
+        receiveMoney.setText(String.format(Locale.ENGLISH, "$ %d", total_budget));
     }
 
     public void initProgressDialog() {

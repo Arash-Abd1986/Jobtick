@@ -38,6 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -107,7 +108,7 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
         return view;
     }
 
-    private void init(){
+    private void init() {
         //TODO: API is giving increased price, but it should get all new price, so
         //we calculate new increased price, after API updating, we bring back it.
         int oldP = Integer.parseInt(taskModel.getAmount().toString());
@@ -115,10 +116,9 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
         name.setText(taskModel.getPoster().getName());
         description.setText(taskModel.getTitle());
         reason.setText(taskModel.getAdditionalFund().getCreationReason());
-        newPrice.setText(Integer.toString(newP));
-        oldPrice.setText(Integer.toString(oldP));
+        newPrice.setText(String.format(Locale.ENGLISH, "%d", newP));
+        oldPrice.setText(String.format(Locale.ENGLISH, "%d", oldP));
     }
-
     private void acceptRequest(String id) {
         ((ActivityBase)requireActivity()).showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, Constant.BASE_URL + URL_ADDITIONAL_FUND + "/" + id + "/accept",

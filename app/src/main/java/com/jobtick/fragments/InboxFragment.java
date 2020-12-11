@@ -211,7 +211,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
         ivNotification.setVisibility(View.GONE);
         toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
         toolbar_title.setVisibility(View.VISIBLE);
-        toolbar_title.setText("Chat");
+        toolbar_title.setText(R.string.chat);
         toolbar_title.setTextSize(20f);
         toolbar_title.setTypeface(ResourcesCompat.getFont(getActivity(), R.font.poppins_semi_bold));
         toolbar.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.backgroundLightGrey));

@@ -217,15 +217,15 @@ public class LeaveReviewActivity extends ActivityBase {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                 if (v > 0.5 && v < 1.5)
-                    txtProgressRatingbar.setText("Awful!");
+                    txtProgressRatingbar.setText(R.string.awful);
                 if (v > 1.5 && v < 2.5)
-                    txtProgressRatingbar.setText("Bad!");
+                    txtProgressRatingbar.setText(R.string.bad);
                 if (v > 2.5 && v < 3.5)
-                    txtProgressRatingbar.setText("OK!");
+                    txtProgressRatingbar.setText(R.string.ok);
                 if (v > 3.5 && v < 4.5)
-                    txtProgressRatingbar.setText("Good!");
+                    txtProgressRatingbar.setText(R.string.good);
                 if (v > 4.5)
-                    txtProgressRatingbar.setText("Excellent!");
+                    txtProgressRatingbar.setText(R.string.excellent);
 
             }
         });

@@ -26,9 +26,11 @@ import com.jobtick.models.OfferModel;
 import com.jobtick.models.QuestionModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ImageUtil;
+import com.stripe.param.checkout.SessionCreateParams;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -199,9 +201,9 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (item.getCommentsCount() > 3) {
                 int remaining_number = item.getCommentsCount() - 3;
                 if (remaining_number == 1) {
-                    txtMoreReplyQuestion.setText("1 more reply");
+                    txtMoreReplyQuestion.setText(R.string.one_more_reply);
                 } else {
-                    txtMoreReplyQuestion.setText(remaining_number + " more replies");
+                    txtMoreReplyQuestion.setText(String.format(Locale.ENGLISH, "%d %d", remaining_number, R.string.more_replies));
                 }
                 txtMoreReplyQuestion.setVisibility(View.VISIBLE);
             } else {
@@ -273,13 +275,13 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 if (item.getStrMore().equalsIgnoreCase("More")) {
                     txtMessage.setMaxLines(Integer.MAX_VALUE);
                     lytBtnMore.setVisibility(View.VISIBLE);
-                    txtMoreLess.setText("Less");
+                    txtMoreLess.setText(R.string.less);
                     mItems.get(getAdapterPosition()).setStrMore("Less");
                     item.setStrMore("Less");
                 } else {
                     txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_2);
                     lytBtnMore.setVisibility(View.VISIBLE);
-                    txtMoreLess.setText("More");
+                    txtMoreLess.setText(R.string.more);
                     mItems.get(getAdapterPosition()).setStrMore("More");
                     item.setStrMore("More");
                 }

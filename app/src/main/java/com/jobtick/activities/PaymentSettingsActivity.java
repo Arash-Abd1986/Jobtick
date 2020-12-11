@@ -37,6 +37,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -328,7 +329,7 @@ public class PaymentSettingsActivity extends ActivityBase {
 
                                     setupViewBankAccountDetails(true);
 
-                                    accountNumber.setText("xxxxx" + bankAccountModel.getData().getAccount_number());
+                                    accountNumber.setText(String.format("xxxxx%s", bankAccountModel.getData().getAccount_number()));
                                     bsb.setText(bankAccountModel.getData().getBsb_code());
                                 }
                                 else{
@@ -521,8 +522,8 @@ public class PaymentSettingsActivity extends ActivityBase {
                                         setupViewCreditCard(true);
 
                                         cardType.setText(creditCardModel.getData().get(0).getCard().getBrand());
-                                        edtExpiryDate.setText("Expiry Date: " + creditCardModel.getData().get(0).getCard().getExp_month() + "/" + creditCardModel.getData().get(0).getCard().getExp_year());
-                                        creditAccountNumber.setText("xxxx xxxx xxxx " + creditCardModel.getData().get(0).getCard().getLast4());
+                                        edtExpiryDate.setText(String.format(Locale.ENGLISH, "Expiry Date: %d/%d", creditCardModel.getData().get(0).getCard().getExp_month(), creditCardModel.getData().get(0).getCard().getExp_year()));
+                                        creditAccountNumber.setText(String.format("xxxx xxxx xxxx %s", creditCardModel.getData().get(0).getCard().getLast4()));
                                     } else {
                                         setupViewCreditCard(false);
                                     }

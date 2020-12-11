@@ -103,13 +103,13 @@ public class RescheduleTimeRequestActivity extends ActivityBase implements Exten
             txtPreviousDate.setText(taskModel.getDueDate());
             dueDate = TimeHelper.convertDateToLong(taskModel.getDueDate());
             if(taskModel.getDueTime().getAfternoon())
-                getTxtPreviousTime.setText("Afternoon");
+                getTxtPreviousTime.setText(R.string.afternoon);
             if(taskModel.getDueTime().getEvening())
-                getTxtPreviousTime.setText("Evening");
+                getTxtPreviousTime.setText(R.string.evening);
             if(taskModel.getDueTime().getMorning())
-                getTxtPreviousTime.setText("Morning");
+                getTxtPreviousTime.setText(R.string.morning);
             if(taskModel.getDueTime().getMidday())
-                getTxtPreviousTime.setText("Anytime");
+                getTxtPreviousTime.setText(R.string.anyTime);
         }
         mDateSetListener = (view, year, month, dayOfMonth) -> {
             month = month + 1;

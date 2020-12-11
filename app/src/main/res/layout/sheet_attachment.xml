@@ -34,7 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_10sp"
             android:weightSum="2"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:id="@+id/lyt_btn_video"
@@ -131,7 +132,8 @@
             android:layout_height="0dp"
             android:layout_weight="3"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:id="@+id/lyt_btn_video_camera"

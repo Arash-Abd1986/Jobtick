@@ -61,6 +61,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -263,12 +264,12 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         if (offerModel.getTaskId() != null) {
             layoutOffer.setVisibility(View.VISIBLE);
             layoutQuestion.setVisibility(View.GONE);
-            txtBudget.setText("$ " + offerModel.getOfferPrice());
+            txtBudget.setText(String.format(Locale.ENGLISH, "$ %d", offerModel.getOfferPrice()));
             if (offerModel.getWorker().getAvatar() != null)
                 ImageUtil.displayImage(imgAvatar, offerModel.getWorker().getAvatar().getThumbUrl(), null);
             txtName.setText(offerModel.getWorker().getName());
             if (offerModel.getWorker() != null && offerModel.getWorker().getWorkerRatings() != null && offerModel.getWorker().getWorkerRatings().getAvgRating() != null) {
-                txtRatingValue.setText("(" + offerModel.getWorker().getWorkerRatings().getAvgRating() + ")");
+                txtRatingValue.setText(String.format(Locale.ENGLISH, "(%d)", offerModel.getWorker().getWorkerRatings().getAvgRating()));
                 ratingbarWorker.setProgress(offerModel.getWorker().getWorkerRatings().getAvgRating());
             }
             if (offerModel.getWorker().getIsVerifiedAccount() == 1) {
@@ -276,7 +277,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
             } else {
                 ivVerifiedAccount.setVisibility(View.GONE);
             }
-            txtCompletionRate.setText(offerModel.getWorker().getWorkTaskStatistics().getCompletionRate() + "% Completion Rate");
+            txtCompletionRate.setText(String.format(Locale.ENGLISH, "%d%% Completion Rate", offerModel.getWorker().getWorkTaskStatistics().getCompletionRate()));
             txtCreatedDate.setText(offerModel.getCreatedAt());
             if (offerModel.getAttachments() != null && offerModel.getAttachments().size() != 0) {
                 cardLiveVideo.setVisibility(View.VISIBLE);

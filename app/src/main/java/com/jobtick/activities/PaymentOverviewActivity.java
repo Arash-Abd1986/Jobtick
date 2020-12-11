@@ -241,8 +241,8 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
         btnPay.setEnabled(true);
         btnPay.setAlpha(1.0f);
         lytAddCreditCard.setVisibility(View.GONE);
-        txtAccountNumber.setText("**** **** **** " + creditCardModel.getData().get(0).getCard().getLast4());
-        txtExpiresDate.setText("Expiry Date: " + creditCardModel.getData().get(0).getCard().getExp_month() + "/" + creditCardModel.getData().get(0).getCard().getExp_year());
+        txtAccountNumber.setText(String.format("**** **** **** %s", creditCardModel.getData().get(0).getCard().getLast4()));
+        txtExpiresDate.setText(String.format(Locale.ENGLISH, "Expiry Date: %d/%d", creditCardModel.getData().get(0).getCard().getExp_month(), creditCardModel.getData().get(0).getCard().getExp_year()));
         rltPaymentMethod.setVisibility(View.VISIBLE);
         if (creditCardModel.getData() != null && creditCardModel.getData().get(1) != null && creditCardModel.getData().get(1).getWallet() != null) {
             wallet = creditCardModel.getData().get(1).getWallet().getBalance();

@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.jobtick.R;
 
+import java.util.Locale;
+
 
 public class ExtendedCommentText extends RelativeLayout implements View.OnClickListener, View.OnFocusChangeListener, TextWatcher {
 
@@ -95,11 +97,11 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
 
     private void init(){
         if(isMandatory){
-            counter.setText("0/" + eMinSize + "+");
+            counter.setText(String.format(Locale.ENGLISH, "0/%d+", eMinSize));
             counter.setTextColor(getResources().getColor(R.color.red_600));
         }
         else {
-            counter.setText("0/" + eMaxSize);
+            counter.setText(String.format(Locale.ENGLISH, "0/%d", eMaxSize));
             counter.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
         }
 
@@ -152,31 +154,31 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
             if (!s.toString().equalsIgnoreCase("")) {
                 int length = s.length();
                 if (length < eMinSize) {
-                    counter.setText(s.length() + "/" + eMinSize + "+");
+                    counter.setText(String.format(Locale.ENGLISH, "%d/%d+", s.length(), eMinSize));
                     counter.setTextColor(getResources().getColor(R.color.red_600));
                 } else if (length <= eMaxSize) {
-                    counter.setText(s.length() + "/" + eMaxSize);
+                    counter.setText(String.format(Locale.ENGLISH, "%d/%d", s.length(), eMaxSize));
                     counter.setTextColor(getResources().getColor(R.color.green));
                 } else {
                     editText.setText(s.subSequence(0, eMaxSize));
                     editText.setSelection(eMaxSize);
                 }
             } else {
-                counter.setText(s.length() + "/" + eMinSize + "+");
+                counter.setText(String.format(Locale.ENGLISH, "%d/%d+", s.length(), eMinSize));
                 counter.setTextColor(getResources().getColor(R.color.red_600));
             }
         } else {
             if (!s.toString().equalsIgnoreCase("")) {
                 int length = s.length();
                 if (length <= eMaxSize) {
-                    counter.setText(s.length() + "/" + eMaxSize);
+                    counter.setText(String.format(Locale.ENGLISH, "%d/%d", s.length(), eMaxSize));
                     counter.setTextColor(getResources().getColor(R.color.green));
                 } else {
                     editText.setText(s.subSequence(0, eMaxSize));
                     editText.setSelection(eMaxSize);
                 }
             } else {
-                counter.setText("0/" + eMaxSize);
+                counter.setText(String.format(Locale.ENGLISH, "0/%d", eMaxSize));
                 counter.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
             }
         }

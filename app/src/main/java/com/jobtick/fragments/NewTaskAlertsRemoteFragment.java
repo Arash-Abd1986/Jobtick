@@ -78,7 +78,7 @@ public class NewTaskAlertsRemoteFragment extends Fragment {
         }
         if (taskAlert.isValid()) {
             edtKeyword.setText(taskAlert.getKetword());
-            btnUpdate.setText("Update alert");
+            btnUpdate.setText(R.string.update_alert);
         } else {
             //  txtSaveUpdateAlert.setText("save alert");
         }

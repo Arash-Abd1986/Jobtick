@@ -11,6 +11,8 @@ import com.jobtick.utils.Constant;
 import com.onesignal.OneSignal;
 import com.stripe.android.PaymentConfiguration;
 
+import timber.log.Timber;
+
 
 public class AppController extends Application {
 
@@ -21,6 +23,9 @@ public class AppController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
         PaymentConfiguration.init(
                 getApplicationContext(),
                 "pk_test_TYooMQauvdEDq54NiTphI7jx"

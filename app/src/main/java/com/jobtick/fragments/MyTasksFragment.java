@@ -345,6 +345,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
             intent.putExtras(bundle);
             startActivity(intent);
+            Timber.i("MyTasksFragment Starting Task with slug: %s", obj.getSlug());
         }
     }
 

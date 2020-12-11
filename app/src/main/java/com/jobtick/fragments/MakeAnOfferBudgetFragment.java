@@ -277,7 +277,6 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
 
 
     public interface BudgetCallbackFunction {
-        void backButtonBudget();
 
         void continueButtonBudget(MakeAnOfferModel makeAnOfferModel);
     }

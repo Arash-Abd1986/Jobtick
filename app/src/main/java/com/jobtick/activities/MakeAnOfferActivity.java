@@ -77,8 +77,7 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
 
     }
 
-    @Override
-    public void backButtonBudget() {
+    private void backButtonBudget() {
         finish();
     }
 

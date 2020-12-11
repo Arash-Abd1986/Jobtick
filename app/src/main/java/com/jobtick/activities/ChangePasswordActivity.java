@@ -105,10 +105,10 @@ public class ChangePasswordActivity extends ActivityBase implements TextWatcher 
     }
 
     private boolean validation() {
-        if (TextUtils.isEmpty(oldPassword.getText().toString().trim())) {
+        if (TextUtils.isEmpty(oldPassword.getText().trim())) {
             oldPassword.setError("Enter your old password");
             return false;
-        } else if (TextUtils.isEmpty(newPassword.getText().toString().trim())) {
+        } else if (TextUtils.isEmpty(newPassword.getText().trim())) {
             newPassword.setError("Enter new password");
             return false;
         }
@@ -117,8 +117,8 @@ public class ChangePasswordActivity extends ActivityBase implements TextWatcher 
 
     private void changePassword() {
         showProgressDialog();
-        String str_old_password = oldPassword.getText().toString().trim();
-        String str_new_password = newPassword.getText().toString().trim();
+        String str_old_password = oldPassword.getText().trim();
+        String str_new_password = newPassword.getText().trim();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_CHANGE_PASSWORD,
                 response -> {

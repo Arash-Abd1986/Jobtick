@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 
 public class ShowMustHaveListAdapter extends RecyclerView.Adapter<ShowMustHaveListAdapter.OriginalViewHolder> {
 
-    private List<String> items;
+    private final List<String> items;
 
     private Context ctx;
 

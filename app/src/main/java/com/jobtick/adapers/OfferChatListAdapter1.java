@@ -36,7 +36,7 @@ public class OfferChatListAdapter1 extends RecyclerView.Adapter<BaseViewHolder> 
     private static final int VIEW_TYPE_NORMAL = 1;
 
 
-    private Context context;
+    private final Context context;
     private OnItemClickListener mOnItemClickListener;
     private OfferModel offerModel;
 
@@ -56,7 +56,7 @@ public class OfferChatListAdapter1 extends RecyclerView.Adapter<BaseViewHolder> 
 
 
     private boolean isLoaderVisible = false;
-    private List<CommentModel> mItems;
+    private final List<CommentModel> mItems;
 
     public OfferChatListAdapter1(Context context, List<CommentModel> mItems) {
         this.mItems = mItems;

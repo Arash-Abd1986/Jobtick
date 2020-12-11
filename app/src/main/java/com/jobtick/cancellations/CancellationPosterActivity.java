@@ -116,8 +116,8 @@ public class CancellationPosterActivity extends
     @OnClick(R.id.btn_submit)
     public void onViewClicked() {
         String str_comment = null;
-        if (!TextUtils.isEmpty(commentText.getText().toString().trim())) {
-            str_comment = commentText.getText().toString().trim();
+        if (!TextUtils.isEmpty(commentText.getText().trim())) {
+            str_comment = commentText.getText().trim();
         }
 
         Bundle bundle = new Bundle();

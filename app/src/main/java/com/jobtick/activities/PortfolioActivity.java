@@ -574,8 +574,8 @@ public class  PortfolioActivity extends ActivityBase implements AttachmentAdapte
                         showToast("Maximum video size exceeds(20 MB)", PortfolioActivity.this);
                         imageStoragePath = null;
                     } else {
-                        Log.e("Duration: ", String.valueOf(duration) + "");
-                        Log.e("Size: ", String.valueOf(file_size) + "");
+                        Log.e("Duration: ", duration + "");
+                        Log.e("Size: ", file_size + "");
                         // uploadUrl = strVideoPath;
                         Log.e("VIDEO", "video");
                         uploadDataInPortfolioMediaApi(file);

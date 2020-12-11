@@ -31,7 +31,7 @@ public class ForgotPassword2Fragment extends AbstractVerifyAccountFragment {
 
     @Override
     void whatNext() {
-        String otp = edtVerificationCode.getText().toString();
+        String otp = edtVerificationCode.getText();
 
         if (validation())
             authActivity.forgotPasswordSpecialVerification(email, otp);

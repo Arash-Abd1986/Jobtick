@@ -19,17 +19,17 @@ import com.jobtick.R;
 public class ExtendedCommentText extends RelativeLayout implements View.OnClickListener, View.OnFocusChangeListener, TextWatcher {
 
     private String eTitle;
-    private String eContent;
-    private String eHint;
-    private boolean isMandatory;
+    private final String eContent;
+    private final String eHint;
+    private final boolean isMandatory;
     private int eMinSize;
     private int eMaxSize;
-    private boolean eStartFocus;
+    private final boolean eStartFocus;
     private int eImeOptions;
 
-    private TextView textView;
-    private TextView counter;
-    private EditText editText;
+    private final TextView textView;
+    private final TextView counter;
+    private final EditText editText;
 
 
     public ExtendedCommentText(Context context) {

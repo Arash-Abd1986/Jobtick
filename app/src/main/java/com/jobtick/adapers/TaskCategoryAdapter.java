@@ -22,11 +22,11 @@ import java.util.List;
 public class TaskCategoryAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
 
-    private List<TaskCategory> items;
-    private HashMap<Integer, Boolean> hashMapSelected;
+    private final List<TaskCategory> items;
+    private final HashMap<Integer, Boolean> hashMapSelected;
     private OnLoadMoreListener onLoadMoreListener;
     private boolean isLoaderVisible = false;
-    private Context ctx;
+    private final Context ctx;
     private OnItemClickListener mOnItemClickListener;
     private static final int VIEW_TYPE_LOADING = 0;
     private static final int VIEW_TYPE_NORMAL = 1;

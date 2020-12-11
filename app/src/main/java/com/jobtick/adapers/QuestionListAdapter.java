@@ -36,7 +36,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int VIEW_TYPE_LOADING = 0;
     private static final int VIEW_TYPE_NORMAL = 1;
 
-    private Context context;
+    private final Context context;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
@@ -50,7 +50,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
 
     private boolean isLoaderVisible = false;
-    private List<QuestionModel> mItems;
+    private final List<QuestionModel> mItems;
 
     public QuestionListAdapter(Context context, List<QuestionModel> mItems) {
         this.mItems = mItems;

@@ -547,7 +547,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                 if (draft) {
                     map1.put("draft", "1");
                 }
-                System.out.println((String.valueOf(map1.size())));
+                System.out.println((map1.size()));
                 System.out.println((map1.toString()));
 
                 return map1;

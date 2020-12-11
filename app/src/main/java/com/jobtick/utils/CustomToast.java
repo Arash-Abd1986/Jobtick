@@ -11,7 +11,7 @@ import com.jobtick.R;
 
 public class CustomToast extends Toast {
 
-    private Context context;
+    private final Context context;
 
     public CustomToast(Context context) {
         super(context);

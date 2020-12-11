@@ -380,8 +380,8 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
                     showToast("Maximum video size exceeds(20 MB)", AttachmentActivity.this);
                     strVideoPath = null;
                 } else {
-                    Log.e("Duration: ", String.valueOf(duration) + "");
-                    Log.e("Size: ", String.valueOf(file_size) + "");
+                    Log.e("Duration: ", duration + "");
+                    Log.e("Size: ", file_size + "");
                     // uploadUrl = strVideoPath;
                     Log.e("VIDEO", "video");
                     if (title.equalsIgnoreCase(ConstantKey.CREATE_A_JOB)) {
@@ -407,8 +407,8 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
                     showToast("Maximum video size exceeds(20 MB)", AttachmentActivity.this);
                     strVideoPath = null;
                 } else {
-                    Log.e("Duration: ", String.valueOf(duration) + "");
-                    Log.e("Size: ", String.valueOf(file_size) + "");
+                    Log.e("Duration: ", duration + "");
+                    Log.e("Size: ", file_size + "");
                     Log.e("VIDEO", "video");
                     if (title.equalsIgnoreCase(ConstantKey.CREATE_A_JOB)) {
                         uploadDataInTempApi(file);

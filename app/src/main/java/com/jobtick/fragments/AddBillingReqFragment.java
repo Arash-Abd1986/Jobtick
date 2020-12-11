@@ -134,38 +134,38 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher {
     private void addBillingAddress() {
         ((ActivityBase) getActivity()).showProgressDialog();
 
-        addBillingAddress.add(edtAddressLine1.getText().toString(),"",
-                edtSuburs.getText().toString(),
-                stateHelper.getStateAbr(edtState.getText().toString()),
-                edtPostcode.getText().toString(),
-                edtCountry.getText().toString());
+        addBillingAddress.add(edtAddressLine1.getText(),"",
+                edtSuburs.getText(),
+                stateHelper.getStateAbr(edtState.getText()),
+                edtPostcode.getText(),
+                edtCountry.getText());
 
     }
 
 
     private boolean validation() {
-        if (TextUtils.isEmpty(edtAddressLine1.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtAddressLine1.getText().trim())) {
             edtAddressLine1.setError("Address is mandatory");
             return false;
         }
 
-        if (TextUtils.isEmpty(edtSuburs.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtSuburs.getText().trim())) {
             edtSuburs.setError("Please enter Suburb");
             return false;
         }
-        if (TextUtils.isEmpty(edtState.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtState.getText().trim())) {
             edtState.setError("Please enter state");
             return false;
         }
-        if (TextUtils.isEmpty(edtPostcode.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtPostcode.getText().trim())) {
             edtPostcode.setError("Please enter Passcode");
             return false;
         }
-        if (edtPostcode.getText().toString().length() != 4) {
+        if (edtPostcode.getText().length() != 4) {
             edtPostcode.setError("Please enter 4 digit Passcode");
             return false;
         }
-        if (TextUtils.isEmpty(edtCountry.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtCountry.getText().trim())) {
             edtCountry.setError("Please Enter Country");
             return false;
         }

@@ -58,8 +58,9 @@ public abstract class AbstractFilterFragment extends Fragment {
     LinearLayout distanceContainer;
 
     private FiltersActivity filtersActivity;
-    private int pMin = 5, pMax = 9999;
-    private int PLACE_SELECTION_REQUEST_CODE = 1;
+    private final int pMin = 5;
+    private final int pMax = 9999;
+    private final int PLACE_SELECTION_REQUEST_CODE = 1;
     private FilterModel filterModel;
 
     @Override
@@ -167,7 +168,7 @@ public abstract class AbstractFilterFragment extends Fragment {
     @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.lyt_btn_save_filter)
     public void onViewClicked() {
-        if (TextUtils.isEmpty(txtSuburb.getText().toString().trim()) &&
+        if (TextUtils.isEmpty(txtSuburb.getText().trim()) &&
                 (getFilterType() == FilterType.IN_PERSON || getFilterType() == FilterType.ALL)) {
             txtSuburb.setError("Select location");
             return;
@@ -185,7 +186,7 @@ public abstract class AbstractFilterFragment extends Fragment {
             filterModel.setLatitude(null);
         }
         if (getFilterType() == FilterType.IN_PERSON || getFilterType() == FilterType.ALL) {
-            filterModel.setLocation(txtSuburb.getText().toString().trim());
+            filterModel.setLocation(txtSuburb.getText().trim());
             filterModel.setDistance(String.valueOf((int) skDistance.getValue()));
         }
         filterModel.setPrice(txtPriceMinMax.getText().toString().trim());
@@ -202,8 +203,8 @@ public abstract class AbstractFilterFragment extends Fragment {
     abstract int getFilterType();
 
 public interface FilterType {
-    final int ALL = 0;
-    final int IN_PERSON = 1;
-    final int REMOTELY = 2;
+    int ALL = 0;
+    int IN_PERSON = 1;
+    int REMOTELY = 2;
 }
 }

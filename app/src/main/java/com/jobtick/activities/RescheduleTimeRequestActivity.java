@@ -235,8 +235,8 @@ public class RescheduleTimeRequestActivity extends ActivityBase implements Exten
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("reason", edtNote.getText().toString());
-                map1.put("new_duedate", Tools.getApplicationFromatToServerFormat(txtDate.getText().toString()));
+                map1.put("reason", edtNote.getText());
+                map1.put("new_duedate", Tools.getApplicationFromatToServerFormat(txtDate.getText()));
                 return map1;
             }
         };

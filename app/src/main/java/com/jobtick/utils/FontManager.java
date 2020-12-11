@@ -19,12 +19,12 @@ public class FontManager {
 //    private Typeface montserratSemiBold;
 //    private Typeface montserratThin;
 //    private Typeface montserratUltraLight;
-    private Typeface poppinsBoldItalic;
-    private Typeface poppinsItalic;
-    private Typeface poppinsBold;
-    private Typeface poppinsMedium;
-    private Typeface poppinsRegular;
-    private Typeface poppinsSemiBold;
+    private final Typeface poppinsBoldItalic;
+    private final Typeface poppinsItalic;
+    private final Typeface poppinsBold;
+    private final Typeface poppinsMedium;
+    private final Typeface poppinsRegular;
+    private final Typeface poppinsSemiBold;
 
     private FontManager(Context contextWeakReference) {
         this.contextWeakReference = new WeakReference<Context>(contextWeakReference);

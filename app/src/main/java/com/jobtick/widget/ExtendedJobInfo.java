@@ -14,13 +14,13 @@ import com.jobtick.R;
 
 public class ExtendedJobInfo extends FrameLayout {
 
-    private String eTitle;
-    private String eValue;
-    private int eBottomColor;
+    private final String eTitle;
+    private final String eValue;
+    private final int eBottomColor;
 
-    private TextView title;
-    private TextView value;
-    private CardView card;
+    private final TextView title;
+    private final TextView value;
+    private final CardView card;
     public ExtendedJobInfo(Context context) {
         this(context, null);
     }

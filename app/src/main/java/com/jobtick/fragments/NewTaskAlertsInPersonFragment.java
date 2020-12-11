@@ -35,8 +35,8 @@ import butterknife.OnClick;
 public class NewTaskAlertsInPersonFragment extends Fragment {
     @BindView(R.id.btn_update_alert)
     MaterialButton btnUpdate;
-    private int PLACE_SELECTION_REQUEST_CODE = 1;
-    private String TAG = TaskDetailFragment.class.getName();
+    private final int PLACE_SELECTION_REQUEST_CODE = 1;
+    private final String TAG = TaskDetailFragment.class.getName();
     @BindView(R.id.edt_keyword)
     ExtendedEntryText edtKeyword;
     @BindView(R.id.txt_suburb)
@@ -163,8 +163,8 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
                     case 0:
                         taskAlert.setAlert_type("physical");
                         taskAlert.setDistance(Integer.parseInt(txtDistanceKm.getText().toString().trim().replace(" KM", "")));
-                        taskAlert.setKetword(edtKeyword.getText().toString().trim());
-                        taskAlert.setSuburb(txtSuburb.getText().toString().trim());
+                        taskAlert.setKetword(edtKeyword.getText().trim());
+                        taskAlert.setSuburb(txtSuburb.getText().trim());
 
                         operationInPersonListener.onInPersonSave(position, taskAlert);
                         break;
@@ -182,9 +182,9 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
 
 
     private int getValidationCode() {
-        if (TextUtils.isEmpty(edtKeyword.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtKeyword.getText().trim())) {
             return 1;
-        } else if (TextUtils.isEmpty(txtSuburb.getText().toString().trim())) {
+        } else if (TextUtils.isEmpty(txtSuburb.getText().trim())) {
             return 2;
         }
         return 0;

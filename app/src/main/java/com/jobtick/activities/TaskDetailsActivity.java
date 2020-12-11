@@ -2667,13 +2667,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (taskModel.getCancellation() == null) return;
         if (isMyTask) {
             if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING)) {
-                if (taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId())) {
-                    //poster is cancelling, user is poster too
-                    showCancellationCard(false, false);
-                } else {
-                    //ticker is cancelling, user is poster
-                    showCancellationCard(false, true);
-                }
+                //poster is cancelling, user is poster too
+                //ticker is cancelling, user is poster
+                showCancellationCard(false, !taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId()));
                 txtBtnText.setVisibility(View.GONE);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
             } else if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_DECLINED)) {
@@ -2683,13 +2679,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }
         } else {
             if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING)) {
-                if (taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId())) {
-                    //ticker is cancelling, user is ticker too
-                    showCancellationCard(true, true);
-                } else {
-                    //poster is cancelling, user is ticker
-                    showCancellationCard(true, false);
-                }
+                //ticker is cancelling, user is ticker too
+                //poster is cancelling, user is ticker
+                showCancellationCard(true, taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId()));
                 txtBtnText.setVisibility(View.GONE);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
             }

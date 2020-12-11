@@ -40,7 +40,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<BaseViewHolder
 
 
     private boolean isLoaderVisible = false;
-    private List<NotifDatum> mItems;
+    private final List<NotifDatum> mItems;
 
     public NotificationListAdapter(List<NotifDatum> mItems) {
         this.mItems = mItems;

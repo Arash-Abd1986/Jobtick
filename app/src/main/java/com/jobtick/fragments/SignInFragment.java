@@ -90,7 +90,7 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
                 break;
             case R.id.lyt_btn_sign_in:
                 if (validation()) {
-                    authActivity.login(edtEmailAddress.getText().toString().trim(), edtPassword.getText().toString().trim());
+                    authActivity.login(edtEmailAddress.getText().trim(), edtPassword.getText().trim());
                 }
                 break;
             case R.id.lyt_btn_google:
@@ -120,7 +120,7 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
         else if (TextUtils.isEmpty(edtPassword.getText().trim())) {
             edtPassword.setError("Enter your password");
             return false;
-        }else if(edtPassword.getText().toString().trim().length() < 8){
+        }else if(edtPassword.getText().trim().length() < 8){
             edtPassword.setError("Password must be atleast 8 characters.");
             return false;
         }

@@ -24,8 +24,8 @@ import butterknife.ButterKnife;
 public class PaymentHistoryListAdapter extends RecyclerView.Adapter<PaymentHistoryListAdapter.ViewHolder> {
 
     private List<PaymentHistory> items = new ArrayList<>();
-    private boolean isPoster;
-    private PaymentOnClick onclick;
+    private final boolean isPoster;
+    private final PaymentOnClick onclick;
 
     public PaymentHistoryListAdapter(List<PaymentHistory> items, boolean isPoster, PaymentOnClick onclick) {
         this.items = items;

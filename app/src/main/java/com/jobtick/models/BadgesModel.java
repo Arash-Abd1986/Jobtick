@@ -127,7 +127,7 @@ public class BadgesModel implements Parcelable {
 
         try {
             if (jsonObject.has("badge_code") && !jsonObject.isNull("badge_code")) {
-                badgesModel.setBadge_code(jsonObject.getString("badge_code").toString());
+                badgesModel.setBadge_code(jsonObject.getString("badge_code"));
             }
             if (jsonObject.has("is_verified") && !jsonObject.isNull("is_verified")) {
                 badgesModel.setIs_verified(jsonObject.getInt("is_verified"));

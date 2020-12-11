@@ -38,8 +38,8 @@ public class AttachmentAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     private boolean isLoaderVisible = true;
-    private Boolean delete_action;
-    private List<AttachmentModel> items;
+    private final Boolean delete_action;
+    private final List<AttachmentModel> items;
 
     public AttachmentAdapter1(List<AttachmentModel> items, Boolean delete_action) {
         this.items = items;

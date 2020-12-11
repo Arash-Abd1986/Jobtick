@@ -145,9 +145,9 @@ public class OnboardActivity extends ActivityBase {
     }
 
     private static class AdapterImageSlider extends PagerAdapter {
-        private Activity act;
-        private ArrayList<Integer> animItems;
-        private ArrayList<Integer> descItems;
+        private final Activity act;
+        private final ArrayList<Integer> animItems;
+        private final ArrayList<Integer> descItems;
         private AdapterImageSlider.OnItemClickListener onItemClickListener;
 
         private interface OnItemClickListener {

@@ -87,7 +87,7 @@ public class IncreaseBudgetDeclineBottomSheet extends BottomSheetDialogFragment 
 
         submit.setOnClickListener(v -> {
             if(!validation()) return;
-            rejectRequest(taskModel.getAdditionalFund().getId().toString(), reason.getText().toString());
+            rejectRequest(taskModel.getAdditionalFund().getId().toString(), reason.getText());
         });
 
         initProgressDialog();

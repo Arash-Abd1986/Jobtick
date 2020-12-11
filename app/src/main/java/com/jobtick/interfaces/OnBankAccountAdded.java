@@ -2,9 +2,9 @@ package com.jobtick.interfaces;
 
 public interface OnBankAccountAdded {
 
-    public void bankAccountAdd();
+    void bankAccountAdd();
 
-    public void billingAddressAdd();
+    void billingAddressAdd();
 
-    public void creditCard();
+    void creditCard();
 }

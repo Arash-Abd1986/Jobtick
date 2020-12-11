@@ -70,17 +70,17 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
     }
 
     private boolean validation() {
-        if (TextUtils.isEmpty(edtEmailAddress.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtEmailAddress.getText().trim())) {
             edtEmailAddress.setError("Check your email address");
             return false;
         }
-        else if (TextUtils.isEmpty(edtPassword.getText().toString().trim())) {
+        else if (TextUtils.isEmpty(edtPassword.getText().trim())) {
             edtPassword.setError("Enter your password");
             return false;
-        }else if(edtPassword.getText().toString().trim().length() < 8){
+        }else if(edtPassword.getText().trim().length() < 8){
             edtPassword.setError("Password must be atleast 8 characters.");
             return false;
-        } else if (!edtPassword.getText().toString().trim().equals(edtRepeatPassword.getText().toString().trim())) {
+        } else if (!edtPassword.getText().trim().equals(edtRepeatPassword.getText().trim())) {
             edtRepeatPassword.setError("password doesn't match");
             return false;
         }
@@ -93,7 +93,7 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
         switch (view.getId()) {
             case R.id.lyt_btn_sign_up:
                 if (validation()) {
-                    authActivity.Signup(edtEmailAddress.getText().toString().trim(), edtPassword.getText().toString().trim());
+                    authActivity.Signup(edtEmailAddress.getText().trim(), edtPassword.getText().trim());
                 }
                 break;
             case R.id.lyt_btn_google:

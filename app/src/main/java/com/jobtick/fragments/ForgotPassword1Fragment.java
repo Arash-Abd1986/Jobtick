@@ -62,11 +62,11 @@ public class ForgotPassword1Fragment extends Fragment implements AuthActivity.Ed
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_btn_next:
-                if (TextUtils.isEmpty(edtEmailAddress.getText().toString().trim())) {
+                if (TextUtils.isEmpty(edtEmailAddress.getText().trim())) {
                     edtEmailAddress.setError("Please enter the email address");
                     return;
                 }
-                authActivity.nextStepForgotPassowrd(edtEmailAddress.getText().toString().trim());
+                authActivity.nextStepForgotPassowrd(edtEmailAddress.getText().trim());
                 break;
         }
     }

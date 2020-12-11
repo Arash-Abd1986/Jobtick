@@ -106,7 +106,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     private String single_choice_selected = null;
     private String temp_single_choice_selected = null;
     private String str_search = null;
-    private String temp_str_search = null;
+    private final String temp_str_search = null;
     private Toolbar toolbar;
     private LinearLayout noJobs;
 

@@ -62,10 +62,10 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
         btnAddCard.setOnClickListener(v -> {
             if(validation()){
                 ((ActivityBase) getActivity()).showProgressDialog();
-                addCreditCard.getToken(edtCardNumber.getText().toString(),
+                addCreditCard.getToken(edtCardNumber.getText(),
                         expMonth, expYear,
-                        edtSecurityNumber.getText().toString(),
-                        edtFullName.getText().toString());
+                        edtSecurityNumber.getText(),
+                        edtFullName.getText());
             }
         });
 
@@ -158,19 +158,19 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
     }
 
     private boolean validation(){
-        if(edtFullName.getText().toString().isEmpty()){
+        if(edtFullName.getText().isEmpty()){
             edtFullName.setError("The card name must be filled.");
             return false;
         }
-        else if(edtCardNumber.getText().toString().isEmpty()){
+        else if(edtCardNumber.getText().isEmpty()){
             edtCardNumber.setError("The card number must be filled.");
             return false;
         }
-        else if(edtExpiryDate.getText().toString().isEmpty()){
+        else if(edtExpiryDate.getText().isEmpty()){
             edtExpiryDate.setError("The card expiry date must be filled.");
             return false;
         }
-        else if(edtSecurityNumber.getText().toString().isEmpty()){
+        else if(edtSecurityNumber.getText().isEmpty()){
             edtSecurityNumber.setError("The card CVC must be filled.");
             return false;
         }

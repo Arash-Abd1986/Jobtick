@@ -60,7 +60,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     private boolean isLoaderVisible = false;
-    private List<TaskModel> mItems;
+    private final List<TaskModel> mItems;
 
     public TaskListAdapter(List<TaskModel> mItems) {
         this.mItems = mItems;

@@ -25,7 +25,7 @@ public class VerifyAccountFragment extends AbstractVerifyAccountFragment {
 
     @Override
     void whatNext() {
-        String otp = edtVerificationCode.getText().toString().trim();
+        String otp = edtVerificationCode.getText().trim();
 
         if (validation())
             authActivity.newEmailVerification(email, otp);

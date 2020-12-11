@@ -8,8 +8,8 @@ import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 
 public class KeyboardUtil {
-    private View decorView;
-    private View contentView;
+    private final View decorView;
+    private final View contentView;
 
     public KeyboardUtil(Activity act, View contentView) {
         this.decorView = act.getWindow().getDecorView();

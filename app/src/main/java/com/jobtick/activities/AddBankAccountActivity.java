@@ -111,23 +111,23 @@ public class AddBankAccountActivity extends ActivityBase {
 
         if (!validate()) return;
         showProgressDialog();
-        addBankAccount.add(edtAccountName.getText().toString(),
-                edtBsb.getText().toString(),
-                edtAccountNumber.getText().toString());
+        addBankAccount.add(edtAccountName.getText(),
+                edtBsb.getText(),
+                edtAccountNumber.getText());
     }
 
     public boolean validate() {
-        if (TextUtils.isEmpty(edtAccountName.getText().toString())) {
+        if (TextUtils.isEmpty(edtAccountName.getText())) {
             edtAccountName.setError("Please Enter Account Name");
             return false;
         }
 
-        if (TextUtils.isEmpty(edtBsb.getText().toString())) {
+        if (TextUtils.isEmpty(edtBsb.getText())) {
             edtBsb.setError("Please enter BSB");
             return false;
         }
 
-        if (TextUtils.isEmpty(edtAccountNumber.getText().toString())) {
+        if (TextUtils.isEmpty(edtAccountNumber.getText())) {
             edtAccountNumber.setError("Please account Number");
             return false;
         }

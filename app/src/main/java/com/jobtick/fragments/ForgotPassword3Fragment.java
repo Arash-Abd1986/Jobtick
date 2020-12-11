@@ -90,7 +90,7 @@ public class ForgotPassword3Fragment extends Fragment {
             case R.id.lyt_btn_verify:
                 Log.i("forgotPass3", "email: " + email + " atp: " + otp);
                 if(verification())
-                    authActivity.resetPassword(email,otp,edtNewPassword.getText().toString().trim());
+                    authActivity.resetPassword(email,otp, edtNewPassword.getText().trim());
                 break;
         }
     }
@@ -100,10 +100,10 @@ public class ForgotPassword3Fragment extends Fragment {
             ((ActivityBase)requireActivity()).showToast("Time limit is ended. Please try again.", requireContext());
             authActivity.unauthorizedUser();
         }
-        else if(TextUtils.isEmpty(edtNewPassword.getText().toString().trim())){
+        else if(TextUtils.isEmpty(edtNewPassword.getText().trim())){
             edtNewPassword.setError("Please enter the password");
             return false;
-        }else if(!edtNewPassword.getText().toString().trim().equals(edtRepeatNewPassword.getText().toString().trim())) {
+        }else if(!edtNewPassword.getText().trim().equals(edtRepeatNewPassword.getText().trim())) {
             edtRepeatNewPassword.setError("doesn't match your password");
             return false;
         }

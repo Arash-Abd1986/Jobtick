@@ -29,8 +29,8 @@ import static com.jobtick.utils.Constant.BASE_URL;
 
 public abstract class AddBankAccountImpl implements AddBankAccount {
 
-    private Context context;
-    private SessionManager sessionManager;
+    private final Context context;
+    private final SessionManager sessionManager;
 
     private String btoken;
 

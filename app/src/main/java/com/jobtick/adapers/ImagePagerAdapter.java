@@ -19,9 +19,9 @@ import java.util.ArrayList;
 
 public class ImagePagerAdapter extends PagerAdapter
 {
-    private LayoutInflater mLayoutInflater;
-    private ArrayList<AttachmentModel> arrayList;
-    private Context context;
+    private final LayoutInflater mLayoutInflater;
+    private final ArrayList<AttachmentModel> arrayList;
+    private final Context context;
 
     public ImagePagerAdapter(Context context,
                              ArrayList<AttachmentModel> arrayList) {

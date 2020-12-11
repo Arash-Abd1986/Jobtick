@@ -25,7 +25,7 @@ public class TaskAlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private List<TaskAlert> items = new ArrayList<>();
     private OnLoadMoreListener onLoadMoreListener;
 
-    private Context ctx;
+    private final Context ctx;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {

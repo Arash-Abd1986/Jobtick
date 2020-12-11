@@ -232,8 +232,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
     private int year, month, day;
-    private String str_DOB = null;
-    private String str_DOB_MODEL = "";
+    private final String str_DOB = null;
+    private final String str_DOB_MODEL = "";
     private static String imageStoragePath;
     public static final long MAX_VIDEO_DURATION = 30;
     public static final long MAX_VIDEO_SIZE = 20 * 1024 * 1024;

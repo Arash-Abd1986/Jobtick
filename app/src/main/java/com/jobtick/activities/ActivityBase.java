@@ -384,11 +384,7 @@ public class ActivityBase extends AppCompatActivity implements HasEditTextRegula
             netInfo = cm.getActiveNetworkInfo();
         }
 
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        }
-
-        return false;
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     public void showToast(String content, Context context) {

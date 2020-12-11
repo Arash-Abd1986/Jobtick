@@ -88,7 +88,7 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
     private int str_COMMENTID = 0;
     private int str_QUESTIONID = 0;
     private String str_KEY = null;
-    private boolean isFristTime = false;
+    private final boolean isFristTime = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -206,8 +206,8 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("subject", edtSubject.getText().toString());
-                map1.put("description", edtDescription.getText().toString());
+                map1.put("subject", edtSubject.getText());
+                map1.put("description", edtDescription.getText());
                 return map1;
             }
 
@@ -262,8 +262,8 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("subject", edtSubject.getText().toString());
-                map1.put("description", edtDescription.getText().toString());
+                map1.put("subject", edtSubject.getText());
+                map1.put("description", edtDescription.getText());
 
                 return map1;
             }
@@ -317,8 +317,8 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("subject", edtSubject.getText().toString());
-                map1.put("description", edtDescription.getText().toString());
+                map1.put("subject", edtSubject.getText());
+                map1.put("description", edtDescription.getText());
                 return map1;
             }
 
@@ -370,8 +370,8 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("subject", edtSubject.getText().toString());
-                map1.put("description", edtDescription.getText().toString());
+                map1.put("subject", edtSubject.getText());
+                map1.put("description", edtDescription.getText());
                 return map1;
             }
 
@@ -425,8 +425,8 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("subject", edtSubject.getText().toString());
-                map1.put("description", edtDescription.getText().toString());
+                map1.put("subject", edtSubject.getText());
+                map1.put("description", edtDescription.getText());
                 return map1;
             }
 

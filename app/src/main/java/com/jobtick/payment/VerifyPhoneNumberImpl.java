@@ -21,8 +21,8 @@ import java.util.Objects;
 
 public abstract class VerifyPhoneNumberImpl implements VerifyPhoneNumber {
 
-    private Context context;
-    private SessionManager sessionManager;
+    private final Context context;
+    private final SessionManager sessionManager;
 
     private String phoneNumber;
     private String hashCheckToken;

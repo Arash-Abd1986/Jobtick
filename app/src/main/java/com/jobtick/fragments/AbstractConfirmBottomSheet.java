@@ -24,10 +24,10 @@ public abstract class AbstractConfirmBottomSheet extends BottomSheetDialogFragme
 
     protected ProgressDialog pDialog;
 
-    private String cTitle;
-    private String cDescription;
-    private String cPositiveButton;
-    private String cNegativeButton;
+    private final String cTitle;
+    private final String cDescription;
+    private final String cPositiveButton;
+    private final String cNegativeButton;
 
     public AbstractConfirmBottomSheet(String title, String description, String blueButtonText, String redButtonText) {
         this.cTitle = title;

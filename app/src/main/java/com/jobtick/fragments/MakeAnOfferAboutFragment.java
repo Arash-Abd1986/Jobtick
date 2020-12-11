@@ -266,13 +266,9 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
     }
 
     private void setLayoout() {
-        if (makeAnOfferModel.isCheckbok()) {
-            checkboxSaveAsTemplate.setChecked(true);
-            // cardLiveVideo.setVisibility(View.GONE);
-        } else {
-            checkboxSaveAsTemplate.setChecked(false);
-            // cardLiveVideo.setVisibility(View.VISIBLE);
-        }
+        // cardLiveVideo.setVisibility(View.GONE);
+        // cardLiveVideo.setVisibility(View.VISIBLE);
+        checkboxSaveAsTemplate.setChecked(makeAnOfferModel.isCheckbok());
         if (makeAnOfferModel.getMessage() != null) {
             edtDescription.setText(makeAnOfferModel.getMessage());
 
@@ -413,11 +409,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                     case 0:
                         if (aboutCallbackFunction != null) {
                             makeAnOfferModel.setMessage(edtDescription.getText().toString().trim());
-                            if (checkboxSaveAsTemplate.isChecked()) {
-                                makeAnOfferModel.setCheckbok(true);
-                            } else {
-                                makeAnOfferModel.setCheckbok(false);
-                            }
+                            makeAnOfferModel.setCheckbok(checkboxSaveAsTemplate.isChecked());
                             aboutCallbackFunction.continueButtonAbout(makeAnOfferModel);
                         }
                         break;

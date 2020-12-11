@@ -83,12 +83,12 @@ public class CancellationDeclineActivity extends ActivityBase {
     @OnClick(R.id.submit)
     public void onViewClicked() {
         if(validation()){
-            cancellationDecline(edtComments.getText().toString().trim());
+            cancellationDecline(edtComments.getText().trim());
         }
     }
 
     private boolean validation() {
-        if(TextUtils.isEmpty(edtComments.getText().toString().trim())){
+        if(TextUtils.isEmpty(edtComments.getText().trim())){
             edtComments.setError("");
             return false;
         }

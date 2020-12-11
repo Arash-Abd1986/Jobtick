@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private List<String> items;
+    private final List<String> items;
     private Context context;
 
     public FilterAdapter(List<String> items) {

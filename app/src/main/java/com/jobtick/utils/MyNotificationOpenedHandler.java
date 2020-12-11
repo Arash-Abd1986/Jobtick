@@ -25,7 +25,7 @@ import static com.jobtick.utils.ConstantKey.PUSH_TRIGGER;
 
 public class MyNotificationOpenedHandler implements OneSignal.NotificationOpenedHandler {
 
-    private Application application;
+    private final Application application;
     private PushNotificationModel pushNotificationModel;
 
     public MyNotificationOpenedHandler(Application application) {

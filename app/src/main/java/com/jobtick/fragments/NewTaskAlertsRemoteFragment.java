@@ -86,7 +86,7 @@ public class NewTaskAlertsRemoteFragment extends Fragment {
         switch (getValidationCode()) {
             case 0:
                 taskAlert.setAlert_type("remote");
-                taskAlert.setKetword(edtKeyword.getText().toString().trim());
+                taskAlert.setKetword(edtKeyword.getText().trim());
                 operationRemoteListener.onRemoteSave(position, taskAlert);
                 break;
             case 1:
@@ -96,7 +96,7 @@ public class NewTaskAlertsRemoteFragment extends Fragment {
     }
 
     private int getValidationCode() {
-        if (TextUtils.isEmpty(edtKeyword.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtKeyword.getText().trim())) {
             return 1;
         }
         return 0;

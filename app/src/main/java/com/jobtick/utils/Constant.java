@@ -117,7 +117,7 @@ public class Constant {
     public static String URL_RESET_PASSWORD = BASE_URL + "reset-password";
     public static final String URL_VERIFY_OTP = BASE_URL + "verify-otp";
     public static final String URL_RESET_PASSWORD_VERIFY_OTP = BASE_URL + "reset-password/otp-verify";
-    private Context context;
+    private final Context context;
 
     // login
     public static String URL_SIGNIN = BASE_URL + "signin";

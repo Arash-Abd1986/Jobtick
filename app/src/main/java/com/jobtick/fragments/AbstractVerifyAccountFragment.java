@@ -140,7 +140,7 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
     }
 
     protected boolean validation() {
-        if (edtVerificationCode.getText().toString().trim().length() != 6) {
+        if (edtVerificationCode.getText().trim().length() != 6) {
             edtVerificationCode.setError("Verification code must be equal to 6 characters.");
             return false;
         }else if(timeLimit.getText() == zeroTime){

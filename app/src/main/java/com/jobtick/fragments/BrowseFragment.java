@@ -82,7 +82,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     FloatingActionButton ivMapView;
 
     private DashboardActivity dashboardActivity;
-    private ArrayList<String> filters = new ArrayList<>();
+    private final ArrayList<String> filters = new ArrayList<>();
     private FilterModel filterModel = new FilterModel();
     private FilterAdapter filterAdapter;
     private SessionManager sessionManager;

@@ -574,11 +574,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             tagAdapterBottomSheet.updateItem(addTagList);
             tagAdapter.updateItem(addTagList);
 
-            if (addTagList.size() < 3) {
-                btnAdd.setEnabled(true);
-            } else {
-                btnAdd.setEnabled(false);
-            }
+            btnAdd.setEnabled(addTagList.size() < 3);
         });
 
         recyclerAddMustHaveBottomSheet.setAdapter(tagAdapterBottomSheet);
@@ -591,11 +587,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                     }
 
                     if (addTagList.size() < 3) {
-                        if (addTagList.size() == 2) {
-                            btnAdd.setEnabled(false);
-                        } else {
-                            btnAdd.setEnabled(true);
-                        }
+                        btnAdd.setEnabled(addTagList.size() != 2);
 
                         txtCount.setText(addTagList.size() + 1 + "");
                         addTagList.add(edtAddTag.getText().toString().trim());

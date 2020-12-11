@@ -64,7 +64,7 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
     ExtendedEntryText suburb;
 
 
-    private int PLACE_SELECTION_REQUEST_CODE = 1;
+    private final int PLACE_SELECTION_REQUEST_CODE = 1;
 
     private String str_latitude = null;
     private String str_longitude = null;
@@ -252,13 +252,13 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
             cbPoster.setBackgroundResource(R.drawable.radio_button_background_on_error);
             return false;
         }
-        if (TextUtils.isEmpty(edtFirstName.getText().toString())) {
+        if (TextUtils.isEmpty(edtFirstName.getText())) {
             edtFirstName.setError("Please enter first name");
             return false;
-        } else if (TextUtils.isEmpty(edtLastName.getText().toString())) {
+        } else if (TextUtils.isEmpty(edtLastName.getText())) {
             edtLastName.setError("Please enter last name");
             return false;
-        } else if (TextUtils.isEmpty(suburb.getText().toString())) {
+        } else if (TextUtils.isEmpty(suburb.getText())) {
             suburb.setError("Please enter suburb");
             return false;
         }
@@ -297,9 +297,9 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
             case R.id.lyt_btn_complete_registration:
 
                 if (validation()) {
-                    String str_fname = edtFirstName.getText().toString().trim();
-                    String str_lname = edtLastName.getText().toString().trim();
-                    String str_suburb = suburb.getText().toString().trim();
+                    String str_fname = edtFirstName.getText().trim();
+                    String str_lname = edtLastName.getText().trim();
+                    String str_suburb = suburb.getText().trim();
 
                     showProgressDialog();
                     profileUpdate(str_fname, str_lname, str_suburb);

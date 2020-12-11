@@ -109,8 +109,8 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
             if(!validation()) return;
             //TODO: API is giving increased price, but it should get all new price, so
             //we calculate new increased price, after API updating, we bring back it.
-            int increasedPrice = Integer.parseInt(newPrice.getText().toString()) - Integer.parseInt(oldPrice.getText().toString());
-            submitIncreaseBudget(Integer.toString(increasedPrice), reason.getText().toString().trim());
+            int increasedPrice = Integer.parseInt(newPrice.getText()) - Integer.parseInt(oldPrice.getText().toString());
+            submitIncreaseBudget(Integer.toString(increasedPrice), reason.getText().trim());
         });
 
         newPrice.addTextChangedListener(new TextWatcher() {
@@ -302,15 +302,15 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
             newPrice.setError("Please enter new price");
             return false;
         }
-        if(Integer.parseInt(newPrice.getText().toString()) < 5 || Integer.parseInt(newPrice.getText().toString()) > 9999){
+        if(Integer.parseInt(newPrice.getText()) < 5 || Integer.parseInt(newPrice.getText()) > 9999){
             newPrice.setError("Between 5 and 9999");
             return false;
         }
-        if(Integer.parseInt(newPrice.getText().toString()) <= Integer.parseInt(oldPrice.getText().toString())) {
+        if(Integer.parseInt(newPrice.getText()) <= Integer.parseInt(oldPrice.getText().toString())) {
             newPrice.setError("Please increase price");
             return false;
         }
-        if(Integer.parseInt(newPrice.getText().toString()) > (Integer.parseInt(oldPrice.getText().toString()) + 500)) {
+        if(Integer.parseInt(newPrice.getText()) > (Integer.parseInt(oldPrice.getText().toString()) + 500)) {
             newPrice.setError("No more than $ 500!");
             return false;
         }

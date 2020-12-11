@@ -915,7 +915,7 @@ public class AuthActivity extends ActivityBase {
             showProgressDialog();
 
             if (account.getDisplayName() != null) {
-                String[] displayName = account.getDisplayName().toString().split(" ");
+                String[] displayName = account.getDisplayName().split(" ");
                 int size_of_displayName = displayName.length;
                 str_lname = displayName[size_of_displayName - 1];
                 int count = 0;

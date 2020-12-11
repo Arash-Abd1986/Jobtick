@@ -195,10 +195,10 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     private static String imageStoragePath;
 
     private PublicChatListAdapter publicChatListAdapter;
-    private int currentPage = PAGE_START;
-    private boolean isLastPage = false;
-    private int totalPage = 10;
-    private boolean isLoading = false;
+    private final int currentPage = PAGE_START;
+    private final boolean isLastPage = false;
+    private final int totalPage = 10;
+    private final boolean isLoading = false;
 
     @BindView(R.id.iv_verified_account)
     ImageView ivVerifiedAccount;

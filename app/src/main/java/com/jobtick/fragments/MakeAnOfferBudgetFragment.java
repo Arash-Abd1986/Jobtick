@@ -140,7 +140,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
             if (budgetCallbackFunction != null) {
                 if (!validation(true)) return;
 
-                makeAnOfferModel.setOffer_price(Integer.parseInt(edtBudget.getText().toString().trim()));
+                makeAnOfferModel.setOffer_price(Integer.parseInt(edtBudget.getText().trim()));
                 budgetCallbackFunction.continueButtonBudget(makeAnOfferModel);
             }
         });
@@ -195,17 +195,17 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
                 ((ActivityBase) requireActivity()).showToast("Please enter your offer.", requireContext());
             return false;
         }
-        if (Integer.parseInt(edtBudget.getText().toString()) < 5) {
+        if (Integer.parseInt(edtBudget.getText()) < 5) {
             if (showToast)
                 ((ActivityBase) requireActivity()).showToast("You can't offer lower than 5 dollars.", requireContext());
             return false;
         }
-        if (Integer.parseInt(edtBudget.getText().toString()) < taskModel.getBudget()) {
+        if (Integer.parseInt(edtBudget.getText()) < taskModel.getBudget()) {
             if (showToast)
                 ((ActivityBase) requireActivity()).showToast("You can't offer lower than poster offer.", requireContext());
             return false;
         }
-        if (Integer.parseInt(edtBudget.getText().toString()) > 9999) {
+        if (Integer.parseInt(edtBudget.getText()) > 9999) {
             if (showToast)
                 ((ActivityBase) requireActivity()).showToast("You can't offer more than 9999 dollars.", requireContext());
             return false;

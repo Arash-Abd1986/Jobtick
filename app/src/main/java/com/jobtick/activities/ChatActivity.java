@@ -180,7 +180,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
     private int currentPage = PAGE_START;
-    private boolean isLastPage = false;
+    private final boolean isLastPage = false;
     private int totalPage = 10;
     private int unreadCount = 0;
     private boolean isLastPosition = false;

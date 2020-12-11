@@ -39,7 +39,7 @@ import timber.log.Timber;
 
 public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
 
-    private String TAG = AbstractCancellationReasonsActivity.class.getName();
+    private final String TAG = AbstractCancellationReasonsActivity.class.getName();
 
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;

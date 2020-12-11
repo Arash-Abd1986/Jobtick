@@ -32,8 +32,8 @@ import static com.jobtick.utils.ConstantKey.PUBLISHABLE_KEY;
 
 public abstract class AddCreditCardImpl implements AddCreditCard {
 
-    private Context context;
-    private SessionManager sessionManager;
+    private final Context context;
+    private final SessionManager sessionManager;
 
 
     public AddCreditCardImpl(Context context, SessionManager sessionManager){

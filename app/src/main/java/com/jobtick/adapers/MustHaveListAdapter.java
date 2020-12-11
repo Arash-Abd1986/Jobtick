@@ -25,7 +25,7 @@ public class MustHaveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private List<MustHaveModel> items = new ArrayList<>();
     private OnLoadMoreListener onLoadMoreListener;
 
-    private Context ctx;
+    private final Context ctx;
     private OnItemClickListener mOnItemClickListener;
     private onCheckedAllItem onCheckedAllItem;
 
@@ -108,19 +108,11 @@ public class MustHaveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
 
             view.lytMain.setOnClickListener(v -> {
-                if (view.cbReceiveAlerts.isChecked()) {
-                    view.cbReceiveAlerts.setChecked(false);
-                } else {
-                    view.cbReceiveAlerts.setChecked(true);
-                }
+                view.cbReceiveAlerts.setChecked(!view.cbReceiveAlerts.isChecked());
             });
 
             view.txtBtnAddMustHave.setOnClickListener(v -> {
-                if (view.cbReceiveAlerts.isChecked()) {
-                    view.cbReceiveAlerts.setChecked(false);
-                } else {
-                    view.cbReceiveAlerts.setChecked(true);
-                }
+                view.cbReceiveAlerts.setChecked(!view.cbReceiveAlerts.isChecked());
             });
         }
     }

@@ -130,26 +130,10 @@ public class TaskDateTimeFragment extends Fragment {
         };
         txtDate.setText(task.getDueDate());
         if (task.getDueTime() != null) {
-            if (task.getDueTime().getMorning()) {
-                cbMorning.setChecked(true);
-            } else {
-                cbMorning.setChecked(false);
-            }
-            if (task.getDueTime().getAfternoon()) {
-                cbAfternoon.setChecked(true);
-            } else {
-                cbAfternoon.setChecked(false);
-            }
-            if (task.getDueTime().getEvening()) {
-                cbEvening.setChecked(true);
-            } else {
-                cbEvening.setChecked(false);
-            }
-            if (task.getDueTime().getMidday()) {
-                cbMidday.setChecked(true);
-            } else {
-                cbMidday.setChecked(false);
-            }
+            cbMorning.setChecked(task.getDueTime().getMorning());
+            cbAfternoon.setChecked(task.getDueTime().getAfternoon());
+            cbEvening.setChecked(task.getDueTime().getEvening());
+            cbMidday.setChecked(task.getDueTime().getMidday());
 
         } else {
             cbMorning.setChecked(false);
@@ -223,41 +207,25 @@ public class TaskDateTimeFragment extends Fragment {
             case R.id.txt_title_morning:
             case R.id.txt_subtitle_morning:
             case R.id.rlt_btn_morning:
-                if (cbMorning.isChecked()) {
-                    cbMorning.setChecked(false);
-                } else {
-                    cbMorning.setChecked(true);
-                }
+                cbMorning.setChecked(!cbMorning.isChecked());
                 break;
             case R.id.img_midday:
             case R.id.txt_title_midday:
             case R.id.txt_subtitle_midday:
             case R.id.rlt_btn_midday:
-                if (cbMidday.isChecked()) {
-                    cbMidday.setChecked(false);
-                } else {
-                    cbMidday.setChecked(true);
-                }
+                cbMidday.setChecked(!cbMidday.isChecked());
                 break;
             case R.id.img_afternoon:
             case R.id.txt_title_afternoon:
             case R.id.txt_subtitle_afternoon:
             case R.id.rlt_btn_afternoon:
-                if (cbAfternoon.isChecked()) {
-                    cbAfternoon.setChecked(false);
-                } else {
-                    cbAfternoon.setChecked(true);
-                }
+                cbAfternoon.setChecked(!cbAfternoon.isChecked());
                 break;
             case R.id.img_evening:
             case R.id.txt_title_evening:
             case R.id.txt_subtitle_evening:
             case R.id.rlt_btn_evening:
-                if (cbEvening.isChecked()) {
-                    cbEvening.setChecked(false);
-                } else {
-                    cbEvening.setChecked(true);
-                }
+                cbEvening.setChecked(!cbEvening.isChecked());
                 break;
             case R.id.lyt_btn_back:
 
@@ -315,26 +283,10 @@ public class TaskDateTimeFragment extends Fragment {
 
     private DueTimeModel getDueTimeModel() {
         DueTimeModel dueTimeModel = new DueTimeModel();
-        if (cbMorning.isChecked()) {
-            dueTimeModel.setMorning(true);
-        } else {
-            dueTimeModel.setMorning(false);
-        }
-        if (cbAfternoon.isChecked()) {
-            dueTimeModel.setAfternoon(true);
-        } else {
-            dueTimeModel.setAfternoon(false);
-        }
-        if (cbEvening.isChecked()) {
-            dueTimeModel.setEvening(true);
-        } else {
-            dueTimeModel.setEvening(false);
-        }
-        if (cbMidday.isChecked()) {
-            dueTimeModel.setMidday(true);
-        } else {
-            dueTimeModel.setMidday(false);
-        }
+        dueTimeModel.setMorning(cbMorning.isChecked());
+        dueTimeModel.setAfternoon(cbAfternoon.isChecked());
+        dueTimeModel.setEvening(cbEvening.isChecked());
+        dueTimeModel.setMidday(cbMidday.isChecked());
 
         return dueTimeModel;
     }
@@ -358,11 +310,7 @@ public class TaskDateTimeFragment extends Fragment {
 
         SimpleDateFormat df = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
         String formattedDate = df.format(c);
-        if (Tools.getTimeStamp(date) >= Tools.getTimeStamp(formattedDate)) {
-            return false;
-        } else {
-            return true;
-        }
+        return Tools.getTimeStamp(date) < Tools.getTimeStamp(formattedDate);
     }
 
     public interface OperationsListener {

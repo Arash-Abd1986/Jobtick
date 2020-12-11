@@ -55,7 +55,7 @@ import java.util.TimeZone;
  */
 public class Helper {
 
-    private static String lastFileName = "";
+    private static final String lastFileName = "";
     private static int lastFileNameIndex;
 
     /**

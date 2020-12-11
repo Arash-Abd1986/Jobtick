@@ -24,8 +24,8 @@ import static com.jobtick.utils.Constant.BASE_URL;
 
 public abstract class AddBillingAddressImpl implements AddBillingAddress{
 
-    private Context context;
-    private SessionManager sessionManager;
+    private final Context context;
+    private final SessionManager sessionManager;
 
     public AddBillingAddressImpl(Context context, SessionManager sessionManager) {
         this.context = context;

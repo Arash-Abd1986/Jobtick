@@ -12,7 +12,7 @@ import com.jobtick.utils.Constant;
 public abstract class PaginationListener extends RecyclerView.OnScrollListener {
     public static final int PAGE_START = 1;
     @NonNull
-    private LinearLayoutManager layoutManager;
+    private final LinearLayoutManager layoutManager;
     /**
      * Set scrolling threshold here (for now i'm assuming 10 item in one page)
      */

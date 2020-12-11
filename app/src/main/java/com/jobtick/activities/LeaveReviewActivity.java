@@ -227,9 +227,9 @@ public class LeaveReviewActivity extends ActivityBase {
             case R.id.submit:
                 if (!validation()) return;
                 if (isMyTask) {
-                    submitReview(String.valueOf((int) ratingbar.getRating()), edtWriteReview.getText().toString().trim(), Constant.URL_TASKS + "/" + taskModel.getSlug() + "/rating/submit-review");
+                    submitReview(String.valueOf((int) ratingbar.getRating()), edtWriteReview.getText().trim(), Constant.URL_TASKS + "/" + taskModel.getSlug() + "/rating/submit-review");
                 } else {
-                    submitReview(String.valueOf((int) ratingbar.getRating()), edtWriteReview.getText().toString().trim(), Constant.URL_TASKS + "/" + taskModel.getSlug() + "/rating/submit-review");
+                    submitReview(String.valueOf((int) ratingbar.getRating()), edtWriteReview.getText().trim(), Constant.URL_TASKS + "/" + taskModel.getSlug() + "/rating/submit-review");
                 }
                 break;
         }
@@ -329,7 +329,7 @@ public class LeaveReviewActivity extends ActivityBase {
             showToast("Please rate!", this);
             return false;
         }
-        if (TextUtils.isEmpty(edtWriteReview.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtWriteReview.getText().trim())) {
             edtWriteReview.setError("");
             return false;
         }

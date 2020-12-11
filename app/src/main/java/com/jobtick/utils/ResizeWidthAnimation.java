@@ -5,9 +5,9 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
 public class ResizeWidthAnimation extends Animation implements Animation.AnimationListener {
-    private int mWidth;
-    private int mStartWidth;
-    private View mView;
+    private final int mWidth;
+    private final int mStartWidth;
+    private final View mView;
 
     private OnFinish onFinish;
 

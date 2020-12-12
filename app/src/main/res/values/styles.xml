@@ -552,4 +552,8 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="transparentTitleBar" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/transparent</item>
+    </style>
+
 </resources>

@@ -1,5 +1,6 @@
 package com.jobtick.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,8 +41,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.jobtick.R;
-import android.annotation.SuppressLint;
-
 import com.jobtick.fragments.ForgotPassword1Fragment;
 import com.jobtick.fragments.ForgotPassword2Fragment;
 import com.jobtick.fragments.ForgotPassword3Fragment;
@@ -266,10 +265,8 @@ public class AuthActivity extends ActivityBase {
                         UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                         sessionManager.setUserAccount(userAccountModel);
 
-                        sessionManager.setLogin(true);
+                        proceedToCorrectActivity(userAccountModel);
 
-                        Intent intent = new Intent(AuthActivity.this, DashboardActivity.class);
-                        openActivity(intent);
                     } catch (JSONException e) {
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
@@ -462,11 +459,8 @@ public class AuthActivity extends ActivityBase {
                             JSONObject jsonObject_user = jsonObject_data.getJSONObject("user");
                             UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                             sessionManager.setUserAccount(userAccountModel);
-                            sessionManager.setLogin(true);
-                            // showToast("Login SuccessFully!!!", AuthActivity.this);
-                            Intent intent = new Intent(AuthActivity.this, DashboardActivity.class);
-                            openActivity(intent);
 
+                            proceedToCorrectActivity(userAccountModel);
 
                         } catch (JSONException e) {
                             Timber.e(String.valueOf(e));
@@ -639,10 +633,8 @@ public class AuthActivity extends ActivityBase {
                             JSONObject jsonObject_user = jsonObject_data.getJSONObject("user");
                             UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                             sessionManager.setUserAccount(userAccountModel);
-                            sessionManager.setLogin(true);
-                            Intent intent = new Intent(AuthActivity.this, DashboardActivity.class);
-                            openActivity(intent);
 
+                            proceedToCorrectActivity(userAccountModel);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -680,32 +672,26 @@ public class AuthActivity extends ActivityBase {
                                 if (jsonObject_errors.has("email")) {
                                     JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
                                     error_email = jsonArray_mobile.getString(0);
-                                    showToast(error_email,this);
+                                    showToast(error_email, this);
                                     editTextError.onEmailError(error_email);
-                                }
-                                else if (jsonObject_errors.has("password")) {
+                                } else if (jsonObject_errors.has("password")) {
                                     JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("password");
                                     error_password = jsonArray_mobile.getString(0);
-                                    showToast(error_password,this);
+                                    showToast(error_password, this);
                                     editTextError.onPasswordError(error_email);
-                                }
-                                else if (jsonObject_errors.has("device_token")) {
+                                } else if (jsonObject_errors.has("device_token")) {
                                     JSONArray jsonArray_device_token = jsonObject_errors.getJSONArray("device_token");
                                     showToast(jsonArray_device_token.getString(0), AuthActivity.this);
-                                }
-                                else if (jsonObject_errors.has("device_type")) {
+                                } else if (jsonObject_errors.has("device_type")) {
                                     JSONArray jsonArray_device_type = jsonObject_errors.getJSONArray("device_type");
                                     showToast(jsonArray_device_type.getString(0), AuthActivity.this);
-                                }
-                                else if (jsonObject_errors.has("fcm_token")) {
+                                } else if (jsonObject_errors.has("fcm_token")) {
                                     JSONArray jsonArray_fcm_token = jsonObject_errors.getJSONArray("fcm_token");
                                     showToast(jsonArray_fcm_token.getString(0), AuthActivity.this);
-                                }
-                                else if (jsonObject_errors.has("latitude")) {
+                                } else if (jsonObject_errors.has("latitude")) {
                                     JSONArray jsonArray_latitude = jsonObject_errors.getJSONArray("latitude");
                                     showToast(jsonArray_latitude.getString(0), AuthActivity.this);
-                                }
-                                else if (jsonObject_errors.has("longitude")) {
+                                } else if (jsonObject_errors.has("longitude")) {
                                     JSONArray jsonArray_longitude = jsonObject_errors.getJSONArray("longitude");
                                     showToast(jsonArray_longitude.getString(0), AuthActivity.this);
                                 }
@@ -872,6 +858,18 @@ public class AuthActivity extends ActivityBase {
     }
 
 
+    private void proceedToCorrectActivity(UserAccountModel userAccountModel){
+        Intent intent;
+        if(userAccountModel.getAccount_status().isBasic_info()){
+            intent = new Intent(this, DashboardActivity.class);
+            sessionManager.setLogin(true);
+        }
+        else{
+            intent = new Intent(this, CompleteRegistrationActivity.class);
+        }
+        openActivity(intent);
+    }
+
     private void openActivity(Intent intent) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -963,13 +961,7 @@ public class AuthActivity extends ActivityBase {
                                     UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                                     sessionManager.setUserAccount(userAccountModel);
 
-                                    sessionManager.setLogin(true);
-
-                                    //   showToast("Login SuccessFully!!!", AuthActivity.this);
-
-                                    Intent intent = new Intent(AuthActivity.this, DashboardActivity.class);
-                                    openActivity(intent);
-
+                                    proceedToCorrectActivity(userAccountModel);
 
                                 } catch (JSONException e) {
                                     Timber.e(String.valueOf(e));
@@ -1209,13 +1201,7 @@ public class AuthActivity extends ActivityBase {
                         UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                         sessionManager.setUserAccount(userAccountModel);
 
-                        sessionManager.setLogin(true);
-
-                        //  showToast("Login SuccessFully!!!", AuthActivity.this);
-
-                        Intent intent = new Intent(AuthActivity.this, CompleteRegistrationActivity.class);
-                        openActivity(intent);
-
+                        proceedToCorrectActivity(userAccountModel);
 
                     } catch (JSONException e) {
                         Timber.e(String.valueOf(e));
@@ -1312,13 +1298,7 @@ public class AuthActivity extends ActivityBase {
                         UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                         sessionManager.setUserAccount(userAccountModel);
 
-                        sessionManager.setLogin(true);
-
-                        //  showToast("Login SuccessFully!!!", AuthActivity.this);
-
-                        Intent intent = new Intent(AuthActivity.this, CompleteRegistrationActivity.class);
-                        openActivity(intent);
-
+                        proceedToCorrectActivity(userAccountModel);
 
                     } catch (JSONException e) {
                         Timber.e(String.valueOf(e));
@@ -1520,8 +1500,7 @@ public class AuthActivity extends ActivityBase {
                                     showToast(error_email, this);
                                     editTextError.onEmailError(error_email);
                                 }
-                            }
-                            else {
+                            } else {
                                 String message = jsonObject_error.getString("message");
                                 showToast(message, this);
 
@@ -1598,8 +1577,7 @@ public class AuthActivity extends ActivityBase {
                                     showToast(error_email, this);
                                     editTextError.onEmailError(error_email);
                                 }
-                            }
-                            else {
+                            } else {
                                 String message = jsonObject_error.getString("message");
                                 showToast(message, this);
 
@@ -1678,8 +1656,7 @@ public class AuthActivity extends ActivityBase {
                                     showToast(error_email, this);
                                     editTextError.onEmailError(error_email);
                                 }
-                            }
-                            else {
+                            } else {
                                 String message = jsonObject_error.getString("message");
                                 showToast(message, this);
 

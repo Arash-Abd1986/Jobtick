@@ -137,6 +137,7 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
 
 
     private void profileUpdate(String fname, String lname, String suburb) {
+        showProgressDialog();
 
         final int[] count = {0};
         Helper.closeKeyboard(this);
@@ -152,22 +153,19 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
-
-
-
                             JSONObject jsonObject_user = jsonObject.getJSONObject("data");
-
 
                             UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                             sessionManager.setUserAccount(userAccountModel);
 
                             sessionManager.setLogin(true);
-
-                            //  showToast("Login SuccessFully!!!", AuthActivity.this);
-
-                          /*  Intent intent = new Intent(CompleteRegistrationActivity.this, DashboardActivity.class);
-                            openActivity(intent);*/
-
+                            Intent intent = new Intent(CompleteRegistrationActivity.this, OnboardActivity.class);
+                            if (cbWorker.isChecked()) {
+                                intent.putExtra("as", "worker");
+                            } else if (cbPoster.isChecked()) {
+                                intent.putExtra("as", "poster");
+                            }
+                            startActivity(intent);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -229,11 +227,10 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
                 map1.put("fname", fname);
                 map1.put("lname", lname);
                 if (cbPoster.isChecked()) {
-                    map1.put("role[" + count[0] + "]", "poster");
-                    count[0] = count[0] + 1;
+                    map1.put("role_as", "poster");
                 }
                 if (cbWorker.isChecked()) {
-                    map1.put("role[" + count[0] + "]", "worker");
+                    map1.put("role_as", "worker");
                 }
                 map1.put("location", suburb);
                 map1.put("latitude", str_latitude);
@@ -247,12 +244,6 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
 
-    }
-
-    private void openActivity(Intent intent) {
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 
     private boolean validation() {
@@ -310,16 +301,7 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
                     String str_lname = edtLastName.getText().trim();
                     String str_suburb = suburb.getText().trim();
 
-                    showProgressDialog();
                     profileUpdate(str_fname, str_lname, str_suburb);
-
-                    Intent intent = new Intent(CompleteRegistrationActivity.this, OnboardActivity.class);
-                    if (cbWorker.isChecked()) {
-                        intent.putExtra("as", "worker");
-                    } else if (cbPoster.isChecked()) {
-                        intent.putExtra("as", "poster");
-                    }
-                    startActivity(intent);
                 }
                 break;
         }

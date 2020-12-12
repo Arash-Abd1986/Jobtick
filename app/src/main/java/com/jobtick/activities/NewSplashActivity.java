@@ -79,10 +79,19 @@ public class NewSplashActivity extends AppCompatActivity {
                         UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_data);
                         sessionManager.setUserAccount(userAccountModel);
 
-                        Intent main = new Intent(NewSplashActivity.this, DashboardActivity.class);
-                        main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(main);
+                        if(sessionManager.getUserAccount().getAccount_status().isBasic_info()){
+                            Intent main = new Intent(NewSplashActivity.this, DashboardActivity.class);
+                            main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(main);
+                        }
+                        else{
+                            Intent main = new Intent(NewSplashActivity.this, CompleteRegistrationActivity.class);
+                            main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(main);
+                        }
+
 
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -14,7 +14,7 @@ import timber.log.Timber;
 public class AccountStatusModel implements Parcelable {
     String TAG = TierModel.class.getName();
 
-    @SerializedName("basic_info")
+    @SerializedName("basic_info_completed")
     @Expose
     private boolean basic_info;
 
@@ -133,8 +133,8 @@ public class AccountStatusModel implements Parcelable {
     public AccountStatusModel getJsonToModel(JSONObject jsonObject){
         AccountStatusModel statusModel = new AccountStatusModel();
         try{
-            if(jsonObject.has("basic_info") && !jsonObject.isNull("basic_info"))
-                statusModel.setBasic_info(jsonObject.getBoolean("basic_info"));
+            if(jsonObject.has("basic_info_completed") && !jsonObject.isNull("basic_info_completed"))
+                statusModel.setBasic_info(jsonObject.getBoolean("basic_info_completed"));
 
             if(jsonObject.has("bank_account") && !jsonObject.isNull("bank_account"))
                 statusModel.setBank_account(jsonObject.getBoolean("bank_account"));

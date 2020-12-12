@@ -423,7 +423,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         cardViewAllOffers.setVisibility(View.GONE);
 
         initToolbar();
-        initComponentScroll();
+//        initComponentScroll();
         initOfferList();
         initQuestionList();
         getData();
@@ -639,7 +639,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     if (noActionAvailable) {
                         cardMakeAnOffer.setVisibility(View.GONE);
                     } else {
-                        cardMakeAnOffer.setVisibility(View.VISIBLE);
+                        cardMakeAnOffer.setVisibility(View.GONE);
                         txtBtnText.setText(ConstantKey.BTN_RELEASE_MONEY);
                     }
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, false);
@@ -650,7 +650,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         cardMakeAnOffer.setVisibility(View.GONE);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, false);
                     } else {
-                        cardMakeAnOffer.setVisibility(View.VISIBLE);
+                        cardMakeAnOffer.setVisibility(View.GONE);
                         txtBtnText.setText(ConstantKey.BTN_WAIT_TO_RELEASE_MONEY);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, false);
                     }
@@ -830,24 +830,24 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         });
     }
 
-    private void initComponentScroll() {
-        NestedScrollView nested_content = findViewById(R.id.nested_scroll_view);
-        nested_content.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            if (scrollY < oldScrollY) { // up
-                animateFab(false);
-            }
-            if (scrollY > oldScrollY) { // down
-                animateFab(true);
-            }
-        });
-    }
+//    private void initComponentScroll() {
+//        NestedScrollView nested_content = findViewById(R.id.nested_scroll_view);
+//        nested_content.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+//            if (scrollY < oldScrollY) { // up
+//                animateFab(false);
+//            }
+//            if (scrollY > oldScrollY) { // down
+//                animateFab(true);
+//            }
+//        });
+//    }
 
-    private void animateFab(final boolean hide) {
-        if (isFabHide && hide || !isFabHide && !hide) return;
-        isFabHide = hide;
-        int moveY = hide ? (2 * cardMakeAnOffer.getHeight()) : 0;
-        cardMakeAnOffer.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
-    }
+//    private void animateFab(final boolean hide) {
+//        if (isFabHide && hide || !isFabHide && !hide) return;
+//        isFabHide = hide;
+//        int moveY = hide ? (2 * cardMakeAnOffer.getHeight()) : 0;
+//        cardMakeAnOffer.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
+//    }
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.content)
@@ -2674,7 +2674,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 //poster is cancelling, user is poster too
                 //ticker is cancelling, user is poster
                 showCancellationCard(false, !taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId()));
+                cardMakeAnOffer.setVisibility(View.GONE);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
             } else if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_DECLINED)) {
 
             } else if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_ACCEPTED)) {
@@ -2686,7 +2689,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 //ticker is cancelling, user is ticker too
                 //poster is cancelling, user is ticker
                 showCancellationCard(true, taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId()));
+                cardMakeAnOffer.setVisibility(View.GONE);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
             }
         }
     }
@@ -2705,8 +2711,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 taskModel.getStatus().toLowerCase().equals("overdue")) {
             if(isUserThePoster){
                 showConfirmReleaseCard();
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
             } else if (isUserTheTicker){
                 showAskToReleaseCard();
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
             }
         }
     }
@@ -2759,6 +2771,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         pos = i;
                         if(isUserThePoster || isUserTheTicker) {
                             showRescheduleTimeCard(i);
+                            toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
+                            toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
+                            toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
                             break;
                         }
                     }
@@ -2777,13 +2792,23 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (alertType == AlertType.INCREASE_BUDGET) {
             hideAlertBox();
         }
+        if(isUserThePoster){
+            toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
+        }
+
         if (taskModel.getAdditionalFund() != null && taskModel.getAdditionalFund().getStatus().equals("pending")) {
             if (isUserThePoster) {
                 showIncreaseBudgetCard();
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
+
             }
             else if(isUserTheTicker){
                 //TODO: updated design of mahan should be applied here
-
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
 
             }
         }

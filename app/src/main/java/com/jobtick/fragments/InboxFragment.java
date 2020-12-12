@@ -169,7 +169,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
                 .setCluster("us2")
                 .setAuthorizer(authorizer);
 
-        pusher = new Pusher("31c5e7256697a01d331a", options);
+        pusher = new Pusher(getString(R.string.pusher_api_key), options);
 
         pusher.connect(new ConnectionEventListener() {
             @Override

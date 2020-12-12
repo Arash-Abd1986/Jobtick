@@ -152,7 +152,6 @@
 
     <string name="outgoing">Outgoing</string>
     <string name="earned">Earned</string>
-    <string name="Pusher_channel_name">presence-userStatus</string>
     <string name="reason_poster_1">I no longer need the job to be done</string>
     <string name="reason_poster_2">I accidently accepted the offer</string>
     <string name="reason_poster_3">User isn’t responding to my messages</string>
@@ -472,5 +471,6 @@
     <string name="one_more_reply">1 more reply</string>
     <string name="less">Less</string>
     <string name="remote_task">Remote Task</string>
+    <string name="pusher_api_key">9f55adebc6d793e64f07</string>
 
 </resources>

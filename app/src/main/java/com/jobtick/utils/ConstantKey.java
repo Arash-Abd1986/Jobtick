@@ -119,6 +119,7 @@ public class ConstantKey {
     public static final int RESULTCODE_ATTACHMENT = 12;
     public static final int RESULTCODE_UPDATE_TASK = 13;
     public static final int RESULTCODE_CREATE_TASK=14;
+    public static final int RESULTCODE_NOTIFICATION_READ = 101;
 
     public static final String offerId = "offerid";
     public static final String questionId = "questionId";

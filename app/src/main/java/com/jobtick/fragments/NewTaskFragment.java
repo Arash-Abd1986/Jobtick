@@ -31,6 +31,7 @@ import com.jobtick.activities.CategoryListActivity;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.NotificationActivity;
 import com.jobtick.utils.Constant;
+import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.SessionManager;
 
 import org.json.JSONException;
@@ -124,7 +125,7 @@ public class NewTaskFragment extends Fragment {
         ivNotification.setVisibility(View.VISIBLE);
         ivNotification.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), NotificationActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, ConstantKey.RESULTCODE_NOTIFICATION_READ);
         });
 
         getNotificationList();
@@ -134,6 +135,15 @@ public class NewTaskFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setOnMenuItemClickListener(item -> false);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        if (requestCode == ConstantKey.RESULTCODE_NOTIFICATION_READ) {
+            getNotificationList();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 

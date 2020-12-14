@@ -137,7 +137,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerViewTask.setLayoutManager(layoutManager);
-        taskListAdapter = new TaskListAdapter( new ArrayList<>());
+        taskListAdapter = new TaskListAdapter( new ArrayList<>(), null);
         recyclerViewTask.setAdapter(taskListAdapter);
         taskListAdapter.setOnItemClickListener(this);
 

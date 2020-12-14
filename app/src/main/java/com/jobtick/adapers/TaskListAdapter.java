@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,6 +40,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private OnItemClickListener mOnItemClickListener;
     private OnDraftDeleteListener mOnDraftDeleteListener;
 
+    private Integer userId;
+
     public interface OnItemClickListener {
         void onItemClick(View view, TaskModel obj, int position, String action);
 
@@ -63,8 +66,9 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private boolean isLoaderVisible = false;
     private final List<TaskModel> mItems;
 
-    public TaskListAdapter(List<TaskModel> mItems) {
+    public TaskListAdapter(List<TaskModel> mItems, @Nullable Integer userId) {
         this.mItems = mItems;
+        this.userId = userId;
     }
 
     @NonNull
@@ -230,6 +234,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 txtDueTime.setText("No time set");
             }
             txtStatus.setText(item.getStatus());
+            if(userId != null && item.getPoster() != null && item.getPoster().getId() != null &&
+            item.getPoster().getId().equals(userId) && item.getStatus().equals("open")){
+                txtStatus.setText("posted");
+            }else if(item.getStatus() != null && item.getStatus().equals("open")){
+                txtStatus.setText("offered");
+            }
             tvDelete.setVisibility(View.GONE);
             if (item.getLocation() != null) {
                 txtLocation.setText(item.getLocation());

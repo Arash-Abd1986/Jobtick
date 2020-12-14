@@ -173,7 +173,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         recyclerViewBrowse.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerViewBrowse.setLayoutManager(layoutManager);
-        taskListAdapter = new TaskListAdapter(taskArrayList);
+        taskListAdapter = new TaskListAdapter(taskArrayList, null);
         recyclerViewBrowse.setAdapter(taskListAdapter);
         taskListAdapter.setOnItemClickListener(this);
         swipeRefresh.setRefreshing(true);

@@ -329,7 +329,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     }
 
     private void resetTaskListAdapter() {
-        taskListAdapter = new TaskListAdapter(new ArrayList<>());
+        taskListAdapter = new TaskListAdapter(new ArrayList<>(), sessionManager.getUserAccount().getId());
         taskListAdapter.setOnItemClickListener(this);
         taskListAdapter.setOnDraftDeleteListener(this);
         recyclerViewStatus.setAdapter(taskListAdapter);

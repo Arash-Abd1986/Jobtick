@@ -83,7 +83,7 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
         sessionManager = new SessionManager(SavedTaskActivity.this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(SavedTaskActivity.this);
         recyclerViewStatus.setLayoutManager(layoutManager);
-        taskListAdapter = new TaskListAdapter(new ArrayList<>());
+        taskListAdapter = new TaskListAdapter(new ArrayList<>(), null);
         recyclerViewStatus.setAdapter(taskListAdapter);
         taskListAdapter.setOnItemClickListener(this);
         swipeRefresh.setOnRefreshListener(this);

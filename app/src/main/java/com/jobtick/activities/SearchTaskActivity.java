@@ -219,7 +219,7 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
     }
 
     private void setOnlineAdapter(){
-        adapter = new TaskListAdapter((new ArrayList<>()));
+        adapter = new TaskListAdapter(new ArrayList<>(), null);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
     }

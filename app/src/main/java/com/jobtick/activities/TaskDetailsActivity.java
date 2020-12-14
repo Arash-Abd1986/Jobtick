@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,7 +28,6 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -358,7 +356,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private boolean isUserThePoster = false;
     private boolean isUserTheTicker = false;
     boolean isFabHide = false;
-    boolean isShowBookmarked = false;
+    boolean isToolbarCollapsed = false;
     private OfferListAdapter offerListAdapter;
     private QuestionListAdapter questionListAdapter;
     private boolean noActionAvailable = false;
@@ -1394,7 +1392,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         txtCreatedDate.setText("Posted " + taskModel.getCreatedAt());
 
         if (taskModel.getBookmarkID() != null) {
-            toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_white);
+            toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
         }
 
         txtDescription.setText(taskModel.getDescription());
@@ -1485,33 +1483,33 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbar.setTitle("Job Details");
-                    collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(getApplication(), R.color.black));
-                    toolbar.getMenu().findItem(R.id.menu_share).setIcon(R.drawable.ic_share);
-                    Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_back_black, null);
-                    toolbar.setNavigationIcon(d);
-                    toolbar.setTitleTextColor(Color.BLACK);
-                    toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot);
-                    if (taskModel.getBookmarkID() != null) {
-                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_black);
-                    } else {
-                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_black);
-                    }
-                    isShowBookmarked = true;
-                } else if (isShowBookmarked) {
-                    collapsingToolbar.setTitle("");
+//                    collapsingToolbar.setTitle("Job Details");
                     collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(getApplication(), R.color.transparent));
-                    toolbar.getMenu().findItem(R.id.menu_share).setIcon(R.drawable.ic_share_white);
-                    toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot_white);
-                    Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_back_white, null);
-                    toolbar.setNavigationIcon(d);
-                    toolbar.setTitleTextColor(Color.WHITE);
-                    if (taskModel.getBookmarkID() != null) {
-                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_white);
-                    } else {
-                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white);
-                    }
-                    isShowBookmarked = false;
+//                    toolbar.getMenu().findItem(R.id.menu_share).setIcon(R.drawable.ic_share);
+//                    Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_back_black, null);
+//                    toolbar.setNavigationIcon(d);
+                    toolbar.setTitleTextColor(getResources().getColor(R.color.transparent));
+//                    toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot);
+//                    if (taskModel.getBookmarkID() != null) {
+//                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_black);
+//                    } else {
+//                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_black);
+//                    }
+                    isToolbarCollapsed = true;
+                } else if (isToolbarCollapsed) {
+//                    collapsingToolbar.setTitle("");
+                    collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(getApplication(), R.color.white));
+//                    toolbar.getMenu().findItem(R.id.menu_share).setIcon(R.drawable.ic_share_white);
+//                    toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot_white);
+//                    Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_back_white, null);
+//                    toolbar.setNavigationIcon(d);
+                    toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+//                    if (taskModel.getBookmarkID() != null) {
+//                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_white);
+//                    } else {
+//                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white);
+//                    }
+                    isToolbarCollapsed = false;
                 }
             }
         });
@@ -2492,10 +2490,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     public void addToBookmark() {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/bookmark",
                 response -> {
-                    if (isShowBookmarked) {
-                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_black);
+                    if (isToolbarCollapsed) {
+                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
                     } else {
-                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_white);
+                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
                     }
                     getData();
                 },
@@ -2536,10 +2534,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                if (isShowBookmarked) {
-                                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_black);
+                                if (isToolbarCollapsed) {
+                                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
                                 } else {
-                                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white);
+                                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
                                 }
 
                                 getData();

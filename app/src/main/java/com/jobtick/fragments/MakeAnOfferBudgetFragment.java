@@ -90,6 +90,8 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
     private TaskModel taskModel;
     private SessionManager sessionManager;
 
+    private String previousCalculatedBudget = "0";
+
     public static MakeAnOfferBudgetFragment newInstance(MakeAnOfferModel makeAnOfferModel, BudgetCallbackFunction budgetCallbackFunction) {
 
         Bundle args = new Bundle();
@@ -185,7 +187,10 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+        if (charSequence.length() > 4) {
+            edtBudget.setText(charSequence.subSequence(0, 4).toString());
+            edtBudget.setSelection(4);
+        }
     }
 
     @Override
@@ -198,7 +203,12 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
             txtCurrentServiceFee.setText("0%");
             return;
         }
-        calculate(editable.toString());
+        String newBudget = edtBudget.getText().toString();
+        if(previousCalculatedBudget.equals(newBudget))
+            return;
+
+        calculate(newBudget);
+        previousCalculatedBudget = newBudget;
     }
 
     private boolean validation(boolean showToast) {

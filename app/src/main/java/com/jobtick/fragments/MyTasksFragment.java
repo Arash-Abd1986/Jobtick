@@ -229,7 +229,9 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
         query_parameter += "&mytask=" + single_choice_selected.toLowerCase();
 
-        swipeRefresh.setRefreshing(true);
+        if(currentPage == 1)
+            swipeRefresh.setRefreshing(true);
+
         ArrayList<TaskModel> items = new ArrayList<>();
         Helper.closeKeyboard(dashboardActivity);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS + "?page=" + currentPage + query_parameter,

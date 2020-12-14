@@ -18,18 +18,35 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
+import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.CategoryListActivity;
 import com.jobtick.activities.DashboardActivity;
+import com.jobtick.activities.NotificationActivity;
 import com.jobtick.adapers.TaskCategoryAdapter;
+import com.jobtick.models.notification.count.UnreadNotificationModel;
+import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.SessionManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class NewTaskFragment extends Fragment {
 
@@ -54,10 +71,9 @@ public class NewTaskFragment extends Fragment {
     NestedScrollView scrollView;
 
     View root;
-    TextView toolbar_title;
-
-    private TaskCategoryAdapter adapter;
     private Toolbar toolbar;
+
+    private ImageView ivNotification;
 
     public NewTaskFragment() {
     }
@@ -67,9 +83,7 @@ public class NewTaskFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_new_task_rev2, container, false);
-//        View root = inflater.inflate(R.layout.fragment_new_task, container, false);
         ButterKnife.bind(this, root);
-        initToolbar();
 
         lytBtnPost.setOnClickListener(v -> {
             Intent creating_task = new Intent(getActivity(), CategoryListActivity.class);
@@ -89,6 +103,7 @@ public class NewTaskFragment extends Fragment {
         sessionManager = new SessionManager(getContext());
         name.setText(sessionManager.getUserAccount().getName());
 
+        initToolbar();
         return root;
     }
 
@@ -99,8 +114,7 @@ public class NewTaskFragment extends Fragment {
         toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.menu_new_task);
         toolbar.getMenu().findItem(R.id.action_search).setVisible(false);
-        ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
-        ivNotification.setVisibility(View.VISIBLE);
+
         TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
         toolbar_title.setVisibility(View.VISIBLE);
         toolbar_title.setText(R.string.jobTick);
@@ -110,6 +124,15 @@ public class NewTaskFragment extends Fragment {
         androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.CENTER;
         toolbar_title.setLayoutParams(params);
+
+        ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
+        ivNotification.setVisibility(View.VISIBLE);
+        ivNotification.setOnClickListener(v ->{
+            Intent intent = new Intent(requireContext(), NotificationActivity.class);
+            startActivity(intent);
+        });
+
+        getNotificationList();
     }
 
     @Override
@@ -118,16 +141,53 @@ public class NewTaskFragment extends Fragment {
         toolbar.setOnMenuItemClickListener(item -> false);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
-        if (requestCode == ConstantKey.RESULTCODE_CATEGORY && data != null) {
-            boolean deSelectAllCategory = data.getBooleanExtra(ConstantKey.CATEGORY, false);
-            if (deSelectAllCategory) {
-                adapter.allUnselect();
-                adapter.notifyDataSetChanged();
+    private void getNotificationList() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_NOTIFICATION_UNREAD,
+                response -> {
+                    Timber.e(response);
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                            String jsonString = jsonObject.getString("data"); //http request
+                            Gson gson = new Gson();
+                            UnreadNotificationModel unreadNotificationModel = gson.fromJson(jsonString, UnreadNotificationModel.class);
+                            if(unreadNotificationModel.getUnreadCount() > 0)
+                                ivNotification.setImageResource(R.drawable.ic_notification_unread_24_28dp);
+                            else{
+                                ivNotification.setImageResource(R.drawable.ic_notification_bel_24_28dp);
+                            }
+                        } else {
+                            ((ActivityBase)requireActivity()).showToast("something went wrong.", requireContext());
+                            ivNotification.setImageResource(R.drawable.ic_notification_bel_24_28dp);
+                        }
+
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                        ivNotification.setImageResource(R.drawable.ic_notification_bel_24_28dp);
+                    }
+                },
+                error -> {
+                    ivNotification.setImageResource(R.drawable.ic_notification_bel_24_28dp);
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
+                return map1;
             }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+        requestQueue.add(stringRequest);
+        Timber.e(stringRequest.getUrl());
+
     }
 }

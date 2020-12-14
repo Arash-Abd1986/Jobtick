@@ -155,6 +155,7 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
                             String jsonString = jsonObject.toString(); //http request
                             Gson gson = new Gson();
                             pushNotificationModel2 = gson.fromJson(jsonString, PushNotificationModel2.class);
+                            makeNotificationsAsRead();
                         } else {
                             showToast("something went wrong.", this);
                             checkList();
@@ -210,6 +211,34 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
         Timber.e(stringRequest.getUrl());
 
     }
+
+
+    private void makeNotificationsAsRead() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_NOTIFICATION_MARK_ALL_READ,
+                response -> {
+                    Timber.i("make all notifications as read success.");
+                },
+                error -> {
+                    Timber.i("make all notifications as read NOT success.");
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+        Timber.e(stringRequest.getUrl());
+    }
+
 
 
     @Override

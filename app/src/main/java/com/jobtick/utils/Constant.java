@@ -59,6 +59,7 @@ public class Constant {
 
     public static final String URL_NOTIFICATION_LIST = BASE_URL + "notifications";
     public static final String URL_NOTIFICATION_UNREAD = BASE_URL + "notifications/unread-count";
+    public static final String URL_NOTIFICATION_MARK_ALL_READ = BASE_URL + "notifications/mark-all-read";
 
     public static final String TASK_PAYMENT_TYPE_FIXED = "fixed";
     public static final String TASK_PAYMENT_TYPE_HOURLY = "hourly";

@@ -1,5 +1,6 @@
 package com.jobtick.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -24,18 +25,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
 import com.jobtick.R;
-import android.annotation.SuppressLint;
-
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.CategoryListActivity;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.NotificationActivity;
-import com.jobtick.adapers.TaskCategoryAdapter;
-import com.jobtick.models.notification.count.UnreadNotificationModel;
 import com.jobtick.utils.Constant;
-import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.SessionManager;
 
 import org.json.JSONException;
@@ -97,7 +92,7 @@ public class NewTaskFragment extends Fragment {
             lytBtnPost.performClick();
         });
         tickerCard.setOnClickListener(v -> {
-            ((DashboardActivity)requireActivity()).goToFragment(DashboardActivity.Fragment.EXPLORE);
+            ((DashboardActivity) requireActivity()).goToFragment(DashboardActivity.Fragment.EXPLORE);
         });
 
         sessionManager = new SessionManager(getContext());
@@ -127,7 +122,7 @@ public class NewTaskFragment extends Fragment {
 
         ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
         ivNotification.setVisibility(View.VISIBLE);
-        ivNotification.setOnClickListener(v ->{
+        ivNotification.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), NotificationActivity.class);
             startActivity(intent);
         });
@@ -152,16 +147,17 @@ public class NewTaskFragment extends Fragment {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                            String jsonString = jsonObject.getString("data"); //http request
-                            Gson gson = new Gson();
-                            UnreadNotificationModel unreadNotificationModel = gson.fromJson(jsonString, UnreadNotificationModel.class);
-                            if(unreadNotificationModel.getUnreadCount() > 0)
-                                ivNotification.setImageResource(R.drawable.ic_notification_unread_24_28dp);
-                            else{
-                                ivNotification.setImageResource(R.drawable.ic_notification_bel_24_28dp);
+                            jsonObject = jsonObject.getJSONObject("data");
+                            if (jsonObject.has("unread_count") && !jsonObject.isNull("unread_count")) {
+                                String countStr = jsonObject.getString("unread_count");
+                                if (Integer.parseInt(countStr) > 0) {
+                                    ivNotification.setImageResource(R.drawable.ic_notification_unread_24_28dp);
+                                } else {
+                                    ivNotification.setImageResource(R.drawable.ic_notification_bel_24_28dp);
+                                }
                             }
                         } else {
-                            ((ActivityBase)requireActivity()).showToast("something went wrong.", requireContext());
+                            ((ActivityBase) requireActivity()).showToast("something went wrong.", requireContext());
                             ivNotification.setImageResource(R.drawable.ic_notification_bel_24_28dp);
                         }
 

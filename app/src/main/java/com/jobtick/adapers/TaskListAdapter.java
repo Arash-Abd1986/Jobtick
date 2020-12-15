@@ -237,7 +237,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if(userId != null && item.getPoster() != null && item.getPoster().getId() != null &&
             item.getPoster().getId().equals(userId) && item.getStatus().equals("open")){
                 txtStatus.setText("posted");
-            }else if(item.getStatus() != null && item.getStatus().equals("open")){
+            }else if(userId != null && item.getStatus() != null && item.getStatus().equals("open")){
                 txtStatus.setText("offered");
             }
             tvDelete.setVisibility(View.GONE);

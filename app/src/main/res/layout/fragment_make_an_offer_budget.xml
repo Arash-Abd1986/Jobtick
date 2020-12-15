@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_5sp"
-                    android:text="Make an offer"
+                    android:text="@string/make_an_offer"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/_18sp" />
 

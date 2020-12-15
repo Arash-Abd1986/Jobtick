@@ -139,7 +139,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         if (dashboardActivity == null) return;
         toolbar = dashboardActivity.findViewById(R.id.toolbar);
         toolbar.getMenu().clear();
-        toolbar.inflateMenu(R.menu.menu_my_task);
+        toolbar.inflateMenu(R.menu.menu_my_task_black);
         toolbar.setVisibility(View.VISIBLE);
         ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
         ivNotification.setVisibility(View.GONE);
@@ -213,10 +213,13 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     private void getStatusList() {
         if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_VALUE)) {
             toolbar_title.setText(TASK_DRAFT_CASE_ALL_JOB_KEY);
-
+            toolbar.getMenu().clear();
+            toolbar.inflateMenu(R.menu.menu_my_task_black);
 
         } else {
             String title = single_choice_selected;
+            toolbar.getMenu().clear();
+            toolbar.inflateMenu(R.menu.menu_my_task_blue);
             if (title.equals(TASK_OPEN_CASE_UPPER_FIRST)) {
                 title = "Posted";
             }

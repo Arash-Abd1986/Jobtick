@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,7 +53,7 @@ public class TaskCategoryAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public class OriginalViewHolder extends BaseViewHolder {
 
         ImageView imgView;
-        TextViewRegular txtName;
+        TextView txtName;
         RelativeLayout lytOuter;
 
         public OriginalViewHolder(View v) {

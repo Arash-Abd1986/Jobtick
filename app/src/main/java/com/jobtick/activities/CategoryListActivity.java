@@ -50,9 +50,6 @@ public class CategoryListActivity extends ActivityBase implements TaskCategoryAd
     @BindView(R.id.iv_backbutton)
     ImageView ivBackButton;
 
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_search_category)
-    CardView lytSearchCategories;
 
     private TaskModel taskModel;
     private TaskCategoryAdapter adapter;
@@ -75,11 +72,6 @@ public class CategoryListActivity extends ActivityBase implements TaskCategoryAd
 
     public void clickEvent() {
         ivBackButton.setOnClickListener(v -> finish());
-        lytSearchCategories.setOnClickListener(v -> {
-            Intent categoryActivity = new Intent(CategoryListActivity.this, SearchCategoryActivity.class);
-            startActivity(categoryActivity);
-            finish();
-        });
     }
 
     public void init() {

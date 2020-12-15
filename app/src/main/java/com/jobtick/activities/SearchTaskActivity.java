@@ -9,6 +9,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -63,11 +64,15 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.back_to_activity)
-    MaterialButton lytCategories;
+    MaterialButton backToActivity;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.list)
     RecyclerView recyclerView;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.empty_search)
+    RelativeLayout emptySearch;
 
 
     @SuppressLint("NonConstantResourceId")
@@ -94,7 +99,14 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
         isFromMyJobs = getIntent().getBooleanExtra(ConstantKey.FROM_MY_JOBS_WITH_LOVE, false);
         //  RelativeLayout emptySearch = findViewById(R.id.empty_search);
         sessionManager = new SessionManager(this);
-        edtSearch.setHint("Search Jobs");
+        if(isFromMyJobs){
+            edtSearch.setHint(R.string.search_your_jobs);
+            backToActivity.setText(R.string.back_to_my_jobs);
+        }
+        else{
+            edtSearch.setHint(R.string.search_jobs);
+            backToActivity.setText(R.string.back_to_explore);
+        }
         edtSearch.requestFocus();
         edtSearch.performClick();
         edtSearch.setOnEditorActionListener(this);
@@ -170,6 +182,13 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
 
                         if (currentPage != PAGE_START)
                             adapter.removeLoading();
+                        if (items.size() <= 0) {
+                            emptySearch.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                        } else {
+                            recyclerView.setVisibility(View.VISIBLE);
+                            emptySearch.setVisibility(View.GONE);
+                        }
 
                         adapter.addItems(items);
 

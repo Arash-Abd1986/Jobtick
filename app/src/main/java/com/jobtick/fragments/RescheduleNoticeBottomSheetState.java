@@ -174,12 +174,9 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                                Toast.makeText(requireContext(), jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                                ((ActivityBase)requireActivity()).showToast(jsonObject_error.getString("message"), requireContext());
                             }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+
                         } catch (JSONException e) {
                             ((ActivityBase) requireActivity()).showToast("Something Went Wrong", requireContext());
                             e.printStackTrace();
@@ -248,12 +245,9 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                                Toast.makeText(requireContext(), jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                                ((ActivityBase)requireActivity()).showToast(jsonObject_error.getString("message"), requireContext());
                             }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+
                         } catch (JSONException e) {
                             ((ActivityBase) requireActivity()).showToast("Something Went Wrong", requireContext());
                             e.printStackTrace();

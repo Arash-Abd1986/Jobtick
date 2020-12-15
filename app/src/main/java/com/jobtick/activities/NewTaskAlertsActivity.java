@@ -208,7 +208,6 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                //    showCustomDialog("TaskAlert has been added successfully ! ");
                                     finish();
                                 }
                             } else {
@@ -238,14 +237,8 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
                             hideProgressDialog();
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            showCustomDialog(jsonObject_error.getString("message"));
-                           /* if (jsonObject_error.has("message")) {
-                                Toast.makeText(AddCouponPaymentOverviewActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                            }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }*/
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                            showToast(jsonObject_error.getString("message"), this);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -287,35 +280,6 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
         requestQueue.add(stringRequest);
         Timber.e(stringRequest.getUrl());
     }
-
-
-    private void showCustomDialog(String message) {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_show_warning);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
-        txtMessage.setText(message);
-
-        ((AppCompatButton) dialog.findViewById(R.id.btn_ok)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                finish();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-    }
-
-
 }
 
 

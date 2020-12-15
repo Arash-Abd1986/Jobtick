@@ -214,10 +214,7 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                                Toast.makeText(MakeAnOfferActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                            }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                                showToast(jsonObject_error.getString("message"), this);
                             }
 
                         } catch (JSONException e) {

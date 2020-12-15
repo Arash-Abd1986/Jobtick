@@ -115,15 +115,10 @@ public abstract class AddBankAccountImpl implements AddBankAccount {
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            //  showCustomDialog(jsonObject_error.getString("message"));
                             if (jsonObject_error.has("message")) {
                                 errorOnMainTread(new Exception(jsonObject_error.getString("message")));
                             }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                                errorOnMainTread(new Exception(jsonObject_errors.getString("message")));
-                            }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+
                         } catch (JSONException e) {
                             errorOnMainTread(e);
                             e.printStackTrace();

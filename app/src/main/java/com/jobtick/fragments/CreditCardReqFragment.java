@@ -144,7 +144,6 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
                     @Override
                     public void onMonthChanged(int selectedMonth) {
                         Timber.tag("creditCardFragment").d("Selected month : " + selectedMonth);
-                        // Toast.makeText(MainActivity.this, " Selected month : " + selectedMonth, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setOnYearChangedListener(new MonthPickerDialog.OnYearChangedListener() {
@@ -152,7 +151,6 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
                     public void onYearChanged(int selectedYear) {
 
                         Timber.tag("CreditCardFragment").d("Selected year : " + selectedYear);
-                        // Toast.makeText(MainActivity.this, " Selected year : " + selectedYear, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setMaxYear(2040)

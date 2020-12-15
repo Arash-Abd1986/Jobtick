@@ -49,7 +49,7 @@
         android:gravity="top"
         android:inputType="textMultiLine|textCapSentences|textNoSuggestions"
         android:minLines="1"
-        android:maxLines="5"
+        android:maxLines="10"
         android:textAppearance="@style/materialText_500_14"
         android:textColor="@color/textColor"
         tools:text="sedighi.66@gmail.com" />

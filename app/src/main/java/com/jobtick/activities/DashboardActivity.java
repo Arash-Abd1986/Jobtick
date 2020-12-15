@@ -393,7 +393,6 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 return true;
 
             case R.id.nav_saved_tasks:
-                //  Toast.makeText(this, "saved tasks", Toast.LENGTH_SHORT).show();
                 Intent savedTask = new Intent(DashboardActivity.this, SavedTaskActivity.class);
                 startActivity(savedTask);
                 return true;

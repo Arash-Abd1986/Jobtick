@@ -461,7 +461,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             if (jsonObject_error.has("message")) {
-                                Toast.makeText(TaskCreateActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                              showToast(jsonObject_error.getString("message"), this);
                             }
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");

@@ -9,6 +9,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -62,12 +63,12 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
     ImageView ivBack;
 
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.back_to_activity)
-    MaterialButton lytCategories;
-
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.list)
     RecyclerView recyclerView;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.empty_search)
+    RelativeLayout emptySearch;
 
 
     @SuppressLint("NonConstantResourceId")
@@ -94,7 +95,12 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
         isFromMyJobs = getIntent().getBooleanExtra(ConstantKey.FROM_MY_JOBS_WITH_LOVE, false);
         //  RelativeLayout emptySearch = findViewById(R.id.empty_search);
         sessionManager = new SessionManager(this);
-        edtSearch.setHint("Search Jobs");
+        if(isFromMyJobs){
+            edtSearch.setHint(R.string.search_your_jobs);
+        }
+        else{
+            edtSearch.setHint(R.string.search_jobs);
+        }
         edtSearch.requestFocus();
         edtSearch.performClick();
         edtSearch.setOnEditorActionListener(this);
@@ -103,7 +109,7 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
     }
 
     @SuppressLint("NonConstantResourceId")
-    @OnClick({R.id.lyt_search_new, R.id.back_to_activity, R.id.iv_back})
+    @OnClick({R.id.lyt_search_new, R.id.iv_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_search_new:
@@ -111,10 +117,6 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
                 edtSearch.requestFocus();
                 edtSearch.performClick();
                 showKeyboard(edtSearch);
-                break;
-            case R.id.back_to_activity:
-            case R.id.iv_back:
-                finish();
                 break;
 
         }
@@ -143,7 +145,7 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
         Helper.closeKeyboard(this);
         String url = Constant.URL_TASKS + "?search_query=" +  queryParameter + "&page=" + currentPage;
         if(isFromMyJobs)
-            url = Constant.URL_TASKS + ConstantKey.ALL_MY_JOBS_URL_FILTER + "search_query=" +  queryParameter + "&page=" + currentPage;
+            url = Constant.URL_TASKS + ConstantKey.ALL_MY_JOBS_URL_FILTER + "&search_query=" +  queryParameter + "&page=" + currentPage;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
@@ -170,6 +172,13 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
 
                         if (currentPage != PAGE_START)
                             adapter.removeLoading();
+                        if (items.size() <= 0) {
+                            emptySearch.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                        } else {
+                            recyclerView.setVisibility(View.VISIBLE);
+                            emptySearch.setVisibility(View.GONE);
+                        }
 
                         adapter.addItems(items);
 

@@ -686,7 +686,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                                Toast.makeText(ChatActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                               showToast(jsonObject_error.getString("message"), this);
                             }
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
@@ -793,7 +793,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 try {
                     String strResponse = response.body();
                     if (response.code() == HttpStatus.NOT_FOUND) {
-                        Toast.makeText(ChatActivity.this, "not found", Toast.LENGTH_SHORT).show();
+                       showToast("not found", ChatActivity.this);
                         return;
                     }
                     if (response.code() == HttpStatus.AUTH_FAILED) {
@@ -880,14 +880,10 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                     }
                 } else if (resultCode == RESULT_CANCELED) {
                     // user cancelled Image capture
-                    Toast.makeText(getApplicationContext(),
-                            "User cancelled image capture", Toast.LENGTH_SHORT)
-                            .show();
+                    showToast("User cancelled image capture", this);
                 } else {
                     // failed to capture image
-                    Toast.makeText(getApplicationContext(),
-                            "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
-                            .show();
+                    showToast("Sorry! Failed to capture image", this);
                 }
             } else if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
                 if (resultCode == RESULT_OK) {
@@ -916,9 +912,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                     }
                 } else {
                     // failed to record video
-                    Toast.makeText(getApplicationContext(),
-                            "Sorry! Failed to Pickup Image", Toast.LENGTH_SHORT)
-                            .show();
+                    showToast("Sorry! Failed to Pickup Image", this);
                 }
             }
 
@@ -980,9 +974,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         lytBtnCamera.setOnClickListener(view1 -> {
             // Checking availability of the camera
             if (!CameraUtils.isDeviceSupportCamera(getApplicationContext())) {
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! Your device doesn't support camera",
-                        Toast.LENGTH_LONG).show();
+                showToast("Sorry! Your device doesn't support camera", this);
                 // will close the app if the device doesn't have camera
                 return;
             }
@@ -1033,7 +1025,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 try {
                     String strResponse = response.body();
                     if (response.code() == HttpStatus.NOT_FOUND) {
-                        Toast.makeText(ChatActivity.this, "not found", Toast.LENGTH_SHORT).show();
+                        showToast( "not found", ChatActivity.this);
                         return;
                     }
                     if (response.code() == HttpStatus.AUTH_FAILED) {

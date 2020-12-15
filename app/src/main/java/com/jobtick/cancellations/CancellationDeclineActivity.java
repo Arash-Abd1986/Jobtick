@@ -153,13 +153,8 @@ public class CancellationDeclineActivity extends ActivityBase {
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                                Toast.makeText(CancellationDeclineActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                                showToast( jsonObject_error.getString("message"), this);
                             }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -35,6 +35,7 @@ import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
+import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.CategoryListActivity;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.EditProfileActivity;
@@ -297,7 +298,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
             toolbar_title.setText(R.string.profile);
 
-            toolbar_title.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.poppins_medium));
+            toolbar_title.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.poppins_semi_bold));
             toolbar.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.grey_100));
             androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
             params.gravity = Gravity.START;
@@ -308,10 +309,6 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                 bundle.putString("category", "");
                 creating_task.putExtras(bundle);
                 requireContext().startActivity(creating_task);
-            });
-            toolbar.post(() -> {
-                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
-                toolbar.setNavigationIcon(d);
             });
         }
     }
@@ -400,7 +397,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                 lPort.setVisibility(View.GONE);
             } else {
                 if(attachmentArrayList.size() > 10){
-                    Toast.makeText(dashboardActivity, "MAX 10 picture", Toast.LENGTH_SHORT).show(); }
+                    ((ActivityBase)requireActivity()).showToast("MAX 10 picture", requireContext());
+                }
                 recyclerViewPortfolio.setVisibility(View.VISIBLE);
                 noSkill.setVisibility(View.GONE);
                 NoPortfolio.setVisibility(View.GONE);
@@ -474,7 +472,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                                 lPort.setVisibility(View.VISIBLE);
                             }
                             if(attachmentArrayList.size() > 10){
-                                Toast.makeText(dashboardActivity, "MAX 10 picture", Toast.LENGTH_SHORT).show(); }else {
+                                ((ActivityBase)requireActivity()).showToast("MAX 10 picture", requireContext());
                                 adapter.addItems(attachmentArrayList);
                             }
 

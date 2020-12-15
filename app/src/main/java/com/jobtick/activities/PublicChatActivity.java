@@ -442,7 +442,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                                 JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                                 if (jsonObject_error.has("message")) {
-                                    Toast.makeText(PublicChatActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                                    showToast(jsonObject_error.getString("message"), PublicChatActivity.this);
                                 }
                                 if (jsonObject_error.has("errors")) {
                                     JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
@@ -578,7 +578,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                 try {
                     String strResponse = response.body();
                     if (response.code() == HttpStatus.NOT_FOUND) {
-                        Toast.makeText(PublicChatActivity.this, "not found", Toast.LENGTH_SHORT).show();
+                        showToast("not found", PublicChatActivity.this);
                         return;
                     }
                     if (response.code() == HttpStatus.AUTH_FAILED) {
@@ -629,14 +629,10 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                 uploadDataInTempAttachmentMediaApi(new File(uri.getPath()));
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled Image capture
-                Toast.makeText(getApplicationContext(),
-                        "User cancelled image capture", Toast.LENGTH_SHORT)
-                        .show();
+                showToast("User cancelled image capture", this);
             } else {
                 // failed to capture image
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
-                        .show();
+                showToast("Sorry! Failed to capture image", this);
             }
         } else if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
@@ -654,18 +650,14 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                 }
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled recording
-                Toast.makeText(getApplicationContext(),
-                        "User cancelled Pickup Image", Toast.LENGTH_SHORT)
-                        .show();
+                showToast(
+                        "User cancelled Pickup Image", this);
             } else {
                 // failed to record video
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! Failed to Pickup Image", Toast.LENGTH_SHORT)
-                        .show();
+                showToast("Sorry! Failed to Pickup Image", this);
             }
         }
     }
-
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
 

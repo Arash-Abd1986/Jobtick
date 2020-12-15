@@ -143,7 +143,7 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
         Helper.closeKeyboard(this);
         String url = Constant.URL_TASKS + "?search_query=" +  queryParameter + "&page=" + currentPage;
         if(isFromMyJobs)
-            url = Constant.URL_TASKS + ConstantKey.ALL_MY_JOBS_URL_FILTER + "search_query=" +  queryParameter + "&page=" + currentPage;
+            url = Constant.URL_TASKS + ConstantKey.ALL_MY_JOBS_URL_FILTER + "&search_query=" +  queryParameter + "&page=" + currentPage;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {

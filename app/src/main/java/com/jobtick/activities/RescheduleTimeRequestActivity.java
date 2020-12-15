@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CalendarView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -19,9 +21,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
+import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.HttpStatus;
@@ -78,10 +82,12 @@ public class RescheduleTimeRequestActivity extends ActivityBase implements Exten
     @BindView(R.id.edt_note)
     ExtendedCommentText edtNote;
 
+    private BottomSheetDialog mBottomSheetDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reschedulereq_from_worker);
+        setContentView(R.layout.activity_reschedule_time_request);
 
         ButterKnife.bind(this);
         initToolbar();
@@ -276,22 +282,60 @@ public class RescheduleTimeRequestActivity extends ActivityBase implements Exten
 
     @Override
     public void onClick() {
+        showBottomSheetDialogDate();
+    }
+
+    private void showBottomSheetDialogDate() {
+
+        final View view = getLayoutInflater().inflate(R.layout.sheet_date, null);
+
+        mBottomSheetDialog = new BottomSheetDialog(this);
+        mBottomSheetDialog.setContentView(view);
+        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        long oneDay = 86400000;
+        CalendarView calendarView = view.findViewById(R.id.calenderView);
+        //set min date to tomorrow
+        calendarView.setMinDate(((System.currentTimeMillis() - 1000) + oneDay));
+        //set max date to two weeks later
+        calendarView.setMaxDate(dueDate + oneDay * MAX_RESCHEDULE_DAY + 1000);
+
+        TextViewMedium txtCancel = view.findViewById(R.id.txt_cancel);
+        txtCancel.setOnClickListener(v -> {
+            mBottomSheetDialog.dismiss();
+        });
+
+        LinearLayout lytBtnDone = view.findViewById(R.id.lyt_btn_done);
+
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog dialog = new DatePickerDialog(
-                RescheduleTimeRequestActivity.this,
-                android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-                mDateSetListener,
-                year, month, day);
-        //set min date to tomorrow
-        long oneDay = 86400000;
-        dialog.getDatePicker().setMinDate(((System.currentTimeMillis() - 1000) + oneDay));
-        //set max date to 14 days after due date
-        dialog.getDatePicker().setMaxDate(dueDate + oneDay * MAX_RESCHEDULE_DAY + 1000);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
+        month = calendar.get(Calendar.MONTH);
+        month = month + 1;
+
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        lytBtnDone.setOnClickListener(v -> {
+
+
+            str_due_date = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + day);
+            txtDate.setText(str_due_date);
+
+            mBottomSheetDialog.dismiss();
+
+        });
+
+        calendarView.setOnDateChangeListener((arg0, year, month, date) -> {
+
+            this.month = month + 1;
+            this.year = year;
+            this.day = date;
+        });
+
+
+        // set background transparent
+        ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
+
+        mBottomSheetDialog.show();
+        mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
 }

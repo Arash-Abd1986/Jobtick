@@ -1,15 +1,12 @@
 package com.jobtick.fragments;
 
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,21 +19,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.DialogFragment;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.activities.ActivityBase;
-import com.jobtick.activities.CompleteMessageActivity;
-import com.jobtick.activities.TaskDetailsActivity;
-import com.jobtick.incrementbudget.IncrementBudgetRequestViewActivity;
 import com.jobtick.models.TaskModel;
-import com.jobtick.models.payments.PaymentMethodModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
@@ -47,6 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -116,7 +108,7 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
         return view;
     }
 
-    private void init(){
+    private void init() {
         //TODO: API is giving increased price, but it should get all new price, so
         //we calculate new increased price, after API updating, we bring back it.
         int oldP = Integer.parseInt(taskModel.getAmount().toString());
@@ -124,10 +116,9 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
         name.setText(taskModel.getPoster().getName());
         description.setText(taskModel.getTitle());
         reason.setText(taskModel.getAdditionalFund().getCreationReason());
-        newPrice.setText(Integer.toString(newP));
-        oldPrice.setText(Integer.toString(oldP));
+        newPrice.setText(String.format(Locale.ENGLISH, "%d", newP));
+        oldPrice.setText(String.format(Locale.ENGLISH, "%d", oldP));
     }
-
     private void acceptRequest(String id) {
         ((ActivityBase)requireActivity()).showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, Constant.BASE_URL + URL_ADDITIONAL_FUND + "/" + id + "/accept",
@@ -159,7 +150,7 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
                         // Print Error!
-                        Log.e("error", jsonError);
+                        Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             ((ActivityBase)requireActivity()).unauthorizedUser();
                             ((ActivityBase)requireActivity()).hideProgressDialog();

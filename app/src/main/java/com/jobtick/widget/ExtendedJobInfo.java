@@ -2,35 +2,25 @@ package com.jobtick.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.text.InputType;
-import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 
 import com.jobtick.R;
-
-import static android.text.InputType.TYPE_CLASS_TEXT;
 
 
 public class ExtendedJobInfo extends FrameLayout {
 
-    private String eTitle;
-    private String eValue;
-    private int eBottomColor;
+    private final String eTitle;
+    private final String eValue;
+    private final int eBottomColor;
 
-    private TextView title;
-    private TextView value;
-    private CardView card;
+    private final TextView title;
+    private final TextView value;
+    private final CardView card;
     public ExtendedJobInfo(Context context) {
         this(context, null);
     }

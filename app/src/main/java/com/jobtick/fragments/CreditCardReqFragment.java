@@ -1,16 +1,12 @@
 package com.jobtick.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.NetworkResponse;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.payment.AddCreditCard;
 import com.jobtick.payment.AddCreditCardImpl;
@@ -29,9 +27,11 @@ import com.whiteelephant.monthpicker.MonthPickerDialog;
 import java.util.Calendar;
 
 import butterknife.BindView;
+import timber.log.Timber;
 
 public class CreditCardReqFragment extends Fragment implements TextWatcher {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_add_card)
     MaterialButton btnAddCard;
 
@@ -66,10 +66,10 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
         btnAddCard.setOnClickListener(v -> {
             if(validation()){
                 ((ActivityBase) getActivity()).showProgressDialog();
-                addCreditCard.getToken(edtCardNumber.getText().toString(),
+                addCreditCard.getToken(edtCardNumber.getText(),
                         expMonth, expYear,
-                        edtSecurityNumber.getText().toString(),
-                        edtFullName.getText().toString());
+                        edtSecurityNumber.getText(),
+                        edtFullName.getText());
             }
         });
 
@@ -134,7 +134,7 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
                 expMonth = selectedMonth;
                 expYear = selectedYear;
                 edtExpiryDate.setText(selectedMonth + " /" + selectedYear);
-                Log.d("aa", "selectedMonth : " + selectedMonth + " selectedYear : " + selectedYear);
+                Timber.tag("CreditCardReqFragment").d("selectedMonth : " + selectedMonth + " selectedYear : " + selectedYear);
             }
         }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
 
@@ -143,7 +143,7 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
                 .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
                     @Override
                     public void onMonthChanged(int selectedMonth) {
-                        Log.d("a", "Selected month : " + selectedMonth);
+                        Timber.tag("creditCardFragment").d("Selected month : " + selectedMonth);
                         // Toast.makeText(MainActivity.this, " Selected month : " + selectedMonth, Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -151,7 +151,7 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
                     @Override
                     public void onYearChanged(int selectedYear) {
 
-                        Log.d("a", "Selected year : " + selectedYear);
+                        Timber.tag("CreditCardFragment").d("Selected year : " + selectedYear);
                         // Toast.makeText(MainActivity.this, " Selected year : " + selectedYear, Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -162,19 +162,19 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
     }
 
     private boolean validation(){
-        if(edtFullName.getText().toString().isEmpty()){
+        if(edtFullName.getText().isEmpty()){
             edtFullName.setError("The card name must be filled.");
             return false;
         }
-        else if(edtCardNumber.getText().toString().isEmpty()){
+        else if(edtCardNumber.getText().isEmpty()){
             edtCardNumber.setError("The card number must be filled.");
             return false;
         }
-        else if(edtExpiryDate.getText().toString().isEmpty()){
+        else if(edtExpiryDate.getText().isEmpty()){
             edtExpiryDate.setError("The card expiry date must be filled.");
             return false;
         }
-        else if(edtSecurityNumber.getText().toString().isEmpty()){
+        else if(edtSecurityNumber.getText().isEmpty()){
             edtSecurityNumber.setError("The card CVC must be filled.");
             return false;
         }

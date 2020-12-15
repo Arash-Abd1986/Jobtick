@@ -7,14 +7,12 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
@@ -28,7 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
@@ -88,7 +86,7 @@ public class IncreaseBudgetDeclineBottomSheet extends BottomSheetDialogFragment 
 
         submit.setOnClickListener(v -> {
             if(!validation()) return;
-            rejectRequest(taskModel.getAdditionalFund().getId().toString(), reason.getText().toString());
+            rejectRequest(taskModel.getAdditionalFund().getId().toString(), reason.getText());
         });
 
         initProgressDialog();
@@ -140,7 +138,7 @@ public class IncreaseBudgetDeclineBottomSheet extends BottomSheetDialogFragment 
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
                         // Print Error!
-                        Log.e("error", jsonError);
+                        Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             ((ActivityBase)requireActivity()).unauthorizedUser();
                             ((ActivityBase)requireActivity()).hideProgressDialog();

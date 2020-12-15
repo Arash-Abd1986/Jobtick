@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.ImageUtil;
@@ -24,50 +26,69 @@ public class JobReceiptActivity extends ActivityBase {
 
     private static final String TAG = JobReceiptActivity.class.getName();
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_avatar)
     CircularImageView imgAvatar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_verified_account)
     ImageView imgVerifiedAccount;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_location)
     TextView txtLocation;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_full_name)
     TextView txtFullName;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.job_title)
     TextView jobTitle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_amount)
     TextView txtAmount;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.receipt_number)
     TextView receiptNumber;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.service_fee_title)
     TextView serviceFeeTitle;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.job_cast_value)
     TextView jobCostValue;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.service_fee_value)
     TextView serviceFee;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.total_cost_value)
     TextView totalCost;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.paid)
     TextView paidOn;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.payment_number)
     TextView paymentNumber;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_logo)
     ImageView cardLogo;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.abn_number)
     TextView abnNumber;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.job_tick_service_fee_value)
     TextView jobTickServiceValue;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.job_tick_gts_value)
     TextView jobTickGtsValue;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.job_tick_total_value)
     TextView jobTickTotalValue;
 

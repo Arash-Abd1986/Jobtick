@@ -7,8 +7,6 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import bolts.Task;
-
 public class TaskAlert implements Parcelable {
     private int id;
     private String alert_type;

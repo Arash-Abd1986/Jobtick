@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -27,7 +26,9 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import android.annotation.SuppressLint;
+
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.widget.ExtendedEntryText;
@@ -47,12 +48,16 @@ import timber.log.Timber;
 
 public class ChangePasswordActivity extends ActivityBase implements TextWatcher {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.old_password)
     ExtendedEntryText oldPassword;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.new_password)
     ExtendedEntryText newPassword;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_change_password)
     MaterialButton btnChangePassword;
 
@@ -106,10 +111,10 @@ public class ChangePasswordActivity extends ActivityBase implements TextWatcher 
     }
 
     private boolean validation() {
-        if (TextUtils.isEmpty(oldPassword.getText().toString().trim())) {
+        if (TextUtils.isEmpty(oldPassword.getText().trim())) {
             oldPassword.setError("Enter your old password");
             return false;
-        } else if (TextUtils.isEmpty(newPassword.getText().toString().trim())) {
+        } else if (TextUtils.isEmpty(newPassword.getText().trim())) {
             newPassword.setError("Enter new password");
             return false;
         }
@@ -118,8 +123,8 @@ public class ChangePasswordActivity extends ActivityBase implements TextWatcher 
 
     private void changePassword() {
         showProgressDialog();
-        String str_old_password = oldPassword.getText().toString().trim();
-        String str_new_password = newPassword.getText().toString().trim();
+        String str_old_password = oldPassword.getText().trim();
+        String str_new_password = newPassword.getText().trim();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_CHANGE_PASSWORD,
                 response -> {

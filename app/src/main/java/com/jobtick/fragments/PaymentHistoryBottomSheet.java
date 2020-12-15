@@ -76,7 +76,7 @@ public class PaymentHistoryBottomSheet extends BottomSheetDialogFragment {
 
         fee.setText(StringUtils.getPriceTxt(paymentHistory.getPlatformFee()));
         taxTxt.setText(StringUtils.getPriceTxt(paymentHistory.getTaxRate()));
-        taxTypeTxt.setText(paymentHistory.getTaxType() + "(10%)");
+        taxTypeTxt.setText(String.format("%s(10%%)", paymentHistory.getTaxType()));
 
         String times = paymentHistory.getCreatedAt();
         String[] parts = times.split("T");

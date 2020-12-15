@@ -12,7 +12,8 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
-import com.jobtick.activities.PPCancellationSummaryActivity;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.cancellation.reason.CancellationReasonModel;
 import com.jobtick.models.cancellation.reason.Poster;
 import com.jobtick.utils.ConstantKey;
@@ -27,25 +28,33 @@ public class CancellationPosterActivity extends
         AbstractCancellationReasonsActivity implements RadioGroup.OnCheckedChangeListener {
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_reason_1)
     RadioButton rbReason1;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_reason_2)
     RadioButton rbReason2;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_reason_3)
     RadioButton rbReason3;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_reason_4)
     RadioButton rbReason4;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_submit)
     MaterialButton btnSubmit;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cancellation_fee_container)
     RelativeLayout cancellationFeeContainer;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_cancellation_fee)
     TextView cancellationFee;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rg_reason_message)
     RadioGroup rgReasonMessage;
 
@@ -116,8 +125,8 @@ public class CancellationPosterActivity extends
     @OnClick(R.id.btn_submit)
     public void onViewClicked() {
         String str_comment = null;
-        if (!TextUtils.isEmpty(commentText.getText().toString().trim())) {
-            str_comment = commentText.getText().toString().trim();
+        if (!TextUtils.isEmpty(commentText.getText().trim())) {
+            str_comment = commentText.getText().trim();
         }
 
         Bundle bundle = new Bundle();

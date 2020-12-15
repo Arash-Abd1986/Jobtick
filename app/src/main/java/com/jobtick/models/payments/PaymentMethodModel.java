@@ -1,11 +1,11 @@
 package com.jobtick.models.payments;
 
-import android.util.Log;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONObject;
+
+import timber.log.Timber;
 
 public class PaymentMethodModel {
     String TAG = PaymentMethodModel.class.getName();
@@ -208,7 +208,7 @@ public class PaymentMethodModel {
 
 
         } catch (Exception e) {
-            Log.e(TAG,e.toString());
+            Timber.e(e.toString());
             e.printStackTrace();
         }
         return paymentMethodModel;

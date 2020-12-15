@@ -1,19 +1,12 @@
 package com.jobtick.fragments;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.text.InputType;
 import android.text.TextUtils;
-import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,9 +17,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 
 import com.google.android.material.button.MaterialButton;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.AuthActivity;
 
 import com.jobtick.utils.Helper;
@@ -36,28 +29,34 @@ import com.jobtick.widget.ExtendedEntryText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SignInFragment extends FragmentBase implements AuthActivity.EditTextError {
+public class SignInFragment extends Fragment implements AuthActivity.EditTextError {
 
     private AuthActivity authActivity;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.email)
     ExtendedEntryText edtEmailAddress;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.password)
     ExtendedEntryText edtPassword;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_forgot_password)
     TextView txtForgotPassword;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_sign_in)
     MaterialButton lytBtnSignIn;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_btn_sign_up)
     TextView txtBtnSignUp;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_google)
     LinearLayout lytBtnGoogle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_facebook)
     LinearLayout lytBtnFacebook;
 
@@ -100,7 +99,7 @@ public class SignInFragment extends FragmentBase implements AuthActivity.EditTex
                 break;
             case R.id.lyt_btn_sign_in:
                 if (validation()) {
-                    authActivity.login(edtEmailAddress.getText().toString().trim(), edtPassword.getText().toString().trim());
+                    authActivity.login(edtEmailAddress.getText().trim(), edtPassword.getText().trim());
                 }
                 break;
             case R.id.lyt_btn_google:
@@ -118,12 +117,6 @@ public class SignInFragment extends FragmentBase implements AuthActivity.EditTex
                 ft.commit();
                 // authActivity.switchContent(new SignUpFragment());
                 break;
-            case R.id.email:
-                editTextOnClick(edtEmailAddress);
-                break;
-            case R.id.password:
-                editTextOnClick(edtPassword);
-                break;
 
         }
     }
@@ -136,7 +129,7 @@ public class SignInFragment extends FragmentBase implements AuthActivity.EditTex
         else if (TextUtils.isEmpty(edtPassword.getText().trim())) {
             edtPassword.setError("Enter your password");
             return false;
-        }else if(edtPassword.getText().toString().trim().length() < 8){
+        }else if(edtPassword.getText().trim().length() < 8){
             edtPassword.setError("Password must be atleast 8 characters.");
             return false;
         }

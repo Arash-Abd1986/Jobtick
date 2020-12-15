@@ -1,10 +1,9 @@
 package com.jobtick.fragments;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,10 +31,11 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.FiltersActivity;
 import com.jobtick.activities.MapViewActivity;
-import com.jobtick.activities.SearchCategoryActivity;
 import com.jobtick.activities.SearchTaskActivity;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.adapers.FilterAdapter;
@@ -59,6 +59,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
@@ -68,23 +69,30 @@ import static com.jobtick.pagination.PaginationListener.PAGE_START;
 public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, TaskListAdapter.OnItemClickListener,
         SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view_filters)
     RecyclerView recyclerViewFilters;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view_browse)
     RecyclerView recyclerViewBrowse;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_filters)
     LinearLayout lytBtnFilters;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_filters)
     TextView txtFilters;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.appbar)
     AppBarLayout appbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ivMapView)
     FloatingActionButton ivMapView;
 
     private DashboardActivity dashboardActivity;
-    private ArrayList<String> filters = new ArrayList<>();
+    private final ArrayList<String> filters = new ArrayList<>();
     private FilterModel filterModel = new FilterModel();
     private FilterAdapter filterAdapter;
     private SessionManager sessionManager;
@@ -165,7 +173,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         recyclerViewBrowse.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerViewBrowse.setLayoutManager(layoutManager);
-        taskListAdapter = new TaskListAdapter(taskArrayList);
+        taskListAdapter = new TaskListAdapter(taskArrayList, null);
         recyclerViewBrowse.setAdapter(taskListAdapter);
         taskListAdapter.setOnItemClickListener(this);
         swipeRefresh.setRefreshing(true);
@@ -310,11 +318,11 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         Helper.closeKeyboard(dashboardActivity);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS + "?page=" + currentPage + queryParameter,
                 response -> {
-                    Log.e("responce_url", response);
+                    Timber.e(response);
                     // categoryArrayList.clear();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
-                        Log.e("json", jsonObject.toString());
+                        Timber.e(jsonObject.toString());
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                             JSONArray jsonArray_data = jsonObject.getJSONArray("data");
                             for (int i = 0; jsonArray_data.length() > i; i++) {
@@ -348,7 +356,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
                         isLoading = false;
                     } catch (JSONException e) {
                         dashboardActivity.hideProgressDialog();
-                        Log.e("EXCEPTION", String.valueOf(e));
+                        Timber.e(String.valueOf(e));
                         e.printStackTrace();
                     }
                 },
@@ -369,7 +377,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(dashboardActivity);
         requestQueue.add(stringRequest);
-        Log.e("url", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
     @Override
@@ -405,7 +413,6 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Override
     public boolean onClose() {
-        Log.e("Close", "Called");
         toolbar.getMenu().findItem(R.id.action_map).setVisible(true);
         return true;
     }

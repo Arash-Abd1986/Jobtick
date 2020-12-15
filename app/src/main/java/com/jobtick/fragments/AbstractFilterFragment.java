@@ -1,6 +1,5 @@
 package com.jobtick.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,6 +18,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.RangeSlider;
 import com.google.android.material.slider.Slider;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.FiltersActivity;
 import com.jobtick.models.FilterModel;
 import com.jobtick.utils.Constant;
@@ -39,27 +40,36 @@ import butterknife.OnClick;
 public abstract class AbstractFilterFragment extends Fragment {
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_suburb)
     ExtendedEntryText txtSuburb;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_distance_km)
     TextView txtDistanceKm;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.sk_distance)
     Slider skDistance;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_price_min_max)
     TextView txtPriceMinMax;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.sk_price)
     RangeSlider skPrice;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cb_open_tasks)
     CheckBox cbOpenTasks;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_save_filter)
     MaterialButton lytBtnSaveFilter;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.distance_container)
     LinearLayout distanceContainer;
 
     private FiltersActivity filtersActivity;
-    private int pMin = 5, pMax = 9999;
-    private int PLACE_SELECTION_REQUEST_CODE = 1;
+    private final int pMin = 5;
+    private final int pMax = 9999;
+    private final int PLACE_SELECTION_REQUEST_CODE = 1;
     private FilterModel filterModel;
 
     @Override
@@ -167,7 +177,7 @@ public abstract class AbstractFilterFragment extends Fragment {
     @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.lyt_btn_save_filter)
     public void onViewClicked() {
-        if (TextUtils.isEmpty(txtSuburb.getText().toString().trim()) &&
+        if (TextUtils.isEmpty(txtSuburb.getText().trim()) &&
                 (getFilterType() == FilterType.IN_PERSON || getFilterType() == FilterType.ALL)) {
             txtSuburb.setError("Select location");
             return;
@@ -185,7 +195,7 @@ public abstract class AbstractFilterFragment extends Fragment {
             filterModel.setLatitude(null);
         }
         if (getFilterType() == FilterType.IN_PERSON || getFilterType() == FilterType.ALL) {
-            filterModel.setLocation(txtSuburb.getText().toString().trim());
+            filterModel.setLocation(txtSuburb.getText().trim());
             filterModel.setDistance(String.valueOf((int) skDistance.getValue()));
         }
         filterModel.setPrice(txtPriceMinMax.getText().toString().trim());
@@ -202,8 +212,8 @@ public abstract class AbstractFilterFragment extends Fragment {
     abstract int getFilterType();
 
 public interface FilterType {
-    final int ALL = 0;
-    final int IN_PERSON = 1;
-    final int REMOTELY = 2;
+    int ALL = 0;
+    int IN_PERSON = 1;
+    int REMOTELY = 2;
 }
 }

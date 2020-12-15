@@ -10,9 +10,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
-import com.jobtick.models.MustHaveModel;
+import android.annotation.SuppressLint;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,7 +19,7 @@ import butterknife.ButterKnife;
 
 public class ShowMustHaveListAdapter extends RecyclerView.Adapter<ShowMustHaveListAdapter.OriginalViewHolder> {
 
-    private List<String> items;
+    private final List<String> items;
 
     private Context ctx;
 
@@ -30,9 +29,11 @@ public class ShowMustHaveListAdapter extends RecyclerView.Adapter<ShowMustHaveLi
     }
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_btn_add_must_have)
         TextView txtBtnAddMustHave;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lytMain)
         LinearLayout lytMain;
 

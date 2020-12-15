@@ -3,11 +3,8 @@ package com.jobtick.fragments;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +14,9 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
-import com.jobtick.AppExecutors;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+import timber.log.Timber;
 import com.jobtick.activities.AuthActivity;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.SessionManager;
@@ -42,21 +40,27 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
 
     private final String zeroTime = "0:00";
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.verify)
     ExtendedEntryText edtVerificationCode;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.email_verify_message)
     TextView emailVerifyMessage;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_finish)
     MaterialButton lytBtnFinish;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.resend_otp)
     TextView resendOtp;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.time_limit)
     TextView timeLimit;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
@@ -112,7 +116,7 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.i("debug verification: ", s.toString());
+                Timber.tag("debug verification: ").i(s.toString());
                 if (s.length() > 6) {
                     edtVerificationCode.setText(s.subSequence(0, 6).toString());
                     edtVerificationCode.setSelection(6);
@@ -143,7 +147,7 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
     }
 
     protected boolean validation() {
-        if (edtVerificationCode.getText().toString().trim().length() != 6) {
+        if (edtVerificationCode.getText().trim().length() != 6) {
             edtVerificationCode.setError("Verification code must be equal to 6 characters.");
             return false;
         }else if(timeLimit.getText() == zeroTime){

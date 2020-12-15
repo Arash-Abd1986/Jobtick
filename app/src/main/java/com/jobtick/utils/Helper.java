@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
+import timber.log.Timber;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -19,7 +20,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -55,7 +55,7 @@ import java.util.TimeZone;
  */
 public class Helper {
 
-    private static String lastFileName = "";
+    private static final String lastFileName = "";
     private static int lastFileNameIndex;
 
     /**
@@ -399,7 +399,7 @@ public class Helper {
      * @param mClass  BroadcastReceiver class
      */
     public static void enableBroadcastReceiver(Context context, Class mClass) {
-        Log.d("receiver", "enable");
+        Timber.d("enable");
         ComponentName receiver = new ComponentName(context, mClass);
         PackageManager pm = context.getPackageManager();
 
@@ -415,7 +415,7 @@ public class Helper {
      * @param mClass  BroadcastReceiver class
      */
     public static void disableBroadcastReceiver(Context context, Class mClass) {
-        Log.d("receiver", "disable");
+        Timber.tag("receiver").d("disable");
         ComponentName receiver = new ComponentName(context, mClass);
         PackageManager pm = context.getPackageManager();
 
@@ -463,7 +463,7 @@ public class Helper {
      * @param message message you want to show in logcat
      */
     public static void Logger(String tag, String message) {
-        Log.e(tag, message);
+        Timber.tag(tag).e(message);
     }
 
     /**

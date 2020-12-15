@@ -3,7 +3,6 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -24,6 +22,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.adapers.NotificationListAdapter;
 import com.jobtick.adapers.SectionsPagerAdapter;
 import com.jobtick.fragments.Dashboard2PosterFragment;
@@ -45,30 +45,36 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static com.jobtick.utils.ConstantKey.PUSH_COMMENT;
 import static com.jobtick.utils.ConstantKey.PUSH_TASK;
 
 public class Dashboard2Activity extends ActivityBase implements NotificationListAdapter.OnItemClickListener, ViewPager.OnPageChangeListener {
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_as_ticker)
     RadioButton rbAsATicker;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_as_poster)
     RadioButton rbAsAPoster;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rg_ticker_poster)
     RadioGroup rgTickerPoster;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.no_notifications_container)
     LinearLayout noNotifications;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ticker_poster_view_pager)
     ContentWrappingViewPager viewPager;
 
@@ -138,7 +144,7 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(Dashboard2Activity.this);
         requestQueue.add(stringRequest);
-        Log.e("url", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
 
     }
 
@@ -242,31 +248,6 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
                 intent.putExtras(bundleIntent);
                 startActivity(intent);
             }
-            if (obj.getData().getTrigger().equals(PUSH_COMMENT)) {
-
-                if (obj.getData().getOffer().getId() != 0) {
-                    bundleIntent.putString(ConstantKey.SLUG, obj.getData().getTaskSlug());
-                    bundleIntent.putInt(ConstantKey.PUSH_OFFER_ID, obj.getData().getOffer().getId());
-                    intent.putExtras(bundleIntent);
-                    startActivity(intent);
-                }
-//                if (obj.getQuestion_id() != 0) {
-//                    bundleIntent.putString(ConstantKey.SLUG, obj.getModel_slug());
-//                    bundleIntent.putInt(ConstantKey.PUSH_QUESTION_ID, obj.getQuestion_id());
-//                    intent.putExtras(bundleIntent);
-//                    startActivity(intent);
-//                }
-            }
-//            if (obj.getTrigger().equals(PUSH_CONVERSATION)) {
-//
-//               /* Bundle bundle1 = new Bundle();
-//                bundle1.putInt(PUSH_CONVERSATION_ID, obj.getConversation_id());
-//                NavGraph graph = navController.getGraph();
-//                graph.setStartDestination(R.id.navigation_inbox);
-//                navController.setGraph(graph, bundle1);
-//*/
-//            }
-
         }
     }
 }

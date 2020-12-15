@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
@@ -23,6 +24,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.activities.TaskDetailsActivity;
@@ -50,22 +53,31 @@ import butterknife.ButterKnife;
  */
 public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_budget)
     ExtendedEntryText edtBudget;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_service_fee)
     TextView txtServiceFee;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_final_budget)
     TextView txtFinalBudget;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_account_level)
     TextView txtAccountLevel;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_current_service_fee)
     TextView txtCurrentServiceFee;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_learn_how_level_affects_service_fee)
     TextView txtLearnHowLevelAffectsServiceFee;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_next)
     MaterialButton btnNext;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_level)
     ImageView imgLevel;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvOffer)
     TextView tvOffer;
 
@@ -77,6 +89,8 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
     private UserAccountModel userAccountModel;
     private TaskModel taskModel;
     private SessionManager sessionManager;
+
+    private String previousCalculatedBudget = "0";
 
     public static MakeAnOfferBudgetFragment newInstance(MakeAnOfferModel makeAnOfferModel, BudgetCallbackFunction budgetCallbackFunction) {
 
@@ -140,7 +154,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
             if (budgetCallbackFunction != null) {
                 if (!validation(true)) return;
 
-                makeAnOfferModel.setOffer_price(Integer.parseInt(edtBudget.getText().toString().trim()));
+                makeAnOfferModel.setOffer_price(Integer.parseInt(edtBudget.getText().trim()));
                 budgetCallbackFunction.continueButtonBudget(makeAnOfferModel);
             }
         });
@@ -149,20 +163,20 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
     private void initLayout() {
         //edtBudget.setText(String.format("%d", makeAnOfferModel.getOffer_price()));
         tvOffer.setText(String.format(Locale.ENGLISH, "$%d", taskModel.getBudget()));
-        txtAccountLevel.setText("Level " + userAccountModel.getWorkerTier().getId());
+        txtAccountLevel.setText(String.format(Locale.ENGLISH, "Level %d", userAccountModel.getWorkerTier().getId()));
 
         if (userAccountModel.getWorkerTier().getId() == 1) {
             //TODO change image level 1
-            imgLevel.setImageDrawable(makeAnOfferActivity.getResources().getDrawable(R.drawable.ic_medal1));
+            imgLevel.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_medal1));
         } else if (userAccountModel.getWorkerTier().getId() == 2) {
             //TODO change image level 2
-            imgLevel.setImageDrawable(makeAnOfferActivity.getResources().getDrawable(R.drawable.ic_medal2));
+            imgLevel.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_medal2));
         } else if (userAccountModel.getWorkerTier().getId() == 3) {
             //TODO change image level 3
-            imgLevel.setImageDrawable(makeAnOfferActivity.getResources().getDrawable(R.drawable.ic_medal3));
+            imgLevel.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_medal3));
         } else if (userAccountModel.getWorkerTier().getId() == 4) {
             //TODO change image level 4
-            imgLevel.setImageDrawable(makeAnOfferActivity.getResources().getDrawable(R.drawable.ic_medal4));
+            imgLevel.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_medal4));
         }
     }
 
@@ -173,7 +187,10 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+        if (charSequence.length() > 4) {
+            edtBudget.setText(charSequence.subSequence(0, 4).toString());
+            edtBudget.setSelection(4);
+        }
     }
 
     @Override
@@ -181,12 +198,17 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
         btnNext.setEnabled(true);
 
         if (!validation(false)) {
-            txtServiceFee.setText("$00");
-            txtFinalBudget.setText("$00");
+            txtServiceFee.setText(R.string.dollar_00);
+            txtFinalBudget.setText(R.string.dollar_00);
             txtCurrentServiceFee.setText("0%");
             return;
         }
-        calculate(editable.toString());
+        String newBudget = edtBudget.getText().toString();
+        if(previousCalculatedBudget.equals(newBudget))
+            return;
+
+        calculate(newBudget);
+        previousCalculatedBudget = newBudget;
     }
 
     private boolean validation(boolean showToast) {
@@ -195,17 +217,17 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
                 ((ActivityBase) requireActivity()).showToast("Please enter your offer.", requireContext());
             return false;
         }
-        if (Integer.parseInt(edtBudget.getText().toString()) < 5) {
+        if (Integer.parseInt(edtBudget.getText()) < 5) {
             if (showToast)
                 ((ActivityBase) requireActivity()).showToast("You can't offer lower than 5 dollars.", requireContext());
             return false;
         }
-        if (Integer.parseInt(edtBudget.getText().toString()) < taskModel.getBudget()) {
+        if (Integer.parseInt(edtBudget.getText()) < taskModel.getBudget()) {
             if (showToast)
                 ((ActivityBase) requireActivity()).showToast("You can't offer lower than poster offer.", requireContext());
             return false;
         }
-        if (Integer.parseInt(edtBudget.getText().toString()) > 9999) {
+        if (Integer.parseInt(edtBudget.getText()) > 9999) {
             if (showToast)
                 ((ActivityBase) requireActivity()).showToast("You can't offer more than 9999 dollars.", requireContext());
             return false;
@@ -277,7 +299,6 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
 
 
     public interface BudgetCallbackFunction {
-        void backButtonBudget();
 
         void continueButtonBudget(MakeAnOfferModel makeAnOfferModel);
     }

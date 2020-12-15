@@ -5,17 +5,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.AuthActivity;
 import com.jobtick.widget.ExtendedEntryText;
 
@@ -29,12 +26,15 @@ import butterknife.OnClick;
 public class ForgotPassword1Fragment extends Fragment implements AuthActivity.EditTextError {
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.email)
     ExtendedEntryText edtEmailAddress;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_next)
     MaterialButton lytBtnNext;
     AuthActivity authActivity;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
@@ -67,11 +67,11 @@ public class ForgotPassword1Fragment extends Fragment implements AuthActivity.Ed
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_btn_next:
-                if (TextUtils.isEmpty(edtEmailAddress.getText().toString().trim())) {
+                if (TextUtils.isEmpty(edtEmailAddress.getText().trim())) {
                     edtEmailAddress.setError("Please enter the email address");
                     return;
                 }
-                authActivity.nextStepForgotPassowrd(edtEmailAddress.getText().toString().trim());
+                authActivity.nextStepForgotPassowrd(edtEmailAddress.getText().trim());
                 break;
         }
     }

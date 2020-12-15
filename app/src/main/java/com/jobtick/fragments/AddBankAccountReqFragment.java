@@ -7,14 +7,12 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
-import com.jobtick.EditText.EditTextMedium;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.TaskDetailsActivity;
@@ -109,9 +107,9 @@ public class AddBankAccountReqFragment extends Fragment implements TextWatcher {
     private void addBankAccountDetails() {
         ((ActivityBase) getActivity()).showProgressDialog();
 
-        addBankAccount.add(edtAccountName.getText().toString(),
-                edtBsb.getText().toString(),
-                edtAccountNumber.getText().toString());
+        addBankAccount.add(edtAccountName.getText(),
+                edtBsb.getText(),
+                edtAccountNumber.getText());
     }
 
     private void goNext(){
@@ -120,17 +118,17 @@ public class AddBankAccountReqFragment extends Fragment implements TextWatcher {
 
 
     public boolean validate() {
-        if (TextUtils.isEmpty(edtAccountName.getText().toString())) {
+        if (TextUtils.isEmpty(edtAccountName.getText())) {
             edtAccountName.setError("Please Enter Account Name");
             return false;
         }
 
-        if (TextUtils.isEmpty(edtBsb.getText().toString())) {
+        if (TextUtils.isEmpty(edtBsb.getText())) {
             edtBsb.setError("Please enter BSB");
             return false;
         }
 
-        if (TextUtils.isEmpty(edtAccountNumber.getText().toString())) {
+        if (TextUtils.isEmpty(edtAccountNumber.getText())) {
             edtAccountNumber.setError("Please account Number");
             return false;
         }

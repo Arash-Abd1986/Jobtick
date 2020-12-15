@@ -1,7 +1,6 @@
 package com.jobtick.payment;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -25,8 +24,8 @@ import static com.jobtick.utils.Constant.BASE_URL;
 
 public abstract class AddBillingAddressImpl implements AddBillingAddress{
 
-    private Context context;
-    private SessionManager sessionManager;
+    private final Context context;
+    private final SessionManager sessionManager;
 
     public AddBillingAddressImpl(Context context, SessionManager sessionManager) {
         this.context = context;

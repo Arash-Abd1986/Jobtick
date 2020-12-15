@@ -2,13 +2,14 @@ package com.jobtick.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import timber.log.Timber;
 
 public class DueTimeModel implements Parcelable {
     String TAG = DueTimeModel.class.getName();
@@ -120,36 +121,20 @@ public class DueTimeModel implements Parcelable {
 
         try{
             if(jsonObject.has("midday") && !jsonObject.isNull("midday")){
-                if(jsonObject.getBoolean("midday")){
-                    dueTimeModel.setMidday(true);
-                }else{
-                    dueTimeModel.setMidday(false);
-                }
+                dueTimeModel.setMidday(jsonObject.getBoolean("midday"));
             }
             if(jsonObject.has("evening") && !jsonObject.isNull("evening")){
-                if(jsonObject.getBoolean("evening")){
-                    dueTimeModel.setEvening(true);
-                }else{
-                    dueTimeModel.setEvening(false);
-                }
+                dueTimeModel.setEvening(jsonObject.getBoolean("evening"));
             }
             if(jsonObject.has("morning") && !jsonObject.isNull("morning")){
-                if(jsonObject.getBoolean("morning")){
-                    dueTimeModel.setMorning(true);
-                }else{
-                    dueTimeModel.setMorning(false);
-                }
+                dueTimeModel.setMorning(jsonObject.getBoolean("morning"));
             }
             if(jsonObject.has("afternoon") && !jsonObject.isNull("afternoon")){
-                if(jsonObject.getBoolean("afternoon")){
-                    dueTimeModel.setAfternoon(true);
-                }else{
-                    dueTimeModel.setAfternoon(false);
-                }
+                dueTimeModel.setAfternoon(jsonObject.getBoolean("afternoon"));
             }
 
         }catch (JSONException e){
-            Log.e(TAG,e.toString());
+            Timber.e(e.toString());
             e.printStackTrace();
         }
         return dueTimeModel;

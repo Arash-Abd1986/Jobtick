@@ -3,18 +3,12 @@ package com.jobtick.activities;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -27,10 +21,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.tabs.TabLayout;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.TextView.TextViewSemiBold;
+import android.annotation.SuppressLint;
+
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.KeyboardUtil;
@@ -59,33 +53,43 @@ import static com.jobtick.utils.ConstantKey.KEY_USER_REPORT;
 
 public class ReportActivity extends ActivityBase implements ExtendedEntryText.ExtendedViewOnClickListener {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.report_root)
     RelativeLayout root;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_subject)
     ExtendedEntryText edtSubject;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_description)
     ExtendedCommentText edtDescription;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.submit)
     Button submit;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.spinner_spam)
     TextView spinnerSpam;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.spinner_fraud)
     TextView spinnerFraud;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.spinner_offensive)
     TextView spinnerOffensive;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.spinner_others)
     TextView spinnerOthers;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.spinner_container)
     CardView spinnerContainer;
 
@@ -96,7 +100,7 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
     private int str_COMMENTID = 0;
     private int str_QUESTIONID = 0;
     private String str_KEY = null;
-    private boolean isFristTime = false;
+    private final boolean isFristTime = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -214,8 +218,8 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("subject", edtSubject.getText().toString());
-                map1.put("description", edtDescription.getText().toString());
+                map1.put("subject", edtSubject.getText());
+                map1.put("description", edtDescription.getText());
                 return map1;
             }
 
@@ -270,8 +274,8 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("subject", edtSubject.getText().toString());
-                map1.put("description", edtDescription.getText().toString());
+                map1.put("subject", edtSubject.getText());
+                map1.put("description", edtDescription.getText());
 
                 return map1;
             }
@@ -325,8 +329,8 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("subject", edtSubject.getText().toString());
-                map1.put("description", edtDescription.getText().toString());
+                map1.put("subject", edtSubject.getText());
+                map1.put("description", edtDescription.getText());
                 return map1;
             }
 
@@ -378,8 +382,8 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("subject", edtSubject.getText().toString());
-                map1.put("description", edtDescription.getText().toString());
+                map1.put("subject", edtSubject.getText());
+                map1.put("description", edtDescription.getText());
                 return map1;
             }
 
@@ -433,8 +437,8 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("subject", edtSubject.getText().toString());
-                map1.put("description", edtDescription.getText().toString());
+                map1.put("subject", edtSubject.getText());
+                map1.put("description", edtDescription.getText());
                 return map1;
             }
 

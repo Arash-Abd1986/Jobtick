@@ -58,6 +58,8 @@ public class Constant {
     public static final String URL_BOOKMARK = BASE_URL + "bookmarks";
 
     public static final String URL_NOTIFICATION_LIST = BASE_URL + "notifications";
+    public static final String URL_NOTIFICATION_UNREAD = BASE_URL + "notifications/unread-count";
+    public static final String URL_NOTIFICATION_MARK_ALL_READ = BASE_URL + "notifications/mark-all-read";
 
     public static final String TASK_PAYMENT_TYPE_FIXED = "fixed";
     public static final String TASK_PAYMENT_TYPE_HOURLY = "hourly";
@@ -117,7 +119,7 @@ public class Constant {
     public static String URL_RESET_PASSWORD = BASE_URL + "reset-password";
     public static final String URL_VERIFY_OTP = BASE_URL + "verify-otp";
     public static final String URL_RESET_PASSWORD_VERIFY_OTP = BASE_URL + "reset-password/otp-verify";
-    private Context context;
+    private final Context context;
 
     // login
     public static String URL_SIGNIN = BASE_URL + "signin";

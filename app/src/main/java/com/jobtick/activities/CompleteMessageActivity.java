@@ -11,10 +11,11 @@ import androidx.cardview.widget.CardView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewRegular;
+import android.annotation.SuppressLint;
+
+import com.jobtick.text_view.TextViewBold;
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.models.TaskModel;
-import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 
 import butterknife.BindView;
@@ -28,12 +29,16 @@ import static com.jobtick.utils.ConstantKey.RESULTCODE_MAKEANOFFER;
 
 public class CompleteMessageActivity extends AppCompatActivity {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_title)
     TextViewBold txtTitle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_subtitle)
     TextViewRegular txtSubtitle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_finish)
     LinearLayout lytBtnFinish;
 
@@ -42,17 +47,21 @@ public class CompleteMessageActivity extends AppCompatActivity {
     private TaskModel taskModel;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.linearTaskCompleted)
     LinearLayout linearTaskCompleted;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cardFinish)
     CardView cardFinish;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_new_job)
     LinearLayout lytBtnNewJob;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_view_your_job)
     LinearLayout lytBtnViewYourJob;
 

@@ -4,7 +4,6 @@ import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -30,7 +29,9 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import android.annotation.SuppressLint;
+
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.adapers.ReviewAdapter;
 import com.jobtick.models.ReviewModel;
 import com.jobtick.models.UserAccountModel;

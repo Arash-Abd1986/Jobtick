@@ -1,11 +1,9 @@
 package com.jobtick.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,12 +33,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.CategoryListActivity;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.EditProfileActivity;
-import com.jobtick.activities.ProfileActivity;
 import com.jobtick.activities.ReviewsActivity;
-import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.activities.ZoomImageActivity;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.BadgesAdapter;
@@ -297,19 +295,19 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
             toolbar_title.setVisibility(View.VISIBLE);
 
-            toolbar_title.setText("Profile");
+            toolbar_title.setText(R.string.profile);
 
-            toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_medium));
-            toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.grey_100));
+            toolbar_title.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.poppins_medium));
+            toolbar.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.grey_100));
             androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
-            params.gravity = Gravity.LEFT;
+            params.gravity = Gravity.START;
             toolbar_title.setLayoutParams(params);
             btnQuote.setOnClickListener(view12 -> {
                 Intent creating_task = new Intent(getActivity(), CategoryListActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("category", "");
                 creating_task.putExtras(bundle);
-                getContext().startActivity(creating_task);
+                requireContext().startActivity(creating_task);
             });
             toolbar.post(() -> {
                 Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);

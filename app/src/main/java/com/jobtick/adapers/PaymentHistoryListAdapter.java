@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.interfaces.PaymentOnClick;
 import com.jobtick.models.payments.PaymentHistory;
 import com.jobtick.utils.ImageUtil;
@@ -24,8 +26,8 @@ import butterknife.ButterKnife;
 public class PaymentHistoryListAdapter extends RecyclerView.Adapter<PaymentHistoryListAdapter.ViewHolder> {
 
     private List<PaymentHistory> items = new ArrayList<>();
-    private boolean isPoster;
-    private PaymentOnClick onclick;
+    private final boolean isPoster;
+    private final PaymentOnClick onclick;
 
     public PaymentHistoryListAdapter(List<PaymentHistory> items, boolean isPoster, PaymentOnClick onclick) {
         this.items = items;
@@ -34,16 +36,22 @@ public class PaymentHistoryListAdapter extends RecyclerView.Adapter<PaymentHisto
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.ivAvatar)
         CircularImageView ivAvatar;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.dateTxt)
         TextView dateTxt;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.descriptionTxt)
         TextView descriptionTxt;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.nameTxt)
         TextView nameTxt;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.priceTxt)
         TextView priceTxt;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.debitedTxt)
         TextView debitedTxt;
 

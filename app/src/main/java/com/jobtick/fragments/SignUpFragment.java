@@ -13,7 +13,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import android.annotation.SuppressLint;
+
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.activities.AuthActivity;
 import com.jobtick.utils.Helper;
 import com.jobtick.widget.ExtendedEntryText;
@@ -25,25 +27,33 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SignUpFragment extends FragmentBase implements AuthActivity.EditTextError {
+public class SignUpFragment extends Fragment implements AuthActivity.EditTextError {
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.email)
     ExtendedEntryText edtEmailAddress;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.password)
     ExtendedEntryText edtPassword;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.confirm_password)
     ExtendedEntryText edtRepeatPassword;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_sign_up)
     MaterialButton lytBtnSignUp;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_google)
     LinearLayout lytBtnGoogle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_facebook)
     LinearLayout lytBtnFacebook;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_btn_sign_in)
     TextViewRegular txtBtnSignIn;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_btn_terms)
     TextViewRegular txtBtnTerms;
 
@@ -70,17 +80,17 @@ public class SignUpFragment extends FragmentBase implements AuthActivity.EditTex
     }
 
     private boolean validation() {
-        if (TextUtils.isEmpty(edtEmailAddress.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtEmailAddress.getText().trim())) {
             edtEmailAddress.setError("Check your email address");
             return false;
         }
-        else if (TextUtils.isEmpty(edtPassword.getText().toString().trim())) {
+        else if (TextUtils.isEmpty(edtPassword.getText().trim())) {
             edtPassword.setError("Enter your password");
             return false;
-        }else if(edtPassword.getText().toString().trim().length() < 8){
+        }else if(edtPassword.getText().trim().length() < 8){
             edtPassword.setError("Password must be atleast 8 characters.");
             return false;
-        } else if (!edtPassword.getText().toString().trim().equals(edtRepeatPassword.getText().toString().trim())) {
+        } else if (!edtPassword.getText().trim().equals(edtRepeatPassword.getText().trim())) {
             edtRepeatPassword.setError("password doesn't match");
             return false;
         }
@@ -93,7 +103,7 @@ public class SignUpFragment extends FragmentBase implements AuthActivity.EditTex
         switch (view.getId()) {
             case R.id.lyt_btn_sign_up:
                 if (validation()) {
-                    authActivity.Signup(edtEmailAddress.getText().toString().trim(), edtPassword.getText().toString().trim());
+                    authActivity.Signup(edtEmailAddress.getText().trim(), edtPassword.getText().trim());
                 }
                 break;
             case R.id.lyt_btn_google:

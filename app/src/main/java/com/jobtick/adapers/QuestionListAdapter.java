@@ -1,10 +1,7 @@
 package com.jobtick.adapers;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,21 +15,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.activities.ProfileActivity;
-import com.jobtick.activities.TaskDetailsActivity;
-import com.jobtick.activities.UserProfileActivity;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewRegular;
+import android.annotation.SuppressLint;
+
+import timber.log.Timber;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.CommentModel;
 import com.jobtick.models.OfferModel;
 import com.jobtick.models.QuestionModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ImageUtil;
+import com.stripe.param.checkout.SessionCreateParams;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +39,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int VIEW_TYPE_LOADING = 0;
     private static final int VIEW_TYPE_NORMAL = 1;
 
-    private Context context;
+    private final Context context;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
@@ -55,7 +53,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
 
     private boolean isLoaderVisible = false;
-    private List<QuestionModel> mItems;
+    private final List<QuestionModel> mItems;
 
     public QuestionListAdapter(Context context, List<QuestionModel> mItems) {
         this.mItems = mItems;
@@ -143,28 +141,39 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_created_date)
         TextView txtCreatedDate;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_message)
         TextView txtMessage;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.recycler_view_question)
         RecyclerView recyclerViewQuestion;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_file)
         ImageView imgFile;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.card_img_file)
         CardView cardImgFile;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lyt_btn_reply)
         LinearLayout lytBtnReply;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_more_less)
         TextView txtMoreLess;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lyt_btn_more)
         LinearLayout lytBtnMore;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_more_reply_question)
         TextView txtMoreReplyQuestion;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.recycler_view_questions_chat)
         RecyclerView recyclerViewQuestionsChat;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.ivReport)
         ImageView ivReport;
 
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.linear_user_profile)
         LinearLayout linearUserProfile;
 
@@ -192,9 +201,9 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (item.getCommentsCount() > 3) {
                 int remaining_number = item.getCommentsCount() - 3;
                 if (remaining_number == 1) {
-                    txtMoreReplyQuestion.setText("1 more reply");
+                    txtMoreReplyQuestion.setText(R.string.one_more_reply);
                 } else {
-                    txtMoreReplyQuestion.setText(remaining_number + " more replies");
+                    txtMoreReplyQuestion.setText(String.format(Locale.ENGLISH, "%d %d", remaining_number, R.string.more_replies));
                 }
                 txtMoreReplyQuestion.setVisibility(View.VISIBLE);
             } else {
@@ -223,7 +232,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 @Override
                 public void run() {
                     int lineCount = txtMessage.getLineCount();
-                    Log.e("COUNT", String.valueOf(lineCount));
+                    Timber.tag("COUNT").e(String.valueOf(lineCount));
                     if (lineCount > Constant.MAX_LINE_TEXTVIEW_MORE_2) {
                         // view.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE);
                         lytBtnMore.setVisibility(View.VISIBLE);
@@ -266,13 +275,13 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 if (item.getStrMore().equalsIgnoreCase("More")) {
                     txtMessage.setMaxLines(Integer.MAX_VALUE);
                     lytBtnMore.setVisibility(View.VISIBLE);
-                    txtMoreLess.setText("Less");
+                    txtMoreLess.setText(R.string.less);
                     mItems.get(getAdapterPosition()).setStrMore("Less");
                     item.setStrMore("Less");
                 } else {
                     txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_2);
                     lytBtnMore.setVisibility(View.VISIBLE);
-                    txtMoreLess.setText("More");
+                    txtMoreLess.setText(R.string.more);
                     mItems.get(getAdapterPosition()).setStrMore("More");
                     item.setStrMore("More");
                 }

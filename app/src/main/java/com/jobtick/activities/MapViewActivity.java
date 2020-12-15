@@ -2,7 +2,6 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,7 +18,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -30,7 +28,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import android.annotation.SuppressLint;
+import timber.log.Timber;
 import com.jobtick.adapers.FilterAdapter;
 import com.jobtick.adapers.TaskListAdapter;
 import com.jobtick.models.FilterModel;
@@ -59,19 +58,26 @@ import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
 public class MapViewActivity extends ActivityBase implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, TaskListAdapter.OnItemClickListener {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.map_view)
     MapView mapView;
     ArrayList<TaskModel> taskListArrayList;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view_task)
     RecyclerView recyclerViewTask;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_filters)
     TextView txtFilters;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_filters)
     LinearLayout lytBtnFilters;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view_filters)
     RecyclerView recyclerViewFilters;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.location_button)
     View locationButton;
     private GoogleMap googleMap;
@@ -131,7 +137,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerViewTask.setLayoutManager(layoutManager);
-        taskListAdapter = new TaskListAdapter( new ArrayList<>());
+        taskListAdapter = new TaskListAdapter( new ArrayList<>(), null);
         recyclerViewTask.setAdapter(taskListAdapter);
         taskListAdapter.setOnItemClickListener(this);
 
@@ -294,11 +300,11 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         Helper.closeKeyboard(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS + "?page=" + currentPage + queryParameter,
                 response -> {
-                    Log.e("responce_url", response);
+                    Timber.e(response);
                     // categoryArrayList.clear();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
-                        Log.e("json", jsonObject.toString());
+                        Timber.e(jsonObject.toString());
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                             JSONArray jsonArray_data = jsonObject.getJSONArray("data");
                             for (int i = 0; jsonArray_data.length() > i; i++) {
@@ -346,7 +352,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
 
                     } catch (JSONException e) {
                         hideProgressDialog();
-                        Log.e("EXCEPTION", String.valueOf(e));
+                        Timber.e(String.valueOf(e));
                         e.printStackTrace();
                     }
                 },
@@ -364,7 +370,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-        Log.e("url", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
 

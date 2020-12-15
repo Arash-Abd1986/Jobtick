@@ -3,6 +3,8 @@ package com.jobtick.activities;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.potyvideo.library.AndExoPlayerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -12,6 +14,7 @@ import static com.jobtick.utils.ConstantKey.VIDEO_PATH;
 
 public class VideoPlayerActivity extends ActivityBase {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.andExoPlayerView)
     AndExoPlayerView andExoPlayerView;
     String videoPath;

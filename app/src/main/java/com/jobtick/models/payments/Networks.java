@@ -1,8 +1,6 @@
 package com.jobtick.models.payments;
 
-import android.util.Log;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONArray;
@@ -10,6 +8,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.annotations.Expose;
+
+import timber.log.Timber;
 
 public class Networks {
     String TAG = Networks.class.getName();
@@ -67,7 +69,7 @@ public class Networks {
             if (jsonObject.has("preferred") && !jsonObject.isNull("preferred"))
                 networks.setPreferred(jsonObject.getString("preferred"));
         } catch (Exception e) {
-            Log.e(TAG,e.toString());
+            Timber.e(e.toString());
             e.printStackTrace();
         }
         return networks;

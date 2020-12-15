@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -83,7 +82,7 @@
                     android:layout_marginEnd="@dimen/_16sp"
                     tools:ignore="RelativeOverlap">
 
-                    <com.jobtick.TextView.TextViewMedium
+                    <com.jobtick.text_view.TextViewMedium
                         android:id="@+id/txt_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -93,7 +92,7 @@
                         android:textColor="@color/red_600"
                         android:textSize="@dimen/_14sp" />
 
-                    <com.jobtick.TextView.TextViewRegular
+                    <com.jobtick.text_view.TextViewRegular
                         android:id="@+id/txt_total_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

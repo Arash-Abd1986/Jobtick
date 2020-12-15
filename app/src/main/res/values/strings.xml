@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Jobtick</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -20,7 +20,7 @@
     <string name="task_location">Task Location</string>
     <string name="due_date">Due Date</string>
     <string name="you_are_not_authorize">You are not authorize.</string>
-    <string name="clientId"> 582071119574-lfgbfr35iaug3sgb418uiplbr86rp5ls.apps.googleusercontent.com </string>
+    <string name="clientId">582071119574-lfgbfr35iaug3sgb418uiplbr86rp5ls.apps.googleusercontent.com</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -152,7 +152,6 @@
 
     <string name="outgoing">Outgoing</string>
     <string name="earned">Earned</string>
-    <string name="Pusher_channel_name">presence-userStatus</string>
     <string name="reason_poster_1">I no longer need the job to be done</string>
     <string name="reason_poster_2">I accidently accepted the offer</string>
     <string name="reason_poster_3">User isn’t responding to my messages</string>
@@ -415,7 +414,7 @@
     <string name="apply">Apply</string>
     <string name="information_levels">Levels Information</string>
     <string name="level_one">Level One</string>
-    <string name="_10_service_fee">10% service fee</string>
+    <string name="_10_service_fee" tools:ignore="StringFormatInvalid">10% service fee</string>
     <string name="less_than_1000_in_the_last_30_days">Less than $1000 in the last 30 days</string>
     <string name="level_two">Level Two</string>
     <string name="level_three">Level Three</string>
@@ -423,9 +422,9 @@
     <string name="_2000_in_the_last_30_days">$2000 + in the last 30 days</string>
     <string name="_3000_in_the_last_30_days">$3000 + in the last 30 days</string>
     <string name="_4000_in_the_last_30_days">$4000 + in the last 30 days</string>
-    <string name="_7_service_fee">7% service fee</string>
-    <string name="_8_service_fee">8% service fee</string>
-    <string name="_9_service_fee">9% service fee</string>
+    <string name="_7_service_fee" tools:ignore="StringFormatInvalid">7% service fee</string>
+    <string name="_8_service_fee" tools:ignore="StringFormatInvalid">8% service fee</string>
+    <string name="_9_service_fee" tools:ignore="StringFormatInvalid">9% service fee</string>
     <string name="no_review">No Review</string>
     <string name="previous_time">Previous time</string>
     <string name="reason">Reason</string>
@@ -456,5 +455,23 @@
     <string name="job_details">Job details</string>
     <string name="wallet">Wallet</string>
     <string name="search_inbox">Search inbox</string>
+    <string name="level_1">Level 1</string>
+    <string name="level_2">Level 2</string>
+    <string name="level_3">Level 3</string>
+    <string name="level_0">Level 0</string>
+    <string name="awful">Awful!</string>
+    <string name="bad">Bad!</string>
+    <string name="ok">OK!</string>
+    <string name="good">Good!</string>
+    <string name="excellent">Excellent!</string>
+    <string name="update_quick_offer">Update Quick Offer</string>
+    <string name="save_as_a_Quick_offer">Save as a Quick Offer</string>
+    <string name="dollar_00">$00</string>
+    <string name="my_jobs">My jobs</string>
+    <string name="one_more_reply">1 more reply</string>
+    <string name="less">Less</string>
+    <string name="remote_task">Remote Task</string>
+    <string name="pusher_api_key">9f55adebc6d793e64f07</string>
+    <string name="offer_summary">Offer summary</string>
 
 </resources>

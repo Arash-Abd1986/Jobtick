@@ -1,6 +1,5 @@
 package com.jobtick.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -26,7 +25,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
+import android.annotation.SuppressLint;
+
+import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.adapers.SectionsPagerAdapter;
 import com.jobtick.fragments.TaskBudgetFragment;
 import com.jobtick.fragments.TaskDateTimeFragment;
@@ -547,7 +548,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                 if (draft) {
                     map1.put("draft", "1");
                 }
-                System.out.println((String.valueOf(map1.size())));
+                System.out.println((map1.size()));
                 System.out.println((map1.toString()));
 
                 return map1;

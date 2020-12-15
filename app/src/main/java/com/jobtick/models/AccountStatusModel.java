@@ -2,7 +2,6 @@ package com.jobtick.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -10,10 +9,12 @@ import com.google.gson.annotations.SerializedName;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import timber.log.Timber;
+
 public class AccountStatusModel implements Parcelable {
     String TAG = TierModel.class.getName();
 
-    @SerializedName("basic_info")
+    @SerializedName("basic_info_completed")
     @Expose
     private boolean basic_info;
 
@@ -132,8 +133,8 @@ public class AccountStatusModel implements Parcelable {
     public AccountStatusModel getJsonToModel(JSONObject jsonObject){
         AccountStatusModel statusModel = new AccountStatusModel();
         try{
-            if(jsonObject.has("basic_info") && !jsonObject.isNull("basic_info"))
-                statusModel.setBasic_info(jsonObject.getBoolean("basic_info"));
+            if(jsonObject.has("basic_info_completed") && !jsonObject.isNull("basic_info_completed"))
+                statusModel.setBasic_info(jsonObject.getBoolean("basic_info_completed"));
 
             if(jsonObject.has("bank_account") && !jsonObject.isNull("bank_account"))
                 statusModel.setBank_account(jsonObject.getBoolean("bank_account"));
@@ -152,7 +153,7 @@ public class AccountStatusModel implements Parcelable {
 
 
         }catch (JSONException e){
-            Log.e(TAG,e.toString());
+            Timber.tag(TAG).e(e.toString());
             e.printStackTrace();
         }
         return statusModel;

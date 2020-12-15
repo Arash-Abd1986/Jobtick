@@ -1,10 +1,5 @@
 package com.jobtick.utils;
 
-import android.os.Bundle;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-
 public class ConstantKey {
     // public static final String PUBLISHABLE_KEY = "pk_test_51DMC17EdCPjjZ7tOKFdshvLgwrNkjWFc4Q3tJT4QONjr8yy9BQt4xhoE5nxIOF1PUJm8W3MjU8kn9yNCsUCYbTa400kXtgexZK";
     public static final String PUBLISHABLE_KEY = "pk_test_51DMC17EdCPjjZ7tOKFdshvLgwrNkjWFc4Q3tJT4QONjr8yy9BQt4xhoE5nxIOF1PUJm8W3MjU8kn9yNCsUCYbTa400kXtgexZK";
@@ -124,6 +119,7 @@ public class ConstantKey {
     public static final int RESULTCODE_ATTACHMENT = 12;
     public static final int RESULTCODE_UPDATE_TASK = 13;
     public static final int RESULTCODE_CREATE_TASK=14;
+    public static final int RESULTCODE_NOTIFICATION_READ = 101;
 
     public static final String offerId = "offerid";
     public static final String questionId = "questionId";

@@ -1,6 +1,5 @@
 package com.jobtick.adapers;
 
-import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
+import android.annotation.SuppressLint;
+
+import com.jobtick.text_view.TextViewBold;
 import com.jobtick.models.BadgesModel;
 import com.jobtick.utils.ImageUtil;
 

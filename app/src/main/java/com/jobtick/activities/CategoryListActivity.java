@@ -1,7 +1,6 @@
 package com.jobtick.activities;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +17,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.adapers.TaskCategoryAdapter;
 import com.jobtick.models.TaskCategory;
 import com.jobtick.models.TaskModel;
@@ -41,12 +42,15 @@ import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
 public class CategoryListActivity extends ActivityBase implements TaskCategoryAdapter.OnItemClickListener {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recyclerView_categories)
     RecyclerView recyclerViewCategories;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.iv_backbutton)
     ImageView ivBackButton;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_search_category)
     CardView lytSearchCategories;
 

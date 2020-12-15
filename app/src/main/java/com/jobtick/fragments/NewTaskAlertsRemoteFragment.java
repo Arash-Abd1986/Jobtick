@@ -5,16 +5,15 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.NewTaskAlertsActivity;
 import com.jobtick.models.task.TaskAlert;
 import com.jobtick.utils.SessionManager;
@@ -29,8 +28,10 @@ import butterknife.OnClick;
  */
 public class NewTaskAlertsRemoteFragment extends Fragment {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_keyword)
     ExtendedEntryText edtKeyword;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_update_alert)
     MaterialButton btnUpdate;
     NewTaskAlertsActivity newTaskAlertsActivity;
@@ -77,7 +78,7 @@ public class NewTaskAlertsRemoteFragment extends Fragment {
         }
         if (taskAlert.isValid()) {
             edtKeyword.setText(taskAlert.getKetword());
-            btnUpdate.setText("Update alert");
+            btnUpdate.setText(R.string.update_alert);
         } else {
             //  txtSaveUpdateAlert.setText("save alert");
         }
@@ -89,7 +90,7 @@ public class NewTaskAlertsRemoteFragment extends Fragment {
         switch (getValidationCode()) {
             case 0:
                 taskAlert.setAlert_type("remote");
-                taskAlert.setKetword(edtKeyword.getText().toString().trim());
+                taskAlert.setKetword(edtKeyword.getText().trim());
                 operationRemoteListener.onRemoteSave(position, taskAlert);
                 break;
             case 1:
@@ -99,7 +100,7 @@ public class NewTaskAlertsRemoteFragment extends Fragment {
     }
 
     private int getValidationCode() {
-        if (TextUtils.isEmpty(edtKeyword.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtKeyword.getText().trim())) {
             return 1;
         }
         return 0;

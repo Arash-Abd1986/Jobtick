@@ -2,10 +2,8 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
@@ -23,6 +21,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.adapers.TaskListAdapter;
 import com.jobtick.interfaces.OnRemoveSavedTaskListener;
 import com.jobtick.models.TaskModel;
@@ -40,6 +40,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
@@ -54,14 +55,17 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
 
     private SessionManager sessionManager;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recyclerview_savedTask)
     RecyclerView recyclerViewStatus;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
 
     private LinearLayout noPosts;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
@@ -79,7 +83,7 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
         sessionManager = new SessionManager(SavedTaskActivity.this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(SavedTaskActivity.this);
         recyclerViewStatus.setLayoutManager(layoutManager);
-        taskListAdapter = new TaskListAdapter(new ArrayList<>());
+        taskListAdapter = new TaskListAdapter(new ArrayList<>(), null);
         recyclerViewStatus.setAdapter(taskListAdapter);
         taskListAdapter.setOnItemClickListener(this);
         swipeRefresh.setOnRefreshListener(this);
@@ -116,11 +120,11 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
                 response -> {
                     swipeRefresh.setRefreshing(false);
 
-                    Log.e("responce_url", response);
+                    Timber.e(response);
                     // categoryArrayList.clear();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
-                        Log.e("json", jsonObject.toString());
+                        Timber.e(jsonObject.toString());
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                             JSONArray jsonArray_data = jsonObject.getJSONArray("data");
                             for (int i = 0; jsonArray_data.length() > i; i++) {
@@ -165,7 +169,7 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
                         isLoading = false;
                     } catch (JSONException e) {
                         hideProgressDialog();
-                        Log.e("EXCEPTION", String.valueOf(e));
+                        Timber.e(String.valueOf(e));
                         e.printStackTrace();
                     }
                 },
@@ -191,7 +195,7 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(SavedTaskActivity.this);
         requestQueue.add(stringRequest);
-        Log.e("url", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
 
     }
 

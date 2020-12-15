@@ -1,6 +1,5 @@
 package com.jobtick.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +10,7 @@ import android.widget.LinearLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,6 +19,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.adapers.NotificationListAdapter;
 import com.jobtick.models.notification.NotifDatum;
 import com.jobtick.models.notification.PushNotificationModel2;
@@ -38,8 +40,6 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
-import static com.jobtick.utils.ConstantKey.PUSH_COMMENT;
-import static com.jobtick.utils.ConstantKey.PUSH_TASK;
 
 public class NotificationActivity extends ActivityBase implements NotificationListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
@@ -155,6 +155,7 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
                             String jsonString = jsonObject.toString(); //http request
                             Gson gson = new Gson();
                             pushNotificationModel2 = gson.fromJson(jsonString, PushNotificationModel2.class);
+                            makeNotificationsAsRead();
                         } else {
                             showToast("something went wrong.", this);
                             checkList();
@@ -212,6 +213,34 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
     }
 
 
+    private void makeNotificationsAsRead() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_NOTIFICATION_MARK_ALL_READ,
+                response -> {
+                    Timber.i("make all notifications as read success.");
+                },
+                error -> {
+                    Timber.i("make all notifications as read NOT success.");
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+        Timber.e(stringRequest.getUrl());
+    }
+
+
+
     @Override
     public void onRefresh() {
         swipeRefresh.setRefreshing(true);
@@ -221,7 +250,7 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
         getNotificationList();
     }
 
-    private void checkList(){
+    private void checkList() {
         if (notificationListAdapter.getItemCount() <= 0) {
             noNotifications.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
@@ -237,35 +266,9 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
         if (obj.getData() != null && obj.getData().getTrigger() != null) {
             Intent intent = new Intent(NotificationActivity.this, TaskDetailsActivity.class);
             Bundle bundleIntent = new Bundle();
-            if (obj.getData().getTrigger().equals(PUSH_TASK)) {
-                bundleIntent.putString(ConstantKey.SLUG, obj.getData().getTaskSlug());
-                intent.putExtras(bundleIntent);
-                startActivity(intent);
-            }
-            if (obj.getData().getTrigger().equals(PUSH_COMMENT)) {
-
-                if (obj.getData().getOffer().getId() != 0) {
-                    bundleIntent.putString(ConstantKey.SLUG, obj.getData().getTaskSlug());
-                    bundleIntent.putInt(ConstantKey.PUSH_OFFER_ID, obj.getData().getOffer().getId());
-                    intent.putExtras(bundleIntent);
-                    startActivity(intent);
-                }
-//                if (obj.getQuestion_id() != 0) {
-//                    bundleIntent.putString(ConstantKey.SLUG, obj.getModel_slug());
-//                    bundleIntent.putInt(ConstantKey.PUSH_QUESTION_ID, obj.getQuestion_id());
-//                    intent.putExtras(bundleIntent);
-//                    startActivity(intent);
-//                }
-            }
-//            if (obj.getTrigger().equals(PUSH_CONVERSATION)) {
-//
-//               /* Bundle bundle1 = new Bundle();
-//                bundle1.putInt(PUSH_CONVERSATION_ID, obj.getConversation_id());
-//                NavGraph graph = navController.getGraph();
-//                graph.setStartDestination(R.id.navigation_inbox);
-//                navController.setGraph(graph, bundle1);
-//*/
-//            }
+            bundleIntent.putString(ConstantKey.SLUG, obj.getData().getTaskSlug());
+            intent.putExtras(bundleIntent);
+            startActivity(intent);
 
         }
     }

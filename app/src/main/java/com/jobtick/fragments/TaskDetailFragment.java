@@ -1,7 +1,6 @@
 package com.jobtick.fragments;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -35,7 +34,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -47,7 +45,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.BuildConfig;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
+import android.annotation.SuppressLint;
+
+import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.adapers.AddTagAdapter;
 import com.jobtick.adapers.AttachmentAdapter1;
@@ -575,11 +575,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             tagAdapterBottomSheet.updateItem(addTagList);
             tagAdapter.updateItem(addTagList);
 
-            if (addTagList.size() < 3) {
-                btnAdd.setEnabled(true);
-            } else {
-                btnAdd.setEnabled(false);
-            }
+            btnAdd.setEnabled(addTagList.size() < 3);
         });
 
         recyclerAddMustHaveBottomSheet.setAdapter(tagAdapterBottomSheet);
@@ -592,11 +588,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                     }
 
                     if (addTagList.size() < 3) {
-                        if (addTagList.size() == 2) {
-                            btnAdd.setEnabled(false);
-                        } else {
-                            btnAdd.setEnabled(true);
-                        }
+                        btnAdd.setEnabled(addTagList.size() != 2);
 
                         txtCount.setText(addTagList.size() + 1 + "");
                         addTagList.add(edtAddTag.getText().toString().trim());

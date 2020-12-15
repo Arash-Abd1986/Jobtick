@@ -1,7 +1,6 @@
 package com.jobtick.adapers;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.utils.ImageUtil;
 
@@ -25,7 +26,7 @@ public class AttachmentAdapterEditProfile extends RecyclerView.Adapter<RecyclerV
     public static final int VIEW_TYPE_ADD = 0;
     public static final int VIEW_TYPE_IMAGE = 1;
 
-    private Context context;
+    private final Context context;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
@@ -37,8 +38,8 @@ public class AttachmentAdapterEditProfile extends RecyclerView.Adapter<RecyclerV
     }
 
     private boolean isLoaderVisible = true;
-    private Boolean delete_action;
-    private List<AttachmentModel> items;
+    private final Boolean delete_action;
+    private final List<AttachmentModel> items;
 
     public AttachmentAdapterEditProfile(Context context, List<AttachmentModel> items, Boolean delete_action) {
         this.items = items;
@@ -111,8 +112,10 @@ public class AttachmentAdapterEditProfile extends RecyclerView.Adapter<RecyclerV
     }
 
     public class IMAGEViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_view)
         ImageView imgView;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_btn_delete)
         ImageView imgBtnDelete;
 
@@ -151,6 +154,7 @@ public class AttachmentAdapterEditProfile extends RecyclerView.Adapter<RecyclerV
     }
 
     public class ADDViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.rlt_add_attachment)
         RelativeLayout rltAddAttachment;
 

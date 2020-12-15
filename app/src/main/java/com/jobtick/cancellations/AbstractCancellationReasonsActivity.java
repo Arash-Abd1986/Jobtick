@@ -2,7 +2,6 @@ package com.jobtick.cancellations;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,6 +14,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.TaskModel;
@@ -39,11 +40,13 @@ import timber.log.Timber;
 
 public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
 
-    private String TAG = AbstractCancellationReasonsActivity.class.getName();
+    private final String TAG = AbstractCancellationReasonsActivity.class.getName();
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.comment_box)
     ExtendedCommentText commentText;
 
@@ -178,7 +181,7 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(AbstractCancellationReasonsActivity.this);
         requestQueue.add(stringRequest);
-        Log.e(TAG, stringRequest.getUrl());
+        Timber.tag(TAG).e(stringRequest.getUrl());
 
     }
 

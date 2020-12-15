@@ -22,10 +22,10 @@ public class ChatList1Adapter extends RecyclerView.Adapter<ChatList1Adapter.View
     private final int MSG_TYPE_RIGHT = 0;
     private final int MSG_TYPE_LEFT = 1;
 
-    private Context mContext;
-    private ArrayList<ChatModel> mItems;
-    private String username;
-    private Integer sender_id;
+    private final Context mContext;
+    private final ArrayList<ChatModel> mItems;
+    private final String username;
+    private final Integer sender_id;
 
     public ChatList1Adapter(Context mContext, ArrayList<ChatModel> mItems, String username, Integer sender_id) {
         this.mContext = mContext;

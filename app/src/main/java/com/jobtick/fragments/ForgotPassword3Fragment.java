@@ -1,26 +1,20 @@
 package com.jobtick.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.text.InputType;
 import android.text.TextUtils;
-import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.gms.auth.api.proxy.AuthApiStatusCodes;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.AuthActivity;
 import com.jobtick.utils.TimeHelper;
@@ -29,26 +23,32 @@ import com.jobtick.widget.ExtendedEntryText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ForgotPassword3Fragment extends FragmentBase {
+public class ForgotPassword3Fragment extends Fragment {
     String email,otp;
     CountDownTimer timer;
     private final String zeroTime = "0:00";
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.time_limit)
     TextView timeLimit;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.password)
     ExtendedEntryText edtNewPassword;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.confirm_password)
     ExtendedEntryText edtRepeatNewPassword;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_verify)
     MaterialButton lytBtnUpdate;
 
     AuthActivity authActivity;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
@@ -95,9 +95,9 @@ public class ForgotPassword3Fragment extends FragmentBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_btn_verify:
-                Log.i("forgotPass3", "email: " + email + " atp: " + otp);
+                Timber.tag("forgotPass3").i("email: " + email + " atp: " + otp);
                 if(verification())
-                    authActivity.resetPassword(email,otp,edtNewPassword.getText().toString().trim());
+                    authActivity.resetPassword(email,otp, edtNewPassword.getText().trim());
                 break;
         }
     }
@@ -107,10 +107,10 @@ public class ForgotPassword3Fragment extends FragmentBase {
             ((ActivityBase)requireActivity()).showToast("Time limit is ended. Please try again.", requireContext());
             authActivity.unauthorizedUser();
         }
-        else if(TextUtils.isEmpty(edtNewPassword.getText().toString().trim())){
+        else if(TextUtils.isEmpty(edtNewPassword.getText().trim())){
             edtNewPassword.setError("Please enter the password");
             return false;
-        }else if(!edtNewPassword.getText().toString().trim().equals(edtRepeatNewPassword.getText().toString().trim())) {
+        }else if(!edtNewPassword.getText().trim().equals(edtRepeatNewPassword.getText().trim())) {
             edtRepeatNewPassword.setError("doesn't match your password");
             return false;
         }

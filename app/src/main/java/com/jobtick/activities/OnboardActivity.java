@@ -17,8 +17,10 @@ import androidx.viewpager.widget.ViewPager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
-import com.jobtick.TextView.TextViewRegular;
+import android.annotation.SuppressLint;
+
+import com.jobtick.text_view.TextViewMedium;
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.models.AttachmentModel;
 
 import java.util.ArrayList;
@@ -34,17 +36,21 @@ public class OnboardActivity extends ActivityBase {
     ArrayList<Integer> lottieAnimList;
     ArrayList<Integer> descriptionList;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.pager)
     ViewPager viewPager;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.layout_dots)
     LinearLayout layoutDots;
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_next)
     MaterialButton lytBtnNext;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_skip)
     TextViewMedium txtSkip;
 
@@ -145,9 +151,9 @@ public class OnboardActivity extends ActivityBase {
     }
 
     private static class AdapterImageSlider extends PagerAdapter {
-        private Activity act;
-        private ArrayList<Integer> animItems;
-        private ArrayList<Integer> descItems;
+        private final Activity act;
+        private final ArrayList<Integer> animItems;
+        private final ArrayList<Integer> descItems;
         private AdapterImageSlider.OnItemClickListener onItemClickListener;
 
         private interface OnItemClickListener {

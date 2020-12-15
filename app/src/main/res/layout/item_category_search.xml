@@ -17,7 +17,8 @@
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
         android:src="@drawable/ic_clock_24dp"
-        app:tint="@color/grey_70"/>
+        app:tint="@color/grey_70"
+         />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/category_text"
@@ -38,7 +39,8 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_arrow_up_left"
-        android:layout_marginEnd="24dp">
+        android:layout_marginEnd="24dp"
+        >
 
     </ImageView>
 </RelativeLayout>

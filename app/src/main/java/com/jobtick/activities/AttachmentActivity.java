@@ -15,7 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -42,6 +41,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.BuildConfig;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.retrofit.ApiClient;
@@ -80,8 +81,10 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 public class AttachmentActivity extends ActivityBase implements AttachmentAdapter.OnItemClickListener {
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     ArrayList<AttachmentModel> attachmentArrayList;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bottom_sheet)
     FrameLayout bottomSheet;
     public static final String VIDEO_FORMAT = ".mp4";
@@ -96,6 +99,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
     public static final String AD_THUMB = "thumb_name";
     public static final String TIME_STAMP_FORMAT = "yyyyMMdd_HHmmss";
     public static final int MEDIA_TYPE_VIDEO = 2;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     private BottomSheetBehavior mBehavior;
@@ -326,7 +330,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
 
         String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
 
-        Log.e("path", path);
+        Timber.e(path);
         cursor.close();
 
         return path;
@@ -347,7 +351,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
                 } else {
                     uploadDataInTaskMediaApi(file);
                 }
-                Log.e("imagePath++1", imagePath);
+                Timber.e(imagePath);
 
             } else if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
@@ -367,7 +371,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
             } else if (requestCode == PICK_VIDEO && resultCode == RESULT_OK) {
 
                 strVideoPath = getImagePath(data.getData());
-                Log.e("path", strVideoPath);
+                Timber.e(strVideoPath);
                 MediaPlayer mpl = MediaPlayer.create(AttachmentActivity.this, Uri.parse(strVideoPath));
                 int si = mpl.getDuration();
                 long duration = TimeUnit.MILLISECONDS.toSeconds(si);
@@ -380,10 +384,10 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
                     showToast("Maximum video size exceeds(20 MB)", AttachmentActivity.this);
                     strVideoPath = null;
                 } else {
-                    Log.e("Duration: ", String.valueOf(duration) + "");
-                    Log.e("Size: ", String.valueOf(file_size) + "");
+                    Timber.e(duration + "");
+                    Timber.e(file_size + "");
                     // uploadUrl = strVideoPath;
-                    Log.e("VIDEO", "video");
+                    Timber.e("video");
                     if (title.equalsIgnoreCase(ConstantKey.CREATE_A_JOB)) {
                         uploadDataInTempApi(file);
                     } else {
@@ -407,9 +411,9 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
                     showToast("Maximum video size exceeds(20 MB)", AttachmentActivity.this);
                     strVideoPath = null;
                 } else {
-                    Log.e("Duration: ", String.valueOf(duration) + "");
-                    Log.e("Size: ", String.valueOf(file_size) + "");
-                    Log.e("VIDEO", "video");
+                    Timber.e(duration + "");
+                    Timber.e(file_size + "");
+                    Timber.e("video");
                     if (title.equalsIgnoreCase(ConstantKey.CREATE_A_JOB)) {
                         uploadDataInTempApi(file);
                     } else {
@@ -440,7 +444,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
             }
 
         } catch (Exception e) {
-            Log.e("exception", e.toString());
+            Timber.e(e.toString());
         }
 
     }
@@ -506,7 +510,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
         }
 
 
-        Log.e("MEDIAFILE", String.valueOf(mediaFile));
+        Timber.e(String.valueOf(mediaFile));
 
         return mediaFile;
     }
@@ -572,7 +576,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 hideProgressDialog();
-                Log.e("Response", response.toString());
+                Timber.e(response.toString());
                 if (response.code() == 422) {
                     showToast(response.message(), AttachmentActivity.this);
                     return;
@@ -580,9 +584,9 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
 
                 try {
                     String strResponse = response.body();
-                    Log.e("body", strResponse);
+                    Timber.e(strResponse);
                     JSONObject jsonObject = new JSONObject(strResponse);
-                    Log.e("json", jsonObject.toString());
+                    Timber.e(jsonObject.toString());
                     if (jsonObject.has("data")) {
                         JSONObject jsonObject_data = jsonObject.getJSONObject("data");
                         AttachmentModel attachment = new AttachmentModel().getJsonToModel(jsonObject_data);
@@ -604,7 +608,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 hideProgressDialog();
-                Log.e("Response", call.toString());
+                Timber.e(call.toString());
             }
         });
 
@@ -627,7 +631,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 hideProgressDialog();
-                Log.e("Response", response.toString());
+                Timber.e(response.toString());
                 if (response.code() == 422) {
                     showToast(response.message(), AttachmentActivity.this);
                     return;
@@ -644,9 +648,9 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
                         return;
                     }
                     if (response.code() == HttpStatus.SUCCESS) {
-                        Log.e("body", strResponse);
+                        Timber.e(strResponse);
                         JSONObject jsonObject = new JSONObject(strResponse);
-                        Log.e("json", jsonObject.toString());
+                        Timber.e(jsonObject.toString());
                         if (jsonObject.has("data")) {
                             AttachmentModel attachment = new AttachmentModel();
                             JSONObject jsonObject_data = jsonObject.getJSONObject("data");
@@ -690,7 +694,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 hideProgressDialog();
-                Log.e("Response", call.toString());
+                Timber.e(call.toString());
             }
         });
 
@@ -804,6 +808,6 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(AttachmentActivity.this);
         requestQueue.add(stringRequest);
-        Log.e("AttachmentActivity", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 }

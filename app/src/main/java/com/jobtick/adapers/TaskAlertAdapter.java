@@ -11,12 +11,13 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
-import com.jobtick.TextView.TextViewRegular;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.task.TaskAlert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +28,7 @@ public class TaskAlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private List<TaskAlert> items = new ArrayList<>();
     private OnLoadMoreListener onLoadMoreListener;
 
-    private Context ctx;
+    private final Context ctx;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
@@ -45,12 +46,16 @@ public class TaskAlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_minus)
         ImageView imgMinus;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_keyword)
         TextView txtKeyword;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_type_detail)
         TextView txtTypeDetail;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.item_keyword)
         RelativeLayout itemKeyword;
 
@@ -78,9 +83,9 @@ public class TaskAlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             view.txtKeyword.setText(taskAlert.getKetword());
 
             if (taskAlert.getAlert_type().equalsIgnoreCase("remote")) {
-                view.txtTypeDetail.setText("Remote Task");
+                view.txtTypeDetail.setText(R.string.remote_task);
             } else {
-                view.txtTypeDetail.setText(taskAlert.getSuburb() + ", " + taskAlert.getDistance() + " KM Radius");
+                view.txtTypeDetail.setText(String.format(Locale.ENGLISH, "%s, %d KM Radius", taskAlert.getSuburb(), taskAlert.getDistance()));
             }
 
             view.imgMinus.setOnClickListener(v -> {

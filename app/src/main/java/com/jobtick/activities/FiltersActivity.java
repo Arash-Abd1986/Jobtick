@@ -2,9 +2,7 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -17,12 +15,11 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.fragments.FilterAllFragment;
 import com.jobtick.fragments.FilterInPersonFragment;
 import com.jobtick.fragments.FilterRemotelyFragment;
-import com.jobtick.fragments.TaskBudgetFragment;
-import com.jobtick.fragments.TaskDateTimeFragment;
-import com.jobtick.fragments.TaskDetailFragment;
 import com.jobtick.models.FilterModel;
 import com.jobtick.utils.Constant;
 
@@ -37,16 +34,22 @@ import butterknife.ButterKnife;
 public class FiltersActivity extends AppCompatActivity implements FilterInPersonFragment.FragmentCallbackFilterInPerson, FilterAllFragment.FragmentCallbackFilterAll, FilterRemotelyFragment.FragmentCallbackFilterRemote {
 
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_remotely)
     RadioButton rbRemotely;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_in_person)
     RadioButton rbInPerson;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_all)
     RadioButton rbAll;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rg_filters)
     RadioGroup rgFilters;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.view_pager)
     ViewPager viewPager;
     FilterModel filterModel;

@@ -1,20 +1,17 @@
 package com.jobtick.activities;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +28,6 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,15 +48,19 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import android.annotation.SuppressLint;
+
+import com.jobtick.cancellations.PPCancellationSummaryActivity;
+import com.jobtick.cancellations.PTCancellationSummaryActivity;
+import com.jobtick.cancellations.TPCancellationSummaryActivity;
+import com.jobtick.cancellations.TTCancellationSummaryActivity;
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.MustHaveListAdapter;
 import com.jobtick.adapers.OfferListAdapter;
 import com.jobtick.adapers.QuestionListAdapter;
 import com.jobtick.adapers.ShowMustHaveListAdapter;
 import com.jobtick.cancellations.CancellationPosterActivity;
-import com.jobtick.cancellations.CancellationRequestActivity;
-import com.jobtick.cancellations.CancellationRequestSubmittedActivity;
 import com.jobtick.cancellations.CancellationWorkerActivity;
 import com.jobtick.fragments.ConfirmAskToReleaseBottomSheet;
 import com.jobtick.fragments.ConfirmReleaseBottomSheet;
@@ -122,10 +122,8 @@ import static com.jobtick.fragments.TickerRequirementsBottomSheet.Requirement;
 import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
 import static com.jobtick.utils.Constant.ADD_BILLING;
 import static com.jobtick.utils.Constant.BASE_URL;
-import static com.jobtick.utils.Constant.TASK_ASSIGNED;
 import static com.jobtick.utils.Constant.TASK_CANCELLED;
 import static com.jobtick.utils.Constant.TASK_CLOSED;
-import static com.jobtick.utils.Constant.TASK_COMPLETE;
 import static com.jobtick.utils.Constant.TASK_DRAFT;
 import static com.jobtick.utils.Constant.TASK_OPEN;
 import static com.jobtick.utils.Constant.TASK_PENDING;
@@ -136,6 +134,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener,
         IncreaseBudgetNoticeBottomSheet.NoticeListener, IncreaseBudgetDeclineBottomSheet.NoticeListener,
         ConfirmAskToReleaseBottomSheet.NoticeListener, ConfirmReleaseBottomSheet.NoticeListener {
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.alert_box)
     ExtendedAlertBox alertBox;
 
@@ -202,8 +201,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llLocation)
     LinearLayout llLocation;
-    //    @BindView(R.id.card_message)
-//    CardView cardMessage;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.postedByLyt)
     RelativeLayout postedByLyt;
@@ -246,11 +243,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_worker_name)
     TextView txtWorkerName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lineOpen)
     View lineOpenState;
-    //    @SuppressLint("NonConstantResourceId")
-//    @BindView(R.id.card_private_chat)
-//    CardView cardPrivateChat;
+
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_assignee_layout)
     CardView cardAssigneeLayout;
@@ -357,9 +353,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private final ArrayList<AttachmentModel> attachmentArrayList_question = new ArrayList<>();
 
     private String str_slug = "";
-    private boolean isMyTask = false;
+    private boolean isUserThePoster = false;
+    private boolean isUserTheTicker = false;
     boolean isFabHide = false;
-    boolean isShowBookmarked = false;
+    boolean isToolbarCollapsed = false;
     private OfferListAdapter offerListAdapter;
     private QuestionListAdapter questionListAdapter;
     private boolean noActionAvailable = false;
@@ -407,7 +404,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (bundle.getInt(ConstantKey.USER_ID) != 0) {
             int userId = bundle.getInt(ConstantKey.USER_ID);
             SessionManager sessionManager = new SessionManager(this);
-            isMyTask = userId == sessionManager.getUserAccount().getId();
+            isUserThePoster = userId == sessionManager.getUserAccount().getId();
         }
         if (bundle.getInt(ConstantKey.PUSH_OFFER_ID) != 0) {
             pushOfferID = bundle.getInt(ConstantKey.PUSH_OFFER_ID);
@@ -424,7 +421,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         cardViewAllOffers.setVisibility(View.GONE);
 
         initToolbar();
-        initComponentScroll();
+//        initComponentScroll();
         initOfferList();
         initQuestionList();
         getData();
@@ -445,7 +442,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         LinearLayoutManager layoutManager = new LinearLayoutManager(TaskDetailsActivity.this);
         recyclerViewOffers.setLayoutManager(layoutManager);
 
-        offerListAdapter = new OfferListAdapter(TaskDetailsActivity.this, isMyTask, new ArrayList<>());
+        offerListAdapter = new OfferListAdapter(TaskDetailsActivity.this, isUserThePoster, new ArrayList<>());
         recyclerViewOffers.setAdapter(offerListAdapter);
         offerListAdapter.setOnItemClickListener(this);
     }
@@ -469,7 +466,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.GONE);
                 txtStatusOpen.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_tab_primary_2dp));
-                if (isMyTask) {
+                if (isUserThePoster) {
                     cardMakeAnOffer.setVisibility(View.VISIBLE);
                     txtBtnText.setText(ConstantKey.BTN_ASSIGNED);
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, true);
@@ -535,7 +532,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 cardMakeAnOffer.setBackgroundTintList(ContextCompat.getColorStateList(TaskDetailsActivity.this,
                         R.color.colorPrimary));
 
-                if (isMyTask) {
+                if (isUserThePoster) {
                     //poster task
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_edit, true);
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_delete, true);
@@ -589,7 +586,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusAssigned.setSelected(false);
                 txtStatusCompleted.setSelected(false);
                 txtStatusCancelled.setSelected(true);
-                if (isMyTask) {
+                if (isUserThePoster) {
                     cardCancelled.setVisibility(View.VISIBLE);
                     cardCancelBackground.setVisibility(View.VISIBLE);
                 }
@@ -634,13 +631,13 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusReviewed.setVisibility(View.GONE);
                 cardMakeAnOffer.setBackgroundTintList(ContextCompat.getColorStateList(TaskDetailsActivity.this,
                         R.color.colorPrimary));
-                if (isMyTask) {
+                if (isUserThePoster) {
                     txtStatusOverdue.setVisibility(View.VISIBLE);
                     // poster task
                     if (noActionAvailable) {
                         cardMakeAnOffer.setVisibility(View.GONE);
                     } else {
-                        cardMakeAnOffer.setVisibility(View.VISIBLE);
+                        cardMakeAnOffer.setVisibility(View.GONE);
                         txtBtnText.setText(ConstantKey.BTN_RELEASE_MONEY);
                     }
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, false);
@@ -651,7 +648,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         cardMakeAnOffer.setVisibility(View.GONE);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, false);
                     } else {
-                        cardMakeAnOffer.setVisibility(View.VISIBLE);
+                        cardMakeAnOffer.setVisibility(View.GONE);
                         txtBtnText.setText(ConstantKey.BTN_WAIT_TO_RELEASE_MONEY);
                         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, false);
                     }
@@ -686,7 +683,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusCancelled.setVisibility(View.GONE);
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.VISIBLE);
-                if (isMyTask) {
+                if (isUserThePoster) {
                     cardMakeAnOffer.setVisibility(View.GONE);
                     txtBtnText.setText(ConstantKey.BTN_WRITE_A_REVIEW);
 
@@ -785,7 +782,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 case R.id.action_cancellation:
                     Intent intent;
                     Bundle bundle;
-                    if (isMyTask) {
+                    if (isUserThePoster) {
                         intent = new Intent(TaskDetailsActivity.this, CancellationPosterActivity.class);
                         // bundle.putParcelable(ConstantKey.TASK, taskModel);
                     } else {
@@ -798,7 +795,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION);
                     break;
                 case R.id.action_increase_budget:
-                    if (isMyTask) {
+                    if (isUserThePoster) {
                         //TODO: we should not have the menu if it is user post, So I comment these lines and add this toast
                         showToast("You can not increase budget of your job!", this);
 //                        intent = new Intent(TaskDetailsActivity.this, IncreaseBudgetFromPosterActivity.class);
@@ -822,7 +819,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     intent = new Intent(TaskDetailsActivity.this, JobReceiptActivity.class);
                     bundle = new Bundle();
                     //    bundle.putParcelable(ConstantKey.TASK, taskModel);
-                    bundle.putBoolean(ConstantKey.IS_MY_TASK, isMyTask);
+                    bundle.putBoolean(ConstantKey.IS_MY_TASK, isUserThePoster);
                     intent.putExtras(bundle);
                     startActivity(intent);
                     break;
@@ -831,27 +828,29 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         });
     }
 
-    private void initComponentScroll() {
-        NestedScrollView nested_content = findViewById(R.id.nested_scroll_view);
-        nested_content.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            if (scrollY < oldScrollY) { // up
-                animateFab(false);
-            }
-            if (scrollY > oldScrollY) { // down
-                animateFab(true);
-            }
-        });
-    }
+//    private void initComponentScroll() {
+//        NestedScrollView nested_content = findViewById(R.id.nested_scroll_view);
+//        nested_content.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+//            if (scrollY < oldScrollY) { // up
+//                animateFab(false);
+//            }
+//            if (scrollY > oldScrollY) { // down
+//                animateFab(true);
+//            }
+//        });
+//    }
 
-    private void animateFab(final boolean hide) {
-        if (isFabHide && hide || !isFabHide && !hide) return;
-        isFabHide = hide;
-        int moveY = hide ? (2 * cardMakeAnOffer.getHeight()) : 0;
-        cardMakeAnOffer.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
-    }
+//    private void animateFab(final boolean hide) {
+//        if (isFabHide && hide || !isFabHide && !hide) return;
+//        isFabHide = hide;
+//        int moveY = hide ? (2 * cardMakeAnOffer.getHeight()) : 0;
+//        cardMakeAnOffer.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
+//    }
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.content)
     LinearLayout content;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llLoading)
     LinearLayout llLoading;
     private void getData() {
@@ -1023,21 +1022,27 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvPrivateChatName)
     TextView tvPrivateChatName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvPrivateChatLocation)
     TextView tvPrivateChatLocation;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvPrivateChatLastOnline)
     TextView tvPrivateChatLastOnline;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.imgAvatarChat)
     CircularImageView imgAvatarChat;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llBtnPrivateMessageDisable)
     LinearLayout llBtnPrivateMessageDisable;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llBtnPrivateMessageEnable)
     LinearLayout llBtnPrivateMessageEnable;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llBtnPosterMessageEnable)
     LinearLayout llBtnPosterMessageEnable;
 
     private void setChatButton(String state,JSONObject jsonObject) {
-        if(!isMyTask || taskModel.getWorker()==null)
+        if(!isUserThePoster || taskModel.getWorker()==null)
             return;
 
         relPrivateChat.setVisibility(View.VISIBLE);
@@ -1344,20 +1349,24 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private void setOwnerTask() {
         if (taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
             //this is self task
-            isMyTask = true;
+            isUserThePoster = true;
+            isUserTheTicker = false;
             postedByLyt.setVisibility(View.GONE);
         } else {
             //this is another tasks
             postedByLyt.setVisibility(View.VISIBLE);
             if (taskModel.getWorker() != null) {
                 if (taskModel.getWorker().getId().equals(sessionManager.getUserAccount().getId())) {
-                    isMyTask = false;
+                    isUserThePoster = false;
+                    isUserTheTicker = true;
                     noActionAvailable = false;
                 } else {
                     noActionAvailable = true;
+                    isUserTheTicker = false;
                 }
             } else {
-                isMyTask = false;
+                isUserThePoster = false;
+                isUserTheTicker = false;
                 noActionAvailable = false;
             }
         }
@@ -1383,7 +1392,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         txtCreatedDate.setText("Posted " + taskModel.getCreatedAt());
 
         if (taskModel.getBookmarkID() != null) {
-            toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_white);
+            toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
         }
 
         txtDescription.setText(taskModel.getDescription());
@@ -1474,33 +1483,33 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbar.setTitle("Job Details");
-                    collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(getApplication(), R.color.black));
-                    toolbar.getMenu().findItem(R.id.menu_share).setIcon(R.drawable.ic_share);
-                    Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_back_black, null);
-                    toolbar.setNavigationIcon(d);
-                    toolbar.setTitleTextColor(Color.BLACK);
-                    toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot);
-                    if (taskModel.getBookmarkID() != null) {
-                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_black);
-                    } else {
-                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_black);
-                    }
-                    isShowBookmarked = true;
-                } else if (isShowBookmarked) {
-                    collapsingToolbar.setTitle("");
+//                    collapsingToolbar.setTitle("Job Details");
                     collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(getApplication(), R.color.transparent));
-                    toolbar.getMenu().findItem(R.id.menu_share).setIcon(R.drawable.ic_share_white);
-                    toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot_white);
-                    Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_back_white, null);
-                    toolbar.setNavigationIcon(d);
-                    toolbar.setTitleTextColor(Color.WHITE);
-                    if (taskModel.getBookmarkID() != null) {
-                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_white);
-                    } else {
-                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white);
-                    }
-                    isShowBookmarked = false;
+//                    toolbar.getMenu().findItem(R.id.menu_share).setIcon(R.drawable.ic_share);
+//                    Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_back_black, null);
+//                    toolbar.setNavigationIcon(d);
+                    toolbar.setTitleTextColor(getResources().getColor(R.color.transparent));
+//                    toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot);
+//                    if (taskModel.getBookmarkID() != null) {
+//                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_black);
+//                    } else {
+//                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_black);
+//                    }
+                    isToolbarCollapsed = true;
+                } else if (isToolbarCollapsed) {
+//                    collapsingToolbar.setTitle("");
+                    collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(getApplication(), R.color.white));
+//                    toolbar.getMenu().findItem(R.id.menu_share).setIcon(R.drawable.ic_share_white);
+//                    toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot_white);
+//                    Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_back_white, null);
+//                    toolbar.setNavigationIcon(d);
+                    toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+//                    if (taskModel.getBookmarkID() != null) {
+//                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_white);
+//                    } else {
+//                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white);
+//                    }
+                    isToolbarCollapsed = false;
                 }
             }
         });
@@ -1657,7 +1666,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     @SuppressLint("SetTextI18n")
     private void setQuestionView(int questionCount) {
-        if (isMyTask) {
+        if (isUserThePoster) {
             rltQuestionAdd.setVisibility(View.GONE);
         } else {
             rltQuestionAdd.setVisibility(View.VISIBLE);
@@ -1682,7 +1691,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (offerCount == 0) {
             txtOffersCount.setText(getString(R.string.offer));
             txtWaitingForOffer.setVisibility(View.VISIBLE);
-            if (isMyTask) {
+            if (isUserThePoster) {
                 firstOfferLyt.setVisibility(View.GONE);
             } else {
                 firstOfferLyt.setVisibility(View.VISIBLE);
@@ -1809,20 +1818,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         Toast.makeText(TaskDetailsActivity.this, "offer pending", Toast.LENGTH_SHORT).show();
                         break;
                     case ConstantKey.BTN_CANCELLATION_REQUEST_RECEIVED:
-                        intent = new Intent(TaskDetailsActivity.this, CancellationRequestSubmittedActivity.class);
-                        bundle = new Bundle();
-                        // bundle.putParcelable(ConstantKey.TASK, taskModel);
-                        bundle.putBoolean(ConstantKey.IS_MY_TASK, isMyTask);
-                        intent.putExtras(bundle);
-                        startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION_DONE);
+                        //TODO: this button should not be viewed in this stage
                         break;
                     case ConstantKey.BTN_CANCELLATION_REQUEST_SENT:
-                        intent = new Intent(TaskDetailsActivity.this, CancellationRequestActivity.class);
-                        bundle = new Bundle();
-                        //  bundle.putParcelable(ConstantKey.TASK, taskModel);
-                        bundle.putBoolean(ConstantKey.IS_MY_TASK, isMyTask);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
+                        //TODO: this button should not be viewed in this stage
                         break;
                     case ConstantKey.BTN_WRITE_A_REVIEW:
                         //TODO write a review
@@ -2491,10 +2490,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     public void addToBookmark() {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/bookmark",
                 response -> {
-                    if (isShowBookmarked) {
-                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_black);
+                    if (isToolbarCollapsed) {
+                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
                     } else {
-                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_white);
+                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
                     }
                     getData();
                 },
@@ -2535,10 +2534,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                if (isShowBookmarked) {
-                                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_black);
+                                if (isToolbarCollapsed) {
+                                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
                                 } else {
-                                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white);
+                                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
                                 }
 
                                 getData();
@@ -2668,51 +2667,57 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             hideAlertBox();
         }
         if (taskModel.getCancellation() == null) return;
-        if (isMyTask) {
+        if (isUserThePoster) {
             if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING)) {
-                if (taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId())) {
-                    //poster is cancelling, user is poster too
-                    showCancellationCard(false, false);
-                } else {
-                    //ticker is cancelling, user is poster
-                    showCancellationCard(false, true);
-                }
-                txtBtnText.setVisibility(View.GONE);
+                //poster is cancelling, user is poster too
+                //ticker is cancelling, user is poster
+                showCancellationCard(false, !taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId()));
+                cardMakeAnOffer.setVisibility(View.GONE);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
             } else if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_DECLINED)) {
 
             } else if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_ACCEPTED)) {
 
             }
         } else {
-            if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING)) {
-                if (taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId())) {
-                    //ticker is cancelling, user is ticker too
-                    showCancellationCard(true, true);
-                } else {
-                    //poster is cancelling, user is ticker
-                    showCancellationCard(true, false);
-                }
-                txtBtnText.setVisibility(View.GONE);
+            if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING) &&
+            isUserTheTicker) {
+                //ticker is cancelling, user is ticker too
+                //poster is cancelling, user is ticker
+                showCancellationCard(true, taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId()));
+                cardMakeAnOffer.setVisibility(View.GONE);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
             }
         }
     }
 
     private void initReleaseMoney() {
 
-        if (alertType == AlertType.ASK_TO_RELEASE && !isMyTask) {
+        if (alertType == AlertType.ASK_TO_RELEASE) {
             hideAlertBox();
         }
-        else if (alertType == AlertType.CONFIRM_RELEASE && isMyTask) {
+        else if (alertType == AlertType.CONFIRM_RELEASE) {
             hideAlertBox();
         }
-        if (taskModel.getStatus().toLowerCase().equals("completed") && taskModel.getWorker() != null &&
-                taskModel.getWorker().getId().equals(userAccountModel.getId())) {
-            showAskToReleaseCard();
-        } else if ((taskModel.getStatus().toLowerCase().equals("overdue") && taskModel.getPoster() != null &&
-                taskModel.getPoster().getId().equals(userAccountModel.getId()))) {
-            showConfirmReleaseCard();
+        //TODO: when a task is completed and when it is overdue?
+        //according of that rectify this block of code
+        if (taskModel.getStatus().toLowerCase().equals("completed") ||
+                taskModel.getStatus().toLowerCase().equals("overdue")) {
+            if(isUserThePoster){
+                showConfirmReleaseCard();
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
+            } else if (isUserTheTicker){
+                showAskToReleaseCard();
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
+            }
         }
     }
 
@@ -2722,13 +2727,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
         if (!taskModel.getStatus().toLowerCase().equals("closed")) return;
         if (taskModel.getReviewModels() == null) {
-            showReviewCard();
+
+            if(isUserThePoster || isUserTheTicker)
+                showReviewCard();
+
             return;
         }
         boolean showReview = true;
         List<ReviewModel> reviewModels = taskModel.getReviewModels();
         //for poster
-        if (isMyTask) {
+        if (isUserThePoster) {
             for (ReviewModel reviewModel : reviewModels) {
                 if (reviewModel.getRateeType().equals("worker")) {
                     showReview = false;
@@ -2744,7 +2752,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 }
             }
         }
-        if (showReview)
+        if (showReview && (isUserTheTicker || isUserThePoster))
             showReviewCard();
     }
 
@@ -2759,8 +2767,13 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         !taskModel.getRescheduleReqeust().get(i).getRequester_id().equals(sessionManager.getUserAccount().getId())) {
                     if (!taskModel.getStatus().toLowerCase().equals(TASK_CANCELLED) && !taskModel.getStatus().toLowerCase().equals(TASK_CLOSED)) {
                         pos = i;
-                        showRescheduleTimeCard(i);
-                        break;
+                        if(isUserThePoster || isUserTheTicker) {
+                            showRescheduleTimeCard(i);
+                            toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
+                            toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
+                            toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
+                            break;
+                        }
                     }
                 }
             }
@@ -2768,22 +2781,38 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void initJobReceipt() {
-        toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_job_receipt, taskModel.getStatus().toLowerCase().equals(TASK_CLOSED));
+        toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_job_receipt, false);
+        if(isUserTheTicker || isUserThePoster)
+            toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_job_receipt, taskModel.getStatus().toLowerCase().equals(TASK_CLOSED));
     }
 
     private void initIncreaseBudget() {
         if (alertType == AlertType.INCREASE_BUDGET) {
             hideAlertBox();
         }
+        if(isUserThePoster){
+            toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
+        }
+
         if (taskModel.getAdditionalFund() != null && taskModel.getAdditionalFund().getStatus().equals("pending")) {
-            if (taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
+            if (isUserThePoster) {
                 showIncreaseBudgetCard();
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
+
+            }
+            else if(isUserTheTicker){
+                //TODO: updated design of mahan should be applied here
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
+                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
+
             }
         }
     }
 
     private int pos = 0;
-
     private void showDialogRescheduleRequest(int pos) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         RescheduleNoticeBottomSheetState dialog = RescheduleNoticeBottomSheetState.newInstance(taskModel, pos);
@@ -2877,7 +2906,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     private void showRescheduleTimeCard(int pos) {
         String rescheduledByWho;
-        if (isMyTask)
+        if (isUserThePoster)
             rescheduledByWho = taskModel.getWorker().getName();
         else
             rescheduledByWho = taskModel.getPoster().getName();
@@ -2890,7 +2919,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     private void showIncreaseBudgetCard() {
         String increaseRequestByWho;
-        if (isMyTask)
+        if (isUserThePoster)
             increaseRequestByWho = taskModel.getWorker().getName();
         else
             increaseRequestByWho = taskModel.getPoster().getName();
@@ -2903,7 +2932,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     private void showReviewCard() {
         String writeAReviewForWho;
-        if (isMyTask)
+        if (isUserThePoster)
             writeAReviewForWho = taskModel.getWorker().getName();
         else
             writeAReviewForWho = taskModel.getPoster().getName();
@@ -2914,8 +2943,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void showAskToReleaseCard() {
-        if (isMyTask) return;
-
         showAlertBox(Html.fromHtml(
                 "You have requested to release money this job on <b>" +
                         TimeHelper.convertToShowTimeFormat(taskModel.getConversation().getTask().getCompletedAt()) + "</b>"),
@@ -2923,10 +2950,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void showConfirmReleaseCard() {
-        if (!isMyTask) return;
-
         String whoRequestToReleaseMoney = taskModel.getWorker().getName();
-
         showAlertBox(Html.fromHtml("<b>" + whoRequestToReleaseMoney + "</b> " +
                         " have requested to release money this job on <b>" +
                         TimeHelper.convertToShowTimeFormat(taskModel.getConversation().getTask().getCompletedAt()) + "</b>"),
@@ -2979,7 +3003,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             Intent intent = new Intent(TaskDetailsActivity.this, LeaveReviewActivity.class);
             Bundle bundle = new Bundle();
             //    bundle.putParcelable(ConstantKey.TASK, taskModel);
-            bundle.putBoolean(ConstantKey.IS_MY_TASK, isMyTask);
+            bundle.putBoolean(ConstantKey.IS_MY_TASK, isUserThePoster);
             intent.putExtras(bundle);
             startActivityForResult(intent, ConstantKey.RESULTCODE_WRITE_REVIEW);
         } else if (alertType == AlertType.CANCELLED) {

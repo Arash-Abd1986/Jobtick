@@ -12,6 +12,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.adapers.SectionsPagerAdapter;
 import com.jobtick.fragments.PaymentPosterFragment;
 import com.jobtick.fragments.PaymentTickerFragment;
@@ -21,15 +23,20 @@ import butterknife.ButterKnife;
 
 public class PaymentHistoryActivity extends ActivityBase {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_outgoing)
     RadioButton rbOutgoing;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_earned)
     RadioButton rbEarned;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rg_outgoing_earned)
     RadioGroup rgOutgoingEarned;
 

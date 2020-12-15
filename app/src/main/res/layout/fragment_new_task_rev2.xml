@@ -31,7 +31,8 @@
                 android:layout_marginStart="6dp"
                 android:layout_alignBottom="@id/hi"
                 android:layout_alignTop="@id/hi"
-                android:layout_alignParentStart="true"/>
+                android:layout_alignParentStart="true"
+                 />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/hi"
@@ -97,21 +98,24 @@
                                 android:layout_height="52dp"
                                 android:src="@drawable/img_asset_3"
                                 android:layout_marginEnd="16dp"
-                                android:layout_marginStart="16dp"/>
+                                android:layout_marginStart="16dp"
+                                 />
 
                             <ImageView
                                 android:layout_width="52dp"
                                 android:layout_height="52dp"
                                 android:src="@drawable/img_asset_2"
                                 android:layout_marginEnd="16dp"
-                                android:layout_marginStart="16dp"/>
+                                android:layout_marginStart="16dp"
+                                 />
 
                             <ImageView
                                 android:layout_width="52dp"
                                 android:layout_height="52dp"
                                 android:src="@drawable/img_asset_1"
                                 android:layout_marginEnd="16dp"
-                                android:layout_marginStart="16dp"/>
+                                android:layout_marginStart="16dp"
+                                 />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -174,21 +178,24 @@
                                 android:layout_height="52dp"
                                 android:layout_marginStart="16dp"
                                 android:layout_marginEnd="16dp"
-                                android:src="@drawable/img_asset_4" />
+                                android:src="@drawable/img_asset_4"
+                                 />
 
                             <ImageView
                                 android:layout_width="52dp"
                                 android:layout_height="52dp"
                                 android:src="@drawable/img_asset_5"
                                 android:layout_marginEnd="16dp"
-                                android:layout_marginStart="16dp"/>
+                                android:layout_marginStart="16dp"
+                                 />
 
                             <ImageView
                                 android:layout_width="52dp"
                                 android:layout_height="52dp"
                                 android:src="@drawable/img_asset_6"
                                 android:layout_marginEnd="16dp"
-                                android:layout_marginStart="16dp"/>
+                                android:layout_marginStart="16dp"
+                                 />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -237,6 +244,7 @@
         app:maxImageSize="30dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+         />
 
 </RelativeLayout>

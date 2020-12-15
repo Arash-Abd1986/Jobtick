@@ -20,9 +20,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="-18dp"
             android:layout_marginBottom="@dimen/_15sp"
-            android:src="@mipmap/ic_launcher_foreground" />
+            android:src="@mipmap/ic_launcher_foreground"
+             />
 
-        <com.jobtick.TextView.TextViewMedium
+        <com.jobtick.text_view.TextViewMedium
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_10sp"

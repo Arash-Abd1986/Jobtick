@@ -14,14 +14,12 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.BuildConfig;
-import com.jobtick.activities.AttachmentActivity;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -171,7 +169,7 @@ public class CameraUtils {
 
         String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
 
-        Log.e("path", path);
+        Timber.tag("path").e(path);
         cursor.close();
 
         return path;

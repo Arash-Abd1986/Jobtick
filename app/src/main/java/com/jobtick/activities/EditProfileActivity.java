@@ -1,17 +1,15 @@
 package com.jobtick.activities;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
+
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -39,7 +37,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
+import android.annotation.SuppressLint;
+
+import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.AttachmentAdapterEditProfile;
 import com.jobtick.models.AttachmentModel;
@@ -233,8 +233,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
     private int year, month, day;
-    private String str_DOB = null;
-    private String str_DOB_MODEL = "";
+    private final String str_DOB = null;
+    private final String str_DOB_MODEL = "";
     private static String imageStoragePath;
     public static final long MAX_VIDEO_DURATION = 30;
     public static final long MAX_VIDEO_SIZE = 20 * 1024 * 1024;
@@ -883,7 +883,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("onActivityResult", "hi");
         if (data != null) {
             if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == RESULT_OK) {
 

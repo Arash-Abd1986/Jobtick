@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.jobtick.TextView.TextViewSemiBold
+        <com.jobtick.text_view.TextViewSemiBold
             android:id="@+id/txt_btn_add_must_have"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_margin="@dimen/_10sp"

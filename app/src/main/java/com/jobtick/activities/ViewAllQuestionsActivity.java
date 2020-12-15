@@ -2,7 +2,6 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +17,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.adapers.QuestionListAdapter;
 import com.jobtick.models.QuestionModel;
 import com.jobtick.pagination.PaginationListener;
@@ -36,15 +37,19 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
 public class ViewAllQuestionsActivity extends ActivityBase implements SwipeRefreshLayout.OnRefreshListener, QuestionListAdapter.OnItemClickListener {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view_all_questions)
     RecyclerView recyclerViewAllQuestions;
 
@@ -118,11 +123,11 @@ public class ViewAllQuestionsActivity extends ActivityBase implements SwipeRefre
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("responce_url", response);
+                        Timber.e(response);
                         // categoryArrayList.clear();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            Log.e("json", jsonObject.toString());
+                            Timber.e(jsonObject.toString());
                             if (!jsonObject.has("data") && jsonObject.isNull("data")) {
                                 showToast("some went to wrong", ViewAllQuestionsActivity.this);
                                 return;
@@ -157,7 +162,7 @@ public class ViewAllQuestionsActivity extends ActivityBase implements SwipeRefre
                             isLoading = false;
                         } catch (JSONException e) {
                             hideProgressDialog();
-                            Log.e("EXCEPTION", String.valueOf(e));
+                            Timber.e(String.valueOf(e));
                             e.printStackTrace();
                         }
                     }
@@ -182,7 +187,7 @@ public class ViewAllQuestionsActivity extends ActivityBase implements SwipeRefre
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(ViewAllQuestionsActivity.this);
         requestQueue.add(stringRequest);
-        Log.e("url", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
     @Override

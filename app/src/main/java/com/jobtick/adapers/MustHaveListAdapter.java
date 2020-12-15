@@ -6,14 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.MustHaveModel;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class MustHaveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private List<MustHaveModel> items = new ArrayList<>();
     private OnLoadMoreListener onLoadMoreListener;
 
-    private Context ctx;
+    private final Context ctx;
     private OnItemClickListener mOnItemClickListener;
     private onCheckedAllItem onCheckedAllItem;
 
@@ -55,11 +55,14 @@ public class MustHaveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.cb_receive_alerts)
         CheckBox cbReceiveAlerts;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_btn_add_must_have)
         TextView txtBtnAddMustHave;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lytMain)
         LinearLayout lytMain;
 
@@ -110,19 +113,11 @@ public class MustHaveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
 
             view.lytMain.setOnClickListener(v -> {
-                if (view.cbReceiveAlerts.isChecked()) {
-                    view.cbReceiveAlerts.setChecked(false);
-                } else {
-                    view.cbReceiveAlerts.setChecked(true);
-                }
+                view.cbReceiveAlerts.setChecked(!view.cbReceiveAlerts.isChecked());
             });
 
             view.txtBtnAddMustHave.setOnClickListener(v -> {
-                if (view.cbReceiveAlerts.isChecked()) {
-                    view.cbReceiveAlerts.setChecked(false);
-                } else {
-                    view.cbReceiveAlerts.setChecked(true);
-                }
+                view.cbReceiveAlerts.setChecked(!view.cbReceiveAlerts.isChecked());
             });
         }
     }

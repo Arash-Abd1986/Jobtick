@@ -10,9 +10,9 @@ public class AppExecutors {
 
     private static AppExecutors instance = null;
 
-    private Executor diskIO;
-    private Executor networkIO;
-    private Executor mainThread;
+    private final Executor diskIO;
+    private final Executor networkIO;
+    private final Executor mainThread;
 
     private AppExecutors() {
         diskIO = Executors.newSingleThreadExecutor();

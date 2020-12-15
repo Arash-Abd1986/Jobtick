@@ -1,10 +1,10 @@
 package com.jobtick.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -48,7 +48,6 @@ import com.jobtick.fragments.SignInFragment;
 import com.jobtick.fragments.SignUpFragment;
 import com.jobtick.fragments.VerifyAccountFragment;
 import com.jobtick.models.UserAccountModel;
-import com.jobtick.presenter.AuthActivityPresenter;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.SessionManager;
@@ -72,9 +71,9 @@ public class AuthActivity extends ActivityBase {
     private static final int RC_SIGN_IN = 234;
     SignInFragment signInFragment;
     VerifyAccountFragment verifyAccountFragment;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.auth_layout)
     FrameLayout authLayout;
-    AuthActivityPresenter authActivityPresenter;
     CallbackManager callbackManager;
     GoogleSignInClient mGoogleSignInClient;
     SessionManager sessionManager;
@@ -266,12 +265,10 @@ public class AuthActivity extends ActivityBase {
                         UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                         sessionManager.setUserAccount(userAccountModel);
 
-                        sessionManager.setLogin(true);
+                        proceedToCorrectActivity(userAccountModel);
 
-                        Intent intent = new Intent(AuthActivity.this, DashboardActivity.class);
-                        openActivity(intent);
                     } catch (JSONException e) {
-                        Log.e("EXCEPTION", String.valueOf(e));
+                        Timber.e(String.valueOf(e));
                         e.printStackTrace();
 
                     }
@@ -283,7 +280,7 @@ public class AuthActivity extends ActivityBase {
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
                         // Print Error!
-                        Log.e("intent22", jsonError);
+                        Timber.e(jsonError);
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
@@ -348,7 +345,6 @@ public class AuthActivity extends ActivityBase {
         setContentView(R.layout.activity_auth);
 
 
-        authActivityPresenter = new AuthActivityPresenter(this);
         ButterKnife.bind(this);
         sessionManager = new SessionManager(this);
         signInFragment = new SignInFragment();
@@ -450,27 +446,24 @@ public class AuthActivity extends ActivityBase {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.e("responce_url", response);
+                        Timber.e(response);
 
                         hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
-                            Log.e("json", jsonObject.toString());
+                            Timber.e(jsonObject.toString());
                             JSONObject jsonObject_data = jsonObject.getJSONObject("data");
                             sessionManager.setAccessToken(jsonObject_data.getString("access_token"));
                             sessionManager.setTokenType(jsonObject_data.getString("token_type"));
                             JSONObject jsonObject_user = jsonObject_data.getJSONObject("user");
                             UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                             sessionManager.setUserAccount(userAccountModel);
-                            sessionManager.setLogin(true);
-                            // showToast("Login SuccessFully!!!", AuthActivity.this);
-                            Intent intent = new Intent(AuthActivity.this, DashboardActivity.class);
-                            openActivity(intent);
 
+                            proceedToCorrectActivity(userAccountModel);
 
                         } catch (JSONException e) {
-                            Log.e("EXCEPTION", String.valueOf(e));
+                            Timber.e(String.valueOf(e));
                             e.printStackTrace();
                         }
                     }
@@ -484,7 +477,7 @@ public class AuthActivity extends ActivityBase {
 
                             String jsonError = new String(networkResponse.data);
                             // Print Error!
-                            Log.e("intent22", jsonError);
+                            Timber.e(jsonError);
 
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonError);
@@ -518,7 +511,7 @@ public class AuthActivity extends ActivityBase {
                         } else {
                             //  ((CredentialActivity)getActivity()).showToast("Something Went Wrong",getActivity());
                         }
-                        Log.e("error", error.toString());
+                        Timber.e(error.toString());
                         hideProgressDialog();
                     }
                 }) {
@@ -626,24 +619,22 @@ public class AuthActivity extends ActivityBase {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.e("responce_url", response);
+                        Timber.e(response);
 
                         hideProgressDialog();
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
 
-                            Log.e("json", jsonObject.toString());
+                            Timber.e(jsonObject.toString());
                             JSONObject jsonObject_data = jsonObject.getJSONObject("data");
                             sessionManager.setAccessToken(jsonObject_data.getString("access_token"));
                             sessionManager.setTokenType(jsonObject_data.getString("token_type"));
                             JSONObject jsonObject_user = jsonObject_data.getJSONObject("user");
                             UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                             sessionManager.setUserAccount(userAccountModel);
-                            sessionManager.setLogin(true);
-                            Intent intent = new Intent(AuthActivity.this, DashboardActivity.class);
-                            openActivity(intent);
 
+                            proceedToCorrectActivity(userAccountModel);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -681,32 +672,26 @@ public class AuthActivity extends ActivityBase {
                                 if (jsonObject_errors.has("email")) {
                                     JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
                                     error_email = jsonArray_mobile.getString(0);
-                                    showToast(error_email,this);
+                                    showToast(error_email, this);
                                     editTextError.onEmailError(error_email);
-                                }
-                                else if (jsonObject_errors.has("password")) {
+                                } else if (jsonObject_errors.has("password")) {
                                     JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("password");
                                     error_password = jsonArray_mobile.getString(0);
-                                    showToast(error_password,this);
+                                    showToast(error_password, this);
                                     editTextError.onPasswordError(error_email);
-                                }
-                                else if (jsonObject_errors.has("device_token")) {
+                                } else if (jsonObject_errors.has("device_token")) {
                                     JSONArray jsonArray_device_token = jsonObject_errors.getJSONArray("device_token");
                                     showToast(jsonArray_device_token.getString(0), AuthActivity.this);
-                                }
-                                else if (jsonObject_errors.has("device_type")) {
+                                } else if (jsonObject_errors.has("device_type")) {
                                     JSONArray jsonArray_device_type = jsonObject_errors.getJSONArray("device_type");
                                     showToast(jsonArray_device_type.getString(0), AuthActivity.this);
-                                }
-                                else if (jsonObject_errors.has("fcm_token")) {
+                                } else if (jsonObject_errors.has("fcm_token")) {
                                     JSONArray jsonArray_fcm_token = jsonObject_errors.getJSONArray("fcm_token");
                                     showToast(jsonArray_fcm_token.getString(0), AuthActivity.this);
-                                }
-                                else if (jsonObject_errors.has("latitude")) {
+                                } else if (jsonObject_errors.has("latitude")) {
                                     JSONArray jsonArray_latitude = jsonObject_errors.getJSONArray("latitude");
                                     showToast(jsonArray_latitude.getString(0), AuthActivity.this);
-                                }
-                                else if (jsonObject_errors.has("longitude")) {
+                                } else if (jsonObject_errors.has("longitude")) {
                                     JSONArray jsonArray_longitude = jsonObject_errors.getJSONArray("longitude");
                                     showToast(jsonArray_longitude.getString(0), AuthActivity.this);
                                 }
@@ -794,7 +779,7 @@ public class AuthActivity extends ActivityBase {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.e("responce_url", response);
+                        Timber.e(response);
 
                         hideProgressDialog();
                         // showToast("Check your inbox",AuthActivity.this);
@@ -816,7 +801,7 @@ public class AuthActivity extends ActivityBase {
                         if (networkResponse != null && networkResponse.data != null) {
                             String jsonError = new String(networkResponse.data);
                             // Print Error!
-                            Log.e("intent22", jsonError);
+                            Timber.e(jsonError);
 
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonError);
@@ -841,7 +826,7 @@ public class AuthActivity extends ActivityBase {
                         } else {
                             showToast("Something Went Wrong", AuthActivity.this);
                         }
-                        Log.e("error", error.toString());
+                        Timber.e(error.toString());
                         hideProgressDialog();
                     }
                 }) {
@@ -873,6 +858,18 @@ public class AuthActivity extends ActivityBase {
     }
 
 
+    private void proceedToCorrectActivity(UserAccountModel userAccountModel){
+        Intent intent;
+        if(userAccountModel.getAccount_status().isBasic_info()){
+            intent = new Intent(this, DashboardActivity.class);
+            sessionManager.setLogin(true);
+        }
+        else{
+            intent = new Intent(this, CompleteRegistrationActivity.class);
+        }
+        openActivity(intent);
+    }
+
     private void openActivity(Intent intent) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -890,7 +887,7 @@ public class AuthActivity extends ActivityBase {
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
-            Log.d("LoginGoogle", "1:" + task.toString());
+            Timber.tag("LoginGoogle").d(task.toString());
         } else {
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
@@ -900,7 +897,7 @@ public class AuthActivity extends ActivityBase {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             signInUpdateUI(account);
-            Log.d("LoginGoogle", "account:" + account.toString());
+            Timber.d("LoginGoogle account:%s", account.toString());
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -918,7 +915,7 @@ public class AuthActivity extends ActivityBase {
             showProgressDialog();
 
             if (account.getDisplayName() != null) {
-                String[] displayName = account.getDisplayName().toString().split(" ");
+                String[] displayName = account.getDisplayName().split(" ");
                 int size_of_displayName = displayName.length;
                 str_lname = displayName[size_of_displayName - 1];
                 int count = 0;
@@ -948,13 +945,13 @@ public class AuthActivity extends ActivityBase {
                     String finalStr_lname = str_lname;
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_SIGNIN_GOOGLE,
                             response -> {
-                                Log.e("responce_url", response);
+                                Timber.e(response);
 
                                 hideProgressDialog();
                                 try {
 
                                     JSONObject jsonObject = new JSONObject(response);
-                                    Log.e("json", jsonObject.toString());
+                                    Timber.e(jsonObject.toString());
                                     JSONObject jsonObject_data = jsonObject.getJSONObject("data");
 
                                     sessionManager.setAccessToken(jsonObject_data.getString("access_token"));
@@ -964,16 +961,10 @@ public class AuthActivity extends ActivityBase {
                                     UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                                     sessionManager.setUserAccount(userAccountModel);
 
-                                    sessionManager.setLogin(true);
-
-                                    //   showToast("Login SuccessFully!!!", AuthActivity.this);
-
-                                    Intent intent = new Intent(AuthActivity.this, DashboardActivity.class);
-                                    openActivity(intent);
-
+                                    proceedToCorrectActivity(userAccountModel);
 
                                 } catch (JSONException e) {
-                                    Log.e("EXCEPTION", String.valueOf(e));
+                                    Timber.e(String.valueOf(e));
                                     e.printStackTrace();
 
                                 }
@@ -987,7 +978,7 @@ public class AuthActivity extends ActivityBase {
                                     if (networkResponse != null && networkResponse.data != null) {
                                         String jsonError = new String(networkResponse.data);
                                         // Print Error!
-                                        Log.e("intent22", jsonError);
+                                        Timber.e(jsonError);
 
                                         try {
                                             JSONObject jsonObject = new JSONObject(jsonError);
@@ -1010,7 +1001,7 @@ public class AuthActivity extends ActivityBase {
                                     } else {
                                         showToast("Something Went Wrong", AuthActivity.this);
                                     }
-                                    Log.e("error", error.toString());
+                                    Timber.e(error.toString());
                                     hideProgressDialog();
                                 }
                             }) {
@@ -1191,14 +1182,14 @@ public class AuthActivity extends ActivityBase {
         Helper.closeKeyboard(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_SIGNIN,
                 response -> {
-                    Log.e("responce_url", response);
+                    Timber.e(response);
 
                     hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
 
-                        Log.e("json", jsonObject.toString());
+                        Timber.e(jsonObject.toString());
 
 
                         JSONObject jsonObject_data = jsonObject.getJSONObject("data");
@@ -1210,16 +1201,10 @@ public class AuthActivity extends ActivityBase {
                         UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                         sessionManager.setUserAccount(userAccountModel);
 
-                        sessionManager.setLogin(true);
-
-                        //  showToast("Login SuccessFully!!!", AuthActivity.this);
-
-                        Intent intent = new Intent(AuthActivity.this, CompleteRegistrationActivity.class);
-                        openActivity(intent);
-
+                        proceedToCorrectActivity(userAccountModel);
 
                     } catch (JSONException e) {
-                        Log.e("EXCEPTION", String.valueOf(e));
+                        Timber.e(String.valueOf(e));
                         e.printStackTrace();
 
                     }
@@ -1233,7 +1218,7 @@ public class AuthActivity extends ActivityBase {
                         if (networkResponse != null && networkResponse.data != null) {
                             String jsonError = new String(networkResponse.data);
                             // Print Error!
-                            Log.e("intent22", jsonError);
+                            Timber.e(jsonError);
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonError);
                                 JSONObject jsonObject_error = jsonObject.getJSONObject("error");
@@ -1256,7 +1241,7 @@ public class AuthActivity extends ActivityBase {
                         } else {
                             showToast("Something Went Wrong", AuthActivity.this);
                         }
-                        Log.e("error", error.toString());
+                        Timber.e(error.toString());
                         hideProgressDialog();
                     }
                 }) {
@@ -1295,13 +1280,13 @@ public class AuthActivity extends ActivityBase {
         Helper.closeKeyboard(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_EMAIL_VERIFICATION,
                 response -> {
-                    Log.e("responce_url", response);
+                    Timber.e(response);
                     hideProgressDialog();
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
 
-                        Log.e("json", jsonObject.toString());
+                        Timber.e(jsonObject.toString());
 
 
                         JSONObject jsonObject_data = jsonObject.getJSONObject("data");
@@ -1313,16 +1298,10 @@ public class AuthActivity extends ActivityBase {
                         UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                         sessionManager.setUserAccount(userAccountModel);
 
-                        sessionManager.setLogin(true);
-
-                        //  showToast("Login SuccessFully!!!", AuthActivity.this);
-
-                        Intent intent = new Intent(AuthActivity.this, CompleteRegistrationActivity.class);
-                        openActivity(intent);
-
+                        proceedToCorrectActivity(userAccountModel);
 
                     } catch (JSONException e) {
-                        Log.e("EXCEPTION", String.valueOf(e));
+                        Timber.e(String.valueOf(e));
                         e.printStackTrace();
 
                     }
@@ -1336,7 +1315,7 @@ public class AuthActivity extends ActivityBase {
                         if (networkResponse != null && networkResponse.data != null) {
                             String jsonError = new String(networkResponse.data);
                             // Print Error!
-                            Log.e("intent22", jsonError);
+                            Timber.e(jsonError);
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonError);
                                 JSONObject jsonObject_error = jsonObject.getJSONObject("error");
@@ -1359,7 +1338,7 @@ public class AuthActivity extends ActivityBase {
                         } else {
                             showToast("Something Went Wrong", AuthActivity.this);
                         }
-                        Log.e("error", error.toString());
+                        Timber.e(error.toString());
                         hideProgressDialog();
                     }
                 }) {
@@ -1401,7 +1380,7 @@ public class AuthActivity extends ActivityBase {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.e("responce_url", response);
+                        Timber.e(response);
 
                         hideProgressDialog();
                         //  showToast("Check your inbox", AuthActivity.this);
@@ -1420,7 +1399,7 @@ public class AuthActivity extends ActivityBase {
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
                         // Print Error!
-                        Log.e("intent22", jsonError);
+                        Timber.e(jsonError);
 
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
@@ -1493,7 +1472,7 @@ public class AuthActivity extends ActivityBase {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.e("responce_url", response);
+                        Timber.e(response);
 
                         hideProgressDialog();
                         onResendOtp.success();
@@ -1521,8 +1500,7 @@ public class AuthActivity extends ActivityBase {
                                     showToast(error_email, this);
                                     editTextError.onEmailError(error_email);
                                 }
-                            }
-                            else {
+                            } else {
                                 String message = jsonObject_error.getString("message");
                                 showToast(message, this);
 
@@ -1571,7 +1549,7 @@ public class AuthActivity extends ActivityBase {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.e("responce_url", response);
+                        Timber.e(response);
 
                         hideProgressDialog();
                         onResendOtp.success();
@@ -1599,8 +1577,7 @@ public class AuthActivity extends ActivityBase {
                                     showToast(error_email, this);
                                     editTextError.onEmailError(error_email);
                                 }
-                            }
-                            else {
+                            } else {
                                 String message = jsonObject_error.getString("message");
                                 showToast(message, this);
 
@@ -1649,7 +1626,7 @@ public class AuthActivity extends ActivityBase {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.e("responce_url", response);
+                        Timber.e(response);
 
                         hideProgressDialog();
                         onResendOtp.success();
@@ -1661,7 +1638,7 @@ public class AuthActivity extends ActivityBase {
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
                         // Print Error!
-                        Log.e("intent22", jsonError);
+                        Timber.e(jsonError);
 
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
@@ -1679,8 +1656,7 @@ public class AuthActivity extends ActivityBase {
                                     showToast(error_email, this);
                                     editTextError.onEmailError(error_email);
                                 }
-                            }
-                            else {
+                            } else {
                                 String message = jsonObject_error.getString("message");
                                 showToast(message, this);
 
@@ -1692,7 +1668,7 @@ public class AuthActivity extends ActivityBase {
                     } else {
                         showToast("Something Went Wrong", AuthActivity.this);
                     }
-                    Log.e("error", error.toString());
+                    Timber.e(error.toString());
                     hideProgressDialog();
                 }) {
 

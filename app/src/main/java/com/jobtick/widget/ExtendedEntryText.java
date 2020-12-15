@@ -28,18 +28,18 @@ import static android.text.InputType.TYPE_CLASS_TEXT;
 public class ExtendedEntryText extends RelativeLayout implements View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener {
 
     private String eTitle;
-    private String eContent;
-    private String eHint;
-    private TextView textView;
-    private AutoCompleteTextView autoCompleteTextView;
-    private TextView errorView;
-    private TextView dollar;
-    private EditText editText;
+    private final String eContent;
+    private final String eHint;
+    private final TextView textView;
+    private final AutoCompleteTextView autoCompleteTextView;
+    private final TextView errorView;
+    private final TextView dollar;
+    private final EditText editText;
     private EditText secondEditText;
-    private ImageView imageView;
+    private final ImageView imageView;
     private int eBoxSize = 0;
     private boolean eIsPassword;
-    private boolean eStartFocus;
+    private final boolean eStartFocus;
     private int eInputType;
     private int eImeOptions;
     private boolean password_hide = true;
@@ -348,7 +348,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     }
 
     public interface ExtendedViewOnClickListener {
-        public void onClick();
+        void onClick();
     }
 
 

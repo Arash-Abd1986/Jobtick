@@ -1,7 +1,6 @@
 package com.jobtick.payment;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -32,8 +31,8 @@ import static com.jobtick.utils.ConstantKey.PUBLISHABLE_KEY;
 
 public abstract class AddCreditCardImpl implements AddCreditCard {
 
-    private Context context;
-    private SessionManager sessionManager;
+    private final Context context;
+    private final SessionManager sessionManager;
 
 
     public AddCreditCardImpl(Context context, SessionManager sessionManager){
@@ -63,13 +62,13 @@ public abstract class AddCreditCardImpl implements AddCreditCard {
             @Override
             public void onSuccess(PaymentMethod paymentMethod) {
                 addPaymentTokenTOServer(paymentMethod.id);
-                Log.e("Stripe_token id", String.valueOf(paymentMethod.id));
+                Timber.e(String.valueOf(paymentMethod.id));
             }
 
             @Override
             public void onError(@NotNull Exception e) {
                 AddCreditCardImpl.this.onError(e);
-                Log.e("Stripe Error", e.toString());
+                Timber.tag("Stripe Error").e(e.toString());
             }
         });
     }

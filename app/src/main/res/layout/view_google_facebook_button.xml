@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.jobtick.TextView.TextViewRegular
+    <com.jobtick.text_view.TextViewRegular
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="- OR -"
@@ -41,7 +41,7 @@
                 android:layout_gravity="center"
                 android:gravity="center">
 
-                <com.jobtick.TextView.TextViewMedium
+                <com.jobtick.text_view.TextViewMedium
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -73,7 +73,7 @@
                 android:layout_gravity="center"
                 android:gravity="center">
 
-                <com.jobtick.TextView.TextViewMedium
+                <com.jobtick.text_view.TextViewMedium
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

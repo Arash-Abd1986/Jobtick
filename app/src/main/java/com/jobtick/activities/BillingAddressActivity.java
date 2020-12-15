@@ -5,14 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.BillingAdreessModel;
-import com.jobtick.models.PushNotificationModel;
 import com.jobtick.payment.AddBillingAddress;
 import com.jobtick.payment.AddBillingAddressImpl;
 import com.jobtick.utils.StateHelper;
@@ -22,31 +21,37 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.jobtick.utils.ConstantKey.PUSH_NOTIFICATION_MODEL;
-
 public class BillingAddressActivity extends ActivityBase {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_address_line_1)
     ExtendedEntryText edtAddressLine1;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_address_line_2)
     ExtendedEntryText edtAddressLine2;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_suburs)
     ExtendedEntryText edtSuburs;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_state)
     ExtendedEntryText edtState;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_postcode)
     ExtendedEntryText edtPostcode;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_Country)
     ExtendedEntryText edtCountry;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_change_billing_address)
     MaterialButton lytBtnChangeBillingAddress;
 
@@ -133,44 +138,44 @@ public class BillingAddressActivity extends ActivityBase {
 
         if (!validation()) return;
         showProgressDialog();
-        addBillingAddress.add(edtAddressLine1.getText().toString(),
-                edtAddressLine2.getText().toString(),
-                edtSuburs.getText().toString(),
-                stateHelper.getStateAbr(edtState.getText().toString()),
-                edtPostcode.getText().toString(),
-                edtCountry.getText().toString());
+        addBillingAddress.add(edtAddressLine1.getText(),
+                edtAddressLine2.getText(),
+                edtSuburs.getText(),
+                stateHelper.getStateAbr(edtState.getText()),
+                edtPostcode.getText(),
+                edtCountry.getText());
 
     }
 
     private boolean validation() {
-        if (TextUtils.isEmpty(edtAddressLine1.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtAddressLine1.getText().trim())) {
             edtAddressLine1.setError("Address is mandatory");
             return false;
         }
 
-        if (TextUtils.isEmpty(edtAddressLine2.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtAddressLine2.getText().trim())) {
             edtAddressLine2.setError("Address is mandatory");
             return false;
         }
 
 
-        if (TextUtils.isEmpty(edtSuburs.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtSuburs.getText().trim())) {
             edtSuburs.setError("Please enter Suburb");
             return false;
         }
-        if (TextUtils.isEmpty(edtState.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtState.getText().trim())) {
             edtState.setError("Please enter state");
             return false;
         }
-        if (TextUtils.isEmpty(edtPostcode.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtPostcode.getText().trim())) {
             edtPostcode.setError("Please enter Passcode");
             return false;
         }
-        if (edtPostcode.getText().toString().length() != 4) {
+        if (edtPostcode.getText().length() != 4) {
             edtPostcode.setError("Please enter 4 digit Passcode");
             return false;
         }
-        if (TextUtils.isEmpty(edtCountry.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtCountry.getText().trim())) {
             edtCountry.setError("Please Enter Country");
             return false;
         }

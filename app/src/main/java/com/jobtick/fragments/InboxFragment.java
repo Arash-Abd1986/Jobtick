@@ -1,6 +1,5 @@
 package com.jobtick.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,15 +27,14 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.ChatActivity;
 import com.jobtick.activities.ChatSearchActivity;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.adapers.InboxListAdapter;
 import com.jobtick.models.ConversationModel;
-import com.jobtick.models.JobTickDTO;
 import com.jobtick.pagination.PaginationListener;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
@@ -61,10 +58,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -174,7 +169,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
                 .setCluster("us2")
                 .setAuthorizer(authorizer);
 
-        pusher = new Pusher("31c5e7256697a01d331a", options);
+        pusher = new Pusher(getString(R.string.pusher_api_key), options);
 
         pusher.connect(new ConnectionEventListener() {
             @Override
@@ -216,7 +211,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
         ivNotification.setVisibility(View.GONE);
         toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
         toolbar_title.setVisibility(View.VISIBLE);
-        toolbar_title.setText("Chat");
+        toolbar_title.setText(R.string.chat);
         toolbar_title.setTextSize(20f);
         toolbar_title.setTypeface(ResourcesCompat.getFont(getActivity(), R.font.poppins_semi_bold));
         toolbar.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.backgroundLightGrey));

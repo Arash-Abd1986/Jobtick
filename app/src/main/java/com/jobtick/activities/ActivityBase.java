@@ -1,7 +1,6 @@
 package com.jobtick.activities;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -15,7 +14,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -61,9 +59,10 @@ import com.pusher.client.connection.ConnectionStateChange;
 import com.pusher.client.util.HttpAuthorizer;
 import com.jobtick.BuildConfig;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.utils.CameraUtils;
 import com.jobtick.utils.Constant;
-import com.jobtick.utils.CustomToast;
 import com.jobtick.utils.SessionManager;
 import com.tapadoo.alerter.Alerter;
 
@@ -75,6 +74,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import timber.log.Timber;
 
 
 public class ActivityBase extends AppCompatActivity implements HasEditTextRegular {
@@ -160,12 +161,12 @@ public class ActivityBase extends AppCompatActivity implements HasEditTextRegula
                 .setCluster("us2")
                 .setAuthorizer(authorizer);
 
-        pusher = new Pusher("31c5e7256697a01d331a", options);
+        pusher = new Pusher(getString(R.string.pusher_api_key), options);
 
         pusher.connect(new ConnectionEventListener() {
             @Override
             public void onConnectionStateChange(ConnectionStateChange change) {
-                Log.e("connection", change.getCurrentState() + "");
+                Timber.tag("connection").e(change.getCurrentState() + "");
                 System.out.println("State changed to " + change.getCurrentState() +
                         " from " + change.getPreviousState());
                 if (change.getCurrentState() == ConnectionState.CONNECTED) {
@@ -385,11 +386,7 @@ public class ActivityBase extends AppCompatActivity implements HasEditTextRegula
             netInfo = cm.getActiveNetworkInfo();
         }
 
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        }
-
-        return false;
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     public void showToast(String content, Context context) {

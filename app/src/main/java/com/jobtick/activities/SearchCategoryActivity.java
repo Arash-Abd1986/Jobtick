@@ -1,6 +1,5 @@
 package com.jobtick.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +24,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.adapers.TaskCategoryAdapter;
 import com.jobtick.adapers.PreviewAdapter;
 import com.jobtick.models.PreviewCategorySetModel;
@@ -65,9 +66,11 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
     @BindView(R.id.back_to_activity)
     MaterialButton lytCategories;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.list)
     RecyclerView recyclerViewCategories;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.empty_search)
     RelativeLayout emptySearch;
 

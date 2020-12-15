@@ -3,7 +3,6 @@ package com.jobtick.models;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -13,6 +12,8 @@ import com.jobtick.utils.TimeAgo;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import timber.log.Timber;
 
 public class ConversationModel implements Parcelable {
     String TAG = ConversationModel.class.getName();
@@ -273,7 +274,7 @@ public class ConversationModel implements Parcelable {
             if (jsonObject.has("created_at") && !jsonObject.isNull("created_at"))
                 conversationModel.setCreatedAt(TimeAgo.getTimeAgo(jsonObject.getString("created_at")));
         } catch (JSONException e) {
-            Log.e(TAG, e.toString());
+            Timber.e(e.toString());
             e.printStackTrace();
         }
         return conversationModel;

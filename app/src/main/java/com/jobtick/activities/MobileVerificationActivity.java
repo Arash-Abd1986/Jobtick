@@ -1,6 +1,5 @@
 package com.jobtick.activities;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -8,6 +7,8 @@ import android.widget.TextView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.payment.VerifyPhoneNumber;
 import com.jobtick.payment.VerifyPhoneNumberImpl;
 import com.jobtick.widget.ExtendedEntryText;

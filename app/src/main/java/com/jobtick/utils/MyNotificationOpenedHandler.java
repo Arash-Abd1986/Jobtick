@@ -3,7 +3,7 @@ package com.jobtick.utils;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+
 
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.models.PushNotificationModel;
@@ -14,22 +14,20 @@ import com.onesignal.OneSignal;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import timber.log.Timber;
+
 import static com.jobtick.utils.ConstantKey.ID;
 import static com.jobtick.utils.ConstantKey.PUSH_CONVERSATION;
-import static com.jobtick.utils.ConstantKey.PUSH_CONVERSATION_ID;
 import static com.jobtick.utils.ConstantKey.PUSH_OFFER;
-import static com.jobtick.utils.ConstantKey.PUSH_OFFER_ID;
 import static com.jobtick.utils.ConstantKey.PUSH_QUESTION;
-import static com.jobtick.utils.ConstantKey.PUSH_QUESTION_ID;
 import static com.jobtick.utils.ConstantKey.PUSH_STATUS;
-import static com.jobtick.utils.ConstantKey.PUSH_TASK;
 import static com.jobtick.utils.ConstantKey.PUSH_TASK_ID;
 import static com.jobtick.utils.ConstantKey.PUSH_TASK_SLUG;
 import static com.jobtick.utils.ConstantKey.PUSH_TRIGGER;
 
 public class MyNotificationOpenedHandler implements OneSignal.NotificationOpenedHandler {
 
-    private Application application;
+    private final Application application;
     private PushNotificationModel pushNotificationModel;
 
     public MyNotificationOpenedHandler(Application application) {
@@ -91,7 +89,7 @@ public class MyNotificationOpenedHandler implements OneSignal.NotificationOpened
         // React to button pressed
         OSNotificationAction.ActionType actionType = result.action.type;
         if (actionType == OSNotificationAction.ActionType.ActionTaken)
-            Log.i("OneSignalExample", "Button pressed with id: " + result.action.actionID);
+            Timber.tag("OneSignalExample").i("Button pressed with id: " + result.action.actionID);
 
         // Launch new activity using Application object
     }

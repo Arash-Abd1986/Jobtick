@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.notification.NotifDatum;
 import com.jobtick.utils.TimeHelper;
 
@@ -40,7 +42,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<BaseViewHolder
 
 
     private boolean isLoaderVisible = false;
-    private List<NotifDatum> mItems;
+    private final List<NotifDatum> mItems;
 
     public NotificationListAdapter(List<NotifDatum> mItems) {
         this.mItems = mItems;
@@ -115,15 +117,19 @@ public class NotificationListAdapter extends RecyclerView.Adapter<BaseViewHolder
     public class ViewHolder extends BaseViewHolder {
 
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.notification_title)
         TextView notificationTitle;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.row_item)
         RelativeLayout rowItem;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.notification_time)
         TextView notificationTime;
 
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.ivProfile)
         ImageView profileAvatar;
 

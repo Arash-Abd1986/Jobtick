@@ -4,13 +4,11 @@ package com.jobtick.fragments;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +29,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.TaskModel;
@@ -47,6 +45,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -110,8 +109,8 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
             if(!validation()) return;
             //TODO: API is giving increased price, but it should get all new price, so
             //we calculate new increased price, after API updating, we bring back it.
-            int increasedPrice = Integer.parseInt(newPrice.getText().toString()) - Integer.parseInt(oldPrice.getText().toString());
-            submitIncreaseBudget(Integer.toString(increasedPrice), reason.getText().toString().trim());
+            int increasedPrice = Integer.parseInt(newPrice.getText()) - Integer.parseInt(oldPrice.getText().toString());
+            submitIncreaseBudget(Integer.toString(increasedPrice), reason.getText().trim());
         });
 
         newPrice.addTextChangedListener(new TextWatcher() {
@@ -137,16 +136,16 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
     }
 
     private void init(){
-        oldPrice.setText(taskModel.getAmount().toString());
+        oldPrice.setText(String.format(Locale.ENGLISH, "%d", taskModel.getAmount()));
     }
 
 
     private void setupBudget(int budget) {
         float worker_service_fee = taskModel.getWorker().getWorkerTier().getServiceFee();
         float service_fee = ((budget * worker_service_fee) / 100);
-        serviceFee.setText("$ " + service_fee);
+        serviceFee.setText(String.format("$ %s", service_fee));
         total_budget = (int) (budget - ((budget * worker_service_fee) / 100));
-        receiveMoney.setText("$ " + total_budget);
+        receiveMoney.setText(String.format(Locale.ENGLISH, "$ %d", total_budget));
     }
 
     public void initProgressDialog() {
@@ -179,7 +178,7 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);
-                        Log.e("json", jsonObject.toString());
+                        Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 listener.onSubmitIncreasePrice();
@@ -203,7 +202,7 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
                         // Print Error!
-                        Log.e("error", jsonError);
+                        Timber.e(jsonError);
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             ((ActivityBase)requireActivity()).unauthorizedUser();
                             hideProgressDialog();
@@ -303,15 +302,15 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
             newPrice.setError("Please enter new price");
             return false;
         }
-        if(Integer.parseInt(newPrice.getText().toString()) < 5 || Integer.parseInt(newPrice.getText().toString()) > 9999){
+        if(Integer.parseInt(newPrice.getText()) < 5 || Integer.parseInt(newPrice.getText()) > 9999){
             newPrice.setError("Between 5 and 9999");
             return false;
         }
-        if(Integer.parseInt(newPrice.getText().toString()) <= Integer.parseInt(oldPrice.getText().toString())) {
+        if(Integer.parseInt(newPrice.getText()) <= Integer.parseInt(oldPrice.getText().toString())) {
             newPrice.setError("Please increase price");
             return false;
         }
-        if(Integer.parseInt(newPrice.getText().toString()) > (Integer.parseInt(oldPrice.getText().toString()) + 500)) {
+        if(Integer.parseInt(newPrice.getText()) > (Integer.parseInt(oldPrice.getText().toString()) + 500)) {
             newPrice.setError("No more than $ 500!");
             return false;
         }

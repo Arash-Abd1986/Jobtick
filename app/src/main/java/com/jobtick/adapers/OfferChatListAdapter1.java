@@ -1,13 +1,11 @@
 package com.jobtick.adapers;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -15,12 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewBold;
-import com.jobtick.TextView.TextViewRegular;
+import android.annotation.SuppressLint;
+
+import com.jobtick.text_view.TextViewBold;
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.models.CommentModel;
 import com.jobtick.models.OfferModel;
-import com.jobtick.utils.Constant;
-import com.jobtick.utils.ImageUtil;
 
 import java.util.List;
 
@@ -40,7 +38,7 @@ public class OfferChatListAdapter1 extends RecyclerView.Adapter<BaseViewHolder> 
     private static final int VIEW_TYPE_NORMAL = 1;
 
 
-    private Context context;
+    private final Context context;
     private OnItemClickListener mOnItemClickListener;
     private OfferModel offerModel;
 
@@ -60,7 +58,7 @@ public class OfferChatListAdapter1 extends RecyclerView.Adapter<BaseViewHolder> 
 
 
     private boolean isLoaderVisible = false;
-    private List<CommentModel> mItems;
+    private final List<CommentModel> mItems;
 
     public OfferChatListAdapter1(Context context, List<CommentModel> mItems) {
         this.mItems = mItems;
@@ -137,24 +135,34 @@ public class OfferChatListAdapter1 extends RecyclerView.Adapter<BaseViewHolder> 
     }
 
     public class ViewHolder extends BaseViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_avatar)
         CircularImageView imgAvatar;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_name)
         TextViewBold txtName;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_created_date)
         TextViewRegular txtCreatedDate;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_message)
         TextViewRegular txtMessage;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_more_less)
         TextViewBold txtMoreLess;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_file)
         ImageView imgFile;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lyt_btn_reply)
         LinearLayout lytBtnReply;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.lyt_btn_more)
         LinearLayout lytBtnMore;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_more_less_arrow)
         ImageView imgMoreLessArrow;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.card_img_file)
         CardView cardImgFile;
 

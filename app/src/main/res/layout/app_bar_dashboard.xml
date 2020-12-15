@@ -38,10 +38,9 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_gravity="end"
-            android:layout_marginEnd="6dp"
             android:contentDescription="@string/todo"
             android:padding="12dp"
-            android:src="@drawable/ic_notification_bell"
+            android:src="@drawable/ic_notification_bel_24_28dp"
             android:visibility="visible" />
 
     </com.google.android.material.appbar.MaterialToolbar>

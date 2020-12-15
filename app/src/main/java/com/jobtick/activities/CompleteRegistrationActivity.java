@@ -4,12 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -31,6 +28,8 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.Helper;
@@ -44,29 +43,37 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class CompleteRegistrationActivity extends ActivityBase implements View.OnClickListener{
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.first_name)
     ExtendedEntryText edtFirstName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.last_name)
     ExtendedEntryText edtLastName;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_complete_registration)
     MaterialButton lytBtnCompleteRegistration;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cb_poster)
     RadioButton cbPoster;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cb_worker)
     RadioButton cbWorker;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.suburb)
     ExtendedEntryText suburb;
 
 
-    private int PLACE_SELECTION_REQUEST_CODE = 1;
+    private final int PLACE_SELECTION_REQUEST_CODE = 1;
 
     private String str_latitude = null;
     private String str_longitude = null;
@@ -130,6 +137,7 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
 
 
     private void profileUpdate(String fname, String lname, String suburb) {
+        showProgressDialog();
 
         final int[] count = {0};
         Helper.closeKeyboard(this);
@@ -145,22 +153,19 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
-
-
-
                             JSONObject jsonObject_user = jsonObject.getJSONObject("data");
-
 
                             UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                             sessionManager.setUserAccount(userAccountModel);
 
                             sessionManager.setLogin(true);
-
-                            //  showToast("Login SuccessFully!!!", AuthActivity.this);
-
-                          /*  Intent intent = new Intent(CompleteRegistrationActivity.this, DashboardActivity.class);
-                            openActivity(intent);*/
-
+                            Intent intent = new Intent(CompleteRegistrationActivity.this, OnboardActivity.class);
+                            if (cbWorker.isChecked()) {
+                                intent.putExtra("as", "worker");
+                            } else if (cbPoster.isChecked()) {
+                                intent.putExtra("as", "poster");
+                            }
+                            startActivity(intent);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -200,7 +205,7 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
                         } else {
                             showToast("Something Went Wrong", context);
                         }
-                        Log.e("error", error.toString());
+                        Timber.e(error.toString());
                         hideProgressDialog();
                     }
                 }) {
@@ -222,11 +227,10 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
                 map1.put("fname", fname);
                 map1.put("lname", lname);
                 if (cbPoster.isChecked()) {
-                    map1.put("role[" + count[0] + "]", "poster");
-                    count[0] = count[0] + 1;
+                    map1.put("role_as", "poster");
                 }
                 if (cbWorker.isChecked()) {
-                    map1.put("role[" + count[0] + "]", "worker");
+                    map1.put("role_as", "worker");
                 }
                 map1.put("location", suburb);
                 map1.put("latitude", str_latitude);
@@ -242,25 +246,19 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
 
     }
 
-    private void openActivity(Intent intent) {
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-
     private boolean validation() {
         if(!cbWorker.isChecked() && !cbPoster.isChecked()){
             cbWorker.setBackgroundResource(R.drawable.radio_button_background_on_error);
             cbPoster.setBackgroundResource(R.drawable.radio_button_background_on_error);
             return false;
         }
-        if (TextUtils.isEmpty(edtFirstName.getText().toString())) {
+        if (TextUtils.isEmpty(edtFirstName.getText())) {
             edtFirstName.setError("Please enter first name");
             return false;
-        } else if (TextUtils.isEmpty(edtLastName.getText().toString())) {
+        } else if (TextUtils.isEmpty(edtLastName.getText())) {
             edtLastName.setError("Please enter last name");
             return false;
-        } else if (TextUtils.isEmpty(suburb.getText().toString())) {
+        } else if (TextUtils.isEmpty(suburb.getText())) {
             suburb.setError("Please enter suburb");
             return false;
         }
@@ -299,20 +297,11 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
             case R.id.lyt_btn_complete_registration:
 
                 if (validation()) {
-                    String str_fname = edtFirstName.getText().toString().trim();
-                    String str_lname = edtLastName.getText().toString().trim();
-                    String str_suburb = suburb.getText().toString().trim();
+                    String str_fname = edtFirstName.getText().trim();
+                    String str_lname = edtLastName.getText().trim();
+                    String str_suburb = suburb.getText().trim();
 
-                    showProgressDialog();
                     profileUpdate(str_fname, str_lname, str_suburb);
-
-                    Intent intent = new Intent(CompleteRegistrationActivity.this, OnboardActivity.class);
-                    if (cbWorker.isChecked()) {
-                        intent.putExtra("as", "worker");
-                    } else if (cbPoster.isChecked()) {
-                        intent.putExtra("as", "poster");
-                    }
-                    startActivity(intent);
                 }
                 break;
         }

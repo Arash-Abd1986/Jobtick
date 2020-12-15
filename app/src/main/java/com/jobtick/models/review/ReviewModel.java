@@ -3,13 +3,9 @@ package com.jobtick.models.review;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.jobtick.models.BreakdownModel;
-import com.jobtick.models.RatingModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;

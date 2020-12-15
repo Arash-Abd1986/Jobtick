@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.ProfileReqFragment">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.jobtick.text_view.TextViewMedium
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacing_mlarge"
+                android:gravity="start"
+                android:text="@string/upload_a_profile_picture"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_14sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_large"
+                android:visibility="visible">
+
+                <RelativeLayout
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center">
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/img_user_avatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_profile_image"
+                        app:civ_border_width="0dp" />
+
+                    <RelativeLayout
+                        android:id="@+id/lytDeletePicture"
+                        android:layout_width="@dimen/_27sp"
+                        android:layout_height="@dimen/_27sp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="@dimen/_9sp"
+                        android:background="@drawable/bg_rounded_play"
+                        android:gravity="center"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="@dimen/_25sp"
+                            android:layout_height="@dimen/_25sp"
+                            android:layout_margin="@dimen/spacing_medium"
+                            android:clickable="true"
+                            android:src="@drawable/ic_profile_remove"
+                            android:visibility="visible"
+                             />
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/img_verified_account"
+                        android:layout_width="@dimen/_40dp"
+                        android:layout_height="@dimen/_40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/ic_pick_camera"
+                        tools:ignore="ContentDescription" />
+                </RelativeLayout>
+            </FrameLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                style="@style/materialButton"
+                android:text="@string/next"
+                android:enabled="false"/>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/bottom_sheet_behavior" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

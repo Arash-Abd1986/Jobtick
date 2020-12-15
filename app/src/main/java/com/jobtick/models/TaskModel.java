@@ -3,7 +3,6 @@ package com.jobtick.models;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -17,6 +16,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class TaskModel implements Parcelable {
     String TAG = TaskModel.class.getName();
@@ -708,7 +709,7 @@ public class TaskModel implements Parcelable {
                 taskModel.setBookmarkID(jsonObject.getInt("bookmark_id"));
 
         } catch (JSONException e) {
-            Log.e(TAG, e.toString());
+            Timber.e(e.toString());
             e.printStackTrace();
         }
         return taskModel;

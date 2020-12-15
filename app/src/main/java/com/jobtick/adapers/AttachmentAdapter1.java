@@ -1,6 +1,5 @@
 package com.jobtick.adapers;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.utils.ImageUtil;
 
@@ -38,8 +39,8 @@ public class AttachmentAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     private boolean isLoaderVisible = true;
-    private Boolean delete_action;
-    private List<AttachmentModel> items;
+    private final Boolean delete_action;
+    private final List<AttachmentModel> items;
 
     public AttachmentAdapter1(List<AttachmentModel> items, Boolean delete_action) {
         this.items = items;

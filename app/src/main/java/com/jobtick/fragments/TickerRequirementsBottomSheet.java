@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.jobtick.R;
 import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.activities.TaskDetailsActivity;
@@ -126,7 +125,7 @@ public class TickerRequirementsBottomSheet extends AbstractStateExpandedBottomSh
         phoneNumberBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone_grey));
         billingAddressBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin_grey_24dp));
 
-        ImageReqFragment fragment = ImageReqFragment.newInstance();
+        ProfileReqFragment fragment = ProfileReqFragment.newInstance();
         getChildFragmentManager().
                 beginTransaction().
                 replace(R.id.requirements_layout, fragment).
@@ -166,7 +165,7 @@ public class TickerRequirementsBottomSheet extends AbstractStateExpandedBottomSh
         billingAddressBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin_primary));
 
 
-        MapReqFragment fragment = MapReqFragment.newInstance();
+        AddBillingReqFragment fragment = AddBillingReqFragment.newInstance();
         getChildFragmentManager().
                 beginTransaction().
                 replace(R.id.requirements_layout, fragment).
@@ -185,7 +184,7 @@ public class TickerRequirementsBottomSheet extends AbstractStateExpandedBottomSh
         phoneNumberBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_phone_grey));
         billingAddressBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_map_pin_cinereous));
 
-        CalenderReqFragment fragment = CalenderReqFragment.newInstance();
+        DobReqFragment fragment = DobReqFragment.newInstance();
         getChildFragmentManager().
                 beginTransaction().
                 replace(R.id.requirements_layout, fragment).

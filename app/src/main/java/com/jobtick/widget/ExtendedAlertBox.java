@@ -14,12 +14,12 @@ import com.jobtick.R;
 
 public class ExtendedAlertBox extends FrameLayout {
 
-    private String title;
-    private TextView mTitle;
+    private final String title;
+    private final TextView mTitle;
 
-    private String buttonText;
-    private MaterialButton mButton;
-    private boolean hasButton;
+    private final String buttonText;
+    private final MaterialButton mButton;
+    private final boolean hasButton;
 
     private OnExtendedAlertButtonClickListener onExtendedAlertButtonClickListener;
 

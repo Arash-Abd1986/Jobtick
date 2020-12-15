@@ -4,67 +4,48 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
-import com.jobtick.EditText.EditTextRegular;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
-import com.jobtick.models.BillingAdreessModel;
-import com.jobtick.models.CreditCardModel;
+import android.annotation.SuppressLint;
+
 import com.jobtick.payment.AddCreditCard;
 import com.jobtick.payment.AddCreditCardImpl;
-import com.jobtick.utils.Constant;
 import com.jobtick.utils.Tools;
 import com.jobtick.widget.ExtendedEntryText;
-import com.stripe.android.ApiResultCallback;
-import com.stripe.android.Stripe;
-import com.stripe.android.model.Card;
-import com.stripe.android.model.CardBrand;
-import com.stripe.android.model.PaymentMethod;
-import com.stripe.android.model.PaymentMethodCreateParams;
-import com.stripe.android.view.CardMultilineWidget;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-import static com.jobtick.activities.PaymentSettingsActivity.onBankaccountadded;
-import static com.jobtick.utils.ConstantKey.PUBLISHABLE_KEY;
-
 public class AddCreditCardActivity extends ActivityBase implements ExtendedEntryText.ExtendedViewOnClickListener {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_full_name)
     ExtendedEntryText edtFullName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_card_number)
     ExtendedEntryText edtCardNumber;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_expiry_date)
     ExtendedEntryText edtExpiryDate;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_security_number)
     ExtendedEntryText edtSecurityNumber;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_add_credit_card)
     MaterialButton lytBtnAddCreditCard;
 
@@ -160,10 +141,10 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
             case R.id.lyt_btn_add_credit_card:
                 if(validation()){
                     showProgressDialog();
-                    addCreditCard.getToken(edtCardNumber.getText().toString(),
+                    addCreditCard.getToken(edtCardNumber.getText(),
                             expMonth, expYear,
-                            edtSecurityNumber.getText().toString(),
-                            edtFullName.getText().toString());
+                            edtSecurityNumber.getText(),
+                            edtFullName.getText());
                 }
                 break;
         }
@@ -179,7 +160,7 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
                 expMonth = selectedMonth;
                 expYear = selectedYear;
                 edtExpiryDate.setText(selectedMonth + " /" + selectedYear);
-                Log.d("aa", "selectedMonth : " + selectedMonth + " selectedYear : " + selectedYear);
+                Timber.d("selectedMonth : " + selectedMonth + " selectedYear : " + selectedYear);
             }
         }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
 
@@ -193,7 +174,7 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
                 .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
                     @Override
                     public void onMonthChanged(int selectedMonth) {
-                        Log.d("a", "Selected month : " + selectedMonth);
+                        Timber.d("Selected month : " + selectedMonth);
                         // Toast.makeText(MainActivity.this, " Selected month : " + selectedMonth, Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -201,7 +182,7 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
                     @Override
                     public void onYearChanged(int selectedYear) {
 
-                        Log.d("a", "Selected year : " + selectedYear);
+                        Timber.tag("a").d("Selected year : " + selectedYear);
                         // Toast.makeText(MainActivity.this, " Selected year : " + selectedYear, Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -212,19 +193,19 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
     }
 
     private boolean validation(){
-        if(edtFullName.getText().toString().isEmpty()){
+        if(edtFullName.getText().isEmpty()){
             edtFullName.setError("The card name must be filled.");
             return false;
         }
-        else if(edtCardNumber.getText().toString().isEmpty()){
+        else if(edtCardNumber.getText().isEmpty()){
             edtCardNumber.setError("The card number must be filled.");
             return false;
         }
-        else if(edtExpiryDate.getText().toString().isEmpty()){
+        else if(edtExpiryDate.getText().isEmpty()){
             edtExpiryDate.setError("The card expiry date must be filled.");
             return false;
         }
-        else if(edtSecurityNumber.getText().toString().isEmpty()){
+        else if(edtSecurityNumber.getText().isEmpty()){
             edtSecurityNumber.setError("The card CVC must be filled.");
             return false;
         }

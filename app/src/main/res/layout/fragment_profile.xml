@@ -139,8 +139,8 @@
                                     android:layout_width="28dp"
                                     android:layout_height="28dp"
                                     android:layout_gravity="center"
-                                    android:layout_marginLeft="2dp"
-                                    android:layout_marginRight="2dp"
+                                    android:layout_marginStart="2dp"
+                                    android:layout_marginEnd="2dp"
                                     android:background="@drawable/bg_rounded_profile_badge_disable"
                                     android:contentDescription="@string/todo"
                                     android:src="@drawable/ic_call_dialor" />
@@ -150,8 +150,8 @@
                                     android:layout_width="28dp"
                                     android:layout_height="28dp"
                                     android:layout_gravity="center"
-                                    android:layout_marginLeft="2dp"
-                                    android:layout_marginRight="2dp"
+                                    android:layout_marginStart="2dp"
+                                    android:layout_marginEnd="2dp"
                                     android:background="@drawable/bg_rounded_profile_badge_disable"
                                     android:contentDescription="@string/todo"
                                     android:scaleType="center"
@@ -162,8 +162,8 @@
                                     android:layout_width="28dp"
                                     android:layout_height="28dp"
                                     android:layout_gravity="center"
-                                    android:layout_marginLeft="2dp"
-                                    android:layout_marginRight="2dp"
+                                    android:layout_marginStart="2dp"
+                                    android:layout_marginEnd="2dp"
                                     android:background="@drawable/bg_rounded_profile_badge_disable"
                                     android:contentDescription="@string/todo"
                                     android:src="@drawable/ic_id_profile" />
@@ -173,8 +173,8 @@
                                     android:layout_width="28dp"
                                     android:layout_height="28dp"
                                     android:layout_gravity="center"
-                                    android:layout_marginLeft="2dp"
-                                    android:layout_marginRight="2dp"
+                                    android:layout_marginStart="2dp"
+                                    android:layout_marginEnd="2dp"
                                     android:contentDescription="@string/todo"
                                     android:padding="8dp"
                                     android:src="@drawable/ic_info" />
@@ -210,8 +210,8 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginRight="2dp"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="2dp"
                             android:contentDescription="@string/todo"
                             android:padding="8dp"
                             android:src="@drawable/ic_info" />
@@ -329,9 +329,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="115dp"
-                    android:layout_marginLeft="@dimen/spacing_large"
-                    android:layout_marginRight="@dimen/spacing_large"
-                    android:orientation="horizontal">
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
 
                         <LinearLayout
                             android:id="@+id/ticker_review"
@@ -611,9 +612,9 @@
                                 android:id="@+id/rgTabs"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/_20sp"
+                                android:layout_marginStart="@dimen/_20sp"
                                 android:layout_marginTop="@dimen/_20sp"
-                                android:layout_marginRight="@dimen/_20sp"
+                                android:layout_marginEnd="@dimen/_20sp"
                                 android:background="@drawable/radio_profile_bg"
                                 android:orientation="horizontal"
                                 android:weightSum="2">
@@ -888,8 +889,8 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:layout_gravity="center"
-                                    android:layout_marginLeft="@dimen/_5sp"
-                                    android:layout_marginRight="@dimen/_5sp"
+                                    android:layout_marginStart="@dimen/_5sp"
+                                    android:layout_marginEnd="@dimen/_5sp"
                                     android:contentDescription="@string/todo"
                                     android:padding="8dp"
                                     android:src="@drawable/ic_info" />

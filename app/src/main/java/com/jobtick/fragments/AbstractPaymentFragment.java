@@ -25,7 +25,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
+
+import android.annotation.SuppressLint;
+
+import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.adapers.PaymentHistoryListAdapter;
 import com.jobtick.models.payments.PaymentHistory;
@@ -50,21 +53,29 @@ import butterknife.ButterKnife;
 
 public abstract class AbstractPaymentFragment extends Fragment {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_total_payment)
     TextView totalPayment;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_total_transactions)
     TextView totalTransaction;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.payment_history_list)
     RecyclerView paymentHistoryList;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.no_transaction_container)
     LinearLayout noTransactions;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.container)
     CardView container;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.filter)
     TextView filter;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.download)
     TextView download;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_filter)
     TextView txtFilter;
 
@@ -167,6 +178,7 @@ public abstract class AbstractPaymentFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
+    @SuppressLint("DefaultLocale")
     private void fillData(List<PaymentHistory> data, String total_amount, boolean firstInit) {
         if (data.size() == 0 && firstInit) {
             noTransactions.setVisibility(View.VISIBLE);
@@ -176,7 +188,7 @@ public abstract class AbstractPaymentFragment extends Fragment {
             container.setVisibility(View.VISIBLE);
         }
         totalPayment.setText(StringUtils.getPriceTxt(total_amount));
-        totalTransaction.setText(data.size() + " transactions");
+        totalTransaction.setText(String.format("%d transactions", data.size()));
         paymentHistoryList.setLayoutManager(new LinearLayoutManager(getContext()));
         Collections.reverse(data);
         paymentHistoryList.setAdapter(new PaymentHistoryListAdapter(data, true, paymentHistory -> {

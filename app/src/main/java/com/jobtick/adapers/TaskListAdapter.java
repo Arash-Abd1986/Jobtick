@@ -1,6 +1,5 @@
 package com.jobtick.adapers;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
@@ -8,15 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ImageUtil;
@@ -38,6 +39,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private Context context;
     private OnItemClickListener mOnItemClickListener;
     private OnDraftDeleteListener mOnDraftDeleteListener;
+
+    private Integer userId;
 
     public interface OnItemClickListener {
         void onItemClick(View view, TaskModel obj, int position, String action);
@@ -61,10 +64,11 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     private boolean isLoaderVisible = false;
-    private List<TaskModel> mItems;
+    private final List<TaskModel> mItems;
 
-    public TaskListAdapter(List<TaskModel> mItems) {
+    public TaskListAdapter(List<TaskModel> mItems, @Nullable Integer userId) {
         this.mItems = mItems;
+        this.userId = userId;
     }
 
     @NonNull
@@ -131,24 +135,34 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class ViewHolder extends BaseViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_avatar)
         CircularImageView imgAvatar;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_offer_count)
         TextView txtOfferCount;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_title)
         TextView txtTitle;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_location)
         TextView txtLocation;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_due_date)
         TextView txtDueDate;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_due_time)
         TextView txtDueTime;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_budget)
         TextView txtBudget;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_status)
         TextView txtStatus;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.tv_delete)
         ImageView tvDelete;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.card_task_background)
         CardView cardTaskBackground;
 
@@ -220,6 +234,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 txtDueTime.setText("No time set");
             }
             txtStatus.setText(item.getStatus());
+            if(userId != null && item.getPoster() != null && item.getPoster().getId() != null &&
+            item.getPoster().getId().equals(userId) && item.getStatus().equals("open")){
+                txtStatus.setText("posted");
+            }else if(userId != null && item.getStatus() != null && item.getStatus().equals("open")){
+                txtStatus.setText("offered");
+            }
             tvDelete.setVisibility(View.GONE);
             if (item.getLocation() != null) {
                 txtLocation.setText(item.getLocation());

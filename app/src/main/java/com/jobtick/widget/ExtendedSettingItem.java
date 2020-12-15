@@ -12,8 +12,8 @@ import com.jobtick.R;
 
 public class ExtendedSettingItem extends FrameLayout {
 
-    private String eTitle;
-    private TextView title;
+    private final String eTitle;
+    private final TextView title;
 
     public ExtendedSettingItem(Context context) {
         this(context, null);

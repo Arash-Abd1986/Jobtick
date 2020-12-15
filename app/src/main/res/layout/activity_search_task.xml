@@ -30,23 +30,24 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:padding="12dp"
-                android:src="@drawable/ic_back">
+                android:src="@drawable/ic_back"
+                >
 
             </ImageView>
 
-            <com.jobtick.EditText.EditTextRegular
+            <com.jobtick.edit_text.EditTextRegular
                 android:id="@+id/edt_search_categoreis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/iv_back"
+                android:layout_toEndOf="@id/iv_back"
                 android:background="@null"
                 android:hint="Search my jobs..."
                 android:textColor="@color/grey_70"
                 android:textColorHint="@color/grey_70"
                 android:textSize="@dimen/_15sp">
 
-            </com.jobtick.EditText.EditTextRegular>
+            </com.jobtick.edit_text.EditTextRegular>
 
         </RelativeLayout>
 
@@ -110,11 +111,12 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_no_search_found">
+                    android:src="@drawable/ic_no_search_found"
+                    >
 
                 </ImageView>
 
-                <com.jobtick.TextView.TextViewRegular
+                <com.jobtick.text_view.TextViewRegular
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_15sp"
@@ -122,7 +124,7 @@
                     android:gravity="center"
                     android:text="We didn't find any results for your search">
 
-                </com.jobtick.TextView.TextViewRegular>
+                </com.jobtick.text_view.TextViewRegular>
 
 
                 <LinearLayout
@@ -140,7 +142,7 @@
                     android:paddingStart="@dimen/spacing_xlarge"
                     android:paddingEnd="@dimen/spacing_xlarge">
 
-                    <com.jobtick.TextView.TextViewRegular
+                    <com.jobtick.text_view.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -163,7 +165,7 @@
                     android:paddingEnd="@dimen/spacing_xxxlarge"
                     android:visibility="visible">
 
-                    <com.jobtick.TextView.TextViewSemiBold
+                    <com.jobtick.text_view.TextViewSemiBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

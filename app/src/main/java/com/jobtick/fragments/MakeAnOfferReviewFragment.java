@@ -8,7 +8,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +24,8 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.activities.VideoPlayerActivity;
@@ -39,42 +41,55 @@ import butterknife.OnClick;
 
 public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickListener {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_info)
     ImageView imgInfo;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_total_budget)
     TextView txtTotalBudget;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_service_fee)
     TextView txtServiceFee;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_receive_budget)
     TextView txtReceiveBudget;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_btn_close)
     ImageView imgBtnClose;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_btn_play)
     ImageView imgBtnPlay;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_review_conditions)
     TextView txtReviewConditions;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_submit_offer)
     LinearLayout lytBtnSubmitOffer;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lytRecord2)
     LinearLayout lytRecord2;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_submit_offer)
     CardView cardSubmitOffer;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_offer_on_task)
     ImageView imgOfferOnTask;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_live_video)
     FrameLayout cardLiveVideo;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ivBack)
     ImageView ivBack;
 
@@ -128,8 +143,6 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
             }
         });
 
-        Log.e("", "");
-
         // toolbar.setNavigationOnClickListener(MakeAnOfferReviewFragment.this);
         reviewConditions();
         setupBudget(makeAnOfferModel.getOffer_price());
@@ -149,9 +162,9 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
     private void setupBudget(int budget) {
         int worker_service_fee = userAccountModel.getWorkerTier().getServiceFee();
         float service_fee = (float) ((budget * worker_service_fee) / 100);
-        txtServiceFee.setText("$" + service_fee);
+        txtServiceFee.setText(String.format("$%s", service_fee));
         float total_budget = budget - (float) ((budget * worker_service_fee) / 100);
-        txtReceiveBudget.setText("$" + total_budget);
+        txtReceiveBudget.setText(String.format("$%s", total_budget));
     }
 
     private void reviewConditions() {

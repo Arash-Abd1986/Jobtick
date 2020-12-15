@@ -76,7 +76,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:layout_toStartOf="@+id/txt_unseen_count"
                     android:textColor="@color/colorPrimary"
                     tools:text="Nathan Fox" />
 
@@ -111,7 +110,7 @@
                     android:layout_toStartOf="@+id/txt_time_status"
                     android:layout_toEndOf="@+id/txt_unseen_count"
                     android:ellipsize="end"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:maxLines="1"
                     android:textColor="@color/textColor"
                     tools:ignore="RtlHardcoded"

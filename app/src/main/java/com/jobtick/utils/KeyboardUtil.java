@@ -8,29 +8,21 @@ import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 
 public class KeyboardUtil {
-    private View decorView;
-    private View contentView;
+    private final View decorView;
+    private final View contentView;
 
     public KeyboardUtil(Activity act, View contentView) {
         this.decorView = act.getWindow().getDecorView();
         this.contentView = contentView;
-
-        //only required on newer android versions. it was working on API level 19
-        if (Build.VERSION.SDK_INT >= 19) {
-            decorView.getViewTreeObserver().addOnGlobalLayoutListener(onGlobalLayoutListener);
-        }
+        decorView.getViewTreeObserver().addOnGlobalLayoutListener(onGlobalLayoutListener);
     }
 
     public void enable() {
-        if (Build.VERSION.SDK_INT >= 19) {
-            decorView.getViewTreeObserver().addOnGlobalLayoutListener(onGlobalLayoutListener);
-        }
+        decorView.getViewTreeObserver().addOnGlobalLayoutListener(onGlobalLayoutListener);
     }
 
     public void disable() {
-        if (Build.VERSION.SDK_INT >= 19) {
-            decorView.getViewTreeObserver().removeOnGlobalLayoutListener(onGlobalLayoutListener);
-        }
+        decorView.getViewTreeObserver().removeOnGlobalLayoutListener(onGlobalLayoutListener);
     }
 
 

@@ -12,7 +12,6 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.jobtick.R;
-import com.jobtick.activities.PaymentOverviewActivity;
 import com.jobtick.utils.Constant;
 
 import java.util.HashMap;

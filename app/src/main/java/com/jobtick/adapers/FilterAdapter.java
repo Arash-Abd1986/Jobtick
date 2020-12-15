@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewSemiBold;
+import android.annotation.SuppressLint;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private List<String> items;
+    private final List<String> items;
     private Context context;
 
     public FilterAdapter(List<String> items) {
@@ -27,6 +27,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_data)
         TextView txtData;
 

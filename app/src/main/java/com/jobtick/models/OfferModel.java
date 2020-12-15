@@ -2,7 +2,6 @@ package com.jobtick.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -13,6 +12,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 public class OfferModel  implements Parcelable{
     String TAG = OfferModel.class.getName();
@@ -344,7 +345,7 @@ public class OfferModel  implements Parcelable{
             if (jsonObject.has("created_at") && !jsonObject.isNull("created_at"))
                 offerModel.setCreatedAt(TimeAgo.getTimeAgo(jsonObject.getString("created_at")));
         } catch (JSONException e) {
-            Log.e(TAG,e.toString());
+            Timber.e(e.toString());
             e.printStackTrace();
         }
         return offerModel;

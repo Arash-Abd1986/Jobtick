@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class EndLessRecyclerView extends RecyclerView {
 
-    private EndlessRecyclerViewOnScrollListener endlessScroller;
+    private final EndlessRecyclerViewOnScrollListener endlessScroller;
 
     private OnLoadMore onLoadMore;
 

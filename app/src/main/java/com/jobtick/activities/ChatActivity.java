@@ -1,17 +1,14 @@
 package com.jobtick.activities;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
@@ -40,7 +37,9 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewMedium;
+import android.annotation.SuppressLint;
+
+import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.ChatAdapter;
 import com.jobtick.models.AttachmentModel;
@@ -181,7 +180,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
     private int currentPage = PAGE_START;
-    private boolean isLastPage = false;
+    private final boolean isLastPage = false;
     private int totalPage = 10;
     private int unreadCount = 0;
     private boolean isLastPosition = false;
@@ -228,7 +227,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         if (conversationModel != null) {
             setToolbar(conversationModel);
         }
-        pusher = new Pusher("31c5e7256697a01d331a", options);
+        pusher = new Pusher(getString(R.string.pusher_api_key), options);
 
         pusher.connect(new ConnectionEventListener() {
             @Override
@@ -786,7 +785,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
             @Override
             public void onResponse(@NotNull Call<String> call, retrofit2.@NotNull Response<String> response) {
                 hideProgressDialog();
-               Log.d("FileUpload",response.toString());
+                Timber.d(response.toString());
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     showToast(response.message(), ChatActivity.this);
                     return;
@@ -826,7 +825,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
                 hideProgressDialog();
-                Log.d("FileUpload",t.toString());
+                Timber.tag("FileUpload").d(t.toString());
 
             }
         });
@@ -859,7 +858,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         if (data != null) {
             if (requestCode == PICKUP_File_REQUEST_CODE && resultCode==RESULT_OK) {
                 Uri uri = data.getData();
-                Log.d("FileUpload",uri.getPath());
+                Timber.tag("FileUpload").d(uri.getPath());
                 uploadDataInPortfolioMediaApi(new File(uri.getPath()));
             }
             if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {

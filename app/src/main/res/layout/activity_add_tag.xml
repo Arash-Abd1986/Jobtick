@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/backgroundLightGrey"
     android:orientation="vertical"
     tools:context=".activities.AttachmentActivity">
 
@@ -13,12 +13,12 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/background"
+        android:background="@color/backgroundLightGrey"
         app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="@drawable/ic_cancel"
         app:titleTextColor="@color/textColor" />
 
-    <com.jobtick.TextView.TextViewSemiBold
+    <com.jobtick.text_view.TextViewSemiBold
         android:id="@+id/txt_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.jobtick.EditText.EditTextRegular
+                <com.jobtick.edit_text.EditTextRegular
                     android:id="@+id/edt_add_tag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -63,7 +63,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_add_primary" />
+                    android:src="@drawable/ic_add_primary"
+                     />
             </RelativeLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

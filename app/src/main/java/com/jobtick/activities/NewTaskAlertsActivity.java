@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -24,7 +23,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
-import com.jobtick.TextView.TextViewRegular;
+import android.annotation.SuppressLint;
+
+import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.adapers.SectionsPagerAdapter;
 import com.jobtick.fragments.NewTaskAlertsInPersonFragment;
 import com.jobtick.fragments.NewTaskAlertsRemoteFragment;
@@ -44,14 +45,19 @@ import timber.log.Timber;
 
 public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlertsInPersonFragment.OperationInPersonListener, NewTaskAlertsRemoteFragment.OperationRemoteListener {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_in_person)
     RadioButton rbInPerson;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_remote)
     RadioButton rbRemote;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rg_inPerson_remote)
     RadioGroup rgInPersonRemote;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
@@ -279,7 +285,7 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(NewTaskAlertsActivity.this);
         requestQueue.add(stringRequest);
-        Log.e("data", stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
 

@@ -2,7 +2,6 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,6 +21,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.fragments.PosterRequirementsBottomSheet;
 import com.jobtick.models.CreditCardModel;
 import com.jobtick.models.OfferModel;
@@ -49,37 +50,52 @@ import timber.log.Timber;
 public class PaymentOverviewActivity extends ActivityBase implements PosterRequirementsBottomSheet.NoticeListener {
 
     private static final String TAG = PaymentOverviewActivity.class.getSimpleName();
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_avatar)
     CircularImageView imgAvatar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_user_name)
     MaterialTextView txtUserName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_post_title)
     MaterialTextView txtPostTitle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_task_cost)
     MaterialTextView txtTaskCost;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_service_fee)
     MaterialTextView txtServiceFee;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_wallet_value)
     MaterialTextView txtWallet;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_total_cost)
     MaterialTextView txtTotalCost;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_brand)
     CardView imgBrand;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_account_number)
     MaterialTextView txtAccountNumber;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_expires_date)
     MaterialTextView txtExpiresDate;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_new)
     MaterialButton btnNew;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rlt_payment_method)
     RelativeLayout rltPaymentMethod;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_pay)
     MaterialButton btnPay;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_add_credit_card)
     LinearLayout lytAddCreditCard;
 
@@ -96,6 +112,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
     float final_total_cost;
     float wallet;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_view_user)
     LinearLayout cardViewUser;
 
@@ -224,8 +241,8 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
         btnPay.setEnabled(true);
         btnPay.setAlpha(1.0f);
         lytAddCreditCard.setVisibility(View.GONE);
-        txtAccountNumber.setText("**** **** **** " + creditCardModel.getData().get(0).getCard().getLast4());
-        txtExpiresDate.setText("Expiry Date: " + creditCardModel.getData().get(0).getCard().getExp_month() + "/" + creditCardModel.getData().get(0).getCard().getExp_year());
+        txtAccountNumber.setText(String.format("**** **** **** %s", creditCardModel.getData().get(0).getCard().getLast4()));
+        txtExpiresDate.setText(String.format(Locale.ENGLISH, "Expiry Date: %d/%d", creditCardModel.getData().get(0).getCard().getExp_month(), creditCardModel.getData().get(0).getCard().getExp_year()));
         rltPaymentMethod.setVisibility(View.VISIBLE);
         if (creditCardModel.getData() != null && creditCardModel.getData().get(1) != null && creditCardModel.getData().get(1).getWallet() != null) {
             wallet = creditCardModel.getData().get(1).getWallet().getBalance();
@@ -236,7 +253,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
         calculate(Float.toString(final_task_cost));
     }
 
-    @OnClick({R.id.lyt_add_credit_card, R.id.btn_new, R.id.btn_pay, R.id.card_view_user})
+    @OnClick({R.id.lyt_add_credit_card, R.id.btn_new, R.id.btn_pay})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_pay:
@@ -248,14 +265,6 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
                 break;
             case R.id.lyt_add_credit_card:
                 showCreditCardRequirementBottomSheet();
-
-                break;
-            case R.id.card_view_user:
-                Bundle bundleProfile = new Bundle();
-                bundleProfile.putInt(Constant.userID, sessionManager.getUserAccount().getId());
-                Intent intent = new Intent(PaymentOverviewActivity.this, UserProfileActivity.class);
-                intent.putExtras(bundleProfile);
-                startActivity(intent);
                 break;
         }
     }
@@ -272,7 +281,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
 
                     @Override
                     public void onResponse(String response) {
-                        Log.e("response", response);
+                        Timber.e(response);
                         //   hidepDialog();
                         try {
 
@@ -353,7 +362,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(PaymentOverviewActivity.this);
         requestQueue.add(stringRequest);
-        Log.e(TAG, stringRequest.getUrl());
+        Timber.e(stringRequest.getUrl());
     }
 
     public void calculate(String amount) {

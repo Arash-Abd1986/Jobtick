@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -24,6 +23,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.interfaces.OnBankAccountAdded;
 import com.jobtick.models.BankAccountModel;
 import com.jobtick.models.BillingAdreessModel;
@@ -36,6 +37,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -54,69 +56,91 @@ public class PaymentSettingsActivity extends ActivityBase {
     private BankAccountModel bankAccountModel;
     private BillingAdreessModel billingAdreessModel;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_payments)
     RadioButton rbPayments;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_withdrawal)
     RadioButton rbWithdrawal;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rg_payments_withdrawal)
     RadioGroup rgPaymentsWithdrawal;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.add_credit_card)
     CardView addCreditCard;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.add_bank_account)
     CardView addBankAccount;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.add_billing_address)
     CardView addBillingAddress;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.linear_payment_specs)
     LinearLayout paymentSpecs;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.linear_withdrawal_specs)
     LinearLayout withdrawalSpecs;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.linear_add_credit_card)
     LinearLayout addCreditCardSpecs;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.linear_add_bank_account)
     LinearLayout addBankAccountSpecs;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.linear_add_billing_address)
     LinearLayout addBillingAddressSpecs;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_bsb)
     TextView bsb;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_account_number)
     TextView accountNumber;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_address)
     TextView address;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_state)
     TextView state;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_suburb)
     TextView suburb;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_postcode)
     TextView postCode;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_country)
     TextView country;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.credit_expiry_date)
     TextView edtExpiryDate;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.credit_account_number)
     TextView creditAccountNumber;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_type)
     TextView cardType;
 
@@ -305,7 +329,7 @@ public class PaymentSettingsActivity extends ActivityBase {
 
                                     setupViewBankAccountDetails(true);
 
-                                    accountNumber.setText("xxxxx" + bankAccountModel.getData().getAccount_number());
+                                    accountNumber.setText(String.format("xxxxx%s", bankAccountModel.getData().getAccount_number()));
                                     bsb.setText(bankAccountModel.getData().getBsb_code());
                                 }
                                 else{
@@ -498,8 +522,8 @@ public class PaymentSettingsActivity extends ActivityBase {
                                         setupViewCreditCard(true);
 
                                         cardType.setText(creditCardModel.getData().get(0).getCard().getBrand());
-                                        edtExpiryDate.setText("Expiry Date: " + creditCardModel.getData().get(0).getCard().getExp_month() + "/" + creditCardModel.getData().get(0).getCard().getExp_year());
-                                        creditAccountNumber.setText("xxxx xxxx xxxx " + creditCardModel.getData().get(0).getCard().getLast4());
+                                        edtExpiryDate.setText(String.format(Locale.ENGLISH, "Expiry Date: %d/%d", creditCardModel.getData().get(0).getCard().getExp_month(), creditCardModel.getData().get(0).getCard().getExp_year()));
+                                        creditAccountNumber.setText(String.format("xxxx xxxx xxxx %s", creditCardModel.getData().get(0).getCard().getLast4()));
                                     } else {
                                         setupViewCreditCard(false);
                                     }

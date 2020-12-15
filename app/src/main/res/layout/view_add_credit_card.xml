@@ -17,7 +17,7 @@
             android:padding="16dp">
 
 
-            <com.jobtick.TextView.TextViewMedium
+            <com.jobtick.text_view.TextViewMedium
                 android:id="@+id/card_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,10 +34,11 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_master_card" />
+                android:src="@drawable/ic_master_card"
+                 />
 
 
-            <com.jobtick.TextView.TextViewMedium
+            <com.jobtick.text_view.TextViewMedium
                 android:id="@+id/credit_account_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,7 +50,7 @@
                 android:textSize="@dimen/_14sp" />
 
 
-            <com.jobtick.TextView.TextViewMedium
+            <com.jobtick.text_view.TextViewMedium
                 android:id="@+id/credit_expiry_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

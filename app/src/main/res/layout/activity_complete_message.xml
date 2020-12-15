@@ -22,13 +22,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/ic_tick" />
+            android:src="@drawable/ic_tick"
+             />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/spacing_xlarge" />
 
-        <com.jobtick.TextView.TextViewBold
+        <com.jobtick.text_view.TextViewBold
             android:id="@+id/txt_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/spacing_mlarge" />
 
-        <com.jobtick.TextView.TextViewRegular
+        <com.jobtick.text_view.TextViewRegular
             android:id="@+id/txt_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,7 +75,7 @@
             android:background="?attr/selectableItemBackground"
             android:gravity="center">
 
-            <com.jobtick.TextView.TextViewMedium
+            <com.jobtick.text_view.TextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -118,7 +119,7 @@
 
                     android:gravity="center">
 
-                    <com.jobtick.TextView.TextViewMedium
+                    <com.jobtick.text_view.TextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -150,7 +151,7 @@
 
                     android:gravity="center">
 
-                    <com.jobtick.TextView.TextViewMedium
+                    <com.jobtick.text_view.TextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"

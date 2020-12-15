@@ -1,7 +1,7 @@
 package com.jobtick.fragments;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
+
 import com.jobtick.models.FilterModel;
 import com.jobtick.utils.Constant;
 

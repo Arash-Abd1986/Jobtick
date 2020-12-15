@@ -20,11 +20,14 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 import com.jobtick.R;
+import android.annotation.SuppressLint;
+
 import com.jobtick.activities.NewTaskAlertsActivity;
-import com.jobtick.models.GeocodeObject;
 import com.jobtick.models.task.TaskAlert;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.SessionManager;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,17 +37,22 @@ import butterknife.OnClick;
  * A simple {@link Fragment} subclass.
  */
 public class NewTaskAlertsInPersonFragment extends Fragment {
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_update_alert)
     MaterialButton btnUpdate;
-    private int PLACE_SELECTION_REQUEST_CODE = 1;
-    private String TAG = TaskDetailFragment.class.getName();
+    private final int PLACE_SELECTION_REQUEST_CODE = 1;
+    private final String TAG = TaskDetailFragment.class.getName();
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_keyword)
     ExtendedEntryText edtKeyword;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_suburb)
     ExtendedEntryText txtSuburb;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_distance_km)
     TextView txtDistanceKm;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.sk_distance)
     SeekBar skDistance;
 
@@ -108,8 +116,8 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
             txtSuburb.setText(taskAlert.getSuburb());
             edtKeyword.setText(taskAlert.getKetword());
             skDistance.setProgress(taskAlert.getDistance());
-            txtDistanceKm.setText(taskAlert.getDistance() + " KM");
-            btnUpdate.setText("Update alert");
+            txtDistanceKm.setText(String.format(Locale.ENGLISH, "%d KM", taskAlert.getDistance()));
+            btnUpdate.setText(R.string.update_alert);
         } else {
          //   txtSaveUpdateAlert.setText("save alert");
         }
@@ -120,7 +128,7 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
         skDistance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                txtDistanceKm.setText(progress + " KM");
+                txtDistanceKm.setText(String.format(Locale.ENGLISH, "%d KM", progress));
             }
 
             @Override
@@ -164,8 +172,8 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
                     case 0:
                         taskAlert.setAlert_type("physical");
                         taskAlert.setDistance(Integer.parseInt(txtDistanceKm.getText().toString().trim().replace(" KM", "")));
-                        taskAlert.setKetword(edtKeyword.getText().toString().trim());
-                        taskAlert.setSuburb(txtSuburb.getText().toString().trim());
+                        taskAlert.setKetword(edtKeyword.getText().trim());
+                        taskAlert.setSuburb(txtSuburb.getText().trim());
 
                         operationInPersonListener.onInPersonSave(position, taskAlert);
                         break;
@@ -183,9 +191,9 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
 
 
     private int getValidationCode() {
-        if (TextUtils.isEmpty(edtKeyword.getText().toString().trim())) {
+        if (TextUtils.isEmpty(edtKeyword.getText().trim())) {
             return 1;
-        } else if (TextUtils.isEmpty(txtSuburb.getText().toString().trim())) {
+        } else if (TextUtils.isEmpty(txtSuburb.getText().trim())) {
             return 2;
         }
         return 0;

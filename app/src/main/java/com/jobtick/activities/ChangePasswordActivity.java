@@ -1,19 +1,12 @@
 package com.jobtick.activities;
 
-import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
-
-import androidx.appcompat.widget.AppCompatButton;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -27,8 +20,6 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
-
-import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.widget.ExtendedEntryText;
@@ -135,7 +126,7 @@ public class ChangePasswordActivity extends ActivityBase implements TextWatcher 
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                showCustomDialog("Password Changed Successfully !");
+                                showSuccessToast("Password Changed Successfully !", this);
                             }
                         }
 
@@ -165,7 +156,7 @@ public class ChangePasswordActivity extends ActivityBase implements TextWatcher 
                                 JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                                 if (jsonObject_error.has("message")) {
-                                    Toast.makeText(ChangePasswordActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                                    showToast(jsonObject_error.getString("message"), ChangePasswordActivity.this);
                                 }
                                 if (jsonObject_error.has("errors")) {
                                     JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
@@ -225,31 +216,6 @@ public class ChangePasswordActivity extends ActivityBase implements TextWatcher 
         requestQueue.add(stringRequest);
     }
 
-    private void showCustomDialog(String message) {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_show_warning);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
-        txtMessage.setText(message);
-
-        ((AppCompatButton) dialog.findViewById(R.id.btn_ok)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                finish();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-    }
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

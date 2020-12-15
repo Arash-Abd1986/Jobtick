@@ -160,9 +160,8 @@ public class ProfileReqFragment extends Fragment implements AttachmentAdapterEdi
 
         lytBtnCamera.setOnClickListener(view1 -> {
             if (!CameraUtils.isDeviceSupportCamera(getApplicationContext())) {
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! Your device doesn't support camera",
-                        Toast.LENGTH_LONG).show();
+                ((ActivityBase)requireActivity()).showToast(
+                        "Sorry! Your device doesn't support camera", requireContext());
                 // will close the app if the device doesn't have camera
                 return;
             }
@@ -258,13 +257,11 @@ public class ProfileReqFragment extends Fragment implements AttachmentAdapterEdi
                 uploadProfileAvatar(new File(uri.getPath()));
 
             } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(getApplicationContext(),
-                        "User cancelled image capture", Toast.LENGTH_SHORT)
-                        .show();
+                ((ActivityBase)requireActivity()).showToast(
+                        "User cancelled image capture", requireContext());
             } else {
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
-                        .show();
+                ((ActivityBase)requireActivity()).showToast(
+                        "Sorry! Failed to capture image", requireContext());
             }
         }
 
@@ -289,9 +286,8 @@ public class ProfileReqFragment extends Fragment implements AttachmentAdapterEdi
                     }
                 } else {
                     // failed to record video
-                    Toast.makeText(getApplicationContext(),
-                            "Sorry! Failed to Pickup Image", Toast.LENGTH_SHORT)
-                            .show();
+                    ((ActivityBase)requireActivity()).showToast(
+                            "Sorry! Failed to Pickup Image", requireContext());
                 }
             }
         }
@@ -316,7 +312,7 @@ public class ProfileReqFragment extends Fragment implements AttachmentAdapterEdi
                 try {
                     String strResponse = res;
                     if (response.code() == HttpStatus.NOT_FOUND) {
-                        Toast.makeText(getActivity(), "not found", Toast.LENGTH_SHORT).show();
+                        ((ActivityBase)requireActivity()).showToast("not found", requireContext());
                         return;
                     }
                     if (response.code() == HttpStatus.AUTH_FAILED) {

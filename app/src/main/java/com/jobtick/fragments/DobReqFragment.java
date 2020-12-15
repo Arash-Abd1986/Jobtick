@@ -146,14 +146,11 @@ public class DobReqFragment extends Fragment {
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            //  showCustomDialog(jsonObject_error.getString("message"));
+
                             if (jsonObject_error.has("message")) {
                                 ((ActivityBase) getActivity()).showToast(jsonObject_error.getString("message"), requireContext());
                             }
-                            if (jsonObject_error.has("errors")) {
-                                ((ActivityBase) getActivity()).showToast("something went wrong.", requireContext());
-                            }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+
                         } catch (JSONException e) {
                             ((ActivityBase) getActivity()).showToast(e.getMessage(), requireContext());
                             e.printStackTrace();

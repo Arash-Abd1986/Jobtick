@@ -219,14 +219,14 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
                                 if (jsonObject_errors.has("amount") && !jsonObject_errors.isNull("amount")) {
                                     JSONArray jsonArray_amount = jsonObject_errors.getJSONArray("amount");
-                                    showCustomDialog(jsonArray_amount.getString(0));
+                                    ((ActivityBase)requireActivity()).showToast(jsonArray_amount.getString(0), requireContext());
                                 } else if (jsonObject_errors.has("creation_reason") && !jsonObject_errors.isNull("creation_reason")) {
                                     JSONArray jsonArray_amount = jsonObject_errors.getJSONArray("creation_reason");
-                                    showCustomDialog(jsonArray_amount.getString(0));
+                                    ((ActivityBase)requireActivity()).showToast(jsonArray_amount.getString(0), requireContext());
                                 }
                             } else {
                                 if (jsonObject_error.has("message")) {
-                                    showCustomDialog(jsonObject_error.getString("message"));
+                                    ((ActivityBase)requireActivity()).showToast(jsonObject_error.getString("message"), requireContext());
                                 }
                             }
 
@@ -269,31 +269,6 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
-    }
-
-    private void showCustomDialog(String message) {
-        final Dialog dialog = new Dialog(getContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_show_warning);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
-        txtMessage.setText(message);
-
-        ((AppCompatButton) dialog.findViewById(R.id.btn_ok)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
 

@@ -149,7 +149,7 @@ public class SkillsTagActivity extends ActivityBase {
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                                Toast.makeText(SkillsTagActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                                showToast(jsonObject_error.getString("message"), this);
                             }
 
                         } catch (JSONException e) {

@@ -216,15 +216,8 @@ public class RescheduleTimeRequestActivity extends ActivityBase implements Exten
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             if (jsonObject_error.has("message")) {
-                                // Toast.makeText(RescheduleReqFromWorkerActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                                showCustomDialog(jsonObject_error.getString("message"));
-
-
+                                showToast(jsonObject_error.getString("message"), this);
                             }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -258,26 +251,6 @@ public class RescheduleTimeRequestActivity extends ActivityBase implements Exten
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(RescheduleTimeRequestActivity.this);
         requestQueue.add(stringRequest);
-    }
-
-    private void showCustomDialog(String message) {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_show_warning);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
-        txtMessage.setText(message);
-
-        dialog.findViewById(R.id.btn_ok).setOnClickListener(v -> dialog.dismiss());
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
     @Override

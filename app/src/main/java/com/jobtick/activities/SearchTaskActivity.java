@@ -63,10 +63,6 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
     ImageView ivBack;
 
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.back_to_activity)
-    MaterialButton backToActivity;
-
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.list)
     RecyclerView recyclerView;
 
@@ -101,11 +97,9 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
         sessionManager = new SessionManager(this);
         if(isFromMyJobs){
             edtSearch.setHint(R.string.search_your_jobs);
-            backToActivity.setText(R.string.back_to_my_jobs);
         }
         else{
             edtSearch.setHint(R.string.search_jobs);
-            backToActivity.setText(R.string.back_to_explore);
         }
         edtSearch.requestFocus();
         edtSearch.performClick();
@@ -115,7 +109,7 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
     }
 
     @SuppressLint("NonConstantResourceId")
-    @OnClick({R.id.lyt_search_new, R.id.back_to_activity, R.id.iv_back})
+    @OnClick({R.id.lyt_search_new, R.id.iv_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_search_new:
@@ -123,10 +117,6 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
                 edtSearch.requestFocus();
                 edtSearch.performClick();
                 showKeyboard(edtSearch);
-                break;
-            case R.id.back_to_activity:
-            case R.id.iv_back:
-                finish();
                 break;
 
         }

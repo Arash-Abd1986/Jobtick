@@ -201,6 +201,7 @@ public class TaskBudgetFragment extends Fragment {
             if (edtBudgetH.getText().toString().trim().length() > 0) {
                 taskModel.setBudget(rbTotal.isChecked() ? Integer.parseInt(edtBudgetH.getText().toString().trim()) : 0);
                 taskModel.setHourlyRate(rbHourly.isChecked() ? Integer.parseInt(edtBudgetH.getText().toString().trim()) : 0);
+                if(!txtHours.getText().toString().isEmpty())
                 taskModel.setTotalHours(Integer.parseInt(txtHours.getText().toString().trim()));
                 taskModel.setPaymentType(rbHourly.isChecked() ? Constant.TASK_PAYMENT_TYPE_HOURLY : Constant.TASK_PAYMENT_TYPE_FIXED);
             }

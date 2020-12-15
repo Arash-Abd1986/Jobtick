@@ -773,14 +773,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             }).show();
                     break;
                 case R.id.action_copy:
-                    new MaterialAlertDialogBuilder(TaskDetailsActivity.this)
-                            .setTitle(getResources().getString(R.string.title_copy))
-                            .setNegativeButton(getResources().getString(R.string.no), null)
-                            .setPositiveButton(getResources().getString(R.string.yes), (dialog, which) -> {
-                                dialog.dismiss();
-                                // deleteTaskPermanent(taskDetails.getSlug());
-                                copyTask(taskModel);
-                            }).show();
+                    copyTask(taskModel);
+//                    new MaterialAlertDialogBuilder(TaskDetailsActivity.this)
+//                            .setTitle(getResources().getString(R.string.title_copy))
+//                            .setNegativeButton(getResources().getString(R.string.no), null)
+//                            .setPositiveButton(getResources().getString(R.string.yes), (dialog, which) -> {
+//                                dialog.dismiss();
+//                                // deleteTaskPermanent(taskDetails.getSlug());
+//                            }).show();
                     break;
                 case R.id.action_cancellation:
                     Intent intent;

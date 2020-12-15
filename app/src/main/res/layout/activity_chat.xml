@@ -99,11 +99,12 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_job_title"
                     style="@style/materialText_600_12"
-                    android:layout_width="wrap_content"
+                    android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:maxLines="2"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:textColor="@color/textColor"
                     tools:text="Clean my two bedroom apartment" />
 
@@ -254,15 +255,15 @@
 
                     <ImageView
                         android:id="@+id/img_btn_image_select"
-                        android:layout_width="wrap_content"
+                        android:layout_width="35dp"
                         android:layout_height="40dp"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="@dimen/spacing_small"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@string/todo"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_paperclip" />
+                        android:padding="8dp"
+                        android:src="@drawable/ic_attachment_new" />
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_comment_message"

@@ -50,6 +50,7 @@ import com.google.gson.Gson;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
+import com.jobtick.adapers.QuestionAttachmentAdapter;
 import com.jobtick.cancellations.PPCancellationSummaryActivity;
 import com.jobtick.cancellations.PTCancellationSummaryActivity;
 import com.jobtick.cancellations.TPCancellationSummaryActivity;
@@ -130,7 +131,7 @@ import static com.jobtick.utils.Constant.TASK_PENDING;
 import static com.jobtick.utils.Constant.URL_TASKS;
 
 public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener,
-        QuestionListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, ExtendedAlertBox.OnExtendedAlertButtonClickListener,
+        QuestionListAdapter.OnItemClickListener, QuestionAttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, ExtendedAlertBox.OnExtendedAlertButtonClickListener,
         RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener,
         IncreaseBudgetNoticeBottomSheet.NoticeListener, IncreaseBudgetDeclineBottomSheet.NoticeListener,
         ConfirmAskToReleaseBottomSheet.NoticeListener, ConfirmReleaseBottomSheet.NoticeListener {
@@ -361,7 +362,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private QuestionListAdapter questionListAdapter;
     private boolean noActionAvailable = false;
     private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
-    private AttachmentAdapter adapter;
+    private QuestionAttachmentAdapter adapter;
     public int pushOfferID;
     public int pushQuestionID;
     private BottomSheetDialog mBottomSheetDialog;
@@ -1379,7 +1380,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         recyclerViewQuestionAttachment.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(TaskDetailsActivity.this, 5), true));
         recyclerViewQuestionAttachment.setHasFixedSize(true);
         //set data and list adapter
-        adapter = new AttachmentAdapter(attachmentArrayList_question, true);
+        adapter = new QuestionAttachmentAdapter(attachmentArrayList_question, true);
         recyclerViewQuestionAttachment.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         adapter.setOnItemClickListener(this);
@@ -2066,7 +2067,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             edtComment.setText("");
                             attachmentArrayList_question.clear();
                             attachmentArrayList_question.add(new AttachmentModel());
-                            adapter.notifyDataSetChanged();
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                 if (recyclerViewQuestions.getVisibility() != View.VISIBLE) {
                                     recyclerViewQuestions.setVisibility(View.VISIBLE);
@@ -2078,6 +2078,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         } else {
                             showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
                         }
+                        if(adapter!=null)
+                            adapter.notifyDataSetChanged();
                         getDataOnlyQuestions();
                         hideProgressDialog();
                     } catch (JSONException e) {
@@ -2379,7 +2381,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             attachmentArrayList_question.remove(position);
             adapter.notifyItemRemoved(position);
             adapter.notifyItemRangeRemoved(position, attachmentArrayList_question.size());
-            showToast("Delete this attachment", TaskDetailsActivity.this);
+            attachmentArrayList_question.clear();
+            attachmentArrayList_question.add(new AttachmentModel());
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -2410,6 +2414,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         return;
                     }
                     if (response.code() == HttpStatus.SUCCESS) {
+                        adapter.clear();
                         Timber.e(strResponse);
                         assert strResponse != null;
                         JSONObject jsonObject = new JSONObject(strResponse);
@@ -2417,12 +2422,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         if (jsonObject.has("data")) {
                             JSONObject jsonObject_data = jsonObject.getJSONObject("data");
                             AttachmentModel attachment = new AttachmentModel().getJsonToModel(jsonObject_data);
-                            if (attachmentArrayList_question.size() != 0) {
-                                attachmentArrayList_question.add(attachmentArrayList_question.size() - 1, attachment);
-                            }
+                            attachmentArrayList_question.add(attachment);
                         }
 
                         adapter.notifyItemInserted(0);
+                        adapter.notifyDataSetChanged();
                         //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
 
 

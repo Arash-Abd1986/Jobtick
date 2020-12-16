@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="70dp"
+    android:layout_height="70dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="@dimen/_5sp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.rishabhharit.roundedimageview.RoundedImageView
+                app:cornerRadius="10dp"
+                android:id="@+id/img_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:visibility="visible" />
+
+            <ImageView
+                android:layout_margin="@dimen/spacing_medium"
+                android:padding="@dimen/spacing_medium"
+                android:clickable="true"
+                android:visibility="visible"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_cancel"
+                android:background="@drawable/ic_close_portfollio"
+                android:id="@+id/img_btn_delete"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:focusable="true"
+                android:contentDescription="@string/todo" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

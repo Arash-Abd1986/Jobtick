@@ -522,17 +522,11 @@
                         android:orientation="horizontal"
                         android:padding="3dp">
 
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="@dimen/_8dp"
-                            android:contentDescription="@string/todo"
-                            android:padding="@dimen/spacing_small"
-                            android:src="@drawable/ic_red_flag" />
+
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/lyt_btn_reply_question"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"

@@ -95,6 +95,7 @@ import timber.log.Timber;
 
 import static com.jobtick.activities.DashboardActivity.onProfileupdatelistenerSideMenu;
 import static com.jobtick.fragments.ProfileFragment.onProfileupdatelistener;
+import static com.jobtick.utils.Constant.MIN_AGE_FOR_USE_APP;
 import static com.jobtick.utils.Constant.URL_REMOVE_AVTAR;
 
 public class
@@ -1214,7 +1215,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
 
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.YEAR, -13);
+        c.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
 
         calendarView.setMaxDate(c.getTimeInMillis());
 

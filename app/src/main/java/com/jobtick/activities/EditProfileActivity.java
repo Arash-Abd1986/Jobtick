@@ -136,7 +136,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_birth_date)
-    TextView txtBirthDate;
+    ExtendedEntryText txtBirthDate;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_business_number)
@@ -303,7 +303,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             return false;
         } else if (TextUtils.isEmpty(txtBirthDate.getText().toString().trim())) {
             showToast("Please fill inputs",this);
-            edtBusinessNumber.setError("Enter your Birth Date");
+            txtBirthDate.setError("Enter your Birth Date");
+            return false;
         }
         return true;
     }
@@ -314,8 +315,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         String str_fname = edtFirstName.getText().trim();
         String str_lname = edtLastName.getText().trim();
         String str_suburb = txtSuburb.getText().trim();
-        String str_latitude = sessionManager.getLatitude();
-        String str_longitude = sessionManager.getLongitude();
         String str_tag = edtTagline.getText().trim();
         String str_about_me = edtAboutMe.getText().trim();
         String str_business_number = edtBusinessNumber.getText().trim();
@@ -327,13 +326,16 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                         if (response != null) {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+                            sessionManager.setLatitude(str_latitude);
+                            sessionManager.setLongitude(str_longitude);
                             showSuccessToast(jsonObject.getString("message"), EditProfileActivity.this);
                             if (onProfileupdatelistener != null) {
                                 onProfileupdatelistener.updateProfile();
                             }
                         }
 
-                    } catch (JSONException ignored) {
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 },
                 error -> {
@@ -408,6 +410,18 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         adapter = new AttachmentAdapterEditProfile(EditProfileActivity.this, attachmentArrayList, true);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
+
+        txtBirthDate.setExtendedViewOnClickListener(() -> {
+            Calendar calendar = Calendar.getInstance();
+            cyear = calendar.get(Calendar.YEAR);
+            cmonth = calendar.get(Calendar.MONTH);
+            cday = calendar.get(Calendar.DAY_OF_MONTH);
+            showBottomSheetDialogDate();
+        });
+        txtSuburb.setExtendedViewOnClickListener(() ->{
+            Intent intent = new SuburbAutoComplete(this).getIntent();
+            startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
+        });
     }
 
     private void getAllUserProfileDetails() {
@@ -668,7 +682,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     }
 
     @SuppressLint("NonConstantResourceId")
-    @OnClick({R.id.txt_suburb, R.id.txt_birth_date, R.id.rlt_btn_transportation, R.id.rlt_btn_languages,
+    @OnClick({R.id.rlt_btn_transportation, R.id.rlt_btn_languages,
             R.id.rlt_btn_education, R.id.rlt_btn_experience, R.id.rlt_btn_specialities, R.id.img_user_avatar, R.id.lytDeletePicture,
             R.id.card_save_profile, R.id.lyt_btn_close})
     public void onViewClicked(View view) {
@@ -678,21 +692,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                     submitProfile();
 
                 break;
-            case R.id.txt_suburb:
-                Intent intent = new SuburbAutoComplete(this).getIntent();
-                startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
-
-                break;
-            case R.id.txt_birth_date:
-                Calendar calendar = Calendar.getInstance();
-                cyear = calendar.get(Calendar.YEAR);
-                cmonth = calendar.get(Calendar.MONTH);
-                cday = calendar.get(Calendar.DAY_OF_MONTH);
-                showBottomSheetDialogDate();
-
-                break;
             case R.id.rlt_btn_transportation:
-                intent = new Intent(EditProfileActivity.this, SkillsTagActivity.class);
+                Intent intent = new Intent(EditProfileActivity.this, SkillsTagActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel.getSkills().getTransportation());
                 bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.TRANSPORTATION);
@@ -879,42 +880,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                 txtSuburb.seteContent(carmenFeature.placeName());
                 str_latitude = String.valueOf(carmenFeature.center().latitude());
                 str_longitude = String.valueOf(carmenFeature.center().longitude());
-                LatLng locationObject = new LatLng(carmenFeature.center().latitude(), carmenFeature.center().longitude());
             }
-//            if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
-//                Log.d("CaptureImage","Enter");
-//                if (resultCode == RESULT_OK) {
-//                    Log.d("CaptureImage","OK");
-//                    Uri uri = Uri.parse("file://" + imageStoragePath);
-//                    Bitmap bitmap = null;
-//                    try {
-//                        Log.d("CaptureImage","TRY");
-//                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-//
-//                    } catch (IOException e) {
-//                        Log.d("CaptureImage",e.getLocalizedMessage());
-//                        e.printStackTrace();
-//                    }
-//
-//                    imgAvatar.setImageBitmap(bitmap);
-//
-//                    if (isUploadPortfolio) {
-//                        uploadDataInPortfolioMediaApi(new File(uri.getPath()));
-//                    } else {
-//                        uploadProfileAvtar(new File(uri.getPath()));
-//                    }
-//                } else if (resultCode == RESULT_CANCELED) {
-//                    // user cancelled Image capture
-//                    Toast.makeText(getApplicationContext(),
-//                            "User cancelled image capture", Toast.LENGTH_SHORT)
-//                            .show();
-//                } else {
-//                    // failed to capture image
-//                    Toast.makeText(getApplicationContext(),
-//                            "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
-//                            .show();
-//                }
-//            }
+
             if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
                 String filePath = data.getStringExtra(AnncaConfiguration.Arguments.FILE_PATH);
                 Uri uri = Uri.parse("file://" + filePath);
@@ -1269,11 +1236,10 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
 
         CalendarView calendarView = view.findViewById(R.id.calenderView);
-        calendarView.setMinDate(System.currentTimeMillis());
 
 
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.MONTH, 2); // subtract 2 years from now
+        c.add(Calendar.YEAR, -13);
 
         calendarView.setMaxDate(c.getTimeInMillis());
 

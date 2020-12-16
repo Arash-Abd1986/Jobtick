@@ -148,6 +148,8 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
                             sessionManager.setUserAccount(userAccountModel);
 
                             sessionManager.setLogin(true);
+                            sessionManager.setLatitude(str_latitude);
+                            sessionManager.setLongitude(str_longitude);
                             Intent intent = new Intent(CompleteRegistrationActivity.this, OnboardActivity.class);
                             if (cbWorker.isChecked()) {
                                 intent.putExtra("as", "worker");
@@ -173,20 +175,10 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
                             // Print Error!
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonError);
-
                                 JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
                                 String message = jsonObject_error.getString("message");
 
                                 showToast(message, context);
-
-
-                                if (jsonObject_error.has("errors")) {
-
-                                    JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-
-                                }
-
 
                             } catch (JSONException e) {
                                 e.printStackTrace();

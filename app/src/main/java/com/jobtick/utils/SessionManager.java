@@ -104,7 +104,7 @@ public class SessionManager {
     }
 
     public String getLatitude() {
-        return pref.getString("latitude", null);
+        return pref.getString("latitude", "0");
     }
 
     public void setQuickOffer(String offer) {
@@ -122,7 +122,7 @@ public class SessionManager {
     }
 
     public String getLongitude() {
-        return pref.getString("longitude", null);
+        return pref.getString("longitude", "0");
     }
 
 

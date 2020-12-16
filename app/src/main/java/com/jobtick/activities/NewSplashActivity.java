@@ -78,6 +78,8 @@ public class NewSplashActivity extends AppCompatActivity {
 
                         UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_data);
                         sessionManager.setUserAccount(userAccountModel);
+                        sessionManager.setLatitude(Double.toString(userAccountModel.getLatitude()));
+                        sessionManager.setLongitude(Double.toString(userAccountModel.getLongitude()));
 
                         if(sessionManager.getUserAccount().getAccount_status().isBasic_info()){
                             Intent main = new Intent(NewSplashActivity.this, DashboardActivity.class);

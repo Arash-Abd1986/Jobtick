@@ -174,4 +174,5 @@ public class Constant {
     public static final String userAccount = "userAccount";
 
     public static final int MAX_RESCHEDULE_DAY = 14;
+    public static final int MIN_AGE_FOR_USE_APP = 13;
 }

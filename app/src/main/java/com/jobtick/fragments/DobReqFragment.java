@@ -38,6 +38,7 @@ import java.util.Map;
 import timber.log.Timber;
 
 import static com.jobtick.utils.Constant.BASE_URL;
+import static com.jobtick.utils.Constant.MIN_AGE_FOR_USE_APP;
 import static com.jobtick.utils.Constant.PROFILE_INFO;
 
 public class DobReqFragment extends Fragment {
@@ -74,6 +75,7 @@ public class DobReqFragment extends Fragment {
         txtBirthDate = view.findViewById(R.id.txt_birth_date);
         txtBirthDate.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
             year = calendar.get(Calendar.YEAR);
             month = calendar.get(Calendar.MONTH);
             day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -82,6 +84,7 @@ public class DobReqFragment extends Fragment {
                     android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                     mDateSetListener,
                     year, month, day);
+            dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
         });

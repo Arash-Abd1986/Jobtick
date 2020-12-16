@@ -318,6 +318,8 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 intent.putExtra("id",item.getUser().getId());
                 context.startActivity(intent);
             });
+            imgAvatar.setOnClickListener(v -> linearUserProfile.performClick());
+            txtName.setOnClickListener(v -> linearUserProfile.performClick());
             PublicChatListAdapter publicChatListAdapter = new PublicChatListAdapter(context, new ArrayList<>());
             recyclerViewQuestionsChat.setHasFixedSize(true);
             recyclerViewQuestionsChat.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));

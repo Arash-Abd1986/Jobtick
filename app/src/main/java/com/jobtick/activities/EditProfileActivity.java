@@ -300,10 +300,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             showToast("Please fill inputs",this);
             txtSuburb.setError("Select your location");
             return false;
-        } else if (TextUtils.isEmpty(edtBusinessNumber.getText().trim())) {
-            showToast("Please fill inputs",this);
-            edtBusinessNumber.setError("Enter your Business Number");
-            return false;
         } else if (TextUtils.isEmpty(txtBirthDate.getText().toString().trim())) {
             showToast("Please fill inputs",this);
             edtBusinessNumber.setError("Enter your Birth Date");

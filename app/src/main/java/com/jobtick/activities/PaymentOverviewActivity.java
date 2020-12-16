@@ -72,6 +72,9 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
     @BindView(R.id.txt_wallet_value)
     MaterialTextView txtWallet;
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_wallet_title)
+    MaterialTextView txtWalletTitle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_total_cost)
     MaterialTextView txtTotalCost;
     @SuppressLint("NonConstantResourceId")
@@ -156,6 +159,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
             //TODO set default image
         }
         stateRequirement.put(PosterRequirementsBottomSheet.Requirement.CreditCard, false);
+        calculate(Float.toString(final_task_cost));
     }
 
     private void getPaymentMethod() {
@@ -234,6 +238,8 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
         btnPay.setAlpha(0.5f);
         rltPaymentMethod.setVisibility(View.GONE);
         lytAddCreditCard.setVisibility(View.VISIBLE);
+        txtWallet.setVisibility(View.GONE);
+        txtWalletTitle.setVisibility(View.GONE);
         hideProgressDialog();
     }
 
@@ -245,6 +251,8 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
         txtExpiresDate.setText(String.format(Locale.ENGLISH, "Expiry Date: %d/%d", creditCardModel.getData().get(0).getCard().getExp_month(), creditCardModel.getData().get(0).getCard().getExp_year()));
         rltPaymentMethod.setVisibility(View.VISIBLE);
         if (creditCardModel.getData() != null && creditCardModel.getData().get(1) != null && creditCardModel.getData().get(1).getWallet() != null) {
+            txtWallet.setVisibility(View.VISIBLE);
+            txtWalletTitle.setVisibility(View.VISIBLE);
             wallet = creditCardModel.getData().get(1).getWallet().getBalance();
             txtWallet.setText(String.format(Locale.ENGLISH, "-$ %.1f", wallet));
         } else {

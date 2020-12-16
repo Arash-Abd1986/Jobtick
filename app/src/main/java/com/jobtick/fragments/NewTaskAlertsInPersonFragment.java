@@ -1,11 +1,11 @@
 package com.jobtick.fragments;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,12 +13,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.slider.Slider;
 import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.widget.ExtendedEntryText;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
-import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
@@ -55,10 +53,8 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
     TextView txtDistanceKm;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.sk_distance)
-    SeekBar skDistance;
+    Slider skDistance;
 
-    private NewTaskAlertsActivity newTaskAlertsActivity;
-    private SessionManager sessionManager;
     TaskAlert taskAlert;
     int position;
     private OperationInPersonListener operationInPersonListener;
@@ -94,9 +90,8 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        newTaskAlertsActivity = (NewTaskAlertsActivity) getActivity();
+        NewTaskAlertsActivity newTaskAlertsActivity = (NewTaskAlertsActivity) getActivity();
         assert newTaskAlertsActivity != null;
-        sessionManager = new SessionManager(newTaskAlertsActivity);
         taskAlert = new TaskAlert();
         if (getArguments() != null) {
             taskAlert = getArguments().getParcelable("TASK_ALERT");
@@ -105,31 +100,18 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
         if (taskAlert.isValid()) {
             txtSuburb.setText(taskAlert.getSuburb());
             edtKeyword.setText(taskAlert.getKetword());
-            skDistance.setProgress(taskAlert.getDistance());
+            skDistance.setValue(taskAlert.getDistance());
             txtDistanceKm.setText(String.format(Locale.ENGLISH, "%d KM", taskAlert.getDistance()));
             btnUpdate.setText(R.string.update_alert);
         } else {
          //   txtSaveUpdateAlert.setText("save alert");
         }
-        seekbar();
+        initSlider();
     }
 
-    private void seekbar() {
-        skDistance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                txtDistanceKm.setText(String.format(Locale.ENGLISH, "%d KM", progress));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
+    private void initSlider() {
+        skDistance.addOnChangeListener((slider, value, fromUser) -> {
+            txtDistanceKm.setText(String.format(Locale.ENGLISH, "%d KM", (int) slider.getValue()));
         });
     }
 
@@ -137,19 +119,13 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
+        if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             CarmenFeature carmenFeature = PlacePicker.getPlace(data);
             Helper.Logger(TAG, "CarmenFeature = " + carmenFeature.toJson());
             // No need for exact location
-//            GeocodeObject geocodeObject = Helper.getGeoCodeObject(getActivity(), carmenFeature.center().latitude()
-//                    , carmenFeature.center().longitude());
-            //txtSuburb.setText(geocodeObject.getAddress());
             txtSuburb.setText(carmenFeature.placeName());
-
-            // editArea.setText(geocodeObject.getKnownName());
-              taskAlert.setLattitude(carmenFeature.center().latitude());
+            taskAlert.setLattitude(carmenFeature.center().latitude());
             taskAlert.setLongitude(carmenFeature.center().longitude());
-            //  locationObject = new LatLng(carmenFeature.center().latitude(), carmenFeature.center().longitude());
         }
     }
 

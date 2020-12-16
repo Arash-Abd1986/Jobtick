@@ -26,10 +26,9 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.widget.ExtendedEntryText;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
-import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -130,7 +129,6 @@ public abstract class AbstractFilterFragment extends Fragment {
         skPrice.setValues((float) min, (float) max);
     }
 
-    @SuppressLint("DefaultLocale")
     private void seekbarPrice() {
         skPrice.addOnChangeListener((slider, value, fromUser) -> {
             int min = (int) (float) slider.getValues().get(0);
@@ -140,16 +138,14 @@ public abstract class AbstractFilterFragment extends Fragment {
         });
     }
 
-    @SuppressLint("DefaultLocale")
     private void setSeekBarPrice(int pMin, int pMax) {
-        txtPriceMinMax.setText(String.format("$ %d - $ %d", pMin, pMax));
+        txtPriceMinMax.setText(String.format(Locale.ENGLISH, "$ %d - $ %d", pMin, pMax));
     }
 
 
-    @SuppressLint("DefaultLocale")
     private void seekbar() {
         skDistance.addOnChangeListener((slider, value, fromUser) -> {
-            txtDistanceKm.setText(String.format("%d KM", (int) slider.getValue()));
+            txtDistanceKm.setText(String.format(Locale.ENGLISH, "%d KM", (int) slider.getValue()));
         });
     }
 

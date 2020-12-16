@@ -110,7 +110,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public void addItems(ChatModel mItems) {
         this.mItems.add(mItems);
-        notifyItemChanged(this.mItems.size());
+        notifyItemInserted(this.mItems.size());
     }
 
     /*public void getEventCall(ChatModel conversationModel) {

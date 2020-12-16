@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -1389,7 +1390,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         txtCreatedDate.setText("Posted " + taskModel.getCreatedAt());
 
         if (taskModel.getBookmarkID() != null) {
-            toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
+            toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_grey_32dp);
         }
 
         txtDescription.setText(taskModel.getDescription());
@@ -2472,10 +2473,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/bookmark",
                 response -> {
+                    Log.d("BookmarkError","OK");
                     toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_grey_32dp);
                     getData();
                 },
                 error -> {
+                    Log.d("BookmarkError",error.networkResponse.toString());
                     errorHandle1(error.networkResponse);
                     toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
                 }) {

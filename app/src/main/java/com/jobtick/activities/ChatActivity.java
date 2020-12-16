@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
@@ -51,6 +52,7 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.HttpStatus;
+import com.jobtick.utils.ImageUtil;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -206,7 +208,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         authorizer.setHeaders(headers);
         PusherOptions options = new PusherOptions()
                 //   .setEncrypted(true)
-                .setCluster("us2")
+                .setCluster("ap4")
                 .setAuthorizer(authorizer);
 
         //wait
@@ -342,9 +344,9 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         assert conversationModel != null;
         assert conversationModel.getReceiver() != null;
         if (conversationModel.getReceiver().getAvatar() != null && conversationModel.getReceiver().getAvatar().getThumbUrl() != null) {
-            imgAvatar.setImageDrawable(getResources().getDrawable(R.drawable.avatar));
-
-            //   ImageUtil.displayRoundImage(imgAvatar, "https://dev.jobtick.com/storage/uploads/16/resized/image1596373636763-thumb.jpg", null);
+//            imgAvatar.setImageDrawable(getResources().getDrawable(R.drawable.avatar));
+            Log.d("ImageAvatar",conversationModel.getReceiver().getAvatar().getThumbUrl());
+            ImageUtil.displayImage(imgAvatar, conversationModel.getReceiver().getAvatar().getThumbUrl(), null);
         } else {
             imgAvatar.setImageDrawable(getResources().getDrawable(R.drawable.avatar));
         }
@@ -871,7 +873,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                         e.printStackTrace();
                     }
 
-                    imgAvatar.setImageBitmap(bitmap);
+//                    imgAvatar.setImageBitmap(bitmap);
 
                     if (isUploadPortfolio) {
                         uploadDataInPortfolioMediaApi(new File(uri.getPath()));
@@ -898,7 +900,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                             e.printStackTrace();
                         }
 
-                        imgAvatar.setImageBitmap(bitmap);
+//                        imgAvatar.setImageBitmap(bitmap);
 
                         if (isUploadPortfolio) {
                             uploadDataInPortfolioMediaApi(new File(uri.getPath()));

@@ -160,6 +160,9 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     @BindView(R.id.lyt_btn_reply_question)
     LinearLayout lytBtnReplyQuestion;
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.linearAcceptDeleteOffer)
+    LinearLayout linearAcceptDeleteOffer;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_more_less_arrow)
     ImageView imgMoreLessArrow;
     @SuppressLint("NonConstantResourceId")
@@ -177,6 +180,9 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view_questions_chat)
     RecyclerView recyclerViewQuestion;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_btn_accept)
+    TextView btnAccept;
 
     private OfferModel offerModel;
     private QuestionModel questionModel;
@@ -205,6 +211,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     @BindView(R.id.iv_verified_account)
     ImageView ivVerifiedAccount;
 
+    boolean isPoster = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -222,6 +229,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         layoutOffer.setVisibility(View.GONE);
         layoutQuestion.setVisibility(View.GONE);
         Bundle bundle = getIntent().getExtras();
+        isPoster = bundle.getBoolean("isPoster",false);
         offerModel = new OfferModel();
         questionModel = new QuestionModel();
 
@@ -262,6 +270,20 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
 
     private void initLayout() {
         if (offerModel.getTaskId() != null) {
+            if(isPoster){
+               linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
+               btnAccept.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       Intent intent = new Intent(PublicChatActivity.this, PaymentOverviewActivity.class);
+                       Bundle bundle = new Bundle();
+                       //    bundle.putParcelable(ConstantKey.TASK, taskModel);
+                       //     bundle.putParcelable(ConstantKey.OFFER_LIST_MODEL, obj);
+                       intent.putExtras(bundle);
+                       startActivityForResult(intent, ConstantKey.RESULTCODE_PAYMENTOVERVIEW);
+                   }
+               });
+            }
             layoutOffer.setVisibility(View.VISIBLE);
             layoutQuestion.setVisibility(View.GONE);
             txtBudget.setText(String.format(Locale.ENGLISH, "$ %d", offerModel.getOfferPrice()));
@@ -411,7 +433,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                                     //TODO update recycler view
                                     JSONObject jsonObject_offer_chat = jsonObject.getJSONObject("data");
                                     CommentModel commentModel = new CommentModel().getJsonToModel(jsonObject_offer_chat);
-                                    edtCommentMessage.setHint("Question");
+//                                    edtCommentMessage.setHint("Question");
                                     publicChatListAdapter.addItem(commentModel);
                                 } else {
                                     showToast("Something went Wrong", PublicChatActivity.this);
@@ -516,7 +538,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                             for (int i = 0; jsonArray_data.length() > i; i++) {
                                 JSONObject jsonObject_offer_chat = jsonArray_data.getJSONObject(i);
                                 CommentModel commentModel = new CommentModel().getJsonToModel(jsonObject_offer_chat);
-                                edtCommentMessage.setHint("reply to " + commentModel.getUser().getFname());
+//                                edtCommentMessage.setHint("reply to " + commentModel.getUser().getFname());
                                 items.add(commentModel);
                             }
 

@@ -2297,6 +2297,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             ///bundle.putParcelable(ConstantKey.OFFER_LIST_MODEL, obj);
             offerModel = obj;
             isOfferQuestion = "offer";
+            bundle.putBoolean("isPoster",isUserThePoster);
             intent.putExtras(bundle);
             startActivityForResult(intent, 20);
         } else if (action.equalsIgnoreCase("accept")) {

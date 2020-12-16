@@ -300,7 +300,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             showToast("Please fill inputs",this);
             txtSuburb.setError("Select your location");
             return false;
-        } 
+        }
         return true;
     }
 

@@ -2468,17 +2468,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     public void addToBookmark() {
+        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_grey_32dp);
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/bookmark",
                 response -> {
-                    if (isToolbarCollapsed) {
-                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
-                    } else {
-                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
-                    }
+                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_grey_32dp);
                     getData();
                 },
                 error -> {
                     errorHandle1(error.networkResponse);
+                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
                 }) {
 
             @Override
@@ -2507,6 +2506,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void removeBookmark() {
+        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
+
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, BASE_URL + "bookmarks/" + taskModel.getBookmarkID(),
                 response -> {
                     Timber.e(response);
@@ -2514,11 +2515,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                if (isToolbarCollapsed) {
-                                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
-                                } else {
-                                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
-                                }
+                                toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
 
                                 getData();
                                 if (onRemoveSavedtasklistener != null) {
@@ -2534,6 +2531,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     } catch (JSONException e) {
                         hideProgressDialog();
                         e.printStackTrace();
+                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
                     }
 
                 },

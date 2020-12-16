@@ -51,6 +51,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
 
 
     private final Context context;
+    private Boolean isInPublicChat;
     private OnItemClickListener mOnItemClickListener;
     private OfferModel offerModel;
     private QuestionModel questionModel;
@@ -83,11 +84,16 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
     private boolean isLoaderVisible = false;
     private final List<CommentModel> mItems;
 
+    public PublicChatListAdapter(Context context, List<CommentModel> mItems,Boolean isInPublicChat) {
+        this.mItems = mItems;
+        this.context = context;
+        this.isInPublicChat=isInPublicChat;
+    }
     public PublicChatListAdapter(Context context, List<CommentModel> mItems) {
         this.mItems = mItems;
         this.context = context;
+        this.isInPublicChat=false;
     }
-
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
@@ -215,6 +221,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             txtMessage.setText(item.getCommentText());
             txtCreatedDate.setText(item.getCreatedAt());
 
+
             txtMessage.post(() -> {
                 int lineCount = txtMessage.getLineCount();
                 Timber.e(String.valueOf(lineCount));
@@ -263,9 +270,9 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             } else {
                 cardImgFile.setVisibility(View.GONE);
             }
-            if (item.getReply()) {
-                lytBtnReply.setVisibility(View.VISIBLE);
-            } else {
+            if(isInPublicChat){
+                lytBtnReply.setVisibility(View.GONE);
+            }else {
                 lytBtnReply.setVisibility(View.VISIBLE);
             }
 

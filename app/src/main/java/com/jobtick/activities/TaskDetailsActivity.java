@@ -50,6 +50,7 @@ import com.google.gson.Gson;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
+import com.jobtick.adapers.QuestionAttachmentAdapter;
 import com.jobtick.cancellations.PPCancellationSummaryActivity;
 import com.jobtick.cancellations.PTCancellationSummaryActivity;
 import com.jobtick.cancellations.TPCancellationSummaryActivity;
@@ -130,7 +131,7 @@ import static com.jobtick.utils.Constant.TASK_PENDING;
 import static com.jobtick.utils.Constant.URL_TASKS;
 
 public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener,
-        QuestionListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, ExtendedAlertBox.OnExtendedAlertButtonClickListener,
+        QuestionListAdapter.OnItemClickListener, QuestionAttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, ExtendedAlertBox.OnExtendedAlertButtonClickListener,
         RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener,
         IncreaseBudgetNoticeBottomSheet.NoticeListener, IncreaseBudgetDeclineBottomSheet.NoticeListener,
         ConfirmAskToReleaseBottomSheet.NoticeListener, ConfirmReleaseBottomSheet.NoticeListener {
@@ -361,7 +362,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private QuestionListAdapter questionListAdapter;
     private boolean noActionAvailable = false;
     private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
-    private AttachmentAdapter adapter;
+    private QuestionAttachmentAdapter adapter;
     public int pushOfferID;
     public int pushQuestionID;
     private BottomSheetDialog mBottomSheetDialog;
@@ -426,6 +427,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         initQuestionList();
         getData();
     }
+
+
 
     private void initQuestionList() {
         recyclerViewQuestions.setHasFixedSize(true);
@@ -1373,7 +1376,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         recyclerViewQuestionAttachment.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(TaskDetailsActivity.this, 5), true));
         recyclerViewQuestionAttachment.setHasFixedSize(true);
         //set data and list adapter
-        adapter = new AttachmentAdapter(attachmentArrayList_question, true);
+        adapter = new QuestionAttachmentAdapter(attachmentArrayList_question, true);
         recyclerViewQuestionAttachment.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         adapter.setOnItemClickListener(this);
@@ -1478,11 +1481,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 }
                 if (scrollRange + verticalOffset == 0) {
 //                    collapsingToolbar.setTitle("Job Details");
-                    collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(getApplication(), R.color.transparent));
+                    collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(getApplication(), R.color.black));
 //                    toolbar.getMenu().findItem(R.id.menu_share).setIcon(R.drawable.ic_share);
 //                    Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_back_black, null);
 //                    toolbar.setNavigationIcon(d);
-                    toolbar.setTitleTextColor(getResources().getColor(R.color.transparent));
+                    toolbar.setTitleTextColor(getResources().getColor(R.color.black));
 //                    toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot);
 //                    if (taskModel.getBookmarkID() != null) {
 //                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_black);
@@ -2038,7 +2041,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             edtComment.setText("");
                             attachmentArrayList_question.clear();
                             attachmentArrayList_question.add(new AttachmentModel());
-                            adapter.notifyDataSetChanged();
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                 if (recyclerViewQuestions.getVisibility() != View.VISIBLE) {
                                     recyclerViewQuestions.setVisibility(View.VISIBLE);
@@ -2050,6 +2052,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         } else {
                             showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
                         }
+                        if(adapter!=null)
+                            adapter.notifyDataSetChanged();
                         getDataOnlyQuestions();
                         hideProgressDialog();
                     } catch (JSONException e) {
@@ -2270,6 +2274,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }
         }
 
+        if(requestCode == 21){
+            getDataOnlyQuestions();
+        }
+
         if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 if (data.getData() != null) {
@@ -2295,6 +2303,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             ///bundle.putParcelable(ConstantKey.OFFER_LIST_MODEL, obj);
             offerModel = obj;
             isOfferQuestion = "offer";
+            bundle.putBoolean("isPoster",isUserThePoster);
             intent.putExtras(bundle);
             startActivityForResult(intent, 20);
         } else if (action.equalsIgnoreCase("accept")) {
@@ -2348,7 +2357,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             attachmentArrayList_question.remove(position);
             adapter.notifyItemRemoved(position);
             adapter.notifyItemRangeRemoved(position, attachmentArrayList_question.size());
-            showToast("Delete this attachment", TaskDetailsActivity.this);
+            attachmentArrayList_question.clear();
+            attachmentArrayList_question.add(new AttachmentModel());
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -2379,6 +2390,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         return;
                     }
                     if (response.code() == HttpStatus.SUCCESS) {
+                        adapter.clear();
                         Timber.e(strResponse);
                         assert strResponse != null;
                         JSONObject jsonObject = new JSONObject(strResponse);
@@ -2386,12 +2398,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         if (jsonObject.has("data")) {
                             JSONObject jsonObject_data = jsonObject.getJSONObject("data");
                             AttachmentModel attachment = new AttachmentModel().getJsonToModel(jsonObject_data);
-                            if (attachmentArrayList_question.size() != 0) {
-                                attachmentArrayList_question.add(attachmentArrayList_question.size() - 1, attachment);
-                            }
+                            attachmentArrayList_question.add(attachment);
                         }
 
                         adapter.notifyItemInserted(0);
+                        adapter.notifyDataSetChanged();
                         //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
 
 
@@ -2457,17 +2468,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     public void addToBookmark() {
+        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_grey_32dp);
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/bookmark",
                 response -> {
-                    if (isToolbarCollapsed) {
-                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
-                    } else {
-                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
-                    }
+                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_grey_32dp);
                     getData();
                 },
                 error -> {
                     errorHandle1(error.networkResponse);
+                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
                 }) {
 
             @Override
@@ -2496,6 +2506,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void removeBookmark() {
+        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
+
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, BASE_URL + "bookmarks/" + taskModel.getBookmarkID(),
                 response -> {
                     Timber.e(response);
@@ -2503,11 +2515,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                if (isToolbarCollapsed) {
-                                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
-                                } else {
-                                    toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
-                                }
+                                toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
 
                                 getData();
                                 if (onRemoveSavedtasklistener != null) {
@@ -2523,6 +2531,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     } catch (JSONException e) {
                         hideProgressDialog();
                         e.printStackTrace();
+                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
                     }
 
                 },

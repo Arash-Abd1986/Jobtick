@@ -228,17 +228,12 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
     private ArrayList<AttachmentModel> attachmentArrayList;
     private UserAccountModel userAccountModel;
-    private GeocodeObject geoCodeObject;
     private String str_latitude = null;
     private String str_longitude = null;
     private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
-    private int year, month, day;
-    private final String str_DOB = null;
     private final String str_DOB_MODEL = "";
     private static String imageStoragePath;
-    public static final long MAX_VIDEO_DURATION = 30;
-    public static final long MAX_VIDEO_SIZE = 20 * 1024 * 1024;
     private boolean isUploadPortfolio = false;
     private boolean isFabHide = false;
     private AttachmentAdapterEditProfile adapter;
@@ -259,27 +254,11 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         btnVerify = findViewById(R.id.lyt_btn_close);
         btnVerify.setOnClickListener(view -> verifyPhone());
         ivBack.setOnClickListener(v -> onBackPressed());
-        DatePickerDialog.OnDateSetListener mDateSetListener = (view1, year, month, dayOfMonth) -> {
-            month = month + 1;
-            str_due_date = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + dayOfMonth);
-            txtBirthDate.setText(str_due_date);
-        };
 
         init();
         getAllUserProfileDetails();
     }
 
-    private void initComponentScroll() {
-        NestedScrollView nested_content = findViewById(R.id.nested_scroll_view);
-        nested_content.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            if (scrollY < oldScrollY) { // up
-                animateFab(false);
-            }
-            if (scrollY > oldScrollY) { // down
-                animateFab(true);
-            }
-        });
-    }
 
     private void animateFab(final boolean hide) {
         if (isFabHide && hide || !isFabHide && !hide) return;
@@ -300,10 +279,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         } else if (TextUtils.isEmpty(txtSuburb.getText().trim())) {
             showToast("Please fill inputs",this);
             txtSuburb.setError("Select your location");
-            return false;
-        } else if (TextUtils.isEmpty(txtBirthDate.getText().toString().trim())) {
-            showToast("Please fill inputs",this);
-            txtBirthDate.setError("Enter your Birth Date");
             return false;
         }
         return true;

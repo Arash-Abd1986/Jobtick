@@ -163,9 +163,11 @@
 
                                 <androidx.appcompat.widget.AppCompatRatingBar
                                     android:id="@+id/ratingbar_worker"
-                                    android:layout_width="15dp"
-                                    android:layout_height="15dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:layout_gravity="center"
+                                    android:rating="1"
+                                    android:visibility="gone"
                                     android:contentDescription="@string/todo"
                                     android:src="@drawable/rating_fill" />
 
@@ -192,6 +194,7 @@
                             android:padding="3dp">
 
                             <ImageView
+                                android:id="@+id/ivReport"
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
@@ -236,6 +239,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_15sp"
+                        android:visibility="gone"
                         android:background="@drawable/linear_rounded_f0f0f0_fill">
 
                         <LinearLayout
@@ -506,7 +510,7 @@
                         style="@style/materialText_600_12"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
+                        android:layout_marginStart="8dp"
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="@string/nathan_fox"
@@ -522,17 +526,11 @@
                         android:orientation="horizontal"
                         android:padding="3dp">
 
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="@dimen/_8dp"
-                            android:contentDescription="@string/todo"
-                            android:padding="@dimen/spacing_small"
-                            android:src="@drawable/ic_red_flag" />
+
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/lyt_btn_reply_question"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -747,7 +745,7 @@
                         android:layout_marginStart="@dimen/spacing_middle"
                         android:layout_toEndOf="@+id/recycler_view_question_attachment"
                         android:background="@null"
-                        android:hint="@string/reply_to_Subash_ch"
+                        android:hint="@string/reply"
                         android:inputType="textMultiLine"
                         android:maxLines="5" />
 

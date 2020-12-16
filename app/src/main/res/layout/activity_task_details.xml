@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
+    android:focusableInTouchMode="true"
     android:background="@color/white"
     android:fitsSystemWindows="false"
     tools:context=".activities.TaskDetailsActivity">
@@ -21,7 +22,7 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="@color/transparent"
+            app:contentScrim="@color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="false"
             app:collapsedTitleTextAppearance="@style/transparentTitleBar"
@@ -1266,15 +1267,18 @@
                         </FrameLayout>
                     </RelativeLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_view_questions"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="18dp"
-                        android:layout_marginEnd="10dp"
-                        android:overScrollMode="never"
-                        tools:listitem="@layout/item_question" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_view_questions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:focusableInTouchMode="true"
+                            android:layout_marginTop="18dp"
+                            android:layout_marginEnd="10dp"
+                            android:overScrollMode="never"
+                            tools:listitem="@layout/item_question" />
+
 
                     <LinearLayout
                         android:id="@+id/lyt_view_all_questions"

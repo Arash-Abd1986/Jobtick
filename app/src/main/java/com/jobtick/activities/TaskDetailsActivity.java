@@ -428,6 +428,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         getData();
     }
 
+
+
     private void initQuestionList() {
         recyclerViewQuestions.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(TaskDetailsActivity.this);
@@ -1479,11 +1481,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 }
                 if (scrollRange + verticalOffset == 0) {
 //                    collapsingToolbar.setTitle("Job Details");
-                    collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(getApplication(), R.color.transparent));
+                    collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(getApplication(), R.color.black));
 //                    toolbar.getMenu().findItem(R.id.menu_share).setIcon(R.drawable.ic_share);
 //                    Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_back_black, null);
 //                    toolbar.setNavigationIcon(d);
-                    toolbar.setTitleTextColor(getResources().getColor(R.color.transparent));
+                    toolbar.setTitleTextColor(getResources().getColor(R.color.black));
 //                    toolbar.getMenu().findItem(R.id.item_three_dot).setIcon(R.drawable.ic_three_dot);
 //                    if (taskModel.getBookmarkID() != null) {
 //                        toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_filled_black);
@@ -2270,6 +2272,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     }
                 }
             }
+        }
+
+        if(requestCode == 21){
+            getDataOnlyQuestions();
         }
 
         if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {

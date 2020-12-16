@@ -82,6 +82,9 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.ivReport)
+    ImageView ivReport;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_avatar)
     CircularImageView imgAvatar;
     @SuppressLint("NonConstantResourceId")
@@ -224,7 +227,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         cardLiveVideo.setVisibility(View.GONE);
         lytBtnReply.setVisibility(View.GONE);
         lytBtnMore.setVisibility(View.GONE);
-        lytBtnReplyQuestion.setVisibility(View.VISIBLE);
+        lytBtnReplyQuestion.setVisibility(View.GONE);
         lytBtnMoreQuestion.setVisibility(View.GONE);
         layoutOffer.setVisibility(View.GONE);
         layoutQuestion.setVisibility(View.GONE);
@@ -258,7 +261,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(PublicChatActivity.this);
         recyclerViewOfferChat.setLayoutManager(layoutManager);
-        publicChatListAdapter = new PublicChatListAdapter(PublicChatActivity.this, new ArrayList<>());
+        publicChatListAdapter = new PublicChatListAdapter(PublicChatActivity.this, new ArrayList<>(),true);
         recyclerViewOfferChat.setAdapter(publicChatListAdapter);
         // publicChatListAdapter.setOnItemClickListener(this);
         if (offerModel.getTaskId() != null) {
@@ -272,18 +275,24 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         if (offerModel.getTaskId() != null) {
             if(isPoster){
                linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
-               btnAccept.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       Intent intent = new Intent(PublicChatActivity.this, PaymentOverviewActivity.class);
-                       Bundle bundle = new Bundle();
-                       //    bundle.putParcelable(ConstantKey.TASK, taskModel);
-                       //     bundle.putParcelable(ConstantKey.OFFER_LIST_MODEL, obj);
-                       intent.putExtras(bundle);
-                       startActivityForResult(intent, ConstantKey.RESULTCODE_PAYMENTOVERVIEW);
-                   }
+               btnAccept.setOnClickListener(v -> {
+                   Intent intent = new Intent(PublicChatActivity.this, PaymentOverviewActivity.class);
+                   Bundle bundle = new Bundle();
+                   //    bundle.putParcelable(ConstantKey.TASK, taskModel);
+                   //     bundle.putParcelable(ConstantKey.OFFER_LIST_MODEL, obj);
+                   intent.putExtras(bundle);
+                   startActivityForResult(intent, ConstantKey.RESULTCODE_PAYMENTOVERVIEW);
                });
             }
+            ivReport.setOnClickListener(v -> {
+                Intent intent = new Intent(PublicChatActivity.this, ReportActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt(ConstantKey.offerId, offerModel.getId());
+                bundle.putString("key", ConstantKey.KEY_OFFER_REPORT);
+
+                intent.putExtras(bundle);
+                startActivity(intent);
+            });
             layoutOffer.setVisibility(View.VISIBLE);
             layoutQuestion.setVisibility(View.GONE);
             txtBudget.setText(String.format(Locale.ENGLISH, "$ %d", offerModel.getOfferPrice()));

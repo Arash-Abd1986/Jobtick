@@ -43,7 +43,6 @@ import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.AttachmentAdapterEditProfile;
 import com.jobtick.models.AttachmentModel;
-import com.jobtick.models.GeocodeObject;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.retrofit.ApiClient;
 import com.jobtick.utils.CameraUtils;

@@ -35,7 +35,6 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.jobtick.BuildConfig;
-import com.jobtick.models.GeocodeObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -466,40 +465,6 @@ public class Helper {
         Timber.tag(tag).e(message);
     }
 
-    /**
-     * <p>It is used to get Geo Code Object</p>
-     *
-     * @param context
-     * @param latitude
-     * @param longitude
-     * @return
-     */
-    public static GeocodeObject getGeoCodeObject(Context context, double latitude, double longitude) {
-        GeocodeObject geocodeObject = null;
-        List<Address> addresses = null;
-        Geocoder geocoder;
-        geocoder = new Geocoder(context, Locale.getDefault());
-
-        //TODO: getting location should not be in main thread.
-        try {
-            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //   Logger("GeoCodeObject",addresses.toString());
-
-        geocodeObject = new GeocodeObject()
-                .setAddress(addresses.get(0).getAddressLine(0))  // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                .setCity(addresses.get(0).getLocality())
-                .setState(addresses.get(0).getAdminArea())
-                .setCountry(addresses.get(0).getCountryName())
-                .setPostalCode(addresses.get(0).getPostalCode())
-                .setKnownName(addresses.get(0).getFeatureName());   // Only if available else return NULL
-
-        return geocodeObject;
-
-    }
 
 
     public static void shareTask(Context context

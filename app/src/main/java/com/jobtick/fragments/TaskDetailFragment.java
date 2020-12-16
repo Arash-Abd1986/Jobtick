@@ -872,19 +872,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
             CarmenFeature carmenFeature = PlacePicker.getPlace(data);
             Helper.Logger(TAG, "CarmenFeature = " + carmenFeature.toJson());
-            //No Need to get fine location, suburb is OK.
-//            GeocodeObject geocodeObject = Helper.getGeoCodeObject(getActivity(), carmenFeature.center().latitude()
-//                    , carmenFeature.center().longitude());
             txtSuburb.setText(carmenFeature.placeName());
-
-
-            //txtSuburb.setText(geocodeObject.getAddress());
-            // editArea.setText(geocodeObject.getKnownName());
             PositionModel positionModel = new PositionModel();
             positionModel.setLatitude(carmenFeature.center().latitude());
             positionModel.setLongitude(carmenFeature.center().longitude());
             task.setPosition(positionModel);
-            LatLng locationObject = new LatLng(carmenFeature.center().latitude(), carmenFeature.center().longitude());
         }
 
         if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {

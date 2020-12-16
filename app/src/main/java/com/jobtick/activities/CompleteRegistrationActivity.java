@@ -258,15 +258,7 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
             CarmenFeature carmenFeature = PlacePicker.getPlace(data);
             Helper.Logger("THIS", "CarmenFeature = " + carmenFeature.toJson());
 
-            //TODO: No Need To get fine location, suburb is enough
-            //remove these comments latter
-//            GeocodeObject geocodeObject = Helper.getGeoCodeObject(this, carmenFeature.center().latitude()
-//                    , carmenFeature.center().longitude());
-
-
             suburb.setText(carmenFeature.placeName());
-
-            // editArea.setText(geocodeObject.getKnownName());
             str_latitude = String.valueOf(carmenFeature.center().latitude());
             str_longitude = String.valueOf(carmenFeature.center().longitude());
         }

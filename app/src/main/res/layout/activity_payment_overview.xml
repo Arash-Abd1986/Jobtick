@@ -158,6 +158,7 @@
                     android:textColor="@color/colorPrimary" />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_wallet_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/txt_wallet_value"
@@ -166,6 +167,7 @@
                     android:gravity="center_vertical"
                     android:singleLine="true"
                     android:text="@string/wallet"
+                    android:visibility="gone"
                     android:textAppearance="@style/materialText_400_14"
                     android:textColor="@color/textColor" />
 
@@ -177,6 +179,7 @@
                     android:layout_below="@id/txt_service_fee"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="12dp"
+                    android:visibility="gone"
                     android:textAppearance="@style/materialText_600_16"
                     android:textColor="@color/strokeRed"
                     tools:text="-$ 50" />

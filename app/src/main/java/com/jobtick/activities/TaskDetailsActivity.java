@@ -1232,14 +1232,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             hideProgressDialog();
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            //  showCustomDialog(jsonObject_error.getString("message"));
+
                             if (jsonObject_error.has("message")) {
-                                Toast.makeText(this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                                showSuccessToast(jsonObject_error.getString("message"), this);
                             }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -1311,14 +1308,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            //  showCustomDialog(jsonObject_error.getString("message"));
+
                             if (jsonObject_error.has("message")) {
-                                Toast.makeText(this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                                showToast(jsonObject_error.getString("message"), this);
                             }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -1816,7 +1810,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         }
                         break;
                     case ConstantKey.BTN_OFFER_PENDING:
-                        Toast.makeText(TaskDetailsActivity.this, "offer pending", Toast.LENGTH_SHORT).show();
+                       showToast("offer pending", this);
                         break;
                     case ConstantKey.BTN_CANCELLATION_REQUEST_RECEIVED:
                         //TODO: this button should not be viewed in this stage
@@ -1932,13 +1926,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                                showCustomDialog("You have sent your request before");
-                                // Toast.makeText(TaskDetailsActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                               showToast(jsonObject_error.getString("message"), this);
                             }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -2002,7 +1992,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                                Toast.makeText(TaskDetailsActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                               showToast(jsonObject_error.getString("message"), this);
                             }
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
@@ -2031,25 +2021,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         requestQueue.add(stringRequest);
     }
 
-    private void showCustomDialog(String message) {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_show_warning);
-        dialog.setCancelable(true);
 
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
-        txtMessage.setText(message);
-
-        dialog.findViewById(R.id.btn_ok).setOnClickListener(v -> dialog.dismiss());
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-    }
 
     private void postComment(String str_comment, ArrayList<AttachmentModel> attachmentModels) {
         if (str_comment.length() < 5) {
@@ -2106,7 +2078,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                                Toast.makeText(TaskDetailsActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                                showToast(jsonObject_error.getString("message"), this);
                             }
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
@@ -2312,13 +2284,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
             } else {
                 // failed to record video
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! Failed to Pickup Image", Toast.LENGTH_SHORT)
-                        .show();
+                showToast("Sorry! Failed to Pickup Image", this);
             }
         }
     }
-
     //Adapter override method
     @Override
     public void onItemOfferClick(View v, OfferModel obj, int position, String action) {
@@ -2406,7 +2375,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 try {
                     String strResponse = response.body();
                     if (response.code() == HttpStatus.NOT_FOUND) {
-                        Toast.makeText(TaskDetailsActivity.this, "not found", Toast.LENGTH_SHORT).show();
+                        showToast("not found", TaskDetailsActivity.this);
                         return;
                     }
                     if (response.code() == HttpStatus.AUTH_FAILED) {
@@ -2460,7 +2429,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         Gson gson = new Gson();
                         data = gson.fromJson(jsonObject.toString(), OfferDeleteModel.class);
                         initialStage();
-                        showCustomDialog(data.getMessage());
+                        showToast(data.getMessage(), this);
                     } catch (JSONException e) {
                         hideProgressDialog();
                         Timber.e(String.valueOf(e));
@@ -2638,7 +2607,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 startActivity(intent);
                 mBottomSheetDialog.dismiss();
             } else {
-                Toast.makeText(TaskDetailsActivity.this, "Please select all must-have requirement", Toast.LENGTH_LONG).show();
+                showToast("Please select all must-have requirement", this);
             }
         });
 

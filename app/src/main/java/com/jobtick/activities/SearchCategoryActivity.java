@@ -63,10 +63,6 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
     ImageView ivBack;
 
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.back_to_activity)
-    MaterialButton lytCategories;
-
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.list)
     RecyclerView recyclerViewCategories;
 
@@ -106,7 +102,7 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
     }
 
     @SuppressLint("NonConstantResourceId")
-    @OnClick({R.id.lyt_search_new, R.id.back_to_activity, R.id.iv_back})
+    @OnClick({R.id.lyt_search_new, R.id.iv_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_search_new:
@@ -114,11 +110,6 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
                 edtSearchCategories.requestFocus();
                 edtSearchCategories.performClick();
                 showKeyboard(edtSearchCategories);
-                break;
-            case R.id.back_to_activity:
-
-                Intent categoryActivity = new Intent(SearchCategoryActivity.this, CategoryListActivity.class);
-                startActivity(categoryActivity);
                 break;
             case R.id.iv_back:
                 finish();

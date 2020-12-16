@@ -16,6 +16,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
+import com.jobtick.activities.ActivityBase;
 import com.jobtick.text_view.TextViewBold;
 import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.activities.TaskDetailsActivity;
@@ -140,7 +141,7 @@ public class MakeAnOfferMustHaveFragment extends Fragment implements View.OnClic
                 if (adapter.isAllSelected()) {
                     budgetCallbackFunction.continueMustHave(makeAnOfferModel);
                 } else {
-                    Toast.makeText(getContext(), "Please select all must-have requirement", Toast.LENGTH_LONG).show();
+                    ((ActivityBase)requireActivity()).showToast("Please select all must-have requirement", requireContext());
                 }
                 break;
         }

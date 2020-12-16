@@ -631,7 +631,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                                Toast.makeText(EditProfileActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                                showToast(jsonObject_error.getString("message"), this);
                             }
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
@@ -805,7 +805,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                 try {
                     String strResponse = response.body();
                     if (response.code() == HttpStatus.NOT_FOUND) {
-                        Toast.makeText(EditProfileActivity.this, "not found", Toast.LENGTH_SHORT).show();
+                       showToast("not found", EditProfileActivity.this);
                         return;
                     }
                     if (response.code() == HttpStatus.AUTH_FAILED) {
@@ -971,9 +971,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                     }
                 } else {
                     // failed to record video
-                    Toast.makeText(getApplicationContext(),
-                            "Sorry! Failed to Pickup Image", Toast.LENGTH_SHORT)
-                            .show();
+                   showToast("Sorry! Failed to Pickup Image", this);
                 }
             }
             if (requestCode == PHONE_VERIFICATION_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -1039,9 +1037,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         lytBtnCamera.setOnClickListener(view1 -> {
             // Checking availability of the camera
             if (!CameraUtils.isDeviceSupportCamera(getApplicationContext())) {
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! Your device doesn't support camera",
-                        Toast.LENGTH_LONG).show();
+                showToast("Sorry! Your device doesn't support camera", this);
                 // will close the app if the device doesn't have camera
                 return;
             }
@@ -1133,7 +1129,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                 try {
                     String strResponse = response.body();
                     if (response.code() == HttpStatus.NOT_FOUND) {
-                        Toast.makeText(EditProfileActivity.this, "not found", Toast.LENGTH_SHORT).show();
+                        showToast("not found", EditProfileActivity.this);
                         return;
                     }
                     if (response.code() == HttpStatus.AUTH_FAILED) {
@@ -1240,12 +1236,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                                Toast.makeText(EditProfileActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
+                                showToast(jsonObject_error.getString("message"), this);
                             }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -433,7 +433,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
                             uploadDataInTaskMediaApi(file);
                         }
                     } else {
-                        Toast.makeText(this, "Try Again", Toast.LENGTH_SHORT).show();
+                       showToast("Try Again", this);
                     }
 
                 }
@@ -640,7 +640,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
                 try {
                     String strResponse = response.body();
                     if (response.code() == HttpStatus.NOT_FOUND) {
-                        Toast.makeText(AttachmentActivity.this, "not found", Toast.LENGTH_SHORT).show();
+                        showToast("not found", AttachmentActivity.this);
                         return;
                     }
                     if (response.code() == HttpStatus.AUTH_FAILED) {
@@ -771,12 +771,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                                Toast.makeText(AttachmentActivity.this, jsonObject_error.getString("message"), Toast.LENGTH_SHORT).show();
-                            }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-
-
+                                showToast(jsonObject_error.getString("message"), this);
                             }
 
                             //  ((CredentialActivity)getActivity()).showToast(message,getActivity());

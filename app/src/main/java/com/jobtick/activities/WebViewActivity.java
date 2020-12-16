@@ -71,7 +71,7 @@ public class WebViewActivity extends ActivityBase {
             @SuppressWarnings("deprecation")
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Toast.makeText(WebViewActivity.this, description, Toast.LENGTH_SHORT).show();
+                showToast(description, WebViewActivity.this);
             }
 
             @TargetApi(android.os.Build.VERSION_CODES.M)

@@ -195,7 +195,7 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                showCustomDialog("Reported Task Successfully");
+                                showSuccessToast("Reported Task Successfully", this);
                             } else {
                                 showToast("Something went wrong !", ReportActivity.this);
                             }
@@ -250,7 +250,7 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                showCustomDialog("Reported User Successfully");
+                                showSuccessToast("Reported User Successfully", this);
 
                             } else {
                                 showToast("Something went wrong ", ReportActivity.this);
@@ -306,7 +306,7 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                showCustomDialog("Question Reported Successfully");
+                                showSuccessToast("Question Reported Successfully", this);
                             } else {
                                 showToast("Something went wrong !", ReportActivity.this);
                             }
@@ -359,7 +359,7 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                showCustomDialog("Comment Reported Successfully");
+                                showSuccessToast("Comment Reported Successfully", this);
                             } else {
                                 showToast("Something went wrong !", ReportActivity.this);
                             }
@@ -414,7 +414,7 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                showCustomDialog("Offer Reported Successfully");
+                                showSuccessToast("Offer Reported Successfully", this);
                             } else {
                                 showToast("Something went wrong !", ReportActivity.this);
                             }
@@ -456,29 +456,6 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(ReportActivity.this);
         requestQueue.add(stringRequest);
-    }
-
-    private void showCustomDialog(String message) {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_show_warning);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        TextViewRegular txtMessage = dialog.findViewById(R.id.txt_message);
-        txtMessage.setText(message);
-
-        dialog.findViewById(R.id.btn_ok).setOnClickListener(v -> {
-            dialog.dismiss();
-            finish();
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
 

@@ -863,11 +863,12 @@ public class AuthActivity extends ActivityBase {
         if(userAccountModel.getAccount_status().isBasic_info()){
             intent = new Intent(this, DashboardActivity.class);
             sessionManager.setLogin(true);
+            openActivity(intent);
         }
         else{
             intent = new Intent(this, CompleteRegistrationActivity.class);
+            startActivity(intent);
         }
-        openActivity(intent);
     }
 
     private void openActivity(Intent intent) {

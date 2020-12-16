@@ -60,11 +60,13 @@
         app:cardCornerRadius="4dp"
         app:cardElevation="@dimen/_3sp">
 
+        <!-- this search box is deprecated in design -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_back"

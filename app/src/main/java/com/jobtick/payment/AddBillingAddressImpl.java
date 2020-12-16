@@ -70,7 +70,6 @@ public abstract class AddBillingAddressImpl implements AddBillingAddress{
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            //  showCustomDialog(jsonObject_error.getString("message"));
                             if (jsonObject_error.has("message")) {
                                 onError(new Exception(jsonObject_error.getString("message")));
                             }

@@ -31,6 +31,7 @@ import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
+import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.EditProfileActivity;
 import com.jobtick.activities.ProfileActivity;
 import com.jobtick.activities.ReviewsActivity;
@@ -351,7 +352,8 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
                 lPort.setVisibility(View.GONE);
             } else {
                 if(attachmentArrayList.size() > 10){
-                    Toast.makeText(profileActivity, "MAX 10 picture", Toast.LENGTH_SHORT).show(); }
+                    ((ActivityBase)requireActivity()).showToast( "MAX 10 picture", requireContext());
+                }
                 recyclerViewPortfolio.setVisibility(View.VISIBLE);
                 noSkill.setVisibility(View.GONE);
                 NoPortfolio.setVisibility(View.GONE);
@@ -426,7 +428,7 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
                                 lPort.setVisibility(View.VISIBLE);
                             }
                             if(attachmentArrayList.size() > 10){
-                                Toast.makeText(profileActivity, "MAX 10 picture", Toast.LENGTH_SHORT).show(); }else {
+                                ((ActivityBase)requireActivity()).showToast("MAX 10 picture", requireContext());
                                 adapter.addItems(attachmentArrayList);
                             }
 

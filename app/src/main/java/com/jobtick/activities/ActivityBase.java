@@ -265,8 +265,6 @@ public class ActivityBase extends AppCompatActivity implements HasEditTextRegula
                     @Override
                     public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
 
-                        //   Toast.makeText(getApplicationContext(), "Started location updates!", Toast.LENGTH_SHORT).show();
-
                         //noinspection MissingPermission
                         mFusedLocationClient.requestLocationUpdates(mLocationRequest,
                                 mLocationCallback, Looper.myLooper());
@@ -293,7 +291,7 @@ public class ActivityBase extends AppCompatActivity implements HasEditTextRegula
                                 String errorMessage = "Location settings are inadequate, and cannot be " +
                                         "fixed here. Fix in Settings.";
 
-                                Toast.makeText(ActivityBase.this, errorMessage, Toast.LENGTH_LONG).show();
+                               showToast(errorMessage, ActivityBase.this);
                         }
 
                         updateLocationUI();

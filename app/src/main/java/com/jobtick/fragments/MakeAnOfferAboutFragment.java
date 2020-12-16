@@ -384,29 +384,11 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lytRecord2:
-                // Checking availability of the camera
-                if (!CameraUtils.isDeviceSupportCamera(makeAnOfferActivity)) {
-                    Toast.makeText(makeAnOfferActivity,
-                            "Sorry! Your device doesn't support camera",
-                            Toast.LENGTH_LONG).show();
-                    // will close the app if the device doesn't have camera
-                    //finish();
-                    return;
-                }
-
-                if (CameraUtils.checkPermissions(makeAnOfferActivity)) {
-                    captureVideo();
-                } else {
-                    requestCameraPermission(ConstantKey.MEDIA_TYPE_VIDEO);
-                }
-                break;
 
             case R.id.lyt_btn_make_a_live_video:
                 // Checking availability of the camera
                 if (!CameraUtils.isDeviceSupportCamera(makeAnOfferActivity)) {
-                    Toast.makeText(makeAnOfferActivity,
-                            "Sorry! Your device doesn't support camera",
-                            Toast.LENGTH_LONG).show();
+                    ((ActivityBase)requireActivity()).showToast("Sorry! Your device doesn't support camera", requireContext());
                     // will close the app if the device doesn't have camera
                     //finish();
                     return;
@@ -418,6 +400,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                     requestCameraPermission(ConstantKey.MEDIA_TYPE_VIDEO);
                 }
                 break;
+
             case R.id.lyt_btn_continue:
                 switch (validation()) {
                     case 1:
@@ -550,14 +533,12 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 // user cancelled recording
-                Toast.makeText(makeAnOfferActivity,
-                        "User cancelled video recording", Toast.LENGTH_SHORT)
-                        .show();
+                ((ActivityBase)requireActivity()).showToast(
+                        "User cancelled video recording", requireContext());
             } else {
                 // failed to record video
-                Toast.makeText(makeAnOfferActivity,
-                        "Sorry! Failed to record video", Toast.LENGTH_SHORT)
-                        .show();
+                ((ActivityBase)requireActivity()).showToast(
+                        "Sorry! Failed to record video", requireContext());
             }
         }
     }

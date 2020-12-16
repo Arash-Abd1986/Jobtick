@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
+import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.widget.ExtendedEntryText;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -84,18 +85,7 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_new_task_alerts_in_person, container, false);
         ButterKnife.bind(this, view);
         txtSuburb.setExtendedViewOnClickListener(() -> {
-            Intent intent = new PlaceAutocomplete.IntentBuilder()
-                    .accessToken(Mapbox.getAccessToken())
-                    .placeOptions(PlaceOptions.builder()
-                            // .backgroundColor(Helper.getAttrColor(taskCreateActivity, R.attr.colorBackground))
-                            .backgroundColor(newTaskAlertsActivity.getResources().getColor(R.color.background))
-                            .limit(10)
-                            .country("AU")
-
-                            /*.addInjectedFeature(home)
-                            .addInjectedFeature(work)*/
-                            .build(PlaceOptions.MODE_FULLSCREEN))
-                    .build(getActivity());
+            Intent intent = new SuburbAutoComplete(requireActivity()).getIntent();
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
         return view;

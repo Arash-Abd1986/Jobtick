@@ -52,6 +52,7 @@ import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.ImageUtil;
+import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.utils.Tools;
 import com.jobtick.widget.ExtendedEntryText;
 import com.jobtick.widget.SpacingItemDecoration;
@@ -678,18 +679,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
                 break;
             case R.id.txt_suburb:
-                Intent intent = new PlaceAutocomplete.IntentBuilder()
-                        .accessToken(Mapbox.getAccessToken())
-                        .placeOptions(PlaceOptions.builder()
-                                // .backgroundColor(Helper.getAttrColor(taskCreateActivity, R.attr.colorBackground))
-                                .backgroundColor(getResources().getColor(R.color.background))
-                                .limit(10)
-                                .country("AU")
-
-                                /*.addInjectedFeature(home)
-                                .addInjectedFeature(work)*/
-                                .build(PlaceOptions.MODE_FULLSCREEN))
-                        .build(EditProfileActivity.this);
+                Intent intent = new SuburbAutoComplete(this).getIntent();
                 startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
 
                 break;

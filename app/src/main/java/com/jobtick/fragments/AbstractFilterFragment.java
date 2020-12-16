@@ -23,6 +23,7 @@ import android.annotation.SuppressLint;
 import com.jobtick.activities.FiltersActivity;
 import com.jobtick.models.FilterModel;
 import com.jobtick.utils.Constant;
+import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.widget.ExtendedEntryText;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -79,14 +80,7 @@ public abstract class AbstractFilterFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
         ButterKnife.bind(this, view);
         txtSuburb.setExtendedViewOnClickListener(() -> {
-            Intent intent = new PlaceAutocomplete.IntentBuilder()
-                    .accessToken(Mapbox.getAccessToken())
-                    .placeOptions(PlaceOptions.builder()
-                            .backgroundColor(filtersActivity.getResources().getColor(R.color.backgroundLightGrey))
-                            .limit(10)
-                            .country("AU")
-                            .build(PlaceOptions.MODE_FULLSCREEN))
-                    .build(getActivity());
+            Intent intent = new SuburbAutoComplete(requireActivity()).getIntent();
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
 

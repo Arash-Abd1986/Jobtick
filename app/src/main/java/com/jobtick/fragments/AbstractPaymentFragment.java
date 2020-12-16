@@ -178,7 +178,6 @@ public abstract class AbstractPaymentFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
-    @SuppressLint("DefaultLocale")
     private void fillData(List<PaymentHistory> data, String total_amount, boolean firstInit) {
         if (data.size() == 0 && firstInit) {
             noTransactions.setVisibility(View.VISIBLE);
@@ -188,7 +187,7 @@ public abstract class AbstractPaymentFragment extends Fragment {
             container.setVisibility(View.VISIBLE);
         }
         totalPayment.setText(StringUtils.getPriceTxt(total_amount));
-        totalTransaction.setText(String.format("%d transactions", data.size()));
+        totalTransaction.setText(String.format(Locale.ENGLISH, "%d transactions", data.size()));
         paymentHistoryList.setLayoutManager(new LinearLayoutManager(getContext()));
         Collections.reverse(data);
         paymentHistoryList.setAdapter(new PaymentHistoryListAdapter(data, true, paymentHistory -> {

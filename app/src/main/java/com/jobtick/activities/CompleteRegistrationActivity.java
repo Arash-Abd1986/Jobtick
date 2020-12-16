@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
+import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.widget.ExtendedEntryText;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -90,17 +91,7 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
         context = CompleteRegistrationActivity.this;
         initToolbar();
         suburb.setExtendedViewOnClickListener(() -> {
-            Intent intent = new PlaceAutocomplete.IntentBuilder()
-                    .accessToken(Mapbox.getAccessToken())
-                    .placeOptions(PlaceOptions.builder()
-                            // .backgroundColor(Helper.getAttrColor(taskCreateActivity, R.attr.colorBackground))
-                            .backgroundColor(getResources().getColor(R.color.background))
-                            .limit(10)
-                            .country("AU")
-                            /*.addInjectedFeature(home)
-                            .addInjectedFeature(work)*/
-                            .build(PlaceOptions.MODE_FULLSCREEN))
-                    .build(CompleteRegistrationActivity.this);
+            Intent intent = new SuburbAutoComplete(this).getIntent();
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
 

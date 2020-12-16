@@ -58,6 +58,7 @@ import com.jobtick.retrofit.ApiClient;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.utils.Tools;
 import com.jobtick.widget.SpacingItemDecoration;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
@@ -265,15 +266,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         });
 
         txtSuburb.setOnClickListener(v -> {
-            Intent intent = new PlaceAutocomplete.IntentBuilder()
-                    .accessToken(Mapbox.getAccessToken())
-                    .placeOptions(PlaceOptions.builder()
-                            // .backgroundColor(Helper.getAttrColor(taskCreateActivity, R.attr.colorBackground))
-                            .backgroundColor(taskCreateActivity.getResources().getColor(R.color.background))
-                            .limit(10)
-                            .country("AU")
-                            .build(PlaceOptions.MODE_FULLSCREEN))
-                    .build(getActivity());
+            Intent intent = new SuburbAutoComplete(requireActivity()).getIntent();
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
 

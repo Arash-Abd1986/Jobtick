@@ -434,7 +434,7 @@
     <string name="old_price">Old price</string>
     <string name="new_price">New price</string>
     <string name="ask_to_release">Ask to release</string>
-    <string name="confirm_release">Confirm release</string>
+    <string name="release_money">Release money</string>
     <string name="confirm_delete">Confirm delete</string>
     <string name="have_you_complete_the_job">Have you completed the job which you ask to release for?</string>
     <string name="are_you_satisfied_with_the_job">Are you satisfied with the job and ready to release the payment?</string>

@@ -147,6 +147,8 @@
     <string name="doc">Doc</string>
     <string name="decline">Decline</string>
     <string name="accept">Accept</string>
+    <string name="not_yet">Not yet</string>
+    <string name="release_now">Release now</string>
     <string name="Cancellation">Cancellation</string>
     <string name="Reschedule">Reschedule</string>
 

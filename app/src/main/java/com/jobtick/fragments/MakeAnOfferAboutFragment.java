@@ -204,7 +204,6 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                     @Override
                     public void afterTextChanged(Editable editable) {
                         setQuickOffer(quickOffer, editable.toString());
-                        lytBtnContinue.setEnabled(editable.length() >= edtDescription.geteMinSize());
                     }
                 });
 

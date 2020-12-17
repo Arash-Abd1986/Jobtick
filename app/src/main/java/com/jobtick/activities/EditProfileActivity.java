@@ -300,7 +300,10 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                     try {
                         if (response != null) {
                             JSONObject jsonObject = new JSONObject(response);
-                            JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+                            JSONObject jsonObject_user = jsonObject.getJSONObject("data");
+
+                            UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
+                            sessionManager.setUserAccount(userAccountModel);
                             sessionManager.setLatitude(str_latitude);
                             sessionManager.setLongitude(str_longitude);
                             showSuccessToast(jsonObject.getString("message"), EditProfileActivity.this);

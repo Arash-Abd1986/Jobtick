@@ -118,7 +118,9 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
                 edtSearch.performClick();
                 showKeyboard(edtSearch);
                 break;
-
+            case R.id.iv_back:
+                onBackPressed();
+                break;
         }
 
     }

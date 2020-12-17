@@ -38,7 +38,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:listitem="@layout/item_task_view" />
+                tools:listitem="@layout/item_task_view"
+                android:paddingBottom="8dp"
+                android:clipToPadding="false"/>
         </FrameLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

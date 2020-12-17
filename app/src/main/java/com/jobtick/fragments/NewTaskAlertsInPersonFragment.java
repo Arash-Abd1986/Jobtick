@@ -32,6 +32,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.jobtick.utils.Constant.MAX_FILTER_DISTANCE_IN_KILOMETERS;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -111,7 +113,11 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
 
     private void initSlider() {
         skDistance.addOnChangeListener((slider, value, fromUser) -> {
-            txtDistanceKm.setText(String.format(Locale.ENGLISH, "%d KM", (int) slider.getValue()));
+            if(slider.getValue() != 101){
+                txtDistanceKm.setText(String.format(Locale.ENGLISH, "%d KM", (int) slider.getValue()));
+            }else {
+                txtDistanceKm.setText(R.string.plus_100_km);
+            }
         });
     }
 
@@ -137,7 +143,11 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
                 switch (getValidationCode()) {
                     case 0:
                         taskAlert.setAlert_type("physical");
-                        taskAlert.setDistance(Integer.parseInt(txtDistanceKm.getText().toString().trim().replace(" KM", "")));
+                        if(skDistance.getValue() != 101)
+                            taskAlert.setDistance((int)skDistance.getValue());
+                        else{
+                            taskAlert.setDistance(MAX_FILTER_DISTANCE_IN_KILOMETERS);
+                        }
                         taskAlert.setKetword(edtKeyword.getText().trim());
                         taskAlert.setSuburb(txtSuburb.getText().trim());
 

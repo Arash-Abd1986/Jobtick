@@ -175,4 +175,6 @@ public class Constant {
 
     public static final int MAX_RESCHEDULE_DAY = 14;
     public static final int MIN_AGE_FOR_USE_APP = 13;
+    public static final int MAX_FILTER_DISTANCE_IN_KILOMETERS = 4000;
+
 }

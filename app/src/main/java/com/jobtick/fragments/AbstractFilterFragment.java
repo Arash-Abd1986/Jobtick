@@ -20,7 +20,6 @@ import com.google.android.material.slider.Slider;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
-import com.jobtick.activities.FiltersActivity;
 import com.jobtick.models.FilterModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.SuburbAutoComplete;
@@ -33,6 +32,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.jobtick.utils.Constant.MAX_FILTER_DISTANCE_IN_KILOMETERS;
 
 /**
  * In person filter and all filter is similar, so we use abstract for it
@@ -66,7 +67,6 @@ public abstract class AbstractFilterFragment extends Fragment {
     @BindView(R.id.distance_container)
     LinearLayout distanceContainer;
 
-    private FiltersActivity filtersActivity;
     private final int pMin = 5;
     private final int pMax = 9999;
     private final int PLACE_SELECTION_REQUEST_CODE = 1;
@@ -93,7 +93,6 @@ public abstract class AbstractFilterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        filtersActivity = (FiltersActivity) getActivity();
         filterModel = new FilterModel();
         if (getArguments() != null) {
             if (getArguments().getParcelable(Constant.FILTER) != null) {
@@ -109,7 +108,7 @@ public abstract class AbstractFilterFragment extends Fragment {
             if (filterModel != null && (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_ALL)
                     || filterModel.getSection().equalsIgnoreCase(Constant.FILTER_IN_PERSON))) {
                 txtSuburb.setText(filterModel.getLocation());
-                txtDistanceKm.setText(String.format("%sKM", (int) Float.parseFloat(filterModel.getDistance())));
+                txtDistanceKm.setText(String.format("%s KM", (int) Float.parseFloat(filterModel.getDistance())));
                 skDistance.setValue((int) Float.parseFloat(filterModel.getDistance()));
             }
         }
@@ -120,16 +119,16 @@ public abstract class AbstractFilterFragment extends Fragment {
         setSeekBarPrice(pMin, pMax);
     }
 
-    seekbar();
+    initDistanceSlider();
 
-    seekbarPrice();
+    initPriceSlider();
 }
 
     private void getPminPmax(int min, int max) {
         skPrice.setValues((float) min, (float) max);
     }
 
-    private void seekbarPrice() {
+    private void initPriceSlider() {
         skPrice.addOnChangeListener((slider, value, fromUser) -> {
             int min = (int) (float) slider.getValues().get(0);
             int max = (int) (float) slider.getValues().get(1);
@@ -142,10 +141,13 @@ public abstract class AbstractFilterFragment extends Fragment {
         txtPriceMinMax.setText(String.format(Locale.ENGLISH, "$ %d - $ %d", pMin, pMax));
     }
 
-
-    private void seekbar() {
+    private void initDistanceSlider() {
         skDistance.addOnChangeListener((slider, value, fromUser) -> {
-            txtDistanceKm.setText(String.format(Locale.ENGLISH, "%d KM", (int) slider.getValue()));
+            if(slider.getValue() != 101){
+                txtDistanceKm.setText(String.format(Locale.ENGLISH, "%d KM", (int) slider.getValue()));
+            }else {
+                txtDistanceKm.setText(R.string.plus_100_km);
+            }
         });
     }
 
@@ -186,7 +188,11 @@ public abstract class AbstractFilterFragment extends Fragment {
         }
         if (getFilterType() == FilterType.IN_PERSON || getFilterType() == FilterType.ALL) {
             filterModel.setLocation(txtSuburb.getText().trim());
-            filterModel.setDistance(String.valueOf((int) skDistance.getValue()));
+            if(skDistance.getValue() != 101)
+                filterModel.setDistance(String.valueOf((int) skDistance.getValue()));
+            else{
+                filterModel.setDistance(Integer.toString(MAX_FILTER_DISTANCE_IN_KILOMETERS));
+            }
         }
         filterModel.setPrice(txtPriceMinMax.getText().toString().trim());
         if (cbOpenTasks.isChecked()) {

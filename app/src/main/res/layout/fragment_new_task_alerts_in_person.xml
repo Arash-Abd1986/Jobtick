@@ -84,7 +84,7 @@
                         android:gravity="end|center_vertical"
                         android:textAppearance="@style/materialText_600_14"
                         android:textColor="@color/textColor"
-                        tools:text="15 KM" />
+                        android:text="15 KM" />
 
                     <com.google.android.material.slider.Slider
                         android:id="@+id/sk_distance"
@@ -96,7 +96,7 @@
                         android:layout_marginTop="6dp"
                         android:layout_marginEnd="-16dp"
                         android:layoutDirection="ltr"
-                        android:max="100"
+                        android:max="101"
                         android:maxHeight="4dp"
                         android:minHeight="4dp"
                         android:mirrorForRtl="true"

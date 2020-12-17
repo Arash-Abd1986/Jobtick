@@ -75,7 +75,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:layoutDirection="ltr"
-                    android:max="100"
+                    android:max="101"
                     android:maxHeight="4dp"
                     android:minHeight="4dp"
                     android:mirrorForRtl="true"
@@ -85,7 +85,7 @@
                     android:progress="15"
                     android:value="15"
                     android:valueFrom="0"
-                    android:valueTo="100"
+                    android:valueTo="101"
                     app:haloColor="@color/grey_E2E2E2"
                     app:labelBehavior="gone"
                     app:trackColorInactive="@color/grey_E2E2E2" />

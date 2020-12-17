@@ -12,283 +12,273 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <LinearLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="@dimen/_32sp"
+                android:layout_height="@dimen/_32sp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_10sp"
+                android:padding="@dimen/_5sp"
+                android:src="@drawable/ic_back" />
+
+            <com.jobtick.text_view.TextViewMedium
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_5sp"
+                android:text="@string/make_an_offer"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_18sp" />
+
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nested_scroll_view"
+            android:layout_below="@id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/_50dp"
-            android:clipToPadding="false"
-            android:orientation="vertical">
+            android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sp"
                 android:layout_marginTop="@dimen/_10sp"
-                android:orientation="horizontal">
+                android:layout_marginEnd="@dimen/_15sp"
+                android:orientation="vertical"
+                android:paddingBottom="80dp">
 
-                <ImageView
-                    android:id="@+id/ivBack"
-                    android:layout_width="@dimen/_32sp"
-                    android:layout_height="@dimen/_32sp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_10sp"
-                    android:padding="@dimen/_5sp"
-                    android:src="@drawable/ic_back"
-                     />
 
-                <com.jobtick.text_view.TextViewMedium
-                    android:id="@+id/toolbar_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_5sp"
-                    android:text="@string/make_an_offer"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/_18sp" />
-
-            </LinearLayout>
-
-            <androidx.core.widget.NestedScrollView
-                android:id="@+id/nested_scroll_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never">
-
+                <!--Poster Offer Design-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_15sp"
                     android:layout_marginTop="@dimen/_10sp"
-                    android:layout_marginEnd="@dimen/_15sp"
-                    android:orientation="vertical">
+                    android:background="@drawable/bg_poster_offer"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_8sp">
 
+                    <com.jobtick.text_view.TextViewMedium
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_5sp"
+                        android:layout_marginEnd="@dimen/_5sp"
+                        android:layout_weight="1"
+                        android:text="Poster offer"
+                        android:textColor="@color/grey_70"
+                        android:textSize="@dimen/_14sp" />
 
-                    <!--Poster Offer Design-->
+                    <com.jobtick.text_view.TextViewBold
+                        android:id="@+id/tvOffer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="$200"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_17sp" />
+
+                </LinearLayout>
+
+                <com.jobtick.widget.ExtendedEntryText
+                    android:id="@+id/edt_budget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:eHint="5 - 9999"
+                    app:eImeOptions="normal"
+                    app:eInputType="budget"
+                    app:eTitle="Your offer" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_12sp"
+                    android:background="@drawable/bg_white_settings"
+                    android:visibility="visible">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sp"
-                        android:background="@drawable/bg_poster_offer"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/_8sp">
-
-                        <com.jobtick.text_view.TextViewMedium
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/_5sp"
-                            android:layout_marginEnd="@dimen/_5sp"
-                            android:layout_weight="1"
-                            android:text="Poster offer"
-                            android:textColor="@color/grey_70"
-                            android:textSize="@dimen/_14sp" />
-
-                        <com.jobtick.text_view.TextViewBold
-                            android:id="@+id/tvOffer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="$200"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_17sp" />
-
-                    </LinearLayout>
-
-                    <com.jobtick.widget.ExtendedEntryText
-                        android:id="@+id/edt_budget"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        app:eHint="5 - 9999"
-                        app:eImeOptions="normal"
-                        app:eInputType="budget"
-                        app:eTitle="Your offer" />
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/_12sp"
-                        android:background="@drawable/bg_white_settings"
-                        android:visibility="visible">
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/_8sp"
+                        android:paddingRight="@dimen/_8sp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:paddingLeft="@dimen/_8sp"
-                            android:paddingRight="@dimen/_8sp">
+                            android:layout_marginStart="@dimen/_10sp"
+                            android:layout_marginTop="@dimen/_5sp"
+                            android:orientation="horizontal">
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_10sp"
-                                android:layout_marginTop="@dimen/_5sp"
-                                android:orientation="horizontal">
-
-                                <com.jobtick.text_view.TextViewMedium
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="Service fee"
-                                    android:textColor="@color/grey_70"
-                                    android:textSize="@dimen/_14sp" />
-
-                                <com.jobtick.text_view.TextViewSemiBold
-                                    android:id="@+id/txt_service_fee"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/_10sp"
-                                    android:layout_marginTop="@dimen/_5sp"
-                                    android:text="$00"
-                                    android:textColor="@color/textColor"
-                                    android:textSize="@dimen/_18sp" />
-
-                            </LinearLayout>
-
-                            <!--Receive free design-->
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_10sp"
-                                android:layout_marginTop="@dimen/_3sp"
-                                android:orientation="horizontal"
-                                android:paddingBottom="@dimen/_3sp">
-
-                                <com.jobtick.text_view.TextViewSemiBold
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="You’ll receive"
-                                    android:textColor="@color/textColor"
-                                    android:textSize="@dimen/_14sp" />
-
-                                <com.jobtick.text_view.TextViewBold
-                                    android:id="@+id/txt_final_budget"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/_10sp"
-                                    android:layout_marginTop="@dimen/_5sp"
-                                    android:text="$00"
-                                    android:textColor="@color/colorPrimary"
-                                    android:textSize="@dimen/_22sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/_12sp"
-                        android:background="@drawable/bg_white_settings"
-                        android:visibility="visible">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="@dimen/_10sp">
-
-                            <!--Level shield design-->
-                            <RelativeLayout
-                                android:layout_width="110dp"
-                                android:layout_height="110dp"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="10dp">
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/shape_circle_gray_level"
-                                     />
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/bg_level_squre_diamond"
-                                     />
-
-                                <ImageView
-                                    android:id="@+id/img_level"
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    android:layout_centerInParent="true"
-                                    android:layout_centerHorizontal="true"
-                                    android:layout_centerVertical="true"
-                                    android:src="@drawable/ic_medal3"
-                                     />
-
-
-                            </RelativeLayout>
-
-                            <!--assign level number-->
                             <com.jobtick.text_view.TextViewMedium
-                                android:id="@+id/txt_account_level"
-                                android:layout_width="5dp"
-                                android:layout_height="1dp"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_10sp"
-                                android:text="Level 1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Service fee"
                                 android:textColor="@color/grey_70"
                                 android:textSize="@dimen/_14sp" />
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
+                            <com.jobtick.text_view.TextViewSemiBold
+                                android:id="@+id/txt_service_fee"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_10sp"
-                                android:layout_marginTop="@dimen/_20sp"
-                                android:layout_marginEnd="@dimen/_10sp"
-                                android:orientation="horizontal">
+                                android:layout_marginTop="@dimen/_5sp"
+                                android:text="$00"
+                                android:textColor="@color/textColor"
+                                android:textSize="@dimen/_18sp" />
 
-                                <com.jobtick.text_view.TextViewSemiBold
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="Service Fee (Currently)"
-                                    android:textColor="@color/textColor"
-                                    android:textSize="@dimen/_13sp" />
-
-                                <com.jobtick.text_view.TextViewSemiBold
-                                    android:id="@+id/txt_current_service_fee"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="0%"
-                                    android:textColor="@color/textColor"
-                                    android:textSize="@dimen/_17sp" />
-
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_10sp"
-                                android:layout_marginTop="@dimen/_10sp"
-                                android:layout_marginEnd="@dimen/_10sp"
-                                android:orientation="vertical">
-
-                                <com.jobtick.text_view.TextViewMedium
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:lineHeight="20dp"
-                                    android:text="Complete more Jobs in-order to upgrade your account and be eligible to pay minimum service fee."
-                                    android:textColor="@color/grey_70"
-                                    android:textSize="@dimen/_14sp" />
-
-                                <com.jobtick.text_view.TextViewRegular
-                                    android:id="@+id/txt_learn_how_level_affects_service_fee"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/_10sp"
-                                    android:layout_marginBottom="@dimen/_5sp"
-                                    android:text="More information about levels and service fees."
-                                    android:textColor="@color/colorTaskOffer"
-                                    android:textSize="@dimen/_12sp" />
-                            </LinearLayout>
                         </LinearLayout>
-                    </FrameLayout>
 
-                </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
-        </LinearLayout>
+                        <!--Receive free design-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sp"
+                            android:layout_marginTop="@dimen/_3sp"
+                            android:orientation="horizontal"
+                            android:paddingBottom="@dimen/_3sp">
+
+                            <com.jobtick.text_view.TextViewSemiBold
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="You’ll receive"
+                                android:textColor="@color/textColor"
+                                android:textSize="@dimen/_14sp" />
+
+                            <com.jobtick.text_view.TextViewBold
+                                android:id="@+id/txt_final_budget"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10sp"
+                                android:layout_marginTop="@dimen/_5sp"
+                                android:text="$00"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_22sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_12sp"
+                    android:background="@drawable/bg_white_settings"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_10sp">
+
+                        <!--Level shield design-->
+                        <RelativeLayout
+                            android:layout_width="110dp"
+                            android:layout_height="110dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/shape_circle_gray_level" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/bg_level_squre_diamond" />
+
+                            <ImageView
+                                android:id="@+id/img_level"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_centerInParent="true"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_medal3" />
+
+
+                        </RelativeLayout>
+
+                        <!--assign level number-->
+                        <com.jobtick.text_view.TextViewMedium
+                            android:id="@+id/txt_account_level"
+                            android:layout_width="5dp"
+                            android:layout_height="1dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/_10sp"
+                            android:text="Level 1"
+                            android:textColor="@color/grey_70"
+                            android:textSize="@dimen/_14sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sp"
+                            android:layout_marginTop="@dimen/_20sp"
+                            android:layout_marginEnd="@dimen/_10sp"
+                            android:orientation="horizontal">
+
+                            <com.jobtick.text_view.TextViewSemiBold
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Service Fee (Currently)"
+                                android:textColor="@color/textColor"
+                                android:textSize="@dimen/_13sp" />
+
+                            <com.jobtick.text_view.TextViewSemiBold
+                                android:id="@+id/txt_current_service_fee"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0%"
+                                android:textColor="@color/textColor"
+                                android:textSize="@dimen/_17sp" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sp"
+                            android:layout_marginTop="@dimen/_10sp"
+                            android:layout_marginEnd="@dimen/_10sp"
+                            android:orientation="vertical">
+
+                            <com.jobtick.text_view.TextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:lineHeight="20dp"
+                                android:text="Complete more Jobs in-order to upgrade your account and be eligible to pay minimum service fee."
+                                android:textColor="@color/grey_70"
+                                android:textSize="@dimen/_14sp" />
+
+                            <com.jobtick.text_view.TextViewRegular
+                                android:id="@+id/txt_learn_how_level_affects_service_fee"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_10sp"
+                                android:layout_marginBottom="@dimen/_5sp"
+                                android:text="More information about levels and service fees."
+                                android:textColor="@color/colorTaskOffer"
+                                android:textSize="@dimen/_12sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_next"

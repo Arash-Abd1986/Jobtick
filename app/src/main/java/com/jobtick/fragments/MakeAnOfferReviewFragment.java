@@ -23,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
@@ -71,15 +72,11 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_submit_offer)
-    LinearLayout lytBtnSubmitOffer;
+    MaterialButton lytBtnSubmitOffer;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lytRecord2)
     LinearLayout lytRecord2;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.card_submit_offer)
-    CardView cardSubmitOffer;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_offer_on_task)

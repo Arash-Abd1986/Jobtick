@@ -33,6 +33,8 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
     private final TextView counter;
     private final EditText editText;
 
+    private TextWatcher textWatcher;
+
 
     public ExtendedCommentText(Context context) {
         this(context, null);
@@ -111,6 +113,10 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
         }
     }
 
+    public void setSelection(int i) {
+        editText.setSelection(i);
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -141,10 +147,16 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        if(textWatcher != null)
+            textWatcher.onTextChanged(s, start, count, after);
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        if(textWatcher != null)
+            textWatcher.onTextChanged(s, start, before, count);
     }
 
     @Override
@@ -182,6 +194,9 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
                 counter.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
             }
         }
+
+        if(textWatcher != null)
+            textWatcher.afterTextChanged(s);
     }
 
     public void setError(CharSequence error) {
@@ -227,5 +242,13 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
 
     public void seteMaxSize(int eMaxSize) {
         this.eMaxSize = eMaxSize;
+    }
+
+    public TextWatcher getTextWatcher() {
+        return textWatcher;
+    }
+
+    public void setTextWatcher(TextWatcher textWatcher) {
+        this.textWatcher = textWatcher;
     }
 }

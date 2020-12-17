@@ -1,6 +1,7 @@
 package com.jobtick.fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,13 +19,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,28 +33,28 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
+import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.activities.VideoPlayerActivity;
-import com.jobtick.utils.ImageUtil;
-import com.jobtick.utils.Tools;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.jobtick.R;
-import android.annotation.SuppressLint;
-
-import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.MakeAnOfferModel;
 import com.jobtick.retrofit.ApiClient;
 import com.jobtick.utils.CameraUtils;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.utils.Tools;
+import com.jobtick.widget.ExtendedCommentText;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.jetbrains.annotations.NotNull;
@@ -65,7 +64,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -88,7 +86,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_description)
-    EditText edtDescription;
+    ExtendedCommentText edtDescription;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.checkbox_save_as_template)
@@ -112,11 +110,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_continue)
-    LinearLayout lytBtnContinue;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.card_continue)
-    CardView cardContinue;
+    MaterialButton lytBtnContinue;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_live_video)
@@ -137,10 +131,6 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llPlayVideo)
     LinearLayout llPlayVideo;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.tvCount)
-    TextView tvCount;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bottom_sheet)
@@ -203,39 +193,22 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
         sessionManager = new SessionManager(getContext());
 
         quickOffer = sessionManager.getQuickOffer();
-
         setQuickOffer(quickOffer, "");
 
-        edtDescription.addTextChangedListener(new TextWatcher() {
+        edtDescription.setTextWatcher(
+                new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        setQuickOffer(quickOffer, editable.toString());
+                        lytBtnContinue.setEnabled(editable.length() >= edtDescription.geteMinSize());
+                    }
+                });
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String currentText = editable.toString();
-                setQuickOffer(quickOffer, currentText);
-                int currentLength = currentText.length();
-
-                tvCount.setText(String.format(Locale.ENGLISH, "%d/300", currentLength));
-                if (currentLength >= 1) {
-                    tvCount.setTextColor(getResources().getColor(R.color.colorReleasedMoney));
-                    cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorPrimary));
-                } else {
-                    tvCount.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
-                    cardContinue.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorAccent));
-                }
-            }
-        });
         LytVideoPlay.setVisibility(View.GONE);
-
         return view;
     }
 
@@ -243,11 +216,14 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
         if (!quickOffer.equals("")) {
             if (currentText.equals(quickOffer)) {
                 saveQuickOfferTxt.setEnabled(false);
-            } else if (currentText.equals("")) {
+            } else if (currentText.length() < edtDescription.geteMinSize()) {
                 saveQuickOfferTxt.setEnabled(true);
                 saveQuickOfferTxt.setText(R.string.use_quick_offer);
                 loadQuickOffer();
-                saveQuickOfferTxt.setOnClickListener(v -> edtDescription.setText(quickOffer));
+                saveQuickOfferTxt.setOnClickListener(v -> {
+                    edtDescription.setText(quickOffer);
+                    edtDescription.setSelection(edtDescription.getText().length());
+                });
             } else {
                 saveQuickOfferTxt.setOnClickListener(v -> {
                     saveQuickOffer(currentText);
@@ -262,7 +238,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                 saveQuickOffer(currentText);
             });
 
-            if (currentText.equals("")) {
+            if (currentText.length() < edtDescription.geteMinSize()) {
                 saveQuickOfferTxt.setEnabled(false);
                 saveQuickOfferTxt.setTextColor(ContextCompat.getColor(requireContext(), R.color.quickOfferColorDisable));
                 saveQuickOfferTxt.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_save_as_quick_offer_disabled));
@@ -274,13 +250,13 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
         }
     }
 
-    private void saveQuickOffer(String currentQuickOffer){
-        ((ActivityBase)requireActivity()).showSuccessToast("Quick offer saved", getContext());
+    private void saveQuickOffer(String currentQuickOffer) {
+        ((ActivityBase) requireActivity()).showSuccessToast("Quick offer saved", getContext());
         quickOfferDesc.setText(String.format(Locale.ENGLISH, "%s...", currentQuickOffer.trim().substring(0, Math.min(currentQuickOffer.trim().length() - 1, 19))));
         sessionManager.setQuickOffer(currentQuickOffer);
     }
 
-    private void loadQuickOffer(){
+    private void loadQuickOffer() {
         String quickOffer = sessionManager.getQuickOffer();
         quickOfferDesc.setText(String.format(Locale.ENGLISH, "%s...", quickOffer.trim().substring(0, Math.min(quickOffer.trim().length() - 1, 19))));
     }
@@ -388,7 +364,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
             case R.id.lyt_btn_make_a_live_video:
                 // Checking availability of the camera
                 if (!CameraUtils.isDeviceSupportCamera(makeAnOfferActivity)) {
-                    ((ActivityBase)requireActivity()).showToast("Sorry! Your device doesn't support camera", requireContext());
+                    ((ActivityBase) requireActivity()).showToast("Sorry! Your device doesn't support camera", requireContext());
                     // will close the app if the device doesn't have camera
                     //finish();
                     return;
@@ -432,7 +408,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
     }
 
     private int validation() {
-        if (TextUtils.isEmpty(edtDescription.getText().toString().trim()) && makeAnOfferModel.getAttachment() == null) {
+        if (edtDescription.getText().length() < edtDescription.geteMinSize() && makeAnOfferModel.getAttachment() == null) {
             return 1;
         } else if (!TextUtils.isEmpty(edtDescription.getText().toString().trim()) && makeAnOfferModel.getAttachment() != null) {
             return 2;
@@ -533,11 +509,11 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 // user cancelled recording
-                ((ActivityBase)requireActivity()).showToast(
+                ((ActivityBase) requireActivity()).showToast(
                         "User cancelled video recording", requireContext());
             } else {
                 // failed to record video
-                ((ActivityBase)requireActivity()).showToast(
+                ((ActivityBase) requireActivity()).showToast(
                         "Sorry! Failed to record video", requireContext());
             }
         }

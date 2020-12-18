@@ -1,9 +1,16 @@
 package com.jobtick.activities;
 
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+
+import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
+import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.potyvideo.library.AndExoPlayerView;
 import butterknife.BindView;
@@ -15,12 +22,21 @@ import static com.jobtick.utils.ConstantKey.VIDEO_PATH;
 public class VideoPlayerActivity extends ActivityBase {
 
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.btn_back)
+    CardView btnBack;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.andExoPlayerView)
     AndExoPlayerView andExoPlayerView;
     String videoPath;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window w = getWindow();
+            w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
 
@@ -31,5 +47,11 @@ public class VideoPlayerActivity extends ActivityBase {
             }
         }
         andExoPlayerView.setSource(videoPath);
+
+        initToolbar();
+    }
+
+    private void initToolbar() {
+        btnBack.setOnClickListener(v -> onBackPressed());
     }
 }

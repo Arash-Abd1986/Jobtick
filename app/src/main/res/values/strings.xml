@@ -482,5 +482,9 @@
     <string name="plus_100_km">+100 KM</string>
     <string name="why_are_you_the_best_person_for_this_job">Why are you the best person for this job?</string>
     <string name="submit_offer">Submit offer</string>
+    <string name="post_a_new_job">Post a new job</string>
+    <string name="view_your_job">View your job</string>
+    <string name="explore_jobs">Explore jobs</string>
+    <string name="view_your_offer">View your offer</string>
 
 </resources>

@@ -1545,7 +1545,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                showToast("Task Deleted Successfully", TaskDetailsActivity.this);
+                                showSuccessToast("Task Deleted Successfully", TaskDetailsActivity.this);
                             } else {
                                 showToast("Task not deleted", TaskDetailsActivity.this);
                             }

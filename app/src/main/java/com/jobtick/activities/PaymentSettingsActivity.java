@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 
@@ -25,7 +24,6 @@ import com.google.gson.Gson;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
-import com.jobtick.interfaces.OnBankAccountAdded;
 import com.jobtick.models.BankAccountModel;
 import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.models.CreditCardModel;
@@ -144,7 +142,6 @@ public class PaymentSettingsActivity extends ActivityBase {
     @BindView(R.id.card_type)
     TextView cardType;
 
-    public static OnBankAccountAdded onBankaccountadded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

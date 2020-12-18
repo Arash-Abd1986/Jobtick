@@ -6,17 +6,14 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.view.View;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.NetworkResponse;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.jobtick.interfaces.HasEditTextRegular;
-import com.jobtick.utils.Helper;
 import com.pusher.client.Pusher;
 import com.pusher.client.PusherOptions;
-import com.pusher.client.channel.PresenceChannel;
 
 import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
@@ -29,7 +26,6 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.SessionManager;
 import com.tapadoo.alerter.Alerter;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,12 +34,11 @@ import java.util.HashMap;
 import timber.log.Timber;
 
 
-public class ActivityBase extends AppCompatActivity implements HasEditTextRegular {
+public class ActivityBase extends AppCompatActivity {
 
     protected ProgressDialog pDialog;
     SessionManager sessionManager;
 
-    private PresenceChannel presenceChannel;
     private Pusher pusher;
     private boolean isPusherConnected = false;
 
@@ -253,11 +248,5 @@ public class ActivityBase extends AppCompatActivity implements HasEditTextRegula
 
 
     protected void getExtras() {
-    }
-
-    @Override
-    public void editTextOnClick(@NotNull View view) {
-        view.requestFocus();
-        Helper.openKeyboard(this);
     }
 }

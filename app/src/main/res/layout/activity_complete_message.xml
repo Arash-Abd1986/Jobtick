@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +8,7 @@
     tools:context=".activities.CompleteMessageActivity">
 
 
-    <include layout="@layout/toolbar"  />
+    <include layout="@layout/toolbar" />
 
 
     <LinearLayout
@@ -22,8 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/ic_tick"
-             />
+            android:src="@drawable/ic_tick" />
 
         <View
             android:layout_width="match_parent"
@@ -53,119 +51,85 @@
             android:textColor="@color/grey_40"
             android:textSize="12sp"
             android:visibility="gone" />
-
-
     </LinearLayout>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/cardFinish"
+        style="@style/materialButton"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="48dp"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/spacing_large"
-        android:backgroundTint="@color/colorPrimary"
-        android:elevation="@dimen/spacing_middle"
-        android:visibility="visible"
-        app:cardCornerRadius="@dimen/spacing_medium">
-
-        <LinearLayout
-            android:id="@+id/lyt_btn_finish"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center">
-
-            <com.jobtick.text_view.TextViewMedium
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Finish"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/finish"
+        android:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/linearTaskCompleted"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="48dp"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/spacing_large"
-        android:backgroundTint="#00000000"
-        android:visibility="gone">
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:weightSum="1">
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/lyt_btn_new_job"
+            style="@style/materialButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="0.5"
+            android:text="@string/post_a_new_job" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:backgroundTint="@color/colorPrimary"
-                android:clipToPadding="false"
-                android:elevation="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_medium"
-                app:cardElevation="0dp">
-
-                <LinearLayout
-                    android:id="@+id/lyt_btn_new_job"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:gravity="center">
-
-                    <com.jobtick.text_view.TextViewMedium
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Post a new job"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="46dp"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_weight="0.5"
-
-                android:backgroundTint="@color/white"
-                android:clipToPadding="false"
-                android:elevation="@dimen/spacing_middle"
-                app:cardCornerRadius="@dimen/spacing_medium"
-                app:cardElevation="0dp">
-
-                <LinearLayout
-                    android:id="@+id/lyt_btn_view_your_job"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:backgroundTint="@color/colorPrimary"
-
-                    android:gravity="center">
-
-                    <com.jobtick.text_view.TextViewMedium
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="View your job"
-                        android:textColor="@color/textColor"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/lyt_btn_view_your_job"
+            style="@style/materialButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_weight="0.5"
+            android:text="@string/view_your_job"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/textColor" />
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linearOfferSent"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:weightSum="1">
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_explore_jobs"
+            style="@style/materialButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="0.5"
+            android:text="@string/explore_jobs" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_view_your_offer"
+            style="@style/materialButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_weight="0.5"
+            android:text="@string/view_your_offer"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/textColor" />
+
+    </LinearLayout>
 </RelativeLayout>

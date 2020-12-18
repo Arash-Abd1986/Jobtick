@@ -1,5 +1,6 @@
 package com.jobtick.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -7,15 +8,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
-import android.annotation.SuppressLint;
-
+import com.jobtick.models.TaskModel;
 import com.jobtick.text_view.TextViewBold;
 import com.jobtick.text_view.TextViewRegular;
-import com.jobtick.models.TaskModel;
 import com.jobtick.utils.ConstantKey;
 
 import butterknife.BindView;
@@ -38,32 +37,37 @@ public class CompleteMessageActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_subtitle)
     TextViewRegular txtSubtitle;
+
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_finish)
-    LinearLayout lytBtnFinish;
-
-    public int from = 0;
-
-    private TaskModel taskModel;
-
+    @BindView(R.id.cardFinish)
+    MaterialButton cardFinish;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.linearTaskCompleted)
     LinearLayout linearTaskCompleted;
 
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.cardFinish)
-    CardView cardFinish;
-
-
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_new_job)
-    LinearLayout lytBtnNewJob;
-
+    MaterialButton lytBtnNewJob;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_view_your_job)
-    LinearLayout lytBtnViewYourJob;
+    MaterialButton lytBtnViewYourJob;
+
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.linearOfferSent)
+    LinearLayout linearOfferSent;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.btn_view_your_offer)
+    MaterialButton viewYourOffer;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.btn_explore_jobs)
+    MaterialButton exploreJobs;
+
+    public int from = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,15 +86,17 @@ public class CompleteMessageActivity extends AppCompatActivity {
             if (bundle.containsKey(ConstantKey.COMPLETES_MESSAGE_FROM)) {
                 from = bundle.getInt(ConstantKey.COMPLETES_MESSAGE_FROM, 0);
             }
-            if(bundle.containsKey(ConstantKey.TASK)){
-                taskModel = bundle.getParcelable(ConstantKey.TASK);
-            }
         }
 
-        if (from==RESULTCODE_CREATE_TASK)
-        {
+        if (from == RESULTCODE_MAKEANOFFER) {
+            linearTaskCompleted.setVisibility(View.GONE);
+            cardFinish.setVisibility(View.GONE);
+            linearOfferSent.setVisibility(View.VISIBLE);
+        }
+        else if (from == RESULTCODE_CREATE_TASK) {
             linearTaskCompleted.setVisibility(View.VISIBLE);
             cardFinish.setVisibility(View.GONE);
+            linearOfferSent.setVisibility(View.GONE);
         }
     }
 
@@ -116,32 +122,24 @@ public class CompleteMessageActivity extends AppCompatActivity {
     }
 
 
-    @OnClick({R.id.cardFinish,R.id.lyt_btn_view_your_job,R.id.lyt_btn_new_job})
+    @OnClick({R.id.cardFinish, R.id.lyt_btn_view_your_job, R.id.lyt_btn_new_job,
+            R.id.btn_explore_jobs, R.id.btn_view_your_offer})
     public void onViewClicked(View view) {
 
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.cardFinish:
                 if (from == RESULTCODE_INCREASE_BUDGET) {
                     if (requestAcceptListener != null) {
                         requestAcceptListener.onRequestAccept();
                     }
                     onBackPressed();
-
-                } else if (from == RESULTCODE_MAKEANOFFER) {
-                    if (requestAcceptListener != null) {
-                        requestAcceptListener.onMakeAnOffer();
-                    }
-                    onBackPressed();
-
                 } else {
                     onBackPressed();
-
                 }
 
                 break;
             case R.id.lyt_btn_view_your_job:
-                //TODO: go to my job fragment
+
                 Intent intent = new Intent(this, DashboardActivity.class);
                 intent.putExtra(ConstantKey.GO_TO_MY_JOBS, true);
                 startActivity(intent);
@@ -156,6 +154,22 @@ public class CompleteMessageActivity extends AppCompatActivity {
                 finish();
                 break;
 
+            case R.id.btn_explore_jobs:
+
+                intent = new Intent(this, DashboardActivity.class);
+                intent.putExtra(ConstantKey.GO_TO_EXPLORE, true);
+                startActivity(intent);
+                break;
+
+            case R.id.btn_view_your_offer:
+
+                if (requestAcceptListener != null) {
+                    requestAcceptListener.onMakeAnOffer();
+                }
+                onBackPressed();
+                break;
         }
+
     }
+
 }

@@ -108,8 +108,13 @@ public abstract class AbstractFilterFragment extends Fragment {
             if (filterModel != null && (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_ALL)
                     || filterModel.getSection().equalsIgnoreCase(Constant.FILTER_IN_PERSON))) {
                 txtSuburb.setText(filterModel.getLocation());
-                txtDistanceKm.setText(String.format("%s KM", (int) Float.parseFloat(filterModel.getDistance())));
-                skDistance.setValue((int) Float.parseFloat(filterModel.getDistance()));
+                if(filterModel.getDistance().equals(Integer.toString(MAX_FILTER_DISTANCE_IN_KILOMETERS))){
+                    txtDistanceKm.setText(R.string.plus_100_km);
+                    skDistance.setValue(101);
+                }else{
+                    txtDistanceKm.setText(String.format("%s KM", (int) Float.parseFloat(filterModel.getDistance())));
+                    skDistance.setValue((int) Float.parseFloat(filterModel.getDistance()));
+                }
             }
         }
 

@@ -48,7 +48,8 @@ public class AppController extends Application {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         // Operations on FirebaseCrashlytics.
         mCrashlytics = FirebaseCrashlytics.getInstance();
-        mCrashlytics.setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG);
+     //   mCrashlytics.setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG);
+        mCrashlytics.setCrashlyticsCollectionEnabled(true);
 
     }
 }

@@ -943,17 +943,19 @@ public class AuthActivity extends ActivityBase {
         try {
             showProgressDialog();
 
-            if (account.getDisplayName() != null) {
-                String[] displayName = account.getDisplayName().split(" ");
-                int size_of_displayName = displayName.length;
-                str_lname = displayName[size_of_displayName - 1];
-                int count = 0;
-
-                while (size_of_displayName - 1 > count) {
-                    str_fname = str_fname + displayName[count];
-                    count++;
-                }
-            }
+            //TODO: for now, we can ignore this, because we get fname and lname in complete registration
+//            if (account.getDisplayName() != null) {
+//                String[] displayName = account.getDisplayName().split(" ");
+//                int size_of_displayName = displayName.length;
+//                str_lname = displayName[size_of_displayName - 1];
+//                int count = 0;
+//                StringBuilder stringBuilder = new StringBuilder();
+//                while (size_of_displayName - 1 > count) {
+//                    stringBuilder.append(displayName[count]);
+//                    count++;
+//                }
+//                str_fname = stringBuilder.toString();
+//            }
 
             // String str_lname = edtLname.getText().toString().trim();
             String str_email = account.getEmail();
@@ -970,8 +972,13 @@ public class AuthActivity extends ActivityBase {
                     Helper.closeKeyboard(this);
 
 
-                    String finalStr_fname = str_fname;
-                    String finalStr_lname = str_lname;
+                    //TODO: We ignore this and set it to no name due to getting these data in complete profile
+//                    String finalStr_fname = str_fname;
+//                    String finalStr_lname = str_lname;
+
+                    String finalStr_fname = "no first name";
+                    String finalStr_lname = "no last name";
+
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_SIGNIN_GOOGLE,
                             response -> {
                                 Timber.e(response);

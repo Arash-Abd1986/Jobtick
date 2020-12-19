@@ -58,7 +58,7 @@ public class NewSplashActivity extends AppCompatActivity {
     }
 
     private void login(){
-        if (sessionManager.getLogin()) {
+        if (sessionManager.getTokenType() != null && sessionManager.getAccessToken() != null) {
             getAccountDetails();
         } else {
             Intent sign = new Intent(NewSplashActivity.this, SigInSigUpActivity.class);

@@ -65,6 +65,7 @@
                     android:layout_marginEnd="@dimen/spacing_large"
                     android:layout_marginBottom="@dimen/spacing_middle"
                     app:eInputType="email"
+                    app:eImeOptions="actionNext"
                     app:eTitle="@string/email_address" />
 
 

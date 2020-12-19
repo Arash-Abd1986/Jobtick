@@ -73,9 +73,8 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         ButterKnife.bind(this, view);
         authActivity = (AuthActivity) getActivity();
+        assert authActivity != null;
         authActivity.setEditTextError(this);
-        ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
-                .showSoftInput(edtEmailAddress, InputMethodManager.SHOW_FORCED);
         return view;
     }
 

@@ -168,9 +168,6 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             editText.setInputType(InputType.TYPE_CLASS_PHONE);
         else if (eInputType == EInputType.SUBURB || eInputType == EInputType.CALENDAR || eInputType == EInputType.SPINNER) {
             editText.setFocusable(false);
-            editText.setOnClickListener(v -> {
-                extendedViewOnClickListener.onClick();
-            });
             editText.setInputType(InputType.TYPE_NULL);
             editText.setClickable(true);
         } else

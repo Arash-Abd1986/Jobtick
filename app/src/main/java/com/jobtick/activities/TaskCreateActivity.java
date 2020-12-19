@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.cardview.widget.CardView;
@@ -38,6 +37,7 @@ import com.jobtick.models.PositionModel;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.FireBaseEvent;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.Tools;
 
@@ -434,6 +434,11 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                                     onBackPressed();
                                     return;
                                 }
+
+                                FireBaseEvent.getInstance(getApplicationContext())
+                                        .sendEvent(FireBaseEvent.Event.POST_A_JOB,
+                                                FireBaseEvent.EventType.API_RESPOND_SUCCESS,
+                                                FireBaseEvent.EventValue.POST_A_JOB_SUBMIT);
 
                                 intent = new Intent(TaskCreateActivity.this, CompleteMessageActivity.class);
                                 intent.putExtra(COMPLETES_MESSAGE_FROM, RESULTCODE_CREATE_TASK);

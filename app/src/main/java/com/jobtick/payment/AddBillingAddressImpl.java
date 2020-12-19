@@ -8,6 +8,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
 
@@ -52,6 +53,7 @@ public abstract class AddBillingAddressImpl implements AddBillingAddress{
                     } catch (JSONException e) {
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
+                        FirebaseCrashlytics.getInstance().recordException(e);
                         onError(e);
                     }
 
@@ -63,6 +65,8 @@ public abstract class AddBillingAddressImpl implements AddBillingAddress{
                         String jsonError = new String(networkResponse.data);
                         // Print Error!
                         Timber.e(jsonError);
+                        FirebaseCrashlytics.getInstance().recordException(error);
+
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                             onValidationError(ErrorType.UnAuthenticatedUser, "user is not authenticated.");
                             return;

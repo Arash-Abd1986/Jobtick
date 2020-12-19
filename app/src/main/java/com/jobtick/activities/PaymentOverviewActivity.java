@@ -31,6 +31,7 @@ import com.jobtick.models.UserAccountModel;
 import com.jobtick.models.calculation.PayingCalculationModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.FireBaseEvent;
 import com.jobtick.utils.ImageUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -302,13 +303,17 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
                                         if (jsonObject_data.has("status") && !jsonObject_data.isNull("status")) {
                                             if (jsonObject_data.getString("status").equalsIgnoreCase("assigned")) {
                                                 hideProgressDialog();
+
+                                                FireBaseEvent.getInstance(getApplicationContext())
+                                                        .sendEvent(FireBaseEvent.Event.PAYMENT_OVERVIEW,
+                                                                FireBaseEvent.EventType.API_RESPOND_SUCCESS,
+                                                                FireBaseEvent.EventValue.PAYMENT_OVERVIEW_SUBMIT);
+
                                                 Intent intent = new Intent();
                                                 Bundle bundle = new Bundle();
                                                 bundle.putBoolean(ConstantKey.PAYMENT_OVERVIEW, true);
                                                 intent.putExtras(bundle);
                                                 setResult(ConstantKey.RESULTCODE_PAYMENTOVERVIEW, intent);
-
-
                                                 intent = new Intent(PaymentOverviewActivity.this, CompleteMessageActivity.class);
                                                 bundle = new Bundle();
                                                 bundle.putString(ConstantKey.COMPLETES_MESSAGE_TITLE, "Your payment is secured, and you will be requested to release it after completion!");

@@ -51,6 +51,6 @@ public class TTCancellationSummaryActivity extends AbstractCancellationSummaryAc
 
     @Override
     protected String getUserType() {
-        return "worker";
+        return UserType.WORKER;
     }
 }

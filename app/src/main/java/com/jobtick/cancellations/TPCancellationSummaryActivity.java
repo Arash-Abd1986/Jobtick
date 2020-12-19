@@ -61,6 +61,6 @@ public class TPCancellationSummaryActivity extends AbstractCancellationSummaryAc
 
     @Override
     protected String getUserType() {
-        return "poster";
+        return UserType.POSTER;
     }
 }

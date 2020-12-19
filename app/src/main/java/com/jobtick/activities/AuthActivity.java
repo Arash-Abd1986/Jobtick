@@ -38,6 +38,7 @@ import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.jobtick.R;
@@ -409,7 +410,7 @@ public class AuthActivity extends ActivityBase {
 
         init();
 
-        fireBaseEvent = new FireBaseEvent(getApplicationContext());
+        fireBaseEvent = FireBaseEvent.getInstance(getApplicationContext());
     }
 
 
@@ -474,15 +475,16 @@ public class AuthActivity extends ActivityBase {
 
                             if(fromSignUp)
                                 fireBaseEvent.sendEvent(FireBaseEvent.Event.SIGN_UP,
-                                        FireBaseEvent.EventType.BUTTON_CLICK, SIGN_UP_FACEBOOK);
+                                        FireBaseEvent.EventType.API_RESPOND_SUCCESS, SIGN_UP_FACEBOOK);
                             else
                                 fireBaseEvent.sendEvent(FireBaseEvent.Event.LOGIN,
-                                        FireBaseEvent.EventType.BUTTON_CLICK, LOGIN_FACEBOOK);
+                                        FireBaseEvent.EventType.API_RESPOND_SUCCESS, LOGIN_FACEBOOK);
 
                             proceedToCorrectActivity(userAccountModel);
 
                         } catch (JSONException e) {
                             Timber.e(String.valueOf(e));
+                            FirebaseCrashlytics.getInstance().recordException(e);
                             e.printStackTrace();
                         }
                     }
@@ -497,6 +499,7 @@ public class AuthActivity extends ActivityBase {
                             String jsonError = new String(networkResponse.data);
                             // Print Error!
                             Timber.e(jsonError);
+                            FirebaseCrashlytics.getInstance().recordException(error);
 
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonError);
@@ -656,7 +659,7 @@ public class AuthActivity extends ActivityBase {
                             sessionManager.setUserAccount(userAccountModel);
 
                             fireBaseEvent.sendEvent(FireBaseEvent.Event.LOGIN,
-                                        FireBaseEvent.EventType.BUTTON_CLICK, LOGIN_NORMAL);
+                                        FireBaseEvent.EventType.API_RESPOND_SUCCESS, LOGIN_NORMAL);
 
                             proceedToCorrectActivity(userAccountModel);
 
@@ -927,6 +930,7 @@ public class AuthActivity extends ActivityBase {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             signInUpdateUI(null);
+            FirebaseCrashlytics.getInstance().recordException(e);
         }
     }
 
@@ -988,20 +992,18 @@ public class AuthActivity extends ActivityBase {
 
                                     if(fromSignUp)
                                         fireBaseEvent.sendEvent(FireBaseEvent.Event.SIGN_UP,
-                                            FireBaseEvent.EventType.BUTTON_CLICK, SIGN_UP_GOOGLE);
+                                            FireBaseEvent.EventType.API_RESPOND_SUCCESS, SIGN_UP_GOOGLE);
                                     else
                                         fireBaseEvent.sendEvent(FireBaseEvent.Event.LOGIN,
-                                            FireBaseEvent.EventType.BUTTON_CLICK, LOGIN_GOOGLE);
+                                            FireBaseEvent.EventType.API_RESPOND_SUCCESS, LOGIN_GOOGLE);
 
                                     proceedToCorrectActivity(userAccountModel);
 
                                 } catch (JSONException e) {
                                     Timber.e(String.valueOf(e));
                                     e.printStackTrace();
-
+                                    FirebaseCrashlytics.getInstance().recordException(e);
                                 }
-
-
                             },
                             new Response.ErrorListener() {
                                 @Override
@@ -1011,6 +1013,7 @@ public class AuthActivity extends ActivityBase {
                                         String jsonError = new String(networkResponse.data);
                                         // Print Error!
                                         Timber.e(jsonError);
+                                        FirebaseCrashlytics.getInstance().recordException(error);
 
                                         try {
                                             JSONObject jsonObject = new JSONObject(jsonError);
@@ -1074,10 +1077,9 @@ public class AuthActivity extends ActivityBase {
                     RequestQueue requestQueue = Volley.newRequestQueue(this);
                     requestQueue.add(stringRequest);
 
-                } catch (IOException e) {
+                } catch (IOException | GoogleAuthException e) {
                     e.printStackTrace();
-                } catch (GoogleAuthException e) {
-                    e.printStackTrace();
+                    FirebaseCrashlytics.getInstance().recordException(e);
                 }
             };
             AsyncTask.execute(runnable);
@@ -1085,6 +1087,7 @@ public class AuthActivity extends ActivityBase {
 
         } catch (Exception e) {
             hideProgressDialog();
+            FirebaseCrashlytics.getInstance().recordException(e);
         }
 
     }
@@ -1112,7 +1115,7 @@ public class AuthActivity extends ActivityBase {
                         hideProgressDialog();
                         //  showToast("Check your inbox", AuthActivity.this);
                         fireBaseEvent.sendEvent(FireBaseEvent.Event.SIGN_UP,
-                                FireBaseEvent.EventType.BUTTON_CLICK, SIGN_UP_NORMAL);
+                                FireBaseEvent.EventType.API_RESPOND_SUCCESS, SIGN_UP_NORMAL);
 
                         Bundle bundle = new Bundle();
                         Fragment fragment = new VerifyAccountFragment();

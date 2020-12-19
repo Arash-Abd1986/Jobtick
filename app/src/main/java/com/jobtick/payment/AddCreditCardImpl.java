@@ -10,6 +10,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.SessionManager;
 import com.stripe.android.ApiResultCallback;
@@ -69,6 +70,7 @@ public abstract class AddCreditCardImpl implements AddCreditCard {
             public void onError(@NotNull Exception e) {
                 AddCreditCardImpl.this.onError(e);
                 Timber.tag("Stripe Error").e(e.toString());
+                FirebaseCrashlytics.getInstance().recordException(e);
             }
         });
     }

@@ -8,6 +8,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.jobtick.AppExecutors;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
@@ -74,6 +75,7 @@ public abstract class AddBankAccountImpl implements AddBankAccount {
                 } catch (StripeException e){
                     e.printStackTrace();
 
+                    FirebaseCrashlytics.getInstance().recordException(e);
                     errorOnMainTread(e);
                 }
             }

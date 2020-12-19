@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -27,6 +26,7 @@ import com.jobtick.models.TaskModel;
 import com.jobtick.models.cancellation.notice.CancellationNoticeModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.FireBaseEvent;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.ResizeWidthAnimation;
@@ -453,6 +453,18 @@ public abstract class AbstractCancellationSummaryActivity extends ActivityBase i
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
 
+                               if(getUserType().equals(UserType.POSTER)){
+                                   FireBaseEvent.getInstance(getApplicationContext())
+                                           .sendEvent(FireBaseEvent.Event.CANCELLATION,
+                                                   FireBaseEvent.EventType.API_RESPOND_SUCCESS,
+                                                   FireBaseEvent.EventValue.CANCELLATION_POSTER_SUBMIT);
+                               }else if(getUserType().equals(UserType.WORKER)) {
+                                   FireBaseEvent.getInstance(getApplicationContext())
+                                           .sendEvent(FireBaseEvent.Event.CANCELLATION,
+                                                   FireBaseEvent.EventType.API_RESPOND_SUCCESS,
+                                                   FireBaseEvent.EventValue.CANCELLATION_WORKER_SUBMIT);
+                               }
+
                                 Bundle bundle = new Bundle();
                                 bundle.putString(ConstantKey.CANCELLATION_SUBMITTED, "Cancellation submitted successfully.");
                                 Intent intent = new Intent(this, cancellationSubmittedActivity.class);
@@ -576,4 +588,9 @@ public abstract class AbstractCancellationSummaryActivity extends ActivityBase i
     }
 
     protected abstract String getUserType();
+
+    protected interface UserType{
+        public static final String POSTER = "poster";
+        public static final String WORKER = "worker";
+    }
 }

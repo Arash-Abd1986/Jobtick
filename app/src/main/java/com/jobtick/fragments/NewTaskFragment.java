@@ -83,15 +83,11 @@ public class NewTaskFragment extends Fragment {
         ButterKnife.bind(this, root);
 
         lytBtnPost.setOnClickListener(v -> {
-            Intent creating_task = new Intent(getActivity(), CategoryListActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("category", "");
-            creating_task.putExtras(bundle);
-            getContext().startActivity(creating_task);
+            startCategoryList();
         });
 
         posterCard.setOnClickListener(v -> {
-            lytBtnPost.performClick();
+            startCategoryList();
         });
         tickerCard.setOnClickListener(v -> {
             ((DashboardActivity) requireActivity()).goToFragment(DashboardActivity.Fragment.EXPLORE);
@@ -102,6 +98,14 @@ public class NewTaskFragment extends Fragment {
 
         initToolbar();
         return root;
+    }
+
+    private void startCategoryList(){
+        Intent creating_task = new Intent(getActivity(), CategoryListActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("category", "");
+        creating_task.putExtras(bundle);
+        getContext().startActivity(creating_task);
     }
 
     private void initToolbar() {

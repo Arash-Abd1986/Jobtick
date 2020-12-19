@@ -27,6 +27,7 @@ import com.jobtick.models.MakeAnOfferModel;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.FireBaseEvent;
 import com.jobtick.utils.HttpStatus;
 
 import org.json.JSONException;
@@ -166,6 +167,11 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
+
+                                FireBaseEvent.getInstance(getApplicationContext())
+                                        .sendEvent(FireBaseEvent.Event.OFFER_SUMMARY,
+                                                FireBaseEvent.EventType.API_RESPOND_SUCCESS,
+                                                FireBaseEvent.EventValue.OFFER_SUMMARY_SUBMIT_OFFER);
 
                                 Intent intent = new Intent();
                                 Bundle bundle = new Bundle();

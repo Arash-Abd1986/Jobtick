@@ -49,6 +49,7 @@ import com.jobtick.fragments.SignUpFragment;
 import com.jobtick.fragments.VerifyAccountFragment;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.Constant;
+import com.jobtick.utils.FireBaseEvent;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.SessionManager;
 
@@ -64,6 +65,13 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
+
+import static com.jobtick.utils.FireBaseEvent.EventValue.LOGIN_FACEBOOK;
+import static com.jobtick.utils.FireBaseEvent.EventValue.LOGIN_GOOGLE;
+import static com.jobtick.utils.FireBaseEvent.EventValue.LOGIN_NORMAL;
+import static com.jobtick.utils.FireBaseEvent.EventValue.SIGN_UP_FACEBOOK;
+import static com.jobtick.utils.FireBaseEvent.EventValue.SIGN_UP_GOOGLE;
+import static com.jobtick.utils.FireBaseEvent.EventValue.SIGN_UP_NORMAL;
 
 public class AuthActivity extends ActivityBase {
 
@@ -82,6 +90,8 @@ public class AuthActivity extends ActivityBase {
 
     EditTextError editTextError;
     OnResendOtp onResendOtp;
+
+    private FireBaseEvent fireBaseEvent;
 
     public void setEditTextError(EditTextError editTextError) {
         this.editTextError = editTextError;
@@ -398,6 +408,8 @@ public class AuthActivity extends ActivityBase {
                 });
 
         init();
+
+        fireBaseEvent = new FireBaseEvent(getApplicationContext());
     }
 
 
@@ -459,6 +471,13 @@ public class AuthActivity extends ActivityBase {
                             JSONObject jsonObject_user = jsonObject_data.getJSONObject("user");
                             UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                             sessionManager.setUserAccount(userAccountModel);
+
+                            if(fromSignUp)
+                                fireBaseEvent.sendEvent(FireBaseEvent.Event.SIGN_UP,
+                                        FireBaseEvent.EventType.BUTTON_CLICK, SIGN_UP_FACEBOOK);
+                            else
+                                fireBaseEvent.sendEvent(FireBaseEvent.Event.LOGIN,
+                                        FireBaseEvent.EventType.BUTTON_CLICK, LOGIN_FACEBOOK);
 
                             proceedToCorrectActivity(userAccountModel);
 
@@ -596,14 +615,16 @@ public class AuthActivity extends ActivityBase {
 
     }
 
-
-    public void signInWithGoogle() {
+    public boolean fromSignUp = false;
+    public void signInWithGoogle(boolean fromSignUp) {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+        this.fromSignUp = fromSignUp;
     }
 
-    public void facebookLogin() {
+    public void facebookLogin(boolean fromSignUp) {
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email"));
+        this.fromSignUp = fromSignUp;
     }
 
     public void login(String email, String password) {
@@ -633,6 +654,9 @@ public class AuthActivity extends ActivityBase {
                             JSONObject jsonObject_user = jsonObject_data.getJSONObject("user");
                             UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                             sessionManager.setUserAccount(userAccountModel);
+
+                            fireBaseEvent.sendEvent(FireBaseEvent.Event.LOGIN,
+                                        FireBaseEvent.EventType.BUTTON_CLICK, LOGIN_NORMAL);
 
                             proceedToCorrectActivity(userAccountModel);
 
@@ -962,6 +986,13 @@ public class AuthActivity extends ActivityBase {
                                     UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                                     sessionManager.setUserAccount(userAccountModel);
 
+                                    if(fromSignUp)
+                                        fireBaseEvent.sendEvent(FireBaseEvent.Event.SIGN_UP,
+                                            FireBaseEvent.EventType.BUTTON_CLICK, SIGN_UP_GOOGLE);
+                                    else
+                                        fireBaseEvent.sendEvent(FireBaseEvent.Event.LOGIN,
+                                            FireBaseEvent.EventType.BUTTON_CLICK, LOGIN_GOOGLE);
+
                                     proceedToCorrectActivity(userAccountModel);
 
                                 } catch (JSONException e) {
@@ -1080,6 +1111,9 @@ public class AuthActivity extends ActivityBase {
 
                         hideProgressDialog();
                         //  showToast("Check your inbox", AuthActivity.this);
+                        fireBaseEvent.sendEvent(FireBaseEvent.Event.SIGN_UP,
+                                FireBaseEvent.EventType.BUTTON_CLICK, SIGN_UP_NORMAL);
+
                         Bundle bundle = new Bundle();
                         Fragment fragment = new VerifyAccountFragment();
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

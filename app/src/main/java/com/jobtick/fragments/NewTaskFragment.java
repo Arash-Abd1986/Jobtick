@@ -32,6 +32,7 @@ import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.NotificationActivity;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.FireBaseEvent;
 import com.jobtick.utils.SessionManager;
 
 import org.json.JSONException;

@@ -103,10 +103,10 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
                 }
                 break;
             case R.id.lyt_btn_google:
-                authActivity.signInWithGoogle();
+                authActivity.signInWithGoogle(false);
                 break;
             case R.id.lyt_btn_facebook:
-                authActivity.facebookLogin();
+                authActivity.facebookLogin(false);
                 break;
 
             case R.id.txt_btn_sign_up:

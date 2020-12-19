@@ -1,6 +1,7 @@
 package com.jobtick;
 
 import android.app.Application;
+import android.os.Bundle;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;

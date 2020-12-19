@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.NetworkResponse;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.pusher.client.Pusher;
 import com.pusher.client.PusherOptions;
 
@@ -54,6 +55,13 @@ public class ActivityBase extends AppCompatActivity {
             isPusherConnected = true;
         } else {
             isPusherConnected = false;
+        }
+
+        // Operations on FirebaseCrashlytics.
+        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
+
+        if(crashlytics.didCrashOnPreviousExecution()){
+            showToast("Sorry for the crash", this);
         }
 
     }

@@ -151,7 +151,7 @@
             android:theme="@style/Splash.AppTheme" />
         <activity
             android:name=".activities.AuthActivity"
-            android:windowSoftInputMode="adjustPan|stateVisible" />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

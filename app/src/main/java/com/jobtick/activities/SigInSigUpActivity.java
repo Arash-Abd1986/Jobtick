@@ -41,13 +41,6 @@ public class SigInSigUpActivity extends ActivityBase {
             intent.putExtra("type", "Signin");
             startActivity(intent);
         });
-
-        // Operations on FirebaseCrashlytics.
-        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
-
-        if(crashlytics.didCrashOnPreviousExecution()){
-            showSuccessToast("Sorry for the crash", this);
-        }
     }
 
 }

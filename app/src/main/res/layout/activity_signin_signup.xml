@@ -23,13 +23,13 @@
             android:src="@mipmap/ic_launcher_foreground"
              />
 
-        <com.jobtick.text_view.TextViewMedium
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAppearance="@style/materialText_700_20"
             android:layout_marginBottom="@dimen/_10sp"
-            android:text="It's where the job is done"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/_20sp" />
+            android:text="It's where job is done"
+            android:textColor="@color/textColor" />
 
 
     </LinearLayout>

@@ -140,17 +140,6 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         showKeyboard(editText);
     }
 
-    private void showKeyboard(EditText editText) {
-        editText.post(new Runnable() {
-            @Override
-            public void run() {
-                InputMethodManager imm = (InputMethodManager) getContext()
-                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(editText, 0);
-            }
-        });
-    }
-
     private void setInputType() {
         imageView.setVisibility(GONE);
 
@@ -170,18 +159,21 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             editText.setFocusable(false);
             editText.setInputType(InputType.TYPE_NULL);
             editText.setClickable(true);
+            editText.setOnClickListener(v -> {
+                extendedViewOnClickListener.onClick();
+            });
         } else
             editText.setInputType(TYPE_CLASS_TEXT);
 
 
         if (eInputType == EInputType.SUBURB) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.ic_pin_blue), null);
+            editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.inset_suburb), null);
         }
         if (eInputType == EInputType.CALENDAR) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.ic_calendar_blue), null);
+            editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.inset_calendar), null);
         }
         if (eInputType == EInputType.SPINNER) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.ic_chevron_down_black), null);
+            editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.inset_chevron_down), null);
         }
         if (eInputType == EInputType.BUDGET) {
             dollar.setText("$ ");
@@ -257,6 +249,59 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         editText.addTextChangedListener(textWatcher);
     }
 
+    @Override
+    public void onFocusChange(View view, boolean focused) {
+        errorView.setVisibility(View.GONE);
+        if (focused)
+            setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_primary);
+        else
+            setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
+    }
+
+    public void setSelection(int i) {
+        editText.setSelection(i);
+    }
+
+    @Override
+    public boolean onEditorAction(TextView textView,  int actionId, KeyEvent keyEvent) {
+        if(actionId == EditorInfo.IME_ACTION_DONE){
+            hideKeyboard(editText);
+        }
+        return false;
+    }
+
+    private void showKeyboard(EditText editText) {
+        editText.post(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) getContext()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(editText, 0);
+            }
+        });
+    }
+
+
+    public void hideKeyboard(EditText editText) {
+        editText.post(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) getContext()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                editText.clearFocus();
+            }
+        });
+    }
+
+    public boolean isIsEnable() {
+        return eIsEnable;
+    }
+
+    public void setIsEnable(boolean eIsEnable) {
+        this.eIsEnable = eIsEnable;
+    }
+
     public String geteTitle() {
         return eTitle;
     }
@@ -287,35 +332,6 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
     public void seteInputType(int eInputType) {
         this.eInputType = eInputType;
-    }
-
-    @Override
-    public void onFocusChange(View view, boolean focused) {
-        errorView.setVisibility(View.GONE);
-        if (focused)
-            setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_primary);
-        else
-            setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
-    }
-
-    public void setSelection(int i) {
-        editText.setSelection(i);
-    }
-
-    @Override
-    public boolean onEditorAction(TextView textView,  int actionId, KeyEvent keyEvent) {
-        if(actionId == EditorInfo.IME_ACTION_DONE){
-            editText.clearFocus();
-        }
-        return false;
-    }
-
-    public boolean isIsEnable() {
-        return eIsEnable;
-    }
-
-    public void setIsEnable(boolean eIsEnable) {
-        this.eIsEnable = eIsEnable;
     }
 
     public interface EInputType {

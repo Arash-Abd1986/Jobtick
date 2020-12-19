@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundLightGrey"
     android:fillViewport="true"
-    android:focusableInTouchMode="true"
     android:importantForAutofill="yes"
     android:scrollbarThumbVertical="@android:color/transparent">
 
@@ -29,15 +28,14 @@
              />
 
 
-        <com.jobtick.text_view.TextViewSemiBold
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/login_to_your_account"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textColor="@color/textColor"
-            android:textStyle="bold" />
+            android:textAppearance="@style/materialText_600_18"
+            android:textColor="@color/textColor" />
 
 
         <View
@@ -54,7 +52,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:focusable="false"
+                android:focusableInTouchMode="true">
 
                 <com.jobtick.widget.ExtendedEntryText
                     android:id="@+id/email"

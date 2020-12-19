@@ -552,8 +552,9 @@ public class AuthActivity extends ActivityBase {
                 Map<String, String> map1 = new HashMap<String, String>();
 
 
-                map1.put("fname", str_fname);
-                map1.put("lname", str_lname);
+                //TODO: due we direct user to complete profile page, we ignore str_fname and str_lname
+                map1.put("fname", "no first name");
+                map1.put("lname", "no last name");
                 map1.put("email", str_email);
                 map1.put("device_token", str_device_id);
                 map1.put("device_type", str_device);
@@ -976,9 +977,6 @@ public class AuthActivity extends ActivityBase {
 //                    String finalStr_fname = str_fname;
 //                    String finalStr_lname = str_lname;
 
-                    String finalStr_fname = "no first name";
-                    String finalStr_lname = "no last name";
-
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_SIGNIN_GOOGLE,
                             response -> {
                                 Timber.e(response);
@@ -1063,9 +1061,9 @@ public class AuthActivity extends ActivityBase {
                         protected Map<String, String> getParams() {
                             Map<String, String> map1 = new HashMap<String, String>();
 
-
-                            map1.put("fname", finalStr_fname);
-                            map1.put("lname", finalStr_lname);
+                            //TODO: We ignore this and set it to no name due to getting these data in complete profile
+                            map1.put("fname", "no first name");
+                            map1.put("lname", "no last name");
                             map1.put("email", str_email);
                             map1.put("device_token", str_device_id);
                             map1.put("device_type", str_device);

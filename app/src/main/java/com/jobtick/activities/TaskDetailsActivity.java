@@ -398,6 +398,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (bundle.getString(ConstantKey.SLUG) != null) {
             str_slug = bundle.getString(ConstantKey.SLUG);
         }
+        //we don't need to get poster id, we get it from taskmodel object which we get from API.
 //        if (bundle.getInt(ConstantKey.USER_ID) != 0) {
 //            int userId = bundle.getInt(ConstantKey.USER_ID);
 //            SessionManager sessionManager = new SessionManager(this);

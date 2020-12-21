@@ -36,11 +36,11 @@ public class TimeHelper {
         }
     }
 
-    //format March 13, 1988
-    public static Long convertGoodStringFormatDateToLong(String date){
+    //format 2021-01-07
+    public static Long convertDateTimeToLong(String date){
 
         SimpleDateFormat sdf
-                = new SimpleDateFormat("MMMM dd, yyyy", Locale.UK);
+                = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.UK);
 
         try {
             Date d = sdf.parse(date);

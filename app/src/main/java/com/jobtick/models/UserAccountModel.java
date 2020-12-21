@@ -677,7 +677,7 @@ public class UserAccountModel implements Parcelable {
             if (jsonObject.has("about") && !jsonObject.isNull("about"))
                 userAccountModel.setAbout(jsonObject.getString("about"));
             if (jsonObject.has("dob") && !jsonObject.isNull("dob"))
-                userAccountModel.setDob(Tools.getDayMonthDateTimeFormat(jsonObject.getString("dob")));
+                userAccountModel.setDob(jsonObject.getString("dob"));
             if (jsonObject.has("business_number") && !jsonObject.isNull("business_number"))
                 userAccountModel.setBusiness_number(jsonObject.getString("business_number"));
             /*{

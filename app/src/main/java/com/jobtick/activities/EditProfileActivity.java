@@ -474,9 +474,9 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         edtAboutMe.seteContent(userAccountModel.getAbout());
         edtBusinessNumber.seteContent(userAccountModel.getBusiness_number());
         edtEmailAddress.seteContent(userAccountModel.getEmail());
-        txtBirthDate.setText(userAccountModel.getDob());
+        txtBirthDate.setText(Tools.getDayMonthDateTimeFormat(userAccountModel.getDob()));
         if(userAccountModel.getDob() != null && !userAccountModel.getDob().equals("")){
-            str_DOB_MODEL = userAccountModel.getDob();
+            str_DOB_MODEL = Tools.getDayMonthDateTimeFormat(userAccountModel.getDob());
         }
         if (userAccountModel.getAvatar() != null) {
             ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getUrl(), null);
@@ -1219,8 +1219,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         c.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
 
         calendarView.setMaxDate(c.getTimeInMillis());
-        if(!str_DOB_MODEL.equals(""))
-            calendarView.setDate(TimeHelper.convertGoodStringFormatDateToLong(str_DOB_MODEL));
+        if(userAccountModel.getDob() != null && !userAccountModel.getDob().equals(""))
+            calendarView.setDate(TimeHelper.convertDateTimeToLong(userAccountModel.getDob()));
 
         TextViewMedium txtCancel = view.findViewById(R.id.txt_cancel);
         txtCancel.setOnClickListener(v -> mBottomSheetDialog.dismiss());

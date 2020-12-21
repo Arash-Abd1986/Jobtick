@@ -16,6 +16,7 @@ import com.android.volley.toolbox.Volley;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
+import android.widget.Toast;
 
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.Constant;
@@ -53,7 +54,7 @@ public class NewSplashActivity extends AppCompatActivity {
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             sessionManager = new SessionManager(NewSplashActivity.this);
-            login();
+            checkCountry();
         },2000);
     }
 
@@ -118,6 +119,46 @@ public class NewSplashActivity extends AppCompatActivity {
                 Map<String, String> map1 = new HashMap<String, String>();
 
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(NewSplashActivity.this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void checkCountry() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://iplist.cc/api",
+                response -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String country = jsonObject.getString("countrycode");
+
+                        if(country.equals("IR")){
+                            Toast.makeText(this, "Sorry, we don't service to IRAN.", Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            login();
+                        }
+
+                    } catch (JSONException e) {
+
+                    }
+                },
+                error -> {
+
+                }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<String, String>();
+
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;

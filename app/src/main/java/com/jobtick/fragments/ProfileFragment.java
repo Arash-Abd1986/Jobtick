@@ -284,8 +284,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     }
 
     private void initToolbar() {
-        dashboardActivity = (DashboardActivity) getActivity();
-        poppins_medium = Typeface.createFromAsset(getActivity().getAssets(), "fonts/poppins_Medium.otf");
+        dashboardActivity = (DashboardActivity) requireActivity();
+        poppins_medium = Typeface.createFromAsset(requireActivity().getAssets(), "fonts/poppins_Medium.otf");
         onProfileupdatelistener = this;
         if (dashboardActivity != null) {
             toolbar = dashboardActivity.findViewById(R.id.toolbar);
@@ -304,7 +304,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             params.gravity = Gravity.START;
             toolbar_title.setLayoutParams(params);
             btnQuote.setOnClickListener(view12 -> {
-                Intent creating_task = new Intent(getActivity(), CategoryListActivity.class);
+                Intent creating_task = new Intent(requireActivity(), CategoryListActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("category", "");
                 creating_task.putExtras(bundle);
@@ -391,7 +391,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                 noSkill.setVisibility(View.GONE);
                 recyclerViewPortfolio.setVisibility(View.GONE);
                 addPortFilo.setOnClickListener(view13 -> {
-                    Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                    Intent intent = new Intent(requireActivity(), EditProfileActivity.class);
                     startActivity(intent);
                 });
                 lPort.setVisibility(View.GONE);
@@ -414,7 +414,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                 NoPortfolio.setVisibility(View.GONE);
                 noSkill.setVisibility(View.VISIBLE);
                 addSkill.setOnClickListener(view13 -> {
-                    Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                    Intent intent = new Intent(requireActivity(), EditProfileActivity.class);
                     startActivity(intent);
                 });
                 lSkill.setVisibility(View.GONE);

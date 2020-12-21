@@ -154,7 +154,7 @@ public class TaskBudgetFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        taskCreateActivity = (TaskCreateActivity) getActivity();
+        taskCreateActivity = (TaskCreateActivity) requireActivity();
         task = new TaskModel();
         cardBudgetT = view.findViewById(R.id.card_budgetT);
         edtBudgetT = view.findViewById(R.id.edt_budgetT);
@@ -483,9 +483,9 @@ public class TaskBudgetFragment extends Fragment {
 
     private void tabClickListener() {
         if (getActivity() != null && getValidationCode() == 0) {
-            lytBtnDetails.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
-            lytBntDateTime.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
-            lytBtnBudget.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
+            lytBtnDetails.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
+            lytBntDateTime.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
+            lytBtnBudget.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
         }
     }
 }

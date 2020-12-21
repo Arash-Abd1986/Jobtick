@@ -135,7 +135,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     }
 
     private void initToolbar() {
-        dashboardActivity = (DashboardActivity) getActivity();
+        dashboardActivity = (DashboardActivity) requireActivity();
         if (dashboardActivity == null) return;
         toolbar = dashboardActivity.findViewById(R.id.toolbar);
         toolbar.getMenu().clear();
@@ -431,7 +431,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
         final View view = getLayoutInflater().inflate(R.layout.custom_task_filter, null);
 
-        //  new KeyboardUtil(getActivity(), view);
+        //  new KeyboardUtil(requireActivity(), view);
 
         mBottomSheetDialog = new BottomSheetDialog(dashboardActivity);
         mBottomSheetDialog.setContentView(view);
@@ -704,7 +704,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
                             }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                            //  ((CredentialActivity)requireActivity()).showToast(message,requireActivity());
 
                         } catch (JSONException e) {
                             e.printStackTrace();

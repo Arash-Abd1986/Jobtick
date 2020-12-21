@@ -50,7 +50,7 @@ public class ForgotPassword1Fragment extends Fragment implements AuthActivity.Ed
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_forgot_password1, container, false);
         ButterKnife.bind(this, view);
-        authActivity = (AuthActivity) getActivity();
+        authActivity = (AuthActivity) requireActivity();
         authActivity.setEditTextError(this);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

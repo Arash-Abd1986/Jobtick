@@ -65,7 +65,7 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
         btnAddCard = view.findViewById(R.id.btn_add_card);
         btnAddCard.setOnClickListener(v -> {
             if(validation()){
-                ((ActivityBase) getActivity()).showProgressDialog();
+                ((ActivityBase) requireActivity()).showProgressDialog();
                 addCreditCard.getToken(edtCardNumber.getText(),
                         expMonth, expYear,
                         edtSecurityNumber.getText(),
@@ -89,26 +89,26 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
         addCreditCard = new AddCreditCardImpl(requireContext(), sessionManager) {
             @Override
             public void onSuccess() {
-                ((ActivityBase) getActivity()).hideProgressDialog();
+                ((ActivityBase) requireActivity()).hideProgressDialog();
                 goNext();
             }
 
             @Override
             public void onError(Exception e) {
-                ((ActivityBase) getActivity()).hideProgressDialog();
-                ((ActivityBase) getActivity()).showToast(e.getMessage(), requireContext());
+                ((ActivityBase) requireActivity()).hideProgressDialog();
+                ((ActivityBase) requireActivity()).showToast(e.getMessage(), requireContext());
             }
 
             @Override
             public void onNetworkResponseError(NetworkResponse networkResponse) {
-                ((ActivityBase) getActivity()).errorHandle1(networkResponse);
-                ((ActivityBase) getActivity()).hideProgressDialog();
+                ((ActivityBase) requireActivity()).errorHandle1(networkResponse);
+                ((ActivityBase) requireActivity()).hideProgressDialog();
             }
 
             @Override
             public void onValidationError(ValidationErrorType validationErrorType, String message) {
-                ((ActivityBase) getActivity()).showToast(message, requireContext());
-                ((ActivityBase) getActivity()).hideProgressDialog();
+                ((ActivityBase) requireActivity()).showToast(message, requireContext());
+                ((ActivityBase) requireActivity()).hideProgressDialog();
             }
         };
         btnAddCard.setEnabled(false);

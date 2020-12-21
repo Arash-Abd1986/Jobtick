@@ -399,7 +399,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
 
                 strVideoPath = fileUri.getPath();
                 MediaPlayer mpl = MediaPlayer.create(AttachmentActivity.this, Uri.parse(strVideoPath));
-//                    MediaPlayer mpl = MediaPlayer.create(getActivity(), data.getData());
+//                    MediaPlayer mpl = MediaPlayer.create(requireActivity(), data.getData());
                 int si = mpl.getDuration();
                 long duration = TimeUnit.MILLISECONDS.toSeconds(si);
                 File file = new File(strVideoPath);

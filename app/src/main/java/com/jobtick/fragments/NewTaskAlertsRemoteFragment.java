@@ -68,7 +68,7 @@ public class NewTaskAlertsRemoteFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        newTaskAlertsActivity = (NewTaskAlertsActivity) getActivity();
+        newTaskAlertsActivity = (NewTaskAlertsActivity) requireActivity();
         assert newTaskAlertsActivity != null;
         sessionManager = new SessionManager(newTaskAlertsActivity);
         taskAlert = new TaskAlert();

@@ -531,7 +531,7 @@ public class AuthActivity extends ActivityBase {
                                 e.printStackTrace();
                             }
                         } else {
-                            //  ((CredentialActivity)getActivity()).showToast("Something Went Wrong",getActivity());
+                            //  ((CredentialActivity)requireActivity()).showToast("Something Went Wrong",requireActivity());
                         }
                         Timber.e(error.toString());
                         hideProgressDialog();

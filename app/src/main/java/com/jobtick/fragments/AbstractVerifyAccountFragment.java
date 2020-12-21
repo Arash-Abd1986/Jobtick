@@ -70,10 +70,10 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_verify_account, container, false);
         ButterKnife.bind(this, view);
-        authActivity = (AuthActivity) getActivity();
+        authActivity = (AuthActivity) requireActivity();
         email = getArguments().getString("email");
         password = getArguments().getString("password");
-        sessionManager = new SessionManager(getActivity());
+        sessionManager = new SessionManager(requireActivity());
         otpEnterInEdtText();
 
         toolbar.setNavigationOnClickListener(v -> {

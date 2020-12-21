@@ -75,8 +75,6 @@
         android:background="@null"
         android:gravity="top"
         android:imeOptions="actionNext"
-        android:dropDownVerticalOffset="-200dp"
-        android:dropDownHeight="100dp"
         android:inputType="text"
         android:minHeight="34dp"
         android:textAppearance="@style/materialText_500_14"

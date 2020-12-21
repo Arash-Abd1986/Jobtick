@@ -37,6 +37,8 @@ public class TickerRequirementsBottomSheet extends AbstractStateExpandedBottomSh
     private HashMap<Requirement, Boolean> state;
     private Context context;
 
+    private NoticeListener listener;
+
     public TickerRequirementsBottomSheet() {
     }
 
@@ -71,9 +73,9 @@ public class TickerRequirementsBottomSheet extends AbstractStateExpandedBottomSh
         if (getArguments() != null) {
             state = (HashMap<Requirement, Boolean>) getArguments().getSerializable(Constant.STATE_STRIPE_TICKER);
         }
-        userAccountModel = ((TaskDetailsActivity) getActivity()).userAccountModel;
-        bankAccountModel = ((TaskDetailsActivity) getActivity()).bankAccountModel;
-        billingAdreessModel = ((TaskDetailsActivity) getActivity()).billingAdreessModel;
+        userAccountModel = ((TaskDetailsActivity) requireActivity()).userAccountModel;
+        bankAccountModel = ((TaskDetailsActivity) requireActivity()).bankAccountModel;
+        billingAdreessModel = ((TaskDetailsActivity) requireActivity()).billingAdreessModel;
         profileBtn = view.findViewById(R.id.img_requirement);
         bankAccountBtn = view.findViewById(R.id.credit_requirement);
         billingAddressBtn = view.findViewById(R.id.map_requirement);
@@ -254,8 +256,9 @@ public class TickerRequirementsBottomSheet extends AbstractStateExpandedBottomSh
                 }
                 break;
             case 5:
+                listener.onStripeRequirementFilled();
                 dismiss();
-                TaskModel taskModel = ((TaskDetailsActivity) getActivity()).taskModel;
+                TaskModel taskModel = TaskDetailsActivity.taskModel;
                 if (taskModel.getMusthave().size() == 0) {
                     Intent intent = new Intent(getContext(), MakeAnOfferActivity.class);
                     Bundle bundle = new Bundle();
@@ -265,7 +268,7 @@ public class TickerRequirementsBottomSheet extends AbstractStateExpandedBottomSh
                     startActivity(intent);
 
                 } else {
-                    ((TaskDetailsActivity) getActivity()).showRequirementDialog();
+                    ((TaskDetailsActivity) requireActivity()).showRequirementDialog();
                 }
                 break;
         }
@@ -277,5 +280,19 @@ public class TickerRequirementsBottomSheet extends AbstractStateExpandedBottomSh
         BillingAddress,
         BirthDate,
         PhoneNumber
+    }
+
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            listener = (NoticeListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(this.toString()
+                    + " must implement NoticeListener");
+        }
+    }
+
+    public interface NoticeListener{
+        public void onStripeRequirementFilled();
     }
 }

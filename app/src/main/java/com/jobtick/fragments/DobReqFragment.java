@@ -56,7 +56,6 @@ public class DobReqFragment extends Fragment {
     public DobReqFragment() {
     }
 
-    // TODO: Rename and change types and number of parameters
     public static DobReqFragment newInstance() {
         return new DobReqFragment();
     }
@@ -114,9 +113,10 @@ public class DobReqFragment extends Fragment {
     }
 
     private void updateBirthDate() {
-
+        ((ActivityBase) requireActivity()).showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, BASE_URL + PROFILE_INFO,
                 response -> {
+                    ((ActivityBase) requireActivity()).hideProgressDialog();
                     Timber.e(response);
                     try {
                         JSONObject jsonObject = new JSONObject(response);
@@ -137,6 +137,7 @@ public class DobReqFragment extends Fragment {
 
                 },
                 error -> {
+                    ((ActivityBase) requireActivity()).hideProgressDialog();
                     NetworkResponse networkResponse = error.networkResponse;
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);

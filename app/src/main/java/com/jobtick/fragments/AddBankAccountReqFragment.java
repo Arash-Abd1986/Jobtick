@@ -64,7 +64,7 @@ public class AddBankAccountReqFragment extends Fragment implements TextWatcher {
         edtAccountNumber.addTextChangedListener(this);
         edtAccountName.addTextChangedListener(this);
 
-        BankAccountModel bankAccountModel = ((TaskDetailsActivity) getActivity()).bankAccountModel;
+        BankAccountModel bankAccountModel = ((TaskDetailsActivity) requireActivity()).bankAccountModel;
         if (bankAccountModel != null && bankAccountModel.getData() != null) {
             edtAccountName.setText(bankAccountModel.getData().getAccount_name());
             edtBsb.setText(bankAccountModel.getData().getBsb_code());
@@ -74,26 +74,26 @@ public class AddBankAccountReqFragment extends Fragment implements TextWatcher {
         addBankAccount = new AddBankAccountImpl(requireContext(), sessionManager) {
             @Override
             public void onSuccess() {
-                ((ActivityBase) getActivity()).hideProgressDialog();
+                ((ActivityBase) requireActivity()).hideProgressDialog();
                 goNext();
             }
 
             @Override
             public void onError(Exception e) {
-                ((ActivityBase) getActivity()).hideProgressDialog();
+                ((ActivityBase) requireActivity()).hideProgressDialog();
                 if(Objects.equals(e.getMessage(), "Bank account already exist."))
                     goNext();
                 else
-                    ((ActivityBase) getActivity()).showToast(e.getMessage(), requireContext());
+                    ((ActivityBase) requireActivity()).showToast(e.getMessage(), requireContext());
             }
 
             @Override
             public void onValidationError(ErrorType errorType, String message) {
-                ((ActivityBase) getActivity()).hideProgressDialog();
+                ((ActivityBase) requireActivity()).hideProgressDialog();
                 if (errorType == ErrorType.UnAuthenticatedUser)
-                    ((ActivityBase) getActivity()).unauthorizedUser();
+                    ((ActivityBase) requireActivity()).unauthorizedUser();
                 else
-                    ((ActivityBase) getActivity()).showToast(message, requireContext());
+                    ((ActivityBase) requireActivity()).showToast(message, requireContext());
             }
         };
     }
@@ -105,7 +105,7 @@ public class AddBankAccountReqFragment extends Fragment implements TextWatcher {
     }
 
     private void addBankAccountDetails() {
-        ((ActivityBase) getActivity()).showProgressDialog();
+        ((ActivityBase) requireActivity()).showProgressDialog();
 
         addBankAccount.add(edtAccountName.getText(),
                 edtBsb.getText(),

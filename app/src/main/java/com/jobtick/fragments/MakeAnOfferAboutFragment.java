@@ -300,7 +300,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
             //TODO DUMMY IMAGE
         }
 
-        mBottomSheetDialog = new BottomSheetDialog(getActivity());
+        mBottomSheetDialog = new BottomSheetDialog(requireActivity());
         mBottomSheetDialog.setContentView(view);
         mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
@@ -321,7 +321,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        makeAnOfferActivity = (MakeAnOfferActivity) getActivity();
+        makeAnOfferActivity = (MakeAnOfferActivity) requireActivity();
 
 
         if (makeAnOfferActivity != null) {
@@ -582,9 +582,9 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                         @Override
                         public void onClick(View v) {
 
-                            Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+                            Intent intent = new Intent(requireActivity(), VideoPlayerActivity.class);
                             intent.putExtra(ConstantKey.VIDEO_PATH, "" + makeAnOfferModel.getAttachment().getUrl());
-                            getActivity().startActivity(intent);
+                            requireActivity().startActivity(intent);
                         }
                     });
 

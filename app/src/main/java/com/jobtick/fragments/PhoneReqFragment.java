@@ -73,16 +73,16 @@ public class PhoneReqFragment extends Fragment implements TextWatcher {
 
         btnVerify.setOnClickListener(v -> {
                 if(!validationPhone()) return;
-                ((ActivityBase) getActivity()).showProgressDialog();
+                ((ActivityBase) requireActivity()).showProgressDialog();
                 verifyPhoneNumber.sendOTP(phone.getText().toString().trim());
             });
 
         verifyPhoneNumber = new VerifyPhoneNumberImpl(requireContext(), sessionManager) {
             @Override
             public void onSuccess(SuccessType successType) {
-                ((ActivityBase) getActivity()).hideProgressDialog();
+                ((ActivityBase) requireActivity()).hideProgressDialog();
                 if(successType == SuccessType.OTP){
-                    ((ActivityBase) getActivity()).showSuccessToast("OTP is sent successfully.", requireContext());
+                    ((ActivityBase) requireActivity()).showSuccessToast("OTP is sent successfully.", requireContext());
                     otpSent = true;
                 }
                 else if( successType == SuccessType.Verify){
@@ -92,19 +92,19 @@ public class PhoneReqFragment extends Fragment implements TextWatcher {
 
             @Override
             public void onError(Exception e) {
-                ((ActivityBase) getActivity()).hideProgressDialog();
+                ((ActivityBase) requireActivity()).hideProgressDialog();
                 if(Objects.equals(e.getMessage(), "This phone number is already verified."))
                     goNext();
-                ((ActivityBase) getActivity()).showToast(e.getMessage(), requireContext());
+                ((ActivityBase) requireActivity()).showToast(e.getMessage(), requireContext());
             }
 
             @Override
             public void onValidationError(ErrorType errorType, String message) {
-                ((ActivityBase) getActivity()).hideProgressDialog();
+                ((ActivityBase) requireActivity()).hideProgressDialog();
                 if(errorType == ErrorType.UN_AUTHENTICATED_USER)
-                    ((ActivityBase) getActivity()).unauthorizedUser();
+                    ((ActivityBase) requireActivity()).unauthorizedUser();
                 else
-                    ((ActivityBase) getActivity()).showToast(message, requireContext());
+                    ((ActivityBase) requireActivity()).showToast(message, requireContext());
             }
         };
     }

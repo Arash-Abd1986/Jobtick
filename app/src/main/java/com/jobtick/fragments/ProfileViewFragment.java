@@ -277,8 +277,8 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
     }
 
     private void initToolbar() {
-        profileActivity = (ProfileActivity) getActivity();
-        poppins_medium = Typeface.createFromAsset(getActivity().getAssets(), "fonts/poppins_Medium.otf");
+        profileActivity = (ProfileActivity) requireActivity();
+        poppins_medium = Typeface.createFromAsset(requireActivity().getAssets(), "fonts/poppins_Medium.otf");
         onProfileupdatelistener = this;
     }
 
@@ -346,7 +346,7 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
                 noSkill.setVisibility(View.GONE);
                 recyclerViewPortfolio.setVisibility(View.GONE);
                 addPortFilo.setOnClickListener(view13 -> {
-                    Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                    Intent intent = new Intent(requireActivity(), EditProfileActivity.class);
                     startActivity(intent);
                 });
                 lPort.setVisibility(View.GONE);
@@ -369,7 +369,7 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
                 NoPortfolio.setVisibility(View.GONE);
                 noSkill.setVisibility(View.VISIBLE);
                 addSkill.setOnClickListener(view13 -> {
-                    Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                    Intent intent = new Intent(requireActivity(), EditProfileActivity.class);
                     startActivity(intent);
                 });
                 lSkill.setVisibility(View.GONE);

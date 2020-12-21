@@ -92,7 +92,7 @@ public class MakeAnOfferMustHaveFragment extends Fragment implements View.OnClic
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        makeAnOfferActivity = (MakeAnOfferActivity) getActivity();
+        makeAnOfferActivity = (MakeAnOfferActivity) requireActivity();
         if (makeAnOfferActivity != null) {
             sessionManager = new SessionManager(makeAnOfferActivity);
         }

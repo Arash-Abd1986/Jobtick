@@ -229,7 +229,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        taskCreateActivity = (TaskCreateActivity) getActivity();
+        taskCreateActivity = (TaskCreateActivity) requireActivity();
         sessionManager = new SessionManager(taskCreateActivity);
 
         task = new TaskModel();
@@ -850,9 +850,9 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
     private void tabClickListener() {
         if (getActivity() != null && getValidationCode() == 0) {
-            lytBtnDetails.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
-            lytBntDateTime.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
-            lytBtnBudget.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
+            lytBtnDetails.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
+            lytBntDateTime.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
+            lytBtnBudget.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
         }
     }
 
@@ -866,7 +866,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             tagAdapterBottomSheet.notifyDataSetChanged();
         }
 
-        if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
+        if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == requireActivity().RESULT_OK) {
 
             // Retrieve the information from the selected location's CarmenFeature
 
@@ -879,14 +879,14 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             task.setPosition(positionModel);
         }
 
-        if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
+        if (requestCode == 1 && resultCode == requireActivity().RESULT_OK) {
             Uri filePath = data.getData();
             String imagePath = getPath(data.getData());
             File file = new File(imagePath);
             uploadDataInTempApi(file);
        }
 
-        if (requestCode == CAMERA_REQUEST && resultCode == getActivity().RESULT_OK) {
+        if (requestCode == CAMERA_REQUEST && resultCode == requireActivity().RESULT_OK) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             File pictureFile = new File(taskCreateActivity.getExternalCacheDir(), "jobtick");
             FileOutputStream fos = null;

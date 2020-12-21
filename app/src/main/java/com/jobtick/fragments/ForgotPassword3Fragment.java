@@ -63,7 +63,7 @@ public class ForgotPassword3Fragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_forgot_password3, container, false);
         ButterKnife.bind(this, view);
-        authActivity = (AuthActivity)getActivity();
+        authActivity = (AuthActivity)requireActivity();
         email = getArguments().getString("email");
         otp = getArguments().getString("otp");
 

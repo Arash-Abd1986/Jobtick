@@ -159,7 +159,7 @@ public abstract class AbstractFilterFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
+        if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == requireActivity().RESULT_OK) {
 
             // Retrieve the information from the selected location's CarmenFeature
             CarmenFeature carmenFeature = PlacePicker.getPlace(data);

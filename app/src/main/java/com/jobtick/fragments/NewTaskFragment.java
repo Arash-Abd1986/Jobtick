@@ -101,7 +101,7 @@ public class NewTaskFragment extends Fragment {
     }
 
     private void startCategoryList(){
-        Intent creating_task = new Intent(getActivity(), CategoryListActivity.class);
+        Intent creating_task = new Intent(requireActivity(), CategoryListActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("category", "");
         creating_task.putExtras(bundle);
@@ -109,7 +109,7 @@ public class NewTaskFragment extends Fragment {
     }
 
     private void initToolbar() {
-        DashboardActivity dashboardActivity = (DashboardActivity) getActivity();
+        DashboardActivity dashboardActivity = (DashboardActivity) requireActivity();
         if (dashboardActivity == null) return;
         toolbar = dashboardActivity.findViewById(R.id.toolbar);
         toolbar.getMenu().clear();

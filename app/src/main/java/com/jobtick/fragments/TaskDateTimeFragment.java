@@ -117,7 +117,7 @@ public class TaskDateTimeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_task_date_time, container, false);
         ButterKnife.bind(this, view);
-        taskCreateActivity = (TaskCreateActivity) getActivity();
+        taskCreateActivity = (TaskCreateActivity) requireActivity();
         task = new TaskModel();
         task.setDueDate(Tools.getDayMonthDateTimeFormat(getArguments().getString("DUE_DATE")));
         task.setDueTime(getArguments().getParcelable("DUE_TIME"));
@@ -417,9 +417,9 @@ public class TaskDateTimeFragment extends Fragment {
 
     private void tabClickListener() {
         if (getActivity() != null && getValidationCode() == 0) {
-            lytBtnDetails.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
-            lytBntDateTime.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
-            lytBtnBudget.setOnClickListener(v -> ((TaskCreateActivity) getActivity()).onViewClicked(v));
+            lytBtnDetails.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
+            lytBntDateTime.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
+            lytBtnBudget.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
         }
     }
 }

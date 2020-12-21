@@ -120,7 +120,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     }
 
     private void initToolbar() {
-        dashboardActivity = (DashboardActivity) getActivity();
+        dashboardActivity = (DashboardActivity) requireActivity();
         if (dashboardActivity == null) return;
         toolbar = dashboardActivity.findViewById(R.id.toolbar);
         toolbar.getMenu().clear();
@@ -153,7 +153,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     private void setCTAListener() {
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_search) {
-                Intent creating_task = new Intent(getActivity(), SearchTaskActivity.class);
+                Intent creating_task = new Intent(requireActivity(), SearchTaskActivity.class);
                 startActivity(creating_task);
             }
             return false;

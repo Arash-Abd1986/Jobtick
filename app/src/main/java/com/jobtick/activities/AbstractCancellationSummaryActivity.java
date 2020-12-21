@@ -411,7 +411,7 @@ public abstract class AbstractCancellationSummaryActivity extends ActivityBase i
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
                             }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                            //  ((CredentialActivity)requireActivity()).showToast(message,requireActivity());
 
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -92,7 +92,7 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        NewTaskAlertsActivity newTaskAlertsActivity = (NewTaskAlertsActivity) getActivity();
+        NewTaskAlertsActivity newTaskAlertsActivity = (NewTaskAlertsActivity) requireActivity();
         assert newTaskAlertsActivity != null;
         taskAlert = new TaskAlert();
         if (getArguments() != null) {

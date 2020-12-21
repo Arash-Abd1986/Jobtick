@@ -175,7 +175,7 @@ public class ChangePasswordActivity extends ActivityBase implements TextWatcher 
 
                                 }
 
-                                //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                                //  ((CredentialActivity)requireActivity()).showToast(message,requireActivity());
 
 
                             } catch (JSONException e) {

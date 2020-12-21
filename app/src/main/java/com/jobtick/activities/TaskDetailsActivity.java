@@ -135,7 +135,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         QuestionListAdapter.OnItemClickListener, QuestionAttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, ExtendedAlertBox.OnExtendedAlertButtonClickListener,
         RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener,
         IncreaseBudgetNoticeBottomSheet.NoticeListener, IncreaseBudgetDeclineBottomSheet.NoticeListener,
-        ConfirmAskToReleaseBottomSheet.NoticeListener, ConfirmReleaseBottomSheet.NoticeListener {
+        ConfirmAskToReleaseBottomSheet.NoticeListener, ConfirmReleaseBottomSheet.NoticeListener,
+        TickerRequirementsBottomSheet.NoticeListener{
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.alert_box)
     ExtendedAlertBox alertBox;
@@ -2000,7 +2001,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
                             }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                            //  ((CredentialActivity)requireActivity()).showToast(message,requireActivity());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -2086,7 +2087,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
                             }
-                            //  ((CredentialActivity)getActivity()).showToast(message,getActivity());
+                            //  ((CredentialActivity)requireActivity()).showToast(message,requireActivity());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -2136,6 +2137,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @Override
     public void onWidthdraw(int id) {
         doApiCall(Constant.URL_OFFERS + "/" + id);
+    }
+
+    @Override
+    public void onStripeRequirementFilled() {
+        initialStage();
     }
 
 

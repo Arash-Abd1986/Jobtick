@@ -97,7 +97,7 @@ public abstract class AbstractPaymentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sessionManager = new SessionManager(getActivity());
+        sessionManager = new SessionManager(requireActivity());
         getPaymentHistory(null, null);
     }
 
@@ -136,7 +136,7 @@ public abstract class AbstractPaymentFragment extends Fragment {
         }else
             url = Constant.URL_GET_PAYMENT_HISTORY_FILTER + "?" + type ;
 
-        ((ActivityBase) getActivity()).showProgressDialog();
+        ((ActivityBase) requireActivity()).showProgressDialog();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
 
@@ -154,11 +154,11 @@ public abstract class AbstractPaymentFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    ((ActivityBase) getActivity()).hideProgressDialog();
+                    ((ActivityBase) requireActivity()).hideProgressDialog();
                 },
                 error -> {
-                    ((ActivityBase) getActivity()).errorHandle1(error.networkResponse);
-                    ((ActivityBase) getActivity()).hideProgressDialog();
+                    ((ActivityBase) requireActivity()).errorHandle1(error.networkResponse);
+                    ((ActivityBase) requireActivity()).hideProgressDialog();
                 }) {
 
             @Override

@@ -191,7 +191,7 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
     }
 
     private void initToolbar() {
-        dashboardActivity = (DashboardActivity) getActivity();
+        dashboardActivity = (DashboardActivity) requireActivity();
         if (dashboardActivity == null) return;
         toolbar = dashboardActivity.findViewById(R.id.toolbar);
         toolbar.getMenu().clear();
@@ -213,8 +213,8 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
         toolbar_title.setVisibility(View.VISIBLE);
         toolbar_title.setText(R.string.chat);
         toolbar_title.setTextSize(20f);
-        toolbar_title.setTypeface(ResourcesCompat.getFont(getActivity(), R.font.poppins_semi_bold));
-        toolbar.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.backgroundLightGrey));
+        toolbar_title.setTypeface(ResourcesCompat.getFont(requireActivity(), R.font.poppins_semi_bold));
+        toolbar.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.backgroundLightGrey));
         androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT,
                 Toolbar.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.START;

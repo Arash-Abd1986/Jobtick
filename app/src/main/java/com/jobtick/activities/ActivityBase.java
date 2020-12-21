@@ -57,13 +57,6 @@ public class ActivityBase extends AppCompatActivity {
             isPusherConnected = false;
         }
 
-        // Operations on FirebaseCrashlytics.
-        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
-
-        if(crashlytics.didCrashOnPreviousExecution()){
-            showToast("Sorry for the crash", this);
-        }
-
     }
 
     private void callPusherPresence() {

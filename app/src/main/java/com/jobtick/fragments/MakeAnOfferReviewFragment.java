@@ -121,7 +121,7 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        makeAnOfferActivity = (MakeAnOfferActivity) getActivity();
+        makeAnOfferActivity = (MakeAnOfferActivity) requireActivity();
         makeAnOfferModel = new MakeAnOfferModel();
         userAccountModel = new UserAccountModel();
         sessionManager = new SessionManager(makeAnOfferActivity);
@@ -203,9 +203,9 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
                     ((ActivityBase)requireActivity()).showToast("Sorry, there is no video to play.", requireContext());
                     return;
                 }
-                Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+                Intent intent = new Intent(requireActivity(), VideoPlayerActivity.class);
                 intent.putExtra(ConstantKey.VIDEO_PATH, "" + makeAnOfferModel.getAttachment().getUrl());
-                getActivity().startActivity(intent);
+                requireActivity().startActivity(intent);
                 break;
             case R.id.lytRecord2:
                 makeAnOfferActivity.onBackPressed();

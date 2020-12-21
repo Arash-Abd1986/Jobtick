@@ -628,7 +628,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 Intent intent = new Intent(ChatActivity.this, TaskDetailsActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString(ConstantKey.SLUG, conversationModel.getSlug());
-                bundle.putInt(ConstantKey.USER_ID, sessionManager.getUserAccount().getId());
+            //    bundle.putInt(ConstantKey.USER_ID, sessionManager.getUserAccount().getId());
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;

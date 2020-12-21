@@ -398,11 +398,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (bundle.getString(ConstantKey.SLUG) != null) {
             str_slug = bundle.getString(ConstantKey.SLUG);
         }
-        if (bundle.getInt(ConstantKey.USER_ID) != 0) {
-            int userId = bundle.getInt(ConstantKey.USER_ID);
-            SessionManager sessionManager = new SessionManager(this);
-            isUserThePoster = userId == sessionManager.getUserAccount().getId();
-        }
+//        if (bundle.getInt(ConstantKey.USER_ID) != 0) {
+//            int userId = bundle.getInt(ConstantKey.USER_ID);
+//            SessionManager sessionManager = new SessionManager(this);
+//            isUserThePoster = userId == sessionManager.getUserAccount().getId();
+//        }
         if (bundle.getInt(ConstantKey.PUSH_OFFER_ID) != 0) {
             pushOfferID = bundle.getInt(ConstantKey.PUSH_OFFER_ID);
         }
@@ -418,9 +418,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         cardViewAllOffers.setVisibility(View.GONE);
 
         initToolbar();
-//        initComponentScroll();
-        initOfferList();
-        initQuestionList();
         getData();
     }
 
@@ -1028,11 +1025,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                 JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                                String ss = jsonObject.getString("data");
                                 taskModel = new TaskModel().getJsonToModel(jsonObject_data, TaskDetailsActivity.this);
 
                                 setOwnerTask();
-//                                initOfferList();
+                                initOfferList();
+                                initQuestionList();
                                 initStatusTask(taskModel.getStatus().toLowerCase());
                                 initComponent();
                                 setDataInLayout(taskModel);

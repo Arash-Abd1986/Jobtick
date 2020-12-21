@@ -216,7 +216,7 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
             Intent intent = new Intent(SavedTaskActivity.this, TaskDetailsActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString(ConstantKey.SLUG, obj.getSlug());
-            bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
+         //   bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
             intent.putExtras(bundle);
             startActivity(intent);
         }

@@ -393,7 +393,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         Intent intent = new Intent(dashboardActivity, TaskDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString(ConstantKey.SLUG, obj.getSlug());
-        bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
+    //    bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
         intent.putExtras(bundle);
         startActivity(intent);
     }

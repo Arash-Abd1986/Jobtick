@@ -281,7 +281,7 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
         Intent intent = new Intent(this, TaskDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString(ConstantKey.SLUG, obj.getSlug());
-        bundle.putInt(ConstantKey.USER_ID, obj.getUserId());
+     //   bundle.putInt(ConstantKey.USER_ID, obj.getUserId());
         intent.putExtras(bundle);
         startActivity(intent);
         sessionManager.setPreviewTaskModel(previewTaskSetModel, SearchTaskActivity.class, isFromMyJobs);

@@ -379,7 +379,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         Intent intent = new Intent(MapViewActivity.this, TaskDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString(ConstantKey.SLUG, obj.getSlug());
-        bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
+    //    bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
         intent.putExtras(bundle);
         startActivity(intent);
     }

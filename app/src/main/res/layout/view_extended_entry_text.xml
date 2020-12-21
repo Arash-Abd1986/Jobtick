@@ -45,7 +45,7 @@
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="24dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_toEndOf="@id/dollar"
         android:layout_gravity="center"
@@ -58,7 +58,8 @@
         android:imeOptions="actionNext"
         android:inputType="text"
         android:ellipsize="end"
-        android:lines="1"
+        android:minHeight="24dp"
+        android:maxLines="1"
         android:textAppearance="@style/materialText_500_14"
         android:textColor="@color/textColor"
         tools:text="sedighi.66@gmail.com"

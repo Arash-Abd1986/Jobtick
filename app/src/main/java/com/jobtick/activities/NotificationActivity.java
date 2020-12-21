@@ -267,6 +267,8 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
             Intent intent = new Intent(NotificationActivity.this, TaskDetailsActivity.class);
             Bundle bundleIntent = new Bundle();
             bundleIntent.putString(ConstantKey.SLUG, obj.getData().getTaskSlug());
+            //TODO: need to put poster id to this, but is has to be implemented at taskDetailsActivity not from outside
+            //bundleIntent.putInt(ConstantKey.USER_ID, obj.getUser().getId());
             intent.putExtras(bundleIntent);
             startActivity(intent);
 

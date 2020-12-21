@@ -1044,6 +1044,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         new Annca(builder.build()).launchCamera();
     }
 
+
     private void uploadProfileAvtar(File pictureFile) {
         showProgressDialog();
         Call<String> call;

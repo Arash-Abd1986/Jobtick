@@ -1329,6 +1329,7 @@
         android:layout_margin="@dimen/spacing_large"
         android:backgroundTint="@color/colorPrimary"
         android:visibility="gone"
+        android:clickable="false"
         app:cardCornerRadius="@dimen/spacing_medium"
         app:cardElevation="0dp">
 

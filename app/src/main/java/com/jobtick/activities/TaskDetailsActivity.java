@@ -1,11 +1,9 @@
 package com.jobtick.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
@@ -49,21 +46,17 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.jobtick.R;
-import android.annotation.SuppressLint;
-
-import com.jobtick.adapers.QuestionAttachmentAdapter;
-import com.jobtick.cancellations.PPCancellationSummaryActivity;
-import com.jobtick.cancellations.PTCancellationSummaryActivity;
-import com.jobtick.cancellations.TPCancellationSummaryActivity;
-import com.jobtick.cancellations.TTCancellationSummaryActivity;
-import com.jobtick.text_view.TextViewRegular;
-import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.MustHaveListAdapter;
 import com.jobtick.adapers.OfferListAdapter;
+import com.jobtick.adapers.QuestionAttachmentAdapter;
 import com.jobtick.adapers.QuestionListAdapter;
 import com.jobtick.adapers.ShowMustHaveListAdapter;
 import com.jobtick.cancellations.CancellationPosterActivity;
 import com.jobtick.cancellations.CancellationWorkerActivity;
+import com.jobtick.cancellations.PPCancellationSummaryActivity;
+import com.jobtick.cancellations.PTCancellationSummaryActivity;
+import com.jobtick.cancellations.TPCancellationSummaryActivity;
+import com.jobtick.cancellations.TTCancellationSummaryActivity;
 import com.jobtick.fragments.ConfirmAskToReleaseBottomSheet;
 import com.jobtick.fragments.ConfirmReleaseBottomSheet;
 import com.jobtick.fragments.IncreaseBudgetBottomSheet;
@@ -107,6 +100,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -136,7 +130,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener,
         IncreaseBudgetNoticeBottomSheet.NoticeListener, IncreaseBudgetDeclineBottomSheet.NoticeListener,
         ConfirmAskToReleaseBottomSheet.NoticeListener, ConfirmReleaseBottomSheet.NoticeListener,
-        TickerRequirementsBottomSheet.NoticeListener{
+        TickerRequirementsBottomSheet.NoticeListener {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.alert_box)
     ExtendedAlertBox alertBox;
@@ -431,7 +425,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
 
-
     private void initQuestionList() {
         recyclerViewQuestions.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(TaskDetailsActivity.this);
@@ -515,7 +508,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 } else {
                     cardQuestionsLayout.setVisibility(View.GONE);
                 }
-                txtBudget.setText("$" + taskModel.getAmount());
+                setPrice();
                 break;
             case Constant.TASK_OPEN:
                 txtStatusOpen.setSelected(true);
@@ -566,7 +559,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 //                cardPrivateChat.setVisibility(View.GONE);
                 if (taskModel.getOffers().size() != 0) {
                     recyclerViewOffers.setVisibility(View.VISIBLE);
-                    if(offerListAdapter!=null)
+                    if (offerListAdapter != null)
                         offerListAdapter.clear();
                     offerListAdapter.addItems(taskModel.getOffers());
                     for (int i = 0; i < taskModel.getOffers().size(); i++) {
@@ -580,7 +573,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 }
                 cardOfferLayout.setVisibility(View.VISIBLE);
                 cardQuestionsLayout.setVisibility(View.VISIBLE);
-                txtBudget.setText("$" + taskModel.getBudget());
+                setPrice();
                 break;
             case TASK_CANCELLED:
                 cardMakeAnOffer.setVisibility(View.GONE);
@@ -616,8 +609,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, false);
 
-
-                txtBudget.setText("$" + taskModel.getAmount());
+                setPrice();
                 break;
             case Constant.TASK_OVERDUE:
             case Constant.TASK_COMPLETED:
@@ -670,7 +662,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 //                cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.setVisibility(View.GONE);
                 cardQuestionsLayout.setVisibility(View.GONE);
-                txtBudget.setText("$" + taskModel.getAmount());
+                setPrice();
                 break;
             case Constant.TASK_DRAFT:
                 break;
@@ -717,7 +709,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 //                cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.setVisibility(View.GONE);
                 cardQuestionsLayout.setVisibility(View.GONE);
-                txtBudget.setText("$" + taskModel.getAmount());
+                setPrice();
                 break;
         }
 
@@ -833,39 +825,199 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         });
     }
 
-//    private void initComponentScroll() {
-//        NestedScrollView nested_content = findViewById(R.id.nested_scroll_view);
-//        nested_content.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-//            if (scrollY < oldScrollY) { // up
-//                animateFab(false);
-//            }
-//            if (scrollY > oldScrollY) { // down
-//                animateFab(true);
-//            }
-//        });
-//    }
-
-//    private void animateFab(final boolean hide) {
-//        if (isFabHide && hide || !isFabHide && !hide) return;
-//        isFabHide = hide;
-//        int moveY = hide ? (2 * cardMakeAnOffer.getHeight()) : 0;
-//        cardMakeAnOffer.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
-//    }
-
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.content)
     LinearLayout content;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llLoading)
     LinearLayout llLoading;
+
+    private void onLoadingFinished(){
+        if(isGetBankAccountLoaded && isInitPageLoaded && isGetBillingAddressLoaded){
+            cardMakeAnOffer.setClickable(true);
+        }
+    }
+
     private void getData() {
         getAllUserProfileDetails();
         getBankAccountAddress();
         getBillingAddress();
+        initPage();
+    }
+
+    private boolean isGetBankAccountLoaded = false;
+    public void getBankAccountAddress() {
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_ACCOUNT_DETAILS,
+                response -> {
+                    Timber.e(response);
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+
+                                String jsonString = jsonObject.toString(); //http request
+                                BankAccountModel data = new BankAccountModel();
+                                Gson gson = new Gson();
+                                data = gson.fromJson(jsonString, BankAccountModel.class);
+
+                                if (data != null) {
+                                    if (data.isSuccess()) {
+                                        if (data.getData() != null && data.getData().getAccount_number() != null) {
+                                            bankAccountModel = data;
+                                        }
+                                    }
+                                }
+                            } else {
+                                showToast("Something went Wrong", this);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                    }
+                    isGetBankAccountLoaded = true;
+                    onLoadingFinished();
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
+                            hideProgressDialog();
+                            return;
+                        }
+                        try {
+                            hideProgressDialog();
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+                            if (jsonObject_error.has("message")) {
+                                showSuccessToast(jsonObject_error.getString("message"), this);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", this);
+                    }
+                    Timber.e(error.toString());
+                    hideProgressDialog();
+
+                    isGetBankAccountLoaded = true;
+                    onLoadingFinished();
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private boolean isGetBillingAddressLoaded = false;
+    public void getBillingAddress() {
+
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_BILLING,
+                response -> {
+                    Timber.e(response);
+                    try {
+                        hideProgressDialog();
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+                                String jsonString = jsonObject.toString(); //http request
+                                BillingAdreessModel data = new BillingAdreessModel();
+                                Gson gson = new Gson();
+                                data = gson.fromJson(jsonString, BillingAdreessModel.class);
+
+                                if (data != null) {
+                                    if (data.isSuccess()) {
+                                        if (data.getData() != null && data.getData().getLine1() != null) {
+                                            billingAdreessModel = data;
+                                        }
+                                    }
+                                }
+                            } else {
+                                showToast("Something went Wrong", this);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                    }
+                    isGetBillingAddressLoaded = true;
+                    onLoadingFinished();
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
+                            return;
+                        }
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+                            if (jsonObject_error.has("message")) {
+                                showToast(jsonObject_error.getString("message"), this);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", this);
+                    }
+                    Timber.e(error.toString());
+                    isGetBillingAddressLoaded = true;
+                    onLoadingFinished();
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+
+    public void getAllUserProfileDetails() {
+        userAccountModel = sessionManager.getUserAccount();
+    }
+
+    private boolean isInitPageLoaded = false;
+    private void initPage(){
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_TASKS + "/" + str_slug,
                 response -> {
                     try {
-                        llLoading.setVisibility(View.GONE);
                         content.setVisibility(View.VISIBLE);
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
@@ -885,9 +1037,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 initComponent();
                                 setDataInLayout(taskModel);
                                 initQuestion();
-                                setChatButton(taskModel.getStatus().toLowerCase(),jsonObject_data);
-                                setPosterChatButton(taskModel.getStatus().toLowerCase(),jsonObject_data);
-
+                                setChatButton(taskModel.getStatus().toLowerCase(), jsonObject_data);
+                                setPosterChatButton(taskModel.getStatus().toLowerCase(), jsonObject_data);
 
 
                                 if (taskModel.getTaskType().equals("physical")) {
@@ -919,8 +1070,15 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
                     }
+                    isInitPageLoaded = true;
+                    llLoading.setVisibility(View.GONE);
+                    onLoadingFinished();
                 },
                 error -> {
+                        isInitPageLoaded = true;
+                        llLoading.setVisibility(View.GONE);
+                        onLoadingFinished();
+
                     //    fl_task_details.setVisibility(View.GONE);
 
                     errorHandle1(error.networkResponse);
@@ -940,8 +1098,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(TaskDetailsActivity.this);
         requestQueue.add(stringRequest);
-
     }
+
     private void getDataOnlyQuestions() {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_TASKS + "/" + str_slug,
                 response -> {
@@ -966,9 +1124,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 initComponent();
                                 setDataInLayout(taskModel);
                                 initQuestion();
-                                setChatButton(taskModel.getStatus().toLowerCase(),jsonObject_data);
-                                setPosterChatButton(taskModel.getStatus().toLowerCase(),jsonObject_data);
-
+                                setChatButton(taskModel.getStatus().toLowerCase(), jsonObject_data);
+                                setPosterChatButton(taskModel.getStatus().toLowerCase(), jsonObject_data);
 
 
                                 if (taskModel.getTaskType().equals("physical")) {
@@ -1046,8 +1203,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.llBtnPosterMessageEnable)
     LinearLayout llBtnPosterMessageEnable;
 
-    private void setChatButton(String state,JSONObject jsonObject) {
-        if(!isUserThePoster || taskModel.getWorker()==null)
+    private void setChatButton(String state, JSONObject jsonObject) {
+        if (!isUserThePoster || taskModel.getWorker() == null)
             return;
 
         relPrivateChat.setVisibility(View.VISIBLE);
@@ -1094,25 +1251,25 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 }
 
 
-
             }
         });
-            switch (state){
-                case TASK_DRAFT:
-                case TASK_PENDING:
-                case TASK_OPEN:
-                    llBtnPrivateMessageDisable.setVisibility(View.VISIBLE);
-                    llBtnPrivateMessageEnable.setVisibility(View.GONE);
-                    break;
-                 default:
-                     llBtnPrivateMessageDisable.setVisibility(View.GONE);
-                     llBtnPrivateMessageEnable.setVisibility(View.VISIBLE);
-                    break;
-            }
+        switch (state) {
+            case TASK_DRAFT:
+            case TASK_PENDING:
+            case TASK_OPEN:
+                llBtnPrivateMessageDisable.setVisibility(View.VISIBLE);
+                llBtnPrivateMessageEnable.setVisibility(View.GONE);
+                break;
+            default:
+                llBtnPrivateMessageDisable.setVisibility(View.GONE);
+                llBtnPrivateMessageEnable.setVisibility(View.VISIBLE);
+                break;
+        }
 
     }
-    private void setPosterChatButton(String state,JSONObject jsonObject) {
-        if(taskModel.getWorker()==null)
+
+    private void setPosterChatButton(String state, JSONObject jsonObject) {
+        if (taskModel.getWorker() == null)
             return;
 
 
@@ -1135,210 +1292,20 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }
 
 
-
         });
-            switch (state){
-                case TASK_DRAFT:
-                case TASK_PENDING:
-                case TASK_OPEN:
-                    lytBtnMessage.setVisibility(View.VISIBLE);
-                    llBtnPosterMessageEnable.setVisibility(View.GONE);
-                    break;
-                 default:
-                     lytBtnMessage.setVisibility(View.GONE);
-                     llBtnPosterMessageEnable.setVisibility(View.VISIBLE);
-                    break;
-            }
+        switch (state) {
+            case TASK_DRAFT:
+            case TASK_PENDING:
+            case TASK_OPEN:
+                lytBtnMessage.setVisibility(View.VISIBLE);
+                llBtnPosterMessageEnable.setVisibility(View.GONE);
+                break;
+            default:
+                lytBtnMessage.setVisibility(View.GONE);
+                llBtnPosterMessageEnable.setVisibility(View.VISIBLE);
+                break;
+        }
 
-    }
-
-    public void getAllUserProfileDetails() {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
-                response -> {
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-
-                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                            userAccountModel = new UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"));
-                        } else {
-                        }
-
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    errorHandle1(error.networkResponse);
-                }) {
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                // map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-        };
-
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
-
-    public void getBankAccountAddress() {
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_ACCOUNT_DETAILS,
-                response -> {
-                    Timber.e(response);
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-
-                                String jsonString = jsonObject.toString(); //http request
-                                BankAccountModel data = new BankAccountModel();
-                                Gson gson = new Gson();
-                                data = gson.fromJson(jsonString, BankAccountModel.class);
-
-                                if (data != null) {
-                                    if (data.isSuccess()) {
-                                        if (data.getData() != null && data.getData().getAccount_number() != null) {
-                                            bankAccountModel = data;
-                                        }
-                                    }
-                                }
-                            } else {
-                                showToast("Something went Wrong", this);
-                            }
-                        }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser();
-                            hideProgressDialog();
-                            return;
-                        }
-                        try {
-                            hideProgressDialog();
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                            if (jsonObject_error.has("message")) {
-                                showSuccessToast(jsonObject_error.getString("message"), this);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        showToast("Something Went Wrong", this);
-                    }
-                    Timber.e(error.toString());
-                    hideProgressDialog();
-                }) {
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
-
-    public void getBillingAddress() {
-
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_BILLING,
-                response -> {
-                    Timber.e(response);
-                    try {
-                        hideProgressDialog();
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                String jsonString = jsonObject.toString(); //http request
-                                BillingAdreessModel data = new BillingAdreessModel();
-                                Gson gson = new Gson();
-                                data = gson.fromJson(jsonString, BillingAdreessModel.class);
-
-                                if (data != null) {
-                                    if (data.isSuccess()) {
-                                        if (data.getData() != null && data.getData().getLine1() != null) {
-                                            billingAdreessModel = data;
-                                        }
-                                    }
-                                }
-                            } else {
-                                showToast("Something went Wrong", this);
-                            }
-                        }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser();
-                            return;
-                        }
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                            if (jsonObject_error.has("message")) {
-                                showToast(jsonObject_error.getString("message"), this);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        showToast("Something Went Wrong", this);
-                    }
-                    Timber.e(error.toString());
-                }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -1591,9 +1558,19 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         setOfferView(taskModel.getOfferCount());
         setQuestionView(taskModel.getQuestionCount());
         initIncreaseBudget();
-        budget.setText("$" + taskModel.getBudget());
+        setPrice();
         setAttachmentAndSlider();
         setWorker();
+    }
+
+    private void setPrice() {
+        if (taskModel.getStatus() != null && !taskModel.getStatus().equalsIgnoreCase(Constant.TASK_OPEN)
+                && (isUserThePoster || isUserTheTicker)) {
+            budget.setText(String.format(Locale.ENGLISH, "$%d", taskModel.getAmount()));
+        } else {
+            budget.setText(String.format(Locale.ENGLISH, "$%d", taskModel.getBudget()));
+        }
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -1814,7 +1791,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         }
                         break;
                     case ConstantKey.BTN_OFFER_PENDING:
-                       showToast("offer pending", this);
+                        showToast("offer pending", this);
                         break;
                     case ConstantKey.BTN_CANCELLATION_REQUEST_RECEIVED:
                         //TODO: this button should not be viewed in this stage
@@ -1930,7 +1907,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                               showToast(jsonObject_error.getString("message"), this);
+                                showToast(jsonObject_error.getString("message"), this);
                             }
 
                         } catch (JSONException e) {
@@ -1996,7 +1973,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                               showToast(jsonObject_error.getString("message"), this);
+                                showToast(jsonObject_error.getString("message"), this);
                             }
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
@@ -2026,7 +2003,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
 
-
     private void postComment(String str_comment, ArrayList<AttachmentModel> attachmentModels) {
         if (str_comment.length() < 5) {
             showToast("The question text must be at least 5 characters", this);
@@ -2054,7 +2030,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         } else {
                             showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
                         }
-                        if(adapter!=null)
+                        if (adapter != null)
                             adapter.notifyDataSetChanged();
                         getDataOnlyQuestions();
                         hideProgressDialog();
@@ -2281,7 +2257,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }
         }
 
-        if(requestCode == 21){
+        if (requestCode == 21) {
             getDataOnlyQuestions();
         }
 
@@ -2301,6 +2277,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }
         }
     }
+
     //Adapter override method
     @Override
     public void onItemOfferClick(View v, OfferModel obj, int position, String action) {
@@ -2310,7 +2287,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             ///bundle.putParcelable(ConstantKey.OFFER_LIST_MODEL, obj);
             offerModel = obj;
             isOfferQuestion = "offer";
-            bundle.putBoolean("isPoster",isUserThePoster);
+            bundle.putBoolean("isPoster", isUserThePoster);
             intent.putExtras(bundle);
             startActivityForResult(intent, 20);
         } else if (action.equalsIgnoreCase("accept")) {
@@ -2321,7 +2298,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             //     bundle.putParcelable(ConstantKey.OFFER_LIST_MODEL, obj);
             intent.putExtras(bundle);
             startActivityForResult(intent, ConstantKey.RESULTCODE_PAYMENTOVERVIEW);
-        }else if(action.equalsIgnoreCase("report")){
+        } else if (action.equalsIgnoreCase("report")) {
             Intent intent = new Intent(TaskDetailsActivity.this, ReportActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString(ConstantKey.SLUG, taskModel.getSlug());
@@ -2342,7 +2319,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             //bundle.putParcelable(ConstantKey.QUESTION_LIST_MODEL, obj);
             intent.putExtras(bundle);
             startActivityForResult(intent, 21);
-        }else if(action.equalsIgnoreCase("report")){
+        } else if (action.equalsIgnoreCase("report")) {
             Intent intent = new Intent(TaskDetailsActivity.this, ReportActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString(ConstantKey.SLUG, taskModel.getSlug());
@@ -2479,12 +2456,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/bookmark",
                 response -> {
-                    Log.d("BookmarkError","OK");
+                    Log.d("BookmarkError", "OK");
                     toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_grey_32dp);
                     getData();
                 },
                 error -> {
-                    Log.d("BookmarkError",error.networkResponse.toString());
+                    Log.d("BookmarkError", error.networkResponse.toString());
                     errorHandle1(error.networkResponse);
                     toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
                 }) {
@@ -2670,7 +2647,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }
         } else {
             if (taskModel.getCancellation().getStatus().equalsIgnoreCase(ConstantKey.CANCELLATION_PENDING) &&
-            isUserTheTicker) {
+                    isUserTheTicker) {
                 //ticker is cancelling, user is ticker too
                 //poster is cancelling, user is ticker
                 showCancellationCard(true, taskModel.getCancellation().getRequesterId().equals(sessionManager.getUserAccount().getId()));
@@ -2686,20 +2663,19 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
         if (alertType == AlertType.ASK_TO_RELEASE) {
             hideAlertBox();
-        }
-        else if (alertType == AlertType.CONFIRM_RELEASE) {
+        } else if (alertType == AlertType.CONFIRM_RELEASE) {
             hideAlertBox();
         }
         //TODO: when a task is completed and when it is overdue?
         //according of that rectify this block of code
         if (taskModel.getStatus().toLowerCase().equals("completed") ||
                 taskModel.getStatus().toLowerCase().equals("overdue")) {
-            if(isUserThePoster){
+            if (isUserThePoster) {
                 showConfirmReleaseCard();
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
-            } else if (isUserTheTicker){
+            } else if (isUserTheTicker) {
                 showAskToReleaseCard();
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
@@ -2715,7 +2691,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (!taskModel.getStatus().toLowerCase().equals("closed")) return;
         if (taskModel.getReviewModels() == null) {
 
-            if(isUserThePoster || isUserTheTicker)
+            if (isUserThePoster || isUserTheTicker)
                 showReviewCard();
 
             return;
@@ -2754,7 +2730,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         !taskModel.getRescheduleReqeust().get(i).getRequester_id().equals(sessionManager.getUserAccount().getId())) {
                     if (!taskModel.getStatus().toLowerCase().equals(TASK_CANCELLED) && !taskModel.getStatus().toLowerCase().equals(TASK_CLOSED)) {
                         pos = i;
-                        if(isUserThePoster || isUserTheTicker) {
+                        if (isUserThePoster || isUserTheTicker) {
                             showRescheduleTimeCard(i);
                             toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
                             toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
@@ -2769,7 +2745,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     private void initJobReceipt() {
         toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_job_receipt, false);
-        if(isUserTheTicker || isUserThePoster)
+        if (isUserTheTicker || isUserThePoster)
             toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_job_receipt, taskModel.getStatus().toLowerCase().equals(TASK_CLOSED));
     }
 
@@ -2777,7 +2753,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (alertType == AlertType.INCREASE_BUDGET) {
             hideAlertBox();
         }
-        if(isUserThePoster){
+        if (isUserThePoster) {
             toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
         }
 
@@ -2788,8 +2764,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
 
-            }
-            else if(isUserTheTicker){
+            } else if (isUserTheTicker) {
                 //TODO: updated design of mahan should be applied here
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
@@ -2800,6 +2775,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private int pos = 0;
+
     private void showDialogRescheduleRequest(int pos) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         RescheduleNoticeBottomSheetState dialog = RescheduleNoticeBottomSheetState.newInstance(taskModel, pos);
@@ -2996,8 +2972,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         } else if (alertType == AlertType.CANCELLED) {
             Intent intent = new Intent(this, CategoryListActivity.class);
             startActivity(intent);
-        }
-        else if(alertType == AlertType.CONFIRM_RELEASE){
+        } else if (alertType == AlertType.CONFIRM_RELEASE) {
             showCustomDialogReleaseMoney();
         }
     }

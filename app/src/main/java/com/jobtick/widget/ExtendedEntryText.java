@@ -167,7 +167,13 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
 
         if (eInputType == EInputType.SUBURB) {
+            //TODO: these two lines for multi line for suburb is now working, need to fix it
+//            editText.setMaxLines(2);
+//            editText.setInputType(InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
             editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.inset_suburb), null);
+        }
+        else{
+            editText.setLines(1);
         }
         if (eInputType == EInputType.CALENDAR) {
             editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.inset_calendar), null);

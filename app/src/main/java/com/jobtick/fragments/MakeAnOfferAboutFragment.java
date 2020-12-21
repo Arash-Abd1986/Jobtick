@@ -287,7 +287,11 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
         tvJobTitle.setText(TaskDetailsActivity.taskModel.getTitle());
         tvPosterName.setText(TaskDetailsActivity.taskModel.getPoster().getName());
-        tvLocation.setText(TaskDetailsActivity.taskModel.getLocation());
+        if(TaskDetailsActivity.taskModel.getLocation() != null)
+            tvLocation.setText(TaskDetailsActivity.taskModel.getLocation());
+        else
+            tvLocation.setText(R.string.remotely);
+
         tvDesc.setText(TaskDetailsActivity.taskModel.getDescription());
 
         //

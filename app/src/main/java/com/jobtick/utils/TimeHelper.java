@@ -36,6 +36,22 @@ public class TimeHelper {
         }
     }
 
+    //format March 13, 1988
+    public static Long convertGoodStringFormatDateToLong(String date){
+
+        SimpleDateFormat sdf
+                = new SimpleDateFormat("MMMM dd, yyyy", Locale.UK);
+
+        try {
+            Date d = sdf.parse(date);
+            assert d != null;
+            return d.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return -1L;
+        }
+    }
+
     public static String convertSecondsToMinAndSeconds(int seconds){
         int min = seconds / 60;
         int sec = seconds % 60;

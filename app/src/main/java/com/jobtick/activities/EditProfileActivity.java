@@ -20,10 +20,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,6 +50,7 @@ import com.jobtick.utils.Helper;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SuburbAutoComplete;
+import com.jobtick.utils.TimeHelper;
 import com.jobtick.utils.Tools;
 import com.jobtick.widget.ExtendedEntryText;
 import com.jobtick.widget.SpacingItemDecoration;
@@ -61,10 +60,6 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
-import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -232,7 +227,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private String str_longitude = null;
     private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
-    private final String str_DOB_MODEL = "";
+    private String str_DOB_MODEL = "";
     private static String imageStoragePath;
     private boolean isUploadPortfolio = false;
     private boolean isFabHide = false;
@@ -480,6 +475,9 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         edtBusinessNumber.seteContent(userAccountModel.getBusiness_number());
         edtEmailAddress.seteContent(userAccountModel.getEmail());
         txtBirthDate.setText(userAccountModel.getDob());
+        if(userAccountModel.getDob() != null && !userAccountModel.getDob().equals("")){
+            str_DOB_MODEL = userAccountModel.getDob();
+        }
         if (userAccountModel.getAvatar() != null) {
             ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getUrl(), null);
             lytDeletePicture.setVisibility(View.VISIBLE);
@@ -1221,6 +1219,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         c.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
 
         calendarView.setMaxDate(c.getTimeInMillis());
+        if(!str_DOB_MODEL.equals(""))
+            calendarView.setDate(TimeHelper.convertGoodStringFormatDateToLong(str_DOB_MODEL));
 
         TextViewMedium txtCancel = view.findViewById(R.id.txt_cancel);
         txtCancel.setOnClickListener(v -> mBottomSheetDialog.dismiss());
@@ -1239,6 +1239,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
             str_due_date = Tools.getDayMonthDateTimeFormat(cyear + "-" + cmonth + "-" + cday);
             txtBirthDate.setText(str_due_date);
+            str_DOB_MODEL = cyear + "-" + cmonth + "-" + cday;
 
             mBottomSheetDialog.dismiss();
 

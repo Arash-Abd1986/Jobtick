@@ -667,11 +667,11 @@ public class UserAccountModel implements Parcelable {
             if (jsonObject.has("email") && !jsonObject.isNull("email"))
                 userAccountModel.setEmail(jsonObject.getString("email"));
             if (jsonObject.has("email_verified_at") && !jsonObject.isNull("email_verified_at"))
-                userAccountModel.setEmailVerifiedAt(Tools.getGlobalFormat(jsonObject.getString("email_verified_at")));
+                userAccountModel.setEmailVerifiedAt(jsonObject.getString("email_verified_at"));
             if (jsonObject.has("mobile") && !jsonObject.isNull("mobile"))
                 userAccountModel.setMobile(jsonObject.getString("mobile"));
             if (jsonObject.has("mobile_verified_at") && !jsonObject.isNull("mobile_verified_at"))
-                userAccountModel.setMobileVerifiedAt(Tools.getGlobalFormat(jsonObject.getString("mobile_verified_at")));
+                userAccountModel.setMobileVerifiedAt(jsonObject.getString("mobile_verified_at"));
             if (jsonObject.has("tagline") && !jsonObject.isNull("tagline"))
                 userAccountModel.setTagline(jsonObject.getString("tagline"));
             if (jsonObject.has("about") && !jsonObject.isNull("about"))
@@ -759,7 +759,7 @@ public class UserAccountModel implements Parcelable {
             if (jsonObject.has("poster_rank") && !jsonObject.isNull("poster_rank"))
                 userAccountModel.setPosterRank(jsonObject.getInt("poster_rank"));*/
             if (jsonObject.has("join_date") && !jsonObject.isNull("join_date"))
-                userAccountModel.setJoinDate(Tools.getGlobalFormat(jsonObject.getString("join_date")));
+                userAccountModel.setJoinDate(jsonObject.getString("join_date"));
             if (jsonObject.has("last_online") && !jsonObject.isNull("last_online"))
                 userAccountModel.setLastOnline(TimeAgo.getTimeAgo(jsonObject.getString("last_online")));
 

@@ -198,7 +198,7 @@ public class AdditionalFundModel implements Parcelable {
             if(jsonObject.has("status") && !jsonObject.isNull("status"))
                 additionalFundModel.setStatus(jsonObject.getString("status"));
             if(jsonObject.has("created_at") && !jsonObject.isNull("created_at"))
-                additionalFundModel.setCreatedAt(Tools.getGlobalDateTimeFormat(jsonObject.getString("created_at")));
+                additionalFundModel.setCreatedAt(jsonObject.getString("created_at"));
             if(jsonObject.has("rejection_reason") && !jsonObject.isNull("rejection_reason"))
                 additionalFundModel.setRejectionReason(jsonObject.getString("rejection_reason"));
             if(jsonObject.has("creation_reason") && !jsonObject.isNull("creation_reason"))

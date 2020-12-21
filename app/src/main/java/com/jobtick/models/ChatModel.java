@@ -199,7 +199,7 @@ public class ChatModel implements Parcelable {
             if (jsonObject.has("attachment") && !jsonObject.isNull("attachment"))
                 messageModel.setAttachment(new AttachmentModel().getJsonToModel(jsonObject.getJSONObject("attachment")));
             if (jsonObject.has("created_at") && !jsonObject.isNull("created_at"))
-                messageModel.setCreatedAt(Tools.getGlobalDateTimeFormat(jsonObject.getString("created_at")));
+                messageModel.setCreatedAt((jsonObject.getString("created_at")));
 
         } catch (JSONException e) {
             Timber.e(e.toString());

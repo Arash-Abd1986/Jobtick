@@ -223,7 +223,7 @@ public class AttachmentModel implements Parcelable{
             if(jsonObject.has("modal_url") && !jsonObject.isNull("modal_url"))
                 attachment.setModalUrl(jsonObject.getString("modal_url"));
             if(jsonObject.has("created_at") && !jsonObject.isNull("created_at"))
-                attachment.setCreatedAt(Tools.getGlobalFormat(jsonObject.getString("created_at")));
+                attachment.setCreatedAt(jsonObject.getString("created_at"));
             attachment.setType(AttachmentAdapter.VIEW_TYPE_IMAGE);
         }catch (JSONException e){
             Timber.e(e.toString());

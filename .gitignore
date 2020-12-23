@@ -64,6 +64,8 @@ fastlane/readme.md
 
 #apprelease
 app/release
+#appdebug
+app/debug
 
 #appbuild
 app/build

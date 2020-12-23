@@ -276,7 +276,12 @@ public class AuthActivity extends ActivityBase {
                         UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                         sessionManager.setUserAccount(userAccountModel);
 
-                        proceedToCorrectActivity(userAccountModel);
+                        Intent intent = new Intent(AuthActivity.this, AuthActivity.class);
+                        intent.putExtra("type", "Signin");
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
 
                     } catch (JSONException e) {
                         Timber.e(String.valueOf(e));

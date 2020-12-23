@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="@string/login_to_your_account"
+            android:text="@string/welcome_back"
             android:textAppearance="@style/materialText_600_18"
             android:textColor="@color/textColor" />
 
@@ -92,16 +92,15 @@
                 android:layout_marginBottom="@dimen/spacing_medium"
                 android:gravity="end">
 
-                <com.jobtick.text_view.TextViewMedium
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_forgot_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:padding="@dimen/spacing_middle"
                     android:text="@string/forgot_password"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_14sp" />
+                    android:textAppearance="@style/materialText_400_12"
+                    android:textColor="@color/P300"/>
             </LinearLayout>
 
             <View
@@ -129,7 +128,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/spacing_xlarge" />
+            android:layout_height="10dp" />
 
 
         <LinearLayout
@@ -139,27 +138,28 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-
-            <com.jobtick.text_view.TextViewRegular
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAppearance="@style/materialText_400_14"
+                android:textColor="@color/textColor"
                 android:background="?attr/selectableItemBackground"
-                android:padding="@dimen/spacing_middle"
-                android:text="@string/don_t_have_an_account"
-                android:textColor="@color/grey_40"
-                android:textSize="@dimen/_13sp"
-                android:textStyle="bold" />
+                android:paddingTop="@dimen/spacing_middle"
+                android:layout_marginEnd="4dp"
+                android:paddingBottom="@dimen/spacing_middle"
+                android:text="@string/don_t_have_an_account"/>
 
-
-            <com.jobtick.text_view.TextViewRegular
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_btn_sign_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAppearance="@style/materialText_400_14"
+                android:textColor="@color/P300"
                 android:background="?attr/selectableItemBackground"
-                android:padding="@dimen/spacing_middle"
-                android:text="@string/sign_up"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_13sp" />
+                android:paddingTop="@dimen/spacing_middle"
+                android:paddingBottom="@dimen/spacing_middle"
+                android:text="@string/sign_up"/>
+
         </LinearLayout>
 
         <View

@@ -18,6 +18,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
+import android.widget.TextView;
 
 import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.text_view.TextViewRegular;
@@ -52,7 +53,7 @@ public class OnboardActivity extends ActivityBase {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_skip)
-    TextViewMedium txtSkip;
+    TextView txtSkip;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -190,7 +191,7 @@ public class OnboardActivity extends ActivityBase {
             View v = inflater.inflate(R.layout.item_slider_image_onboarding, container, false);
 
             LottieAnimationView lottieAnimationView = v.findViewById(R.id.lottieAnimationView);
-            TextViewRegular description = v.findViewById(R.id.description);
+            TextView description = v.findViewById(R.id.description);
             lottieAnimationView.setVisibility(View.VISIBLE);
             description.setVisibility(View.VISIBLE);
             lottieAnimationView.setAnimation(animAttachment);

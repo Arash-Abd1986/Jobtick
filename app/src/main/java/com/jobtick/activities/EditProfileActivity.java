@@ -1222,7 +1222,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         if(userAccountModel.getDob() != null && !userAccountModel.getDob().equals(""))
             calendarView.setDate(TimeHelper.convertDateTimeToLong(userAccountModel.getDob()));
 
-        TextViewMedium txtCancel = view.findViewById(R.id.txt_cancel);
+        TextView txtCancel = view.findViewById(R.id.txt_cancel);
         txtCancel.setOnClickListener(v -> mBottomSheetDialog.dismiss());
 
         LinearLayout lytBtnDone = view.findViewById(R.id.lyt_btn_done);

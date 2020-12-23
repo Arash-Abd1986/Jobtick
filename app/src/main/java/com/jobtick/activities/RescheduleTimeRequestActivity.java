@@ -273,7 +273,7 @@ public class RescheduleTimeRequestActivity extends ActivityBase implements Exten
         //set max date to two weeks later
         calendarView.setMaxDate(dueDate + oneDay * MAX_RESCHEDULE_DAY + 1000);
 
-        TextViewMedium txtCancel = view.findViewById(R.id.txt_cancel);
+        TextView txtCancel = view.findViewById(R.id.txt_cancel);
         txtCancel.setOnClickListener(v -> {
             mBottomSheetDialog.dismiss();
         });

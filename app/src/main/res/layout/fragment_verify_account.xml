@@ -34,17 +34,17 @@
             android:gravity="center">
 
 
-            <com.jobtick.text_view.TextViewRegular
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="21dp"
                 android:gravity="start"
                 android:layout_marginStart="@dimen/horizontal_margin_double"
                 android:layout_marginEnd="@dimen/horizontal_margin_double"
                 android:text="@string/enter_verification_code"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textAppearance="@style/materialText_400_14"
                 android:textColor="@color/grey_70" />
 
-            <com.jobtick.text_view.TextViewRegular
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="21dp"
                 android:id="@+id/email_verify_message"
@@ -52,7 +52,7 @@
                 android:layout_marginStart="@dimen/horizontal_margin_double"
                 android:layout_marginEnd="@dimen/horizontal_margin_double"
                 tools:text="dummy@dymmy.com"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textAppearance="@style/materialText_400_14"
                 android:textColor="@color/grey_70"
                 android:layout_marginBottom="16dp"/>
 
@@ -82,8 +82,8 @@
                     android:layout_height="wrap_content"
                     tools:text="0:00"
                     android:layout_weight="1"
-                    android:textAppearance="@style/materialText_600_14"
-                    android:textColor="@color/textColor"/>
+                    android:textAppearance="@style/materialText_400_14"
+                    android:textColor="@color/N900"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/resend_otp"
@@ -91,7 +91,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/resend_code"
                     android:textAppearance="@style/materialText_400_14"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/P300"/>
 
             </LinearLayout>
         </LinearLayout>

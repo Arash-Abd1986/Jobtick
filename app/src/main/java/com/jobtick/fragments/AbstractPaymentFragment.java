@@ -216,7 +216,7 @@ public abstract class AbstractPaymentFragment extends Fragment {
 
 
         CalendarView calendarView = view.findViewById(R.id.calenderView);
-        TextViewMedium txtCancel = view.findViewById(R.id.txt_cancel);
+        TextView txtCancel = view.findViewById(R.id.txt_cancel);
         LinearLayout lytBtnDone = view.findViewById(R.id.lyt_btn_done);
 
         calendarView.setMinDate(System.currentTimeMillis());

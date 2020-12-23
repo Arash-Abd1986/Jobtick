@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
+import android.widget.TextView;
 
 import com.jobtick.text_view.TextViewBold;
 import com.jobtick.text_view.TextViewRegular;
@@ -140,16 +141,16 @@ public class OfferChatListAdapter1 extends RecyclerView.Adapter<BaseViewHolder> 
         CircularImageView imgAvatar;
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_name)
-        TextViewBold txtName;
+        TextView txtName;
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_created_date)
-        TextViewRegular txtCreatedDate;
+        TextView txtCreatedDate;
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_message)
-        TextViewRegular txtMessage;
+        TextView txtMessage;
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_more_less)
-        TextViewBold txtMoreLess;
+        TextView txtMoreLess;
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_file)
         ImageView imgFile;

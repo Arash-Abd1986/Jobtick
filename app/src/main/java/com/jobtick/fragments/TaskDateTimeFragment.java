@@ -66,19 +66,19 @@ public class TaskDateTimeFragment extends Fragment {
     ImageView imgDetails;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_details)
-    TextViewMedium txtDetails;
+    TextView txtDetails;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_date_time)
     ImageView imgDateTime;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_date_time)
-    TextViewMedium txtDateTime;
+    TextView txtDateTime;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_budget)
     ImageView imgBudget;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_budget)
-    TextViewMedium txtBudget;
+    TextView txtBudget;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_details)
     LinearLayout lytBtnDetails;
@@ -363,7 +363,7 @@ public class TaskDateTimeFragment extends Fragment {
 
         calendarView.setMaxDate(c.getTimeInMillis());
 
-        TextViewMedium txtCancel = view.findViewById(R.id.txt_cancel);
+        TextView txtCancel = view.findViewById(R.id.txt_cancel);
         txtCancel.setOnClickListener(v -> {
             mBottomSheetDialog.dismiss();
         });

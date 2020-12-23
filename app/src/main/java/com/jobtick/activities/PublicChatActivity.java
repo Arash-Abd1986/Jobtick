@@ -110,7 +110,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     LinearLayout lytBudgetStatus;
     //@SuppressLint("NonConstantResourceId")
     //@BindView(R.id.txt_type)
-    // TextViewBold txtType;
+    // TextView txtType;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_created_date)
     TextView txtCreatedDate;

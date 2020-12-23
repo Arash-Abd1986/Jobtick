@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
 import android.annotation.SuppressLint;
+import android.widget.TextView;
 
 import com.jobtick.text_view.TextViewBold;
 import com.jobtick.models.BadgesModel;
@@ -71,7 +72,7 @@ public class BadgesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_post_title)
-        TextViewBold txtPostTitle;
+        TextView txtPostTitle;
 
         IMAGEViewHolder(View itemView) {
             super(itemView);

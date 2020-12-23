@@ -25,6 +25,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
+import android.widget.TextView;
 
 import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.adapers.SectionsPagerAdapter;
@@ -85,19 +86,19 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     ImageView imgDetails;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_details)
-    TextViewMedium txtDetails;
+    TextView txtDetails;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_date_time)
     ImageView imgDateTime;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_date_time)
-    TextViewMedium txtDateTime;
+    TextView txtDateTime;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_budget)
     ImageView imgBudget;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_budget)
-    TextViewMedium txtBudget;
+    TextView txtBudget;
 
     TaskModel taskModel;
     private String title;

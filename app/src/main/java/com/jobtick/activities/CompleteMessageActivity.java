@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,10 +34,10 @@ public class CompleteMessageActivity extends AppCompatActivity {
     MaterialToolbar toolbar;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_title)
-    TextViewBold txtTitle;
+    TextView txtTitle;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_subtitle)
-    TextViewRegular txtSubtitle;
+    TextView txtSubtitle;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cardFinish)

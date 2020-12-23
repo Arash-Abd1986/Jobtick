@@ -158,7 +158,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     FrameLayout bottomSheet;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txtCount)
-    TextViewMedium txtCount;
+    TextView txtCount;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.pbLoading)

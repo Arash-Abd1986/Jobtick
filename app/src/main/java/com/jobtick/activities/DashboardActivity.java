@@ -282,8 +282,8 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         Menu m = navigationView.getMenu();
         MenuItem menuItem = m.findItem(R.id.nav_dashboard);
         LinearLayout linearLayout = (LinearLayout) menuItem.getActionView();
-        TextViewRegular textViewRegular = (TextViewRegular) linearLayout.findViewById(R.id.txt_bedge);
-        textViewRegular.setVisibility(View.VISIBLE);
+        TextView TextView = (TextView) linearLayout.findViewById(R.id.txt_bedge);
+        TextView.setVisibility(View.VISIBLE);
 
     }
 

@@ -131,7 +131,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         toolbar_title.setVisibility(View.VISIBLE);
         toolbar_title.setText(R.string.explore);
         toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.backgroundLightGrey));
-        toolbar_title.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.poppins_semi_bold));
+        toolbar_title.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.roboto_semi_bold));
         toolbar_title.setTextSize(20F);
         androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.START;

@@ -147,7 +147,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         toolbar_title.setVisibility(View.VISIBLE);
         toolbar_title.setText(R.string.my_jobs);
 
-        toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_semi_bold));
+        toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.roboto_semi_bold));
         androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.START;
         toolbar_title.setLayoutParams(params);

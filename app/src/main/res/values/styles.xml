@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -30,7 +30,7 @@
     </style>
     <style name="Widget.BottomNavigationView"
         parent="Widget.Design.BottomNavigationView">
-        <item name="fontFamily">@font/poppins_reg</item>
+        <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">10sp</item>
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />
@@ -192,7 +192,7 @@
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">#2b3240</item>
-        <item name="fontFamily">@font/poppins_reg</item>
+        <item name="fontFamily">@font/roboto_regular</item>
 
     </style>
 
@@ -213,7 +213,7 @@
 
 
     <style name="NavigationView" parent="@android:style/TextAppearance.Medium">
-        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">#2B3240</item>
     </style>
@@ -231,9 +231,9 @@
         <item name="android:insetLeft">0dp</item>
         <item name="android:insetRight">0dp</item>
         <item name="android:textAllCaps">false</item>
-        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:letterSpacing">0.00714285714</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">@dimen/button_text_size_normal</item>
         <item name="android:textColor">@color/material_button_color_text</item>
         <item name="android:backgroundTint">@color/material_button_color_background</item>
@@ -242,8 +242,8 @@
 
     <style name="materialButton.outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="cornerRadius">@dimen/buttonCorners</item>
-        <item name="fontFamily">@font/poppins_medium</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">@dimen/button_text_size_normal</item>
         <item name="strokeWidth">@dimen/outline_normal</item>
         <item name="android:insetTop">0dp</item>
@@ -282,206 +282,191 @@
 
 
     <style name="materialToolBar" parent="Widget.MaterialComponents.Toolbar">
-        <item name="fontFamily">@font/poppins_medium</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
-        <item name="android:textSize">@dimen/toolbar_text_size</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
 
     <style name="materialText_400_16" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/poppins_reg</item>
-        <item name="android:fontFamily">@font/poppins_reg</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">16sp</item>
     </style>
 
     <style name="materialText_500_14" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/poppins_medium</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">14sp</item>
     </style>
     <style name="materialText_500_13" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/poppins_reg</item>
-        <item name="android:fontFamily">@font/poppins_reg</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">13sp</item>
     </style>
     <style name="materialText_500_12" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/poppins_medium</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">12sp</item>
     </style>
     <style name="materialText_500_10" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/poppins_medium</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">10sp</item>
     </style>
     <style name="fontSmall" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/poppins_reg</item>
-        <item name="android:fontFamily">@font/poppins_reg</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">10sp</item>
     </style>
     <style name="materialText_500_16" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/poppins_medium</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">16sp</item>
     </style>
 
     <style name="materialText_600_12" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/poppins_semi_bold</item>
-        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <style name="materialText_600_10" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/poppins_semi_bold</item>
-        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+        <item name="fontFamily">@font/roboto_semi_bold</item>
+        <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">10sp</item>
     </style>
 
     <style name="materialText_600_14" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/poppins_semi_bold</item>
-        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+        <item name="fontFamily">@font/roboto_semi_bold</item>
+        <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="materialText_600_13" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/poppins_semi_bold</item>
-        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+        <item name="fontFamily">@font/roboto_semi_bold</item>
+        <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">13sp</item>
     </style>
 
     <style name="materialText_600_15" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/poppins_semi_bold</item>
-        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+        <item name="fontFamily">@font/roboto_semi_bold</item>
+        <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">15sp</item>
     </style>
 
     <style name="materialText_600_16" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/poppins_semi_bold</item>
-        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+        <item name="fontFamily">@font/roboto_semi_bold</item>
+        <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">16sp</item>
     </style>
 
     <style name="materialText_600_18" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/poppins_semi_bold</item>
-        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+        <item name="fontFamily">@font/roboto_semi_bold</item>
+        <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">18sp</item>
     </style>
 
     <style name="materialText_700_14" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/poppins_bold</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="materialText_700_12" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/poppins_bold</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <style name="materialText_700_16" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/poppins_bold</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">16sp</item>
     </style>
     <style name="materialText_700_18" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/poppins_bold</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">18sp</item>
     </style>
-    <style name="bigFont" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/poppins_bold</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
-        <item name="android:textSize">21sp</item>
-    </style>
     <style name="materialText_700_20" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/poppins_bold</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">20sp</item>
     </style>
     <style name="materialText_700_22" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/poppins_bold</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">22sp</item>
     </style>
     <style name="materialText_700_24" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/poppins_bold</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">24sp</item>
     </style>
     <style name="materialText_700_28" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/poppins_bold</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">28sp</item>
     </style>
     <style name="materialText_400_14" parent="TextAppearance.MaterialComponents.Body2">
-        <item name="fontFamily">@font/poppins_reg</item>
-        <item name="android:fontFamily">@font/poppins_reg</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="materialText_400_12" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="fontFamily">@font/poppins_reg</item>
-        <item name="android:fontFamily">@font/poppins_reg</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <style name="materialText_400_10" parent="TextAppearance.MaterialComponents.Overline">
-        <item name="fontFamily">@font/poppins_reg</item>
-        <item name="android:fontFamily">@font/poppins_reg</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">10sp</item>
         <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="materialText_600_08" parent="TextAppearance.MaterialComponents.Headline4">
-        <item name="fontFamily">@font/poppins_reg</item>
-        <item name="android:fontFamily">@font/poppins_reg</item>
+        <item name="fontFamily">@font/roboto_semi_bold</item>
+        <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">8sp</item>
         <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="materialText_500_20" parent="TextAppearance.MaterialComponents.Headline4">
-        <item name="fontFamily">@font/poppins_medium</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">20sp</item>
     </style>
 
     <style name="materialText_500_30" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/poppins_medium</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">30sp</item>
     </style>
 
     <style name="materialText_500_18" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/poppins_medium</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
-        <item name="android:textSize">18sp</item>
-    </style>
-    <style name="materialText_500_18_bold" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/poppins_bold</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
-        <item name="android:textSize">18sp</item>
-    </style>
-    <style name="fontPayment" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/poppins_medium</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">18sp</item>
     </style>
     <style name="materialText_600_20" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/poppins_semi_bold</item>
-        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+        <item name="fontFamily">@font/roboto_semi_bold</item>
+        <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">20sp</item>
     </style>
     
     <style name="materialText_600_24" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/poppins_semi_bold</item>
-        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+        <item name="fontFamily">@font/roboto_semi_bold</item>
+        <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">24sp</item>
     </style>
 
     <style name="materialText_600_22" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="fontFamily">@font/poppins_semi_bold</item>
-        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+        <item name="fontFamily">@font/roboto_semi_bold</item>
+        <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">22sp</item>
     </style>
 

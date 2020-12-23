@@ -306,6 +306,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
 
                                                 FireBaseEvent.getInstance(getApplicationContext())
                                                         .sendEvent(FireBaseEvent.Event.PAYMENT_OVERVIEW,
+                                                                FireBaseEvent.EventType.API_RESPOND_SUCCESS,
                                                                 FireBaseEvent.EventValue.PAYMENT_OVERVIEW_SUBMIT);
 
                                                 Intent intent = new Intent();

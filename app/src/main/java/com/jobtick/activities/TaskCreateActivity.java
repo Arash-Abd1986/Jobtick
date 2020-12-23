@@ -437,6 +437,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
 
                                 FireBaseEvent.getInstance(getApplicationContext())
                                         .sendEvent(FireBaseEvent.Event.POST_A_JOB,
+                                                FireBaseEvent.EventType.API_RESPOND_SUCCESS,
                                                 FireBaseEvent.EventValue.POST_A_JOB_SUBMIT);
 
                                 intent = new Intent(TaskCreateActivity.this, CompleteMessageActivity.class);

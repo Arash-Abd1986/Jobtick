@@ -12,7 +12,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:fontFamily="@font/poppins_medium"
+        style="@style/materialToolBar"
         app:contentInsetStartWithNavigation="0dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"

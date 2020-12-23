@@ -121,7 +121,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_budgets"
-                    style="@style/materialText_500_18_bold"
+                    style="@style/materialText_700_18"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:background="@drawable/shape_tab_primary"
@@ -431,7 +431,7 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_title"
-                            style="@style/bigFont"
+                            style="@style/materialText_700_20"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/spacing_smlarge"

@@ -120,7 +120,7 @@ public class NewTaskFragment extends Fragment {
         toolbar_title.setVisibility(View.VISIBLE);
         toolbar_title.setText(R.string.jobTick);
         toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.backgroundLightGrey));
-        toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_bold));
+        toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.roboto_bold));
         toolbar_title.setTextSize(22f);
         androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.CENTER;

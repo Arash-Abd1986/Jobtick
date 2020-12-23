@@ -13,6 +13,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.edit_text.EditTextRegular;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
+import android.widget.TextView;
 
 import com.jobtick.text_view.TextViewSemiBold;
 import com.jobtick.adapers.AddTagAdapter;
@@ -38,7 +39,7 @@ public class AddTagActivity extends ActivityBase {
     ArrayList<String> addTagList;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_title)
-    TextViewSemiBold txtTitle;
+    TextView txtTitle;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_add_tag)
     EditTextRegular edtAddTag;

@@ -205,6 +205,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         recyclerViewFilters.setHasFixedSize(true);
 
         filterAdapter = new FilterAdapter(filters);
+        filterAdapter.setmOnFilterDeleteListener(filters::clear);
         recyclerViewFilters.setAdapter(filterAdapter);
 
         if (sessionManager.getFilter() != null) {

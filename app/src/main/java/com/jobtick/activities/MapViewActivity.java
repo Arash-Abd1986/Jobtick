@@ -109,6 +109,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         recyclerViewFilters.setHasFixedSize(true);
         sessionManager = new SessionManager(this);
         filterAdapter = new FilterAdapter(filters);
+        filterAdapter.setmOnFilterDeleteListener(filters::clear);
         recyclerViewFilters.setAdapter(filterAdapter);
         if (sessionManager.getFilter() != null) {
             filterModel = sessionManager.getFilter();

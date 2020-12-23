@@ -6,34 +6,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.jobtick.R;
-import android.annotation.SuppressLint;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
+    private static final int VIEW_TYPE_BUTTON = 0;
+    private static final int VIEW_TYPE_CELL = 1;
 
     private final List<String> items;
     private Context context;
+    private OnFilterDeleteListener mOnFilterDeleteListener;
 
     public FilterAdapter(List<String> items) {
         this.items = items;
     }
 
+    public void setmOnFilterDeleteListener(OnFilterDeleteListener mOnFilterDeleteListener) {
+        this.mOnFilterDeleteListener = mOnFilterDeleteListener;
+    }
+
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.txt_data)
+
         TextView txtData;
+        CardView button;
 
         public OriginalViewHolder(View v) {
             super(v);
-            ButterKnife.bind(this, v);
+            txtData = v.findViewById(R.id.txt_data);
+            button = v.findViewById(R.id.delete_filter_button);
         }
     }
 
@@ -41,7 +44,12 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         RecyclerView.ViewHolder vh;
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_filter, parent, false);
+        View v;
+        if(viewType == VIEW_TYPE_CELL){
+             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_filter, parent, false);
+        }else{
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_delete_filter, parent, false);
+        }
         vh = new OriginalViewHolder(v);
         return vh;
     }
@@ -54,12 +62,31 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             String string = items.get(position);
             view.txtData.setText(string);
 
+            if(position == items.size()) {
+                view.button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(mOnFilterDeleteListener != null){
+                            mOnFilterDeleteListener.onFilterDeleteButtonClick();
+                        }
+                    }
+                });
+            }
         }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == items.size()) ? VIEW_TYPE_BUTTON : VIEW_TYPE_CELL;
     }
 
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public interface OnFilterDeleteListener{
+        void onFilterDeleteButtonClick();
     }
 
 }

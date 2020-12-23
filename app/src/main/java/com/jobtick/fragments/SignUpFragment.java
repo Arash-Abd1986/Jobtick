@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
+import android.widget.TextView;
 
 import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.activities.AuthActivity;
@@ -51,11 +52,11 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
     LinearLayout lytBtnFacebook;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_btn_sign_in)
-    TextViewRegular txtBtnSignIn;
+    TextView txtBtnSignIn;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_btn_terms)
-    TextViewRegular txtBtnTerms;
+    TextView txtBtnTerms;
 
     private AuthActivity authActivity;
 

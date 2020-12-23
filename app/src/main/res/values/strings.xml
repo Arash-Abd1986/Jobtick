@@ -237,8 +237,8 @@
     <string name="create_your_account">Create Your Account</string>
     <string name="email">Email Address</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="by_joining_you_agree">By joining you agree to JobTick’s</string>
-    <string name="terms_of_services">Terms of Services</string>
+    <string name="by_joining_you_agree">By joining you agree to JobTick’s </string>
+    <string name="terms_of_services"><u>Terms of Services</u></string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="login_to_your_account">Login to your account</string>
@@ -486,5 +486,6 @@
     <string name="view_your_job">View your job</string>
     <string name="explore_jobs">Explore jobs</string>
     <string name="view_your_offer">View your offer</string>
+    <string name="join_jobtick">Join Jobtick</string>
 
 </resources>

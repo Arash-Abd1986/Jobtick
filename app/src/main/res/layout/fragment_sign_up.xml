@@ -94,9 +94,9 @@
             style="@style/materialButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/material_button_standard_height"
-            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="14dp"
-            android:layout_marginEnd="@dimen/spacing_large"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="@dimen/spacing_middle"
             android:text="@string/next"
             android:textColor="@color/white" />

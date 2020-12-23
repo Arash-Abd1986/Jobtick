@@ -63,11 +63,7 @@ public class NewSplashActivity extends AppCompatActivity {
         if (sessionManager.getTokenType() != null && sessionManager.getAccessToken() != null) {
             getAccountDetails();
         } else {
-            Intent sign = new Intent(NewSplashActivity.this, SigInSigUpActivity.class);
-            sign.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            sign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(sign);
-            finish();
+            openSignUpPage();
         }
     }
 
@@ -99,19 +95,11 @@ public class NewSplashActivity extends AppCompatActivity {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Intent sign = new Intent(NewSplashActivity.this, SigInSigUpActivity.class);
-                        sign.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        sign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(sign);
-                        finish();
+                        openSignUpPage();
                     }
                 },
                 error -> {
-                    Intent sign = new Intent(NewSplashActivity.this, SigInSigUpActivity.class);
-                    sign.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    sign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(sign);
-                    finish();
+                    openSignUpPage();
                 }) {
 
 
@@ -131,6 +119,15 @@ public class NewSplashActivity extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(NewSplashActivity.this);
         requestQueue.add(stringRequest);
+    }
+
+    private void openSignUpPage(){
+        Intent intent = new Intent(NewSplashActivity.this, AuthActivity.class);
+        intent.putExtra("type", "Signup");
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private void checkCountry() {

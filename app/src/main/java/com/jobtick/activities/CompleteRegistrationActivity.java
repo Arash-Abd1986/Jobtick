@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
+import com.jobtick.fragments.SelectRoleBottomSheet;
 import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.widget.ExtendedEntryText;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
@@ -46,7 +47,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class CompleteRegistrationActivity extends ActivityBase implements View.OnClickListener{
+public class CompleteRegistrationActivity extends ActivityBase implements SelectRoleBottomSheet.NoticeListener {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
@@ -63,13 +64,6 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
     MaterialButton lytBtnCompleteRegistration;
 
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.cb_poster)
-    RadioButton cbPoster;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.cb_worker)
-    RadioButton cbWorker;
-
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.suburb)
     ExtendedEntryText suburb;
 
@@ -78,6 +72,10 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
 
     private String str_latitude = null;
     private String str_longitude = null;
+
+    private String str_fname;
+    private String str_lname;
+    private String str_suburb;
 
 
 
@@ -97,9 +95,6 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
 
 
 
-
-        cbWorker.setOnClickListener(this);
-        cbPoster.setOnClickListener(this);
     }
 
     private void initToolbar() {
@@ -125,7 +120,7 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
     }
 
 
-    private void profileUpdate(String fname, String lname, String suburb) {
+    private void profileUpdate(String fname, String lname, String suburb, String role) {
         showProgressDialog();
 
         final int[] count = {0};
@@ -151,11 +146,7 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
                             sessionManager.setLatitude(str_latitude);
                             sessionManager.setLongitude(str_longitude);
                             Intent intent = new Intent(CompleteRegistrationActivity.this, OnboardActivity.class);
-                            if (cbWorker.isChecked()) {
-                                intent.putExtra("as", "worker");
-                            } else if (cbPoster.isChecked()) {
-                                intent.putExtra("as", "poster");
-                            }
+                            intent.putExtra("as", role);
                             startActivity(intent);
 
                         } catch (JSONException e) {
@@ -207,12 +198,8 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("fname", fname);
                 map1.put("lname", lname);
-                if (cbPoster.isChecked()) {
-                    map1.put("role_as", "poster");
-                }
-                if (cbWorker.isChecked()) {
-                    map1.put("role_as", "worker");
-                }
+
+                map1.put("role_as", role);
                 map1.put("location", suburb);
                 map1.put("latitude", str_latitude);
                 map1.put("longitude", str_longitude);
@@ -228,11 +215,6 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
     }
 
     private boolean validation() {
-        if(!cbWorker.isChecked() && !cbPoster.isChecked()){
-            cbWorker.setBackgroundResource(R.drawable.radio_button_background_on_error);
-            cbPoster.setBackgroundResource(R.drawable.radio_button_background_on_error);
-            return false;
-        }
         if (TextUtils.isEmpty(edtFirstName.getText())) {
             edtFirstName.setError("Please enter first name");
             return false;
@@ -270,18 +252,23 @@ public class CompleteRegistrationActivity extends ActivityBase implements View.O
             case R.id.lyt_btn_complete_registration:
 
                 if (validation()) {
-                    String str_fname = edtFirstName.getText().trim();
-                    String str_lname = edtLastName.getText().trim();
-                    String str_suburb = suburb.getText().trim();
+                     str_fname = edtFirstName.getText().trim();
+                     str_lname = edtLastName.getText().trim();
+                     str_suburb = suburb.getText().trim();
 
-                    profileUpdate(str_fname, str_lname, str_suburb);
+                    openSelectRoleBottomSheet();
                 }
                 break;
         }
     }
 
+    private void openSelectRoleBottomSheet(){
+        SelectRoleBottomSheet roleBottomSheet = new SelectRoleBottomSheet();
+        roleBottomSheet.show(getSupportFragmentManager(), "");
+    }
+
     @Override
-    public void onClick(View view) {
-        view.setBackgroundResource(R.drawable.radio_button_background);
+    public void onGetStartedClick(String role) {
+        profileUpdate(str_fname, str_lname, str_suburb, role);
     }
 }

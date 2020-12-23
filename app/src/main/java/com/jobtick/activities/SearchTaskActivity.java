@@ -113,6 +113,8 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_search_new:
+                recyclerView.setVisibility(View.VISIBLE);
+                emptySearch.setVisibility(View.GONE);
                 edtSearch.setText("");
                 edtSearch.requestFocus();
                 edtSearch.performClick();

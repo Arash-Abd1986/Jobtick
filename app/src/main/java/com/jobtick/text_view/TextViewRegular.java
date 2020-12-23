@@ -5,23 +5,27 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
+
+import com.jobtick.R;
+
 
 public class TextViewRegular extends androidx.appcompat.widget.AppCompatTextView {
     public TextViewRegular(Context context) {
         super(context);
-        Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_Regular.otf");
+        Typeface face= ResourcesCompat.getFont(context, R.font.roboto_regular);
         this.setTypeface(face);
     }
 
     public TextViewRegular(Context context, AttributeSet attrs) {
         super(context, attrs);
-        Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_Regular.otf");
+        Typeface face=ResourcesCompat.getFont(context, R.font.roboto_regular);
         this.setTypeface(face);
     }
 
     public TextViewRegular(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_Regular.otf");
+        Typeface face=ResourcesCompat.getFont(context, R.font.roboto_regular);
         this.setTypeface(face);
     }
 

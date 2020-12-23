@@ -456,12 +456,10 @@ public abstract class AbstractCancellationSummaryActivity extends ActivityBase i
                                if(getUserType().equals(UserType.POSTER)){
                                    FireBaseEvent.getInstance(getApplicationContext())
                                            .sendEvent(FireBaseEvent.Event.CANCELLATION,
-                                                   FireBaseEvent.EventType.API_RESPOND_SUCCESS,
                                                    FireBaseEvent.EventValue.CANCELLATION_POSTER_SUBMIT);
                                }else if(getUserType().equals(UserType.WORKER)) {
                                    FireBaseEvent.getInstance(getApplicationContext())
                                            .sendEvent(FireBaseEvent.Event.CANCELLATION,
-                                                   FireBaseEvent.EventType.API_RESPOND_SUCCESS,
                                                    FireBaseEvent.EventValue.CANCELLATION_WORKER_SUBMIT);
                                }
 

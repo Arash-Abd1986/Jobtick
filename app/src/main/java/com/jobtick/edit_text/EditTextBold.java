@@ -5,23 +5,27 @@ import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 
+import androidx.core.content.res.ResourcesCompat;
+
+import com.jobtick.R;
+
 
 public class EditTextBold extends androidx.appcompat.widget.AppCompatEditText {
     public EditTextBold(Context context) {
         super(context);
-        Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_Bold.otf");
+        Typeface face = ResourcesCompat.getFont(context, R.font.roboto_bold);
         this.setTypeface(face);
     }
 
     public EditTextBold(Context context, AttributeSet attrs) {
         super(context, attrs);
-        Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_Bold.otf");
+        Typeface face = ResourcesCompat.getFont(context, R.font.roboto_bold);
         this.setTypeface(face);
     }
 
     public EditTextBold(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_Bold.otf");
+        Typeface face = ResourcesCompat.getFont(context, R.font.roboto_bold);
         this.setTypeface(face);
     }
 

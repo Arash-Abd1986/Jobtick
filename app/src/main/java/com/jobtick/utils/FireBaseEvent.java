@@ -23,9 +23,9 @@ public class FireBaseEvent {
 
     public void sendEvent(String eventCategory, String eventType, String eventName){
         Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, eventType);
-        bundle.putString(FirebaseAnalytics.Param.VALUE, eventName);
-        mFirebaseAnalytics.logEvent(eventCategory, bundle);
+//        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, eventType);
+//        bundle.putString(FirebaseAnalytics.Param.VALUE, eventName);
+        mFirebaseAnalytics.logEvent(eventCategory + eventName, bundle);
     }
 
     public static FireBaseEvent getInstance(Context context) {
@@ -52,21 +52,21 @@ public class FireBaseEvent {
     }
 
     public interface EventValue{
-        public static final String LOGIN_GOOGLE = "login_google";
-        public static final String LOGIN_FACEBOOK = "login_facebook";
-        public static final String LOGIN_NORMAL = "login_normal";
+        public static final String LOGIN_GOOGLE = "_google";
+        public static final String LOGIN_FACEBOOK = "_facebook";
+        public static final String LOGIN_NORMAL = "_email";
 
-        public static final String SIGN_UP_GOOGLE = "sign_up_google";
-        public static final String SIGN_UP_FACEBOOK = "sign_up_facebook";
-        public static final String SIGN_UP_NORMAL = "sign_up_normal";
+        public static final String SIGN_UP_GOOGLE = "_google";
+        public static final String SIGN_UP_FACEBOOK = "_facebook";
+        public static final String SIGN_UP_NORMAL = "_email";
 
-        public static final String POST_A_JOB_SUBMIT = "post_a_job_submit";
+        public static final String POST_A_JOB_SUBMIT = "_submit";
 
-        public static final String PAYMENT_OVERVIEW_SUBMIT = "payment_overview_submit";
+        public static final String PAYMENT_OVERVIEW_SUBMIT = "_submit";
 
-        public static final String OFFER_SUMMARY_SUBMIT_OFFER = "offer_summary_submit";
+        public static final String OFFER_SUMMARY_SUBMIT_OFFER = "_submit";
 
-        public static final String CANCELLATION_POSTER_SUBMIT = "cancellation_poster_submit";
-        public static final String CANCELLATION_WORKER_SUBMIT = "cancellation_ticker_submit";
+        public static final String CANCELLATION_POSTER_SUBMIT = "_poster_submit";
+        public static final String CANCELLATION_WORKER_SUBMIT = "_ticker_submit";
     }
 }

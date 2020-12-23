@@ -54,7 +54,8 @@ public class NewSplashActivity extends AppCompatActivity {
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             sessionManager = new SessionManager(NewSplashActivity.this);
-            checkCountry();
+            login();
+        //    checkCountry();
         },2000);
     }
 
@@ -141,6 +142,7 @@ public class NewSplashActivity extends AppCompatActivity {
 
                         if(country.equals("IR")){
                             Toast.makeText(this, "Sorry, we don't service to IRAN.", Toast.LENGTH_LONG).show();
+                            finish();
                         }
                         else{
                             login();

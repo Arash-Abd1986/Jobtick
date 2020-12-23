@@ -5,6 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 
+import androidx.core.content.res.ResourcesCompat;
+
+import com.jobtick.R;
+
 import java.util.ArrayList;
 
 
@@ -15,21 +19,21 @@ public class EditTextRegular extends androidx.appcompat.widget.AppCompatEditText
     public EditTextRegular(Context context) {
         super(context);
         listeners = new ArrayList<>();
-        Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_Regular.otf");
+        Typeface face = ResourcesCompat.getFont(context, R.font.roboto_regular);
         this.setTypeface(face);
     }
 
     public EditTextRegular(Context context, AttributeSet attrs) {
         super(context, attrs);
         listeners = new ArrayList<>();
-        Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_Regular.otf");
+        Typeface face = ResourcesCompat.getFont(context, R.font.roboto_regular);
         this.setTypeface(face);
     }
 
     public EditTextRegular(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         listeners = new ArrayList<>();
-        Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_Regular.otf");
+        Typeface face = ResourcesCompat.getFont(context, R.font.roboto_regular);
         this.setTypeface(face);
     }
 

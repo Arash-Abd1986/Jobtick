@@ -285,7 +285,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
     private void initToolbar() {
         dashboardActivity = (DashboardActivity) requireActivity();
-        poppins_medium = Typeface.createFromAsset(requireActivity().getAssets(), "fonts/poppins_Medium.otf");
+        poppins_medium = ResourcesCompat.getFont(getContext(), R.font.roboto_medium);
         onProfileupdatelistener = this;
         if (dashboardActivity != null) {
             toolbar = dashboardActivity.findViewById(R.id.toolbar);

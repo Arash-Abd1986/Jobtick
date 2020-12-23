@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -278,7 +279,7 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
 
     private void initToolbar() {
         profileActivity = (ProfileActivity) requireActivity();
-        poppins_medium = Typeface.createFromAsset(requireActivity().getAssets(), "fonts/poppins_Medium.otf");
+        poppins_medium = ResourcesCompat.getFont(getContext(), R.font.roboto_medium);
         onProfileupdatelistener = this;
     }
 

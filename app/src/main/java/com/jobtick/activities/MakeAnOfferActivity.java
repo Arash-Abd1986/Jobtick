@@ -170,7 +170,6 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
 
                                 FireBaseEvent.getInstance(getApplicationContext())
                                         .sendEvent(FireBaseEvent.Event.OFFER_SUMMARY,
-                                                FireBaseEvent.EventType.API_RESPOND_SUCCESS,
                                                 FireBaseEvent.EventValue.OFFER_SUMMARY_SUBMIT_OFFER);
 
                                 Intent intent = new Intent();

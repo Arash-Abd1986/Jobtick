@@ -67,6 +67,7 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
+import static com.jobtick.utils.Constant.TASK_ASSIGNED_CASE_RELATED_JOB_VALUE;
 import static com.jobtick.utils.Constant.TASK_ASSIGNED_CASE_UPPER_FIRST;
 import static com.jobtick.utils.Constant.TASK_COMPLETED_CASE_UPPER_FIRST;
 import static com.jobtick.utils.Constant.TASK_DRAFT_CASE_ALL_JOB_KEY;
@@ -218,6 +219,9 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
         } else {
             String title = single_choice_selected;
+            if (single_choice_selected.equals(TASK_ASSIGNED_CASE_RELATED_JOB_VALUE)) {
+               title = TASK_ASSIGNED_CASE_UPPER_FIRST;
+            }
             toolbar.getMenu().clear();
             toolbar.inflateMenu(R.menu.menu_my_task_blue);
             if (title.equals(TASK_OPEN_CASE_UPPER_FIRST)) {
@@ -483,7 +487,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
         if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_VALUE)) {
             rbAll.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
+        } else if (single_choice_selected.equals(TASK_ASSIGNED_CASE_RELATED_JOB_VALUE)) {
             radioAssigned.setChecked(true);
         } else if (single_choice_selected.equals(TASK_OPEN_CASE_UPPER_FIRST)) {
             radioPosted.setChecked(true);
@@ -591,6 +595,8 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             temp_single_choice_selected = rb.getText().toString();
             if (temp_single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
                 temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
+            }if (temp_single_choice_selected.equals(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
+                temp_single_choice_selected = TASK_ASSIGNED_CASE_RELATED_JOB_VALUE;
             }
 
             single_choice_selected = temp_single_choice_selected;
@@ -624,6 +630,8 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         temp_single_choice_selected = rbText;
         if (temp_single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
             temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
+        }if (temp_single_choice_selected.equals(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
+            temp_single_choice_selected = TASK_ASSIGNED_CASE_RELATED_JOB_VALUE;
         }
 
         single_choice_selected = temp_single_choice_selected;

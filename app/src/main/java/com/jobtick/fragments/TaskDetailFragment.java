@@ -60,6 +60,7 @@ import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.utils.Tools;
+import com.jobtick.widget.ExtendedEntryText;
 import com.jobtick.widget.SpacingItemDecoration;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -96,9 +97,6 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.OnItemClickListener {
 
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.locationLyt)
-    LinearLayout locationLyt;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_details)
     LinearLayout lytBtnDetails;
     @SuppressLint("NonConstantResourceId")
@@ -133,13 +131,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     CheckBox checkboxOnline;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_suburb)
-    TextView txtSuburb;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.img_location_pin)
-    ImageView imgLocationPin;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.card_location)
-    LinearLayout cardLocation;
+    ExtendedEntryText txtSuburb;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_next)
     MaterialButton btnNext;
@@ -265,7 +257,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             }
         });
 
-        txtSuburb.setOnClickListener(v -> {
+        txtSuburb.setExtendedViewOnClickListener(() -> {
             Intent intent = new SuburbAutoComplete(requireActivity()).getIntent();
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
@@ -366,19 +358,13 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             if (task.getTaskType().equalsIgnoreCase("remote")) {
                 checkboxOnline.setChecked(true);
                 txtSuburb.setVisibility(View.GONE);
-                locationLyt.setVisibility(View.GONE);
-                cardLocation.setFocusable(false);
-                cardLocation.setClickable(false);
             } else {
                 checkboxOnline.setChecked(false);
-                cardLocation.setVisibility(View.VISIBLE);
+                txtSuburb.setVisibility(View.VISIBLE);
             }
         } else {
             checkboxOnline.setChecked(false);
             txtSuburb.setVisibility(View.VISIBLE);
-            locationLyt.setVisibility(View.VISIBLE);
-            cardLocation.setFocusable(true);
-            cardLocation.setClickable(true);
         }
         if (task.getMusthave() != null && task.getMusthave().size() != 0) {
             addTagList.addAll(task.getMusthave());
@@ -422,12 +408,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             case R.id.checkbox_online:
                 if (checkboxOnline.isChecked()) {
                     txtSuburb.setVisibility(View.GONE);
-                    locationLyt.setVisibility(View.GONE);
-                    cardLocation.setClickable(false);
                 } else {
                     txtSuburb.setVisibility(View.VISIBLE);
-                    locationLyt.setVisibility(View.VISIBLE);
-                    cardLocation.setClickable(true);
                 }
                 break;
             case R.id.btn_next:

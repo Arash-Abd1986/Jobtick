@@ -18,7 +18,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_btn_add_must_have"
-        style="@style/materialText_500_14"
+        style="@style/materialText_400_15"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_gravity="center_vertical"

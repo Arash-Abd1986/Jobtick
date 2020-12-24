@@ -42,14 +42,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/spacing_middle" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAppearance="@style/materialText_400_12"
                 android:text="@string/details"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_12sp"
-                android:textStyle="bold" />
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
         <ImageView
@@ -80,13 +79,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/spacing_middle" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_date_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAppearance="@style/materialText_400_12"
                 android:text="@string/date_time"
-                android:textColor="@color/colorGrayC9C9C9"
-                android:textSize="@dimen/_12sp" />
+                android:textColor="@color/colorGrayC9C9C9" />
         </LinearLayout>
 
         <ImageView
@@ -117,13 +116,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/spacing_middle" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_budget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAppearance="@style/materialText_400_12"
                 android:text="@string/budget"
-                android:textColor="@color/colorGrayC9C9C9"
-                android:textSize="@dimen/_12sp" />
+                android:textColor="@color/colorGrayC9C9C9" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

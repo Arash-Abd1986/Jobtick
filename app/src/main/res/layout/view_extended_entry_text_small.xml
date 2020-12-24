@@ -13,7 +13,7 @@
         android:layout_marginTop="12dp"
         android:focusable="false"
         android:text="First Name"
-        android:textAppearance="@style/materialText_600_12"
+        android:textAppearance="@style/materialText_400_13"
         android:textColor="@color/colorPrimary" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -37,7 +37,7 @@
         android:layout_below="@id/title"
         android:layout_marginTop="4dp"
         android:layout_alignStart="@id/title"
-        android:textAppearance="@style/materialText_500_14"
+        android:textAppearance="@style/materialText_400_15"
         android:text=""
         android:textColor="@color/textColor"
         android:visibility="invisible"/>
@@ -59,7 +59,7 @@
         android:gravity="center_vertical"
         android:imeOptions="actionNext"
         android:inputType="text"
-        android:textAppearance="@style/materialText_500_14"
+        android:textAppearance="@style/materialText_400_15"
         android:textColor="@color/textColor"
         tools:text="sedighi.66@gmail.com"
         android:visibility="visible"/>
@@ -78,7 +78,7 @@
         android:imeOptions="actionNext"
         android:inputType="text"
         android:minHeight="34dp"
-        android:textAppearance="@style/materialText_500_14"
+        android:textAppearance="@style/materialText_400_15"
         android:textColor="@color/textColor"
         tools:text="Auto complete text ..."
         android:visibility="gone"/>

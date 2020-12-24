@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="bottom"
     android:background="@android:color/transparent"
     android:orientation="vertical">
@@ -66,7 +67,7 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_500_14"
+                    style="@style/materialText_400_15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_16sp"
@@ -82,7 +83,7 @@
                     android:layout_marginEnd="@dimen/_16sp"
                     tools:ignore="RelativeOverlap">
 
-                    <com.jobtick.text_view.TextViewMedium
+                    <com.jobtick.text_view.TextViewRegular
                         android:id="@+id/txt_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -90,7 +91,7 @@
                         android:hint="0"
                         android:singleLine="true"
                         android:textColor="@color/red_600"
-                        android:textSize="@dimen/_14sp" />
+                        android:textSize="@dimen/_15sp" />
 
                     <com.jobtick.text_view.TextViewRegular
                         android:id="@+id/txt_total_count"
@@ -100,7 +101,7 @@
                         android:hint="/3"
                         android:singleLine="true"
                         android:textColor="@color/red_600"
-                        android:textSize="@dimen/_14sp" />
+                        android:textSize="@dimen/_15sp" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -129,7 +130,7 @@
                         android:paddingBottom="@dimen/spacing_large">
 
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/materialText_600_12"
+                            style="@style/materialText_400_15"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/requirements"
@@ -137,11 +138,11 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtAddTag"
-                            style="@style/materialText_500_14"
+                            android:textAppearance="@style/materialText_500_14"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
                             android:background="@null"
-                            android:hint="@string/what_requirements_they_must_have"
                             android:inputType="text"
                             android:imeOptions="actionSend"
                             android:maxLines="1"

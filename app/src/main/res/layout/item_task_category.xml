@@ -27,7 +27,7 @@
         android:layout_toEndOf="@id/img_view"
         android:gravity="center_vertical"
         android:text="Car"
-        android:textAppearance="@style/materialText_500_16"
+        android:textAppearance="@style/materialText_400_20"
         android:textColor="@color/N900" />
 
     <View

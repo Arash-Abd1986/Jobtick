@@ -112,7 +112,7 @@ public class SearchCategoryActivity extends ActivityBase implements TextView.OnE
                 showKeyboard(edtSearchCategories);
                 break;
             case R.id.iv_back:
-                finish();
+                onBackPressed();
                 break;
 
         }

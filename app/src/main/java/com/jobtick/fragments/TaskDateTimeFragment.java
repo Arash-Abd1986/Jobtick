@@ -29,6 +29,7 @@ import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.models.DueTimeModel;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Tools;
+import com.jobtick.widget.ExtendedEntryText;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -45,7 +46,7 @@ public class TaskDateTimeFragment extends Fragment {
     OperationsListener operationsListener;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_date)
-    TextView txtDate;
+    ExtendedEntryText txtDate;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cb_morning)
     CheckBox cbMorning;
@@ -193,22 +194,23 @@ public class TaskDateTimeFragment extends Fragment {
             }
         });
 
+        txtDate.setExtendedViewOnClickListener(() ->{
+            Calendar calendar = Calendar.getInstance();
+            cyear = calendar.get(Calendar.YEAR);
+            cmonth = calendar.get(Calendar.MONTH);
+            cday = calendar.get(Calendar.DAY_OF_MONTH);
+            showBottomSheetDialogDate();
+        });
+
     }
 
-    @OnClick({R.id.txt_date, R.id.img_morning, R.id.txt_title_morning, R.id.txt_subtitle_morning,
+    @OnClick({R.id.img_morning, R.id.txt_title_morning, R.id.txt_subtitle_morning,
             R.id.rlt_btn_morning, R.id.img_midday, R.id.txt_title_midday, R.id.txt_subtitle_midday,
             R.id.rlt_btn_midday, R.id.img_afternoon, R.id.txt_title_afternoon, R.id.txt_subtitle_afternoon,
             R.id.rlt_btn_afternoon, R.id.img_evening, R.id.txt_title_evening, R.id.txt_subtitle_evening,
             R.id.rlt_btn_evening, R.id.lyt_btn_back, R.id.lyt_btn_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.txt_date:
-                Calendar calendar = Calendar.getInstance();
-                cyear = calendar.get(Calendar.YEAR);
-                cmonth = calendar.get(Calendar.MONTH);
-                cday = calendar.get(Calendar.DAY_OF_MONTH);
-                showBottomSheetDialogDate();
-                break;
             case R.id.img_morning:
             case R.id.txt_title_morning:
             case R.id.txt_subtitle_morning:

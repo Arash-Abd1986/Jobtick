@@ -266,7 +266,7 @@
     <string name="start_a_new_search">Start a new search</string>
     <string name="what_do_you_need_to_get_done">What do you need to get done?</string>
     <string name="file_manager">File Manager</string>
-    <string name="photos">Photos</string>
+    <string name="photos">Camera</string>
     <string name="choose_an_action">Choose an action</string>
     <string name="enter_job_location">Enter job location</string>
     <string name="add_requirements">Add requirements</string>
@@ -324,7 +324,7 @@
     <string name="writeTitleForJob">Write a title for you job</string>
     <string name="job_description">Job description</string>
     <string name="can_the_job_be_done_remotely">Can the job be done remotely?</string>
-    <string name="write_maximum_three_things_you_expect">Write maximum three things you expect from Ticker before he/she makes offer.\nFor example:\n · Licence required for doing the job. \n · Should have and bring required tools to complete the job.</string>
+    <string name="write_maximum_three_things_you_expect">Write maximum three things you expect from Ticker before he/she makes offer.\nFor example:\n· Licence required for doing the job.\n· Should have and bring required tools to complete the job.</string>
     <string name="what_requirements_they_must_have">What requirements they must have ?</string>
     <string name="time">Time</string>
     <string name="afternoon">Afternoon</string>

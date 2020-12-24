@@ -92,6 +92,10 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     TextView tvAboutHeading;
 
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.tvAboutMeHeader)
+    TextView tvAboutMeHeader;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_verified)
     ImageView imgVerified;
 
@@ -544,14 +548,16 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             ivCall.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable);
         }
         if (userAccountModel.getAbout() == null || userAccountModel.getAbout().equals("")) {
-            txtAbout.setText("Nothing to show");
+            txtAbout.setText("");
+            txtAbout.setVisibility(View.GONE);
         } else {
             txtAbout.setVisibility(View.VISIBLE);
             txtAbout.setText("" + userAccountModel.getAbout());
 
         }
         if (userAccountModel.getTagline() == null ||userAccountModel.getTagline().equals("")) {
-            tvAboutHeading.setText("\"Nothing to show\"");
+            tvAboutHeading.setText("\"\"");
+            tvAboutHeading.setVisibility(View.GONE);
         } else {
             tvAboutHeading.setVisibility(View.VISIBLE);
             tvAboutHeading.setText("\"" + userAccountModel.getTagline()+"\"");
@@ -567,7 +573,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             tickerReview.setVisibility(View.VISIBLE);
             ratingbarAsTicker.setRating(userAccountModel.getWorkerRatings().getAvgRating());
             tvTickerReview.setText("("+userAccountModel.getWorkerRatings().getTotalRatings().toString()+")");
-            tvTickerCompletionRate.setText("%"+userAccountModel.getWorkerRatings().getReceivedReviews().toString());
+            if(userAccountModel.getWorkTaskStatistics()!=null)
+                tvTickerCompletionRate.setText(userAccountModel.getWorkTaskStatistics().getCompletionRate().toString()+"%");
         }
         if(userAccountModel.getPosterRatings()==null){
             posterReview.setVisibility(View.GONE);
@@ -578,7 +585,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             noReview.setVisibility(View.GONE);
             ratingbarAsPoster.setRating(userAccountModel.getPosterRatings().getAvgRating());
             tvPosterReview.setText("("+userAccountModel.getPosterRatings().getTotalRatings().toString()+")");
-            tvPosterCompletionRate.setText("%"+userAccountModel.getPosterRatings().getReceivedReviews().toString());
+            if(userAccountModel.getPostTaskStatistics()!=null)
+            tvPosterCompletionRate.setText(userAccountModel.getPostTaskStatistics().getCompletionRate().toString()+"%");
         }
 
         switch (userAccountModel.getWorkerTier().getId()){

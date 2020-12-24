@@ -495,6 +495,7 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
 
         if (userAccountModel.getAbout() == null || userAccountModel.getAbout().equals("")) {
             txtAbout.setText("Nothing to show");
+            txtAbout.setVisibility(View.GONE);
         } else {
             txtAbout.setVisibility(View.VISIBLE);
             txtAbout.setText("" + userAccountModel.getAbout());
@@ -502,6 +503,7 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
         }
         if (userAccountModel.getTagline() == null ||userAccountModel.getTagline().equals("")) {
             tvAboutHeading.setText("\"Nothing to show\"");
+            tvAboutHeading.setVisibility(View.GONE);
         } else {
             tvAboutHeading.setVisibility(View.VISIBLE);
             tvAboutHeading.setText("\"" + userAccountModel.getTagline()+"\"");
@@ -517,7 +519,8 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
             tickerReview.setVisibility(View.VISIBLE);
             ratingbarAsTicker.setRating(userAccountModel.getWorkerRatings().getAvgRating());
             tvTickerReview.setText("("+userAccountModel.getWorkerRatings().getTotalRatings().toString()+")");
-            tvTickerCompletionRate.setText("%"+userAccountModel.getWorkerRatings().getReceivedReviews().toString());
+            if(userAccountModel.getWorkTaskStatistics()!=null)
+                tvTickerCompletionRate.setText(userAccountModel.getWorkTaskStatistics().getCompletionRate().toString()+"%");
         }
         if(userAccountModel.getPosterRatings()==null){
             posterReview.setVisibility(View.GONE);
@@ -528,7 +531,8 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
             noReview.setVisibility(View.GONE);
             ratingbarAsPoster.setRating(userAccountModel.getPosterRatings().getAvgRating());
             tvPosterReview.setText("("+userAccountModel.getPosterRatings().getTotalRatings().toString()+")");
-            tvPosterCompletionRate.setText("%"+userAccountModel.getPosterRatings().getReceivedReviews().toString());
+            if(userAccountModel.getPostTaskStatistics()!=null)
+                tvPosterCompletionRate.setText(userAccountModel.getPostTaskStatistics().getCompletionRate().toString()+"%");
         }
 
         switch (userAccountModel.getWorkerTier().getId()){

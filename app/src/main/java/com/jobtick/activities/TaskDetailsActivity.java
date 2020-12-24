@@ -1221,7 +1221,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
             tvPrivateChatLocation.setText(taskModel.getLocation());
         } else {
-            tvPrivateChatLocation.setText("Remote Task");
+            tvPrivateChatLocation.setText("Remotely");
         }
         if (taskModel.getWorker().getLocation() != null && taskModel.getWorker().getLocation().length() > 0) {
             tvPrivateChatLocation.setVisibility(View.VISIBLE);

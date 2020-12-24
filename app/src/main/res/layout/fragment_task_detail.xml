@@ -36,7 +36,7 @@
                 android:padding="12dp">
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_600_12"
+                    style="@style/materialText_400_13"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -47,7 +47,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/edt_title_counter"
-                    style="@style/materialText_600_12"
+                    style="@style/materialText_400_13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -59,14 +59,13 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_title"
-                    style="@style/materialText_500_14"
+                    android:textAppearance="@style/materialText_400_15"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/edt_title_counter"
                     android:layout_alignParentStart="true"
                     android:layout_marginTop="4dp"
                     android:background="@null"
-                    android:hint="@string/writeTitleForJob"
                     android:maxLength="100"
                     android:singleLine="true"
                     android:textColor="@color/textColor" />
@@ -83,7 +82,7 @@
                 android:padding="12dp">
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_600_12"
+                    style="@style/materialText_400_13"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -94,7 +93,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/edt_description_counter"
-                    style="@style/materialText_600_12"
+                    style="@style/materialText_400_13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -102,7 +101,7 @@
                     android:text="0/25+"
                     android:textColor="@color/red_600" />
 
-                <com.jobtick.edit_text.EditTextMedium
+                <com.jobtick.edit_text.EditTextRegular
                     android:id="@+id/edt_description"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -114,7 +113,7 @@
                     android:maxLength="500"
                     android:minHeight="60dp"
                     android:textColor="@color/textColor"
-                    android:textSize="@dimen/_14sp" />
+                    android:textSize="@dimen/_15sp" />
             </RelativeLayout>
 
             <androidx.cardview.widget.CardView
@@ -133,7 +132,7 @@
                     android:padding="12dp">
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_600_12"
+                        style="@style/materialText_400_13"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/attachment"
@@ -178,7 +177,7 @@
                      />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_500_14"
+                    style="@style/materialText_400_15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -197,7 +196,7 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_500_14"
+                    style="@style/materialText_400_15"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -216,55 +215,18 @@
                     android:gravity="center" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/card_location"
+
+            <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/txt_suburb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:eTitle="@string/location"
+                app:eInputType="suburb"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="75dp"
-                android:background="@drawable/linear_rounded_white_fill_8dp">
+                android:layout_marginBottom="75dp"/>
 
-                <LinearLayout
-                    android:id="@+id/locationLyt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_600_12"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/location"
-                        android:textColor="@color/colorPrimary" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/txt_suburb"
-                            style="@style/materialText_500_14"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toStartOf="@+id/img_location_pin"
-                            android:hint="@string/enter_job_location"
-                            android:inputType="textMultiLine" />
-
-                        <ImageView
-                            android:id="@+id/img_location_pin"
-                            android:layout_width="@dimen/_20sp"
-                            android:layout_height="@dimen/_20sp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_map_pin"
-                            app:tint="@color/colorPrimary"
-                             />
-                    </RelativeLayout>
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -21,55 +21,16 @@
 
             <include layout="@layout/view_post_job_tab" />
 
-            <LinearLayout
+            <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/txt_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:eTitle="@string/date"
+                app:eInputType="calendar"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:background="@drawable/linear_rounded_white_fill_7dp">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_large">
-
-                    <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_600_12"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/date"
-                        android:textColor="@color/colorPrimary" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/txt_date"
-                            style="@style/materialText_500_14"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toStartOf="@id/img_location_pin"
-                            android:hint="Select a Date"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                            android:textColor="@color/textColor" />
-
-                        <ImageView
-                            android:id="@+id/img_location_pin"
-                            android:layout_width="@dimen/_20sp"
-                            android:layout_height="@dimen/_20sp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_date_gray"
-                            app:tint="@color/colorPrimary"
-                            tools:ignore="ContentDescription" />
-                    </RelativeLayout>
-                </LinearLayout>
-            </LinearLayout>
+                android:layout_marginBottom="@dimen/spacing_middle"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -139,7 +100,7 @@
 
                                 <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_title_morning"
-                                    style="@style/materialText_500_16"
+                                    style="@style/materialText_500_17"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/morning"
@@ -147,12 +108,11 @@
 
                                 <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_subtitle_morning"
-                                    style="@style/materialText_400_12"
+                                    android:textAppearance="@style/materialText_400_13"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/txt_title_morning"
                                     android:text="From 05:00 AM to 12:00 PM"
-                                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                                     android:textColor="@color/grey_40"
                                     tools:ignore="HardcodedText" />
                             </RelativeLayout>
@@ -192,21 +152,20 @@
 
                                 <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_title_afternoon"
-                                    style="@style/materialText_500_16"
+                                    style="@style/materialText_500_17"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/afternoon"
                                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                     android:textColor="@color/textColor" />
 
-                                <com.jobtick.text_view.TextViewRegular
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_subtitle_afternoon"
-                                    style="@style/materialText_400_12"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/txt_title_afternoon"
                                     android:text="From 12:00 PM to 06:00 PM"
-                                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                                    android:textAppearance="@style/materialText_400_13"
                                     android:textColor="@color/grey_40"
                                     tools:ignore="HardcodedText" />
                             </RelativeLayout>
@@ -246,21 +205,20 @@
 
                                 <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_title_evening"
-                                    style="@style/materialText_500_16"
+                                    style="@style/materialText_500_17"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/evening"
                                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                     android:textColor="@color/textColor" />
 
-                                <com.jobtick.text_view.TextViewRegular
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_subtitle_evening"
-                                    style="@style/materialText_400_12"
+                                    android:textAppearance="@style/materialText_400_13"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/txt_title_evening"
                                     android:text="After 06:00 PM+"
-                                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                                     android:textColor="@color/grey_40"
                                     tools:ignore="HardcodedText" />
                             </RelativeLayout>
@@ -301,21 +259,20 @@
 
                                 <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_title_midday"
-                                    style="@style/materialText_500_16"
+                                    style="@style/materialText_500_17"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/anytime"
                                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                     android:textColor="@color/textColor" />
 
-                                <com.jobtick.text_view.TextViewRegular
+                                <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_subtitle_midday"
-                                    style="@style/materialText_400_12"
+                                    android:textAppearance="@style/materialText_400_13"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/txt_title_midday"
                                     android:text="From 05:00 AM to 12:00 AM"
-                                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                                     android:textColor="@color/grey_40"
                                     tools:ignore="HardcodedText" />
                             </RelativeLayout>

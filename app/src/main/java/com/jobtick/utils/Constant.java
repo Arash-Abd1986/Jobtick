@@ -38,6 +38,7 @@ public class Constant {
     public static final String TASK_CANCELLED_CASE_UPPER_FIRST = "Cancelled";
     public static final String TASK_DRAFT_CASE_ALL_JOB_KEY = "All Jobs";
     public static final String TASK_DRAFT_CASE_ALL_JOB_VALUE = "open,draft,assigned,offered,completed,close,cancelled";
+    public static final String TASK_ASSIGNED_CASE_RELATED_JOB_VALUE = "assigned,completed";
 
     public static final String TASK_DRAFT_CASE_UPPER_FIRST = "Draft";
     public static final String TASK_OPEN_CASE_UPPER_FIRST = "Open";

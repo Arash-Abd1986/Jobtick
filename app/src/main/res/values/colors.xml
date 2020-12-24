@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#5568FE</color>
+    <color name="colorPrimary">@color/P300</color>
     <color name="colorPrimaryDark">#4F61ED</color>
     <color name="colorAccent">#6F7FFD</color>
 
@@ -17,7 +17,7 @@
     <color name="blue_splash">#586BF5</color>
     <color name="grey_transparent">#01586BF5</color>
     <color name="yellow">#FDD925</color>
-    <color name="green">#2ED174</color>
+    <color name="green">@color/G300</color>
     <color name="grey">#E5E5E5</color>
     <color name="greenActive">#38C88A</color>
     <color name="grayActive">#EFEFEF</color>
@@ -26,7 +26,7 @@
     <color name="colorRed">#FF0041</color>
     <color name="colorLightRed">#FFEBE6</color>
     <color name="colorRed30">#30FF0041</color>
-    <color name="strokeRed">#ff4343</color>
+    <color name="strokeRed">@color/R300</color>
     <color name="lightBlue">#E9EBF6</color>
     <color name="userRating">#FF922B</color>
 
@@ -66,7 +66,7 @@
     <color name="grey_20">#cccccc</color>
     <color name="grey_40">#999999</color>
     <color name="grey_60">#666666</color>
-    <color name="grey_70">#4D576A</color>
+    <color name="grey_70">@color/N500</color>
     <color name="grey_110">#2B3240</color>
     <color name="grey_80">#37474F</color>
     <color name="grey_90">#263238</color>
@@ -353,7 +353,7 @@
     <color name="grey_800">#424242</color>
     <color name="grey_900">#212121</color>
     <color name="grey_1000">#1a1a1a</color>
-    <color name="textColor">#2B3240</color>
+    <color name="textColor">@color/N900</color>
     <color name="N30">#EBECF0</color>
 
     <color name="colorE6E9FE">#E6E9FE</color>
@@ -411,4 +411,16 @@
     <color name="quickOfferColorDisable">#97a2f5</color>
     <color name="timeColor">#D5D6D9</color>
     <color name="transparent">#00000000</color>
+
+    <color name="myJobsColorTaskOffer">@color/P300</color>
+    <color name="myJobsColorTaskOfferTrans">@color/P300</color>
+    <color name="myJobsColorTaskAssigned">@color/Y300</color>
+    <color name="myJobsColorTaskAssignedTrans">@color/Y300</color>
+    <color name="myJobsColorTaskOverDraft">@color/R300</color>
+    <color name="myJobsColorTaskOverDraftTrans">@color/R300</color>
+    <color name="myJobsColorTaskOverDraftTextColor">@color/R050</color>
+    <color name="myJobsColorTaskCompleted">@color/N900</color>
+    <color name="myJobsColorTaskCompletedTrans">@color/N400</color>
+    <color name="myJobsColorTaskCancelled">@color/N040</color>
+    <color name="myJobsColorTaskCancelledTrans">@color/R300</color>
 </resources>

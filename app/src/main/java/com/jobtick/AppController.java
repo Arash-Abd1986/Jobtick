@@ -10,6 +10,7 @@ import com.mapbox.mapboxsdk.Mapbox;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.jobtick.utils.Constant;
 import com.onesignal.OneSignal;
+import com.stripe.android.BuildConfig;
 import com.stripe.android.PaymentConfiguration;
 
 import timber.log.Timber;
@@ -48,8 +49,8 @@ public class AppController extends Application {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         // Operations on FirebaseCrashlytics.
         mCrashlytics = FirebaseCrashlytics.getInstance();
-     //   mCrashlytics.setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG);
-        mCrashlytics.setCrashlyticsCollectionEnabled(true);
+        mCrashlytics.setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG);
+    //    mCrashlytics.setCrashlyticsCollectionEnabled(true);
 
     }
 }

@@ -427,11 +427,9 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
                                 recyclerViewPortfolio.setVisibility(View.VISIBLE);
                                 NoPortfolio.setVisibility(View.GONE);
                                 lPort.setVisibility(View.VISIBLE);
-                            }
-                            if(attachmentArrayList.size() > 10){
-                                ((ActivityBase)requireActivity()).showToast("MAX 10 picture", requireContext());
                                 adapter.addItems(attachmentArrayList);
                             }
+
 
 
                             if (badgesModelArrayList.size() <= 0) {

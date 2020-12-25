@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -341,6 +342,19 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
         init();
 
+        tvAboutHeading.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerViewPortfolio.setVisibility(View.VISIBLE);
+                if(recyclerViewPortfolio.getVisibility() == View.GONE)
+                    Log.d("recyclerViewPortfolio",recyclerViewPortfolio.getVisibility()+"isgone");
+                else
+                    Log.d("recyclerViewPortfolio",recyclerViewPortfolio.getVisibility()+"is visible");
+
+                Log.d("recyclerViewPortfolio",recyclerViewPortfolio.getVisibility()+ recyclerViewPortfolio.getAdapter().getItemCount() +"");
+            }
+        });
+
         getAllProfileData();
         initComponent();
      //   initComponentScroll(view);
@@ -474,11 +488,9 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                                 recyclerViewPortfolio.setVisibility(View.VISIBLE);
                                 NoPortfolio.setVisibility(View.GONE);
                                 lPort.setVisibility(View.VISIBLE);
-                            }
-                            if(attachmentArrayList.size() > 10){
-                                ((ActivityBase)requireActivity()).showToast("MAX 10 picture", requireContext());
                                 adapter.addItems(attachmentArrayList);
                             }
+
 
 
                             if (badgesModelArrayList.size() <= 0) {
@@ -627,7 +639,6 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             lytLanguage.setVisibility(View.GONE);
             lytSpecialities.setVisibility(View.GONE);
             lytTransportation.setVisibility(View.GONE);
-            recyclerViewPortfolio.setVisibility(View.GONE);
             lPort.setVisibility(View.GONE);
         }
         else{

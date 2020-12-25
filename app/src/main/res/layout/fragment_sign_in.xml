@@ -86,11 +86,11 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_gravity="center"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginEnd="6dp"
                 android:layout_marginBottom="@dimen/spacing_medium"
-                android:gravity="end">
+                android:gravity="center">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_forgot_password"
@@ -121,7 +121,9 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14sp" />
 
-            <include layout="@layout/view_google_facebook_button" />
+            <include
+                android:id="@+id/socialBox"
+                layout="@layout/view_google_facebook_button" />
 
         </LinearLayout>
 

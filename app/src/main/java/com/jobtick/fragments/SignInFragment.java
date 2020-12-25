@@ -52,6 +52,9 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_btn_sign_up)
     TextView txtBtnSignUp;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.socialBox)
+    View socialBox;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_google)
@@ -72,11 +75,19 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         ButterKnife.bind(this, view);
+        setSocialBox();
         authActivity = (AuthActivity) requireActivity();
         if (authActivity != null) {
             authActivity.setEditTextError(this);
         }
         return view;
+    }
+
+    private void setSocialBox() {
+        TextView tvGoogle = socialBox.findViewById(R.id.tvGoogle);
+        TextView tvFB = socialBox.findViewById(R.id.tvFB);
+        tvGoogle.setText(getString(R.string.sign_in_google_text));
+        tvFB.setText(getString(R.string.sign_in_facebook_text));
     }
 
 

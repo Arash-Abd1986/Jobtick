@@ -107,13 +107,15 @@ public class ForgotPassword3Fragment extends Fragment {
             ((ActivityBase)requireActivity()).showToast("Time limit is ended. Please try again.", requireContext());
             authActivity.unauthorizedUser();
         }
-        else if(TextUtils.isEmpty(edtNewPassword.getText().trim())){
-            edtNewPassword.setError("Please enter the password");
+        if(edtNewPassword.getText().length()<8){
+            edtNewPassword.setError("Password must be 8 character or more");
             return false;
         }else if(!edtNewPassword.getText().trim().equals(edtRepeatNewPassword.getText().trim())) {
             edtRepeatNewPassword.setError("doesn't match your password");
             return false;
         }
+
+
         return true;
     }
 

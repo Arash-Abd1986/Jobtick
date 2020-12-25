@@ -487,6 +487,8 @@
     <string name="explore_jobs">Explore jobs</string>
     <string name="view_your_offer">View your offer</string>
     <string name="join_jobtick">Join Jobtick</string>
-    <string name="welcome_back">Welcome Back</string>
+    <string name="welcome_back">Welcome back</string>
+    <string name="sign_in_google_text">Sign in with Google</string>
+    <string name="sign_in_facebook_text">Sign in with Facebook</string>
 
 </resources>

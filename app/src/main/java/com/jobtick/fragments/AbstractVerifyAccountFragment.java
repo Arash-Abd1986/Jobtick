@@ -36,7 +36,7 @@ public abstract class AbstractVerifyAccountFragment extends Fragment implements 
     AuthActivity authActivity;
     CountDownTimer timer;
 
-    int wholeTime = 600000;
+    int wholeTime = 120000;
 
     private final String zeroTime = "0:00";
 

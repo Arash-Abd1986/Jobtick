@@ -109,6 +109,11 @@ public class ChangePasswordActivity extends ActivityBase implements TextWatcher 
             newPassword.setError("Enter new password");
             return false;
         }
+        else if(oldPassword.getText().length()<8)
+        {
+            oldPassword.setError("Password must be 8 character or more");
+            return false;
+        }
         return true;
     }
 

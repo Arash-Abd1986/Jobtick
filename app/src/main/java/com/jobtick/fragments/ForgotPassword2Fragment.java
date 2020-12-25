@@ -19,7 +19,7 @@ public class ForgotPassword2Fragment extends AbstractVerifyAccountFragment {
         super.onCreate(savedInstanceState);
         //we need 90 seconds in entering password step, the whole time for these 2 steps is 10 min.
         //so first step should be 510 seconds
-        wholeTime = 510000;
+        wholeTime = 120000;
     }
 
     @Override

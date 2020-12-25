@@ -313,7 +313,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 queryParameter = queryParameter + "&hide_assigned=true";
             }
         }
-        queryParameter = queryParameter + "&hide_assigned=true";
+//        queryParameter = queryParameter + "&hide_assigned=true";
 
         ArrayList<TaskModel> items = new ArrayList<>();
         Helper.closeKeyboard(dashboardActivity);

@@ -529,9 +529,9 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
 
         radioAssigned.setOnClickListener(v -> {
+            radioAssigned.setChecked(true);
             radioDraft.setChecked(false);
             rbAll.setChecked(false);
-            radioAssigned.setChecked(true);
             radioPosted.setChecked(false);
             radioCompleted.setChecked(false);
             radioOffer.setChecked(false);
@@ -631,7 +631,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         if (temp_single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
             temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
         }if (temp_single_choice_selected.equals(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
-            temp_single_choice_selected = TASK_ASSIGNED_CASE_RELATED_JOB_VALUE;
+//            temp_single_choice_selected = TASK_ASSIGNED_CASE_RELATED_JOB_VALUE;
         }
 
         single_choice_selected = temp_single_choice_selected;

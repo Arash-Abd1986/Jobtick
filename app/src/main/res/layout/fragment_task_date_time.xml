@@ -112,7 +112,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/txt_title_morning"
-                                    android:text="From 05:00 AM to 12:00 PM"
+                                    android:text="Before 12:00pm"
                                     android:textColor="@color/grey_40"
                                     tools:ignore="HardcodedText" />
                             </RelativeLayout>
@@ -164,7 +164,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/txt_title_afternoon"
-                                    android:text="From 12:00 PM to 06:00 PM"
+                                    android:text="Between 12:00pm to 06:00pm"
                                     android:textAppearance="@style/materialText_400_13"
                                     android:textColor="@color/grey_40"
                                     tools:ignore="HardcodedText" />
@@ -218,7 +218,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/txt_title_evening"
-                                    android:text="After 06:00 PM+"
+                                    android:text="After 06:00pm"
                                     android:textColor="@color/grey_40"
                                     tools:ignore="HardcodedText" />
                             </RelativeLayout>
@@ -272,7 +272,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/txt_title_midday"
-                                    android:text="From 05:00 AM to 12:00 AM"
+                                    android:text="You and Ticker agree on"
                                     android:textColor="@color/grey_40"
                                     tools:ignore="HardcodedText" />
                             </RelativeLayout>

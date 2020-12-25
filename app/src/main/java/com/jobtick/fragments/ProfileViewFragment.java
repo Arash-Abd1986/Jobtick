@@ -81,6 +81,10 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
     TextView txtAbout;
 
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.ivCall)
+    ImageView ivCall;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvAboutHeading)
     TextView tvAboutHeading;
 
@@ -490,7 +494,10 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
     @SuppressLint("SetTextI18n")
     private void setUpAllEditFields(UserAccountModel userAccountModel) {
         tvAboutHeading.setTypeface(txtAbout.getTypeface(), Typeface.BOLD_ITALIC);
-
+        if(userAccountModel.getMobileVerifiedAt() != null)
+        {
+            ivCall.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable);
+        }
         if (userAccountModel.getAbout() == null || userAccountModel.getAbout().equals("")) {
             txtAbout.setText("Nothing to show");
             txtAbout.setVisibility(View.GONE);

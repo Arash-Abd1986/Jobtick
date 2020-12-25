@@ -96,7 +96,7 @@
         <activity android:name=".activities.PortfolioActivity" />
         <activity
             android:name=".activities.MakeAnOfferActivity"
-            android:windowSoftInputMode="adjustPan|stateVisible" />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".activities.TaskDetailsActivity"
             android:windowSoftInputMode="adjustPan" />

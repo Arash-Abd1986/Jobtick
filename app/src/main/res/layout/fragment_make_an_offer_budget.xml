@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
     android:background="@color/backgroundLightGrey"
     tools:context=".fragments.MakeAnOfferBudgetFragment">
 
@@ -11,7 +13,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <LinearLayout
             android:id="@+id/toolbar"
@@ -54,6 +55,8 @@
                 android:layout_marginTop="@dimen/_10sp"
                 android:layout_marginEnd="@dimen/_15sp"
                 android:orientation="vertical"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
                 android:paddingBottom="80dp">
 
 
@@ -94,6 +97,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     app:eHint="5 - 9999"
+                    android:focusableInTouchMode="true"
+                    android:focusable="true"
                     app:eImeOptions="normal"
                     app:eInputType="budget"
                     app:eTitle="Your offer" />
@@ -242,7 +247,7 @@
                                 android:id="@+id/txt_current_service_fee"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0%"
+                                android:text="7%"
                                 android:textColor="@color/textColor"
                                 android:textSize="@dimen/_17sp" />
 

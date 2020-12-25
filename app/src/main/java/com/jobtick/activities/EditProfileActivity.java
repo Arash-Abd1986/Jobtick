@@ -475,9 +475,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         edtBusinessNumber.seteContent(userAccountModel.getBusiness_number());
         edtEmailAddress.seteContent(userAccountModel.getEmail());
         txtBirthDate.setText(Tools.getDayMonthDateTimeFormat(userAccountModel.getDob()));
-        if(userAccountModel.getDob() != null && !userAccountModel.getDob().equals("")){
-            str_DOB_MODEL = Tools.getDayMonthDateTimeFormat(userAccountModel.getDob());
-        }
+
         if (userAccountModel.getAvatar() != null) {
             ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getUrl(), null);
             lytDeletePicture.setVisibility(View.VISIBLE);

@@ -251,6 +251,7 @@
                             android:paddingBottom="@dimen/_10sp">
 
                             <LinearLayout
+                                android:visibility="gone"
                                 android:id="@+id/lytRecord2"
                                 android:layout_width="@dimen/_40sp"
                                 android:layout_height="@dimen/_40sp"
@@ -269,6 +270,7 @@
                             </LinearLayout>
 
                             <ImageView
+                                android:visibility="gone"
                                 android:id="@+id/img_btn_play"
                                 android:layout_width="45dp"
                                 android:layout_height="45dp"

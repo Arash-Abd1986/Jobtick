@@ -559,6 +559,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         {
             ivCall.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable);
         }
+
         if (userAccountModel.getAbout() == null || userAccountModel.getAbout().equals("")) {
             txtAbout.setText("");
             txtAbout.setVisibility(View.GONE);
@@ -693,7 +694,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         txtFullName.setText(userAccountModel.getName());
         txtSuburb.setText(userAccountModel.getLocation());
         //txtAccountLevel.setText(""+userAccountModel.getWorkerTier().getName());
-        txtLastSeen.setText("Last Seen  " + userAccountModel.getLastOnline());
+        txtLastSeen.setText("Last Seen " + userAccountModel.getLastOnline());
+
         tvViewAllReviews.setOnClickListener(v -> {
 
             Bundle bundle = new Bundle();
@@ -704,6 +706,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
             startActivity(new Intent(dashboardActivity, ReviewsActivity.class)
                     .putExtras(bundle));
         });
+
 
         onChangeTabBiography();
         onChangeTabUser();

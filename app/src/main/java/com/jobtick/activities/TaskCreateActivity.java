@@ -548,7 +548,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                         count = count + 1;
                     }
                     if (taskModel.getDueTime().getMidday()) {
-                        map1.put("due_time[" + count + "]", "midday");
+                        map1.put("due_time[" + count + "]", "anytime");
                     }
                 }
                 if (draft) {

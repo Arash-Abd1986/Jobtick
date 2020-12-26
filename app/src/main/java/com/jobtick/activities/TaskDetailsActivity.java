@@ -1375,7 +1375,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
             txtLocation.setText(taskModel.getLocation());
         } else {
-            txtLocation.setText("Remote Task");
+            txtLocation.setText("Remotely");
         }
         if (taskModel.getPoster().getLocation() != null && taskModel.getPoster().getLocation().length() > 0) {
             txtPosterLocation.setVisibility(View.VISIBLE);
@@ -1426,7 +1426,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 dueTime = dueTime + "Evening";
             }
         }
-        if (time.getMidday()) {
+        if (time.getMidday()!=null && time.getMidday()) {
             if (dueTime.length() != 0) {
                 dueTime = dueTime + ",Midday";
             } else {

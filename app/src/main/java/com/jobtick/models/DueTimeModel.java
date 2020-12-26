@@ -13,7 +13,7 @@ import timber.log.Timber;
 
 public class DueTimeModel implements Parcelable {
     String TAG = DueTimeModel.class.getName();
-    @SerializedName("midday")
+    @SerializedName("anytime")
     @Expose
     private Boolean midday;
     @SerializedName("evening")
@@ -120,8 +120,8 @@ public class DueTimeModel implements Parcelable {
         DueTimeModel dueTimeModel = new DueTimeModel();
 
         try{
-            if(jsonObject.has("midday") && !jsonObject.isNull("midday")){
-                dueTimeModel.setMidday(jsonObject.getBoolean("midday"));
+            if(jsonObject.has("anytime") && !jsonObject.isNull("anytime")){
+                dueTimeModel.setMidday(jsonObject.getBoolean("anytime"));
             }
             if(jsonObject.has("evening") && !jsonObject.isNull("evening")){
                 dueTimeModel.setEvening(jsonObject.getBoolean("evening"));

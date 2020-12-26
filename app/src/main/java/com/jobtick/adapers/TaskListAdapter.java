@@ -222,11 +222,11 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         txtDueTime.append(", Evening");
                     }
                 }
-                if (item.getDueTime().getMidday()) {
+                if (item.getDueTime().getMidday()!=null && item.getDueTime().getMidday()) {
                     if (TextUtils.isEmpty(txtDueTime.getText().toString())) {
-                        txtDueTime.setText("Midday");
+                        txtDueTime.setText("Any time");
                     } else {
-                        txtDueTime.append(", Midday");
+                        txtDueTime.append(", Any time");
                     }
                 }
                 if (!item.getDueTime().getMorning() && !item.getDueTime().getAfternoon() &&
@@ -238,7 +238,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }
             if (item.getLocation() != null && item.getTaskType().equals("physical")) {
                 txtLocation.setText(item.getLocation());
-            } else if(item.getTaskType().equals("remote")){
+            } else if(item.getTaskType()!=null && item.getTaskType().equals("remote")){
                 txtLocation.setText("Remotely");
             }
             if (item.getStatus() != null && item.getStatus().equalsIgnoreCase(Constant.TASK_DRAFT)) {

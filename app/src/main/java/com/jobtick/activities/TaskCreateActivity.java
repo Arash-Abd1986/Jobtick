@@ -3,6 +3,7 @@ package com.jobtick.activities;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -513,7 +514,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                             map1.put("budget", String.valueOf(taskModel.getBudget()));
                     } else {
                         if (((taskModel.getTotalHours()) * taskModel.getHourlyRate()) >= 10) {
-                            map1.put("budget", String.valueOf((taskModel.getTotalHours()) * taskModel.getHourlyRate()));
+                            map1.put("budget", String.valueOf(taskModel.getHourlyRate()));
                             map1.put("total_hours", String.valueOf(taskModel.getTotalHours()));
                             map1.put("hourly_rate", String.valueOf(taskModel.getHourlyRate()));
                         }

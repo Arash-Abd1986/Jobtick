@@ -230,7 +230,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     }
                 }
                 if (!item.getDueTime().getMorning() && !item.getDueTime().getAfternoon() &&
-                        !item.getDueTime().getEvening() && !item.getDueTime().getMidday()) {
+                        !item.getDueTime().getEvening() && item.getDueTime().getMidday()!=null && !item.getDueTime().getMidday()) {
                     txtDueTime.setText("No time set");
                 }
             } else {

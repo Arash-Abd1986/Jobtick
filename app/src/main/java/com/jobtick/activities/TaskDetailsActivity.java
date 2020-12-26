@@ -1428,9 +1428,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
         if (time.getMidday()!=null && time.getMidday()) {
             if (dueTime.length() != 0) {
-                dueTime = dueTime + ",Midday";
+                dueTime = dueTime + ",Any time";
             } else {
-                dueTime = dueTime + "Midday";
+                dueTime = dueTime + "Any time";
             }
         }
         return dueTime;
@@ -1812,6 +1812,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 Intent workerIntent = new Intent(TaskDetailsActivity.this, ProfileActivity.class);
                 workerIntent.putExtra("id", taskModel.getWorker().getId());
                 startActivity(workerIntent);
+                return;
             case R.id.linearUserProfile:
                 Intent posterIntent = new Intent(TaskDetailsActivity.this, ProfileActivity.class);
                 posterIntent.putExtra("id", taskModel.getPoster().getId());

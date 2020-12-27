@@ -1527,6 +1527,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         Bundle bundle = new Bundle();
         bundle.putParcelable(ConstantKey.TASK, taskModel);
         bundle.putString(ConstantKey.TITLE, "Create Task");
+        bundle.putBoolean(ConstantKey.COPY, true);
         update_task.putExtras(bundle);
         startActivity(update_task);
     }

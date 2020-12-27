@@ -8,9 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@id/error"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
+        android:layout_toStartOf="@id/error"
         android:focusable="false"
         android:text="First Name"
         android:textAppearance="@style/materialText_400_13"
@@ -22,48 +22,48 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="12dp"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
         android:gravity="end"
         android:text="please enter your name"
         android:textAppearance="@style/materialText_400_12"
         android:textColor="@color/strokeRed"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/dollar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
-        android:layout_marginTop="4dp"
         android:layout_alignStart="@id/title"
-        android:textAppearance="@style/materialText_400_15"
+        android:layout_marginTop="4dp"
         android:text=""
+        android:textAppearance="@style/materialText_400_15"
         android:textColor="@color/textColor"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
-        android:layout_toEndOf="@id/dollar"
         android:layout_gravity="center"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="12dp"
-        android:layout_toStartOf="@id/img_btn_password_toggle"
+        android:layout_toStartOf="@id/buttons"
+        android:layout_toEndOf="@id/dollar"
         android:background="@null"
+        android:ellipsize="end"
         android:gravity="center_vertical"
         android:imeOptions="actionNext"
         android:inputType="text"
-        android:ellipsize="end"
-        android:minHeight="24dp"
         android:maxLines="1"
+        android:minHeight="24dp"
         android:textAppearance="@style/materialText_400_15"
         android:textColor="@color/textColor"
-        tools:text="sedighi.66@gmail.com"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        tools:text="sedighi.66@gmail.com" />
 
     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
         android:id="@+id/content_auto_complete"
@@ -82,19 +82,44 @@
         android:minHeight="34dp"
         android:textAppearance="@style/materialText_400_15"
         android:textColor="@color/textColor"
-        tools:text="Auto complete text ..."
-        android:visibility="gone"/>
+        android:visibility="gone"
+        tools:text="Auto complete text ..." />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/img_btn_password_toggle"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignTop="@id/content"
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
         android:layout_alignBottom="@id/content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="13dp"
-        android:src="@drawable/password_selector" />
+        android:orientation="horizontal">
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/verifyButton"
+            style="@style/materialButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/Y300"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="@string/verify"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:layout_marginEnd="13dp"/>
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_btn_password_toggle"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/password_selector"
+            android:layout_marginEnd="13dp"/>
+
+    </LinearLayout>
 
 </merge>

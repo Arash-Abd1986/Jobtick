@@ -1006,8 +1006,13 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
 
+    private boolean reloadUserAccount = false;
     public void getAllUserProfileDetails() {
         userAccountModel = sessionManager.getUserAccount();
+
+        if(reloadUserAccount)
+
+
     }
 
     private boolean isInitPageLoaded = false;

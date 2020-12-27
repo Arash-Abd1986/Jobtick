@@ -107,6 +107,7 @@
             <enum name="budget" value="7"/>
             <enum name="spinner" value="8"/>
             <enum name="autoComplete" value="9"/>
+            <enum name="verify" value="10"/>
         </attr>
         <attr name="eImeOptions" format="enum">
             <enum name="actionNext" value="0"/>

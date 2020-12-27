@@ -619,7 +619,7 @@ public class AuthActivity extends ActivityBase {
                     .beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
                             android.R.anim.fade_in, android.R.anim.fade_out);
             // Replace whatever is in the content_fragment view with this fragment
-            transaction.replace(R.id.auth_layout, fragment);
+            transaction.replace(R.id.auth_layout, fragment).addToBackStack(fragment.getClass().getName());
 
             // Commit the transaction
             transaction.commit();
@@ -723,7 +723,11 @@ public class AuthActivity extends ActivityBase {
 
                             if (jsonObject_error.has("error_code")) {
                                 if (jsonObject_error.getInt("error_code") == 1002) {
-                                    resendOtp(str_email, str_password);
+
+                                    //TODO: we need to direct user to signup page, if email is not verified.
+                                    if(jsonObject_error.has("message"))
+                                        showToast(jsonObject_error.getString("message"), this);
+
                                     return;
                                 }
                             }
@@ -851,7 +855,7 @@ public class AuthActivity extends ActivityBase {
                         Bundle bundle = new Bundle();
                         Fragment fragment = new VerifyAccountFragment();
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.auth_layout, fragment);
+                        ft.replace(R.id.auth_layout, fragment).addToBackStack(VerifyAccountFragment.class.getName());
                         bundle.putString("email", str_email);
                         bundle.putString("password", str_password);
                         fragment.setArguments(bundle);
@@ -1161,7 +1165,7 @@ public class AuthActivity extends ActivityBase {
                         Bundle bundle = new Bundle();
                         Fragment fragment = new VerifyAccountFragment();
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.auth_layout, fragment);
+                        ft.replace(R.id.auth_layout, fragment).addToBackStack(VerifyAccountFragment.class.getName());
                         bundle.putString("email", str_email);
                         bundle.putString("password", str_password);
                         fragment.setArguments(bundle);

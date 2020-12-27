@@ -16,13 +16,13 @@
         android:src="@drawable/ic_down"
         tools:ignore="ContentDescription" />
 
-    <com.jobtick.text_view.TextViewMedium
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/requirements"
         android:textColor="@color/textColor"
-        android:textSize="@dimen/_14sp" />
+        android:textAppearance="@style/materialText_400_16"/>
 
     <LinearLayout
         android:layout_width="match_parent"

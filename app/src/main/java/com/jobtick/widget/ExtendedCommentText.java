@@ -100,11 +100,11 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
     private void init(){
         if(isMandatory){
             counter.setText(String.format(Locale.ENGLISH, "0/%d+", eMinSize));
-            counter.setTextColor(getResources().getColor(R.color.red_600));
+            counter.setTextColor(getResources().getColor(R.color.strokeRed));
         }
         else {
             counter.setText(String.format(Locale.ENGLISH, "0/%d", eMaxSize));
-            counter.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
+            counter.setTextColor(getResources().getColor(R.color.N050));
         }
 
         if(eStartFocus){
@@ -167,7 +167,7 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
                 int length = s.length();
                 if (length < eMinSize) {
                     counter.setText(String.format(Locale.ENGLISH, "%d/%d+", s.length(), eMinSize));
-                    counter.setTextColor(getResources().getColor(R.color.red_600));
+                    counter.setTextColor(getResources().getColor(R.color.strokeRed));
                 } else if (length <= eMaxSize) {
                     counter.setText(String.format(Locale.ENGLISH, "%d/%d", s.length(), eMaxSize));
                     counter.setTextColor(getResources().getColor(R.color.green));
@@ -177,7 +177,7 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
                 }
             } else {
                 counter.setText(String.format(Locale.ENGLISH, "%d/%d+", s.length(), eMinSize));
-                counter.setTextColor(getResources().getColor(R.color.red_600));
+                counter.setTextColor(getResources().getColor(R.color.strokeRed));
             }
         } else {
             if (!s.toString().equalsIgnoreCase("")) {
@@ -191,7 +191,7 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
                 }
             } else {
                 counter.setText(String.format(Locale.ENGLISH, "0/%d", eMaxSize));
-                counter.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
+                counter.setTextColor(getResources().getColor(R.color.N050));
             }
         }
 

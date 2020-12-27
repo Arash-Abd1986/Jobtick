@@ -182,7 +182,7 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
         };
 
         spannableString.setSpan(clickableSpan1, 40, 57, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(clickableSpan2, 60, 82, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(clickableSpan2, 62, 82, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         txtReviewConditions.setText(spannableString);
         txtReviewConditions.setMovementMethod(LinkMovementMethod.getInstance());

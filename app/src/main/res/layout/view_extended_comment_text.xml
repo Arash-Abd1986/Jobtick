@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
 
@@ -16,12 +14,12 @@
         android:layout_toStartOf="@id/counter"
         android:focusable="false"
         android:text="First Name"
-        android:textAppearance="@style/materialText_600_12"
+        android:textAppearance="@style/materialText_400_13"
         android:textColor="@color/colorPrimary" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/counter"
-        style="@style/materialText_600_14"
+        style="@style/materialText_400_13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -30,14 +28,15 @@
         android:layout_marginEnd="16dp"
         android:text="0/100"
         android:gravity="end|center_vertical"
-        android:textColor="@color/colorGrayC9C9C9" />
+        android:textColor="@color/N050" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_below="@id/title"
         android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="16dp"
         android:layout_gravity="top"
@@ -50,9 +49,9 @@
         android:inputType="textMultiLine|textCapSentences|textNoSuggestions"
         android:minLines="1"
         android:maxLines="10"
-        android:textAppearance="@style/materialText_500_14"
+        android:textAppearance="@style/materialText_400_15"
         android:textColor="@color/textColor"
         tools:text="sedighi.66@gmail.com" />
 
 
-</RelativeLayout>
+</merge>

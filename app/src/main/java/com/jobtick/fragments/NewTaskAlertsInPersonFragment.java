@@ -16,15 +16,11 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.Slider;
 import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.widget.ExtendedEntryText;
-import com.mapbox.api.geocoding.v5.models.CarmenFeature;
-import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
 import com.jobtick.activities.NewTaskAlertsActivity;
 import com.jobtick.models.task.TaskAlert;
-import com.jobtick.utils.Helper;
-import com.jobtick.utils.SessionManager;
 
 import java.util.Locale;
 
@@ -126,12 +122,12 @@ public class NewTaskAlertsInPersonFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            CarmenFeature carmenFeature = PlacePicker.getPlace(data);
-            Helper.Logger(TAG, "CarmenFeature = " + carmenFeature.toJson());
-            // No need for exact location
-            txtSuburb.setText(carmenFeature.placeName());
-            taskAlert.setLattitude(carmenFeature.center().latitude());
-            taskAlert.setLongitude(carmenFeature.center().longitude());
+
+
+
+            txtSuburb.setText(SuburbAutoComplete.getSuburbName(data));
+            taskAlert.setLattitude(SuburbAutoComplete.getLatitudeDouble(data));
+            taskAlert.setLongitude(SuburbAutoComplete.getLongitudeDouble(data));
         }
     }
 

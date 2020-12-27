@@ -60,8 +60,6 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.mapbox.api.geocoding.v5.models.CarmenFeature;
-import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.jetbrains.annotations.NotNull;
@@ -846,13 +844,9 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         if (data != null) {
             if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == RESULT_OK) {
 
-                // Retrieve the information from the selected location's CarmenFeature
-
-                CarmenFeature carmenFeature = PlacePicker.getPlace(data);
-                Helper.Logger("THIS", "CarmenFeature = " + carmenFeature.toJson());
-                txtSuburb.seteContent(carmenFeature.placeName());
-                str_latitude = String.valueOf(carmenFeature.center().latitude());
-                str_longitude = String.valueOf(carmenFeature.center().longitude());
+                txtSuburb.setText(SuburbAutoComplete.getSuburbName(data));
+                str_latitude = SuburbAutoComplete.getLatitude(data);
+                str_longitude = SuburbAutoComplete.getLongitude(data);
             }
 
             if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {

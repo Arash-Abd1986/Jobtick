@@ -62,12 +62,6 @@ import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.utils.Tools;
 import com.jobtick.widget.ExtendedEntryText;
 import com.jobtick.widget.SpacingItemDecoration;
-import com.mapbox.api.geocoding.v5.models.CarmenFeature;
-import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
-import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -850,14 +844,10 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == requireActivity().RESULT_OK) {
 
-            // Retrieve the information from the selected location's CarmenFeature
-
-            CarmenFeature carmenFeature = PlacePicker.getPlace(data);
-            Helper.Logger(TAG, "CarmenFeature = " + carmenFeature.toJson());
-            txtSuburb.setText(carmenFeature.placeName());
+            txtSuburb.setText(SuburbAutoComplete.getSuburbName(data));
             PositionModel positionModel = new PositionModel();
-            positionModel.setLatitude(carmenFeature.center().latitude());
-            positionModel.setLongitude(carmenFeature.center().longitude());
+            positionModel.setLatitude(SuburbAutoComplete.getLatitudeDouble(data));
+            positionModel.setLongitude(SuburbAutoComplete.getLongitudeDouble(data));
             task.setPosition(positionModel);
         }
 

@@ -502,7 +502,7 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
         {
             ivCall.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable);
         }
-    if(userAccountModel.getAccount_status()!=null && userAccountModel.getAccount_status().isBadges())
+        if(userAccountModel.getAccount_status()!=null && userAccountModel.getAccount_status().isBadges())
         {
             ivCard.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable);
         }

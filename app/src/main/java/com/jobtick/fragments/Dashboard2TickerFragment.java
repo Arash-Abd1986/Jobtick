@@ -68,10 +68,11 @@ public class Dashboard2TickerFragment extends AbstractDashboard2Fragment {
         }
 
 
+        int percent=0;
         if (userAccountModel.getAccount_status() != null) {
             if (userAccountModel.getAccount_status().isPortfolio()) {
                 iv_green_account.setImageResource(R.drawable.ic_progress_checked);
-
+                percent+=25;
             } else {
                 iv_green_account.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
             }
@@ -79,6 +80,7 @@ public class Dashboard2TickerFragment extends AbstractDashboard2Fragment {
 
             if (userAccountModel.getAccount_status().isBank_account()) {
                 iv_payment.setImageResource(R.drawable.ic_progress_checked);
+                percent+=25;
 
             } else {
                 iv_payment.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
@@ -86,16 +88,19 @@ public class Dashboard2TickerFragment extends AbstractDashboard2Fragment {
 
 
             if (userAccountModel.getAccount_status().isSkills()) {
+                percent+=25;
                 iv_skills.setImageResource(R.drawable.ic_progress_checked);
             } else {
                 iv_skills.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
             }
             if (userAccountModel.getAccount_status().isBadges()) {
+                percent+=25;
                 iv_badges.setImageResource(R.drawable.ic_progress_checked);
 
             } else {
                 iv_badges.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
             }
+            percentageChartView.setProgress(percent, false);
         }
     }
 }

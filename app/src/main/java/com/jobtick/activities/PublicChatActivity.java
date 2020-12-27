@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -531,7 +532,6 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
 
 
     private void doApiCall(String url) {
-
         ArrayList<CommentModel> items = new ArrayList<>();
         Helper.closeKeyboard(PublicChatActivity.this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + "/comments",

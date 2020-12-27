@@ -62,38 +62,40 @@ public class Dashboard2PosterFragment extends AbstractDashboard2Fragment {
         } else {
             txtAwaitingOffer.setValue("0");
         }
-        if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCompletionRate() != null) {
-            percentageChartView.setProgress(Float.parseFloat(userAccountModel.getPostTaskStatistics().getCompletionRate().toString()), false);
-        } else {
-            percentageChartView.setProgress(0F, false);
-        }
 
 
+
+        int percent = 0;
         if (userAccountModel.getAccount_status() != null) {
             if (userAccountModel.getAccount_status().isPortfolio()) {
                 iv_green_account.setImageResource(R.drawable.ic_progress_checked);
-
+                percent+=25;
             } else {
                 iv_green_account.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
             }
 
             if (userAccountModel.getAccount_status().isCredit_card()) {
                 iv_payment.setImageResource(R.drawable.ic_progress_checked);
+                percent+=25;
             } else {
                 iv_payment.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
             }
 
             if (userAccountModel.getAccount_status().isSkills()) {
                 iv_skills.setImageResource(R.drawable.ic_progress_checked);
+                percent+=25;
             } else {
                 iv_skills.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
             }
             if (userAccountModel.getAccount_status().isBadges()) {
+                percent+=25;
                 iv_badges.setImageResource(R.drawable.ic_progress_checked);
 
             } else {
                 iv_badges.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
             }
+            percentageChartView.setProgress(percent, false);
+
         }
     }
 }

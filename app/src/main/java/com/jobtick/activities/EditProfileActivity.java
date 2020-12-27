@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.inputmethodservice.ExtractEditText;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -119,7 +120,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_phone_number)
-    EditText edtPhoneNumber;
+    ExtendedEntryText edtPhoneNumber;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_about_me)
@@ -232,7 +233,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private boolean isUploadPortfolio = false;
     private boolean isFabHide = false;
     private AttachmentAdapterEditProfile adapter;
-    private LinearLayout btnVerify;
     private int cyear, cmonth, cday;
     private String str_due_date = null;
 
@@ -246,8 +246,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
         attachmentArrayList = new ArrayList<>();
         mBehavior = BottomSheetBehavior.from(bottomSheet);
-        btnVerify = findViewById(R.id.lyt_btn_close);
-        btnVerify.setOnClickListener(view -> verifyPhone());
+        edtPhoneNumber.setExtendedViewOnClickListener(this::verifyPhone);
         ivBack.setOnClickListener(v -> onBackPressed());
 
         init();
@@ -658,7 +657,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     @SuppressLint("NonConstantResourceId")
     @OnClick({R.id.rlt_btn_transportation, R.id.rlt_btn_languages,
             R.id.rlt_btn_education, R.id.rlt_btn_experience, R.id.rlt_btn_specialities, R.id.img_user_avatar, R.id.lytDeletePicture,
-            R.id.card_save_profile, R.id.lyt_btn_close})
+            R.id.card_save_profile})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.card_save_profile:
@@ -738,7 +737,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
     private void verifyPhone() {
         //it should work with Australian Numbers, format: +61*********
-        if (edtPhoneNumber.length() != 12) {
+        if (edtPhoneNumber.getText().length() != 12) {
             showToast("Please enter correct phone number", EditProfileActivity.this);
         } else {
             Intent intent = new Intent(this, MobileVerificationActivity.class);

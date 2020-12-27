@@ -1,21 +1,18 @@
 package com.jobtick.activities;
 
 import android.Manifest;
-import android.app.DatePickerDialog;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.inputmethodservice.ExtractEditText;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,9 +33,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.R;
-import android.annotation.SuppressLint;
-
-import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.AttachmentAdapterEditProfile;
 import com.jobtick.models.AttachmentModel;
@@ -262,14 +256,14 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private boolean validation() {
         if (TextUtils.isEmpty(edtFirstName.getText().trim())) {
             edtFirstName.setError("Enter first name");
-            showToast("Please fill inputs",this);
+            showToast("Please fill inputs", this);
             return false;
         } else if (TextUtils.isEmpty(edtLastName.getText().trim())) {
             edtLastName.setError("Enter last name");
-            showToast("Please fill inputs",this);
+            showToast("Please fill inputs", this);
             return false;
         } else if (TextUtils.isEmpty(txtSuburb.getText().trim())) {
-            showToast("Please fill inputs",this);
+            showToast("Please fill inputs", this);
             txtSuburb.setError("Select your location");
             return false;
         }
@@ -388,7 +382,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             cday = calendar.get(Calendar.DAY_OF_MONTH);
             showBottomSheetDialogDate();
         });
-        txtSuburb.setExtendedViewOnClickListener(() ->{
+        txtSuburb.setExtendedViewOnClickListener(() -> {
             Intent intent = new SuburbAutoComplete(this).getIntent();
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
@@ -737,13 +731,16 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         //it should work with Australian Numbers, format: +61*********
         if (edtPhoneNumber.getText().length() != 12) {
             showToast("Please enter correct phone number", EditProfileActivity.this);
-        } else {
-            Intent intent = new Intent(this, MobileVerificationActivity.class);
-            intent.putExtra("phone_number", edtPhoneNumber.getText().toString());
-            startActivityForResult(intent, PHONE_VERIFICATION_REQUEST_CODE);
+            return;
+        }
+        if (edtPhoneNumber.getText().toString().equals(userAccountModel.getMobile())) {
+            showToast("This phone number is already registered.", EditProfileActivity.this);
+            return;
         }
 
-
+        Intent intent = new Intent(this, MobileVerificationActivity.class);
+        intent.putExtra("phone_number", edtPhoneNumber.getText().toString());
+        startActivityForResult(intent, PHONE_VERIFICATION_REQUEST_CODE);
     }
 
     private void uploadDataInPortfolioMediaApi(File pictureFile) {
@@ -767,7 +764,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                 try {
                     String strResponse = response.body();
                     if (response.code() == HttpStatus.NOT_FOUND) {
-                       showToast("not found", EditProfileActivity.this);
+                        showToast("not found", EditProfileActivity.this);
                         return;
                     }
                     if (response.code() == HttpStatus.AUTH_FAILED) {
@@ -895,7 +892,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                     }
                 } else {
                     // failed to record video
-                   showToast("Sorry! Failed to Pickup Image", this);
+                    showToast("Sorry! Failed to Pickup Image", this);
                 }
             }
             if (requestCode == PHONE_VERIFICATION_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -1210,7 +1207,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         c.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
 
         calendarView.setMaxDate(c.getTimeInMillis());
-        if(userAccountModel.getDob() != null && !userAccountModel.getDob().equals(""))
+        if (userAccountModel.getDob() != null && !userAccountModel.getDob().equals(""))
             calendarView.setDate(TimeHelper.convertDateTimeToLong(userAccountModel.getDob()));
 
         TextView txtCancel = view.findViewById(R.id.txt_cancel);

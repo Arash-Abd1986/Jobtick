@@ -15,9 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:text="@string/job_details"
-        android:textAppearance="@style/materialText_500_14"
+        android:textAppearance="@style/materialText_400_16"
         android:textColor="@color/textColor" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:textAppearance="@style/materialText_600_14"
+        android:textAppearance="@style/materialText_500_17"
         android:textColor="@color/textColor"
         tools:text="Clean my two bedroom in my apartment" />
 
@@ -34,8 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/posted_by"
-        android:textAppearance="@style/materialText_500_14"
-        android:textColor="@color/colorPrimary" />
+        android:textAppearance="@style/materialText_700_12"
+        android:textColor="@color/grey_70" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
-            android:textAppearance="@style/materialText_600_14"
+            android:textAppearance="@style/materialText_500_17"
             android:textColor="@color/textColor"
             tools:text="Ammy Stevenson" />
     </LinearLayout>
@@ -67,15 +67,16 @@
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_map_pin_blue_20dp"
         android:text="  Location"
+        android:gravity="center_vertical"
         android:layout_marginTop="24dp"
-        android:textAppearance="@style/materialText_500_14"
-        android:textColor="@color/colorPrimary" />
+        android:textAppearance="@style/materialText_400_13"
+        android:textColor="@color/N100" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/materialText_600_14"
+        android:textAppearance="@style/materialText_400_15"
         android:layout_marginTop="8dp"
         tools:text="Surfers Paradise, Australia"
         android:textColor="@color/textColor" />
@@ -85,15 +86,16 @@
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_clock_blue_20dp"
         android:text="  Due date"
+        android:gravity="center_vertical"
         android:layout_marginTop="24dp"
-        android:textAppearance="@style/materialText_500_14"
-        android:textColor="@color/colorPrimary" />
+        android:textAppearance="@style/materialText_400_13"
+        android:textColor="@color/N100" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/materialText_600_14"
+        android:textAppearance="@style/materialText_400_15"
         android:layout_marginTop="8dp"
         tools:text="Thu, August 12, 2020"
         android:textColor="@color/textColor" />
@@ -101,18 +103,19 @@
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:drawableStart="@drawable/ic_file_text_blue_20dp"
         android:text="  Details"
-        android:layout_marginTop="24dp"
-        android:textAppearance="@style/materialText_500_14"
-        android:textColor="@color/colorPrimary" />
+        android:gravity="center_vertical"
+        android:textAppearance="@style/materialText_400_13"
+        android:textColor="@color/N100" />
 
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvDesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/materialText_500_14"
+            android:textAppearance="@style/materialText_400_15"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="32dp"
             tools:text="Excepteur qui qui fugiat et esse palar voluptate exercitation esse officia cillum occaecat culpa pariatur. Nisi in ut tempor laborum are officia dolore ad occaecat. Anim a voluptate proident ea commodo qui velit officia minim."

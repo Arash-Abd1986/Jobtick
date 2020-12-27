@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content">
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_600_14"
+                        style="@style/materialText_400_14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
@@ -56,7 +56,7 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_distance_km"
-                        style="@style/materialText_700_14"
+                        style="@style/materialText_500_16"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -105,7 +105,7 @@
 
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_600_14"
+                        style="@style/materialText_400_14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
@@ -115,7 +115,7 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_price_min_max"
-                        style="@style/materialText_700_14"
+                        style="@style/materialText_500_16"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -157,7 +157,7 @@
 
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_500_14"
+                    style="@style/materialText_400_14"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

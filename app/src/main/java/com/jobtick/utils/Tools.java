@@ -89,7 +89,12 @@ public class Tools {
         Date date = sdf.parse(dateString);
         return date.getTime();
     }
-
+    public static long chatDateToMillis(String dateString) throws ParseException {
+        dateString =dateString.replace("T"," ");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss+00:00", Locale.getDefault());
+        Date date = sdf.parse(dateString);
+        return date.getTime();
+    }
     public static long compareTwoDate(String untilDate) {
         Date userDob = null;
         try {

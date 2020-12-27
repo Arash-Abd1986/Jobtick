@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -311,9 +312,11 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         long timeMilliSeconds;
         try {
-            timeMilliSeconds = Tools.dateToMillis(createdAt);
+            timeMilliSeconds = Tools.chatDateToMillis(createdAt);
+            Log.d("ChatCheck","hi");
         } catch (Exception ignored) {
             timeMilliSeconds = 0;
+            Log.d("ChatCheck",ignored.getMessage());
         }
 
         if (timeMilliSeconds > 0) {
@@ -322,7 +325,23 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             return null;
         }
     }
-
+//    private String parseCreatedMessage(String createdAt) {
+//
+//        long timeMilliSeconds;
+//        try {
+//            timeMilliSeconds = Tools.chatDateToMillis(createdAt);
+//            Log.d("ChatCheck","hi");
+//        } catch (Exception ignored) {
+//            timeMilliSeconds = 0;
+//            Log.d("ChatCheck",ignored.getMessage());
+//        }
+//
+//        if (timeMilliSeconds > 0) {
+//            return Tools.formatLocalTime(timeMilliSeconds);
+//        } else {
+//            return null;
+//        }
+//    }
     public static class ProgressHolder extends BaseViewHolder {
         ProgressHolder(View itemView) {
             super(itemView);

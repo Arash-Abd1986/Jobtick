@@ -286,16 +286,16 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             txtOnlyDate.setVisibility(View.GONE);
             try {
-                final long first = Tools.dateToMillis(mItems.get(position - 1).getCreatedAt());
-                final long second = Tools.dateToMillis(item.getCreatedAt());
+                final long first = Tools.chatDateToMillis(mItems.get(position - 1).getCreatedAt());
+                final long second = Tools.chatDateToMillis(item.getCreatedAt());
                 if (!Tools.hasSameDate(first, second)) {
                     txtOnlyDate.setVisibility(View.VISIBLE);
-                    txtOnlyDate.setText(Tools.formatFullDate(item.getCreatedAt()));
+                    txtOnlyDate.setText(Tools.formatChatFullDate(item.getCreatedAt()));
                 }
             } catch (Exception e) {
                 if (position == 0) {
                     txtOnlyDate.setVisibility(View.VISIBLE);
-                    txtOnlyDate.setText(Tools.formatFullDate(item.getCreatedAt()));
+                    txtOnlyDate.setText(Tools.formatChatFullDate(item.getCreatedAt()));
                 }
             }
         }
@@ -313,10 +313,8 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         long timeMilliSeconds;
         try {
             timeMilliSeconds = Tools.chatDateToMillis(createdAt);
-            Log.d("ChatCheck","hi");
         } catch (Exception ignored) {
             timeMilliSeconds = 0;
-            Log.d("ChatCheck",ignored.getMessage());
         }
 
         if (timeMilliSeconds > 0) {

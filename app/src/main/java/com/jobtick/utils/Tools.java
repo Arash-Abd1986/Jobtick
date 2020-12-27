@@ -52,7 +52,16 @@ public class Tools {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
         return dateFormat.format(timeInMillis).toUpperCase();
     }
-
+    public static String formatChatFullDate(String timeString) {
+        long timeInMillis = 0;
+        try {
+            timeInMillis = chatDateToMillis(timeString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
+        return dateFormat.format(timeInMillis).toUpperCase();
+    }
 
     public static String formatLocalTime(long timeInMillis) {
         SimpleDateFormat dateFormatUTC = new SimpleDateFormat("hh:mm a", Locale.getDefault());

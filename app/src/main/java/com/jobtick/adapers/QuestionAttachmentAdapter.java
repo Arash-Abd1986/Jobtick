@@ -142,6 +142,14 @@ public class QuestionAttachmentAdapter extends RecyclerView.Adapter<RecyclerView
         }
     }
 
+    public int getSize()
+    {
+        return items.size();
+    }
+    public AttachmentModel getAttachment(int i)
+    {
+        return items.get(i);
+    }
     public class ADDViewHolder extends RecyclerView.ViewHolder {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.rlt_add_attachment)

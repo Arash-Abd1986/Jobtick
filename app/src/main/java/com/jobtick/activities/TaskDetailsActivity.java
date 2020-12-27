@@ -1715,8 +1715,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     edtComment.setError("?");
                     return;
                 } else {
-                    if (attachmentArrayList_question.size() > 0)
-                        attachmentArrayList_question.remove(attachmentArrayList_question.size() - 1);
+
                     if (attachmentArrayList_question.size() == 0) {
                         postComment(
                                 edtComment.getText().toString().trim(),
@@ -1725,9 +1724,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     } else {
                         postComment(
                                 edtComment.getText().toString().trim(),
-                                attachmentArrayList_question
+                                adapter
                         );
                     }
+//                    if (attachmentArrayList_question.size() > 0)
+//                        attachmentArrayList_question.remove(attachmentArrayList_question.size() - 1);
                 }
                 break;
             case R.id.lyt_btn_message:
@@ -2002,7 +2003,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
 
-    private void postComment(String str_comment, ArrayList<AttachmentModel> attachmentModels) {
+    private void postComment(String str_comment, QuestionAttachmentAdapter attachmentModels) {
         if (str_comment.length() < 5) {
             showToast("The question text must be at least 5 characters", this);
             return;
@@ -2084,14 +2085,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("question_text", str_comment);
-                if (attachmentModels != null && attachmentModels.size() != 0) {
-                    for (int i = 0; attachmentModels.size() > i; i++) {
-                        map1.put("attachments[" + i + "]", String.valueOf(attachmentModels.get(i).getId()));
+                if (attachmentModels != null && attachmentModels.getSize() != 0) {
+                    for (int i = 0; attachmentModels.getSize() > i; i++) {
+                        Log.d("AttachmentCheck","attachments[" + i + "]:"+String.valueOf(attachmentModels.getAttachment(i).getId()));
+                        map1.put("attachments[" + i + "]", String.valueOf(attachmentModels.getAttachment(i).getId()));
                     }
                 }
                 return map1;
             }
         };
+
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(TaskDetailsActivity.this);

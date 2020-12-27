@@ -104,7 +104,7 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
                 Helper.closeKeyboard(authActivity);
                 Fragment fragment = new ForgotPassword1Fragment();
                 FragmentTransaction ft = authActivity.getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.auth_layout, fragment);
+                ft.replace(R.id.auth_layout, fragment).addToBackStack(ForgotPassword1Fragment.class.getName());
                 ft.addToBackStack(null);
                 ft.commit();
                 break;
@@ -124,7 +124,7 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
                 Helper.closeKeyboard(authActivity);
                 fragment = new SignUpFragment();
                 ft = authActivity.getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.auth_layout, fragment);
+                ft.replace(R.id.auth_layout, fragment).addToBackStack(SignUpFragment.class.getName());
                 ft.commit();
                 // authActivity.switchContent(new SignUpFragment());
                 break;

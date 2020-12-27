@@ -117,7 +117,7 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
                 Helper.closeKeyboard(authActivity);
                 Fragment fragment = new SignInFragment();
                 FragmentTransaction ft = authActivity.getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.auth_layout, fragment);
+                ft.replace(R.id.auth_layout, fragment).addToBackStack(SignInFragment.class.getName());
                 ft.commit();
                 break;
             case R.id.txt_btn_terms:

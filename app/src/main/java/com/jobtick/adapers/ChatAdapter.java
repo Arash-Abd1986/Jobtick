@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -225,7 +226,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     txtMsgTime.setVisibility(View.VISIBLE);
                     txtMsgTime.setText(time);
                 } else {
-                    txtMsgTime.setVisibility(View.GONE);
+                    txtMsgTime.setVisibility(View.VISIBLE);
                 }
 
                 if (item.getSenderId().equals(sender_id)) {
@@ -246,55 +247,55 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
 //            ONLY MESSAGE FILE
             if (item.getAttachment() != null) {
-                    view_text_chat.setVisibility(View.GONE);
-                    view_file_chat.setVisibility(View.VISIBLE);
-                    txtShowMessageF.setText(item.getAttachment().getFileName());
-                    String time = parseCreatedMessage(item.getCreatedAt());
-                    if (time != null) {
-                        txtMsgTimeF.setVisibility(View.VISIBLE);
-                        txtMsgTimeF.setText(time);
-                    } else {
-                        txtMsgTimeF.setVisibility(View.GONE);
-                    }
+                view_text_chat.setVisibility(View.GONE);
+                view_file_chat.setVisibility(View.VISIBLE);
+                txtShowMessageF.setText(item.getAttachment().getFileName());
+                String time = parseCreatedMessage(item.getCreatedAt());
+                if (time != null) {
+                    txtMsgTimeF.setVisibility(View.VISIBLE);
+                    txtMsgTimeF.setText(time);
+                } else {
+                    txtMsgTimeF.setVisibility(View.GONE);
+                }
 
-                    if (item.getSenderId().equals(sender_id)) {
-                        if (item.getIsSeen() == 1) {
-                            doubleTickF.setVisibility(View.VISIBLE);
-                        } else {
-                            doubleTickF.setVisibility(View.GONE);
-                        }
+                if (item.getSenderId().equals(sender_id)) {
+                    if (item.getIsSeen() == 1) {
+                        doubleTickF.setVisibility(View.VISIBLE);
                     } else {
                         doubleTickF.setVisibility(View.GONE);
                     }
+                } else {
+                    doubleTickF.setVisibility(View.GONE);
+                }
 
-                    ImageUtil.displayImage(imagePathF, item.getAttachment().getModalUrl(), null);
-                    imagePathF.setOnClickListener(v -> {
-                        ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
-                        AttachmentModel model = new AttachmentModel();
-                        model.setModalUrl(item.getAttachment().getModalUrl());
-                        attachmentArrayList.add(model);
-                        Intent intent = new Intent(context, ZoomImageActivity.class);
-                        intent.putExtra("url", attachmentArrayList);
-                        intent.putExtra("title", "");
-                        intent.putExtra("pos", position);
-                        context.startActivity(intent);
-                    });
+                ImageUtil.displayImage(imagePathF, item.getAttachment().getModalUrl(), null);
+                imagePathF.setOnClickListener(v -> {
+                    ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
+                    AttachmentModel model = new AttachmentModel();
+                    model.setModalUrl(item.getAttachment().getModalUrl());
+                    attachmentArrayList.add(model);
+                    Intent intent = new Intent(context, ZoomImageActivity.class);
+                    intent.putExtra("url", attachmentArrayList);
+                    intent.putExtra("title", "");
+                    intent.putExtra("pos", position);
+                    context.startActivity(intent);
+                });
             }
 
 //TODO:            ONLY MESSAGE VIDEO
 
             txtOnlyDate.setVisibility(View.GONE);
             try {
-                final long first = Tools.dateToMillis(mItems.get(position - 1).getCreatedAt());
-                final long second = Tools.dateToMillis(item.getCreatedAt());
+                final long first = Tools.chatDateToMillis(mItems.get(position - 1).getCreatedAt());
+                final long second = Tools.chatDateToMillis(item.getCreatedAt());
                 if (!Tools.hasSameDate(first, second)) {
                     txtOnlyDate.setVisibility(View.VISIBLE);
-                    txtOnlyDate.setText(Tools.formatFullDate(item.getCreatedAt()));
+                    txtOnlyDate.setText(Tools.formatChatFullDate(item.getCreatedAt()));
                 }
             } catch (Exception e) {
                 if (position == 0) {
                     txtOnlyDate.setVisibility(View.VISIBLE);
-                    txtOnlyDate.setText(Tools.formatFullDate(item.getCreatedAt()));
+                    txtOnlyDate.setText(Tools.formatChatFullDate(item.getCreatedAt()));
                 }
             }
         }
@@ -311,7 +312,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         long timeMilliSeconds;
         try {
-            timeMilliSeconds = Tools.dateToMillis(createdAt);
+            timeMilliSeconds = Tools.chatDateToMillis(createdAt);
         } catch (Exception ignored) {
             timeMilliSeconds = 0;
         }
@@ -322,7 +323,23 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             return null;
         }
     }
-
+//    private String parseCreatedMessage(String createdAt) {
+//
+//        long timeMilliSeconds;
+//        try {
+//            timeMilliSeconds = Tools.chatDateToMillis(createdAt);
+//            Log.d("ChatCheck","hi");
+//        } catch (Exception ignored) {
+//            timeMilliSeconds = 0;
+//            Log.d("ChatCheck",ignored.getMessage());
+//        }
+//
+//        if (timeMilliSeconds > 0) {
+//            return Tools.formatLocalTime(timeMilliSeconds);
+//        } else {
+//            return null;
+//        }
+//    }
     public static class ProgressHolder extends BaseViewHolder {
         ProgressHolder(View itemView) {
             super(itemView);
@@ -333,7 +350,5 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
     }
 }
-
-
 
 

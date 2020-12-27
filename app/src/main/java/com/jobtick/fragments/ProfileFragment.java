@@ -85,6 +85,10 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     ImageView ivCall;
 
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.ivCard)
+    ImageView ivCard;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_about)
     TextView txtAbout;
 
@@ -341,7 +345,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         });
 
         init();
-        
+
 
         getAllProfileData();
         initComponent();
@@ -547,6 +551,11 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
         {
             ivCall.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable);
         }
+        if(userAccountModel.getAccount_status()!=null && userAccountModel.getAccount_status().isBadges())
+        {
+            ivCard.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable);
+        }
+
 
         if (userAccountModel.getAbout() == null || userAccountModel.getAbout().equals("")) {
             txtAbout.setText("");

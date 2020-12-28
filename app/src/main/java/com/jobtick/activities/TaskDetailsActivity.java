@@ -1690,7 +1690,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (questionCount == 0) {
             txtQuestionsCount.setText("Question");
         } else {
-            txtQuestionsCount.setText("Question (" + questionCount + ")");
+            txtQuestionsCount.setText("Questions (" + questionCount + ")");
         }
 
         //TODO taskModel.getQuestionCount() > 5
@@ -2295,7 +2295,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }
         }
 
-        if (requestCode == 21) {
+        if (requestCode == 21 || requestCode==20) {
             getDataOnlyQuestions();
         }
 

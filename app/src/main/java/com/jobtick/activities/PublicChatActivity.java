@@ -266,9 +266,9 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         recyclerViewOfferChat.setAdapter(publicChatListAdapter);
         // publicChatListAdapter.setOnItemClickListener(this);
         if (offerModel.getTaskId() != null) {
-            doApiCall(Constant.URL_OFFERS + "/" + offerModel.getId());
+            doApiCall(Constant.URL_OFFERS + "/" + offerModel.getId(),true);
         } else {
-            doApiCall(Constant.URL_QUESTIONS + "/" + questionModel.getId());
+            doApiCall(Constant.URL_QUESTIONS + "/" + questionModel.getId(),false);
         }
     }
 
@@ -341,6 +341,8 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
             } else {
                 recyclerViewQuestion.setVisibility(View.GONE);
             }
+
+
             txtCreatedDateQuestion.setText(questionModel.getCreatedAt());
         }
     }
@@ -436,6 +438,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                         Timber.e(response);
                         hideProgressDialog();
                         try {
+                            Log.d("ChatCheck","added");
                             JSONObject jsonObject = new JSONObject(response);
                             Timber.e(jsonObject.toString());
                             if (jsonObject.has("success") && !jsonObject.isNull("success")) {
@@ -445,6 +448,8 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                                     CommentModel commentModel = new CommentModel().getJsonToModel(jsonObject_offer_chat);
 //                                    edtCommentMessage.setHint("Question");
                                     publicChatListAdapter.addItem(commentModel);
+
+
                                 } else {
                                     showToast("Something went Wrong", PublicChatActivity.this);
                                 }
@@ -452,6 +457,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                         } catch (JSONException e) {
                             Timber.e(String.valueOf(e));
                             e.printStackTrace();
+                            Log.d("ChatCheck","error"+e.getMessage());
                         }
                     }
                 },
@@ -531,7 +537,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     }
 
 
-    private void doApiCall(String url) {
+    private void doApiCall(String url,boolean isOffer) {
         ArrayList<CommentModel> items = new ArrayList<>();
         Helper.closeKeyboard(PublicChatActivity.this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + "/comments",
@@ -555,7 +561,15 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                             publicChatListAdapter.clear();
                             publicChatListAdapter.addItems(items);
 
-                            recyclerViewOfferChat.scrollToPosition(items.size() - 1);
+                            if(isOffer) {
+                                recyclerViewOfferChat.scrollToPosition(items.size() - 1);
+                            }else{
+                                LinearLayoutManager layoutManager = new LinearLayoutManager(PublicChatActivity.this);
+                                recyclerViewQuestion.setVisibility(View.VISIBLE);
+                                recyclerViewQuestion.setLayoutManager(layoutManager);
+                                recyclerViewQuestion.setAdapter(publicChatListAdapter);
+                                recyclerViewQuestion.scrollToPosition(items.size() - 1);
+                            }
                             recyclerViewQuestion.scrollToPosition(items.size() - 1);
 
                         } catch (JSONException e) {

@@ -135,7 +135,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
 
     public void addItem(CommentModel mItem) {
         this.mItems.add(mItem);
-        notifyDataSetChanged();
+        notifyItemInserted(mItems.size());
     }
 
     public void addLoading() {

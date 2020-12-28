@@ -202,6 +202,8 @@ public class ViewAllQuestionsActivity extends ActivityBase implements SwipeRefre
     public void onItemQuestionClick(View view, QuestionModel obj, int position, String action) {
         if (action.equalsIgnoreCase("reply")) {
             Intent intent = new Intent(ViewAllQuestionsActivity.this, PublicChatActivity.class);
+            TaskDetailsActivity.questionModel = obj;
+            TaskDetailsActivity.isOfferQuestion = "question";
             Bundle bundle = new Bundle();
             bundle.putParcelable(ConstantKey.QUESTION_LIST_MODEL, obj);
             intent.putExtras(bundle);

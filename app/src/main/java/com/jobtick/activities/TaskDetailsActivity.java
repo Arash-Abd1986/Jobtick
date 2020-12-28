@@ -312,12 +312,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.txt_budgets)
     TextView budget;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.card_cancel_background)
-    CardView cardCancelBackground;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.card_cancelled)
-    CardView cardCancelled;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.liAssign)
     LinearLayout liAssign;
     @SuppressLint("NonConstantResourceId")
@@ -582,10 +576,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusAssigned.setSelected(false);
                 txtStatusCompleted.setSelected(false);
                 txtStatusCancelled.setSelected(true);
-                if (isUserThePoster) {
-                    cardCancelled.setVisibility(View.VISIBLE);
-                    cardCancelBackground.setVisibility(View.VISIBLE);
-                }
+
                 txtStatusOverdue.setSelected(false);
                 txtStatusReviewed.setSelected(false);
                 txtStatusOpen.setVisibility(View.VISIBLE);
@@ -1754,8 +1745,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     @SuppressLint("NonConstantResourceId")
     @OnClick({R.id.lyt_btn_view_all_questions, R.id.lyt_btn_comment_send, R.id.lyt_btn_message, R.id.first_offer,
-            R.id.lyt_btn_view_all_offers, R.id.txt_btn_text, R.id.lyt_btn_make_an_offer,
-            R.id.card_cancelled, R.id.li_repost, R.id.liAssign, R.id.linearUserProfile})
+            R.id.lyt_btn_view_all_offers, R.id.txt_btn_text, R.id.lyt_btn_make_an_offer, R.id.liAssign, R.id.linearUserProfile})
     public void onViewClicked(View view) {
         Intent intent;
         Bundle bundle;
@@ -1854,10 +1844,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         break;
 
                 }
-                break;
-            case R.id.card_cancelled:
-            case R.id.li_repost:
-                copyTask(taskModel);
                 break;
             case R.id.liAssign:
                 Intent workerIntent = new Intent(TaskDetailsActivity.this, ProfileActivity.class);

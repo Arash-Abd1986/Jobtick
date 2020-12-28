@@ -1544,14 +1544,18 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void deleteTaskPermanent(String slug) {
+        Log.d("DeleteCheck","delete start");
+
         showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, URL_TASKS + "/" + slug,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + slug+"/cancellation",
                 response -> {
                     Timber.e(response);
                     try {
+                        Log.d("DeleteCheck","delete try");
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
+                                getData();
                                 showSuccessToast("Task Deleted Successfully", TaskDetailsActivity.this);
                             } else {
                                 showToast("Task not deleted", TaskDetailsActivity.this);
@@ -1563,6 +1567,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     } catch (JSONException e) {
                         hideProgressDialog();
                         e.printStackTrace();
+                        Log.d("DeleteCheck","delete catch");
                     }
 
                 },
@@ -1570,13 +1575,17 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     hideProgressDialog();
 
                     //  swipeRefresh.setRefreshing(false);
-                    errorHandle1(error.networkResponse);
+                    Log.d("DeleteCheck",sessionManager.getAccessToken());
+                    Log.d("DeleteCheck",slug);
+                    Log.d("DeleteCheck","delete error:"+error.networkResponse.statusCode+":"+error.networkResponse.data.toString());
+//                    errorHandle1(error.networkResponse);
                 }) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Content-Type", "application/json");
+                map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
             }
         };

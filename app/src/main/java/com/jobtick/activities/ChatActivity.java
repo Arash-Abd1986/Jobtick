@@ -165,7 +165,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     ProgressBar pbLoading;
 
 
-    private ConversationModel conversationModel;
+    public static ConversationModel conversationModel;
     private ChatAdapter adapter;
     private ArrayList<ChatModel> chatModelArrayList;
     private boolean isUploadPortfolio = false;
@@ -213,7 +213,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
         //wait
         attachment = new AttachmentModel();
-        conversationModel = new ConversationModel(ChatActivity.this);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -221,7 +220,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 try {
                     conversationModel = bundle.getParcelable(ConstantKey.CONVERSATION);
                 }catch (Exception e){
-
+                    e.printStackTrace();
                 }
             }
         }

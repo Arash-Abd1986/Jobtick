@@ -22,11 +22,14 @@ import com.jobtick.R;
 import android.annotation.SuppressLint;
 
 import com.jobtick.adapers.NotificationListAdapter;
+import com.jobtick.models.ConversationModel;
+import com.jobtick.models.UserAccountModel;
 import com.jobtick.models.notification.NotifDatum;
 import com.jobtick.models.notification.PushNotificationModel2;
 import com.jobtick.pagination.PaginationListener;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,12 +66,14 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
     NotificationListAdapter notificationListAdapter;
     private PushNotificationModel2 pushNotificationModel2;
     private LinearLayout noNotifications;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
         ButterKnife.bind(this);
+        sessionManager = new SessionManager(this);
         noNotifications = findViewById(R.id.no_notifications_container);
         initToolbar();
         initComponent();
@@ -276,8 +281,21 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
                 startActivity(intent);
             }else if(obj.getData().getTrigger().equals("conversation")) {
 
+                ConversationModel model = new ConversationModel(obj.getData().getConversation().getId(),
+                        obj.getUserAccountModel().getName(), obj.getData().getTaskId(), null, null, obj.getCreatedAt(),
+                        sessionManager.getUserAccount(),
+                        obj.getUserAccountModel(),
+                        obj.getData().getTaskSlug(), obj.getData().getTaskStatus());
 
+                Intent intent = new Intent(this, ChatActivity.class);
+                Bundle bundle = new Bundle();
+                ChatActivity.conversationModel = model;
+            //    bundle.putParcelable(ConstantKey.CONVERSATION, model);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         }
+
+
     }
 }

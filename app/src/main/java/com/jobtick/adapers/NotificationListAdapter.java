@@ -147,8 +147,8 @@ public class NotificationListAdapter extends RecyclerView.Adapter<BaseViewHolder
             super.onBind(position);
             NotifDatum item = mItems.get(position);
 
-            if(item.getUser() != null && item.getUser().getAvatar() != null && item.getUser().getAvatar().getUrl() != null)
-                Glide.with(profileAvatar).load(item.getUser().getAvatar().getUrl()).into(profileAvatar);
+            if(item.getUserAccountModel() != null && item.getUserAccountModel().getAvatar() != null && item.getUserAccountModel().getAvatar().getUrl() != null)
+                Glide.with(profileAvatar).load(item.getUserAccountModel().getAvatar().getUrl()).into(profileAvatar);
 
             notificationTitle.setText(Html.fromHtml(item.getData().getTitle()));
             notificationTime.setText(TimeHelper.findDifferenceWithNow(item.getCreatedAt()));

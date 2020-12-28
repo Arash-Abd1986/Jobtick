@@ -27,6 +27,7 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
     private int eMinSize;
     private int eMaxSize;
     private final boolean eStartFocus;
+    private final boolean eSingleLine;
     private int eImeOptions;
 
     private final TextView textView;
@@ -57,6 +58,7 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
             eContent = sharedAttribute.getString(R.styleable.ExtendedCommentText_eContent);
             eHint = sharedAttribute.getString(R.styleable.ExtendedCommentText_eHint);
             eStartFocus = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_eStartFocusComment, false);
+            eSingleLine = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_eSingleLine, false);
             eMinSize = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMinCharSize, 10);
             eMaxSize = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMaxCharSize, 100);
             isMandatory = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_eIsMandatory, false);
@@ -80,6 +82,10 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
         textView.setText(eTitle);
         editText.setText(eContent);
         editText.setHint(eHint);
+        if(eSingleLine)
+            editText.setMaxLines(1);
+        editText.setSingleLine(eSingleLine);
+
         editText.setOnFocusChangeListener(this);
         editText.addTextChangedListener(this);
         setOnClickListener(this);

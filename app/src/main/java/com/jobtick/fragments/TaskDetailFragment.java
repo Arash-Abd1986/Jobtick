@@ -60,6 +60,7 @@ import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.utils.Tools;
+import com.jobtick.widget.ExtendedCommentText;
 import com.jobtick.widget.ExtendedEntryText;
 import com.jobtick.widget.SpacingItemDecoration;
 
@@ -100,17 +101,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     @BindView(R.id.lyt_btn_budget)
     LinearLayout lytBtnBudget;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_title_counter)
-    TextView edtTitleCounter;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_title)
-    EditText edtTitle;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_description_counter)
-    TextView edtDescriptionCounter;
+    ExtendedCommentText edtTitle;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_description)
-    EditText edtDescription;
+    ExtendedCommentText edtDescription;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_add_must_have)
     RecyclerView recyclerAddMustHave;
@@ -257,92 +252,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         });
 
         setComponent();
-
         init();
 
-        if (!edtTitle.getText().toString().equalsIgnoreCase("")) {
-            int length = edtTitle.getText().toString().trim().length();
-            if (length <= 9) {
-                edtTitleCounter.setText(edtTitle.getText().toString().trim().length() + "/10+");
-                edtTitleCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
-            } else {
-                edtTitleCounter.setText(edtTitle.getText().toString().trim().length() + "/100");
-                edtTitleCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.green));
-            }
-        } else {
-            edtTitleCounter.setText("0/10+");
-            edtTitleCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
-        }
-
-        edtTitle.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!s.toString().equalsIgnoreCase("")) {
-                    int length = s.length();
-                    if (length <= 9) {
-                        edtTitleCounter.setText(s.length() + "/10+");
-                        edtTitleCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
-                    } else {
-                        edtTitleCounter.setText(s.length() + "/100");
-                        edtTitleCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.green));
-                    }
-                } else {
-                    edtTitleCounter.setText("0/10+");
-                    edtTitleCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
-                }
-            }
-        });
-
-
-        if (!edtDescription.getText().toString().equalsIgnoreCase("")) {
-            int length = edtTitle.getText().toString().trim().length();
-            if (length <= 24) {
-                edtDescriptionCounter.setText(edtTitle.getText().toString().trim().length() + "/25+");
-                edtDescriptionCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
-            } else {
-                edtDescriptionCounter.setText(edtTitle.getText().toString().trim().length() + "/500");
-                edtDescriptionCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.green));
-            }
-        } else {
-            edtDescriptionCounter.setText("0/25+");
-            edtDescriptionCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
-        }
-
-
-        edtDescription.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!s.toString().equalsIgnoreCase("")) {
-                    int length = s.length();
-                    if (length <= 24) {
-                        edtDescriptionCounter.setText(s.length() + "/25+");
-                        edtDescriptionCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
-                    } else {
-                        edtDescriptionCounter.setText(s.length() + "/500");
-                        edtDescriptionCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.green));
-                    }
-                } else {
-                    edtDescriptionCounter.setText("0/25+");
-                    edtDescriptionCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
-                }
-            }
-        });
     }
 
     private void setComponent() {

@@ -25,96 +25,34 @@
 
             <include layout="@layout/view_post_job_tab" />
 
-            <RelativeLayout
+            <com.jobtick.widget.ExtendedCommentText
+                android:id="@+id/edt_title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
+                app:eTitle="@string/job_title"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:background="@drawable/linear_rounded_white_fill_7dp"
-                android:padding="12dp">
+                app:eMinCharSize="10"
+                app:eMaxCharSize="60"
+                app:eIsMandatory="true"
+                app:eSingleLine="true"
+                app:eImeOptionsComment="actionNext"/>
 
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_400_13"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toStartOf="@id/edt_title_counter"
-                    android:text="@string/job_title"
-                    android:textColor="@color/colorPrimary" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/edt_title_counter"
-                    style="@style/materialText_400_13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:background="@null"
-                    android:singleLine="true"
-                    android:text="0/10+"
-                    android:textColor="@color/red_600" />
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_title"
-                    android:textAppearance="@style/materialText_400_15"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/edt_title_counter"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="4dp"
-                    android:background="@null"
-                    android:maxLength="100"
-                    android:singleLine="true"
-                    android:textColor="@color/textColor" />
-            </RelativeLayout>
-
-            <RelativeLayout
+            <com.jobtick.widget.ExtendedCommentText
+                android:id="@+id/edt_description"
                 android:layout_width="match_parent"
-                android:layout_height="114dp"
+                android:layout_height="125dp"
+                app:eTitle="@string/job_description"
+                app:eIsMandatory="true"
+                app:eMinCharSize="25"
+                app:eMaxCharSize="500"
+                app:eImeOptionsComment="normal"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:background="@drawable/linear_rounded_white_fill_7dp"
-                android:padding="12dp">
-
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_400_13"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toStartOf="@id/edt_description_counter"
-                    android:text="@string/job_description"
-                    android:textColor="@color/colorPrimary" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/edt_description_counter"
-                    style="@style/materialText_400_13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:singleLine="true"
-                    android:text="0/25+"
-                    android:textColor="@color/red_600" />
-
-                <com.jobtick.edit_text.EditTextRegular
-                    android:id="@+id/edt_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/edt_description_counter"
-                    android:layout_alignParentStart="true"
-                    android:background="@null"
-                    android:gravity="top|start"
-                    android:inputType="textMultiLine"
-                    android:maxLength="500"
-                    android:minHeight="60dp"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/_15sp" />
-            </RelativeLayout>
+                android:layout_marginBottom="@dimen/spacing_middle"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

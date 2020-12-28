@@ -239,12 +239,10 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
             if (currentText.length() < edtDescription.geteMinSize()) {
                 saveQuickOfferTxt.setEnabled(false);
-                saveQuickOfferTxt.setTextColor(ContextCompat.getColor(requireContext(), R.color.quickOfferColorDisable));
-                saveQuickOfferTxt.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_save_as_quick_offer_disabled));
+                saveQuickOfferTxt.setAlpha(0.5f);
             } else {
                 saveQuickOfferTxt.setEnabled(true);
-                saveQuickOfferTxt.setTextColor(ContextCompat.getColor(requireContext(), R.color.quickOfferColor));
-                saveQuickOfferTxt.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_save_as_quick_offer_enabled));
+                saveQuickOfferTxt.setAlpha(1f);
             }
         }
     }

@@ -83,7 +83,7 @@
                                 android:src="@drawable/ic_info2"
                                 app:tint="@color/colorPrimary" />
 
-                            <com.jobtick.text_view.TextViewRegular
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
@@ -92,7 +92,7 @@
                                 android:lineHeight="20dp"
                                 android:text="Once your offer is accepted, you agree to complete the job. Any cancellation may lead to deduction of cancellation fee."
                                 android:textColor="@color/textColor"
-                                android:textSize="@dimen/_13sp" />
+                                android:textAppearance="@style/materialText_400_15" />
                         </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -120,7 +120,7 @@
                         android:textColor="@color/grey_70"
                         android:textSize="@dimen/_14sp" />
 
-                    <com.jobtick.text_view.TextViewBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_total_budget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
                         android:layout_marginEnd="@dimen/_10sp"
                         android:text="$200"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_18sp" />
+                        android:textAppearance="@style/materialText_500_17" />
 
                 </LinearLayout>
 
@@ -152,15 +152,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <com.jobtick.text_view.TextViewMedium
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_5sp"
                                 android:text="Service Fee:"
                                 android:textColor="@color/grey_70"
-                                android:textSize="@dimen/_14sp" />
+                                android:textAppearance="@style/materialText_400_15" />
 
-                            <com.jobtick.text_view.TextViewSemiBold
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_service_fee"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -168,7 +168,7 @@
                                 android:layout_marginEnd="@dimen/_15sp"
                                 android:text="$20"
                                 android:textColor="@color/textColor"
-                                android:textSize="@dimen/_18sp" />
+                                android:textAppearance="@style/materialText_500_17" />
 
                         </RelativeLayout>
 
@@ -180,7 +180,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <com.jobtick.text_view.TextViewSemiBold
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
@@ -188,9 +188,9 @@
                                 android:layout_marginStart="@dimen/_5sp"
                                 android:text="You’ll Receive:"
                                 android:textColor="@color/textColor"
-                                android:textSize="@dimen/_14sp" />
+                                android:textAppearance="@style/materialText_500_17" />
 
-                            <com.jobtick.text_view.TextViewBold
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_receive_budget"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -198,7 +198,7 @@
                                 android:layout_marginEnd="@dimen/_15sp"
                                 android:text="$180"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/_22sp" />
+                                android:textAppearance="@style/materialText_400_20" />
                         </RelativeLayout>
                     </LinearLayout>
                 </FrameLayout>
@@ -288,7 +288,7 @@
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
-            <com.jobtick.text_view.TextViewRegular
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_review_conditions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -298,7 +298,7 @@
                 android:lineHeight="17dp"
                 android:text="@string/review_conditions"
                 android:textColor="@color/grey_70"
-                android:textSize="@dimen/_12sp" />
+                android:textAppearance="@style/materialText_400_13" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/lyt_btn_submit_offer"

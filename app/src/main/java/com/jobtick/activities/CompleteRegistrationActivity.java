@@ -24,11 +24,6 @@ import com.google.android.material.button.MaterialButton;
 import com.jobtick.fragments.SelectRoleBottomSheet;
 import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.widget.ExtendedEntryText;
-import com.mapbox.api.geocoding.v5.models.CarmenFeature;
-import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
-import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
@@ -235,14 +230,11 @@ public class CompleteRegistrationActivity extends ActivityBase implements Select
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == RESULT_OK) {
 
-            // Retrieve the information from the selected location's CarmenFeature
             Helper.closeKeyboard(this);
-            CarmenFeature carmenFeature = PlacePicker.getPlace(data);
-            Helper.Logger("THIS", "CarmenFeature = " + carmenFeature.toJson());
 
-            suburb.setText(carmenFeature.placeName());
-            str_latitude = String.valueOf(carmenFeature.center().latitude());
-            str_longitude = String.valueOf(carmenFeature.center().longitude());
+            suburb.setText(SuburbAutoComplete.getSuburbName(data));
+            str_latitude = SuburbAutoComplete.getLatitude(data);
+            str_longitude = SuburbAutoComplete.getLongitude(data);
         }
     }
 

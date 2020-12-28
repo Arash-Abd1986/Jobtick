@@ -21,16 +21,16 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textAppearance="@style/materialText_400_15"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="24dp"
                 android:gravity="start"
                 android:text="@string/provide_a_billing_address"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/_14sp" />
+                android:textColor="@color/textColor" />
 
             <com.jobtick.widget.ExtendedEntryText
                 android:id="@+id/edt_address_line_1"

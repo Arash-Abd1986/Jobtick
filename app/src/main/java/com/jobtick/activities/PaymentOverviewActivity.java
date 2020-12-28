@@ -255,7 +255,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
             txtWallet.setVisibility(View.VISIBLE);
             txtWalletTitle.setVisibility(View.VISIBLE);
             wallet = creditCardModel.getData().get(1).getWallet().getBalance();
-            txtWallet.setText(String.format(Locale.ENGLISH, "-$ %.1f", wallet));
+            txtWallet.setText(String.format(Locale.ENGLISH, "$ %.1f", wallet));
         } else {
             throw new IllegalStateException("There is no wallet value in api using provided format of object.");
         }

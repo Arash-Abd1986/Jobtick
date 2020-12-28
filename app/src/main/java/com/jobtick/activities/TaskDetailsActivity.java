@@ -831,7 +831,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     LinearLayout llLoading;
 
     private void onLoadingFinished(){
-        if(isGetBankAccountLoaded && isInitPageLoaded && isGetBillingAddressLoaded){
+        if(isGetBankAccountLoaded && isInitPageLoaded && isGetBillingAddressLoaded && isUserProfileLoaded){
             cardMakeAnOffer.setClickable(true);
         }
     }
@@ -1006,8 +1006,48 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
 
+    private boolean isUserProfileLoaded = false;
     public void getAllUserProfileDetails() {
-        userAccountModel = sessionManager.getUserAccount();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
+                response -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+
+                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                            userAccountModel = new UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"));
+                            sessionManager.setUserAccount(userAccountModel);
+                        } else {
+                        }
+
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                    }
+                    isUserProfileLoaded = true;
+                    onLoadingFinished();
+                },
+                error -> {
+                    errorHandle1(error.networkResponse);
+                    isUserProfileLoaded = true;
+                    onLoadingFinished();
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                // map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
     private boolean isInitPageLoaded = false;
@@ -1487,6 +1527,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         Bundle bundle = new Bundle();
         bundle.putParcelable(ConstantKey.TASK, taskModel);
         bundle.putString(ConstantKey.TITLE, "Create Task");
+        bundle.putBoolean(ConstantKey.COPY, true);
         update_task.putExtras(bundle);
         startActivity(update_task);
     }

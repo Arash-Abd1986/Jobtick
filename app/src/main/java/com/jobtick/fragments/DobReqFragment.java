@@ -27,6 +27,7 @@ import com.jobtick.models.UserAccountModel;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.Tools;
+import com.jobtick.widget.ExtendedEntryText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +52,7 @@ public class DobReqFragment extends Fragment {
     String str_DOB = null;
     String str_DOB_MODEL = "";
     DatePickerDialog.OnDateSetListener mDateSetListener;
-    TextView txtBirthDate;
+    ExtendedEntryText txtBirthDate;
 
     public DobReqFragment() {
     }
@@ -72,7 +73,7 @@ public class DobReqFragment extends Fragment {
         btnNext = view.findViewById(R.id.btn_add_card);
 
         txtBirthDate = view.findViewById(R.id.txt_birth_date);
-        txtBirthDate.setOnClickListener(v -> {
+        txtBirthDate.setExtendedViewOnClickListener(() -> {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
             year = calendar.get(Calendar.YEAR);

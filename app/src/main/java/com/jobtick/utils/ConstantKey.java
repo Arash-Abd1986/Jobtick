@@ -148,6 +148,7 @@ public class ConstantKey {
     public static final String PUSH_COMMENT = "comment";
     public static final String FROM_MY_JOBS_WITH_LOVE = "from_my_jobs";
     public static final String ALL_MY_JOBS_URL_FILTER = "?mytask=draft,open,assigned,offered,completed,closed,cancelled";
+    public static final String COPY = "copy";
     public static boolean IS_CHAT_SCREEN = false;
 
     public static final String GO_TO_MY_JOBS = "go to my jobs";

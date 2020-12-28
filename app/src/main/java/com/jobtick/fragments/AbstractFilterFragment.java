@@ -24,8 +24,6 @@ import com.jobtick.models.FilterModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.widget.ExtendedEntryText;
-import com.mapbox.api.geocoding.v5.models.CarmenFeature;
-import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 
 import java.util.Locale;
 
@@ -161,13 +159,10 @@ public abstract class AbstractFilterFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == requireActivity().RESULT_OK) {
 
-            // Retrieve the information from the selected location's CarmenFeature
-            CarmenFeature carmenFeature = PlacePicker.getPlace(data);
-            System.out.println("CarmenFeature = " + carmenFeature.toJson());
-            txtSuburb.setText(carmenFeature.placeName());
 
-            filterModel.setLatitude(String.valueOf(carmenFeature.center().latitude()));
-            filterModel.setLogitude(String.valueOf(carmenFeature.center().longitude()));
+            txtSuburb.setText(SuburbAutoComplete.getSuburbName(data));
+            filterModel.setLatitude(SuburbAutoComplete.getLatitude(data));
+            filterModel.setLogitude(SuburbAutoComplete.getLongitude(data));
         }
     }
 

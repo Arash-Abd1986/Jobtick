@@ -20,6 +20,7 @@ import com.jobtick.models.UserAccountModel;
 import com.jobtick.payment.VerifyPhoneNumber;
 import com.jobtick.payment.VerifyPhoneNumberImpl;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.widget.ExtendedEntryText;
 
 import java.util.Objects;
 
@@ -28,8 +29,7 @@ public class PhoneReqFragment extends Fragment implements TextWatcher {
     private UserAccountModel userAccountModel;
     private SessionManager sessionManager;
     MaterialButton btnNext;
-    private TextView phone, verify;
-    private LinearLayout btnVerify;
+    private ExtendedEntryText phone, verify;
 
     private boolean otpSent;
 
@@ -60,7 +60,6 @@ public class PhoneReqFragment extends Fragment implements TextWatcher {
         phone = view.findViewById(R.id.edt_phone_number);
         verify = view.findViewById(R.id.edt_sms);
         btnNext = view.findViewById(R.id.btn_submit);
-        btnVerify = view.findViewById(R.id.lyt_btn_close);
 
         verify.addTextChangedListener(this);
         phone.addTextChangedListener(this);
@@ -71,7 +70,7 @@ public class PhoneReqFragment extends Fragment implements TextWatcher {
             verifyPhoneNumber.verify(verify.getText().toString().trim());
         });
 
-        btnVerify.setOnClickListener(v -> {
+        phone.setExtendedViewOnClickListener(() -> {
                 if(!validationPhone()) return;
                 ((ActivityBase) requireActivity()).showProgressDialog();
                 verifyPhoneNumber.sendOTP(phone.getText().toString().trim());

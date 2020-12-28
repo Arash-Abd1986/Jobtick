@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -189,7 +191,7 @@ public class AuthActivity extends ActivityBase {
                         Bundle bundle = new Bundle();
                         Fragment fragment = new ForgotPassword3Fragment();
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.auth_layout, fragment);
+                        ft.replace(R.id.auth_layout, fragment).addToBackStack(ForgotPassword3Fragment.class.getName());
                         bundle.putString("email", str_email);
                         bundle.putString("otp", otp);
                         fragment.setArguments(bundle);
@@ -349,6 +351,35 @@ public class AuthActivity extends ActivityBase {
 
     }
 
+    private boolean doubleBackToExitPressedOnce;
+
+    public void onBackPressed() {
+
+        FragmentManager fm = getSupportFragmentManager();
+        Timber.tag("back stack entry").d(Integer.toString(fm.getBackStackEntryCount()));
+
+        if (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
+            return;
+        }
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+        } else {
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Press one more time to exit",
+                    Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 3000);
+        }
+    }
+
     public interface EditTextError {
         void onEmailError(String emailError);
 
@@ -478,7 +509,7 @@ public class AuthActivity extends ActivityBase {
                             UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                             sessionManager.setUserAccount(userAccountModel);
 
-                            if(fromSignUp)
+                            if (fromSignUp)
                                 fireBaseEvent.sendEvent(FireBaseEvent.Event.SIGN_UP,
                                         FireBaseEvent.EventType.API_RESPOND_SUCCESS, SIGN_UP_FACEBOOK);
                             else
@@ -588,7 +619,7 @@ public class AuthActivity extends ActivityBase {
                     .beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
                             android.R.anim.fade_in, android.R.anim.fade_out);
             // Replace whatever is in the content_fragment view with this fragment
-            transaction.replace(R.id.auth_layout, fragment);
+            transaction.replace(R.id.auth_layout, fragment).addToBackStack(fragment.getClass().getName());
 
             // Commit the transaction
             transaction.commit();
@@ -625,6 +656,7 @@ public class AuthActivity extends ActivityBase {
     }
 
     public boolean fromSignUp = false;
+
     public void signInWithGoogle(boolean fromSignUp) {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -665,7 +697,7 @@ public class AuthActivity extends ActivityBase {
                             sessionManager.setUserAccount(userAccountModel);
 
                             fireBaseEvent.sendEvent(FireBaseEvent.Event.LOGIN,
-                                        FireBaseEvent.EventType.API_RESPOND_SUCCESS, LOGIN_NORMAL);
+                                    FireBaseEvent.EventType.API_RESPOND_SUCCESS, LOGIN_NORMAL);
 
                             proceedToCorrectActivity(userAccountModel);
 
@@ -691,7 +723,11 @@ public class AuthActivity extends ActivityBase {
 
                             if (jsonObject_error.has("error_code")) {
                                 if (jsonObject_error.getInt("error_code") == 1002) {
-                                    resendOtp(str_email, str_password);
+
+                                    //TODO: we need to direct user to signup page, if email is not verified.
+                                    if(jsonObject_error.has("message"))
+                                        showToast(jsonObject_error.getString("message"), this);
+
                                     return;
                                 }
                             }
@@ -819,7 +855,7 @@ public class AuthActivity extends ActivityBase {
                         Bundle bundle = new Bundle();
                         Fragment fragment = new VerifyAccountFragment();
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.auth_layout, fragment);
+                        ft.replace(R.id.auth_layout, fragment).addToBackStack(VerifyAccountFragment.class.getName());
                         bundle.putString("email", str_email);
                         bundle.putString("password", str_password);
                         fragment.setArguments(bundle);
@@ -891,14 +927,13 @@ public class AuthActivity extends ActivityBase {
     }
 
 
-    private void proceedToCorrectActivity(UserAccountModel userAccountModel){
+    private void proceedToCorrectActivity(UserAccountModel userAccountModel) {
         Intent intent;
-        if(userAccountModel.getAccount_status().isBasic_info()){
+        if (userAccountModel.getAccount_status().isBasic_info()) {
             intent = new Intent(this, DashboardActivity.class);
             sessionManager.setLogin(true);
             openActivity(intent);
-        }
-        else{
+        } else {
             intent = new Intent(this, CompleteRegistrationActivity.class);
             startActivity(intent);
         }
@@ -1000,12 +1035,12 @@ public class AuthActivity extends ActivityBase {
                                     UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                                     sessionManager.setUserAccount(userAccountModel);
 
-                                    if(fromSignUp)
+                                    if (fromSignUp)
                                         fireBaseEvent.sendEvent(FireBaseEvent.Event.SIGN_UP,
-                                            FireBaseEvent.EventType.API_RESPOND_SUCCESS, SIGN_UP_GOOGLE);
+                                                FireBaseEvent.EventType.API_RESPOND_SUCCESS, SIGN_UP_GOOGLE);
                                     else
                                         fireBaseEvent.sendEvent(FireBaseEvent.Event.LOGIN,
-                                            FireBaseEvent.EventType.API_RESPOND_SUCCESS, LOGIN_GOOGLE);
+                                                FireBaseEvent.EventType.API_RESPOND_SUCCESS, LOGIN_GOOGLE);
 
                                     proceedToCorrectActivity(userAccountModel);
 
@@ -1130,7 +1165,7 @@ public class AuthActivity extends ActivityBase {
                         Bundle bundle = new Bundle();
                         Fragment fragment = new VerifyAccountFragment();
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.auth_layout, fragment);
+                        ft.replace(R.id.auth_layout, fragment).addToBackStack(VerifyAccountFragment.class.getName());
                         bundle.putString("email", str_email);
                         bundle.putString("password", str_password);
                         fragment.setArguments(bundle);
@@ -1435,7 +1470,7 @@ public class AuthActivity extends ActivityBase {
                         Bundle bundle = new Bundle();
                         Fragment fragment = new ForgotPassword2Fragment();
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.auth_layout, fragment);
+                        ft.replace(R.id.auth_layout, fragment).addToBackStack(ForgotPassword2Fragment.class.getName());
                         bundle.putString("email", str_email);
                         fragment.setArguments(bundle);
                         ft.commit();

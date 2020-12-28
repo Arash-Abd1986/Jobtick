@@ -47,6 +47,7 @@ import com.jobtick.BuildConfig;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
+import com.jobtick.models.task.AttachmentModels;
 import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.adapers.AddTagAdapter;
@@ -60,14 +61,9 @@ import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.utils.Tools;
+import com.jobtick.widget.ExtendedCommentText;
 import com.jobtick.widget.ExtendedEntryText;
 import com.jobtick.widget.SpacingItemDecoration;
-import com.mapbox.api.geocoding.v5.models.CarmenFeature;
-import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
-import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -79,6 +75,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -106,17 +103,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     @BindView(R.id.lyt_btn_budget)
     LinearLayout lytBtnBudget;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_title_counter)
-    TextView edtTitleCounter;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_title)
-    EditText edtTitle;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_description_counter)
-    TextView edtDescriptionCounter;
+    ExtendedCommentText edtTitle;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_description)
-    EditText edtDescription;
+    ExtendedCommentText edtDescription;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_add_must_have)
     RecyclerView recyclerAddMustHave;
@@ -191,7 +182,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     private final ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
 
     public static TaskDetailFragment newInstance(String title, String description, ArrayList<String> musthave,
-                                                 String task_type, String location, PositionModel positionModel, OperationsListener operationsListener) {
+                                                 String task_type, String location, PositionModel positionModel, AttachmentModels attachmentModels, OperationsListener operationsListener) {
         TaskDetailFragment fragment = new TaskDetailFragment();
         fragment.operationsListener = operationsListener;
         Bundle args = new Bundle();
@@ -201,6 +192,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         args.putString("TASK_TYPE", task_type);
         args.putString("LOCATION", location);
         args.putParcelable("POSITION", positionModel);
+        args.putParcelable("ATTACHMENT", attachmentModels);
 
         fragment.setArguments(args);
         return fragment;
@@ -235,6 +227,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         task.setTaskType(getArguments().getString("TASK_TYPE"));
         task.setLocation(getArguments().getString("LOCATION"));
         task.setPosition(getArguments().getParcelable("POSITION"));
+        task.setAttachments(new ArrayList<>(((AttachmentModels)getArguments().getParcelable("ATTACHMENT")).getAttachmentModelList()));
 
 
         taskCreateActivity.setActionDraftTaskDetails(taskModel -> {
@@ -263,92 +256,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         });
 
         setComponent();
-
         init();
 
-        if (!edtTitle.getText().toString().equalsIgnoreCase("")) {
-            int length = edtTitle.getText().toString().trim().length();
-            if (length <= 9) {
-                edtTitleCounter.setText(edtTitle.getText().toString().trim().length() + "/10+");
-                edtTitleCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
-            } else {
-                edtTitleCounter.setText(edtTitle.getText().toString().trim().length() + "/100");
-                edtTitleCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.green));
-            }
-        } else {
-            edtTitleCounter.setText("0/10+");
-            edtTitleCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
-        }
-
-        edtTitle.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!s.toString().equalsIgnoreCase("")) {
-                    int length = s.length();
-                    if (length <= 9) {
-                        edtTitleCounter.setText(s.length() + "/10+");
-                        edtTitleCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
-                    } else {
-                        edtTitleCounter.setText(s.length() + "/100");
-                        edtTitleCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.green));
-                    }
-                } else {
-                    edtTitleCounter.setText("0/10+");
-                    edtTitleCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
-                }
-            }
-        });
-
-
-        if (!edtDescription.getText().toString().equalsIgnoreCase("")) {
-            int length = edtTitle.getText().toString().trim().length();
-            if (length <= 24) {
-                edtDescriptionCounter.setText(edtTitle.getText().toString().trim().length() + "/25+");
-                edtDescriptionCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
-            } else {
-                edtDescriptionCounter.setText(edtTitle.getText().toString().trim().length() + "/500");
-                edtDescriptionCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.green));
-            }
-        } else {
-            edtDescriptionCounter.setText("0/25+");
-            edtDescriptionCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
-        }
-
-
-        edtDescription.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!s.toString().equalsIgnoreCase("")) {
-                    int length = s.length();
-                    if (length <= 24) {
-                        edtDescriptionCounter.setText(s.length() + "/25+");
-                        edtDescriptionCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
-                    } else {
-                        edtDescriptionCounter.setText(s.length() + "/500");
-                        edtDescriptionCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.green));
-                    }
-                } else {
-                    edtDescriptionCounter.setText("0/25+");
-                    edtDescriptionCounter.setTextColor(taskCreateActivity.getResources().getColor(R.color.red_600));
-                }
-            }
-        });
     }
 
     private void setComponent() {
@@ -370,6 +279,10 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             addTagList.addAll(task.getMusthave());
         }
         txtSuburb.setText(task.getLocation());
+
+        if(task.getAttachments() != null && !task.getAttachments().isEmpty()){
+            attachmentArrayList.addAll(task.getAttachments());
+        }
     }
 
     private void init() {
@@ -850,14 +763,10 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == requireActivity().RESULT_OK) {
 
-            // Retrieve the information from the selected location's CarmenFeature
-
-            CarmenFeature carmenFeature = PlacePicker.getPlace(data);
-            Helper.Logger(TAG, "CarmenFeature = " + carmenFeature.toJson());
-            txtSuburb.setText(carmenFeature.placeName());
+            txtSuburb.setText(SuburbAutoComplete.getSuburbName(data));
             PositionModel positionModel = new PositionModel();
-            positionModel.setLatitude(carmenFeature.center().latitude());
-            positionModel.setLongitude(carmenFeature.center().longitude());
+            positionModel.setLatitude(SuburbAutoComplete.getLatitudeDouble(data));
+            positionModel.setLongitude(SuburbAutoComplete.getLongitudeDouble(data));
             task.setPosition(positionModel);
         }
 

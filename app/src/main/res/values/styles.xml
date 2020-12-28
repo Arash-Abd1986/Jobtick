@@ -282,9 +282,9 @@
 
 
     <style name="materialToolBar" parent="Widget.MaterialComponents.Toolbar">
-        <item name="fontFamily">@font/roboto_regular</item>
-        <item name="android:fontFamily">@font/roboto_regular</item>
-        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
 

@@ -69,7 +69,7 @@
                     android:orientation="horizontal"
                     android:padding="@dimen/_8sp">
 
-                    <com.jobtick.text_view.TextViewMedium
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -78,16 +78,16 @@
                         android:layout_weight="1"
                         android:text="Poster offer"
                         android:textColor="@color/grey_70"
-                        android:textSize="@dimen/_14sp" />
+                        android:textAppearance="@style/materialText_400_15"/>
 
-                    <com.jobtick.text_view.TextViewBold
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvOffer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="$200"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_17sp" />
+                        android:textAppearance="@style/materialText_500_17" />
 
                 </LinearLayout>
 
@@ -124,15 +124,15 @@
                             android:layout_marginTop="@dimen/_5sp"
                             android:orientation="horizontal">
 
-                            <com.jobtick.text_view.TextViewMedium
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Service fee"
                                 android:textColor="@color/grey_70"
-                                android:textSize="@dimen/_14sp" />
+                                android:textAppearance="@style/materialText_400_15" />
 
-                            <com.jobtick.text_view.TextViewSemiBold
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_service_fee"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
                                 android:layout_marginTop="@dimen/_5sp"
                                 android:text="$00"
                                 android:textColor="@color/textColor"
-                                android:textSize="@dimen/_18sp" />
+                                android:textAppearance="@style/materialText_500_17" />
 
                         </LinearLayout>
 
@@ -153,15 +153,15 @@
                             android:orientation="horizontal"
                             android:paddingBottom="@dimen/_3sp">
 
-                            <com.jobtick.text_view.TextViewSemiBold
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="You’ll receive"
                                 android:textColor="@color/textColor"
-                                android:textSize="@dimen/_14sp" />
+                                android:textAppearance="@style/materialText_500_17"/>
 
-                            <com.jobtick.text_view.TextViewBold
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_final_budget"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -169,7 +169,7 @@
                                 android:layout_marginTop="@dimen/_5sp"
                                 android:text="$00"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/_22sp" />
+                                android:textAppearance="@style/materialText_400_20" />
                         </LinearLayout>
                     </LinearLayout>
                 </FrameLayout>
@@ -235,21 +235,21 @@
                             android:layout_marginEnd="@dimen/_10sp"
                             android:orientation="horizontal">
 
-                            <com.jobtick.text_view.TextViewSemiBold
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Service Fee (Currently)"
                                 android:textColor="@color/textColor"
-                                android:textSize="@dimen/_13sp" />
+                                android:textAppearance="@style/materialText_400_15" />
 
-                            <com.jobtick.text_view.TextViewSemiBold
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_current_service_fee"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="7%"
                                 android:textColor="@color/textColor"
-                                android:textSize="@dimen/_17sp" />
+                                android:textAppearance="@style/materialText_500_17"/>
 
 
                         </LinearLayout>
@@ -262,15 +262,15 @@
                             android:layout_marginEnd="@dimen/_10sp"
                             android:orientation="vertical">
 
-                            <com.jobtick.text_view.TextViewMedium
+                            <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:lineHeight="20dp"
                                 android:text="Complete more Jobs in-order to upgrade your account and be eligible to pay minimum service fee."
                                 android:textColor="@color/grey_70"
-                                android:textSize="@dimen/_14sp" />
+                                android:textAppearance="@style/materialText_400_15" />
 
-                            <com.jobtick.text_view.TextViewRegular
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_learn_how_level_affects_service_fee"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -278,7 +278,7 @@
                                 android:layout_marginBottom="@dimen/_5sp"
                                 android:text="More information about levels and service fees."
                                 android:textColor="@color/colorTaskOffer"
-                                android:textSize="@dimen/_12sp" />
+                                android:textAppearance="@style/materialText_400_13" />
                         </LinearLayout>
                     </LinearLayout>
                 </FrameLayout>

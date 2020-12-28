@@ -13,6 +13,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -35,6 +36,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     private final TextView errorView;
     private final TextView dollar;
     private final EditText editText;
+    private final Button verify;
     private EditText secondEditText;
     private final ImageView imageView;
     private int eBoxSize = 0;
@@ -105,6 +107,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         errorView = (TextView) findViewById(R.id.error);
         imageView = (ImageView) findViewById(R.id.img_btn_password_toggle);
         dollar = (TextView) findViewById(R.id.dollar);
+        verify = (Button) findViewById(R.id.verifyButton);
 
         textView.setText(eTitle);
         editText.setText(eContent);
@@ -190,6 +193,16 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             secondEditText.setVisibility(View.GONE);
             autoCompleteTextView.setVisibility(View.VISIBLE);
             editText.setInputType(TYPE_CLASS_TEXT);
+        }
+        if(eInputType == EInputType.VERIFY){
+            verify.setVisibility(View.VISIBLE);
+            editText.setInputType(InputType.TYPE_CLASS_PHONE);
+
+            verify.setOnClickListener(v -> {
+                if (extendedViewOnClickListener == null)
+                    throw new IllegalStateException(eInputType + " type selected, but ExtendedViewOnClickListener is not implemented.");
+                extendedViewOnClickListener.onClick();;
+            });
         }
 
     }
@@ -352,6 +365,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         int BUDGET = 7;
         int SPINNER = 8;
         int AUTOCOMPLETE = 9;
+        int VERIFY = 10;
     }
 
     public interface EImeOptions {

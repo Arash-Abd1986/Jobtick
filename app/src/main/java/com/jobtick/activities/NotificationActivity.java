@@ -263,15 +263,21 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
 
     @Override
     public void onItemClick(View view, NotifDatum obj, int position, String action) {
-        if (obj.getData() != null && obj.getData().getTrigger() != null) {
-            Intent intent = new Intent(NotificationActivity.this, TaskDetailsActivity.class);
-            Bundle bundleIntent = new Bundle();
-            bundleIntent.putString(ConstantKey.SLUG, obj.getData().getTaskSlug());
-            //TODO: need to put poster id to this, but is has to be implemented at taskDetailsActivity not from outside
-            //bundleIntent.putInt(ConstantKey.USER_ID, obj.getUser().getId());
-            intent.putExtras(bundleIntent);
-            startActivity(intent);
 
+
+        if (obj.getData() != null && obj.getData().getTrigger() != null) {
+            if(obj.getData().getTrigger().equals("task")) {
+                Intent intent = new Intent(NotificationActivity.this, TaskDetailsActivity.class);
+                Bundle bundleIntent = new Bundle();
+                bundleIntent.putString(ConstantKey.SLUG, obj.getData().getTaskSlug());
+                //TODO: need to put poster id to this, but is has to be implemented at taskDetailsActivity not from outside
+                //bundleIntent.putInt(ConstantKey.USER_ID, obj.getUser().getId());
+                intent.putExtras(bundleIntent);
+                startActivity(intent);
+            }else if(obj.getData().getTrigger().equals("conversation")) {
+
+
+            }
         }
     }
 }

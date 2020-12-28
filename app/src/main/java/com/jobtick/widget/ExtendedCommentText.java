@@ -27,6 +27,7 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
     private int eMinSize;
     private int eMaxSize;
     private final boolean eStartFocus;
+    private final boolean eSingleLine;
     private int eImeOptions;
 
     private final TextView textView;
@@ -57,6 +58,7 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
             eContent = sharedAttribute.getString(R.styleable.ExtendedCommentText_eContent);
             eHint = sharedAttribute.getString(R.styleable.ExtendedCommentText_eHint);
             eStartFocus = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_eStartFocusComment, false);
+            eSingleLine = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_eSingleLine, false);
             eMinSize = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMinCharSize, 10);
             eMaxSize = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMaxCharSize, 100);
             isMandatory = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_eIsMandatory, false);
@@ -80,6 +82,10 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
         textView.setText(eTitle);
         editText.setText(eContent);
         editText.setHint(eHint);
+        if(eSingleLine)
+            editText.setMaxLines(1);
+        editText.setSingleLine(eSingleLine);
+
         editText.setOnFocusChangeListener(this);
         editText.addTextChangedListener(this);
         setOnClickListener(this);
@@ -100,11 +106,11 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
     private void init(){
         if(isMandatory){
             counter.setText(String.format(Locale.ENGLISH, "0/%d+", eMinSize));
-            counter.setTextColor(getResources().getColor(R.color.red_600));
+            counter.setTextColor(getResources().getColor(R.color.strokeRed));
         }
         else {
             counter.setText(String.format(Locale.ENGLISH, "0/%d", eMaxSize));
-            counter.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
+            counter.setTextColor(getResources().getColor(R.color.N050));
         }
 
         if(eStartFocus){
@@ -167,7 +173,7 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
                 int length = s.length();
                 if (length < eMinSize) {
                     counter.setText(String.format(Locale.ENGLISH, "%d/%d+", s.length(), eMinSize));
-                    counter.setTextColor(getResources().getColor(R.color.red_600));
+                    counter.setTextColor(getResources().getColor(R.color.strokeRed));
                 } else if (length <= eMaxSize) {
                     counter.setText(String.format(Locale.ENGLISH, "%d/%d", s.length(), eMaxSize));
                     counter.setTextColor(getResources().getColor(R.color.green));
@@ -177,7 +183,7 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
                 }
             } else {
                 counter.setText(String.format(Locale.ENGLISH, "%d/%d+", s.length(), eMinSize));
-                counter.setTextColor(getResources().getColor(R.color.red_600));
+                counter.setTextColor(getResources().getColor(R.color.strokeRed));
             }
         } else {
             if (!s.toString().equalsIgnoreCase("")) {
@@ -191,7 +197,7 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
                 }
             } else {
                 counter.setText(String.format(Locale.ENGLISH, "0/%d", eMaxSize));
-                counter.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
+                counter.setTextColor(getResources().getColor(R.color.N050));
             }
         }
 

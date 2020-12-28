@@ -1,7 +1,7 @@
 package com.jobtick.activities;
 
 import android.Manifest;
-import android.app.DatePickerDialog;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -9,12 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,9 +33,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jobtick.R;
-import android.annotation.SuppressLint;
-
-import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.AttachmentAdapterEditProfile;
 import com.jobtick.models.AttachmentModel;
@@ -59,8 +54,6 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.mapbox.api.geocoding.v5.models.CarmenFeature;
-import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.jetbrains.annotations.NotNull;
@@ -119,7 +112,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_phone_number)
-    EditText edtPhoneNumber;
+    ExtendedEntryText edtPhoneNumber;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_about_me)
@@ -232,7 +225,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private boolean isUploadPortfolio = false;
     private boolean isFabHide = false;
     private AttachmentAdapterEditProfile adapter;
-    private LinearLayout btnVerify;
     private int cyear, cmonth, cday;
     private String str_due_date = null;
 
@@ -246,8 +238,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
         attachmentArrayList = new ArrayList<>();
         mBehavior = BottomSheetBehavior.from(bottomSheet);
-        btnVerify = findViewById(R.id.lyt_btn_close);
-        btnVerify.setOnClickListener(view -> verifyPhone());
+        edtPhoneNumber.setExtendedViewOnClickListener(this::verifyPhone);
         ivBack.setOnClickListener(v -> onBackPressed());
 
         init();
@@ -265,14 +256,14 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private boolean validation() {
         if (TextUtils.isEmpty(edtFirstName.getText().trim())) {
             edtFirstName.setError("Enter first name");
-            showToast("Please fill inputs",this);
+            showToast("Please fill inputs", this);
             return false;
         } else if (TextUtils.isEmpty(edtLastName.getText().trim())) {
             edtLastName.setError("Enter last name");
-            showToast("Please fill inputs",this);
+            showToast("Please fill inputs", this);
             return false;
         } else if (TextUtils.isEmpty(txtSuburb.getText().trim())) {
-            showToast("Please fill inputs",this);
+            showToast("Please fill inputs", this);
             txtSuburb.setError("Select your location");
             return false;
         }
@@ -391,7 +382,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             cday = calendar.get(Calendar.DAY_OF_MONTH);
             showBottomSheetDialogDate();
         });
-        txtSuburb.setExtendedViewOnClickListener(() ->{
+        txtSuburb.setExtendedViewOnClickListener(() -> {
             Intent intent = new SuburbAutoComplete(this).getIntent();
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
@@ -658,7 +649,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     @SuppressLint("NonConstantResourceId")
     @OnClick({R.id.rlt_btn_transportation, R.id.rlt_btn_languages,
             R.id.rlt_btn_education, R.id.rlt_btn_experience, R.id.rlt_btn_specialities, R.id.img_user_avatar, R.id.lytDeletePicture,
-            R.id.card_save_profile, R.id.lyt_btn_close})
+            R.id.card_save_profile})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.card_save_profile:
@@ -738,15 +729,18 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
     private void verifyPhone() {
         //it should work with Australian Numbers, format: +61*********
-        if (edtPhoneNumber.length() != 12) {
+        if (edtPhoneNumber.getText().length() != 12) {
             showToast("Please enter correct phone number", EditProfileActivity.this);
-        } else {
-            Intent intent = new Intent(this, MobileVerificationActivity.class);
-            intent.putExtra("phone_number", edtPhoneNumber.getText().toString());
-            startActivityForResult(intent, PHONE_VERIFICATION_REQUEST_CODE);
+            return;
+        }
+        if (edtPhoneNumber.getText().toString().equals(userAccountModel.getMobile())) {
+            showToast("This phone number is already registered.", EditProfileActivity.this);
+            return;
         }
 
-
+        Intent intent = new Intent(this, MobileVerificationActivity.class);
+        intent.putExtra("phone_number", edtPhoneNumber.getText().toString());
+        startActivityForResult(intent, PHONE_VERIFICATION_REQUEST_CODE);
     }
 
     private void uploadDataInPortfolioMediaApi(File pictureFile) {
@@ -770,7 +764,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                 try {
                     String strResponse = response.body();
                     if (response.code() == HttpStatus.NOT_FOUND) {
-                       showToast("not found", EditProfileActivity.this);
+                        showToast("not found", EditProfileActivity.this);
                         return;
                     }
                     if (response.code() == HttpStatus.AUTH_FAILED) {
@@ -847,13 +841,9 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         if (data != null) {
             if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == RESULT_OK) {
 
-                // Retrieve the information from the selected location's CarmenFeature
-
-                CarmenFeature carmenFeature = PlacePicker.getPlace(data);
-                Helper.Logger("THIS", "CarmenFeature = " + carmenFeature.toJson());
-                txtSuburb.seteContent(carmenFeature.placeName());
-                str_latitude = String.valueOf(carmenFeature.center().latitude());
-                str_longitude = String.valueOf(carmenFeature.center().longitude());
+                txtSuburb.setText(SuburbAutoComplete.getSuburbName(data));
+                str_latitude = SuburbAutoComplete.getLatitude(data);
+                str_longitude = SuburbAutoComplete.getLongitude(data);
             }
 
             if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -902,7 +892,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                     }
                 } else {
                     // failed to record video
-                   showToast("Sorry! Failed to Pickup Image", this);
+                    showToast("Sorry! Failed to Pickup Image", this);
                 }
             }
             if (requestCode == PHONE_VERIFICATION_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -1217,7 +1207,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         c.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
 
         calendarView.setMaxDate(c.getTimeInMillis());
-        if(userAccountModel.getDob() != null && !userAccountModel.getDob().equals(""))
+        if (userAccountModel.getDob() != null && !userAccountModel.getDob().equals(""))
             calendarView.setDate(TimeHelper.convertDateTimeToLong(userAccountModel.getDob()));
 
         TextView txtCancel = view.findViewById(R.id.txt_cancel);

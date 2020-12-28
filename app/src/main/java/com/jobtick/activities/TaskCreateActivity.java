@@ -1,9 +1,9 @@
 package com.jobtick.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.cardview.widget.CardView;
@@ -25,10 +26,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
-import android.annotation.SuppressLint;
-import android.widget.TextView;
-
-import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.adapers.SectionsPagerAdapter;
 import com.jobtick.fragments.TaskBudgetFragment;
 import com.jobtick.fragments.TaskDateTimeFragment;
@@ -37,10 +34,12 @@ import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.DueTimeModel;
 import com.jobtick.models.PositionModel;
 import com.jobtick.models.TaskModel;
+import com.jobtick.models.task.AttachmentModels;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.FireBaseEvent;
 import com.jobtick.utils.HttpStatus;
+import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.Tools;
 
 import org.json.JSONException;
@@ -49,6 +48,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -123,6 +123,17 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         if (bundle != null && bundle.containsKey(ConstantKey.CATEGORY_ID)) {
             taskModel.setCategory_id(bundle.getInt(ConstantKey.CATEGORY_ID, 1));
         }
+        if (bundle != null && bundle.containsKey(ConstantKey.COPY) &&
+                taskModel.getPoster() != null &&
+                taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
+
+            TaskModel taskModelTemp = new TaskModel();
+            taskModelTemp.setPoster(sessionManager.getUserAccount());
+            taskModelTemp.setCategory_id(taskModel.getCategory_id());
+            taskModelTemp.setTitle(taskModel.getTitle());
+            taskModelTemp.setDescription(taskModel.getDescription());
+            taskModel = taskModelTemp;
+        }
 
         title = ConstantKey.CREATE_A_JOB;
         if (bundle != null && bundle.getString(ConstantKey.TITLE) != null) {
@@ -158,7 +169,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(TaskDetailFragment.newInstance(taskModel.getTitle(), taskModel.getDescription(), taskModel.getMusthave(), taskModel.getTaskType(), taskModel.getLocation(), taskModel.getPosition(), this), getResources().getString(R.string.details));
+        adapter.addFragment(TaskDetailFragment.newInstance(taskModel.getTitle(), taskModel.getDescription(), taskModel.getMusthave(), taskModel.getTaskType(), taskModel.getLocation(), taskModel.getPosition(), new AttachmentModels(taskModel.getAttachments()), this), getResources().getString(R.string.details));
         adapter.addFragment(TaskDateTimeFragment.newInstance(taskModel.getDueDate() == null ? null : taskModel.getDueDate().substring(0, 10), taskModel.getDueTime(), this), getResources().getString(R.string.date_time));
         adapter.addFragment(TaskBudgetFragment.newInstance(taskModel.getBudget(), taskModel.getHourlyRate(), taskModel.getTotalHours(), taskModel.getPaymentType(), this), getResources().getString(R.string.budget));
         viewPager.setAdapter(adapter);
@@ -468,7 +479,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             if (jsonObject_error.has("message")) {
-                              showToast(jsonObject_error.getString("message"), this);
+                                showToast(jsonObject_error.getString("message"), this);
                             }
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");

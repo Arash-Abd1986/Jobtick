@@ -15,15 +15,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textAppearance="@style/materialText_400_15"
                 android:layout_margin="@dimen/spacing_mlarge"
                 android:gravity="start"
                 android:text="@string/upload_a_profile_picture"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/_14sp" />
+                android:textColor="@color/textColor" />
 
             <FrameLayout
                 android:layout_width="match_parent"

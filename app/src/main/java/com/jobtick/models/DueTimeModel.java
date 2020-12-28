@@ -15,7 +15,7 @@ public class DueTimeModel implements Parcelable {
     String TAG = DueTimeModel.class.getName();
     @SerializedName("anytime")
     @Expose
-    private Boolean midday;
+    private Boolean anytime;
     @SerializedName("evening")
     @Expose
     private Boolean evening;
@@ -36,21 +36,21 @@ public class DueTimeModel implements Parcelable {
     /**
      *
      * @param afternoon
-     * @param midday
+     * @param anytime
      * @param evening
      * @param morning
      */
-    public DueTimeModel(Boolean midday, Boolean evening, Boolean morning, Boolean afternoon) {
+    public DueTimeModel(Boolean anytime, Boolean evening, Boolean morning, Boolean afternoon) {
         super();
-        this.midday = midday;
+        this.anytime = anytime;
         this.evening = evening;
         this.morning = morning;
         this.afternoon = afternoon;
     }
 
     protected DueTimeModel(Parcel in) {
-        byte tmpMidday = in.readByte();
-        midday = tmpMidday == 0 ? null : tmpMidday == 1;
+        byte tmpAnyTime = in.readByte();
+        anytime = tmpAnyTime == 0 ? null : tmpAnyTime == 1;
         byte tmpEvening = in.readByte();
         evening = tmpEvening == 0 ? null : tmpEvening == 1;
         byte tmpMorning = in.readByte();
@@ -61,7 +61,7 @@ public class DueTimeModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte((byte) (midday == null ? 0 : midday ? 1 : 2));
+        dest.writeByte((byte) (anytime == null ? 0 : anytime ? 1 : 2));
         dest.writeByte((byte) (evening == null ? 0 : evening ? 1 : 2));
         dest.writeByte((byte) (morning == null ? 0 : morning ? 1 : 2));
         dest.writeByte((byte) (afternoon == null ? 0 : afternoon ? 1 : 2));
@@ -84,12 +84,12 @@ public class DueTimeModel implements Parcelable {
         }
     };
 
-    public Boolean getMidday() {
-        return midday;
+    public Boolean getAnytime() {
+        return anytime;
     }
 
-    public void setMidday(Boolean midday) {
-        this.midday = midday;
+    public void setAnytime(Boolean anytime) {
+        this.anytime = anytime;
     }
 
     public Boolean getEvening() {
@@ -121,7 +121,7 @@ public class DueTimeModel implements Parcelable {
 
         try{
             if(jsonObject.has("anytime") && !jsonObject.isNull("anytime")){
-                dueTimeModel.setMidday(jsonObject.getBoolean("anytime"));
+                dueTimeModel.setAnytime(jsonObject.getBoolean("anytime"));
             }
             if(jsonObject.has("evening") && !jsonObject.isNull("evening")){
                 dueTimeModel.setEvening(jsonObject.getBoolean("evening"));

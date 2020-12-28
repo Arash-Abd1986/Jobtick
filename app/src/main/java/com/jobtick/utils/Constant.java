@@ -64,10 +64,6 @@ public class Constant {
 
     public static final String TASK_PAYMENT_TYPE_FIXED = "fixed";
     public static final String TASK_PAYMENT_TYPE_HOURLY = "hourly";
-    public static final String TASK_MORNING = "morning";
-    public static final String TASK_MIDDAY = "midday";
-    public static final String TASK_AFTERNOON = "afternoon";
-    public static final String TASK_EVENING = "evening";
     public static final String TASK_CATEGORY = "category";
     public static final String ADD_BILLING = "account/billingaddress";
     public static final String ADD_ACCOUNT_DETAILS = "account/bankaccount";

@@ -222,7 +222,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         txtDueTime.append(", Evening");
                     }
                 }
-                if (item.getDueTime().getMidday() != null && item.getDueTime().getMidday()) {
+                if (item.getDueTime().getAnytime() != null && item.getDueTime().getAnytime()) {
                     if (TextUtils.isEmpty(txtDueTime.getText().toString())) {
                         txtDueTime.setText("Any time");
                     } else {
@@ -230,7 +230,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     }
                 }
                 if (!item.getDueTime().getMorning() && !item.getDueTime().getAfternoon() &&
-                        !item.getDueTime().getEvening() && item.getDueTime().getMidday() != null && !item.getDueTime().getMidday()) {
+                        !item.getDueTime().getEvening() && item.getDueTime().getAnytime() != null && !item.getDueTime().getAnytime()) {
                     txtDueTime.setText("No time set");
                 }
             } else {

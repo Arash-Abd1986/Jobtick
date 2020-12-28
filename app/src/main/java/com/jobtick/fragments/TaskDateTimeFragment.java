@@ -24,7 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 import timber.log.Timber;
-import com.jobtick.text_view.TextViewMedium;
+
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.models.DueTimeModel;
 import com.jobtick.models.TaskModel;
@@ -51,8 +51,8 @@ public class TaskDateTimeFragment extends Fragment {
     @BindView(R.id.cb_morning)
     CheckBox cbMorning;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.cb_midday)
-    CheckBox cbMidday;
+    @BindView(R.id.cb_anytime)
+    CheckBox cbAnyTime;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cb_afternoon)
     CheckBox cbAfternoon;
@@ -140,11 +140,11 @@ public class TaskDateTimeFragment extends Fragment {
             cbMorning.setChecked(task.getDueTime().getMorning());
             cbAfternoon.setChecked(task.getDueTime().getAfternoon());
             cbEvening.setChecked(task.getDueTime().getEvening());
-            cbMidday.setChecked(task.getDueTime().getMidday());
+            cbAnyTime.setChecked(task.getDueTime().getAnytime());
 
         } else {
             cbMorning.setChecked(false);
-            cbMidday.setChecked(false);
+            cbAnyTime.setChecked(false);
             cbAfternoon.setChecked(false);
             cbEvening.setChecked(false);
         }
@@ -165,7 +165,7 @@ public class TaskDateTimeFragment extends Fragment {
             if (isChecked) {
                 cbAfternoon.setChecked(false);
                 cbEvening.setChecked(false);
-                cbMidday.setChecked(false);
+                cbAnyTime.setChecked(false);
             }
         });
 
@@ -173,7 +173,7 @@ public class TaskDateTimeFragment extends Fragment {
             if (isChecked) {
                 cbMorning.setChecked(false);
                 cbEvening.setChecked(false);
-                cbMidday.setChecked(false);
+                cbAnyTime.setChecked(false);
             }
         });
 
@@ -181,12 +181,12 @@ public class TaskDateTimeFragment extends Fragment {
             if (isChecked) {
                 cbAfternoon.setChecked(false);
                 cbMorning.setChecked(false);
-                cbMidday.setChecked(false);
+                cbAnyTime.setChecked(false);
             }
         });
 
 
-        cbMidday.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        cbAnyTime.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 cbAfternoon.setChecked(false);
                 cbEvening.setChecked(false);
@@ -204,32 +204,28 @@ public class TaskDateTimeFragment extends Fragment {
 
     }
 
-    @OnClick({R.id.img_morning, R.id.txt_title_morning, R.id.txt_subtitle_morning,
-            R.id.rlt_btn_morning, R.id.img_midday, R.id.txt_title_midday, R.id.txt_subtitle_midday,
-            R.id.rlt_btn_midday, R.id.img_afternoon, R.id.txt_title_afternoon, R.id.txt_subtitle_afternoon,
-            R.id.rlt_btn_afternoon, R.id.img_evening, R.id.txt_title_evening, R.id.txt_subtitle_evening,
+    @OnClick({R.id.txt_title_morning, R.id.txt_subtitle_morning,
+            R.id.rlt_btn_morning, R.id.txt_title_anytime, R.id.txt_subtitle_anytime,
+            R.id.rlt_btn_anytime, R.id.txt_title_afternoon, R.id.txt_subtitle_afternoon,
+            R.id.rlt_btn_afternoon, R.id.txt_title_evening, R.id.txt_subtitle_evening,
             R.id.rlt_btn_evening, R.id.lyt_btn_back, R.id.lyt_btn_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.img_morning:
             case R.id.txt_title_morning:
             case R.id.txt_subtitle_morning:
             case R.id.rlt_btn_morning:
                 cbMorning.setChecked(!cbMorning.isChecked());
                 break;
-            case R.id.img_midday:
-            case R.id.txt_title_midday:
-            case R.id.txt_subtitle_midday:
-            case R.id.rlt_btn_midday:
-                cbMidday.setChecked(!cbMidday.isChecked());
+            case R.id.txt_title_anytime:
+            case R.id.txt_subtitle_anytime:
+            case R.id.rlt_btn_anytime:
+                cbAnyTime.setChecked(!cbAnyTime.isChecked());
                 break;
-            case R.id.img_afternoon:
             case R.id.txt_title_afternoon:
             case R.id.txt_subtitle_afternoon:
             case R.id.rlt_btn_afternoon:
                 cbAfternoon.setChecked(!cbAfternoon.isChecked());
                 break;
-            case R.id.img_evening:
             case R.id.txt_title_evening:
             case R.id.txt_subtitle_evening:
             case R.id.rlt_btn_evening:
@@ -294,7 +290,7 @@ public class TaskDateTimeFragment extends Fragment {
         dueTimeModel.setMorning(cbMorning.isChecked());
         dueTimeModel.setAfternoon(cbAfternoon.isChecked());
         dueTimeModel.setEvening(cbEvening.isChecked());
-        dueTimeModel.setMidday(cbMidday.isChecked());
+        dueTimeModel.setAnytime(cbAnyTime.isChecked());
 
         return dueTimeModel;
     }
@@ -303,7 +299,7 @@ public class TaskDateTimeFragment extends Fragment {
     private int getValidationCode() {
         if (TextUtils.isEmpty(txtDate.getText().toString().trim())) {
             return 1;
-        } else if (!cbMorning.isChecked() && !cbEvening.isChecked() && !cbAfternoon.isChecked() && !cbMidday.isChecked()) {
+        } else if (!cbMorning.isChecked() && !cbEvening.isChecked() && !cbAfternoon.isChecked() && !cbAnyTime.isChecked()) {
             return 2;
         } else if (checkDateTodayOrOnwords()) {
             return 3;

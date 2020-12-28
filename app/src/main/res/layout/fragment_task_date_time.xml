@@ -81,17 +81,6 @@
                                 android:button="@null"
                                 android:gravity="center" />
 
-                            <ImageView
-                                android:id="@+id/img_morning"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="@dimen/spacing_middle"
-                                android:layout_marginBottom="@dimen/spacing_medium"
-                                android:src="@drawable/ic_morning"
-                                android:visibility="gone"
-                                tools:ignore="ContentDescription" />
-
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -134,16 +123,6 @@
                                 android:button="@null"
                                 android:gravity="center" />
 
-                            <ImageView
-                                android:id="@+id/img_afternoon"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="@dimen/spacing_middle"
-                                android:layout_marginBottom="@dimen/spacing_medium"
-                                android:src="@drawable/ic_afternoon"
-                                android:visibility="gone"
-                                tools:ignore="ContentDescription" />
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
@@ -187,16 +166,6 @@
                                 android:button="@null"
                                 android:gravity="center" />
 
-                            <ImageView
-                                android:id="@+id/img_evening"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="@dimen/spacing_middle"
-                                android:layout_marginBottom="@dimen/spacing_medium"
-                                android:src="@drawable/ic_evening"
-                                android:visibility="gone"
-                                tools:ignore="ContentDescription" />
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
@@ -225,13 +194,13 @@
                         </RelativeLayout>
 
                         <RelativeLayout
-                            android:id="@+id/rlt_btn_midday"
+                            android:id="@+id/rlt_btn_anytime"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/spacing_middle">
 
                             <CheckBox
-                                android:id="@+id/cb_midday"
+                                android:id="@+id/cb_anytime"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_alignParentStart="true"
@@ -241,24 +210,14 @@
                                 android:button="@null"
                                 android:gravity="center" />
 
-                            <ImageView
-                                android:id="@+id/img_midday"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="@dimen/spacing_middle"
-                                android:layout_marginBottom="@dimen/spacing_medium"
-                                android:src="@drawable/ic_midday"
-                                android:visibility="gone"
-                                tools:ignore="ContentDescription" />
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_toEndOf="@+id/cb_midday">
+                                android:layout_toEndOf="@+id/cb_anytime">
 
                                 <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/txt_title_midday"
+                                    android:id="@+id/txt_title_anytime"
                                     style="@style/materialText_500_17"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -267,11 +226,11 @@
                                     android:textColor="@color/textColor" />
 
                                 <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/txt_subtitle_midday"
+                                    android:id="@+id/txt_subtitle_anytime"
                                     android:textAppearance="@style/materialText_400_13"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_below="@+id/txt_title_midday"
+                                    android:layout_below="@+id/txt_title_anytime"
                                     android:text="You and Ticker agree on"
                                     android:textColor="@color/grey_40"
                                     tools:ignore="HardcodedText" />

@@ -239,7 +239,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (item.getLocation() != null && item.getTaskType().equals("physical")) {
                 txtLocation.setText(item.getLocation());
             } else if(item.getTaskType()!=null && item.getTaskType().equals("remote")){
-                txtLocation.setText("Remotely");
+                txtLocation.setText("Remote job");
             }
             if (item.getStatus() != null && item.getStatus().equalsIgnoreCase(Constant.TASK_DRAFT)) {
                 // txtStatus.setVisibility(View.GONE);

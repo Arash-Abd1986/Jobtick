@@ -23,6 +23,7 @@ public class SuburbAutoComplete {
                 .placeOptions(PlaceOptions.builder()
                         .backgroundColor(activity.getResources().getColor(R.color.backgroundLightGrey))
                         .limit(10)
+                        .geocodingTypes("postcode", "locality", "district", "neighborhood", "address", "poi")
                         .country("AU")
                         .build(PlaceOptions.MODE_CARDS))
                 .build(activity);

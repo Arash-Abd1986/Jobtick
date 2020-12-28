@@ -34,6 +34,7 @@ import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.DueTimeModel;
 import com.jobtick.models.PositionModel;
 import com.jobtick.models.TaskModel;
+import com.jobtick.models.task.AttachmentModels;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.FireBaseEvent;
@@ -168,7 +169,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(TaskDetailFragment.newInstance(taskModel.getTitle(), taskModel.getDescription(), taskModel.getMusthave(), taskModel.getTaskType(), taskModel.getLocation(), taskModel.getPosition(), this), getResources().getString(R.string.details));
+        adapter.addFragment(TaskDetailFragment.newInstance(taskModel.getTitle(), taskModel.getDescription(), taskModel.getMusthave(), taskModel.getTaskType(), taskModel.getLocation(), taskModel.getPosition(), new AttachmentModels(taskModel.getAttachments()), this), getResources().getString(R.string.details));
         adapter.addFragment(TaskDateTimeFragment.newInstance(taskModel.getDueDate() == null ? null : taskModel.getDueDate().substring(0, 10), taskModel.getDueTime(), this), getResources().getString(R.string.date_time));
         adapter.addFragment(TaskBudgetFragment.newInstance(taskModel.getBudget(), taskModel.getHourlyRate(), taskModel.getTotalHours(), taskModel.getPaymentType(), this), getResources().getString(R.string.budget));
         viewPager.setAdapter(adapter);

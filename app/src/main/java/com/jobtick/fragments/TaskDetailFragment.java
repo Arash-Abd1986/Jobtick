@@ -47,6 +47,7 @@ import com.jobtick.BuildConfig;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
+import com.jobtick.models.task.AttachmentModels;
 import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.adapers.AddTagAdapter;
@@ -74,6 +75,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -180,7 +182,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     private final ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
 
     public static TaskDetailFragment newInstance(String title, String description, ArrayList<String> musthave,
-                                                 String task_type, String location, PositionModel positionModel, OperationsListener operationsListener) {
+                                                 String task_type, String location, PositionModel positionModel, AttachmentModels attachmentModels, OperationsListener operationsListener) {
         TaskDetailFragment fragment = new TaskDetailFragment();
         fragment.operationsListener = operationsListener;
         Bundle args = new Bundle();
@@ -190,6 +192,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         args.putString("TASK_TYPE", task_type);
         args.putString("LOCATION", location);
         args.putParcelable("POSITION", positionModel);
+        args.putParcelable("ATTACHMENT", attachmentModels);
 
         fragment.setArguments(args);
         return fragment;
@@ -224,6 +227,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         task.setTaskType(getArguments().getString("TASK_TYPE"));
         task.setLocation(getArguments().getString("LOCATION"));
         task.setPosition(getArguments().getParcelable("POSITION"));
+        task.setAttachments(new ArrayList<>(((AttachmentModels)getArguments().getParcelable("ATTACHMENT")).getAttachmentModelList()));
 
 
         taskCreateActivity.setActionDraftTaskDetails(taskModel -> {
@@ -275,6 +279,10 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             addTagList.addAll(task.getMusthave());
         }
         txtSuburb.setText(task.getLocation());
+
+        if(task.getAttachments() != null && !task.getAttachments().isEmpty()){
+            attachmentArrayList.addAll(task.getAttachments());
+        }
     }
 
     private void init() {

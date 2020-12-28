@@ -353,7 +353,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             bundle.putString(ConstantKey.SLUG, obj.getSlug());
          //   bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
             intent.putExtras(bundle);
-            startActivity(intent);
+            startActivityForResult(intent, ConstantKey.RESULTCODE_MY_JOBS);
             Timber.i("MyTasksFragment Starting Task with slug: %s", obj.getSlug());
         }
     }
@@ -666,6 +666,8 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                     }
                 }
             }
+        }if(requestCode == ConstantKey.RESULTCODE_MY_JOBS){
+            onRefresh();
         }
     }
 

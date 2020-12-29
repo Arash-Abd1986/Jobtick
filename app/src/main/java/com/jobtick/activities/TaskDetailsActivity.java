@@ -1252,7 +1252,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
             tvPrivateChatLocation.setText(taskModel.getLocation());
         } else {
-            tvPrivateChatLocation.setText("Remotely");
+            tvPrivateChatLocation.setText("Remote job");
         }
         if (taskModel.getWorker().getLocation() != null && taskModel.getWorker().getLocation().length() > 0) {
             tvPrivateChatLocation.setVisibility(View.VISIBLE);
@@ -1406,7 +1406,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
             txtLocation.setText(taskModel.getLocation());
         } else {
-            txtLocation.setText("Remotely");
+            txtLocation.setText("Remote job");
         }
         if (taskModel.getPoster().getLocation() != null && taskModel.getPoster().getLocation().length() > 0) {
             txtPosterLocation.setVisibility(View.VISIBLE);

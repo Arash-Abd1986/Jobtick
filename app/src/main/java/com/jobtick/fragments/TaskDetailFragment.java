@@ -1,6 +1,7 @@
 package com.jobtick.fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -14,9 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,18 +44,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.BuildConfig;
 import com.jobtick.R;
-import android.annotation.SuppressLint;
-
-import com.jobtick.models.task.AttachmentModels;
-import com.jobtick.text_view.TextViewMedium;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.adapers.AddTagAdapter;
 import com.jobtick.adapers.AttachmentAdapter1;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.PositionModel;
 import com.jobtick.models.TaskModel;
+import com.jobtick.models.task.AttachmentModels;
 import com.jobtick.retrofit.ApiClient;
-import com.jobtick.utils.Helper;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.SuburbAutoComplete;
@@ -75,7 +70,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -227,27 +221,30 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         task.setTaskType(getArguments().getString("TASK_TYPE"));
         task.setLocation(getArguments().getString("LOCATION"));
         task.setPosition(getArguments().getParcelable("POSITION"));
-        task.setAttachments(new ArrayList<>(((AttachmentModels)getArguments().getParcelable("ATTACHMENT")).getAttachmentModelList()));
+        task.setAttachments(new ArrayList<>(((AttachmentModels) getArguments().getParcelable("ATTACHMENT")).getAttachmentModelList()));
 
 
         taskCreateActivity.setActionDraftTaskDetails(taskModel -> {
-            if (taskModel.getTitle() != null && taskModel.getDescription() != null) {
-                operationsListener.draftTaskDetails(taskModel, true);
-            } else {
-                if (!TextUtils.isEmpty(edtTitle.getText().toString().trim()) || edtTitle.getText().toString().trim().length() >= 10) {
-                    taskModel.setTitle(edtTitle.getText().toString().trim());
-                } else if (!TextUtils.isEmpty(edtDescription.getText().toString().trim()) || edtDescription.getText().toString().trim().length() >= 25) {
-                    taskModel.setDescription(edtDescription.getText().toString().trim());
-                } else if (!TextUtils.isEmpty(txtSuburb.getText().toString().trim())) {
-                    taskModel.setLocation(txtSuburb.getText().toString().trim());
-                    taskModel.setPosition(task.getPosition());
-                }
-                if (addTagList != null && addTagList.size() != 0) {
-                    taskModel.setMusthave(addTagList);
-                }
-                taskModel.setTaskType(checkboxOnline.isChecked() ? "remote" : "physical");
-                operationsListener.draftTaskDetails(taskModel, false);
+
+            if (edtTitle.getText().toString().trim().length() >= 10) {
+                taskModel.setTitle(edtTitle.getText().toString().trim());
             }
+            if (edtDescription.getText().toString().trim().length() >= 25) {
+                taskModel.setDescription(edtDescription.getText().toString().trim());
+            }
+            if (!TextUtils.isEmpty(txtSuburb.getText().toString().trim())) {
+                taskModel.setLocation(task.getLocation());
+                taskModel.setPosition(task.getPosition());
+            }
+            if (addTagList != null)
+                taskModel.setMusthave(addTagList);
+
+            if(attachmentArrayList != null)
+                taskModel.setAttachments(attachmentArrayList);
+
+
+            taskModel.setTaskType(checkboxOnline.isChecked() ? "remote" : "physical");
+            operationsListener.draftTaskDetails(taskModel, false);
         });
 
         txtSuburb.setExtendedViewOnClickListener(() -> {
@@ -280,7 +277,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         }
         txtSuburb.setText(task.getLocation());
 
-        if(task.getAttachments() != null && !task.getAttachments().isEmpty()){
+        if (task.getAttachments() != null && !task.getAttachments().isEmpty()) {
             attachmentArrayList.addAll(task.getAttachments());
         }
     }
@@ -767,6 +764,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             PositionModel positionModel = new PositionModel();
             positionModel.setLatitude(SuburbAutoComplete.getLatitudeDouble(data));
             positionModel.setLongitude(SuburbAutoComplete.getLongitudeDouble(data));
+            task.setLocation(SuburbAutoComplete.getSuburbName(data));
             task.setPosition(positionModel);
         }
 
@@ -775,7 +773,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             String imagePath = getPath(data.getData());
             File file = new File(imagePath);
             uploadDataInTempApi(file);
-       }
+        }
 
         if (requestCode == CAMERA_REQUEST && resultCode == requireActivity().RESULT_OK) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");

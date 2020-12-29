@@ -170,26 +170,26 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
 
         if (isMandatory) {
             if (!s.toString().equalsIgnoreCase("")) {
-                int length = s.length();
+                int length = s.toString().trim().length();
                 if (length < eMinSize) {
-                    counter.setText(String.format(Locale.ENGLISH, "%d/%d+", s.length(), eMinSize));
+                    counter.setText(String.format(Locale.ENGLISH, "%d/%d+", s.toString().trim().length(), eMinSize));
                     counter.setTextColor(getResources().getColor(R.color.strokeRed));
                 } else if (length <= eMaxSize) {
-                    counter.setText(String.format(Locale.ENGLISH, "%d/%d", s.length(), eMaxSize));
+                    counter.setText(String.format(Locale.ENGLISH, "%d/%d", s.toString().trim().length(), eMaxSize));
                     counter.setTextColor(getResources().getColor(R.color.green));
                 } else {
                     editText.setText(s.subSequence(0, eMaxSize));
                     editText.setSelection(eMaxSize);
                 }
             } else {
-                counter.setText(String.format(Locale.ENGLISH, "%d/%d+", s.length(), eMinSize));
+                counter.setText(String.format(Locale.ENGLISH, "%d/%d+", s.toString().trim().length(), eMinSize));
                 counter.setTextColor(getResources().getColor(R.color.strokeRed));
             }
         } else {
             if (!s.toString().equalsIgnoreCase("")) {
-                int length = s.length();
+                int length = s.toString().trim().length();
                 if (length <= eMaxSize) {
-                    counter.setText(String.format(Locale.ENGLISH, "%d/%d", s.length(), eMaxSize));
+                    counter.setText(String.format(Locale.ENGLISH, "%d/%d", s.toString().trim().length(), eMaxSize));
                     counter.setTextColor(getResources().getColor(R.color.green));
                 } else {
                     editText.setText(s.subSequence(0, eMaxSize));

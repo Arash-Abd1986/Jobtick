@@ -363,7 +363,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
             actionDraftDateTime.callDraftTaskDateTime(this.taskModel);
         } else {
             this.taskModel = taskModel;
-            if (taskModel.getTitle() != null) {
+            if (taskModel.getTitle() != null && taskModel.getTitle().trim().length() >= 10) {
                 uploadDataToServer(true);
             } else {
                 Intent intent = new Intent();
@@ -519,10 +519,10 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                     map1.put("payment_type", taskModel.getPaymentType());
                 if (taskModel.getPaymentType() != null) {
                     if (taskModel.getPaymentType().equalsIgnoreCase("fixed")) {
-                        if (taskModel.getBudget() >= 10)
+                        if (taskModel.getBudget() >= 5)
                             map1.put("budget", String.valueOf(taskModel.getBudget()));
                     } else {
-                        if (((taskModel.getTotalHours()) * taskModel.getHourlyRate()) >= 10) {
+                        if (((taskModel.getTotalHours()) * taskModel.getHourlyRate()) >= 5) {
                             map1.put("budget", String.valueOf(taskModel.getHourlyRate()));
                             map1.put("total_hours", String.valueOf(taskModel.getTotalHours()));
                             map1.put("hourly_rate", String.valueOf(taskModel.getHourlyRate()));

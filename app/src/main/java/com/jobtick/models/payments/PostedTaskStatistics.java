@@ -7,13 +7,13 @@ public class PostedTaskStatistics {
 
     @SerializedName("completion_rate")
     @Expose
-    private Integer completionRate;
+    private Float completionRate;
 
-    public Integer getCompletionRate() {
+    public Float getCompletionRate() {
         return completionRate;
     }
 
-    public void setCompletionRate(Integer completionRate) {
+    public void setCompletionRate(Float completionRate) {
         this.completionRate = completionRate;
     }
 }

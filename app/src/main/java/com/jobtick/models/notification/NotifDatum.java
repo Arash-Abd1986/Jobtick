@@ -6,6 +6,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.jobtick.models.UserAccountModel;
 
 public class NotifDatum implements Parcelable
 {
@@ -21,7 +22,7 @@ public class NotifDatum implements Parcelable
     private String createdAt;
     @SerializedName("user")
     @Expose
-    private User user;
+    private UserAccountModel userAccountModel;
     public final static Creator<NotifDatum> CREATOR = new Creator<NotifDatum>() {
 
 
@@ -43,7 +44,7 @@ public class NotifDatum implements Parcelable
         this.id = ((String) in.readValue((String.class.getClassLoader())));
         this.data = ((Data) in.readValue((Data.class.getClassLoader())));
         this.createdAt = ((String) in.readValue((String.class.getClassLoader())));
-        this.user = ((User) in.readValue((User.class.getClassLoader())));
+        this.userAccountModel = ((UserAccountModel) in.readValue((UserAccountModel.class.getClassLoader())));
     }
 
     /**
@@ -58,14 +59,14 @@ public class NotifDatum implements Parcelable
      * @param createdAt
      * @param data
      * @param id
-     * @param user
+     * @param userAccountModel
      */
-    public NotifDatum(String id, Data data, String createdAt, User user) {
+    public NotifDatum(String id, Data data, String createdAt, UserAccountModel userAccountModel) {
         super();
         this.id = id;
         this.data = data;
         this.createdAt = createdAt;
-        this.user = user;
+        this.userAccountModel = userAccountModel;
     }
 
     public String getId() {
@@ -92,19 +93,19 @@ public class NotifDatum implements Parcelable
         this.createdAt = createdAt;
     }
 
-    public User getUser() {
-        return user;
+    public UserAccountModel getUserAccountModel() {
+        return userAccountModel;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserAccountModel(UserAccountModel userAccountModel) {
+        this.userAccountModel = userAccountModel;
     }
 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(id);
         dest.writeValue(data);
         dest.writeValue(createdAt);
-        dest.writeValue(user);
+        dest.writeValue(userAccountModel);
     }
 
     public int describeContents() {

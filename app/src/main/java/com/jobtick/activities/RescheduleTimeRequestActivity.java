@@ -1,13 +1,9 @@
 package com.jobtick.activities;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CalendarView;
 import android.widget.LinearLayout;
@@ -25,8 +21,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
-import com.jobtick.text_view.TextViewMedium;
-import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.TimeHelper;
@@ -114,7 +108,7 @@ public class RescheduleTimeRequestActivity extends ActivityBase implements Exten
                 getTxtPreviousTime.setText(R.string.evening);
             if(taskModel.getDueTime().getMorning())
                 getTxtPreviousTime.setText(R.string.morning);
-            if(taskModel.getDueTime().getMidday())
+            if(taskModel.getDueTime().getAnytime())
                 getTxtPreviousTime.setText(R.string.anyTime);
         }
         mDateSetListener = (view, year, month, dayOfMonth) -> {

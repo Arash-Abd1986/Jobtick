@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -111,7 +110,7 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
         newTime.setText(taskModel.getRescheduleReqeust().get(pos).getNew_duedate());
         previousDate.setText(taskModel.getDueDate());
 
-        if (taskModel.getDueTime().getMidday())
+        if (taskModel.getDueTime().getAnytime())
             previousTime.setText(R.string.anytime);
         if (taskModel.getDueTime().getMorning())
             previousTime.setText(R.string.morning);

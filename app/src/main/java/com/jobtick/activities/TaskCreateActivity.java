@@ -39,7 +39,6 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.FireBaseEvent;
 import com.jobtick.utils.HttpStatus;
-import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.Tools;
 
 import org.json.JSONException;
@@ -48,7 +47,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -559,7 +557,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                         map1.put("due_time[" + count + "]", "evening");
                         count = count + 1;
                     }
-                    if (taskModel.getDueTime().getMidday()) {
+                    if (taskModel.getDueTime().getAnytime()) {
                         map1.put("due_time[" + count + "]", "anytime");
                     }
                 }

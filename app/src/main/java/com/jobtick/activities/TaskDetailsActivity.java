@@ -1457,7 +1457,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 dueTime = dueTime + "Evening";
             }
         }
-        if (time.getMidday()!=null && time.getMidday()) {
+        if (time.getAnytime()!=null && time.getAnytime()) {
             if (dueTime.length() != 0) {
                 dueTime = dueTime + ",Any time";
             } else {

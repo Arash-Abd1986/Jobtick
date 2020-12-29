@@ -25,6 +25,7 @@ import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.utils.TimeHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -107,7 +108,7 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
         name.setText(taskModel.getPoster().getName());
         description.setText(taskModel.getTitle());
         reason.setText(taskModel.getRescheduleReqeust().get(pos).getReason());
-        newTime.setText(taskModel.getRescheduleReqeust().get(pos).getNew_duedate());
+        newTime.setText(TimeHelper.convertToJustDateFormat(taskModel.getRescheduleReqeust().get(pos).getNew_duedate()));
         previousDate.setText(taskModel.getDueDate());
 
         if (taskModel.getDueTime().getAnytime())

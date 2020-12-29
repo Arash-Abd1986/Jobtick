@@ -28,6 +28,7 @@ import com.jobtick.adapers.NotificationListAdapter;
 import com.jobtick.adapers.SectionsPagerAdapter;
 import com.jobtick.fragments.Dashboard2PosterFragment;
 import com.jobtick.fragments.Dashboard2TickerFragment;
+import com.jobtick.models.ConversationModel;
 import com.jobtick.models.notification.NotifDatum;
 import com.jobtick.models.notification.PushNotificationModel2;
 import com.jobtick.utils.Constant;
@@ -240,14 +241,34 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
 
     @Override
     public void onItemClick(View view, NotifDatum obj, int position, String action) {
+
+
         if (obj.getData() != null && obj.getData().getTrigger() != null) {
-            Intent intent = new Intent(this, TaskDetailsActivity.class);
-            Bundle bundleIntent = new Bundle();
-            if (obj.getData().getTrigger().equals(PUSH_TASK)) {
+            if(obj.getData().getTrigger().equals("task")) {
+                Intent intent = new Intent(Dashboard2Activity.this, TaskDetailsActivity.class);
+                Bundle bundleIntent = new Bundle();
                 bundleIntent.putString(ConstantKey.SLUG, obj.getData().getTaskSlug());
+                //TODO: need to put poster id to this, but is has to be implemented at taskDetailsActivity not from outside
+                //bundleIntent.putInt(ConstantKey.USER_ID, obj.getUser().getId());
                 intent.putExtras(bundleIntent);
+                startActivity(intent);
+            }else if(obj.getData().getTrigger().equals("conversation")) {
+
+                ConversationModel model = new ConversationModel(obj.getData().getConversation().getId(),
+                        obj.getUserAccountModel().getName(), obj.getData().getTaskId(), null, null, obj.getCreatedAt(),
+                        sessionManager.getUserAccount(),
+                        obj.getUserAccountModel(),
+                        obj.getData().getTaskSlug(), obj.getData().getTaskStatus());
+
+                Intent intent = new Intent(this, ChatActivity.class);
+                Bundle bundle = new Bundle();
+                ChatActivity.conversationModel = model;
+                //    bundle.putParcelable(ConstantKey.CONVERSATION, model);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         }
+
+
     }
 }

@@ -276,10 +276,6 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             addTagList.addAll(task.getMusthave());
         }
         txtSuburb.setText(task.getLocation());
-
-        if (task.getAttachments() != null && !task.getAttachments().isEmpty()) {
-            attachmentArrayList.addAll(task.getAttachments());
-        }
     }
 
     private void init() {
@@ -299,6 +295,17 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         attachmentAdapter = new AttachmentAdapter1(attachmentArrayList, true);
         rcAttachment.setAdapter(attachmentAdapter);
         attachmentAdapter.setOnItemClickListener(this);
+
+        if (task.getAttachments() != null && !task.getAttachments().isEmpty()) {
+        for (AttachmentModel model : task.getAttachments()) {
+                if(model.getId() != null) {
+                    if (attachmentArrayList.size() != 0) {
+                        attachmentArrayList.add(attachmentArrayList.size() - 1, model);
+                    }
+                    attachmentAdapter.notifyItemInserted(attachmentArrayList.size() - 1);
+                }
+            }
+        }
     }
 
     @SuppressLint("NonConstantResourceId")

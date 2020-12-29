@@ -1403,7 +1403,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }
         });
         txtPosterName.setText(taskModel.getPoster().getName());
-        if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
+        if (taskModel.getTaskType().equals("physical") && taskModel.getLocation() != null) {
             txtLocation.setText(taskModel.getLocation());
         } else {
             txtLocation.setText("Remote job");

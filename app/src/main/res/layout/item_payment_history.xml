@@ -80,10 +80,11 @@
         android:id="@+id/debitedTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/priceTxt"
+        android:layout_alignTop="@id/nameTxt"
+        android:layout_alignBottom="@id/nameTxt"
         android:layout_alignEnd="@id/priceTxt"
         android:layout_alignStart="@id/priceTxt"
-        android:gravity="end"
+        android:gravity="center_vertical|end"
         android:lines="1"
         android:textAppearance="@style/materialText_600_10"
         android:textColor="@color/textColor"
@@ -96,8 +97,8 @@
         android:background="@color/colorF0F0F0"
         android:layout_alignEnd="@id/priceTxt"
         android:layout_alignStart="@id/nameTxt"
-        android:layout_below="@id/debitedTxt"
-        android:layout_marginTop="12dp"/>
+        android:layout_below="@id/nameTxt"
+        android:layout_marginTop="15dp"/>
 
 
 </RelativeLayout>

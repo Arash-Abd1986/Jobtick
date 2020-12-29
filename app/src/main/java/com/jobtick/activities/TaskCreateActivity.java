@@ -123,7 +123,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         }
         if (bundle != null && bundle.containsKey(ConstantKey.COPY) &&
                 taskModel.getPoster() != null &&
-                taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
+                !taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
 
             TaskModel taskModelTemp = new TaskModel();
             taskModelTemp.setPoster(sessionManager.getUserAccount());

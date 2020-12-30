@@ -265,11 +265,11 @@
                             android:layout_marginEnd="@dimen/_3dp"
                             android:layout_weight="1"
                             android:background="@drawable/shape_tab_gray10"
-                            android:backgroundTint="@color/assigned_selected"
+                            android:backgroundTint="@color/state_assigned_color"
                             android:gravity="center"
                             android:singleLine="true"
                             android:text="@string/assigned"
-                            android:textColor="@color/white_black_selected" />
+                            android:textColor="@color/state_assigned_font_color" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_status_cancelled"
@@ -281,7 +281,7 @@
                             android:layout_marginEnd="@dimen/_3dp"
                             android:layout_weight="1"
                             android:background="@drawable/shape_tab_primary"
-                            android:backgroundTint="@color/cancel_selected"
+                            android:backgroundTint="@color/cancel_selected_color"
                             android:gravity="center"
                             android:singleLine="true"
                             android:text="@string/cancelled"
@@ -298,11 +298,11 @@
                             android:layout_marginEnd="@dimen/_3dp"
                             android:layout_weight="1"
                             android:background="@drawable/shape_tab_primary"
-                            android:backgroundTint="@color/cancel_selected"
+                            android:backgroundTint="@color/cancel_selected_color"
                             android:gravity="center"
                             android:singleLine="true"
                             android:text="@string/overdue"
-                            android:textColor="@color/white_black_selected"
+                            android:textColor="@color/state_cancelled_font_color"
                             android:visibility="gone" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -315,11 +315,11 @@
                             android:layout_marginEnd="@dimen/_3dp"
                             android:layout_weight="1"
                             android:background="@drawable/shape_tab_gray10"
-                            android:backgroundTint="@color/green_gray_selected"
+                            android:backgroundTint="@color/state_completed_color"
                             android:gravity="center"
                             android:singleLine="true"
                             android:text="@string/completed"
-                            android:textColor="@color/white_black_selected" />
+                            android:textColor="@color/state_completed_font_color" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_status_reviewed"
@@ -331,11 +331,11 @@
                             android:layout_marginEnd="@dimen/_3dp"
                             android:layout_weight="1"
                             android:background="@drawable/shape_tab_primary"
-                            android:backgroundTint="@color/green_gray_selected"
+                            android:backgroundTint="@color/state_completed_color"
                             android:gravity="center"
                             android:singleLine="true"
                             android:text="@string/reviewed"
-                            android:textColor="@color/white_black_selected"
+                            android:textColor="@color/state_completed_font_color"
                             android:visibility="gone" />
                     </LinearLayout>
 

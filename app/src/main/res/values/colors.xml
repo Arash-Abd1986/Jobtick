@@ -425,4 +425,5 @@
     <color name="myJobsColorTaskCancelledTrans">@color/R300</color>
     <color name="colorJobOpenSelected">#DDE1FD</color>
     <color name="colorJobNotSelected">#EBECF0</color>
+    <color name="colorJobAssignedSelected">#FFFAE6</color>
 </resources>

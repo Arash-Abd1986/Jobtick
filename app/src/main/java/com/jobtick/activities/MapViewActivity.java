@@ -197,6 +197,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
 
     private void setFilterData() {
         filters.clear();
+        removeAllMarkers();
         if (filterModel.getSection() != null) {
             filters.add(filterModel.getSection());
         }
@@ -390,7 +391,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         CameraPosition cameraPosition =
                 new CameraPosition.Builder()
                         .target(new LatLng(latitude, longitude))
-                        .zoom(16)
+                        .zoom(12)
                         .build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
@@ -404,6 +405,11 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         Marker marker = googleMap.addMarker(markerOptions);
         marker.setTag(tag);
         marker.setTitle(title);
+    }
+
+    private void removeAllMarkers(){
+        if(googleMap != null)
+            googleMap.clear();
     }
 
     private void findCurrentLocation(){

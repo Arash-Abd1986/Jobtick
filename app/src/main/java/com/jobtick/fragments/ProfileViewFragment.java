@@ -416,6 +416,7 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
                     Timber.e(response);
                     content.setVisibility(View.VISIBLE);
                     pbLoading.setVisibility(View.GONE);
+//                    btnQuote.setVisibility(View.VISIBLE);
                     try {
 
                         JSONObject jsonObject = new JSONObject(response);

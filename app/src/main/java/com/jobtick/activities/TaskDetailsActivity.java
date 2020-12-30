@@ -580,7 +580,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusOverdue.setSelected(false);
                 txtStatusReviewed.setSelected(false);
                 txtStatusOpen.setVisibility(View.VISIBLE);
-                txtStatusAssigned.setVisibility(View.GONE);
+                txtStatusAssigned.setVisibility(View.VISIBLE);
                 txtStatusCompleted.setVisibility(View.GONE);
                 txtStatusCancelled.setVisibility(View.VISIBLE);
                 txtStatusOverdue.setVisibility(View.GONE);

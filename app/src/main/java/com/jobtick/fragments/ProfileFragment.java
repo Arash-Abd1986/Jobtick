@@ -462,7 +462,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                     Timber.e(response);
                     content.setVisibility(View.VISIBLE);
                     pbLoading.setVisibility(View.GONE);
-                    btnQuote.setVisibility(View.VISIBLE);
+                    btnQuote.setVisibility(View.GONE);
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());

@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,6 +57,7 @@ import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.utils.Tools;
+import com.jobtick.utils.URIPathHelper;
 import com.jobtick.widget.ExtendedCommentText;
 import com.jobtick.widget.ExtendedEntryText;
 import com.jobtick.widget.SpacingItemDecoration;
@@ -537,6 +539,15 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         lytBtnImage.setOnClickListener(v -> {
             if (checkPermissionREAD_EXTERNAL_STORAGE(taskCreateActivity)) {
 
+                //TODO: when API support pdf, use these commented lines
+//                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+//                intent.addCategory(Intent.CATEGORY_OPENABLE);
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                intent.setType("*/*");
+//                String[] mimetypes = {"image/*", "application/pdf/*"};
+//                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
+//                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -714,26 +725,6 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         });
     }
 
-    public String getPath(Uri uri) {
-        Cursor cursor = taskCreateActivity.getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        String document_id = cursor.getString(0);
-        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
-        cursor.close();
-
-        cursor = taskCreateActivity.getContentResolver().query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
-        cursor.moveToFirst();
-
-
-        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-
-        Timber.e(path);
-        cursor.close();
-
-        return path;
-    }
 
     private void selectDetailsBtn() {
         ColorStateList csl_primary = AppCompatResources.getColorStateList(getContext(), R.color.colorPrimary);
@@ -777,7 +768,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         if (requestCode == 1 && resultCode == requireActivity().RESULT_OK) {
             Uri filePath = data.getData();
-            String imagePath = getPath(data.getData());
+            String imagePath = new URIPathHelper(requireContext()).getPath(filePath);
             File file = new File(imagePath);
             uploadDataInTempApi(file);
         }

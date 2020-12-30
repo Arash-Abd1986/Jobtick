@@ -13,6 +13,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class ApiClient {
 
     private static retrofit2.Retrofit retrofit = null;
+    private retrofit2.Retrofit retrofitVideoUpload;
 
     public static ApiInterface getClient() {
 
@@ -22,12 +23,12 @@ public class ApiClient {
                     .baseUrl(Constant.BASE_URL)
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
-//                    .client(new OkHttpClient().newBuilder()
-//                            .readTimeout(10, TimeUnit.MINUTES)
-//                            .callTimeout(10, TimeUnit.MINUTES)
-//                            .connectTimeout(60, TimeUnit.SECONDS)
-//                            .writeTimeout(10, TimeUnit.MINUTES)
-//                            .build())
+                    .client(new OkHttpClient().newBuilder()
+                            .readTimeout(15, TimeUnit.SECONDS)
+                            .callTimeout(15, TimeUnit.SECONDS)
+                            .connectTimeout(15, TimeUnit.SECONDS)
+                            .writeTimeout(15, TimeUnit.SECONDS)
+                            .build())
                     .build();
 
         }
@@ -35,4 +36,24 @@ public class ApiClient {
     }
 
 
+    //we don't need this object in the whole of the app, so we avoid to use it as singleton
+    public ApiInterface buildAndGetClientForVideoUpload() {
+
+        if (retrofitVideoUpload == null) {
+
+            retrofitVideoUpload = new retrofit2.Retrofit.Builder()
+                    .baseUrl(Constant.BASE_URL)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(new OkHttpClient().newBuilder()
+                            .readTimeout(5, TimeUnit.MINUTES)
+                            .callTimeout(5, TimeUnit.MINUTES)
+                            .connectTimeout(5, TimeUnit.MINUTES)
+                            .writeTimeout(5, TimeUnit.MINUTES)
+                            .build())
+                    .build();
+
+        }
+        return retrofitVideoUpload.create(ApiInterface.class);
+    }
 }

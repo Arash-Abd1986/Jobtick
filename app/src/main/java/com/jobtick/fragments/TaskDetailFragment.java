@@ -43,6 +43,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
+import com.jobtick.AppController;
 import com.jobtick.BuildConfig;
 import com.jobtick.R;
 import com.jobtick.activities.TaskCreateActivity;
@@ -720,6 +721,12 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                Bundle bundle = new Bundle();
+                int file_size = Integer.parseInt(String.valueOf(pictureFile.length()/1024));
+                bundle.putInt("file size in KB", file_size);
+                bundle.putString("stack Trace", t.toString());
+                ((AppController)getContext()).mFirebaseAnalytics.logEvent("upload file failed in " + TaskDetailFragment.class.getName(), bundle);
+                t.printStackTrace();
                 taskCreateActivity.hideProgressDialog();
             }
         });

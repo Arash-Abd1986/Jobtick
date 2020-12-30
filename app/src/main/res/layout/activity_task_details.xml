@@ -249,11 +249,11 @@
                             android:layout_marginEnd="@dimen/_3dp"
                             android:layout_weight="1"
                             android:background="@drawable/shape_tab_gray10"
-                            android:backgroundTint="@color/green_gray_open"
+                            android:backgroundTint="@color/state_open_color"
                             android:gravity="center"
                             android:singleLine="true"
                             android:text="@string/open"
-                            android:textColor="@color/white_black_selected" />
+                            android:textColor="@color/state_open_font_color" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_status_assigned"

@@ -931,6 +931,9 @@ public class AuthActivity extends ActivityBase {
         Intent intent;
         if (userAccountModel.getAccount_status().isBasic_info()) {
             intent = new Intent(this, DashboardActivity.class);
+            sessionManager.setUserAccount(userAccountModel);
+            sessionManager.setLatitude(userAccountModel.getLatitude().toString());
+            sessionManager.setLongitude(userAccountModel.getLongitude().toString());
             sessionManager.setLogin(true);
             openActivity(intent);
         } else {

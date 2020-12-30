@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="current_location">Current Location</string>
+    <string name="current_location">Your suburb</string>
     <string name="selected_suburb">Selected suburb</string>
     <string name="processing">Processing ..</string>
     <string name="please_wait">Please wait ..</string>

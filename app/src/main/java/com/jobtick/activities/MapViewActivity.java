@@ -299,7 +299,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         }
         ArrayList<TaskModel> items = new ArrayList<>();
         Helper.closeKeyboard(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS + "?page=" + currentPage + queryParameter,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS + "?task_type=physical&page=" + currentPage + queryParameter,
                 response -> {
                     Timber.e(response);
                     // categoryArrayList.clear();

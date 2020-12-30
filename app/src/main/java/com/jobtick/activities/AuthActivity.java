@@ -358,15 +358,15 @@ public class AuthActivity extends ActivityBase {
         FragmentManager fm = getSupportFragmentManager();
         Timber.tag("back stack entry").d(Integer.toString(fm.getBackStackEntryCount()));
 
-        if (fm.getBackStackEntryCount() > 0) {
+        if (fm.getBackStackEntryCount() > 1) {
             fm.popBackStack();
             return;
         }
         if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
+            finish();
         } else {
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Press one more time to exit",
+            Toast.makeText(this, "Press back button again to exit",
                     Toast.LENGTH_SHORT).show();
 
             new Handler().postDelayed(new Runnable() {

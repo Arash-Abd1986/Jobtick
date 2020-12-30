@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -29,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -55,13 +53,15 @@ import com.jobtick.models.TaskModel;
 import com.jobtick.models.task.AttachmentModels;
 import com.jobtick.retrofit.ApiClient;
 import com.jobtick.utils.ImageUtil;
+import com.jobtick.utils.OnCropImage;
+import com.jobtick.utils.OnUCropImageImpl;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.utils.Tools;
-import com.jobtick.utils.URIPathHelper;
 import com.jobtick.widget.ExtendedCommentText;
 import com.jobtick.widget.ExtendedEntryText;
 import com.jobtick.widget.SpacingItemDecoration;
+import com.yalantis.ucrop.UCrop;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -84,9 +84,9 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import timber.log.Timber;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.app.Activity.RESULT_OK;
 
 public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.OnItemClickListener {
 
@@ -242,7 +242,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             if (addTagList != null)
                 taskModel.setMusthave(addTagList);
 
-            if(attachmentArrayList != null)
+            if (attachmentArrayList != null)
                 taskModel.setAttachments(attachmentArrayList);
 
 
@@ -300,8 +300,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         attachmentAdapter.setOnItemClickListener(this);
 
         if (task.getAttachments() != null && !task.getAttachments().isEmpty()) {
-        for (AttachmentModel model : task.getAttachments()) {
-                if(model.getId() != null) {
+            for (AttachmentModel model : task.getAttachments()) {
+                if (model.getId() != null) {
                     if (attachmentArrayList.size() != 0) {
                         attachmentArrayList.add(attachmentArrayList.size() - 1, model);
                     }
@@ -721,11 +721,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
-                Bundle bundle = new Bundle();
-                int file_size = Integer.parseInt(String.valueOf(pictureFile.length()/1024));
-                bundle.putInt("file size in KB", file_size);
-                bundle.putString("stack Trace", t.toString());
-                ((AppController)getContext()).mFirebaseAnalytics.logEvent("upload file failed in " + TaskDetailFragment.class.getName(), bundle);
+                ((AppController) getContext()).mCrashlytics.recordException(t);
                 t.printStackTrace();
                 taskCreateActivity.hideProgressDialog();
             }
@@ -756,6 +752,16 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            final Uri resultUri = UCrop.getOutput(data);
+            File file = new File(resultUri.getPath());
+            uploadDataInTempApi(file);
+        } else if (resultCode == UCrop.RESULT_ERROR) {
+            final Throwable cropError = UCrop.getError(data);
+            ((AppController)getContext()).mCrashlytics.recordException(cropError);
+        }
+
         if (requestCode == 25) {
             addTagList.clear();
             addTagList.addAll(data.getStringArrayListExtra("TAG"));
@@ -775,9 +781,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         if (requestCode == 1 && resultCode == requireActivity().RESULT_OK) {
             Uri filePath = data.getData();
-            String imagePath = new URIPathHelper(requireContext()).getPath(filePath);
-            File file = new File(imagePath);
-            uploadDataInTempApi(file);
+            OnCropImage onCropImage = new OnUCropImageImpl(requireActivity());
+            onCropImage.crop(filePath);
         }
 
         if (requestCode == CAMERA_REQUEST && resultCode == requireActivity().RESULT_OK) {

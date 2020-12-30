@@ -154,4 +154,7 @@ dependencies {
 
     //Video Compression - this library is according to telegram video compression
     implementation 'com.github.AbedElazizShe:LightCompressor:0.7.7'
+
+    //image cropper
+    implementation 'com.github.yalantis:ucrop:2.2.6'
 }

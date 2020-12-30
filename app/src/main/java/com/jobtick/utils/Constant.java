@@ -82,6 +82,7 @@ public class Constant {
     public static final String URL_CANCELLATION = BASE_URL + "cancellation";
     public static final String URL_COUPONS = BASE_URL + "coupons";
     public static final String URL_TASK_ALERT = BASE_URL + "taskalerts";
+    public static final String URI = "URI";
 
     public static int PAGE_SIZE = 10;
 

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -601,6 +602,10 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        for (Fragment fragment : getSupportFragmentManager().getFragments())
+            fragment.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == ConstantKey.RESULTCODE_ATTACHMENT) {
             if (data != null) {
                 if (data.getParcelableArrayListExtra(ConstantKey.ATTACHMENT) != null) {

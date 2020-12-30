@@ -220,6 +220,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/ThemeFullscreen" />
         <activity android:name=".activities.CashOutActivity" />
+
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
     </application>
 
 </manifest>

@@ -247,7 +247,7 @@
                                 android:id="@+id/txt_current_service_fee"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="7%"
+                                android:text="10%"
                                 android:textColor="@color/textColor"
                                 android:textAppearance="@style/materialText_500_17"/>
 

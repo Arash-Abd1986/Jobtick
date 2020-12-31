@@ -490,5 +490,7 @@
     <string name="welcome_back">Welcome back</string>
     <string name="sign_in_google_text">Sign in with Google</string>
     <string name="sign_in_facebook_text">Sign in with Facebook</string>
+    <string name="badges">Badges</string>
+    <string name="these_badges_will_be_shown_on_when_all_requirements_are_provided_by_user">These badges will be shown on when all requirements are provided by user.</string>
 
 </resources>

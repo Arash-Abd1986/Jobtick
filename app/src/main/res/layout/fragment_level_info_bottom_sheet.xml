@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/information"
+            android:text="@string/badges"
             android:textColor="@color/textColor"/>
     </LinearLayout>
 
@@ -48,6 +48,6 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="18dp"
         android:layout_marginTop="18dp"
-        android:text="@string/excepteur_qui_qui_fugiat_et_esse_palar_voluptate_exercitation_esse_officia_cillum_occaecat_culpa_pariatur_nisi_in_ut_tempor_laborum_are_officia_dolore_ad_occaecat_anim_a_voluptate_proident_ea_commodo_qui_velit_officia_minim" />
+        android:text="@string/these_badges_will_be_shown_on_when_all_requirements_are_provided_by_user" />
 
 </LinearLayout>

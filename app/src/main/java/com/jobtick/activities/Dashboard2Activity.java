@@ -244,7 +244,7 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
 
 
         if (obj.getData() != null && obj.getData().getTrigger() != null) {
-            if(obj.getData().getTrigger().equals("task")) {
+            if(obj.getData().getTrigger().equals("task") || obj.getData().getTrigger().equals("comment")) {
                 Intent intent = new Intent(Dashboard2Activity.this, TaskDetailsActivity.class);
                 Bundle bundleIntent = new Bundle();
                 bundleIntent.putString(ConstantKey.SLUG, obj.getData().getTaskSlug());

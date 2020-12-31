@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
@@ -65,7 +66,7 @@ public class AttachmentAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             AttachmentModel item = items.get(position);
             if (item.getUrl() != null) {
-                ImageUtil.displayImage(tempHolder.imgView, item.getUrl(), null);
+                Glide.with(tempHolder.imgView).load(item.getThumbUrl()).into(tempHolder.imgView);
             }
             if (delete_action) {
                 tempHolder.imgBtnDelete.setVisibility(View.VISIBLE);

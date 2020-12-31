@@ -163,19 +163,18 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
         selectBudgetBtn();
 
         task.setBudget(getArguments().getInt("BUDGET"));
-        task.setHourlyRate(getArguments().getInt("HOUR_BUDGET"));
-        task.setTotalHours(getArguments().getInt("TOTAL_HOURS"));
-        task.setPaymentType(getArguments().getString("PAYMENT_TYPE"));
-
-        if (task.getPaymentType().equalsIgnoreCase("fixed")) {
+        if(task.getBudget() != null)
             edtBudgetT.setText(task.getBudget().toString());
-        }
-        else{
+
+        task.setHourlyRate(getArguments().getInt("HOUR_BUDGET"));
+        if(task.getHourlyRate() != null)
             edtHours.setText(task.getTotalHours().toString());
+
+        task.setTotalHours(getArguments().getInt("TOTAL_HOURS"));
+        if(task.getTotalHours() != null)
             edtBudgetH.setText(task.getHourlyRate().toString());
-        }
 
-
+        task.setPaymentType(getArguments().getString("PAYMENT_TYPE"));
         if (task.getPaymentType() == null || task.getPaymentType().equalsIgnoreCase("fixed")) {
             rbTotal.setChecked(true);
             rbHourly.setChecked(false);
@@ -196,8 +195,6 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
             estimatedH.setVisibility(View.VISIBLE);
             estimatedT.setVisibility(View.GONE);
         }
-        showEstimatedBudget();
-
         showEstimatedBudget();
 
         taskCreateActivity.setActionDraftTaskBudget(taskModel -> {

@@ -51,7 +51,7 @@ public class OnUCropImageImpl implements OnCropImage{
         options.setRootViewBackgroundColor(activity.getColor(R.color.backgroundLightGrey));
 
         UCrop.of(cacheCopyUri, destinationUri)
-                .withAspectRatio(9, 9)
+                .withAspectRatio(4, 3)
                 .withMaxResultSize(1024, 1024)
                 .withOptions(options)
                 .start(activity);

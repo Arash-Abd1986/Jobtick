@@ -39,6 +39,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -2200,8 +2201,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
             ImageView image = v.findViewById(R.id.image);
             image.setAdjustViewBounds(true);
-            if (attachment.getUrl() != null) {
-                ImageUtil.displayImage(image, attachment.getUrl(), null);
+            if (attachment.getModalUrl() != null) {
+                Glide.with(image).load(attachment.getModalUrl()).into(image);
                 image.setScaleType(ImageView.ScaleType.CENTER_CROP);
             } else {
                 if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {

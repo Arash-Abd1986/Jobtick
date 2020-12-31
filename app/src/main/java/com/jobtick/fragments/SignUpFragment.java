@@ -1,5 +1,6 @@
 package com.jobtick.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -60,9 +61,19 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
 
     private AuthActivity authActivity;
 
+    private View fragmentView;
+    private String email;
+    private String pass1;
+    private String pass2;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if(fragmentView != null){
+
+            return fragmentView;
+        }
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
         ButterKnife.bind(this, view);
@@ -73,12 +84,6 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
         return view;
     }
 
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-    }
 
     private boolean validation() {
         if (TextUtils.isEmpty(edtEmailAddress.getText().trim())) {
@@ -127,15 +132,13 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
         }
     }
 
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        email = edtEmailAddress.getText();
+        pass1 = edtPassword.getText();
+        pass2 = edtRepeatPassword.getText();
+        fragmentView = getView();
     }
 
     @Override

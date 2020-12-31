@@ -2,6 +2,8 @@ package com.jobtick.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
@@ -19,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.jobtick.R;
@@ -111,6 +114,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
         textView.setText(eTitle);
         editText.setText(eContent);
+
         editText.setHint(eHint);
         editText.setEnabled(eIsEnable);
 
@@ -338,10 +342,12 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     }
 
     public void setText(String content) {
+        System.out.println("ExtendedEntryText: onSetText title: " + eTitle + " value: " + content);
         this.editText.setText(content);
     }
 
     public void seteContent(String eContent) {
+        System.out.println("ExtendedEntryText: seteContent title: " + eTitle + " value: " + eContent);
         this.editText.setText(eContent);
     }
 
@@ -351,6 +357,27 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
     public void seteInputType(int eInputType) {
         this.eInputType = eInputType;
+    }
+
+    @Nullable
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Bundle bundle = new Bundle();
+        bundle.putString("value", editText.getText().toString());
+        bundle.putParcelable("state", super.onSaveInstanceState());
+        System.out.println("ExtendedEntryText: onSaveInstanceState title: " + eTitle + " value: " + editText.getText());
+        return bundle;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+
+        Bundle bundle = (Bundle)state;
+        Parcelable newState = bundle.getParcelable("state");
+        super.onRestoreInstanceState(newState);
+
+        editText.setText(bundle.getString("value"));
+        System.out.println("ExtendedEntryText: onRestoreInstanceState title: " + eTitle + " value: " + editText.getText());
     }
 
     public interface EInputType {

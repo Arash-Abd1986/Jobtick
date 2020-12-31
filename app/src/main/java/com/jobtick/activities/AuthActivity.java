@@ -191,7 +191,7 @@ public class AuthActivity extends ActivityBase {
                         Bundle bundle = new Bundle();
                         Fragment fragment = new ForgotPassword3Fragment();
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.auth_layout, fragment).addToBackStack(ForgotPassword3Fragment.class.getName());
+                        ft.replace(R.id.auth_layout, fragment).addToBackStack(fragment.toString());
                         bundle.putString("email", str_email);
                         bundle.putString("otp", otp);
                         fragment.setArguments(bundle);
@@ -619,7 +619,7 @@ public class AuthActivity extends ActivityBase {
                     .beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
                             android.R.anim.fade_in, android.R.anim.fade_out);
             // Replace whatever is in the content_fragment view with this fragment
-            transaction.replace(R.id.auth_layout, fragment).addToBackStack(fragment.getClass().getName());
+            transaction.replace(R.id.auth_layout, fragment).addToBackStack(fragment.toString());
 
             // Commit the transaction
             transaction.commit();
@@ -855,7 +855,7 @@ public class AuthActivity extends ActivityBase {
                         Bundle bundle = new Bundle();
                         Fragment fragment = new VerifyAccountFragment();
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.auth_layout, fragment).addToBackStack(VerifyAccountFragment.class.getName());
+                        ft.replace(R.id.auth_layout, fragment).addToBackStack(fragment.toString());
                         bundle.putString("email", str_email);
                         bundle.putString("password", str_password);
                         fragment.setArguments(bundle);
@@ -1168,7 +1168,7 @@ public class AuthActivity extends ActivityBase {
                         Bundle bundle = new Bundle();
                         Fragment fragment = new VerifyAccountFragment();
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.auth_layout, fragment).addToBackStack(VerifyAccountFragment.class.getName());
+                        ft.replace(R.id.auth_layout, fragment).addToBackStack(fragment.toString());
                         bundle.putString("email", str_email);
                         bundle.putString("password", str_password);
                         fragment.setArguments(bundle);
@@ -1473,7 +1473,7 @@ public class AuthActivity extends ActivityBase {
                         Bundle bundle = new Bundle();
                         Fragment fragment = new ForgotPassword2Fragment();
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.auth_layout, fragment).addToBackStack(ForgotPassword2Fragment.class.getName());
+                        ft.replace(R.id.auth_layout, fragment).addToBackStack(fragment.toString());
                         bundle.putString("email", str_email);
                         fragment.setArguments(bundle);
                         ft.commit();

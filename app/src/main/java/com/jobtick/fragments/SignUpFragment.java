@@ -62,9 +62,6 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
     private AuthActivity authActivity;
 
     private View fragmentView;
-    private String email;
-    private String pass1;
-    private String pass2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -135,9 +132,6 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        email = edtEmailAddress.getText();
-        pass1 = edtPassword.getText();
-        pass2 = edtRepeatPassword.getText();
         fragmentView = getView();
     }
 

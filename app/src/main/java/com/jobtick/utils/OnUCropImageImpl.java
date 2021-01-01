@@ -49,6 +49,8 @@ public class OnUCropImageImpl implements OnCropImage{
         options.setToolbarColor(activity.getColor(R.color.backgroundLightGrey));
         options.setDimmedLayerColor(activity.getColor(R.color.backgroundLightGrey));
         options.setRootViewBackgroundColor(activity.getColor(R.color.backgroundLightGrey));
+        options.setCropFrameColor(activity.getColor(R.color.N070));
+        options.setCropGridColor(activity.getColor(R.color.N050));
 
         UCrop.of(cacheCopyUri, destinationUri)
                 .withAspectRatio(4, 3)

@@ -2707,8 +2707,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
         //TODO: when a task is completed and when it is overdue?
         //according of that rectify this block of code
-        if (taskModel.getStatus().toLowerCase().equals("completed") ||
-                taskModel.getStatus().toLowerCase().equals("overdue")) {
+        if (taskModel.getStatus().toLowerCase().equals("completed")) {
             if (isUserThePoster) {
                 showConfirmReleaseCard();
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);

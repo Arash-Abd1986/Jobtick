@@ -38,7 +38,8 @@
         android:layout_marginTop="@dimen/spacing_medium"
         android:layout_marginEnd="@dimen/spacing_large"
         android:layout_marginBottom="@dimen/spacing_middle"
-        android:elevation="@dimen/spacing_middle"
+        android:elevation="0dp"
+        app:cardElevation="0dp"
         app:cardCornerRadius="@dimen/spacing_middle">
 
 
@@ -46,7 +47,7 @@
             android:id="@+id/iv_attachment"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             >
 
 

@@ -4,11 +4,11 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -45,6 +45,7 @@ import com.google.android.material.button.MaterialButton;
 import com.jobtick.AppController;
 import com.jobtick.BuildConfig;
 import com.jobtick.R;
+import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.adapers.AddTagAdapter;
 import com.jobtick.adapers.AttachmentAdapter1;
@@ -53,7 +54,7 @@ import com.jobtick.models.PositionModel;
 import com.jobtick.models.TaskModel;
 import com.jobtick.models.task.AttachmentModels;
 import com.jobtick.retrofit.ApiClient;
-import com.jobtick.utils.ImageUtil;
+import com.jobtick.utils.NewCameraUtil;
 import com.jobtick.utils.OnCropImage;
 import com.jobtick.utils.OnUCropImageImpl;
 import com.jobtick.utils.SessionManager;
@@ -69,8 +70,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -516,8 +515,15 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                 if (getContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
                 } else {
-                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                    Intent cameraIntent = NewCameraUtil.getTakePictureIntent(requireContext());
+                    if(cameraIntent == null){
+                        ((ActivityBase)requireActivity()).showToast("can not write to your files to save picture.", requireContext());
+                    }
+                    try{
+                        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                    }catch (ActivityNotFoundException e){
+                        ((ActivityBase)requireActivity()).showToast("Can not find your camera.", requireContext());
+                    }
                 }
             }
             mBottomSheetDialog.hide();
@@ -787,20 +793,15 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         }
 
         if (requestCode == CAMERA_REQUEST && resultCode == requireActivity().RESULT_OK) {
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            File pictureFile = new File(taskCreateActivity.getExternalCacheDir(), "jobtick");
-            FileOutputStream fos = null;
-            try {
-                fos = new FileOutputStream(pictureFile);
-                if (bitmap != null) {
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                }
-                fos.close();
 
-            } catch (IOException e) {
-                e.printStackTrace();
+            String imagePath = NewCameraUtil.getImagePath();
+            if(imagePath == null){
+                ((ActivityBase)requireActivity()).showToast("Can not find image.", requireContext());
+                return;
             }
-            uploadDataInTempApi(pictureFile);
+            Uri imageUri = Uri.fromFile(new File(imagePath));
+            OnCropImage cropImage = new OnUCropImageImpl(requireActivity());
+            cropImage.crop(imageUri);
         }
     }
 }

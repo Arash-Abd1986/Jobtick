@@ -163,16 +163,16 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
         selectBudgetBtn();
 
         task.setBudget(getArguments().getInt("BUDGET"));
-        if(task.getBudget() != null)
+        if (task.getBudget() != null && !task.getBudget().toString().equals("0"))
             edtBudgetT.setText(task.getBudget().toString());
 
         task.setHourlyRate(getArguments().getInt("HOUR_BUDGET"));
-        if(task.getHourlyRate() != null)
-            edtHours.setText(task.getTotalHours().toString());
+        if (task.getHourlyRate() != null && !task.getHourlyRate().toString().equals("0"))
+            edtBudgetH.setText(task.getHourlyRate().toString());
 
         task.setTotalHours(getArguments().getInt("TOTAL_HOURS"));
-        if(task.getTotalHours() != null)
-            edtBudgetH.setText(task.getHourlyRate().toString());
+        if (task.getTotalHours() != null && !task.getTotalHours().toString().equals("0"))
+            edtHours.setText(task.getTotalHours().toString());
 
         task.setPaymentType(getArguments().getString("PAYMENT_TYPE"));
         if (task.getPaymentType() == null || task.getPaymentType().equalsIgnoreCase("fixed")) {
@@ -198,10 +198,10 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
         showEstimatedBudget();
 
         taskCreateActivity.setActionDraftTaskBudget(taskModel -> {
-            if(rbTotal.isChecked()){
+            if (rbTotal.isChecked()) {
                 taskModel.setTaskType("fixed");
                 taskModel.setBudget(Integer.parseInt(edtBudgetT.getText().toString()));
-            }else{
+            } else {
                 taskModel.setTaskType("hourly");
                 taskModel.setTotalHours(Integer.parseInt(edtHours.getText().toString()));
                 taskModel.setHourlyRate(Integer.parseInt(edtBudgetH.getText().toString()));
@@ -239,31 +239,22 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
     private void showEstimatedBudget() {
 
         if (rbHourly.isChecked()) {
-            try {
+
+            if(edtHours.getText().toString().trim().length() != 0)
                 hours = Integer.parseInt(edtHours.getText().toString().trim());
-            } catch (NumberFormatException e) {
-                hours = 0;
-            }
-        }
-
-        if (edtBudgetH.getText().toString().trim().length() != 0) {
-            try {
+            else hours = 0;
+            if(edtBudgetH.getText().toString().trim().length() != 0)
                 budgetH = Integer.parseInt(edtBudgetH.getText().toString().trim());
-            } catch (NumberFormatException e) {
-                budgetH = 0;
-            }
-        }
+            else budgetH = 0;
 
-        if (edtBudgetT.getText().toString().trim().length() != 0) {
-            try {
+            txtBudgetH.setText(String.valueOf(hours * budgetH));
+        } else {
+            if(edtBudgetT.getText().toString().trim().length() != 0)
                 budgetT = Integer.parseInt(edtBudgetT.getText().toString().trim());
-            } catch (NumberFormatException e) {
-                budgetT = 0;
-            }
-        }
+            else budgetT = 0;
 
-        txtBudgetH.setText(String.valueOf(hours * budgetH));
-        txtBudgetT.setText(String.valueOf(budgetT));
+            txtBudgetT.setText(String.valueOf(budgetT));
+        }
     }
 
     @OnClick({R.id.lyt_btn_details, R.id.lyt_btn_date_time, R.id.lyt_btn_budget,
@@ -342,8 +333,7 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable editable) {
-        if (editable.length() != 0)
-            showEstimatedBudget();
+        showEstimatedBudget();
     }
 
     public interface OperationsListener {

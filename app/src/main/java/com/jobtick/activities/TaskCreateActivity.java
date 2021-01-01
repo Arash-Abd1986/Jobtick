@@ -41,6 +41,7 @@ import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.FireBaseEvent;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.Tools;
+import com.yalantis.ucrop.UCrop;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -609,8 +610,11 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        for (Fragment fragment : getSupportFragmentManager().getFragments())
-            fragment.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            for (Fragment fragment : getSupportFragmentManager().getFragments())
+                if(fragment instanceof TaskDetailFragment)
+                    fragment.onActivityResult(requestCode, resultCode, data);
+        }
 
         if (requestCode == ConstantKey.RESULTCODE_ATTACHMENT) {
             if (data != null) {

@@ -60,6 +60,9 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
     @BindView(R.id.txt_service_fee)
     TextView txtServiceFee;
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_fee_title)
+    TextView txtFeeTitle;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_final_budget)
     TextView txtFinalBudget;
     @SuppressLint("NonConstantResourceId")
@@ -157,6 +160,11 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
                 makeAnOfferModel.setOffer_price(Integer.parseInt(edtBudget.getText().trim()));
                 budgetCallbackFunction.continueButtonBudget(makeAnOfferModel);
             }
+        });
+
+        txtFeeTitle.setOnClickListener(v-> {
+            ServiceFeeInfoBottomSheet infoBottomSheet = new ServiceFeeInfoBottomSheet();
+            infoBottomSheet.show(getChildFragmentManager(), null);
         });
     }
 

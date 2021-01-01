@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
-    android:focusable="true"
     android:background="@color/backgroundLightGrey"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".fragments.MakeAnOfferBudgetFragment">
 
 
@@ -43,9 +43,9 @@
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nested_scroll_view"
-            android:layout_below="@id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
             android:overScrollMode="never">
 
             <LinearLayout
@@ -54,9 +54,9 @@
                 android:layout_marginStart="@dimen/_15sp"
                 android:layout_marginTop="@dimen/_10sp"
                 android:layout_marginEnd="@dimen/_15sp"
-                android:orientation="vertical"
-                android:focusableInTouchMode="true"
                 android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
                 android:paddingBottom="80dp">
 
 
@@ -77,8 +77,8 @@
                         android:layout_marginEnd="@dimen/_5sp"
                         android:layout_weight="1"
                         android:text="Poster offer"
-                        android:textColor="@color/grey_70"
-                        android:textAppearance="@style/materialText_400_15"/>
+                        android:textAppearance="@style/materialText_400_15"
+                        android:textColor="@color/grey_70" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvOffer"
@@ -86,8 +86,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="$200"
-                        android:textColor="@color/colorPrimary"
-                        android:textAppearance="@style/materialText_500_17" />
+                        android:textAppearance="@style/materialText_500_17"
+                        android:textColor="@color/colorPrimary" />
 
                 </LinearLayout>
 
@@ -96,9 +96,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    app:eHint="5 - 9999"
-                    android:focusableInTouchMode="true"
                     android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    app:eHint="5 - 9999"
                     app:eImeOptions="normal"
                     app:eInputType="budget"
                     app:eTitle="Your offer" />
@@ -125,22 +125,27 @@
                             android:orientation="horizontal">
 
                             <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="0dp"
+                                android:id="@+id/txt_fee_title"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Service fee"
-                                android:textColor="@color/grey_70"
-                                android:textAppearance="@style/materialText_400_15" />
+                                android:layout_gravity="center"
+                                android:drawableEnd="@drawable/ic_alert_circle_new_grey_12dp"
+                                android:gravity="center"
+                                android:text="Fee "
+                                android:textAppearance="@style/materialText_400_15"
+                                android:textColor="@color/grey_70" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_service_fee"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_10sp"
                                 android:layout_marginTop="@dimen/_5sp"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical|end"
                                 android:text="$00"
-                                android:textColor="@color/textColor"
-                                android:textAppearance="@style/materialText_500_17" />
+                                android:textAppearance="@style/materialText_500_17"
+                                android:textColor="@color/textColor" />
 
                         </LinearLayout>
 
@@ -158,8 +163,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="You’ll receive"
-                                android:textColor="@color/textColor"
-                                android:textAppearance="@style/materialText_500_17"/>
+                                android:textAppearance="@style/materialText_500_17"
+                                android:textColor="@color/textColor" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_final_budget"
@@ -168,8 +173,8 @@
                                 android:layout_marginStart="@dimen/_10sp"
                                 android:layout_marginTop="@dimen/_5sp"
                                 android:text="$00"
-                                android:textColor="@color/colorPrimary"
-                                android:textAppearance="@style/materialText_400_20" />
+                                android:textAppearance="@style/materialText_400_20"
+                                android:textColor="@color/colorPrimary" />
                         </LinearLayout>
                     </LinearLayout>
                 </FrameLayout>
@@ -240,16 +245,16 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Service Fee (Currently)"
-                                android:textColor="@color/textColor"
-                                android:textAppearance="@style/materialText_400_15" />
+                                android:textAppearance="@style/materialText_400_15"
+                                android:textColor="@color/textColor" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_current_service_fee"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="10%"
-                                android:textColor="@color/textColor"
-                                android:textAppearance="@style/materialText_500_17"/>
+                                android:textAppearance="@style/materialText_500_17"
+                                android:textColor="@color/textColor" />
 
 
                         </LinearLayout>
@@ -267,8 +272,8 @@
                                 android:layout_height="wrap_content"
                                 android:lineHeight="20dp"
                                 android:text="Complete more Jobs in-order to upgrade your account and be eligible to pay minimum service fee."
-                                android:textColor="@color/grey_70"
-                                android:textAppearance="@style/materialText_400_15" />
+                                android:textAppearance="@style/materialText_400_15"
+                                android:textColor="@color/grey_70" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_learn_how_level_affects_service_fee"
@@ -277,8 +282,8 @@
                                 android:layout_marginTop="@dimen/_10sp"
                                 android:layout_marginBottom="@dimen/_5sp"
                                 android:text="More information about levels and service fees."
-                                android:textColor="@color/colorTaskOffer"
-                                android:textAppearance="@style/materialText_400_13" />
+                                android:textAppearance="@style/materialText_400_13"
+                                android:textColor="@color/colorTaskOffer" />
                         </LinearLayout>
                     </LinearLayout>
                 </FrameLayout>

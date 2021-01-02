@@ -14,6 +14,7 @@ import android.annotation.SuppressLint;
 import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.payment.AddBillingAddress;
 import com.jobtick.payment.AddBillingAddressImpl;
+import com.jobtick.utils.Constant;
 import com.jobtick.utils.StateHelper;
 import com.jobtick.widget.ExtendedEntryText;
 
@@ -58,6 +59,7 @@ public class BillingAddressActivity extends ActivityBase {
     private AddBillingAddress addBillingAddress;
 
     private StateHelper stateHelper;
+    private boolean editMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +67,8 @@ public class BillingAddressActivity extends ActivityBase {
         setContentView(R.layout.activity_billing_address);
         ButterKnife.bind(this);
         stateHelper = new StateHelper(this);
-        initToolbar();
         initUi();
+        initToolbar();
         edtState.setAdapter(stateHelper.getStates());
         addBillingAddress = new AddBillingAddressImpl(this, sessionManager) {
             @Override
@@ -106,6 +108,10 @@ public class BillingAddressActivity extends ActivityBase {
         edtSuburs.setText(billingAdreessModel.getData().getCity());
         edtPostcode.setText(billingAdreessModel.getData().getPost_code());
         edtCountry.setText(billingAdreessModel.getData().getCountry());
+
+        editMode = bundle.getBoolean(Constant.EDIT_MODE);
+        if(editMode)
+            lytBtnChangeBillingAddress.setText(R.string.edit_billing_address);
     }
 
 
@@ -113,7 +119,10 @@ public class BillingAddressActivity extends ActivityBase {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Billing Address");
+        if(editMode)
+            getSupportActionBar().setTitle(getString(R.string.edit_billing_address));
+        else
+            getSupportActionBar().setTitle(getString(R.string.add_billing_address));
     }
 
 

@@ -14,6 +14,7 @@ import android.annotation.SuppressLint;
 import com.jobtick.models.BankAccountModel;
 import com.jobtick.payment.AddBankAccount;
 import com.jobtick.payment.AddBankAccountImpl;
+import com.jobtick.utils.Constant;
 import com.jobtick.widget.ExtendedEntryText;
 
 import butterknife.BindView;
@@ -44,14 +45,15 @@ public class AddBankAccountActivity extends ActivityBase {
 
 
     private AddBankAccount addBankAccount;
+    private boolean editMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_bank_account);
         ButterKnife.bind(this);
-        initToolbar();
         initUi();
+        initToolbar();
 
         this.addBankAccount = new AddBankAccountImpl(this, sessionManager) {
             @Override
@@ -82,7 +84,10 @@ public class AddBankAccountActivity extends ActivityBase {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Add Bank Account");
+        if(editMode)
+            getSupportActionBar().setTitle(R.string.edit_bank_account);
+        else
+            getSupportActionBar().setTitle(R.string.add_bank_account);
     }
 
     private void initUi() {
@@ -95,6 +100,12 @@ public class AddBankAccountActivity extends ActivityBase {
         edtAccountName.setText(bankAccountModel.getData().getAccount_name());
         edtAccountNumber.setText("xxxxx" + bankAccountModel.getData().getAccount_number());
         edtBsb.setText(bankAccountModel.getData().getBsb_code());
+
+        editMode = bundle.getBoolean(Constant.EDIT_MODE);
+        if(editMode)
+            lytBtnAddBankAccount.setText(getString(R.string.edit_bank_account));
+        else
+            lytBtnAddBankAccount.setText(getString(R.string.add_bank_account));
     }
 
     @Override

@@ -78,6 +78,7 @@
     <string name="post_task">post the job</string>
     <string name="terms_condition"><![CDATA[Terms & Condition]]></string>
     <string name="submit">Submit</string>
+    <string name="edit_bank_account">Edit Bank Account</string>
     <string name="add_bank_account">Add Bank Account</string>
     <string name="add_credit_card">Add Credit Card</string>
     <string name="change_billing_address">Change Billing Address</string>
@@ -494,5 +495,7 @@
     <string name="these_badges_will_be_shown_on_when_all_requirements_are_provided_by_user">These badges will be shown on when all requirements are provided by user.</string>
     <string name="add_bank_account_error">Your bank account information is not correct.</string>
     <string name="credit_card_error">Your credit card information is not correct.</string>
+    <string name="australia">Australia</string>
+    <string name="edit_billing_address">Edit Billing Address</string>
 
 </resources>

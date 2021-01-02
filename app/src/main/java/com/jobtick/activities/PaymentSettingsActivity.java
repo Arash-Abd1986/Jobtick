@@ -30,6 +30,7 @@ import com.jobtick.models.CreditCardModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.HttpStatus;
+import com.jobtick.utils.StateHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -249,30 +250,30 @@ public class PaymentSettingsActivity extends ActivityBase {
     }
 
     private void editBankAccount(boolean editMode) {
+        Intent add_bank_account = new Intent(PaymentSettingsActivity.this, AddBankAccountActivity.class);
+        Bundle bundle = new Bundle();
+        add_bank_account.putExtra(Constant.EDIT_MODE, editMode);
+
         if (editMode) {
-            Bundle bundle = new Bundle();
             bundle.putParcelable(BankAccountModel.class.getName(), bankAccountModel);
-            Intent add_bank_account = new Intent(PaymentSettingsActivity.this, AddBankAccountActivity.class);
-            add_bank_account.putExtras(bundle);
-            startActivityForResult(add_bank_account, 222);
-        } else {
-            Intent add_bank_account = new Intent(PaymentSettingsActivity.this, AddBankAccountActivity.class);
-            startActivityForResult(add_bank_account, 222);
         }
+
+        add_bank_account.putExtras(bundle);
+        startActivityForResult(add_bank_account, 222);
 
     }
 
     private void editBillingAddress(boolean editMode) {
+        Intent add_billing_address = new Intent(PaymentSettingsActivity.this, BillingAddressActivity.class);
+        Bundle bundle = new Bundle();
+        add_billing_address.putExtra(Constant.EDIT_MODE, editMode);
+
         if (editMode) {
-            Bundle bundle = new Bundle();
             bundle.putParcelable(BillingAdreessModel.class.getName(), billingAdreessModel);
-            Intent add_billing_address = new Intent(PaymentSettingsActivity.this, BillingAddressActivity.class);
-            add_billing_address.putExtras(bundle);
-            startActivityForResult(add_billing_address, 333);
-        } else {
-            Intent add_billing_address = new Intent(PaymentSettingsActivity.this, BillingAddressActivity.class);
-            startActivityForResult(add_billing_address, 333);
         }
+
+        add_billing_address.putExtras(bundle);
+        startActivityForResult(add_billing_address, 333);
     }
 
     private void setupViewBankAccountDetails(boolean success) {
@@ -423,8 +424,9 @@ public class PaymentSettingsActivity extends ActivityBase {
                                             address.setText(billingAdreessModel.getData().getLine1());
                                             suburb.setText(billingAdreessModel.getData().getCity());
                                             postCode.setText(billingAdreessModel.getData().getPost_code());
-                                            country.setText(billingAdreessModel.getData().getCountry());
-                                            state.setText(billingAdreessModel.getData().getState());
+                                            country.setText(R.string.australia);
+                                            StateHelper helper = new StateHelper(getApplicationContext());
+                                            state.setText(helper.getStateName(billingAdreessModel.getData().getState()));
                                         }
                                     }
                                 }
@@ -510,7 +512,9 @@ public class PaymentSettingsActivity extends ActivityBase {
                                         setupViewCreditCard(true);
 
                                         cardType.setText(creditCardModel.getData().get(0).getCard().getBrand());
-                                        edtExpiryDate.setText(String.format(Locale.ENGLISH, "Expiry Date: %d/%d", creditCardModel.getData().get(0).getCard().getExp_month(), creditCardModel.getData().get(0).getCard().getExp_year()));
+                                        edtExpiryDate.setText(String.format(Locale.ENGLISH, "Expiry Date: %s/%d",
+                                                (creditCardModel.getData().get(0).getCard().getExp_month() < 10) ? "0" + creditCardModel.getData().get(0).getCard().getExp_month() : creditCardModel.getData().get(0).getCard().getExp_month(),
+                                                creditCardModel.getData().get(0).getCard().getExp_year()));
                                         creditAccountNumber.setText(String.format("xxxx xxxx xxxx %s", creditCardModel.getData().get(0).getCard().getLast4()));
                                     } else {
                                         setupViewCreditCard(false);

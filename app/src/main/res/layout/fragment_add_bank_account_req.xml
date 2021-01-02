@@ -57,6 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:eTitle="@string/account_number"
+                app:eMaxCharNumber="10"
                 app:eInputType="integer"
                 android:layout_marginTop="8dp"
                 app:eImeOptions="actionDone"

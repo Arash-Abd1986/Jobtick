@@ -47,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:eImeOptions="actionNext"
+                app:eMaxCharNumber="16"
                 app:eInputType="integer"
                 app:eTitle="@string/card_number"
                 app:eBoxSize="small"/>
@@ -66,6 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                app:eMaxCharNumber="4"
                 app:eImeOptions="actionDone"
                 app:eInputType="integer"
                 app:eTitle="@string/cvc"

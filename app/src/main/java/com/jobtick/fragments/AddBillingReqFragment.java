@@ -110,7 +110,7 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher {
             edtSuburs.setText(billingAdreessModel.getData().getLocation());
             edtState.setText(billingAdreessModel.getData().getState());
             edtPostcode.setText(billingAdreessModel.getData().getPost_code());
-            edtCountry.setText(billingAdreessModel.getData().getCountry());
+            edtCountry.setText(getString(R.string.australia));
         }
     }
 
@@ -138,7 +138,7 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher {
                 edtSuburs.getText(),
                 stateHelper.getStateAbr(edtState.getText()),
                 edtPostcode.getText(),
-                edtCountry.getText());
+                "AU");
 
     }
 

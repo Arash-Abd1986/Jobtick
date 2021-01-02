@@ -69,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:eTitle="@string/post_code"
+                app:eMaxCharNumber="4"
                 app:eInputType="integer"
                 app:eImeOptions="actionDone"
                 app:eBoxSize="small"/>
@@ -79,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:eTitle="@string/country"
-                app:eContent="AU"
+                app:eContent="Australia"
                 app:eIsEnable="false"
                 app:eInputType="text"
                 app:eImeOptions="actionDone"

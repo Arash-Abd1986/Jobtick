@@ -3,7 +3,9 @@ package com.jobtick.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -107,7 +109,7 @@ public class BillingAddressActivity extends ActivityBase {
         edtState.setText(state);
         edtSuburs.setText(billingAdreessModel.getData().getCity());
         edtPostcode.setText(billingAdreessModel.getData().getPost_code());
-        edtCountry.setText(billingAdreessModel.getData().getCountry());
+        edtCountry.setText(getString(R.string.australia));
 
         editMode = bundle.getBoolean(Constant.EDIT_MODE);
         if(editMode)
@@ -151,8 +153,7 @@ public class BillingAddressActivity extends ActivityBase {
                 edtAddressLine2.getText(),
                 edtSuburs.getText(),
                 stateHelper.getStateAbr(edtState.getText()),
-                edtPostcode.getText(),
-                edtCountry.getText());
+                edtPostcode.getText(), "AU");
 
     }
 

@@ -42,6 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                app:eMaxCharNumber="16"
                 app:eImeOptions="actionNext"
                 app:eInputType="integer"
                 app:eTitle="@string/card_number" />
@@ -59,6 +60,7 @@
                 android:id="@+id/edt_security_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:eMaxCharNumber="4"
                 android:layout_marginTop="8dp"
                 app:eImeOptions="actionDone"
                 app:eInputType="integer"

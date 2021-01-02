@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
@@ -29,7 +30,7 @@ import com.jobtick.R;
 import static android.text.InputType.TYPE_CLASS_TEXT;
 
 
-public class ExtendedEntryText extends RelativeLayout implements View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener {
+public class ExtendedEntryText extends RelativeLayout implements View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, TextWatcher {
 
     private String eTitle;
     private final String eContent;
@@ -50,6 +51,9 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     private boolean password_hide = true;
     private boolean eIsEnable = true;
     private ExtendedViewOnClickListener extendedViewOnClickListener;
+    private TextWatcher textWatcher;
+
+    private int eMaxCharNumber = 0;
 
 
     public ExtendedEntryText(Context context) {
@@ -72,6 +76,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             eTitle = sharedAttribute.getString(R.styleable.ExtendedEntryText_eTitle);
             eContent = sharedAttribute.getString(R.styleable.ExtendedEntryText_eContent);
             eHint = sharedAttribute.getString(R.styleable.ExtendedEntryText_eHint);
+            eMaxCharNumber = sharedAttribute.getInt(R.styleable.ExtendedEntryText_eMaxCharNumber, 0);
             eIsEnable = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eIsEnable, true);
             eStartFocus = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eStartFocus, false);
             String inputType = sharedAttribute.getString(R.styleable.ExtendedEntryText_eInputType);
@@ -91,19 +96,18 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         }
 
         //Inflate and attach the content
-        if(eBoxSize == EBoxSize.NORMAL)
+        if (eBoxSize == EBoxSize.NORMAL)
             LayoutInflater.from(context).inflate(R.layout.view_extended_entry_text, this);
-        else if(eBoxSize == EBoxSize.SMALL)
+        else if (eBoxSize == EBoxSize.SMALL)
             LayoutInflater.from(context).inflate(R.layout.view_extended_entry_text_small, this);
 
         setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
 
         autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.content_auto_complete);
-        if(eInputType == EInputType.AUTOCOMPLETE){
+        if (eInputType == EInputType.AUTOCOMPLETE) {
             editText = (EditText) autoCompleteTextView;
             secondEditText = (EditText) findViewById(R.id.content);
-        }
-        else
+        } else
             editText = (EditText) findViewById(R.id.content);
 
         textView = (TextView) findViewById(R.id.title);
@@ -124,7 +128,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         setImeOptions();
         setListeners();
 
-        if(eStartFocus){
+        if (eStartFocus) {
             editText.requestFocus();
             showKeyboard(editText);
         }
@@ -178,8 +182,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 //            editText.setMaxLines(2);
 //            editText.setInputType(InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
             editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.inset_suburb), null);
-        }
-        else{
+        } else {
             editText.setLines(1);
         }
         if (eInputType == EInputType.CALENDAR) {
@@ -193,26 +196,27 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             dollar.setVisibility(View.VISIBLE);
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         }
-        if(eInputType == EInputType.AUTOCOMPLETE){
+        if (eInputType == EInputType.AUTOCOMPLETE) {
             secondEditText.setVisibility(View.GONE);
             autoCompleteTextView.setVisibility(View.VISIBLE);
             editText.setInputType(TYPE_CLASS_TEXT);
         }
-        if(eInputType == EInputType.VERIFY){
+        if (eInputType == EInputType.VERIFY) {
             verify.setVisibility(View.VISIBLE);
             editText.setInputType(InputType.TYPE_CLASS_PHONE);
 
             verify.setOnClickListener(v -> {
                 if (extendedViewOnClickListener == null)
                     throw new IllegalStateException(eInputType + " type selected, but ExtendedViewOnClickListener is not implemented.");
-                extendedViewOnClickListener.onClick();;
+                extendedViewOnClickListener.onClick();
+                ;
             });
         }
 
     }
 
-    public void setAdapter(String[] items){
-        if(eInputType != EInputType.AUTOCOMPLETE)
+    public void setAdapter(String[] items) {
+        if (eInputType != EInputType.AUTOCOMPLETE)
             throw new IllegalStateException("for using adapter, you must select autoComplete as input type.");
 
         ArrayAdapter<String> adapter =
@@ -221,13 +225,12 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     }
 
 
-
-    private void setImeOptions(){
-        if(eImeOptions == EImeOptions.ACTION_NEXT)
+    private void setImeOptions() {
+        if (eImeOptions == EImeOptions.ACTION_NEXT)
             editText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-        if(eImeOptions == EImeOptions.ACTION_DONE)
+        if (eImeOptions == EImeOptions.ACTION_DONE)
             editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        if(eImeOptions == EImeOptions.NORMAL)
+        if (eImeOptions == EImeOptions.NORMAL)
             editText.setImeOptions(EditorInfo.IME_ACTION_UNSPECIFIED);
     }
 
@@ -252,6 +255,8 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
                 editText.setSelection(editText.getText().length());
             });
         }
+
+        editText.addTextChangedListener(this);
     }
 
     public void setExtendedViewOnClickListener(ExtendedViewOnClickListener extendedViewOnClickListener) {
@@ -269,7 +274,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     }
 
     public void addTextChangedListener(TextWatcher textWatcher) {
-        editText.addTextChangedListener(textWatcher);
+        this.textWatcher = textWatcher;
     }
 
     @Override
@@ -286,8 +291,8 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     }
 
     @Override
-    public boolean onEditorAction(TextView textView,  int actionId, KeyEvent keyEvent) {
-        if(actionId == EditorInfo.IME_ACTION_DONE){
+    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
             hideKeyboard(editText);
         }
         return false;
@@ -372,12 +377,39 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
 
-        Bundle bundle = (Bundle)state;
+        Bundle bundle = (Bundle) state;
         Parcelable newState = bundle.getParcelable("state");
         super.onRestoreInstanceState(newState);
 
         editText.setText(bundle.getString("value"));
         System.out.println("ExtendedEntryText: onRestoreInstanceState title: " + eTitle + " value: " + editText.getText());
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        if (textWatcher != null)
+            textWatcher.beforeTextChanged(charSequence, i, i1, i2);
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        if (eMaxCharNumber != 0 && charSequence.length() > eMaxCharNumber) {
+            editText.setText(charSequence.subSequence(0, eMaxCharNumber).toString());
+            editText.setSelection(eMaxCharNumber);
+        }
+
+        if (textWatcher != null)
+            textWatcher.onTextChanged(charSequence, i, i1, i2);
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        if (textWatcher != null)
+            textWatcher.afterTextChanged(editable);
+
+
     }
 
     public interface EInputType {
@@ -402,7 +434,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         int NORMAL = 2;
     }
 
-    public interface EBoxSize{
+    public interface EBoxSize {
         int NORMAL = 0;
         int SMALL = 1;
     }

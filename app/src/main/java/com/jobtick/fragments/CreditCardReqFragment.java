@@ -195,7 +195,7 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable editable) {
-        boolean btnEnabled = edtCardNumber.getText().length() == 16 &&
+        boolean btnEnabled = edtCardNumber.getText().length() > 0 &&
                 edtFullName.getText().length() > 0 &&
                 edtSecurityNumber.getText().length() > 0 &&
                 edtExpiryDate.getText().length() > 0;

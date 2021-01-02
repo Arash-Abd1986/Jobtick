@@ -60,7 +60,7 @@
                 android:id="@+id/edt_security_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:eMaxCharNumber="5"
+                app:eMaxCharNumber="4"
                 android:layout_marginTop="8dp"
                 app:eImeOptions="actionDone"
                 app:eInputType="integer"

@@ -18,6 +18,7 @@ import com.jobtick.R;
 import android.annotation.SuppressLint;
 
 import com.jobtick.activities.ActivityBase;
+import com.jobtick.activities.AddCreditCardActivity;
 import com.jobtick.payment.AddCreditCard;
 import com.jobtick.payment.AddCreditCardImpl;
 import com.jobtick.utils.SessionManager;
@@ -96,7 +97,7 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
             @Override
             public void onError(Exception e) {
                 ((ActivityBase) requireActivity()).hideProgressDialog();
-                ((ActivityBase) requireActivity()).showToast(e.getMessage(), requireContext());
+                ((ActivityBase) requireActivity()).showToast(getString(R.string.credit_card_error), requireContext());
             }
 
             @Override
@@ -128,32 +129,35 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
     public void displayDialog() {
         final Calendar today = Calendar.getInstance();
 
-        MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(requireContext(), new MonthPickerDialog.OnDateSetListener() {
+        MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(requireActivity(), new MonthPickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(int selectedMonth, int selectedYear) {
                 expMonth = selectedMonth;
                 expYear = selectedYear;
-                edtExpiryDate.setText(selectedMonth + " /" + selectedYear);
-                Timber.tag("CreditCardReqFragment").d("selectedMonth : " + selectedMonth + " selectedYear : " + selectedYear);
+                edtExpiryDate.setText((selectedMonth < 10) ? "0" + selectedMonth + "/" + selectedYear : selectedMonth + "/" + selectedYear);
+                Timber.d("selectedMonth : " + selectedMonth + " selectedYear : " + selectedYear);
             }
         }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
 
         builder.setActivatedMonth(today.get(Calendar.MONTH))
-                .setTitle("Select month and year ")
+                .setActivatedYear(today.get(Calendar.YEAR))
+                .setTitle("Select month and year")
                 .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
                     @Override
                     public void onMonthChanged(int selectedMonth) {
-                        Timber.tag("creditCardFragment").d("Selected month : " + selectedMonth);
+                        Timber.d("Selected month : " + selectedMonth);
                     }
                 })
                 .setOnYearChangedListener(new MonthPickerDialog.OnYearChangedListener() {
                     @Override
                     public void onYearChanged(int selectedYear) {
 
-                        Timber.tag("CreditCardFragment").d("Selected year : " + selectedYear);
+                        Timber.tag("a").d("Selected year : " + selectedYear);
                     }
                 })
-                .setMaxYear(2040)
+                .setMinYear(today.get(Calendar.YEAR))
+                .setMinMonth(today.get(Calendar.MONTH))
+                .setMaxYear(today.get(Calendar.YEAR) + 20)
                 .build()
                 .show();
 
@@ -193,7 +197,7 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
     public void afterTextChanged(Editable editable) {
         boolean btnEnabled = edtCardNumber.getText().length() == 16 &&
                 edtFullName.getText().length() > 0 &&
-                edtSecurityNumber.getText().length() > 0 &&
+                (edtSecurityNumber.getText().length() == 3 || edtSecurityNumber.getText().length() == 4) &&
                 edtExpiryDate.getText().length() > 0;
             btnAddCard.setEnabled(btnEnabled);
     }

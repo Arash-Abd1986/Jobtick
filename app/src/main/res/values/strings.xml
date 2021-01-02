@@ -492,5 +492,7 @@
     <string name="sign_in_facebook_text">Sign in with Facebook</string>
     <string name="badges">Badges</string>
     <string name="these_badges_will_be_shown_on_when_all_requirements_are_provided_by_user">These badges will be shown on when all requirements are provided by user.</string>
+    <string name="add_bank_account_error">Your bank account information is not correct.</string>
+    <string name="credit_card_error">Your credit card information is not correct.</string>
 
 </resources>

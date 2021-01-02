@@ -64,7 +64,7 @@ public class AddBankAccountActivity extends ActivityBase {
 
             @Override
             public void onError(Exception e) {
-                showToast(e.getMessage(), AddBankAccountActivity.this);
+                showToast(getString(R.string.add_bank_account_error), AddBankAccountActivity.this);
                 hideProgressDialog();
             }
 

@@ -1,14 +1,11 @@
 package com.jobtick.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -17,7 +14,6 @@ import com.jobtick.R;
 import android.annotation.SuppressLint;
 import android.widget.TextView;
 
-import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.activities.AuthActivity;
 import com.jobtick.utils.Helper;
 import com.jobtick.widget.ExtendedEntryText;

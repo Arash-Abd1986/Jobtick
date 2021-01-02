@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.R;
 import com.jobtick.activities.ActivityBase;
+import com.jobtick.activities.AddBankAccountActivity;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.BankAccountModel;
 import com.jobtick.payment.AddBankAccount;
@@ -84,7 +85,7 @@ public class AddBankAccountReqFragment extends Fragment implements TextWatcher {
                 if(Objects.equals(e.getMessage(), "Bank account already exist."))
                     goNext();
                 else
-                    ((ActivityBase) requireActivity()).showToast(e.getMessage(), requireContext());
+                    ((ActivityBase) requireActivity()).showToast(getString(R.string.add_bank_account_error), requireContext());
             }
 
             @Override

@@ -86,7 +86,7 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
 
             @Override
             public void onError(Exception e) {
-                showToast(e.getMessage(), AddCreditCardActivity.this);
+                showToast(getString(R.string.credit_card_error), AddCreditCardActivity.this);
                 hideProgressDialog();
             }
 
@@ -159,34 +159,29 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
             public void onDateSet(int selectedMonth, int selectedYear) {
                 expMonth = selectedMonth;
                 expYear = selectedYear;
-                edtExpiryDate.setText(selectedMonth + " /" + selectedYear);
+                edtExpiryDate.setText((selectedMonth < 10) ? "0" + selectedMonth + "/" + selectedYear : selectedMonth + "/" + selectedYear);
                 Timber.d("selectedMonth : " + selectedMonth + " selectedYear : " + selectedYear);
             }
         }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
 
         builder.setActivatedMonth(today.get(Calendar.MONTH))
-                .setTitle("Select month and year ").setMaxYear(2040)
-                // .setMaxMonth(Calendar.OCTOBER)
-                // .setYearRange(1890, 1890)
-                // .setMonthAndYearRange(Calendar.FEBRUARY, Calendar.OCTOBER, 1890, 1890)
-                //.showMonthOnly()
-                // .showYearOnly()
+                .setActivatedYear(today.get(Calendar.YEAR))
+                .setTitle("Select month and year")
                 .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
                     @Override
                     public void onMonthChanged(int selectedMonth) {
                         Timber.d("Selected month : " + selectedMonth);
-                        // Toast.makeText(MainActivity.this, " Selected month : " + selectedMonth, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setOnYearChangedListener(new MonthPickerDialog.OnYearChangedListener() {
                     @Override
                     public void onYearChanged(int selectedYear) {
-
                         Timber.tag("a").d("Selected year : " + selectedYear);
-                        // Toast.makeText(MainActivity.this, " Selected year : " + selectedYear, Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setMaxYear(2040)
+                .setMinYear(today.get(Calendar.YEAR))
+                .setMinMonth(today.get(Calendar.MONTH))
+                .setMaxYear(today.get(Calendar.YEAR) + 20)
                 .build()
                 .show();
 
@@ -207,6 +202,10 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
         }
         else if(edtSecurityNumber.getText().isEmpty()){
             edtSecurityNumber.setError("The card CVC must be filled.");
+            return false;
+        }
+        else if(edtSecurityNumber.getText().length() > 4 || edtSecurityNumber.getText().length() < 3){
+            edtSecurityNumber.setError("The card CVC is not correct.");
             return false;
         }
         return true;

@@ -83,7 +83,7 @@ public abstract class AddCreditCardImpl implements AddCreditCard {
             this.onValidationError(ValidationErrorType.ExpiryDate, "Invalid Expiry Date");
             return false;
         } else if (!card.validateCVC()) {
-            this.onValidationError(ValidationErrorType.CVC, "Invalid Expiry Date");
+            this.onValidationError(ValidationErrorType.CVC, "Invalid Security Number");
             return false;
         } else if(!card.validateCard()) {
             this.onValidationError(ValidationErrorType.Unknown, "Invalid card information");

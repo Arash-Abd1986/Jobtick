@@ -77,6 +77,7 @@ import retrofit2.Response;
 import timber.log.Timber;
 
 import static android.app.Activity.RESULT_OK;
+import static com.jobtick.utils.Constant.URL_VIDEO_GUIDELINE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -111,6 +112,10 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_continue)
     MaterialButton lytBtnContinue;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.guideline_video)
+    TextView gxtGuideLineVideo;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_live_video)
@@ -357,7 +362,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
     }
 
 
-    @OnClick({R.id.lyt_btn_make_a_live_video, R.id.lyt_btn_continue, R.id.lytRecord2, R.id.llJobDetails, R.id.llCancelVideo})
+    @OnClick({R.id.lyt_btn_make_a_live_video, R.id.lyt_btn_continue, R.id.lytRecord2, R.id.llJobDetails, R.id.llCancelVideo, R.id.guideline_video})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lytRecord2:
@@ -404,6 +409,12 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                 LytVideoPlay.setVisibility(View.GONE);
                 edtDescription.setText("");
                 imageStoragePath = "";
+                break;
+
+            case R.id.guideline_video:
+                Intent intent = new Intent(requireActivity(), VideoPlayerActivity.class);
+                intent.putExtra(ConstantKey.VIDEO_PATH, URL_VIDEO_GUIDELINE);
+                requireActivity().startActivity(intent);
                 break;
         }
     }

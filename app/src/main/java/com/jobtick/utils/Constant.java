@@ -169,6 +169,8 @@ public class Constant {
             "1NiIsImlkIjoxMzYsInN1YiI6MTM2LCJpYXQiOjE1MzIzNTA5MzIsImV4cCI6MTUzMjQzNzMzMn0." +
             "fJfR-0PNi-nSb_szulqE_zu0k7BHdgY16MIVFG9f6P8";
 
+    public static final String URL_VIDEO_GUIDELINE = "https://jobtick-ap.s3-ap-southeast-2.amazonaws.com/videos/video-offer-guidlines.mp4";
+
     public static final String userID = "userID";
     public static final String userAccount = "userAccount";
 

@@ -153,12 +153,6 @@ public class BillingAddressActivity extends ActivityBase {
             return false;
         }
 
-        if (TextUtils.isEmpty(edtAddressLine2.getText().trim())) {
-            edtAddressLine2.setError("Address is mandatory");
-            return false;
-        }
-
-
         if (TextUtils.isEmpty(edtSuburs.getText().trim())) {
             edtSuburs.setError("Please enter Suburb");
             return false;

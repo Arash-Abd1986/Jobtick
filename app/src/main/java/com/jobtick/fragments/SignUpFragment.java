@@ -68,6 +68,8 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
                              Bundle savedInstanceState) {
         if(fragmentView != null){
 
+            authActivity.showToast("ExtendedEntryText: on load: " + ((ExtendedEntryText)fragmentView.findViewById(R.id.email)).getText(), requireContext());
+
             return fragmentView;
         }
 
@@ -78,6 +80,7 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
         if (authActivity != null) {
             authActivity.setEditTextError(this);
         }
+        fragmentView = view;
         return view;
     }
 
@@ -129,11 +132,6 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        fragmentView = getView();
-    }
 
     @Override
     public void onEmailError(String emailError) {

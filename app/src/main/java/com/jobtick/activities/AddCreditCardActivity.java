@@ -204,10 +204,6 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
             edtSecurityNumber.setError("The card CVC must be filled.");
             return false;
         }
-        else if(edtSecurityNumber.getText().length() > 4 || edtSecurityNumber.getText().length() < 3){
-            edtSecurityNumber.setError("The card CVC is not correct.");
-            return false;
-        }
         return true;
     }
 

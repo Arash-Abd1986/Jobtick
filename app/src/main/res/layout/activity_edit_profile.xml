@@ -200,12 +200,13 @@
                             android:layout_height="wrap_content"
                             app:eTitle="@string/phone_number"
                             app:eInputType="verify"
+                            app:eMaxCharNumber="10"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
                             android:layout_marginBottom="@dimen/spacing_middle"
                             android:id="@+id/edt_phone_number"
-                            app:eHint="+61*********"/>
+                            app:eHint="0* **** ****"/>
 
                         <com.jobtick.widget.ExtendedEntryText
                             android:id="@+id/edt_email_address"

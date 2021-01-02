@@ -238,7 +238,8 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     protected void onStart() {
         super.onStart();
 
-        getBalance();
+        //TODO: we disable this due to comment regarding removing balance from, but when they decided from place of balance, maybe this is required to add again
+    //    getBalance();
     }
 
     private void setHeaderLayout() {

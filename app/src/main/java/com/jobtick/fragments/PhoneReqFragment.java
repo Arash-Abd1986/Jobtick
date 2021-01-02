@@ -116,7 +116,7 @@ public class PhoneReqFragment extends Fragment implements TextWatcher {
 
 
     private boolean validationPhone() {
-        if (phone.getText().length() != 12) {
+        if (phone.getText().length() != 10) {
             phone.setError("Enter correct phone number");
             return false;
         }

@@ -94,8 +94,8 @@ public abstract class VerifyPhoneNumberImpl implements VerifyPhoneNumber {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("mobile", "0" + phoneNumber.substring(3));
-                map1.put("dialing_code", phoneNumber.substring(0,3));
+                map1.put("mobile", phoneNumber);
+                map1.put("dialing_code", "+61");
                 return map1;
             }
         };

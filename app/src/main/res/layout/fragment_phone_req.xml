@@ -38,7 +38,8 @@
                 android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_medium"
-                app:eHint="+61*********"
+                app:eHint="0* **** ****"
+                app:eMaxCharNumber="10"
                 app:eBoxSize="small"
                 app:eInputType="verify"
                 app:eTitle="@string/mobile_number" />

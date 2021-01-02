@@ -454,7 +454,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         edtFirstName.seteContent(userAccountModel.getFname());
         edtLastName.seteContent(userAccountModel.getLname());
         edtLastName.seteContent(userAccountModel.getLname());
-        edtPhoneNumber.setText(userAccountModel.getMobile());
+        if(userAccountModel.getMobile() != null)
+            edtPhoneNumber.setText("0" + userAccountModel.getMobile().substring(3));
         //edtPaymentId.setText(userAccountModel.get());
         if (userAccountModel.getLocation() != null) {
             txtSuburb.seteContent(userAccountModel.getLocation());
@@ -729,7 +730,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
     private void verifyPhone() {
         //it should work with Australian Numbers, format: +61*********
-        if (edtPhoneNumber.getText().length() != 12) {
+        if (edtPhoneNumber.getText().length() != 10) {
             showToast("Please enter correct phone number", EditProfileActivity.this);
             return;
         }

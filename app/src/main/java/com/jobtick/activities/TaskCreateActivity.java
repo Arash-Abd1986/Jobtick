@@ -610,11 +610,10 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
-            for (Fragment fragment : getSupportFragmentManager().getFragments())
-                if(fragment instanceof TaskDetailFragment)
-                    fragment.onActivityResult(requestCode, resultCode, data);
-        }
+        for (Fragment fragment : getSupportFragmentManager().getFragments())
+            if(fragment instanceof TaskDetailFragment)
+                fragment.onActivityResult(requestCode, resultCode, data);
+
 
         if (requestCode == ConstantKey.RESULTCODE_ATTACHMENT) {
             if (data != null) {

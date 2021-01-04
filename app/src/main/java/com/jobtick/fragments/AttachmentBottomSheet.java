@@ -100,9 +100,8 @@ public class AttachmentBottomSheet extends BottomSheetDialogFragment {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 requireActivity().startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST);
-            }
-            dismiss();
-        });
+                dismiss();
+            } });
 
         lytBtnVideo.setOnClickListener(view12 -> {
             getGalleryVideo();

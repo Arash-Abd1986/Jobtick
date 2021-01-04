@@ -82,7 +82,6 @@ public class ProfileReqFragment extends Fragment implements AttachmentAdapterEdi
     private static String imageStoragePath;
     private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
-    boolean isUploadPortfolio = false;
     private FrameLayout btmSheet;
     MaterialButton btnNext;
 
@@ -131,18 +130,17 @@ public class ProfileReqFragment extends Fragment implements AttachmentAdapterEdi
         if (view.getId() == R.id.img_user_avatar) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (getContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    showBottomSheetDialog(false);
+                    showBottomSheetDialog();
                 } else {
                     ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1399);
                 }
             } else {
-                showBottomSheetDialog(false);
+                showBottomSheetDialog();
             }
         }
     }
 
-    private void showBottomSheetDialog(boolean isUploadPortfolioOrProfile) {
-        isUploadPortfolio = isUploadPortfolioOrProfile;
+    private void showBottomSheetDialog() {
 
         if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -198,7 +196,7 @@ public class ProfileReqFragment extends Fragment implements AttachmentAdapterEdi
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (requestCode == 13990) {
-                showBottomSheetDialog(false);
+                showBottomSheetDialog();
             }
         }
     }
@@ -396,7 +394,7 @@ public class ProfileReqFragment extends Fragment implements AttachmentAdapterEdi
             intent.putExtras(bundle);
             startActivityForResult(intent, 234);*/
 
-            showBottomSheetDialog(true);
+            showBottomSheetDialog();
 
         }
     }

@@ -34,7 +34,7 @@ public class OnUCropImageImpl implements OnCropImage{
 
 
     @Override
-    public void crop(Uri uri) {
+    public void crop(Uri uri, boolean isCircle) {
 
         String imageCachePath = uriPathHelper.getCachePath(uri);
         Uri cacheCopyUri =  Uri.fromFile(new File(imageCachePath));
@@ -43,20 +43,33 @@ public class OnUCropImageImpl implements OnCropImage{
 
         UCrop.Options options = new UCrop.Options();
         options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+        options.setCircleDimmedLayer(isCircle);
 
         options.setActiveControlsWidgetColor(activity.getColor(R.color.colorPrimary));
         options.setStatusBarColor(activity.getColor(R.color.backgroundLightGrey));
         options.setToolbarColor(activity.getColor(R.color.backgroundLightGrey));
         options.setDimmedLayerColor(activity.getColor(R.color.backgroundLightGrey));
         options.setRootViewBackgroundColor(activity.getColor(R.color.backgroundLightGrey));
-        options.setCropFrameColor(activity.getColor(R.color.N070));
-        options.setCropGridColor(activity.getColor(R.color.N050));
+        if(isCircle) {
+            options.setCropFrameColor(activity.getColor(R.color.transparent));
+            options.setCropGridColor(activity.getColor(R.color.transparent));
 
-        UCrop.of(cacheCopyUri, destinationUri)
-                .withAspectRatio(4, 3)
-                .withMaxResultSize(1024, 1024)
-                .withOptions(options)
-                .start(activity);
+            UCrop.of(cacheCopyUri, destinationUri)
+                    .withAspectRatio(3, 3)
+                    .withMaxResultSize(768, 768)
+                    .withOptions(options)
+                    .start(activity);
+        }  else{
+
+            options.setCropFrameColor(activity.getColor(R.color.N070));
+            options.setCropGridColor(activity.getColor(R.color.N050));
+
+            UCrop.of(cacheCopyUri, destinationUri)
+                    .withAspectRatio(4, 3)
+                    .withMaxResultSize(1024, 768)
+                    .withOptions(options)
+                    .start(activity);
+            }
     }
 
 

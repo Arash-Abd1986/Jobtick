@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.jobtick.R;
 import com.jobtick.activities.MakeAnOfferActivity;
@@ -272,6 +273,15 @@ public class TickerRequirementsBottomSheet extends AbstractStateExpandedBottomSh
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        for (Fragment fragment : getChildFragmentManager().getFragments())
+            if(fragment instanceof ProfileReqFragment)
+                fragment.onActivityResult(requestCode, resultCode, data);
     }
 
     public enum Requirement{

@@ -27,6 +27,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -64,6 +65,7 @@ import com.jobtick.fragments.IncreaseBudgetBottomSheet;
 import com.jobtick.fragments.IncreaseBudgetDeclineBottomSheet;
 import com.jobtick.fragments.IncreaseBudgetNoticeBottomSheet;
 import com.jobtick.fragments.RescheduleNoticeBottomSheetState;
+import com.jobtick.fragments.TaskDetailFragment;
 import com.jobtick.fragments.TickerRequirementsBottomSheet;
 import com.jobtick.interfaces.OnRequestAcceptListener;
 import com.jobtick.interfaces.OnWidthDrawListener;
@@ -2244,6 +2246,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        for (Fragment fragment : getSupportFragmentManager().getFragments())
+            if(fragment instanceof TickerRequirementsBottomSheet)
+                fragment.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == ConstantKey.RESULTCODE_MAKEANOFFER) {
             if (data != null) {
                 Bundle bundle = data.getExtras();

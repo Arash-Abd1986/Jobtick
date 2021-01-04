@@ -4,5 +4,5 @@ import android.net.Uri;
 
 public interface OnCropImage {
 
-    void crop(Uri uri);
+    void crop(Uri uri, boolean isCircle);
 }

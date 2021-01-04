@@ -25,9 +25,11 @@ public abstract class AbstractUploadableImageImpl implements UploadableImage {
 
     private final FragmentActivity activity;
     private final AttachmentBottomSheet attachmentBottomSheet;
+    private final boolean needCircleImage;
 
-    public AbstractUploadableImageImpl(FragmentActivity activity) {
+    public AbstractUploadableImageImpl(FragmentActivity activity, boolean needCircleImage) {
         this.activity = activity;
+        this.needCircleImage = needCircleImage;
         attachmentBottomSheet = new AttachmentBottomSheet();
     }
 
@@ -53,7 +55,7 @@ public abstract class AbstractUploadableImageImpl implements UploadableImage {
         if (requestCode == GALLERY_REQUEST && resultCode == Activity.RESULT_OK) {
             Uri filePath = data.getData();
             OnCropImage onCropImage = new OnUCropImageImpl(activity);
-            onCropImage.crop(filePath);
+            onCropImage.crop(filePath, needCircleImage);
         }
 
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
@@ -65,7 +67,7 @@ public abstract class AbstractUploadableImageImpl implements UploadableImage {
             }
             Uri imageUri = Uri.fromFile(new File(imagePath));
             OnCropImage cropImage = new OnUCropImageImpl(activity);
-            cropImage.crop(imageUri);
+            cropImage.crop(imageUri, needCircleImage);
         }
     }
 

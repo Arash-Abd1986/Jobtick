@@ -170,7 +170,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         View view = inflater.inflate(R.layout.fragment_task_detail, container, false);
         ButterKnife.bind(this, view);
 
-        uploadableImage = new AbstractUploadableImageImpl(requireActivity()) {
+        uploadableImage = new AbstractUploadableImageImpl(requireActivity(), false) {
             @Override
             public void onImageReady(File imageFile) {
                 uploadDataInTempApi(imageFile);

@@ -42,7 +42,7 @@ public abstract class AbstractUploadableImageImpl implements UploadableImage {
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             final Uri resultUri = UCrop.getOutput(data);
             File file = new File(resultUri.getPath());
-            onImageCropped(file);
+            onImageReady(file);
         } else if (resultCode == UCrop.RESULT_ERROR) {
             final Throwable cropError = UCrop.getError(data);
             if(cropError != null)
@@ -69,5 +69,5 @@ public abstract class AbstractUploadableImageImpl implements UploadableImage {
         }
     }
 
-    public abstract void onImageCropped(File imageFile);
+    public abstract void onImageReady(File imageFile);
 }

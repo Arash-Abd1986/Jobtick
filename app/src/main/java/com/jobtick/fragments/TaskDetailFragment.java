@@ -172,7 +172,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         uploadableImage = new AbstractUploadableImageImpl(requireActivity()) {
             @Override
-            public void onImageCropped(File imageFile) {
+            public void onImageReady(File imageFile) {
                 uploadDataInTempApi(imageFile);
             }
         };

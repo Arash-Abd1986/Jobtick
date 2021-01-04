@@ -21,20 +21,19 @@ import static com.jobtick.fragments.AttachmentBottomSheet.GALLERY_REQUEST;
 
 public abstract class AbstractUploadableImageImpl implements UploadableImage {
 
-
-
     private final FragmentActivity activity;
     private final AttachmentBottomSheet attachmentBottomSheet;
-    private final boolean needCircleImage;
+    private boolean isCircle;
 
-    public AbstractUploadableImageImpl(FragmentActivity activity, boolean needCircleImage) {
+
+    public AbstractUploadableImageImpl(FragmentActivity activity) {
         this.activity = activity;
-        this.needCircleImage = needCircleImage;
         attachmentBottomSheet = new AttachmentBottomSheet();
     }
 
     @Override
-    public void showAttachmentBottomSheet(){
+    public void showAttachmentBottomSheet(boolean isCircle){
+        this.isCircle = isCircle;
         attachmentBottomSheet.show(activity.getSupportFragmentManager(), "");
     }
 
@@ -55,7 +54,7 @@ public abstract class AbstractUploadableImageImpl implements UploadableImage {
         if (requestCode == GALLERY_REQUEST && resultCode == Activity.RESULT_OK) {
             Uri filePath = data.getData();
             OnCropImage onCropImage = new OnUCropImageImpl(activity);
-            onCropImage.crop(filePath, needCircleImage);
+            onCropImage.crop(filePath, isCircle);
         }
 
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
@@ -67,9 +66,17 @@ public abstract class AbstractUploadableImageImpl implements UploadableImage {
             }
             Uri imageUri = Uri.fromFile(new File(imagePath));
             OnCropImage cropImage = new OnUCropImageImpl(activity);
-            cropImage.crop(imageUri, needCircleImage);
+            cropImage.crop(imageUri, isCircle);
         }
     }
 
     public abstract void onImageReady(File imageFile);
+
+    public boolean isCircle() {
+        return isCircle;
+    }
+
+    public void setCircle(boolean circle) {
+        isCircle = circle;
+    }
 }

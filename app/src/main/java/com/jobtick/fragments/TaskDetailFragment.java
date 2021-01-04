@@ -170,7 +170,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         View view = inflater.inflate(R.layout.fragment_task_detail, container, false);
         ButterKnife.bind(this, view);
 
-        uploadableImage = new AbstractUploadableImageImpl(requireActivity(), false) {
+        uploadableImage = new AbstractUploadableImageImpl(requireActivity()) {
             @Override
             public void onImageReady(File imageFile) {
                 uploadDataInTempApi(imageFile);
@@ -350,7 +350,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
         if (action.equalsIgnoreCase("add")) {
-            uploadableImage.showAttachmentBottomSheet();
+            uploadableImage.showAttachmentBottomSheet(false);
 
         } else if (action.equalsIgnoreCase("delete")) {
             rcAttachment.removeViewAt(position);

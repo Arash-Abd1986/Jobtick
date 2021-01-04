@@ -74,7 +74,7 @@ public class ProfileReqFragment extends Fragment {
         userAccountModel = ((TaskDetailsActivity) getActivity()).userAccountModel;
         setUpAvatar(userAccountModel);
 
-        uploadableImage = new AbstractUploadableImageImpl(requireActivity(), true) {
+        uploadableImage = new AbstractUploadableImageImpl(requireActivity()) {
             @Override
             public void onImageReady(File imageFile) {
                 uploadProfileAvatar(imageFile);
@@ -102,7 +102,7 @@ public class ProfileReqFragment extends Fragment {
     @OnClick({R.id.img_user_avatar})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.img_user_avatar) {
-            uploadableImage.showAttachmentBottomSheet();
+            uploadableImage.showAttachmentBottomSheet(true);
         }
     }
 

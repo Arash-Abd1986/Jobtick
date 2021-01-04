@@ -228,6 +228,9 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private int cyear, cmonth, cday;
     private String str_due_date = null;
 
+    private UploadableImage uploadableImage;
+    private boolean isImageProfile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -243,15 +246,15 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
         init();
         getAllUserProfileDetails();
+
+        uploadableImage = new AbstractUploadableImageImpl(this) {
+            @Override
+            public void onImageReady(File imageFile) {
+                uploadMedia(imageFile);
+            }
+        };
     }
 
-
-    private void animateFab(final boolean hide) {
-        if (isFabHide && hide || !isFabHide && !hide) return;
-        isFabHide = hide;
-        int moveY = hide ? (2 * card_save_profile.getHeight()) : 0;
-        card_save_profile.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
-    }
 
     private boolean validation() {
         if (TextUtils.isEmpty(edtFirstName.getText().trim())) {
@@ -560,8 +563,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
         if (action.equalsIgnoreCase("add")) {
 
-
-            showBottomSheetDialog(true);
+            isImageProfile = false;
+            uploadableImage.showAttachmentBottomSheet(false);
 
         } else if (action.equalsIgnoreCase("delete")) {
             deleteMediaInAttachment(position);
@@ -704,8 +707,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                 startActivityForResult(intent, 5);
                 break;
             case R.id.img_user_avatar:
-                showBottomSheetDialog(false);
-
+                isImageProfile = true;
+                uploadableImage.showAttachmentBottomSheet(true);
                 break;
             case R.id.lytDeletePicture:
 
@@ -729,7 +732,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     }
 
     private void verifyPhone() {
-        //it should work with Australian Numbers, format: +61*********
+        //it should work with Australian Numbers, format: +0* **** ****
         if (edtPhoneNumber.getText().length() != 10) {
             showToast("Please enter correct phone number", EditProfileActivity.this);
             return;
@@ -839,6 +842,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        uploadableImage.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == RESULT_OK) {
 
@@ -847,55 +851,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                 str_longitude = SuburbAutoComplete.getLongitude(data);
             }
 
-            if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
-                String filePath = data.getStringExtra(AnncaConfiguration.Arguments.FILE_PATH);
-                Uri uri = Uri.parse("file://" + filePath);
-                Bitmap bitmap = null;
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                imgAvatar.setImageBitmap(bitmap);
-
-                if (isUploadPortfolio) {
-                    uploadDataInPortfolioMediaApi(new File(uri.getPath()));
-                } else {
-                    uploadProfileAvtar(new File(uri.getPath()));
-                }
-            }
-            if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
-                if (resultCode == RESULT_OK) {
-                    if (data.getData() != null) {
-                        imageStoragePath = CameraUtils.getPath(EditProfileActivity.this, data.getData());
-                        File file = new File(imageStoragePath);
-                        Uri uri = Uri.parse("file://" + imageStoragePath);
-                        Bitmap bitmap = null;
-                        try {
-                            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        imgAvatar.setImageBitmap(bitmap);
-
-                        if (isUploadPortfolio) {
-                            uploadDataInPortfolioMediaApi(new File(uri.getPath()));
-
-                        } else {
-                            uploadProfileAvtar(new File(uri.getPath()));
-                        }
-
-
-                        //// uploadDataInPortfolioMediaApi(file);
-                    }
-                } else {
-                    // failed to record video
-                    showToast("Sorry! Failed to Pickup Image", this);
-                }
-            }
             if (requestCode == PHONE_VERIFICATION_REQUEST_CODE && resultCode == RESULT_OK) {
                 getAllUserProfileDetails();
             }
@@ -931,104 +886,23 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         }
     }
 
-    private void showBottomSheetDialog(boolean isUploadPortfolioOrPrfile) {
-        isUploadPortfolio = isUploadPortfolioOrPrfile;
-
-        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    private void uploadMedia(File imageFile){
+        Uri uri = Uri.fromFile(imageFile);
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        @SuppressLint("InflateParams") final View view = getLayoutInflater().inflate(R.layout.sheet_attachment, null);
-        LinearLayout lytBtnCamera = view.findViewById(R.id.lyt_btn_camera);
-        LinearLayout lytBtnImage = view.findViewById(R.id.lyt_btn_image);
-        LinearLayout lytBtnVideo = view.findViewById(R.id.lyt_btn_video);
-        LinearLayout lytBtnDoc = view.findViewById(R.id.lyt_btn_doc);
-        LinearLayout lyrBtnVideoCamera = view.findViewById(R.id.lyt_btn_video_camera);
+        imgAvatar.setImageBitmap(bitmap);
 
-        if (isUploadPortfolioOrPrfile) {
-            lytBtnVideo.setVisibility(View.VISIBLE);
-            lytBtnDoc.setVisibility(View.VISIBLE);
-            lyrBtnVideoCamera.setVisibility(View.VISIBLE);
+        if (!isImageProfile) {
+            uploadDataInPortfolioMediaApi(imageFile);
+
         } else {
-            lytBtnVideo.setVisibility(View.GONE);
-            lytBtnDoc.setVisibility(View.INVISIBLE);
-            lyrBtnVideoCamera.setVisibility(View.INVISIBLE);
+            uploadProfileAvtar(imageFile);
         }
-
-
-        lytBtnCamera.setOnClickListener(view1 -> {
-            // Checking availability of the camera
-            if (!CameraUtils.isDeviceSupportCamera(getApplicationContext())) {
-                showToast("Sorry! Your device doesn't support camera", this);
-                // will close the app if the device doesn't have camera
-                return;
-            }
-            if (CameraUtils.checkPermissions(getApplicationContext())) {
-                captureImage();
-            } else {
-                requestCameraPermission();
-            }
-            mBottomSheetDialog.hide();
-        });
-
-
-        lytBtnImage.setOnClickListener(v -> {
-            Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
-            mBottomSheetDialog.hide();
-        });
-
-        mBottomSheetDialog = new BottomSheetDialog(this);
-        mBottomSheetDialog.setContentView(view);
-        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-
-        ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
-
-        mBottomSheetDialog.show();
-        mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
-
-    }
-
-    /**
-     * Requesting permissions using Dexter library
-     */
-    private void requestCameraPermission() {
-        Dexter.withActivity(this)
-                .withPermissions(Manifest.permission.CAMERA,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.RECORD_AUDIO)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        if (report.areAllPermissionsGranted()) {
-
-                            // capture picture
-                            captureImage();
-
-                        } else if (report.isAnyPermissionPermanentlyDenied()) {
-                            showPermissionsAlert();
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).check();
-    }
-
-    /**
-     * Capturing Camera Image will launch camera app requested image capture
-     */
-    private void captureImage() {
-        AnncaConfiguration.Builder builder = new AnncaConfiguration.Builder(this, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
-        builder.setMediaAction(AnncaConfiguration.MEDIA_ACTION_PHOTO);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
-        }
-        new Annca(builder.build()).launchCamera();
     }
 
 
@@ -1190,7 +1064,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         requestQueue.add(stringRequest);
         Timber.e(stringRequest.getUrl());
     }
-
 
     private void showBottomSheetDialogDate() {
 

@@ -360,7 +360,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 //        });
 //    }
 
-    boolean isFabHide = false;
+//    boolean isFabHide = false;
 
 //    private void animateFab(final boolean hide) {
 //        if (isFabHide && hide || !isFabHide && !hide) return;

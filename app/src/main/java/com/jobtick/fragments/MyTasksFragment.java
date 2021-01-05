@@ -272,13 +272,6 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                                 Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
                             }
 
-//                            if(currentPage == 1 && totalPage == 1){
-//                                resetTaskListAdapter();
-//                            }
-
-                            /*
-                             *manage progress view
-                             */
                             if (currentPage == PAGE_START) {
                                 resetTaskListAdapter();
                             }

@@ -115,28 +115,21 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         if (isLoaderVisible) return;
         isLoaderVisible = true;
         int position = mItems.size() - 1;
-        TaskModel item = getItem(position);
-        System.out.println("before add : tasklistadapter: all: " + mItems.size() + " last " + position + " " + item.getTitle());
         this.mItems.add(new TaskModel());
         notifyItemInserted(position);
-        position = mItems.size() - 1;
-        item = getItem(position);
-        System.out.println("after add : tasklistadapter: all: " + mItems.size() + " last " + position + " " + item.getTitle());
     }
 
     private void removeLoading() {
         if (!isLoaderVisible) return;
         isLoaderVisible = false;
         int position = mItems.size() - 1;
+        if(position == -1)
+            return;
         TaskModel item = getItem(position);
-        System.out.println("before delete : tasklistadapter: all: " + mItems.size() + " last " + position + " " + item.getTitle());
         if (item != null) {
             mItems.remove(position);
             notifyItemRemoved(position);
         }
-        position = mItems.size() - 1;
-        item = getItem(position);
-        System.out.println("after delete : tasklistadapter: all: " + mItems.size() + " last " + position + " " + item.getTitle());
     }
 
     public void clear() {

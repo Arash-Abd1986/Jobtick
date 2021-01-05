@@ -1,6 +1,7 @@
 package com.jobtick.adapers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
+import com.jobtick.activities.ProfileActivity;
+import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.ReviewModel;
 import com.jobtick.models.TaskModel;
+import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.TimeAgo;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.List;
 
@@ -137,6 +142,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.txt_review_message)
         TextView txtReviewMessage;
 
+        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.img_avatar)
+        CircularImageView imgAvatar;
+
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -154,6 +163,17 @@ public class ReviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             txtCreatedDate.setText(TimeAgo.getTimeAgo(item.getCreated_at()));
             txtReviewMessage.setText(item.getMessage());
             ratingBar.setProgress(item.getRating());
+            if (item.getRater().getAvatar() != null)
+                ImageUtil.displayImage(imgAvatar, item.getRater().getAvatar().getThumbUrl(), null);
+
+            txtUserName.setOnClickListener(v -> {
+                Intent intent = new Intent(mContext, ProfileActivity.class);
+                intent.putExtra("id",item.getRater().getId());
+                mContext.startActivity(intent);
+            });
+
+            imgAvatar.setOnClickListener(v -> txtUserName.performClick());
+            txtCreatedDate.setOnClickListener(v -> txtUserName.performClick());
         }
     }
 

@@ -457,7 +457,6 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                         } catch (JSONException e) {
                             Timber.e(String.valueOf(e));
                             e.printStackTrace();
-                            Log.d("ChatCheck","error"+e.getMessage());
                         }
                     }
                 },

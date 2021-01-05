@@ -1153,12 +1153,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
 
                                 if (taskModel.getTaskType().equals("physical")) {
-                                    llLocation.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:<" + taskModel.getPosition().getLatitude() + ">,<" + taskModel.getPosition().getLongitude() + ">?q=<" + taskModel.getPosition().getLatitude() + ">,<" + taskModel.getPosition().getLongitude() + ">(" + "job address" + ")"));
-                                            startActivity(intent);
-                                        }
+                                    llLocation.setOnClickListener(v -> {
+                                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:<" + taskModel.getPosition().getLatitude() + ">,<" + taskModel.getPosition().getLongitude() + ">?q=<" + taskModel.getPosition().getLatitude() + ">,<" + taskModel.getPosition().getLongitude() + ">(" + "job address" + ")"));
+                                        startActivity(intent);
                                     });
                                 }
                                 questionListAdapter.clear();

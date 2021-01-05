@@ -9,6 +9,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -178,7 +179,7 @@ public class ReviewsActivity extends ActivityBase {
             if (bundle.containsKey(Constant.userID)) {
                 userId = bundle.getInt(Constant.userID);
             }
-            WhoIs = bundle.getString("WhoIs");
+            WhoIs = "poster";
             if (bundle.containsKey(Constant.userAccount)) {
                 userAccountModel = bundle.getParcelable(Constant.userAccount);
             } else {
@@ -235,9 +236,11 @@ public class ReviewsActivity extends ActivityBase {
             lytPoster.setVisibility(View.VISIBLE);
             poster.setTextColor(getResources().getColor(R.color.blue));
             ticker.setTextColor(getResources().getColor(R.color.textColor));
+            WhoIs = "poster";
         } else {
             poster.setTextColor(getResources().getColor(R.color.textColor));
             ticker.setTextColor(getResources().getColor(R.color.blue));
+            WhoIs = "worker";
         }
 
 
@@ -246,10 +249,14 @@ public class ReviewsActivity extends ActivityBase {
             poster.setTextColor(getResources().getColor(R.color.textColor));
             lytTicker.setVisibility(View.VISIBLE);
             lytPoster.setVisibility(View.GONE);
+            WhoIs = "worker";
         } else {
             ticker.setTextColor(getResources().getColor(R.color.textColor));
             poster.setTextColor(getResources().getColor(R.color.blue));
+            WhoIs = "poster";
         }
+
+        getReviewList();
     }
 
     @SuppressLint("SetTextI18n")
@@ -512,6 +519,7 @@ public class ReviewsActivity extends ActivityBase {
                 response -> {
                     // categoryArrayList.clear();
                     try {
+                        reviewModelList.clear();
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
 
@@ -542,6 +550,7 @@ public class ReviewsActivity extends ActivityBase {
                             txtReview.setVisibility(View.GONE);
                             recyclerReview.setVisibility(View.VISIBLE);
                         }
+                        reviewAdapter.clear();
                         reviewAdapter.addItems(reviewModelList);
 
                         if (currentPage < totalPage) {

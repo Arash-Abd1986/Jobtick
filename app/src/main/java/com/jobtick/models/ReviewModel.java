@@ -286,7 +286,7 @@ public class ReviewModel {
 
             private int id;
             private String name;
-            private Object avatar;
+            private AttachmentModel avatar;
 
             public int getId() {
                 return id;
@@ -304,11 +304,11 @@ public class ReviewModel {
                 this.name = name;
             }
 
-            public Object getAvatar() {
+            public AttachmentModel getAvatar() {
                 return avatar;
             }
 
-            public void setAvatar(Object avatar) {
+            public void setAvatar(AttachmentModel avatar) {
                 this.avatar = avatar;
             }
         }

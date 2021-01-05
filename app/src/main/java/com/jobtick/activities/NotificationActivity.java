@@ -23,7 +23,6 @@ import android.annotation.SuppressLint;
 
 import com.jobtick.adapers.NotificationListAdapter;
 import com.jobtick.models.ConversationModel;
-import com.jobtick.models.UserAccountModel;
 import com.jobtick.models.notification.NotifDatum;
 import com.jobtick.models.notification.PushNotificationModel2;
 import com.jobtick.pagination.PaginationListener;
@@ -147,7 +146,8 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
 
     private void getNotificationList() {
 
-        swipeRefresh.setRefreshing(true);
+        if(currentPage == PAGE_START)
+            swipeRefresh.setRefreshing(true);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_NOTIFICATION_LIST + "?page=" + currentPage,
                 response -> {
@@ -285,7 +285,7 @@ public class NotificationActivity extends ActivityBase implements NotificationLi
                         obj.getUserAccountModel().getName(), obj.getData().getTaskId(), null, null, obj.getCreatedAt(),
                         sessionManager.getUserAccount(),
                         obj.getUserAccountModel(),
-                        obj.getData().getTaskSlug(), obj.getData().getTaskStatus());
+                        obj.getData().getTaskSlug(), obj.getData().getTaskStatus(), null);
 
                 Intent intent = new Intent(this, ChatActivity.class);
                 Bundle bundle = new Bundle();

@@ -1,18 +1,10 @@
 package com.jobtick.activities;
 
-import android.Manifest;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -20,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -35,29 +26,19 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
-import com.jobtick.text_view.TextViewMedium;
-import com.jobtick.adapers.AttachmentAdapter;
 import com.jobtick.adapers.ChatAdapter;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.ChatModel;
 import com.jobtick.models.ConversationModel;
 import com.jobtick.retrofit.ApiClient;
-import com.jobtick.utils.CameraUtils;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.ImageUtil;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.pusher.client.Pusher;
 import com.pusher.client.PusherOptions;
@@ -79,11 +60,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -98,8 +77,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import timber.log.Timber;
 
-import static com.jobtick.activities.DashboardActivity.onProfileupdatelistenerSideMenu;
-import static com.jobtick.fragments.ProfileFragment.onProfileupdatelistener;
 import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
 public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnRefreshListener {
@@ -168,25 +145,18 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     public static ConversationModel conversationModel;
     private ChatAdapter adapter;
     private ArrayList<ChatModel> chatModelArrayList;
-    private boolean isUploadPortfolio = false;
 
     AttachmentModel attachment;
 
-    // Activity request codes
-    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
-    private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
-    private static final int PICKUP_File_REQUEST_CODE = 1024;
-    private static String imageStoragePath;
     PrivateChannel channel;
     PresenceChannel presenceChannel;
-    private BottomSheetBehavior mBehavior;
-    private BottomSheetDialog mBottomSheetDialog;
     private int currentPage = PAGE_START;
     private final boolean isLastPage = false;
-    private int totalPage = 10;
     private int unreadCount = 0;
     private boolean isLastPosition = false;
     LinearLayoutManager layoutManager;
+
+    private UploadableImage uploadableImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,7 +174,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         headers.put("X-REQUESTED-WITH", "xmlhttprequest");
         headers.put("Accept", "application/json");
         HttpAuthorizer authorizer = new HttpAuthorizer(Constant.BASE_URL + "broadcasting/auth");
-        mBehavior = BottomSheetBehavior.from(bottomSheet);
         authorizer.setHeaders(headers);
         PusherOptions options = new PusherOptions()
                 //   .setEncrypted(true)
@@ -227,6 +196,10 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
         if (conversationModel != null) {
             setToolbar(conversationModel);
+            if(conversationModel.getChatClosed() != null &&
+                    conversationModel.getChatClosed())
+                rltLayoutActionData.setVisibility(View.GONE);
+
         }
         pusher = new Pusher(getString(R.string.pusher_api_key), options);
 
@@ -268,6 +241,13 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
             txtCount.setText(String.valueOf(unreadCount));
             recyclerView.smoothScrollToPosition(adapter.getItemCount());
         });
+
+        uploadableImage = new AbstractUploadableImageImpl(this) {
+            @Override
+            public void onImageReady(File imageFile) {
+                uploadDataInPortfolioMediaApi(imageFile);
+            }
+        };
     }
 
 
@@ -536,7 +516,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                         Collections.reverse(items);
                         if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
                             JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
-                            totalPage = jsonObject_meta.getInt("last_page");
                             Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
                         }
 
@@ -616,7 +595,8 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
             case R.id.img_btn_task_action:
                 break;
             case R.id.img_btn_image_select:
-                showBottomSheetDialog(true);
+               uploadableImage.showAttachmentBottomSheet(false);
+             //   showBottomSheetDialog(true);
                 break;
             case R.id.img_btn_send:
                 if (validation()) {
@@ -739,44 +719,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         Timber.e(stringRequest.getUrl());
     }
 
-    private void requestCameraPermission() {
-        Dexter
-                .withActivity(this)
-                .withPermissions(Manifest.permission.CAMERA,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.RECORD_AUDIO)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        if (report.areAllPermissionsGranted()) {
-
-                            // capture picture
-                            captureImage();
-
-                        } else if (report.isAnyPermissionPermanentlyDenied()) {
-                            showPermissionsAlert();
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).check();
-    }
-
-    private void captureImage() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File file = CameraUtils.getOutputMediaFile(ConstantKey.MEDIA_TYPE_IMAGE);
-        if (file != null) {
-            imageStoragePath = file.getAbsolutePath();
-        }
-        Uri fileUri = CameraUtils.getOutputMediaFileUri(getApplicationContext(), file);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        // start the image capture Intent
-        startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
-    }
-
     private void uploadDataInPortfolioMediaApi(File pictureFile) {
         showProgressDialog();
         Call<String> call;
@@ -843,84 +785,12 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         }
         return true;
     }
-    public static String getMimeType(Context context, Uri uri) {
-        String extension;
 
-        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
-            final MimeTypeMap mime = MimeTypeMap.getSingleton();
-            extension = mime.getExtensionFromMimeType(context.getContentResolver().getType(uri));
-        } else {
-            extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(new File(uri.getPath())).toString());
-
-        }
-
-        return extension;
-    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data != null) {
-            if (requestCode == PICKUP_File_REQUEST_CODE && resultCode==RESULT_OK) {
-                Uri uri = data.getData();
-                Timber.tag("FileUpload").d(uri.getPath());
-                uploadDataInPortfolioMediaApi(new File(uri.getPath()));
-            }
-            if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
-                if (resultCode == RESULT_OK) {
-                    Uri uri = Uri.parse("file://" + imageStoragePath);
-                    Bitmap bitmap = null;
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+        uploadableImage.onActivityResult(requestCode, resultCode, data);
 
-//                    imgAvatar.setImageBitmap(bitmap);
-
-                    if (isUploadPortfolio) {
-                        uploadDataInPortfolioMediaApi(new File(uri.getPath()));
-                    } else {
-                        uploadProfileAvtar(new File(uri.getPath()));
-                    }
-                } else if (resultCode == RESULT_CANCELED) {
-                    // user cancelled Image capture
-                    showToast("User cancelled image capture", this);
-                } else {
-                    // failed to capture image
-                    showToast("Sorry! Failed to capture image", this);
-                }
-            } else if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
-                if (resultCode == RESULT_OK) {
-                    if (data.getData() != null) {
-                        imageStoragePath = CameraUtils.getPath(ChatActivity.this, data.getData());
-                        File file = new File(imageStoragePath);
-                        Uri uri = Uri.parse("file://" + imageStoragePath);
-                        Bitmap bitmap = null;
-                        try {
-                            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-//                        imgAvatar.setImageBitmap(bitmap);
-
-                        if (isUploadPortfolio) {
-                            uploadDataInPortfolioMediaApi(new File(uri.getPath()));
-
-                        } else {
-                            uploadProfileAvtar(new File(uri.getPath()));
-                        }
-
-
-                        //// uploadDataInPortfolioMediaApi(file);
-                    }
-                } else {
-                    // failed to record video
-                    showToast("Sorry! Failed to Pickup Image", this);
-                }
-            }
-
-        }
     }
 
     @Override
@@ -939,154 +809,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     protected void onPause() {
         super.onPause();
         ConstantKey.IS_CHAT_SCREEN = false;
-    }
-
-    private void showBottomSheetDialog(boolean isUploadPortfolioOrPrfile) {
-        isUploadPortfolio = isUploadPortfolioOrPrfile;
-
-        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        }
-
-        @SuppressLint("InflateParams") final View view = getLayoutInflater().inflate(R.layout.sheet_attachment, null);
-        LinearLayout lytBtnCamera = view.findViewById(R.id.lyt_btn_camera);
-        LinearLayout lytBtnImage = view.findViewById(R.id.lyt_btn_image);
-        LinearLayout lytBtnVideo = view.findViewById(R.id.lyt_btn_video);
-        LinearLayout lytBtnDoc = view.findViewById(R.id.lyt_btn_doc);
-        LinearLayout lyrBtnVideoCamera = view.findViewById(R.id.lyt_btn_video_camera);
-
-        if (isUploadPortfolioOrPrfile) {
-            lytBtnVideo.setVisibility(View.VISIBLE);
-            lytBtnDoc.setVisibility(View.VISIBLE);
-            lyrBtnVideoCamera.setVisibility(View.VISIBLE);
-        } else {
-            lytBtnVideo.setVisibility(View.GONE);
-            lytBtnDoc.setVisibility(View.INVISIBLE);
-            lyrBtnVideoCamera.setVisibility(View.INVISIBLE);
-        }
-
-        lytBtnCamera.setOnClickListener(v -> {
-
-        });
-
-        lytBtnVideo.setOnClickListener(v -> {
-            Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            opengallary.setType("video/*, image/*");
-            startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), PICKUP_File_REQUEST_CODE);
-            mBottomSheetDialog.hide();
-        });
-        lytBtnCamera.setOnClickListener(view1 -> {
-            // Checking availability of the camera
-            if (!CameraUtils.isDeviceSupportCamera(getApplicationContext())) {
-                showToast("Sorry! Your device doesn't support camera", this);
-                // will close the app if the device doesn't have camera
-                return;
-            }
-            if (CameraUtils.checkPermissions(getApplicationContext())) {
-                captureImage();
-            } else {
-                requestCameraPermission();
-            }
-            mBottomSheetDialog.hide();
-        });
-
-
-        lytBtnImage.setOnClickListener(v -> {
-            Intent opengallary = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(Intent.createChooser(opengallary, "Open Gallary"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
-            mBottomSheetDialog.hide();
-        });
-
-        mBottomSheetDialog = new BottomSheetDialog(this);
-        mBottomSheetDialog.setContentView(view);
-        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-
-        ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
-
-        mBottomSheetDialog.show();
-        mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
-
-    }
-
-    private void uploadProfileAvtar(File pictureFile) {
-        showProgressDialog();
-        Call<String> call;
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
-        MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
-        call = ApiClient.getClient().uploadProfilePicture("XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
-
-        call.enqueue(new Callback<String>() {
-
-            @Override
-            public void onResponse(@NotNull Call<String> call, retrofit2.@NotNull Response<String> response) {
-                hideProgressDialog();
-                Timber.e(response.toString());
-                if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
-                    showToast(response.message(), ChatActivity.this);
-                    return;
-                }
-                try {
-                    String strResponse = response.body();
-                    if (response.code() == HttpStatus.NOT_FOUND) {
-                        showToast( "not found", ChatActivity.this);
-                        return;
-                    }
-                    if (response.code() == HttpStatus.AUTH_FAILED) {
-                        unauthorizedUser();
-                        return;
-                    }
-                    if (response.code() == HttpStatus.SUCCESS) {
-                        Timber.e(strResponse);
-                        JSONObject jsonObject = new JSONObject(strResponse);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("data")) {
-                            AttachmentModel attachment = new AttachmentModel();
-                            JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                            if (jsonObject_data.has("id") && !jsonObject_data.isNull("id"))
-                                attachment.setId(jsonObject_data.getInt("id"));
-                            if (jsonObject_data.has("name") && !jsonObject_data.isNull("name"))
-                                attachment.setName(jsonObject_data.getString("name"));
-                            if (jsonObject_data.has("file_name") && !jsonObject_data.isNull("file_name"))
-                                attachment.setFileName(jsonObject_data.getString("file_name"));
-                            if (jsonObject_data.has("mime") && !jsonObject_data.isNull("mime"))
-                                attachment.setMime(jsonObject_data.getString("mime"));
-                            if (jsonObject_data.has("url") && !jsonObject_data.isNull("url"))
-                                attachment.setUrl(jsonObject_data.getString("url"));
-                            if (jsonObject_data.has("thumb_url") && !jsonObject_data.isNull("thumb_url"))
-                                attachment.setThumbUrl(jsonObject_data.getString("thumb_url"));
-                            if (jsonObject_data.has("modal_url") && !jsonObject_data.isNull("modal_url"))
-                                attachment.setModalUrl(jsonObject_data.getString("modal_url"));
-                            if (jsonObject_data.has("created_at") && !jsonObject_data.isNull("created_at"))
-                                attachment.setCreatedAt(jsonObject_data.getString("created_at"));
-                            attachment.setType(AttachmentAdapter.VIEW_TYPE_IMAGE);
-
-                            sessionManager.getUserAccount().setAvatar(attachment);
-                            if (onProfileupdatelistener != null) {
-                                onProfileupdatelistener.updatedSuccesfully(attachment.getThumbUrl());
-                            }
-                            if (onProfileupdatelistenerSideMenu != null) {
-                                onProfileupdatelistenerSideMenu.updatedSuccesfully(attachment.getThumbUrl());
-                            }
-                        }
-                        //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
-                        // showToast("attachment added", AttachmentActivity.this);
-                    } else {
-                        showToast("Something went wrong", ChatActivity.this);
-                    }
-                } catch (JSONException e) {
-                    showToast("Something went wrong", ChatActivity.this);
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
-                hideProgressDialog();
-                Timber.e(call.toString());
-            }
-        });
-
     }
 
 }

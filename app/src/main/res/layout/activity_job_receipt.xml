@@ -270,8 +270,9 @@
                         android:layout_alignBottom="@id/total_cost_value"
                         android:layout_alignParentStart="true"
                         android:layout_marginStart="16dp"
-                        android:layout_toStartOf="@id/service_fee_value"
                         android:gravity="center_vertical"
+                        android:layout_toStartOf="@id/total_cost_value"
+                        android:lines="1"
                         android:text="Total Cost"
                         android:textAppearance="@style/materialText_700_14"
                         android:textColor="@color/textColor" />

@@ -1,9 +1,7 @@
 package com.jobtick.activities;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,7 +35,6 @@ import com.jobtick.adapers.AttachmentAdapterEditProfile;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.models.UserAccountModel;
 import com.jobtick.retrofit.ApiClient;
-import com.jobtick.utils.CameraUtils;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.Helper;
@@ -49,11 +45,6 @@ import com.jobtick.utils.TimeHelper;
 import com.jobtick.utils.Tools;
 import com.jobtick.widget.ExtendedEntryText;
 import com.jobtick.widget.SpacingItemDecoration;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.jetbrains.annotations.NotNull;
@@ -65,14 +56,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.github.memfis19.annca.Annca;
-import io.github.memfis19.annca.internal.configuration.AnncaConfiguration;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -564,7 +552,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         if (action.equalsIgnoreCase("add")) {
 
             isImageProfile = false;
-            uploadableImage.showAttachmentBottomSheet(false);
+            uploadableImage.showAttachmentImageBottomSheet(false);
 
         } else if (action.equalsIgnoreCase("delete")) {
             deleteMediaInAttachment(position);
@@ -708,7 +696,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                 break;
             case R.id.img_user_avatar:
                 isImageProfile = true;
-                uploadableImage.showAttachmentBottomSheet(true);
+                uploadableImage.showAttachmentImageBottomSheet(true);
                 break;
             case R.id.lytDeletePicture:
 

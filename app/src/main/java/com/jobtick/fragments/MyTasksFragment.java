@@ -256,8 +256,6 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                                 for (int i = 0; jsonArray_data.length() > i; i++) {
                                     JSONObject jsonObject_taskModel_list = jsonArray_data.getJSONObject(i);
                                     TaskModel taskModel = new TaskModel().getJsonToModel(jsonObject_taskModel_list, dashboardActivity);
-                                    //TODO: here we have a bug, when total items is 21, each page 20, there is just one item to
-                                    // get to next page. but we have a null item in list. api returns it correct
                                     items.add(taskModel);
                                 }
                             } else {

@@ -15,7 +15,6 @@ import com.jobtick.R;
 import android.annotation.SuppressLint;
 
 import com.jobtick.activities.ProfileActivity;
-import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.ReviewModel;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.ImageUtil;
@@ -32,7 +31,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private static final int VIEW_TYPE_LOADING = 0;
     private static final int VIEW_TYPE_NORMAL = 1;
-    private Context context;
     private OnItemClickListener mOnItemClickListener;
     private boolean isLoaderVisible = false;
     List<ReviewModel.DataBean> mItems;

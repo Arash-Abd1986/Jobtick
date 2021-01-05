@@ -2,9 +2,7 @@ package com.jobtick.fragments;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +20,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,7 +67,6 @@ import timber.log.Timber;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment implements onProfileUpdateListener, AttachmentAdapter.OnItemClickListener {
-    public Integer userId=-1;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view_portfolio)
     RecyclerView recyclerViewPortfolio;
@@ -353,26 +348,26 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
 
     }
 
-    private void initComponentScroll(View view) {
-        NestedScrollView nested_content = view.findViewById(R.id.nested_scroll_view);
-        nested_content.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            if (scrollY < oldScrollY) { // up
-                animateFab(true);
-            }
-            if (scrollY > oldScrollY) { // down
-                animateFab(true);
-            }
-        });
-    }
+//    private void initComponentScroll(View view) {
+//        NestedScrollView nested_content = view.findViewById(R.id.nested_scroll_view);
+//        nested_content.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+//            if (scrollY < oldScrollY) { // up
+//                animateFab(true);
+//            }
+//            if (scrollY > oldScrollY) { // down
+//                animateFab(true);
+//            }
+//        });
+//    }
 
     boolean isFabHide = false;
 
-    private void animateFab(final boolean hide) {
-        if (isFabHide && hide || !isFabHide && !hide) return;
-        isFabHide = hide;
-        int moveY = hide ? (2 * btnQuote.getHeight()) : 0;
-        btnQuote.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
-    }
+//    private void animateFab(final boolean hide) {
+//        if (isFabHide && hide || !isFabHide && !hide) return;
+//        isFabHide = hide;
+//        int moveY = hide ? (2 * btnQuote.getHeight()) : 0;
+//        btnQuote.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
+//    }
 
     private void initComponent() {
         rbPortfollio.setOnCheckedChangeListener((group, checkedId) -> onChangeTabBiography());

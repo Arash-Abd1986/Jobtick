@@ -65,7 +65,6 @@ import com.jobtick.fragments.IncreaseBudgetBottomSheet;
 import com.jobtick.fragments.IncreaseBudgetDeclineBottomSheet;
 import com.jobtick.fragments.IncreaseBudgetNoticeBottomSheet;
 import com.jobtick.fragments.RescheduleNoticeBottomSheetState;
-import com.jobtick.fragments.TaskDetailFragment;
 import com.jobtick.fragments.TickerRequirementsBottomSheet;
 import com.jobtick.interfaces.OnRequestAcceptListener;
 import com.jobtick.interfaces.OnWidthDrawListener;
@@ -349,7 +348,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private String str_slug = "";
     private boolean isUserThePoster = false;
     private boolean isUserTheTicker = false;
-    boolean isFabHide = false;
     boolean isToolbarCollapsed = false;
     private OfferListAdapter offerListAdapter;
     private QuestionListAdapter questionListAdapter;
@@ -1011,7 +1009,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                             userAccountModel = new UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"));
                             sessionManager.setUserAccount(userAccountModel);
-                        } else {
                         }
 
                     } catch (JSONException e) {
@@ -1074,12 +1071,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
 
                                 if (taskModel.getTaskType().equals("physical")) {
-                                    llLocation.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:<" + taskModel.getPosition().getLatitude() + ">,<" + taskModel.getPosition().getLongitude() + ">?q=<" + taskModel.getPosition().getLatitude() + ">,<" + taskModel.getPosition().getLongitude() + ">(" + "job address" + ")"));
-                                            startActivity(intent);
-                                        }
+                                    llLocation.setOnClickListener(v -> {
+                                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:<" + taskModel.getPosition().getLatitude() + ">,<" + taskModel.getPosition().getLongitude() + ">?q=<" + taskModel.getPosition().getLatitude() + ">,<" + taskModel.getPosition().getLongitude() + ">(" + "job address" + ")"));
+                                        startActivity(intent);
                                     });
                                 }
                                 questionListAdapter.clear();
@@ -1147,7 +1141,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                 JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                                String ss = jsonObject.getString("data");
                                 taskModel = new TaskModel().getJsonToModel(jsonObject_data, TaskDetailsActivity.this);
 
                                 setOwnerTask();
@@ -1472,7 +1465,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     private void initToolbar() {
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            final boolean isShow = false;
             int scrollRange = -1;
 
             @Override
@@ -1538,14 +1530,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void deleteTaskPermanent(String slug) {
-        Log.d("DeleteCheck","delete start");
 
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + slug+"/cancellation",
                 response -> {
                     Timber.e(response);
                     try {
-                        Log.d("DeleteCheck","delete try");
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
@@ -1561,7 +1551,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     } catch (JSONException e) {
                         hideProgressDialog();
                         e.printStackTrace();
-                        Log.d("DeleteCheck","delete catch");
                     }
 
                 },
@@ -1569,9 +1558,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     hideProgressDialog();
 
                     //  swipeRefresh.setRefreshing(false);
-                    Log.d("DeleteCheck",sessionManager.getAccessToken());
-                    Log.d("DeleteCheck",slug);
-                    Log.d("DeleteCheck","delete error:"+error.networkResponse.statusCode+":"+error.networkResponse.data.toString());
 //                    errorHandle1(error.networkResponse);
                 }) {
             @Override
@@ -2014,9 +2000,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             if (jsonObject_error.has("message")) {
                                 showToast(jsonObject_error.getString("message"), this);
                             }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
+
                             //  ((CredentialActivity)requireActivity()).showToast(message,requireActivity());
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -2099,9 +2083,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             if (jsonObject_error.has("message")) {
                                 showToast(jsonObject_error.getString("message"), this);
                             }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
+//                            if (jsonObject_error.has("errors")) {
+//                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+//                            }
                             //  ((CredentialActivity)requireActivity()).showToast(message,requireActivity());
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -2126,7 +2110,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 map1.put("question_text", str_comment);
                 if (attachmentModels != null && attachmentModels.getSize() != 0) {
                     for (int i = 0; attachmentModels.getSize() > i; i++) {
-                        Log.d("AttachmentCheck","attachments[" + i + "]:"+String.valueOf(attachmentModels.getAttachment(i).getId()));
                         map1.put("attachments[" + i + "]", String.valueOf(attachmentModels.getAttachment(i).getId()));
                     }
                 }
@@ -2502,12 +2485,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/bookmark",
                 response -> {
-                    Log.d("BookmarkError", "OK");
                     toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_grey_32dp);
                     getData();
                 },
                 error -> {
-                    Log.d("BookmarkError", error.networkResponse.toString());
                     errorHandle1(error.networkResponse);
                     toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
                 }) {

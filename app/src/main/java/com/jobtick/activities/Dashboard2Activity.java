@@ -46,8 +46,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static com.jobtick.utils.ConstantKey.PUSH_TASK;
-
 public class Dashboard2Activity extends ActivityBase implements NotificationListAdapter.OnItemClickListener, ViewPager.OnPageChangeListener {
 
 
@@ -258,7 +256,7 @@ public class Dashboard2Activity extends ActivityBase implements NotificationList
                         obj.getUserAccountModel().getName(), obj.getData().getTaskId(), null, null, obj.getCreatedAt(),
                         sessionManager.getUserAccount(),
                         obj.getUserAccountModel(),
-                        obj.getData().getTaskSlug(), obj.getData().getTaskStatus());
+                        obj.getData().getTaskSlug(), obj.getData().getTaskStatus(), null);
 
                 Intent intent = new Intent(this, ChatActivity.class);
                 Bundle bundle = new Bundle();

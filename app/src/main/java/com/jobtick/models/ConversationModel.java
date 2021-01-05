@@ -44,6 +44,9 @@ public class ConversationModel implements Parcelable {
     @SerializedName("created_at")
     @Expose
     private String createdAt;
+    @SerializedName("chat_closed")
+    @Expose
+    private Boolean chatClosed;
     private UserAccountModel sender;
     private UserAccountModel receiver;
     private SessionManager sessionManager;
@@ -66,7 +69,7 @@ public class ConversationModel implements Parcelable {
      * @param sender
      * @param receiver
      */
-    public ConversationModel(Integer id, String name, Integer taskId, ChatModel lastMessage, Integer unseenCount, String createdAt, UserAccountModel sender, UserAccountModel receiver, String slug, String status) {
+    public ConversationModel(Integer id, String name, Integer taskId, ChatModel lastMessage, Integer unseenCount, String createdAt, UserAccountModel sender, UserAccountModel receiver, String slug, String status, Boolean chatClosed) {
         this.id = id;
         this.name = name;
         this.taskId = taskId;
@@ -77,6 +80,7 @@ public class ConversationModel implements Parcelable {
         this.receiver = receiver;
         this.status = status;
         this.slug = slug;
+        this.chatClosed = chatClosed;
     }
 
 
@@ -103,6 +107,7 @@ public class ConversationModel implements Parcelable {
         receiver = in.readParcelable(UserAccountModel.class.getClassLoader());
         status = in.readString();
         slug = in.readString();
+        this.chatClosed = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
     }
 
     @Override
@@ -132,6 +137,7 @@ public class ConversationModel implements Parcelable {
         dest.writeParcelable(receiver, flags);
         dest.writeString(status);
         dest.writeString(slug);
+        dest.writeValue(chatClosed);
     }
 
     @Override
@@ -232,6 +238,14 @@ public class ConversationModel implements Parcelable {
         this.status = status;
     }
 
+    public Boolean getChatClosed() {
+        return chatClosed;
+    }
+
+    public void setChatClosed(Boolean chatClosed) {
+        this.chatClosed = chatClosed;
+    }
+
     public ConversationModel getJsonToModel(JSONObject jsonObject, Context context) {
         ConversationModel conversationModel = new ConversationModel(context);
         try {
@@ -273,6 +287,9 @@ public class ConversationModel implements Parcelable {
                 conversationModel.setUnseenCount(jsonObject.getInt("unseen_count"));
             if (jsonObject.has("created_at") && !jsonObject.isNull("created_at"))
                 conversationModel.setCreatedAt(TimeAgo.getTimeAgo(jsonObject.getString("created_at")));
+
+            if (jsonObject.has("chat_closed") && !jsonObject.isNull("chat_closed"))
+                conversationModel.setChatClosed(jsonObject.getBoolean("chat_closed"));
         } catch (JSONException e) {
             Timber.e(e.toString());
             e.printStackTrace();

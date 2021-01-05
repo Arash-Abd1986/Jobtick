@@ -102,27 +102,41 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return mItems == null ? 0 : mItems.size();
     }
 
-    public void addItems(List<TaskModel> mItems) {
+    public void addItems(List<TaskModel> mItems, int allItems) {
+        removeLoading();
         this.mItems.addAll(mItems);
         notifyDataSetChanged();
+        if(this.mItems.size() < allItems){
+            addLoading();
+        }
     }
 
-    public void addLoading() {
+    private void addLoading() {
         if (isLoaderVisible) return;
         isLoaderVisible = true;
+        int position = mItems.size() - 1;
+        TaskModel item = getItem(position);
+        System.out.println("before add : tasklistadapter: all: " + mItems.size() + " last " + position + " " + item.getTitle());
         this.mItems.add(new TaskModel());
-        notifyItemInserted(this.mItems.size() - 1);
+        notifyItemInserted(position);
+        position = mItems.size() - 1;
+        item = getItem(position);
+        System.out.println("after add : tasklistadapter: all: " + mItems.size() + " last " + position + " " + item.getTitle());
     }
 
-    public void removeLoading() {
+    private void removeLoading() {
         if (!isLoaderVisible) return;
         isLoaderVisible = false;
         int position = mItems.size() - 1;
         TaskModel item = getItem(position);
+        System.out.println("before delete : tasklistadapter: all: " + mItems.size() + " last " + position + " " + item.getTitle());
         if (item != null) {
             mItems.remove(position);
             notifyItemRemoved(position);
         }
+        position = mItems.size() - 1;
+        item = getItem(position);
+        System.out.println("after delete : tasklistadapter: all: " + mItems.size() + " last " + position + " " + item.getTitle());
     }
 
     public void clear() {
@@ -330,11 +344,14 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 txtStatus.setText("Posted");
             } else if (userId != null && item.getStatus() != null && item.getStatus().equals("open")) {
                 txtStatus.setText("Offered");
-            } else if (item.getStatus().equals("completed") || item.getStatus().equals("assigned") || item.getStatus().equals("overdue")) {
+            } else if (item.getStatus().equals("assigned") || item.getStatus().equals("overdue")) {
                 txtStatus.setText("Assigned");
-            } else if (item.getStatus().equals("closed")) {
+            } else if (item.getStatus().equals("completed")) {
                 txtStatus.setText("Completed");
-            } else if (item.getStatus().equals("cancelled")) {
+            } else if(item.getStatus().equals("closed")){
+                txtStatus.setText("Closed");
+            }
+            else if (item.getStatus().equals("cancelled")) {
                 txtStatus.setText("Cancelled");
             } else if (item.getStatus().equals("draft")) {
                 txtStatusDraft.setText("Drafted");

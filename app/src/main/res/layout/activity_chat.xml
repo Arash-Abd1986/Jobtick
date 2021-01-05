@@ -176,7 +176,8 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="100dp"
                     android:clipToPadding="false"
-                    android:orientation="horizontal" />
+                    android:orientation="horizontal"
+                    tools:listitem="@layout/list_chat_left"/>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <LinearLayout

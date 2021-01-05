@@ -98,6 +98,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
     private int totalPage = 10;
+    private int totalItem = 10;
     private boolean isLoading = false;
     ImageView ivNotification;
     TextView toolbar_title;
@@ -267,6 +268,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                             if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
                                 JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
                                 totalPage = jsonObject_meta.getInt("last_page");
+                                totalItem = jsonObject_meta.getInt("total");
                                 Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
                             }
 
@@ -280,7 +282,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                             if (currentPage == PAGE_START) {
                                 resetTaskListAdapter();
                             }
-                            taskListAdapter.addItems(items);
+                            taskListAdapter.addItems(items, totalItem);
                             if (items.size() <= 0) {
                                 noJobs.setVisibility(View.VISIBLE);
                                 recyclerViewStatus.setVisibility(View.GONE);
@@ -291,15 +293,6 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                             }
 
                             swipeRefresh.setRefreshing(false);
-                            // check weather is last page or not
-                            if (currentPage < totalPage) {
-                                taskListAdapter.addLoading();
-                            } else {
-                                if (currentPage == totalPage)
-                                    taskListAdapter.removeLoading();
-                                isLastPage = true;
-                            }
-                            isLoading = false;
                             str_search = null;
                         } catch (JSONException e) {
                             str_search = null;
@@ -631,7 +624,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         if (temp_single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
             temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
         }if (temp_single_choice_selected.equals(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
-//            temp_single_choice_selected = TASK_ASSIGNED_CASE_RELATED_JOB_VALUE;
+            temp_single_choice_selected = TASK_ASSIGNED_CASE_RELATED_JOB_VALUE;
         }
 
         single_choice_selected = temp_single_choice_selected;

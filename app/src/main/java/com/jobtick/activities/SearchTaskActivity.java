@@ -83,6 +83,7 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
     private int totalPage = 10;
+    private int totalItem = 10;
     private boolean isLoading = false;
 
     private boolean isFromMyJobs = false;
@@ -171,11 +172,10 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
                         if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
                             JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
                             totalPage = jsonObject_meta.getInt("last_page");
+                            totalItem = jsonObject_meta.getInt("total");
                             Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
                         }
 
-                        if (currentPage != PAGE_START)
-                            adapter.removeLoading();
                         if (items.size() <= 0) {
                             emptySearch.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.GONE);
@@ -183,16 +183,8 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
                             recyclerView.setVisibility(View.VISIBLE);
                             emptySearch.setVisibility(View.GONE);
                         }
+                        adapter.addItems(items, totalItem);
 
-                        adapter.addItems(items);
-
-                        // check weather is last page or not
-                        if (currentPage < totalPage) {
-                            adapter.addLoading();
-                        } else {
-                            isLastPage = true;
-                        }
-                        isLoading = false;
                     } catch (JSONException e) {
                         hideProgressDialog();
                         Timber.e(String.valueOf(e));

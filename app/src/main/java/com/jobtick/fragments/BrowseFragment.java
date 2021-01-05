@@ -100,6 +100,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
     private int totalPage = 10;
+    private int totalItem = 10;
     private boolean isLoading = false;
     private Toolbar toolbar;
     private boolean isFabHide = false;
@@ -338,23 +339,15 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
                         if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
                             JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
                             totalPage = jsonObject_meta.getInt("last_page");
+                            totalItem = jsonObject_meta.getInt("total");
                             Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
                         }
 
-                        if (currentPage != PAGE_START)
-                            taskListAdapter.removeLoading();
-                        taskListAdapter.addItems(items);
-
+                        taskListAdapter.addItems(items, totalItem);
                         taskArrayList = items;
-
                         swipeRefresh.setRefreshing(false);
-                        // check weather is last page or not
-                        if (currentPage < totalPage) {
-                            taskListAdapter.addLoading();
-                        } else {
-                            isLastPage = true;
-                        }
                         isLoading = false;
+
                     } catch (JSONException e) {
                         dashboardActivity.hideProgressDialog();
                         Timber.e(String.valueOf(e));

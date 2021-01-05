@@ -91,6 +91,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
     private int totalPage = 10;
+    private int totalItem = 10;
     private boolean isLoading = false;
     private double myLatitude, myLongitude;
     private String mySuburb;
@@ -328,6 +329,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
                         if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
                             JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
                             totalPage = jsonObject_meta.getInt("last_page");
+                            totalItem = jsonObject_meta.getInt("total");
                             Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
                         }
                         findCurrentLocation();
@@ -335,21 +337,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
                         addMarker(myLatitude, myLongitude, mySuburb, -1);
 
                         goToLocation(myLatitude, myLongitude);
-                        /*
-                         *manage progress view
-                         */
-                        if (currentPage != PAGE_START)
-                            taskListAdapter.removeLoading();
-                        taskListAdapter.addItems(items);
-
-
-                        // check weather is last page or not
-                        if (currentPage < totalPage) {
-                            taskListAdapter.addLoading();
-                        } else {
-                            isLastPage = true;
-                        }
-                        isLoading = false;
+                        taskListAdapter.addItems(items, totalItem);
 
 
                     } catch (JSONException e) {

@@ -26,19 +26,6 @@ public class AppController extends Application {
         super.onCreate();
         isDebug = BuildConfig.DEBUG;
 
-//        if (isDebug) {
-//            Timber.plant(new Timber.DebugTree());
-//            PaymentConfiguration.init(
-//                    getApplicationContext(),
-//                    "pk_test_TYooMQauvdEDq54NiTphI7jx"
-//            );
-//        }else {
-//            PaymentConfiguration.init(
-//                    getApplicationContext(),
-//                    "pk_live_TOO68dRFoZh4b8Y5aBNHSWiu"
-//            );
-//        }
-
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
         Mapbox.getInstance(getApplicationContext(), Constant.MAPBOX_API_KEY);

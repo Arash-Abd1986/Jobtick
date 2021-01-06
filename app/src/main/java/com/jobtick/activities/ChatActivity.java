@@ -601,8 +601,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     @OnClick({R.id.img_btn_task_action, R.id.img_btn_image_select, R.id.img_btn_send, R.id.lyt_task_details})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.img_btn_task_action:
-                break;
             case R.id.img_btn_image_select:
                uploadableImage.showAttachmentBottomSheet(false);
              //   showBottomSheetDialog(true);
@@ -615,6 +613,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                     edtCommentMessage.setText(null);
                 }
                 break;
+            case R.id.img_btn_task_action:
             case R.id.lyt_task_details:
                 Intent intent = new Intent(ChatActivity.this, TaskDetailsActivity.class);
                 Bundle bundle = new Bundle();

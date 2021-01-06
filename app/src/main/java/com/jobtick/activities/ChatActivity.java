@@ -320,19 +320,28 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         if (conversationModel != null && conversationModel.getReceiver() != null) {
             if (conversationModel.getReceiver().getName() != null) {
                 txtTitle.setText(conversationModel.getReceiver().getName());
+                imgAvatar.setOnClickListener(v -> {
+                    Intent intent = new Intent(ChatActivity.this, ProfileActivity.class);
+                    intent.putExtra("id",conversationModel.getReceiver().getId());
+                    startActivity(intent);
+                });
+                txtTitle.setOnClickListener(v -> {
+                    imgAvatar.performClick();
+                });
             }
         }
         assert conversationModel != null;
         assert conversationModel.getReceiver() != null;
         if (conversationModel.getReceiver().getAvatar() != null && conversationModel.getReceiver().getAvatar().getThumbUrl() != null) {
 //            imgAvatar.setImageDrawable(getResources().getDrawable(R.drawable.avatar));
-            Log.d("ImageAvatar",conversationModel.getReceiver().getAvatar().getThumbUrl());
+
             ImageUtil.displayImage(imgAvatar, conversationModel.getReceiver().getAvatar().getThumbUrl(), null);
         } else {
             imgAvatar.setImageDrawable(getResources().getDrawable(R.drawable.avatar));
         }
         txtJobTitle.setText(conversationModel.getName());
         txtStatus.setText(conversationModel.getStatus());
+
 
 
     }

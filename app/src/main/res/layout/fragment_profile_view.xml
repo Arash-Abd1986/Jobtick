@@ -128,7 +128,7 @@
                                 android:layout_height="28dp"
                                 android:layout_gravity="center"
                                 android:layout_marginEnd="2dp"
-                                android:background="@drawable/bg_rounded_profile_badge_enable"
+                                android:background="@drawable/bg_rounded_profile_badge_disable"
                                 android:contentDescription="@string/todo"
                                 android:src="@drawable/ic_facebook_badges" />
 
@@ -937,6 +937,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
+                                android:visibility="gone"
                                 android:text="@string/increase_your_chance_to_get_a_job_by" />
 
                             <com.google.android.material.textview.MaterialTextView
@@ -945,6 +946,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
+                                android:visibility="gone"
                                 android:text="@string/adding_portf"
                                 android:textColor="@color/colorPrimary" />
                         </LinearLayout>
@@ -980,6 +982,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
+                                android:visibility="gone"
                                 android:text="@string/increase_your_chance_to_get_a_job_by" />
 
                             <com.google.android.material.textview.MaterialTextView
@@ -987,6 +990,7 @@
                                 style="@style/materialText_400_14"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:visibility="gone"
                                 android:layout_gravity="center"
                                 android:text="adding your skills"
                                 android:textColor="@color/colorPrimary" />

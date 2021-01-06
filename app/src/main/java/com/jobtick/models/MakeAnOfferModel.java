@@ -11,6 +11,9 @@ public class MakeAnOfferModel  implements Parcelable {
     private boolean checkbok = true;
     private AttachmentModel attachment;
 
+    private float allFee;
+    private float youWillReceive;
+
     public MakeAnOfferModel() {
     }
 
@@ -29,6 +32,8 @@ public class MakeAnOfferModel  implements Parcelable {
         offer_price_type = in.readString();
         message = in.readString();
         checkbok = in.readByte() != 0;
+        allFee = in.readFloat();
+        youWillReceive = in.readFloat();
     }
 
     @Override
@@ -38,6 +43,8 @@ public class MakeAnOfferModel  implements Parcelable {
         dest.writeString(offer_price_type);
         dest.writeString(message);
         dest.writeByte((byte) (checkbok ? 1 : 0));
+        dest.writeFloat(allFee);
+        dest.writeFloat(youWillReceive);
     }
 
     @Override
@@ -103,5 +110,21 @@ public class MakeAnOfferModel  implements Parcelable {
 
     public void setAttachment(AttachmentModel attachment) {
         this.attachment = attachment;
+    }
+
+    public float getAllFee() {
+        return allFee;
+    }
+
+    public void setAllFee(float allFee) {
+        this.allFee = allFee;
+    }
+
+    public float getYouWillReceive() {
+        return youWillReceive;
+    }
+
+    public void setYouWillReceive(float youWillReceive) {
+        this.youWillReceive = youWillReceive;
     }
 }

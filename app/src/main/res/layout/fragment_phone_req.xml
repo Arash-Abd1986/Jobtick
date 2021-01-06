@@ -67,6 +67,7 @@
                 android:layout_marginBottom="@dimen/spacing_medium"
                 app:eBoxSize="small"
                 app:eInputType="integer"
+                app:eImeOptions="actionDone"
                 app:eTitle="@string/sms_verification_code" />
 
         </LinearLayout>

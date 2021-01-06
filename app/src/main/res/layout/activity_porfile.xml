@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="@color/backgroundLightGrey"
+    android:orientation="vertical"
+    tools:context=".activities.ProfileActivity">
 
-    <LinearLayout
+    <include layout="@layout/toolbar" />
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/backgroundLightGrey"
-        tools:context=".activities.ProfileActivity">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar" />
 
         <FrameLayout
             android:id="@+id/profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

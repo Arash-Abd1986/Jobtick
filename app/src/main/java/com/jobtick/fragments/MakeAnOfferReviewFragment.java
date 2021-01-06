@@ -1,6 +1,7 @@
 package com.jobtick.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -31,7 +32,9 @@ import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.activities.VideoPlayerActivity;
 import com.jobtick.models.MakeAnOfferModel;
 import com.jobtick.models.UserAccountModel;
+import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.ExternalIntentHelper;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 
@@ -165,14 +168,14 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
         ClickableSpan clickableSpan1 = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                Toast.makeText(makeAnOfferActivity, "Terms And Conditions", Toast.LENGTH_SHORT).show();
+                ExternalIntentHelper.openLink(requireActivity(), Constant.URL_terms);
             }
         };
 
         ClickableSpan clickableSpan2 = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                Toast.makeText(makeAnOfferActivity, "Community guidelines", Toast.LENGTH_SHORT).show();
+                 ExternalIntentHelper.openLink(requireActivity(), Constant.URL_support);
             }
         };
 

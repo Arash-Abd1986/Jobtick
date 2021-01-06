@@ -2,7 +2,9 @@ package com.jobtick.cancellations;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -23,6 +25,7 @@ import com.jobtick.models.cancellation.notice.CancellationNoticeModel;
 import com.jobtick.models.cancellation.reason.CancellationReasonModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.ExternalIntentHelper;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.TimeHelper;
@@ -50,6 +53,10 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
     @BindView(R.id.comment_box)
     ExtendedCommentText commentText;
 
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.learn_more)
+    TextView learnMore;
+
 
     protected String str_SLUG = null;
     protected TaskModel taskModel;
@@ -66,14 +73,11 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
         ButterKnife.bind(this);
         initToolbar();
         sessionManager = new SessionManager(this);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
         taskModel = TaskDetailsActivity.taskModel;
         str_SLUG = taskModel.getSlug();
+        learnMore.setOnClickListener(view ->{
+            ExternalIntentHelper.openLink(this, Constant.URL_privacy_policy);
+        });
 
 //        Bundle bundle = getIntent().getExtras();
 //        if (bundle != null) {
@@ -93,12 +97,17 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Cancellation Request");
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
                 onBackPressed();
-            }
-        });
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

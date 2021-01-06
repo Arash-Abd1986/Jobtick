@@ -15,6 +15,7 @@ import android.annotation.SuppressLint;
 import android.widget.TextView;
 
 import com.jobtick.activities.AuthActivity;
+import com.jobtick.utils.ExternalIntentHelper;
 import com.jobtick.utils.Helper;
 import com.jobtick.widget.ExtendedEntryText;
 
@@ -122,7 +123,7 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
                 ft.commit();
                 break;
             case R.id.txt_btn_terms:
-                //TODO: should be implemented
+                ExternalIntentHelper.openLink(requireActivity(), "https://www.jobtick.com/terms");
                 break;
 
         }

@@ -49,11 +49,12 @@ public class Constant {
     public static final String TASK_CLOSED_CASE_UPPER_FIRST = "Closed";
 
 
-    public static final String URL_privacy_policy = "https://dev.jobtick.com/privacy-policy";
+    public static final String URL_privacy_policy = "https://www.jobtick.com/privacy";
+    public static final String URL_support = "https://www.jobtick.com/support";
+    public static final String URL_terms = "https://www.jobtick.com/terms";
+    public static final String URL_how_it_works = "https://www.jobtick.com/how-it-works";
 
     // base url
-
-    //we will set base_url in application class according to debug/release variant
     public static final String BASE_URL_PRODUCT = "https://api.jobtick.com/api/v1/";
     public static final String BASE_URL_DEBUG =   "https://dev.jobtick.com/api/v1/";
     public static final String BASE_URL = (BuildConfig.DEBUG) ? BASE_URL_DEBUG : BASE_URL_PRODUCT;

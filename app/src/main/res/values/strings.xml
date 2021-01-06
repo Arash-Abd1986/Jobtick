@@ -207,14 +207,12 @@
     <string name="overdue">Overdue</string>
     <string name="completed">Completed</string>
     <string name="reviewed">Reviewed</string>
-    <string name="this_job_has_been_cancelled_please_contact_customer_support_if_you_need_further_help">This job has been cancelled Please contact customer support if you need further help</string>
     <string name="repost_this_job">Repost this job</string>
     <string name="request_for_increase_budget">Request for Increase Budget</string>
     <string name="view_request">View Request</string>
     <string name="clean_my_two_bedroom_apartment">Clean my two bedroom apartment</string>
     <string name="_6386_spring_st">6386 Spring St</string>
     <string name="posted_32_minutes_ago">Posted 32 minutes ago.</string>
-    <string name="excepteur_qui_qui_fugiat_et_esse_pariatur_voluptate_exercitation_esse_officia_cillum_occaecat_culpa_pariatur_nisi_in_ut_tempor_laborum_officia_dolore_ad_occaecat_anim_ad_voluptate_proident_ea_commodo_qui_velit_officia_minim">Excepteur qui fugiat et esse pariatur voluptate exercitation esse officia cillum occaecat culpa pariatur. Nisi in ut tempor laborum officia dolore ad occaecat. Anim ad voluptate proident ea commodo qui velit officia minim.</string>
     <string name="_4_offers">4 Offers</string>
     <string name="posted_by">Posted by</string>
     <string name="aaron_brooks">Aaron Brooks</string>
@@ -497,5 +495,6 @@
     <string name="credit_card_error">Your credit card information is not correct.</string>
     <string name="australia">Australia</string>
     <string name="edit_billing_address">Edit Billing Address</string>
+    <string name="chooser_title">Complete action using</string>
 
 </resources>

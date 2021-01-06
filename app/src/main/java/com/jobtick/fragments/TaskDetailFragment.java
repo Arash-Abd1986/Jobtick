@@ -350,7 +350,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
         if (action.equalsIgnoreCase("add")) {
-            uploadableImage.showAttachmentBottomSheet(false);
+            uploadableImage.showAttachmentImageBottomSheet(false);
 
         } else if (action.equalsIgnoreCase("delete")) {
             rcAttachment.removeViewAt(position);

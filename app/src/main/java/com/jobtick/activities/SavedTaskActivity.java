@@ -51,6 +51,7 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
     private int totalPage = 10;
+    private int totalItem = 10;
     private boolean isLoading = false;
 
     private SessionManager sessionManager;
@@ -140,14 +141,9 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
                         if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
                             JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
                             totalPage = jsonObject_meta.getInt("last_page");
+                            totalItem = jsonObject_meta.getInt("total");
                             Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
                         }
-
-                        /*
-                         *manage progress view
-                         */
-                        if (currentPage != PAGE_START)
-                            taskListAdapter.removeLoading();
 
                         if (items.size() <= 0) {
                             noPosts.setVisibility(View.VISIBLE);
@@ -157,16 +153,8 @@ public class SavedTaskActivity extends ActivityBase implements TaskListAdapter.O
                             recyclerViewStatus.setVisibility(View.VISIBLE);
 
                         }
-                        taskListAdapter.addItems(items);
-
+                        taskListAdapter.addItems(items, totalItem);
                         swipeRefresh.setRefreshing(false);
-                        // check weather is last page or not
-                        if (currentPage < totalPage) {
-                            taskListAdapter.addLoading();
-                        } else {
-                            isLastPage = true;
-                        }
-                        isLoading = false;
                     } catch (JSONException e) {
                         hideProgressDialog();
                         Timber.e(String.valueOf(e));

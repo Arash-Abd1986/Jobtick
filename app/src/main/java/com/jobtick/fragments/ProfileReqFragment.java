@@ -102,7 +102,7 @@ public class ProfileReqFragment extends Fragment {
     @OnClick({R.id.img_user_avatar})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.img_user_avatar) {
-            uploadableImage.showAttachmentBottomSheet(true);
+            uploadableImage.showAttachmentImageBottomSheet(true);
         }
     }
 

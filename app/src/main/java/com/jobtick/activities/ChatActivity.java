@@ -602,7 +602,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_btn_image_select:
-               uploadableImage.showAttachmentBottomSheet(false);
+               uploadableImage.showAttachmentImageBottomSheet(false);
              //   showBottomSheetDialog(true);
                 break;
             case R.id.img_btn_send:

@@ -32,7 +32,7 @@ public abstract class AbstractUploadableImageImpl implements UploadableImage {
     }
 
     @Override
-    public void showAttachmentBottomSheet(boolean isCircle){
+    public void showAttachmentImageBottomSheet(boolean isCircle){
         this.isCircle = isCircle;
         attachmentBottomSheet.show(activity.getSupportFragmentManager(), "");
     }

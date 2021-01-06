@@ -102,22 +102,29 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return mItems == null ? 0 : mItems.size();
     }
 
-    public void addItems(List<TaskModel> mItems) {
+    public void addItems(List<TaskModel> mItems, int allItems) {
+        removeLoading();
         this.mItems.addAll(mItems);
         notifyDataSetChanged();
+        if(this.mItems.size() < allItems){
+            addLoading();
+        }
     }
 
-    public void addLoading() {
+    private void addLoading() {
         if (isLoaderVisible) return;
         isLoaderVisible = true;
+        int position = mItems.size() - 1;
         this.mItems.add(new TaskModel());
-        notifyItemInserted(this.mItems.size() - 1);
+        notifyItemInserted(position);
     }
 
-    public void removeLoading() {
+    private void removeLoading() {
         if (!isLoaderVisible) return;
         isLoaderVisible = false;
         int position = mItems.size() - 1;
+        if(position == -1)
+            return;
         TaskModel item = getItem(position);
         if (item != null) {
             mItems.remove(position);
@@ -330,11 +337,14 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 txtStatus.setText("Posted");
             } else if (userId != null && item.getStatus() != null && item.getStatus().equals("open")) {
                 txtStatus.setText("Offered");
-            } else if (item.getStatus().equals("completed") || item.getStatus().equals("assigned") || item.getStatus().equals("overdue")) {
+            } else if (item.getStatus().equals("assigned") || item.getStatus().equals("overdue")) {
                 txtStatus.setText("Assigned");
-            } else if (item.getStatus().equals("closed")) {
+            } else if (item.getStatus().equals("completed")) {
                 txtStatus.setText("Completed");
-            } else if (item.getStatus().equals("cancelled")) {
+            } else if(item.getStatus().equals("closed")){
+                txtStatus.setText("Closed");
+            }
+            else if (item.getStatus().equals("cancelled")) {
                 txtStatus.setText("Cancelled");
             } else if (item.getStatus().equals("draft")) {
                 txtStatusDraft.setText("Drafted");

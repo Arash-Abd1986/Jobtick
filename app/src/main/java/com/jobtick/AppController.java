@@ -9,9 +9,6 @@ import com.mapbox.mapboxsdk.Mapbox;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.jobtick.utils.Constant;
 import com.onesignal.OneSignal;
-import com.stripe.android.PaymentConfiguration;
-
-import timber.log.Timber;
 
 
 public class AppController extends Application {

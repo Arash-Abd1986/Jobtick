@@ -270,7 +270,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 101) {
+        if (requestCode == 101) {
             if (data != null && data.getExtras() != null) {
                 Bundle bundle = data.getExtras();
                 filterModel = (FilterModel) bundle.getParcelable(Constant.FILTER);
@@ -278,6 +278,8 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 setFilterData();
                 onRefresh();
             }
+        }else if (requestCode == 202) {
+            //TODO: Do something to show user that he offered on the job.
         }
     }
 
@@ -374,8 +376,10 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         Timber.e(stringRequest.getUrl());
     }
 
+
     @Override
     public void onRefresh() {
+        swipeRefresh.setRefreshing(true);
         currentPage = PAGE_START;
         isLastPage = false;
         taskListAdapter.clear();
@@ -389,7 +393,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         bundle.putString(ConstantKey.SLUG, obj.getSlug());
     //    bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
         intent.putExtras(bundle);
-        startActivity(intent);
+        startActivityForResult(intent, 202);
     }
 
     @Override

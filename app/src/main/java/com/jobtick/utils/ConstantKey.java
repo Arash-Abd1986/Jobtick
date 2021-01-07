@@ -19,7 +19,7 @@ public class ConstantKey {
     public static final String KEY_TASK_CANCELLATION_ID = "cancellation_id";
 
     public static final String CREATE_A_JOB = "Post a job";
-    public static final String UPDATE_TASK = "Update Task";
+    public static final String UPDATE_TASK = "Update job";
     public static final String TASK_NAME = "task_name";
     public static final String TASK_BUDGET = "task_budget";
     public static final String RATING = "rating";
@@ -154,6 +154,7 @@ public class ConstantKey {
     public static final String FROM_MY_JOBS_WITH_LOVE = "from_my_jobs";
     public static final String ALL_MY_JOBS_URL_FILTER = "?mytask=draft,open,assigned,offered,completed,closed,cancelled";
     public static final String COPY = "copy";
+    public static final String EDIT = "edit";
     public static final int RESULTCODE_MY_JOBS = 2020;
     public static boolean IS_CHAT_SCREEN = false;
 

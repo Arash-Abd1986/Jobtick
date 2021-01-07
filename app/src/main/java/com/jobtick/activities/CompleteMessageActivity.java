@@ -26,6 +26,7 @@ import static com.jobtick.activities.TaskDetailsActivity.requestAcceptListener;
 import static com.jobtick.utils.ConstantKey.RESULTCODE_CREATE_TASK;
 import static com.jobtick.utils.ConstantKey.RESULTCODE_INCREASE_BUDGET;
 import static com.jobtick.utils.ConstantKey.RESULTCODE_MAKEANOFFER;
+import static com.jobtick.utils.ConstantKey.RESULTCODE_UPDATE_TASK;
 
 public class CompleteMessageActivity extends AppCompatActivity {
 

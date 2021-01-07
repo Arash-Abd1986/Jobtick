@@ -1,5 +1,6 @@
 package com.jobtick.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,8 +39,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.R;
-import android.annotation.SuppressLint;
-
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.activities.DashboardActivity;
 import com.jobtick.activities.SearchTaskActivity;
@@ -47,12 +46,12 @@ import com.jobtick.activities.TaskCreateActivity;
 import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.adapers.TaskListAdapter;
 import com.jobtick.models.TaskModel;
-import com.jobtick.pagination.PaginationListener;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
 import com.jobtick.utils.Helper;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.widget.EndlessRecyclerViewOnScrollListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,7 +65,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static com.jobtick.pagination.PaginationListener.PAGE_START;
 import static com.jobtick.utils.Constant.TASK_ASSIGNED_CASE_RELATED_JOB_VALUE;
 import static com.jobtick.utils.Constant.TASK_ASSIGNED_CASE_UPPER_FIRST;
 import static com.jobtick.utils.Constant.TASK_COMPLETED_CASE_UPPER_FIRST;
@@ -92,14 +90,13 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     SwipeRefreshLayout swipeRefresh;
     private DashboardActivity dashboardActivity;
     private SessionManager sessionManager;
+    private EndlessRecyclerViewOnScrollListener onScrollListener;
 
 
     private TaskListAdapter taskListAdapter;
-    private int currentPage = PAGE_START;
+    private int currentPage = 1;
     private boolean isLastPage = false;
-    private int totalPage = 10;
     private int totalItem = 10;
-    private boolean isLoading = false;
     ImageView ivNotification;
     TextView toolbar_title;
     private BottomSheetBehavior mBehavior;
@@ -169,28 +166,20 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         swipeRefresh.setRefreshing(true);
         single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
         getStatusList();
-        /*
-         * add scroll listener while user reach in bottom load more will call
-         */
-        recyclerViewStatus.addOnScrollListener(new PaginationListener(layoutManager) {
+        onScrollListener = new EndlessRecyclerViewOnScrollListener() {
             @Override
-            protected void loadMoreItems() {
-                isLoading = true;
-                currentPage++;
+            public void onLoadMore(int currentPage) {
+                MyTasksFragment.this.currentPage = currentPage;
                 getStatusList();
             }
 
             @Override
-            public boolean isLastPage() {
-                return isLastPage;
+            public int getTotalItem() {
+                return totalItem;
             }
+        };
 
-            @Override
-            public boolean isLoading() {
-                return isLoading;
-            }
-        });
-
+        recyclerViewStatus.addOnScrollListener(onScrollListener);
 
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -221,7 +210,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         } else {
             String title = single_choice_selected;
             if (single_choice_selected.equals(TASK_ASSIGNED_CASE_RELATED_JOB_VALUE)) {
-               title = TASK_ASSIGNED_CASE_UPPER_FIRST;
+                title = TASK_ASSIGNED_CASE_UPPER_FIRST;
             }
             toolbar.getMenu().clear();
             toolbar.inflateMenu(R.menu.menu_my_task_blue);
@@ -237,7 +226,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
         query_parameter += "&mytask=" + single_choice_selected.toLowerCase();
 
-        if(currentPage == 1)
+        if (currentPage == 1)
             swipeRefresh.setRefreshing(true);
 
         ArrayList<TaskModel> items = new ArrayList<>();
@@ -265,15 +254,18 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
                             if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
                                 JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
-                                totalPage = jsonObject_meta.getInt("last_page");
                                 totalItem = jsonObject_meta.getInt("total");
                                 Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
                             }
 
-                            if (currentPage == PAGE_START) {
+                            if (currentPage == 1) {
                                 resetTaskListAdapter();
                             }
                             taskListAdapter.addItems(items, totalItem);
+                            isLastPage = taskListAdapter.getItemCount() == totalItem;
+                            System.out.println("myTasksFrag: total: " + totalItem);
+                            System.out.println("myTasksFrag: items: " + items.size());
+
                             if (items.size() <= 0) {
                                 noJobs.setVisibility(View.VISIBLE);
                                 recyclerViewStatus.setVisibility(View.GONE);
@@ -335,7 +327,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             Intent intent = new Intent(dashboardActivity, TaskDetailsActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString(ConstantKey.SLUG, obj.getSlug());
-         //   bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
+            //   bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
             intent.putExtras(bundle);
             startActivityForResult(intent, ConstantKey.RESULTCODE_MY_JOBS);
             Timber.i("MyTasksFragment Starting Task with slug: %s", obj.getSlug());
@@ -405,7 +397,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
         Intent update_task = new Intent(dashboardActivity, TaskCreateActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ConstantKey.TASK, taskModel);
+        //    bundle.putParcelable(ConstantKey.TASK, taskModel);
         bundle.putString(ConstantKey.TITLE, ConstantKey.CREATE_TASK);
         update_task.putExtras(bundle);
         startActivityForResult(update_task, ConstantKey.RESULTCODE_UPDATE_TASK);
@@ -579,14 +571,16 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             temp_single_choice_selected = rb.getText().toString();
             if (temp_single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
                 temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
-            }if (temp_single_choice_selected.equals(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
+            }
+            if (temp_single_choice_selected.equals(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
                 temp_single_choice_selected = TASK_ASSIGNED_CASE_RELATED_JOB_VALUE;
             }
 
             single_choice_selected = temp_single_choice_selected;
             temp_single_choice_selected = null;
-            currentPage = PAGE_START;
-            isLastPage = false;
+            onScrollListener.reset();
+            totalItem = 0;
+            currentPage = 1;
             taskListAdapter.clear();
             getStatusList();
 
@@ -614,14 +608,16 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         temp_single_choice_selected = rbText;
         if (temp_single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
             temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
-        }if (temp_single_choice_selected.equals(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
+        }
+        if (temp_single_choice_selected.equals(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
             temp_single_choice_selected = TASK_ASSIGNED_CASE_RELATED_JOB_VALUE;
         }
 
         single_choice_selected = temp_single_choice_selected;
         temp_single_choice_selected = null;
-        currentPage = PAGE_START;
-        isLastPage = false;
+        onScrollListener.reset();
+        totalItem = 0;
+        currentPage = 1;
         taskListAdapter.clear();
         getStatusList();
 
@@ -631,8 +627,9 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     @Override
     public void onRefresh() {
         swipeRefresh.setRefreshing(true);
-        currentPage = PAGE_START;
-        isLastPage = false;
+        onScrollListener.reset();
+        totalItem = 0;
+        currentPage = 1;
         taskListAdapter.clear();
         getStatusList();
     }
@@ -650,7 +647,8 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                     }
                 }
             }
-        }if(requestCode == ConstantKey.RESULTCODE_MY_JOBS){
+        }
+        if (requestCode == ConstantKey.RESULTCODE_MY_JOBS) {
             onRefresh();
         }
     }

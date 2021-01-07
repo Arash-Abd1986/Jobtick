@@ -49,11 +49,16 @@ public class Constant {
     public static final String TASK_CLOSED_CASE_UPPER_FIRST = "Closed";
 
 
-    public static final String URL_privacy_policy = "https://dev.jobtick.com/privacy-policy";
+    public static final String URL_privacy_policy = "https://www.jobtick.com/privacy";
+    public static final String URL_support = "https://www.jobtick.com/support";
+    public static final String URL_terms = "https://www.jobtick.com/terms";
+    public static final String URL_how_it_works = "https://www.jobtick.com/how-it-works";
 
     // base url
-    public static final String BASE_URL = "https://dev.jobtick.com/api/v1/";
-    public static final String MAIN_URL = "https://dev.jobtick.com/";
+    public static final String BASE_URL_PRODUCT = "https://api.jobtick.com/api/v1/";
+    public static final String BASE_URL_DEBUG =   "https://dev.jobtick.com/api/v1/";
+    public static final String BASE_URL = (BuildConfig.DEBUG) ? BASE_URL_DEBUG : BASE_URL_PRODUCT;
+
     public static final String URL_CHANGE_PASSWORD = BASE_URL + "account/change-password";
     public static final String URL_TASKS = BASE_URL + "tasks";
     public static final String URL_BOOKMARK = BASE_URL + "bookmarks";

@@ -26,6 +26,7 @@ import com.jobtick.models.TaskModel;
 import com.jobtick.models.cancellation.notice.CancellationNoticeModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.ExternalIntentHelper;
 import com.jobtick.utils.FireBaseEvent;
 import com.jobtick.utils.HttpStatus;
 import com.jobtick.utils.ImageUtil;
@@ -105,6 +106,10 @@ public abstract class AbstractCancellationSummaryActivity extends ActivityBase i
     }
 
     private void init() {
+
+        learnMore.setOnClickListener(view ->{
+            ExternalIntentHelper.openLink(this, Constant.URL_privacy_policy);
+        });
 
         str_SLUG = taskModel.getSlug();
 

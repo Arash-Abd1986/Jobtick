@@ -1,8 +1,13 @@
 package com.jobtick.utils;
 
+import com.jobtick.BuildConfig;
+
 public class ConstantKey {
     // public static final String PUBLISHABLE_KEY = "pk_test_51DMC17EdCPjjZ7tOKFdshvLgwrNkjWFc4Q3tJT4QONjr8yy9BQt4xhoE5nxIOF1PUJm8W3MjU8kn9yNCsUCYbTa400kXtgexZK";
-    public static final String PUBLISHABLE_KEY = "pk_test_51DMC17EdCPjjZ7tOKFdshvLgwrNkjWFc4Q3tJT4QONjr8yy9BQt4xhoE5nxIOF1PUJm8W3MjU8kn9yNCsUCYbTa400kXtgexZK";
+    public static final String PUBLISHABLE_KEY = (BuildConfig.DEBUG) ?
+            "pk_test_51DMC17EdCPjjZ7tOKFdshvLgwrNkjWFc4Q3tJT4QONjr8yy9BQt4xhoE5nxIOF1PUJm8W3MjU8kn9yNCsUCYbTa400kXtgexZK"
+            : "pk_live_TOO68dRFoZh4b8Y5aBNHSWiu";
+
     public static final String ATTACHMENT = "ATTACHMENT";
     public static final String SLUG = "SLUG";
     public static final String TASK = "TASK";

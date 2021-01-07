@@ -138,6 +138,7 @@
                     android:textColor="@color/colorTaskOverDue" />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/learn_more"
                     style="@style/materialText_400_12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

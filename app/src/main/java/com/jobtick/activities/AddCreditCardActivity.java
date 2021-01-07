@@ -51,7 +51,6 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
 
     int year, month, day;
     String str_expire_date = null;
-    DatePickerDialog.OnDateSetListener mDateSetListener;
 
 
     private int expMonth;
@@ -67,13 +66,6 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
         ButterKnife.bind(this);
         initToolbar();
         edtExpiryDate.setExtendedViewOnClickListener(this);
-
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                setEdtExpiryDate(year, month);
-            }
-        };
 
         addCreditCard = new AddCreditCardImpl(this, sessionManager) {
             @Override
@@ -157,9 +149,9 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
         MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(AddCreditCardActivity.this, new MonthPickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(int selectedMonth, int selectedYear) {
-                expMonth = selectedMonth;
+                expMonth = selectedMonth + 1;
                 expYear = selectedYear;
-                edtExpiryDate.setText((selectedMonth < 10) ? "0" + selectedMonth + "/" + selectedYear : selectedMonth + "/" + selectedYear);
+                edtExpiryDate.setText((expMonth < 10) ? "0" + expMonth + "/" + expYear : expMonth + "/" + expYear);
                 Timber.d("selectedMonth : " + selectedMonth + " selectedYear : " + selectedYear);
             }
         }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));

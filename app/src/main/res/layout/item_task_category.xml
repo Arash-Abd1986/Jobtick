@@ -15,7 +15,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/rectangle_card_round_corners_dark_grey" />
+        android:background="@drawable/rectangle_card_round_corners_dark_grey" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_name"

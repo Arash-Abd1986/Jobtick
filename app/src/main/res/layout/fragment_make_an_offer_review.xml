@@ -156,7 +156,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_5sp"
-                                android:text="Service Fee:"
+                                android:text="Fee:"
                                 android:textColor="@color/grey_70"
                                 android:textAppearance="@style/materialText_400_15" />
 

@@ -254,8 +254,10 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
                         String data = jsonObject.getString("data");
 
                         EarningCalculationModel model = gson.fromJson(data, EarningCalculationModel.class);
-                        txtServiceFee.setText(String.format(Locale.ENGLISH, "$%.1f", (model.getServiceFee() + model.getGstAmount())));
-                        txtFinalBudget.setText(String.format(Locale.ENGLISH, "$%.1f", model.getNetEarning()));
+                        makeAnOfferModel.setAllFee(model.getServiceFee() + model.getGstAmount());
+                        makeAnOfferModel.setYouWillReceive(model.getNetEarning());
+                        txtServiceFee.setText(String.format(Locale.ENGLISH, "$%.1f", makeAnOfferModel.getAllFee()));
+                        txtFinalBudget.setText(String.format(Locale.ENGLISH, "$%.1f", makeAnOfferModel.getYouWillReceive()));
                         txtCurrentServiceFee.setText(String.format(Locale.ENGLISH, "%s", model.getServiceFeeRate()));
 
                     } catch (JSONException e) {

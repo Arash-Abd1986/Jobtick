@@ -9,12 +9,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.R;
+import com.jobtick.utils.Constant;
+import com.jobtick.utils.ExternalIntentHelper;
+
 import android.annotation.SuppressLint;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.jobtick.utils.Constant.URL_how_it_works;
 import static com.jobtick.utils.Constant.URL_privacy_policy;
 
 public class HelpActivity extends AppCompatActivity {
@@ -60,31 +64,20 @@ public class HelpActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_support:
-
-                StartActivity("Support", URL_privacy_policy);
+                ExternalIntentHelper.openLink(this, Constant.URL_support);
                 break;
             case R.id.btn_terms:
-                StartActivity("Terms and Condition", URL_privacy_policy);
+                ExternalIntentHelper.openLink(this, Constant.URL_terms);
                 break;
             case R.id.btn_privacy:
-                StartActivity("Privacy Policy", URL_privacy_policy);
+                ExternalIntentHelper.openLink(this, URL_privacy_policy);
                 break;
             case R.id.btn_guidelines_poster:
-                StartActivity("Guideline for poster", URL_privacy_policy);
-
+                ExternalIntentHelper.openLink(this, URL_how_it_works);
                 break;
             case R.id.btn_guidelines_ticker:
-                StartActivity("Guideline for Ticker", URL_privacy_policy);
-
+                ExternalIntentHelper.openLink(this, URL_how_it_works);
                 break;
         }
-    }
-
-
-    public void StartActivity(String Title, String URL) {
-        Intent i = new Intent(HelpActivity.this, WebViewActivity.class);
-        i.putExtra("URL", URL);
-        i.putExtra("Title", Title);
-        startActivity(i);
     }
 }

@@ -132,9 +132,9 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
         MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(requireActivity(), new MonthPickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(int selectedMonth, int selectedYear) {
-                expMonth = selectedMonth;
+                expMonth = selectedMonth + 1;
                 expYear = selectedYear;
-                edtExpiryDate.setText((selectedMonth < 10) ? "0" + selectedMonth + "/" + selectedYear : selectedMonth + "/" + selectedYear);
+                edtExpiryDate.setText((expMonth < 10) ? "0" + expMonth + "/" + expYear : expMonth + "/" + expYear);
                 Timber.d("selectedMonth : " + selectedMonth + " selectedYear : " + selectedYear);
             }
         }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));

@@ -1,6 +1,7 @@
 package com.jobtick.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -20,7 +21,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
@@ -32,9 +32,13 @@ import com.jobtick.activities.MakeAnOfferActivity;
 import com.jobtick.activities.VideoPlayerActivity;
 import com.jobtick.models.MakeAnOfferModel;
 import com.jobtick.models.UserAccountModel;
+import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
+import com.jobtick.utils.ExternalIntentHelper;
 import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -131,7 +135,9 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
         }
 
         if (makeAnOfferModel != null) {
-            txtTotalBudget.setText(String.format("$%d", makeAnOfferModel.getOffer_price()));
+            txtTotalBudget.setText(String.format(Locale.ENGLISH, "$%d", makeAnOfferModel.getOffer_price()));
+            txtServiceFee.setText(String.format(Locale.ENGLISH, "$%.1f", makeAnOfferModel.getAllFee()));
+            txtReceiveBudget.setText(String.format(Locale.ENGLISH, "$%.1f", makeAnOfferModel.getYouWillReceive()));
         }
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +148,6 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
 
         // toolbar.setNavigationOnClickListener(MakeAnOfferReviewFragment.this);
         reviewConditions();
-        setupBudget(makeAnOfferModel.getOffer_price());
         if (makeAnOfferModel != null && makeAnOfferModel.getAttachment() != null) {
             //initLayout();
             cardLiveVideo.setVisibility(View.VISIBLE);
@@ -156,13 +161,6 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
         }
     }
 
-    private void setupBudget(int budget) {
-        int worker_service_fee = userAccountModel.getWorkerTier().getServiceFee();
-        float service_fee = (float) ((budget * worker_service_fee) / 100);
-        txtServiceFee.setText(String.format("$%s", service_fee));
-        float total_budget = budget - (float) ((budget * worker_service_fee) / 100);
-        txtReceiveBudget.setText(String.format("$%s", total_budget));
-    }
 
     private void reviewConditions() {
         String text = txtReviewConditions.getText().toString().trim();
@@ -170,14 +168,14 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
         ClickableSpan clickableSpan1 = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                Toast.makeText(makeAnOfferActivity, "Terms And Conditions", Toast.LENGTH_SHORT).show();
+                ExternalIntentHelper.openLink(requireActivity(), Constant.URL_terms);
             }
         };
 
         ClickableSpan clickableSpan2 = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                Toast.makeText(makeAnOfferActivity, "Community guidelines", Toast.LENGTH_SHORT).show();
+                 ExternalIntentHelper.openLink(requireActivity(), Constant.URL_support);
             }
         };
 

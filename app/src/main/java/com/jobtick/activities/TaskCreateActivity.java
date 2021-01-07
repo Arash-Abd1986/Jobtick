@@ -107,6 +107,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     private ActionDraftTaskDetails actionDraftTaskDetails;
     private ActionDraftTaskBudget actionDraftTaskBudget;
     private boolean isDraftWorkDone = false;
+    private boolean isEditTask = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,10 +116,12 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         ButterKnife.bind(this);
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null && bundle.getParcelable(ConstantKey.TASK) != null) {
-            taskModel = bundle.getParcelable(ConstantKey.TASK);
-        } else {
+        taskModel = TaskDetailsActivity.taskModel;
+        if(taskModel == null){
             taskModel = new TaskModel();
+        }
+        if(bundle != null && bundle.containsKey(ConstantKey.TASK)){
+            taskModel = bundle.getParcelable(ConstantKey.TASK);
         }
         if (bundle != null && bundle.containsKey(ConstantKey.CATEGORY_ID)) {
             taskModel.setCategory_id(bundle.getInt(ConstantKey.CATEGORY_ID, 1));
@@ -144,6 +147,9 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         title = ConstantKey.CREATE_A_JOB;
         if (bundle != null && bundle.getString(ConstantKey.TITLE) != null) {
             title = bundle.getString(ConstantKey.TITLE);
+        }
+        if(bundle != null && bundle.getBoolean(ConstantKey.EDIT, false)){
+            isEditTask = true;
         }
         initToolbar(title);
         initComponent();
@@ -458,11 +464,20 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                                         .sendEvent(FireBaseEvent.Event.POST_A_JOB,
                                                 FireBaseEvent.EventType.API_RESPOND_SUCCESS,
                                                 FireBaseEvent.EventValue.POST_A_JOB_SUBMIT);
-
-                                intent = new Intent(TaskCreateActivity.this, CompleteMessageActivity.class);
-                                intent.putExtra(COMPLETES_MESSAGE_FROM, RESULTCODE_CREATE_TASK);
-                                startActivity(intent);
-                                finish();
+                                if(isEditTask) {
+                                    intent = new Intent(this, CompleteMessageActivity.class);
+                                    Bundle bundle1 = new Bundle();
+                                    bundle1.putString(ConstantKey.COMPLETES_MESSAGE_TITLE, "Job Edited Successfully");
+                                    bundle1.putInt(ConstantKey.COMPLETES_MESSAGE_FROM, ConstantKey.RESULTCODE_CREATE_TASK);
+                                    intent.putExtras(bundle1);
+                                    startActivity(intent);
+                                }
+                                else {
+                                    intent = new Intent(TaskCreateActivity.this, CompleteMessageActivity.class);
+                                    intent.putExtra(COMPLETES_MESSAGE_FROM, RESULTCODE_CREATE_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                }
                             } else {
                                 showToast("Something went Wrong", TaskCreateActivity.this);
                             }

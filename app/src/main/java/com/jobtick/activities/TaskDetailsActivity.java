@@ -1100,9 +1100,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     onLoadingFinished();
                 },
                 error -> {
-                        isInitPageLoaded = true;
-                        llLoading.setVisibility(View.GONE);
-                        onLoadingFinished();
+                    isInitPageLoaded = true;
+                    llLoading.setVisibility(View.GONE);
+                    onLoadingFinished();
 
                     //    fl_task_details.setVisibility(View.GONE);
 
@@ -1504,11 +1504,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     private void copyTask(TaskModel taskModel) {
 
-
         Intent update_task = new Intent(TaskDetailsActivity.this, TaskCreateActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ConstantKey.TASK, taskModel);
-        bundle.putString(ConstantKey.TITLE, "Create Task");
+        //    bundle.putParcelable(ConstantKey.TASK, taskModel);
+        bundle.putString(ConstantKey.TITLE, ConstantKey.COPY_TASK);
         bundle.putBoolean(ConstantKey.COPY, true);
         update_task.putExtras(bundle);
         startActivity(update_task);
@@ -1518,11 +1517,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
         Intent update_task = new Intent(TaskDetailsActivity.this, TaskCreateActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ConstantKey.TASK, taskModel);
+        //    bundle.putParcelable(ConstantKey.TASK, taskModel);
         bundle.putString(ConstantKey.TITLE, ConstantKey.UPDATE_TASK);
+        bundle.putBoolean(ConstantKey.EDIT, true);
         update_task.putExtras(bundle);
         startActivity(update_task);
-        //startActivityForResult(creating_task,12);
     }
 
     private void deleteTaskPermanent(String slug) {

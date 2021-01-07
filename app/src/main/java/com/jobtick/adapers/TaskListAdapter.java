@@ -271,8 +271,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
             }
             if (item.getStatus() != null) {
-                setStatusText(item);
                 setColors(item);
+                setStatusText(item);
             }
             cardTaskBackground.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) {
@@ -303,29 +303,29 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     break;
                 case "open":
                 case "offered":
+                    txtStatus.setVisibility(View.VISIBLE);
+                    txtStatusDraft.setVisibility(View.GONE);
                     cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.myJobsColorTaskOffer));
-//                        backgroundGradient.setColor(ContextCompat.getColor(context, R.color.myJobsColorTaskOfferTrans));
-//                        txtStatus.setBackground(backgroundGradient);
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskOfferTrans));
                     break;
                 case "assigned":
                 case "completed":
                 case "overdue":
+                    txtStatus.setVisibility(View.VISIBLE);
+                    txtStatusDraft.setVisibility(View.GONE);
                     cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.myJobsColorTaskAssigned));
-//                        backgroundGradient.setColor(ContextCompat.getColor(context, R.color.myJobsColorTaskAssignedTrans));
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskAssignedTrans));
-//                        txtStatus.setBackground(backgroundGradient);
                     break;
                 case "closed":
+                    txtStatus.setVisibility(View.VISIBLE);
+                    txtStatusDraft.setVisibility(View.GONE);
                     cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.myJobsColorTaskCompleted));
-//                        backgroundGradient.setColor(ContextCompat.getColor(context, R.color.myJobsColorTaskCompletedTrans));
-//                        txtStatus.setBackground(backgroundGradient);
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskCompletedTrans));
                     break;
                 case "cancelled":
+                    txtStatus.setVisibility(View.VISIBLE);
+                    txtStatusDraft.setVisibility(View.GONE);
                     cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.myJobsColorTaskCancelled));
-//                        backgroundGradient.setColor(ContextCompat.getColor(context, R.color.myJobsColorTaskCancelledTrans));
-//                        txtStatus.setBackground(backgroundGradient);
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskCancelledTrans));
                     break;
             }
@@ -343,13 +343,10 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 txtStatus.setText("Completed");
             } else if(item.getStatus().equals("closed")){
                 txtStatus.setText("Closed");
-            }
-            else if (item.getStatus().equals("cancelled")) {
+            } else if (item.getStatus().equals("cancelled")) {
                 txtStatus.setText("Cancelled");
             } else if (item.getStatus().equals("draft")) {
                 txtStatusDraft.setText("Drafted");
-            } else {
-                txtStatus.setText(item.getStatus());
             }
         }
     }

@@ -217,7 +217,7 @@
                     android:paddingRight="6dp"
                     android:visibility="gone"
                     android:paddingBottom="2dp"
-                    tools:text="@string/completed"
+                    tools:text="@string/drafted"
                     android:textAppearance="@style/materialText_400_12"
                     android:textColor="@color/grey_70" />
 

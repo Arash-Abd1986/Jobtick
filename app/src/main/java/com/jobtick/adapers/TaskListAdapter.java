@@ -188,6 +188,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         public void onBind(int position) {
             super.onBind(position);
             TaskModel item = mItems.get(position);
+            System.out.println("myTasksFrag: position " + position);
             if (item.getPoster() != null && item.getPoster().getAvatar() != null && item.getPoster().getAvatar() != null)
                 ImageUtil.displayImage(imgAvatar, item.getPoster().getAvatar().getUrl(), null);
             txtTitle.setText(item.getTitle());

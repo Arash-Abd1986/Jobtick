@@ -116,9 +116,8 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         ButterKnife.bind(this);
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null && bundle.getParcelable(ConstantKey.TASK) != null) {
-            taskModel = bundle.getParcelable(ConstantKey.TASK);
-        } else {
+        taskModel = TaskDetailsActivity.taskModel;
+        if(taskModel == null){
             taskModel = new TaskModel();
         }
         if (bundle != null && bundle.containsKey(ConstantKey.CATEGORY_ID)) {

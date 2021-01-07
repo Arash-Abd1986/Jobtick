@@ -62,10 +62,6 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
         // taskModel = new TaskModel();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            if (bundle.getParcelable(ConstantKey.TASK) != null) {
-                //      taskModel = bundle.getParcelable(ConstantKey.TASK);
-
-            }
             id = bundle.getInt("id");
             bugdet = bundle.getInt("budget");
 

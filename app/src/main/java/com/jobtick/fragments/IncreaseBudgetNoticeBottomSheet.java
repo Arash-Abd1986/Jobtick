@@ -25,6 +25,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.R;
+import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.models.TaskModel;
@@ -64,7 +65,7 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
 
     public static IncreaseBudgetNoticeBottomSheet newInstance(TaskModel taskModel){
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ConstantKey.TASK, taskModel);
+    //    bundle.putParcelable(ConstantKey.TASK, taskModel);
         IncreaseBudgetNoticeBottomSheet fragment = new IncreaseBudgetNoticeBottomSheet();
         fragment.setArguments(bundle);
         return fragment;
@@ -83,7 +84,7 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
         sessionManager = new SessionManager(getContext());
 
         assert getArguments() != null;
-        taskModel = getArguments().getParcelable(ConstantKey.TASK);
+        taskModel = TaskDetailsActivity.taskModel;
 
 
         name = view.findViewById(R.id.name);

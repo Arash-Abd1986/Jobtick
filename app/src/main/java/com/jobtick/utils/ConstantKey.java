@@ -19,7 +19,8 @@ public class ConstantKey {
     public static final String KEY_TASK_CANCELLATION_ID = "cancellation_id";
 
     public static final String CREATE_A_JOB = "Post a job";
-    public static final String UPDATE_TASK = "Update job";
+    public static final String UPDATE_TASK = "Edit the job";
+    public static final String COPY_TASK = "Copy the job";
     public static final String TASK_NAME = "task_name";
     public static final String TASK_BUDGET = "task_budget";
     public static final String RATING = "rating";

@@ -397,7 +397,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
         Intent update_task = new Intent(dashboardActivity, TaskCreateActivity.class);
         Bundle bundle = new Bundle();
-    //    bundle.putParcelable(ConstantKey.TASK, taskModel);
+        bundle.putParcelable(ConstantKey.TASK, taskModel);
         bundle.putString(ConstantKey.TITLE, ConstantKey.CREATE_TASK);
         update_task.putExtras(bundle);
         startActivityForResult(update_task, ConstantKey.RESULTCODE_UPDATE_TASK);

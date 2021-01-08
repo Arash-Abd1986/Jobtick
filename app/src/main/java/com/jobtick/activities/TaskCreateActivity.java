@@ -135,11 +135,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                 taskModelTemp.setTitle(taskModel.getTitle());
                 taskModelTemp.setDescription(taskModel.getDescription());
                 taskModel = taskModelTemp;
-            }
-        }else if(bundle != null && bundle.getBoolean(ConstantKey.COPY, false)) {
-            taskModel = TaskDetailsActivity.taskModel;
-
-            if (taskModel.getPoster() != null &&
+            }else if (taskModel.getPoster() != null &&
                     taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
                 taskModel.setSlug(null);
                 taskModel.setId(null);

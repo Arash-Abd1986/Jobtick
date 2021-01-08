@@ -306,6 +306,12 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="materialText_400_21" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">21sp</item>
+    </style>
+
     <style name="materialText_500_14" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:fontFamily">@font/roboto_medium</item>

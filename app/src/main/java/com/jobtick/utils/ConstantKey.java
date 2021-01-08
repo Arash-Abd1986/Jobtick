@@ -135,6 +135,7 @@ public class ConstantKey {
     public static final String PUSH_USER_ID = "user_id";
     public static final String PUSH_TASK_ID = "task_id";
     public static final String PUSH_TASK_SLUG = "task_slug";
+    public static final String TASK_SLUG = "task_slug";
     public static final String PUSH_TASK_STATUS = "task_status";
 
     public static final String PUSH_OFFER = "offer";

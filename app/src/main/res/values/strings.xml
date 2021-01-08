@@ -497,5 +497,6 @@
     <string name="edit_billing_address">Edit Billing Address</string>
     <string name="chooser_title">Complete action using</string>
     <string name="drafted">Drafted</string>
+    <string name="total">Total</string>
 
 </resources>

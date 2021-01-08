@@ -806,6 +806,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     bundle = new Bundle();
                     //    bundle.putParcelable(ConstantKey.TASK, taskModel);
                     bundle.putBoolean(ConstantKey.IS_MY_TASK, isUserThePoster);
+                    bundle.putString(ConstantKey.TASK_SLUG, taskModel.getSlug());
                     intent.putExtras(bundle);
                     startActivity(intent);
                     break;

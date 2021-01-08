@@ -89,7 +89,7 @@
                             android:layout_alignTop="@id/img_avatar"
                             android:layout_alignParentTop="true"
                             android:layout_marginStart="12dp"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="4dp"
                             android:layout_toEndOf="@id/img_avatar"
                             android:textAppearance="@style/materialText_500_17"
                             android:textColor="@color/textColor"
@@ -99,11 +99,11 @@
                             android:id="@+id/txt_location"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/txt_full_name"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginBottom="2dp"
                             android:layout_toEndOf="@id/img_avatar"
+                            android:layout_alignBottom="@+id/img_avatar"
                             android:gravity="center_vertical"
                             android:textAppearance="@style/materialText_400_13"
                             android:textColor="@color/grey_70"
@@ -225,9 +225,9 @@
                         android:layout_alignBottom="@id/job_cast_title"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="16dp"
-                        tools:text="$00"
                         android:textAppearance="@style/materialText_500_17"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="@color/colorPrimary"
+                        tools:text="$00" />
 
 
                     <com.google.android.material.textview.MaterialTextView
@@ -252,9 +252,9 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="16dp"
                         android:gravity="end"
-                        tools:text="$00"
                         android:textAppearance="@style/materialText_500_17"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="@color/colorPrimary"
+                        tools:text="$00" />
 
 
                     <com.google.android.material.textview.MaterialTextView
@@ -280,9 +280,9 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="12dp"
                         android:layout_marginEnd="16dp"
-                        tools:text="$000"
                         android:textAppearance="@style/materialText_400_21"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="@color/colorPrimary"
+                        tools:text="$000" />
 
 
                     <androidx.cardview.widget.CardView
@@ -313,9 +313,9 @@
                         android:layout_alignTop="@id/card_logo"
                         android:layout_marginStart="12dp"
                         android:layout_toEndOf="@id/card_logo"
-                        tools:text="Paid On "
                         android:textAppearance="@style/materialText_400_15"
-                        android:textColor="@color/grey_70" />
+                        android:textColor="@color/grey_70"
+                        tools:text="Paid On " />
 
 
                     <com.google.android.material.textview.MaterialTextView
@@ -325,9 +325,9 @@
                         android:layout_below="@id/paid"
                         android:layout_marginStart="12dp"
                         android:layout_toEndOf="@id/card_logo"
-                        tools:text="Visa ******0000"
                         android:textAppearance="@style/materialText_400_13"
-                        android:textColor="@color/grey_70" />
+                        android:textColor="@color/grey_70"
+                        tools:text="Visa ******0000" />
 
                     <RelativeLayout
                         android:id="@+id/separator2"
@@ -402,9 +402,9 @@
                         android:layout_below="@id/jobtick_text"
                         android:layout_marginStart="12dp"
                         android:layout_toEndOf="@id/job_tick"
-                        tools:text="ABN: 00 000 000 000"
                         android:textAppearance="@style/materialText_400_13"
-                        android:textColor="@color/grey_70" />
+                        android:textColor="@color/grey_70"
+                        tools:text="ABN: 00 000 000 000" />
 
 
                     <com.google.android.material.textview.MaterialTextView
@@ -430,9 +430,9 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        tools:text="$00"
                         android:textAppearance="@style/materialText_500_17"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="@color/colorPrimary"
+                        tools:text="$00" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/job_tick_service_fee_title"
@@ -457,9 +457,9 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        tools:text="$00"
                         android:textAppearance="@style/materialText_500_17"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="@color/colorPrimary"
+                        tools:text="$00" />
 
 
                     <com.google.android.material.textview.MaterialTextView
@@ -485,9 +485,9 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        tools:text="$0"
                         android:textAppearance="@style/materialText_500_17"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="@color/colorPrimary"
+                        tools:text="$0" />
 
 
                     <com.google.android.material.textview.MaterialTextView
@@ -514,9 +514,9 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="26dp"
-                        tools:text="$00"
                         android:textAppearance="@style/materialText_400_21"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="@color/colorPrimary"
+                        tools:text="$00" />
 
 
                 </RelativeLayout>

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,10 +120,12 @@ import static com.jobtick.fragments.TickerRequirementsBottomSheet.Requirement;
 import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
 import static com.jobtick.utils.Constant.ADD_BILLING;
 import static com.jobtick.utils.Constant.BASE_URL;
+import static com.jobtick.utils.Constant.TASK_ASSIGNED;
 import static com.jobtick.utils.Constant.TASK_CANCELLED;
 import static com.jobtick.utils.Constant.TASK_CLOSED;
 import static com.jobtick.utils.Constant.TASK_DRAFT;
 import static com.jobtick.utils.Constant.TASK_OPEN;
+import static com.jobtick.utils.Constant.TASK_OVERDUE;
 import static com.jobtick.utils.Constant.TASK_PENDING;
 import static com.jobtick.utils.Constant.URL_TASKS;
 
@@ -709,6 +712,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         initRescheduleTime();
         initReview();
         initReleaseMoney();
+        handleOverDueStatus(status);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             toolbar.getMenu().setGroupDividerEnabled(true);
@@ -812,6 +816,24 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }
             return false;
         });
+    }
+
+    private void handleOverDueStatus(String status) {
+        if(taskModel==null)
+            return;
+
+        Log.d("OVerDueState",taskModel.getWorker()==null?"no worker found":"in overdue");
+        Log.d("OVerDueState","status"+status);
+
+//
+//        if(status.equals(TASK_OVERDUE)){
+//            if(taskModel.getWorker()!=null)
+//            {
+//                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, true);
+//                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, true);
+//                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, true);
+//            }
+//        }
     }
 
     @SuppressLint("NonConstantResourceId")

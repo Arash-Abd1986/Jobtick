@@ -16,10 +16,12 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.jobtick.R;
 import com.jobtick.models.TaskModel;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ImageUtil;
+import com.jobtick.utils.TimeHelper;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.jetbrains.annotations.NotNull;
@@ -188,24 +190,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         public void onBind(int position) {
             super.onBind(position);
             TaskModel item = mItems.get(position);
-            System.out.println("myTasksFrag: position " + position);
-            if (item.getPoster() != null && item.getPoster().getAvatar() != null && item.getPoster().getAvatar() != null)
-                ImageUtil.displayImage(imgAvatar, item.getPoster().getAvatar().getUrl(), null);
+            if (item.getPoster() != null && item.getPoster().getAvatar() != null && item.getPoster().getAvatar().getModalUrl() != null)
+                Glide.with(imgAvatar).load(item.getPoster().getAvatar().getThumbUrl()).into(imgAvatar);
+
             txtTitle.setText(item.getTitle());
+            txtDueDate.setText(TimeHelper.convertToWeekDateFormat(item.getDueDate()));
 
-            if (item.getDueDate() != null && !item.getDueDate().equals("")) {
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                try {
-                    Date date = format.parse(item.getDueDate());
-
-                    @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMM dd");
-                    assert date != null;
-                    String dayOfTheWeek = sdf.format(date);
-                    txtDueDate.setText(dayOfTheWeek);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
 
             if (item.getDueTime() != null) {
                 txtDueTime.setText("");
@@ -244,10 +234,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             } else {
                 txtDueTime.setText("No time set");
             }
-            if (item.getLocation() != null && item.getTaskType().equals("physical")) {
+            if (item.getLocation() != null && item.getTaskType() != null && item.getTaskType().equals("physical")) {
                 txtLocation.setText(item.getLocation());
             } else if (item.getTaskType() != null && item.getTaskType().equals("remote")) {
                 txtLocation.setText("Remote job");
+            }else{
+                txtLocation.setText("No location set");
             }
             if (item.getStatus() != null && item.getStatus().equalsIgnoreCase(Constant.TASK_DRAFT)) {
                 // txtStatus.setVisibility(View.GONE);
@@ -276,9 +268,16 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 setStatusText(item);
             }
             cardTaskBackground.setOnClickListener(v -> {
-                if (mOnItemClickListener != null) {
-                    mOnItemClickListener.onItemClick(v, item, getAdapterPosition(), "action");
-                }
+
+                System.out.println("tasklistadaper: position: " + getAdapterPosition());
+                System.out.println("tasklistadaper: title: " + item.getTitle());
+                System.out.println("tasklistadaper: status: " + item.getStatus());
+                System.out.println("tasklistadaper: duedate: " + item.getDueDate());
+                System.out.println("tasklistadaper: duetime: " + txtDueTime.getText());
+                System.out.println("tasklistadaper: ===================================================");
+//                if (mOnItemClickListener != null) {
+//                    mOnItemClickListener.onItemClick(v, item, getAdapterPosition(), "action");
+//                }
             });
 
             tvDelete.setOnClickListener(v -> {
@@ -348,6 +347,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 txtStatus.setText("Cancelled");
             } else if (item.getStatus().equals("draft")) {
                 txtStatusDraft.setText("Drafted");
+            }else{
+                txtStatus.setText(item.getStatus());
             }
         }
     }

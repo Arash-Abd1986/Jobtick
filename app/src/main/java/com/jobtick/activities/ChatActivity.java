@@ -594,7 +594,6 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         super.onDestroy();
         // Disconnect from the service
         pusher.disconnect();
-        conversationModel = null;
     }
 
     @SuppressLint("NonConstantResourceId")

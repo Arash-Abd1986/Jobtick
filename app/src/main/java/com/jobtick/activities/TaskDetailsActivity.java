@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -822,10 +821,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if(taskModel==null)
             return;
 
-        Log.d("OVerDueState",taskModel.getWorker()==null?"no worker found":"in overdue");
-        Log.d("OVerDueState","status"+status);
 
-//
 //        if(status.equals(TASK_OVERDUE)){
 //            if(taskModel.getWorker()!=null)
 //            {

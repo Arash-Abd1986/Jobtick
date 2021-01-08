@@ -529,7 +529,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
 
     private boolean validation() {
         if (TextUtils.isEmpty(edtCommentMessage.getText().toString().trim())) {
-            edtCommentMessage.setError("?");
+            edtCommentMessage.setError("Please enter replay message");
             return false;
         }
         return true;

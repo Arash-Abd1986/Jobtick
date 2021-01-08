@@ -268,16 +268,9 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 setStatusText(item);
             }
             cardTaskBackground.setOnClickListener(v -> {
-
-                System.out.println("tasklistadaper: position: " + getAdapterPosition());
-                System.out.println("tasklistadaper: title: " + item.getTitle());
-                System.out.println("tasklistadaper: status: " + item.getStatus());
-                System.out.println("tasklistadaper: duedate: " + item.getDueDate());
-                System.out.println("tasklistadaper: duetime: " + txtDueTime.getText());
-                System.out.println("tasklistadaper: ===================================================");
-//                if (mOnItemClickListener != null) {
-//                    mOnItemClickListener.onItemClick(v, item, getAdapterPosition(), "action");
-//                }
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(v, item, getAdapterPosition(), "action");
+                }
             });
 
             tvDelete.setOnClickListener(v -> {

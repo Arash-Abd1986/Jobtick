@@ -1,6 +1,8 @@
 package com.jobtick.utils;
 
 
+import android.annotation.SuppressLint;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -9,6 +11,24 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class TimeHelper {
+
+    public static String convertToWeekDateFormat(String time){
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
+        SimpleDateFormat sdf
+                = new SimpleDateFormat("EEEE, MMM dd", Locale.UK);
+
+        Date date = null;
+        try {
+            date = format.parse(time);
+        } catch (ParseException e) {
+            return "-1";
+        } catch (NullPointerException e){
+            return "No date set";
+        }
+        return sdf.format(date);
+    }
 
     //Format: T separator of date and time
     public static String convertToJustDateFormat(String dateTime){

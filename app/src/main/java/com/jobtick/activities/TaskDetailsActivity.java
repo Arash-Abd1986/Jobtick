@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,7 +100,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -119,10 +126,12 @@ import static com.jobtick.fragments.TickerRequirementsBottomSheet.Requirement;
 import static com.jobtick.utils.Constant.ADD_ACCOUNT_DETAILS;
 import static com.jobtick.utils.Constant.ADD_BILLING;
 import static com.jobtick.utils.Constant.BASE_URL;
+import static com.jobtick.utils.Constant.TASK_ASSIGNED;
 import static com.jobtick.utils.Constant.TASK_CANCELLED;
 import static com.jobtick.utils.Constant.TASK_CLOSED;
 import static com.jobtick.utils.Constant.TASK_DRAFT;
 import static com.jobtick.utils.Constant.TASK_OPEN;
+import static com.jobtick.utils.Constant.TASK_OVERDUE;
 import static com.jobtick.utils.Constant.TASK_PENDING;
 import static com.jobtick.utils.Constant.URL_TASKS;
 
@@ -618,7 +627,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 cardMakeAnOffer.setBackgroundTintList(ContextCompat.getColorStateList(TaskDetailsActivity.this,
                         R.color.colorPrimary));
                 if (isUserThePoster) {
-                    txtStatusOverdue.setVisibility(View.VISIBLE);
+                    if(status.equals(TASK_OVERDUE))
+                        txtStatusOverdue.setVisibility(View.VISIBLE);
+                    else
+                        txtStatusCompleted.setVisibility(View.VISIBLE);
+
                     // poster task
                     if (noActionAvailable) {
                         cardMakeAnOffer.setVisibility(View.GONE);
@@ -701,6 +714,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 setPrice();
                 break;
         }
+        handleOverDueStatus(status);
 
         initCancelled();
         initCancellation();
@@ -806,12 +820,50 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     bundle = new Bundle();
                     //    bundle.putParcelable(ConstantKey.TASK, taskModel);
                     bundle.putBoolean(ConstantKey.IS_MY_TASK, isUserThePoster);
+                    bundle.putString(ConstantKey.TASK_SLUG, taskModel.getSlug());
                     intent.putExtras(bundle);
                     startActivity(intent);
                     break;
             }
             return false;
         });
+    }
+
+    private void handleOverDueStatus(String status) {
+        if (taskModel == null) return;
+        if(taskModel.getWorker()==null) return;
+        Calendar taskDate = null;
+        Date temp = new Date(System.currentTimeMillis());
+        Calendar today = Calendar.getInstance();
+        today.setTime(temp);
+
+        if (taskModel.getDueDate() != null && !taskModel.getDueDate().equals("")) {
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date date = format.parse(taskModel.getDueDate());
+                taskDate = Calendar.getInstance();
+                taskDate.setTime(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(taskDate==null || today==null) return;
+        if (status.equals(TASK_OVERDUE)) {
+            if (isUserThePoster || isUserTheTicker) {
+                taskDate.add(Calendar.DAY_OF_YEAR,14);
+                SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+                if(taskDate.getTimeInMillis() - today.getTimeInMillis()>=0) {
+                    toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, true);
+                    toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, true);
+                    toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, true);
+                }else {
+                    toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, true);
+                    toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
+                    toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
+                }
+            }
+        }
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -821,8 +873,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.llLoading)
     LinearLayout llLoading;
 
-    private void onLoadingFinished(){
-        if(isGetBankAccountLoaded && isInitPageLoaded && isGetBillingAddressLoaded && isUserProfileLoaded){
+    private void onLoadingFinished() {
+        if (isGetBankAccountLoaded && isInitPageLoaded && isGetBillingAddressLoaded && isUserProfileLoaded) {
             cardMakeAnOffer.setClickable(true);
         }
     }
@@ -835,6 +887,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private boolean isGetBankAccountLoaded = false;
+
     public void getBankAccountAddress() {
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_ACCOUNT_DETAILS,
                 response -> {
@@ -918,6 +971,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private boolean isGetBillingAddressLoaded = false;
+
     public void getBillingAddress() {
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL + ADD_BILLING,
@@ -998,6 +1052,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
 
     private boolean isUserProfileLoaded = false;
+
     public void getAllUserProfileDetails() {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
                 response -> {
@@ -1041,7 +1096,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private boolean isInitPageLoaded = false;
-    private void initPage(){
+
+    private void initPage() {
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_TASKS + "/" + str_slug,
                 response -> {
@@ -1100,9 +1156,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     onLoadingFinished();
                 },
                 error -> {
-                        isInitPageLoaded = true;
-                        llLoading.setVisibility(View.GONE);
-                        onLoadingFinished();
+                    isInitPageLoaded = true;
+                    llLoading.setVisibility(View.GONE);
+                    onLoadingFinished();
 
                     //    fl_task_details.setVisibility(View.GONE);
 
@@ -1449,7 +1505,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 dueTime = dueTime + "Evening";
             }
         }
-        if (time.getAnytime()!=null && time.getAnytime()) {
+        if (time.getAnytime() != null && time.getAnytime()) {
             if (dueTime.length() != 0) {
                 dueTime = dueTime + ",Any time";
             } else {
@@ -1506,7 +1562,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
         Intent update_task = new Intent(TaskDetailsActivity.this, TaskCreateActivity.class);
         Bundle bundle = new Bundle();
-    //    bundle.putParcelable(ConstantKey.TASK, taskModel);
         bundle.putString(ConstantKey.TITLE, ConstantKey.COPY_TASK);
         bundle.putBoolean(ConstantKey.COPY, true);
         update_task.putExtras(bundle);
@@ -1517,7 +1572,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
         Intent update_task = new Intent(TaskDetailsActivity.this, TaskCreateActivity.class);
         Bundle bundle = new Bundle();
-    //    bundle.putParcelable(ConstantKey.TASK, taskModel);
         bundle.putString(ConstantKey.TITLE, ConstantKey.UPDATE_TASK);
         bundle.putBoolean(ConstantKey.EDIT, true);
         update_task.putExtras(bundle);
@@ -1527,7 +1581,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     private void deleteTaskPermanent(String slug) {
 
         showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + slug+"/cancellation",
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_TASKS + "/" + slug + "/cancellation",
                 response -> {
                     Timber.e(response);
                     try {
@@ -2226,7 +2280,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         super.onActivityResult(requestCode, resultCode, data);
 
         for (Fragment fragment : getSupportFragmentManager().getFragments())
-            if(fragment instanceof TickerRequirementsBottomSheet)
+            if (fragment instanceof TickerRequirementsBottomSheet)
                 fragment.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == ConstantKey.RESULTCODE_MAKEANOFFER) {
@@ -2281,7 +2335,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }
         }
 
-        if (requestCode == 21 || requestCode==20) {
+        if (requestCode == 21 || requestCode == 20) {
             getDataOnlyQuestions();
         }
 

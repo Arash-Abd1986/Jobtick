@@ -116,29 +116,34 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         ButterKnife.bind(this);
 
         Bundle bundle = getIntent().getExtras();
-        taskModel = TaskDetailsActivity.taskModel;
-        if(taskModel == null){
-            taskModel = new TaskModel();
+        taskModel = new TaskModel();
+        if(bundle != null && bundle.containsKey(ConstantKey.TASK)){
+            taskModel = bundle.getParcelable(ConstantKey.TASK);
         }
         if (bundle != null && bundle.containsKey(ConstantKey.CATEGORY_ID)) {
             taskModel.setCategory_id(bundle.getInt(ConstantKey.CATEGORY_ID, 1));
         }
-        if (bundle != null && bundle.containsKey(ConstantKey.COPY) &&
-                taskModel.getPoster() != null &&
-                !taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
 
-            TaskModel taskModelTemp = new TaskModel();
-            taskModelTemp.setPoster(sessionManager.getUserAccount());
-            taskModelTemp.setCategory_id(taskModel.getCategory_id());
-            taskModelTemp.setTitle(taskModel.getTitle());
-            taskModelTemp.setDescription(taskModel.getDescription());
-            taskModel = taskModelTemp;
-        }else if(bundle != null && bundle.containsKey(ConstantKey.COPY) &&
-                taskModel.getPoster() != null &&
-                taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())){
+        if (bundle != null && bundle.getBoolean(ConstantKey.COPY, false)){
+            taskModel = TaskDetailsActivity.taskModel;
 
-            taskModel.setSlug(null);
-            taskModel.setId(null);
+            if(taskModel.getPoster() != null &&
+                    !taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
+                TaskModel taskModelTemp = new TaskModel();
+                taskModelTemp.setPoster(sessionManager.getUserAccount());
+                taskModelTemp.setCategory_id(taskModel.getCategory_id());
+                taskModelTemp.setTitle(taskModel.getTitle());
+                taskModelTemp.setDescription(taskModel.getDescription());
+                taskModel = taskModelTemp;
+            }
+        }else if(bundle != null && bundle.getBoolean(ConstantKey.COPY, false)) {
+            taskModel = TaskDetailsActivity.taskModel;
+
+            if (taskModel.getPoster() != null &&
+                    taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
+                taskModel.setSlug(null);
+                taskModel.setId(null);
+            }
         }
 
         title = ConstantKey.CREATE_A_JOB;
@@ -146,6 +151,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
             title = bundle.getString(ConstantKey.TITLE);
         }
         if(bundle != null && bundle.getBoolean(ConstantKey.EDIT, false)){
+            taskModel = TaskDetailsActivity.taskModel;
             isEditTask = true;
         }
         initToolbar(title);

@@ -65,7 +65,7 @@ public class ConstantKey {
     public static final String LANGUAGE = "Language";
     public static final String EXPERIENCE = "Occupation";
     public static final String EDUCATION = "Education";
-    public static final String CREATE_TASK = "Create Task";
+    public static final String CREATE_TASK = "Create Job";
 
 
     public static final String TOOLBAR_TITLE = "Toolbar";
@@ -136,6 +136,7 @@ public class ConstantKey {
     public static final String PUSH_USER_ID = "user_id";
     public static final String PUSH_TASK_ID = "task_id";
     public static final String PUSH_TASK_SLUG = "task_slug";
+    public static final String TASK_SLUG = "task_slug";
     public static final String PUSH_TASK_STATUS = "task_status";
 
     public static final String PUSH_OFFER = "offer";

@@ -627,7 +627,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 cardMakeAnOffer.setBackgroundTintList(ContextCompat.getColorStateList(TaskDetailsActivity.this,
                         R.color.colorPrimary));
                 if (isUserThePoster) {
-                    txtStatusOverdue.setVisibility(View.VISIBLE);
+                    if(status.equals(TASK_OVERDUE))
+                        txtStatusOverdue.setVisibility(View.VISIBLE);
+                    else
+                        txtStatusCompleted.setVisibility(View.VISIBLE);
+
                     // poster task
                     if (noActionAvailable) {
                         cardMakeAnOffer.setVisibility(View.GONE);
@@ -859,16 +863,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 }
             }
         }
-
-
-//        if(status.equals(TASK_OVERDUE)){
-//            if(taskModel.getWorker()!=null)
-//            {
-//                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, true);
-//                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, true);
-//                toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, true);
-//            }
-//        }
     }
 
     @SuppressLint("NonConstantResourceId")

@@ -1,12 +1,19 @@
 
 package com.jobtick.models.receipt;
 
+import java.util.ArrayList;
 import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.jobtick.models.OfferModel;
+import com.jobtick.models.payments.PaymentMethodModel;
+import com.jobtick.models.review.ReviewModel;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class Invoice implements Parcelable
 {
@@ -140,6 +147,37 @@ public class Invoice implements Parcelable
 
     public int describeContents() {
         return  0;
+    }
+
+    public Invoice getJsonToModel(JSONObject jsonObject) {
+        Invoice invoice = new Invoice();
+        try {
+
+            if (jsonObject.has("id") && !jsonObject.isNull("id"))
+                invoice.setId(jsonObject.getInt("id"));
+            if (jsonObject.has("invoice_number") && !jsonObject.isNull("invoice_number"))
+                invoice.setInvoiceNumber(jsonObject.getString("invoice_number"));
+            if (jsonObject.has("abn") && !jsonObject.isNull("abn"))
+                invoice.setAbn(jsonObject.getString("abn"));
+            if (jsonObject.has("status") && !jsonObject.isNull("status"))
+                invoice.setStatus(jsonObject.getString("status"));
+            if (jsonObject.has("created_at") && !jsonObject.isNull("created_at"))
+                invoice.setCreatedAt(jsonObject.getString("created_at"));
+
+            if (jsonObject.has("items") && !jsonObject.isNull("items")) {
+                JSONArray jsonArray = jsonObject.getJSONArray("items");
+                ArrayList<Item> items = new ArrayList<>();
+                for (int i = 0; jsonArray.length() > i; i++) {
+                    JSONObject jsonObject_offers = jsonArray.getJSONObject(i);
+                    items.add(new Item().getJsonToModel(jsonObject_offers));
+                }
+                invoice.setItems(items);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return invoice;
     }
 
 }

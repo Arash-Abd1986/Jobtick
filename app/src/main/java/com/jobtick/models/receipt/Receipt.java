@@ -7,6 +7,9 @@ import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.jobtick.models.UserAccountModel;
+import com.jobtick.models.payments.PaymentMethodModel;
+
+import org.json.JSONObject;
 
 public class Receipt implements Parcelable
 {
@@ -34,10 +37,7 @@ public class Receipt implements Parcelable
     private Float netAmount;
     @SerializedName("payment_method")
     @Expose
-    private PaymentMethod paymentMethod;
-    @SerializedName("user")
-    @Expose
-    private UserAccountModel user;
+    private PaymentMethodModel paymentMethod;
     public final static Creator<Receipt> CREATOR = new Creator<Receipt>() {
 
 
@@ -63,8 +63,7 @@ public class Receipt implements Parcelable
         this.taskAssignedPrice = ((Float) in.readValue((Float.class.getClassLoader())));
         this.additionalFund = ((String) in.readValue((String.class.getClassLoader())));
         this.netAmount = ((Float) in.readValue((Float.class.getClassLoader())));
-        this.paymentMethod = ((PaymentMethod) in.readValue((PaymentMethod.class.getClassLoader())));
-        this.user = ((UserAccountModel) in.readValue((UserAccountModel.class.getClassLoader())));
+        this.paymentMethod = ((PaymentMethodModel) in.readValue((PaymentMethodModel.class.getClassLoader())));
     }
 
     /**
@@ -86,7 +85,7 @@ public class Receipt implements Parcelable
      * @param user
      * @param receiptNumber
      */
-    public Receipt(String receiptNumber, Float receiptAmount, Float taskCost, String fee, Float taskAssignedPrice, String additionalFund, Float netAmount, PaymentMethod paymentMethod, UserAccountModel user) {
+    public Receipt(String receiptNumber, Float receiptAmount, Float taskCost, String fee, Float taskAssignedPrice, String additionalFund, Float netAmount, PaymentMethodModel paymentMethod, UserAccountModel user) {
         super();
         this.receiptNumber = receiptNumber;
         this.receiptAmount = receiptAmount;
@@ -96,7 +95,6 @@ public class Receipt implements Parcelable
         this.additionalFund = additionalFund;
         this.netAmount = netAmount;
         this.paymentMethod = paymentMethod;
-        this.user = user;
     }
 
     public String getReceiptNumber() {
@@ -155,21 +153,14 @@ public class Receipt implements Parcelable
         this.netAmount = netAmount;
     }
 
-    public PaymentMethod getPaymentMethod() {
+    public PaymentMethodModel getPaymentMethod() {
         return paymentMethod;
     }
 
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
+    public void setPaymentMethod(PaymentMethodModel paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
-    public UserAccountModel getUser() {
-        return user;
-    }
-
-    public void setUser(UserAccountModel user) {
-        this.user = user;
-    }
 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(receiptNumber);
@@ -180,11 +171,34 @@ public class Receipt implements Parcelable
         dest.writeValue(additionalFund);
         dest.writeValue(netAmount);
         dest.writeValue(paymentMethod);
-        dest.writeValue(user);
     }
 
     public int describeContents() {
         return  0;
+    }
+
+    public Receipt getJsonToModel(JSONObject jsonObject) {
+        Receipt receipt = new Receipt();
+        try {
+            if (jsonObject.has("receipt_number") && !jsonObject.isNull("receipt_number"))
+                receipt.setReceiptNumber(jsonObject.getString("receipt_number"));
+            if (jsonObject.has("receipt_amount") && !jsonObject.isNull("receipt_amount"))
+                receipt.setReceiptAmount((float)jsonObject.getDouble("receipt_amount"));
+            if (jsonObject.has("task_cost") && !jsonObject.isNull("task_cost"))
+                receipt.setTaskCost((float)jsonObject.getDouble("task_cost"));
+            if (jsonObject.has("net_amount") && !jsonObject.isNull("net_amount"))
+                receipt.setNetAmount((float)jsonObject.getDouble("net_amount"));
+            if (jsonObject.has("fee") && !jsonObject.isNull("fee"))
+                receipt.setFee(jsonObject.getString("fee"));
+
+            if(jsonObject.has("payment_method") && !jsonObject.isNull("payment_method"))
+                receipt.setPaymentMethod(new PaymentMethodModel().getJsonToModel(jsonObject.getJSONObject("payment_method")));
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return receipt;
     }
 
 }

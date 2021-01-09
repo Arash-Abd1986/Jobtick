@@ -3,9 +3,9 @@ package com.jobtick.models.receipt;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import org.json.JSONObject;
 
 public class Item implements Parcelable
 {
@@ -60,13 +60,13 @@ public class Item implements Parcelable
 
     /**
      * No args constructor for use in serialization
-     * 
+     *
      */
     public Item() {
     }
 
     /**
-     * 
+     *
      * @param createdAt
      * @param itemName
      * @param amount
@@ -156,4 +156,28 @@ public class Item implements Parcelable
         return  0;
     }
 
+    public Item getJsonToModel(JSONObject jsonObject) {
+        Item item = new Item();
+        try {
+            if (jsonObject.has("id") && !jsonObject.isNull("id"))
+                item.setId(jsonObject.getInt("id"));
+
+            if (jsonObject.has("item_name") && !jsonObject.isNull("item_name"))
+                item.setItemName(jsonObject.getString("item_name"));
+            if (jsonObject.has("amount") && !jsonObject.isNull("amount"))
+                item.setAmount(jsonObject.getString("amount"));
+            if (jsonObject.has("tax_amount") && !jsonObject.isNull("tax_amount"))
+                item.setTaxAmount(jsonObject.getString("tax_amount"));
+            if (jsonObject.has("final_amount") && !jsonObject.isNull("final_amount"))
+                item.setFinalAmount(jsonObject.getString("final_amount"));
+            if (jsonObject.has("tax_effect") && !jsonObject.isNull("tax_effect"))
+                item.setTaxEffect(jsonObject.getString("tax_effect"));
+            if (jsonObject.has("created_at") && !jsonObject.isNull("created_at"))
+                item.setCreatedAt(jsonObject.getString("created_at"));
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return item;
+    }
 }

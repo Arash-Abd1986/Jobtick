@@ -1,12 +1,16 @@
 
 package com.jobtick.models.receipt;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.jobtick.models.TaskModel;
+import com.jobtick.models.payments.PaymentMethodModel;
+
+import org.json.JSONObject;
 
 public class JobReceiptModel implements Parcelable
 {
@@ -95,6 +99,24 @@ public class JobReceiptModel implements Parcelable
 
     public int describeContents() {
         return  0;
+    }
+
+    public JobReceiptModel getJsonToModel(JSONObject jsonObject, Context context) {
+        JobReceiptModel jobReceiptModel = new JobReceiptModel();
+        try {
+            if (jsonObject.has("invoice") && !jsonObject.isNull("invoice"))
+                jobReceiptModel.setInvoice(new Invoice().getJsonToModel(jsonObject.getJSONObject("invoice")));
+
+            if (jsonObject.has("receipt") && !jsonObject.isNull("receipt"))
+                jobReceiptModel.setReceipt(new Receipt().getJsonToModel(jsonObject.getJSONObject("receipt")));
+
+            if (jsonObject.has("task") && !jsonObject.isNull("task"))
+                jobReceiptModel.setTask(new TaskModel().getJsonToModel(jsonObject.getJSONObject("task"), context));
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return jobReceiptModel;
     }
 
 }

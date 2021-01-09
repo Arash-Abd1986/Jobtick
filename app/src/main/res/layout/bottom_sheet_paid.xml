@@ -17,17 +17,17 @@
         android:src="@drawable/ic_down"
         tools:ignore="ContentDescription" />
 
-    <com.jobtick.text_view.TextViewSemiBold
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Paid Details"
         android:textColor="@color/textColor"
-        android:textSize="14dp"
-        android:textStyle="bold" />
+        android:textAppearance="@style/materialText_400_16" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="135dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
@@ -42,24 +42,15 @@
             android:background="#4D576A"
             android:padding="16dp">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/typeCardTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_14sp"
+                android:textAppearance="@style/materialText_400_15"
                 tools:text="Mastercard" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_master_card"
-                 />
 
             <com.jobtick.text_view.TextViewMedium
                 android:id="@+id/credit_account_number"

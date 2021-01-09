@@ -19,10 +19,10 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.jobtick.R;
 import com.jobtick.models.TaskModel;
+import com.jobtick.models.payments.PaymentMethodModel;
 import com.jobtick.models.receipt.Invoice;
 import com.jobtick.models.receipt.Item;
 import com.jobtick.models.receipt.JobReceiptModel;
-import com.jobtick.models.receipt.PaymentMethod;
 import com.jobtick.models.receipt.Receipt;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
@@ -180,7 +180,7 @@ public class JobReceiptActivity extends ActivityBase {
         Receipt receipt = null;
         Invoice invoice = null;
         Item item = null;
-        PaymentMethod paymentMethod = null;
+        PaymentMethodModel paymentMethod = null;
 
         if (model.getTask() != null)
             taskModel = model.getTask();
@@ -274,9 +274,7 @@ public class JobReceiptActivity extends ActivityBase {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                            String jsonString = jsonObject.getString("data");
-                            Gson gson = new Gson();
-                            JobReceiptModel model = gson.fromJson(jsonString, JobReceiptModel.class);
+                            JobReceiptModel model = new JobReceiptModel().getJsonToModel(jsonObject.getJSONObject("data"), this);
                             setData(model);
                         } else {
                             showToast("something went wrong.", this);

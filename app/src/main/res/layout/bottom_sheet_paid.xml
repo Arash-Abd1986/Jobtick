@@ -23,10 +23,11 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Paid Details"
-        android:textColor="@color/textColor"
-        android:textAppearance="@style/materialText_400_16" />
+        android:textAppearance="@style/materialText_400_16"
+        android:textColor="@color/textColor" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_box"
         android:layout_width="match_parent"
         android:layout_height="135dp"
         android:layout_marginStart="8dp"
@@ -48,30 +49,52 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:textColor="@color/white"
                 android:textAppearance="@style/materialText_400_15"
+                android:textColor="@color/white"
                 tools:text="Mastercard" />
 
-            <com.jobtick.text_view.TextViewMedium
-                android:id="@+id/credit_account_number"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/credit_account_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/credit_expiry_date"
+                android:layout_above="@id/credit_account_number"
                 android:layout_alignParentStart="true"
-                android:layout_marginBottom="8dp"
-                android:text="**** **** **** 1234"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_14sp" />
+                android:text="Card Number"
+                android:textAppearance="@style/materialText_400_13"
+                android:textColor="@color/white" />
 
-            <com.jobtick.text_view.TextViewMedium
-                android:id="@+id/credit_expiry_date"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/credit_account_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
-                android:text="XXXX XXXX"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="@style/materialText_500_17"
+                android:layout_toStartOf="@+id/bsb_number"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_14sp" />
+                tools:text="**** **** **** 1234" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/bsb_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/bsb_number"
+                android:layout_alignParentEnd="true"
+                android:text="BSB"
+                android:textAppearance="@style/materialText_400_13"
+                android:textColor="@color/white" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/bsb_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="@style/materialText_500_17"
+                android:textColor="@color/white"
+                tools:text="0123456" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
@@ -88,21 +111,21 @@
             android:layout_marginTop="@dimen/spacing_large"
             android:orientation="horizontal">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Amount"
-                android:textColor="@color/textColor"
-                android:textSize="14dp" />
+                android:textAppearance="@style/materialText_400_15"
+                android:textColor="@color/textColor" />
 
-            <com.jobtick.text_view.TextViewBold
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14dp"
-                tools:text="xxx" />
+                android:textAppearance="@style/materialText_500_17"
+                tools:text="$210" />
         </LinearLayout>
 
         <LinearLayout
@@ -111,22 +134,22 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:orientation="horizontal">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_wallet_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="number"
                 android:text="Wallet"
-                android:textColor="@color/textColor"
-                android:textSize="14dp" />
+                android:textAppearance="@style/materialText_400_15"
+                android:textColor="@color/textColor" />
 
-            <com.jobtick.text_view.TextViewBold
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_wallet"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="xxx"
+                tools:text="$10"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14dp" />
+                android:textAppearance="@style/materialText_500_17" />
         </LinearLayout>
 
         <LinearLayout
@@ -135,22 +158,21 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:orientation="horizontal">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="number"
                 android:text="Service Fee(5%)"
                 android:textColor="@color/textColor"
-                android:textSize="14dp" />
+                android:textAppearance="@style/materialText_400_15" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_service_fee"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="xxx"
+                tools:text="$11"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14dp" />
+                android:textAppearance="@style/materialText_500_17"/>
         </LinearLayout>
 
         <LinearLayout
@@ -159,23 +181,22 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:orientation="horizontal">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/taxTypeTxt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="number"
                 android:text="GST(10%)"
                 android:textColor="@color/textColor"
-                android:textSize="14dp" />
+                android:textAppearance="@style/materialText_400_15" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_gst"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="xxx"
+                android:text="$1.1"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14dp" />
+                android:textAppearance="@style/materialText_500_17"/>
         </LinearLayout>
 
         <LinearLayout
@@ -184,22 +205,21 @@
             android:layout_marginTop="@dimen/spacing_xlarge"
             android:orientation="horizontal">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="number"
                 android:text="Date"
                 android:textColor="@color/textColor"
-                android:textSize="14dp" />
+                android:textAppearance="@style/materialText_400_15" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14dp"
-                tools:text="xxx" />
+                android:textAppearance="@style/materialText_500_17"
+                tools:text="10/28/2020" />
         </LinearLayout>
 
         <LinearLayout
@@ -208,22 +228,21 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:orientation="horizontal">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="number"
                 android:text="Time"
                 android:textColor="@color/textColor"
-                android:textSize="14dp" />
+                android:textAppearance="@style/materialText_400_15" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="xxx"
+                tools:text="09:45:17"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14dp" />
+                android:textAppearance="@style/materialText_500_17" />
         </LinearLayout>
 
         <LinearLayout
@@ -232,22 +251,21 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:orientation="horizontal">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="number"
                 android:text="Status"
                 android:textColor="@color/textColor"
-                android:textSize="14dp" />
+                android:textAppearance="@style/materialText_400_15" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="xxx"
+                tools:text="Success"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14dp" />
+                android:textAppearance="@style/materialText_500_17" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -79,8 +79,16 @@ public class TimeHelperTest {
     @Test
     public void convertToWeekDateFormat_when_empty() {
         String time = "";
-        String formetedTime = TimeHelper.convertToWeekDateFormat(time);
+        String formattedTime = TimeHelper.convertToWeekDateFormat(time);
 
-        Assert.assertEquals("-1", formetedTime);
+        Assert.assertEquals("-1", formattedTime);
+    }
+
+    @Test
+    public void convertToShowJustTimeFormat() {
+        String time = "2020-11-13T15:58:15+00:00";
+        String formattedTime = TimeHelper.convertToShowJustTimeFormat(time);
+
+        Assert.assertEquals("15:58:15", formattedTime);
     }
 }

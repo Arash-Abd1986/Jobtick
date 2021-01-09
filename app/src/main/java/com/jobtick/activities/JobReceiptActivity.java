@@ -19,11 +19,13 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.jobtick.R;
 import com.jobtick.models.TaskModel;
+import com.jobtick.models.receipt.Invoice;
 import com.jobtick.models.receipt.Item;
 import com.jobtick.models.receipt.JobReceiptModel;
+import com.jobtick.models.receipt.PaymentMethod;
+import com.jobtick.models.receipt.Receipt;
 import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
-import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.TimeHelper;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -38,8 +40,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
-
-import static com.jobtick.pagination.PaginationListener.PAGE_START;
 
 public class JobReceiptActivity extends ActivityBase {
 
@@ -176,50 +176,88 @@ public class JobReceiptActivity extends ActivityBase {
 
     private void setData(JobReceiptModel model) {
 
-        TaskModel taskModel = model.getTask();
-        txtAmount.setText(String.format(Locale.ENGLISH, "$%.0f", model.getReceipt().getReceiptAmount()));
-        receiptNumber.setText(model.getReceipt().getReceiptNumber());
+        TaskModel taskModel = null;
+        Receipt receipt = null;
+        Invoice invoice = null;
+        Item item = null;
+        PaymentMethod paymentMethod = null;
 
-        jobTitle.setText(taskModel.getTitle());
+        if (model.getTask() != null)
+            taskModel = model.getTask();
+        if (model.getReceipt() != null)
+            receipt = model.getReceipt();
+        if (model.getInvoice() != null)
+            invoice = model.getInvoice();
+        if (model.getInvoice() != null && model.getInvoice().getItems() != null &&
+                !model.getInvoice().getItems().isEmpty() && model.getInvoice().getItems().get(0) != null) {
+            item = model.getInvoice().getItems().get(0);
+        }
+        if (model.getReceipt() != null && model.getReceipt().getPaymentMethod() != null)
+            paymentMethod = model.getReceipt().getPaymentMethod();
 
-        if (taskModel.getPoster().getLocation() != null) {
+
+        if (receipt != null && receipt.getReceiptAmount() != null)
+            txtAmount.setText(String.format(Locale.ENGLISH, "$%.0f", receipt.getReceiptAmount()));
+        if (receipt != null && receipt.getReceiptNumber() != null)
+            receiptNumber.setText(receipt.getReceiptNumber());
+
+        if (taskModel != null && taskModel.getTitle() != null)
+            jobTitle.setText(taskModel.getTitle());
+
+        if (taskModel != null && taskModel.getPoster() != null && taskModel.getPoster().getLocation() != null) {
             txtLocation.setText(taskModel.getPoster().getLocation());
         } else {
             txtLocation.setText(R.string.in_person);
         }
-        if (taskModel.getPoster().getAvatar() != null && taskModel.getPoster().getAvatar().getThumbUrl() != null) {
+        if (taskModel != null && taskModel.getPoster() != null &&
+                taskModel.getPoster().getAvatar() != null && taskModel.getPoster().getAvatar().getThumbUrl() != null) {
+
             Glide.with(imgAvatar).load(taskModel.getPoster().getAvatar().getThumbUrl()).into(imgAvatar);
         } else {
             //deafult image
         }
-        if (taskModel.getPoster().getIsVerifiedAccount() == 1) {
+        if (taskModel != null && taskModel.getPoster() != null &&
+                taskModel.getPoster().getIsVerifiedAccount() == 1) {
+
             imgVerifiedAccount.setVisibility(View.VISIBLE);
         } else {
             imgVerifiedAccount.setVisibility(View.GONE);
         }
 
-        txtFullName.setText(taskModel.getPoster().getName());
+        if (taskModel != null && taskModel.getPoster() != null && taskModel.getPoster().getName() != null)
+            txtFullName.setText(taskModel.getPoster().getName());
 
-        jobCostValue.setText(String.format(Locale.ENGLISH, "$%.2f", model.getReceipt().getTaskCost()));
-        serviceFee.setText(String.format(Locale.ENGLISH, "$%s", model.getReceipt().getFee()));
-        totalCost.setText(String.format(Locale.ENGLISH, "$%.2f", model.getReceipt().getNetAmount()));
+        if (receipt != null && receipt.getTaskCost() != null)
+            jobCostValue.setText(String.format(Locale.ENGLISH, "$%.2f",receipt.getTaskCost()));
+        if (receipt != null && receipt.getFee() != null)
+            serviceFee.setText(String.format(Locale.ENGLISH, "$%s", receipt.getFee()));
+        if (receipt != null && receipt.getNetAmount() != null)
+            totalCost.setText(String.format(Locale.ENGLISH, "$%.2f", receipt.getNetAmount()));
 
-        invoiceNumber.setText(model.getInvoice().getInvoiceNumber());
-        abnNumber.setText(String.format(Locale.ENGLISH, "ABN: %s", model.getInvoice().getAbn()));
 
-        Item item = model.getInvoice().getItems().get(0);
-        jobTickServiceTitle.setText(item.getItemName());
-        jobTickServiceValue.setText(String.format(Locale.ENGLISH, "$%s", item.getAmount()));
-        jobTickGtsValue.setText(String.format(Locale.ENGLISH, "$%s", item.getTaxAmount()));
-        jobTickTotalValue.setText(String.format(Locale.ENGLISH, "$%s", item.getFinalAmount()));
+        if (invoice != null && invoice.getInvoiceNumber() != null)
+            invoiceNumber.setText(invoice.getInvoiceNumber());
+        if(invoice != null && invoice.getAbn() != null)
+            abnNumber.setText(String.format(Locale.ENGLISH, "ABN: %s", invoice.getAbn()));
 
-        if(isMyTask){
-            paidOn.setText(String.format(Locale.ENGLISH, "Paid On %s",
-                    TimeHelper.convertToShowTimeFormat(model.getInvoice().getCreatedAt())));
+        if(item != null && item.getItemName() != null)
+            jobTickServiceTitle.setText(item.getItemName());
+        if(item != null && item.getAmount() != null)
+            jobTickServiceValue.setText(String.format(Locale.ENGLISH, "$%s", item.getAmount()));
+        if(item != null && item.getTaxAmount() != null)
+            jobTickGtsValue.setText(String.format(Locale.ENGLISH, "$%s", item.getTaxAmount()));
+        if(item != null && item.getFinalAmount() != null)
+            jobTickTotalValue.setText(String.format(Locale.ENGLISH, "$%s", item.getFinalAmount()));
 
-            paymentNumber.setText(String.format(Locale.ENGLISH, "%s *******%s",
-                    model.getReceipt().getPaymentMethod().getBrand(),
-                    model.getReceipt().getPaymentMethod().getLast4()));
+        if (isMyTask) {
+            if(invoice != null && invoice.getCreatedAt() != null)
+                paidOn.setText(String.format(Locale.ENGLISH, "Paid On %s",
+                    TimeHelper.convertToShowTimeFormat(invoice.getCreatedAt())));
+
+            if(paymentMethod != null && paymentMethod.getBrand() != null && paymentMethod.getLast4() != null)
+                paymentNumber.setText(String.format(Locale.ENGLISH, "%s *******%s",
+                    paymentMethod.getBrand(),
+                    paymentMethod.getLast4()));
         }
 
     }

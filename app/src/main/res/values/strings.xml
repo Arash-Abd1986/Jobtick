@@ -88,7 +88,7 @@
     <string name="error_video_record">Failed to record video.</string>
     <string name="no_call_feature">No Call Feature</string>
 
-    <string name="MAPBOX_ACCESSS_TOKEN">pk.eyJ1IjoiYmhhbndhcjEyMzQ1NiIsImEiOiJjazh5Y3BjMmowMHM2M3JsN3Yyajl1Y2VuIn0.q3CekKGoqczPEkZAU3UOEw</string>
+    <string name="MAPBOX_ACCESSS_TOKEN">pk.eyJ1Ijoiam9idGljayIsImEiOiJja2pzMWYycWEza3RwMnpxb3BzYm1rZ3plIn0.q7vS4z3Ffxuyy0QwnOX8BA</string>
     <string name="remotely">Remotely</string>
     <string name="in_person">In Person</string>
     <string name="all">All</string>

@@ -60,42 +60,33 @@ public class SuburbAutoComplete {
         System.out.println("SuburbAutoComplete: =======> " + carmenFeature.toJson());
 
         StringBuilder suburb = new StringBuilder();
-        int i = 0;
         int length = Objects.requireNonNull(carmenFeature.context()).size();
-        String preText = "";
-        for (CarmenContext cont : Objects.requireNonNull(carmenFeature.context())
-        ) {
-            //we don't want to append post code to string
-            if (i == 0) {
-                if (isInteger(cont.text())) {
-                    i++;
-                    continue;
-                }
-                suburb.append(cont.text()).append(", ");
-                preText = cont.text();
-            }else if(i < length - 2){
-                if(preText != null && !preText.equals(cont.text())){
-                    suburb.append(cont.text()).append(", ");
-                    preText = cont.text();
-                }
-            }
-
-            //in state
-            if (i == length - 2) {
-                suburb.append(Objects.requireNonNull(cont.shortCode()).substring(3));
-                break;
-            }
-            i++;
+        //we build data like
+        // 1- Suburb, city name, state name
+        // 2- city name, sate name
+        // 3- suburb name (village name), state name
+        if (length >= 3) {
+            CarmenContext state = Objects.requireNonNull(carmenFeature.context().get(length - 2));
+            CarmenContext city = Objects.requireNonNull(carmenFeature.context().get(length - 3));
+            suburb.append(city.text()).append(", ").append(state.shortCode().substring(3));
+        } else if (length == 2) {
+            CarmenContext state = Objects.requireNonNull(carmenFeature.context().get(length - 2));
+            suburb.append(state.shortCode().substring(3));
+        }else if(length < 2){
+            throw new IllegalStateException("context of suburb has not at least two part!");
         }
-        if(length < 4){
 
-            if(carmenFeature.text() != null && !carmenFeature.text().isEmpty()){
-                String detail = carmenFeature.text();
+        //if we don't have enough information in suburb, so we append extra data from text
+
+        if (carmenFeature.text() != null && !carmenFeature.text().isEmpty()) {
+            String detail = carmenFeature.text();
+            if (!suburb.toString().toLowerCase().contains(detail.toLowerCase())) {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(detail).append(", ").append(suburb.toString());
                 suburb = stringBuilder;
             }
         }
+
         return suburb.toString();
     }
 

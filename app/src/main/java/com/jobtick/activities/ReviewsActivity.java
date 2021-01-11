@@ -513,7 +513,7 @@ public class ReviewsActivity extends ActivityBase {
 
     public void getReviewList() {
         showProgressDialog();
-
+        Log.d("UserDataModel",userId+"");
         //profile/:user_id/reviews/:ratee_type
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + userId + "/reviews/" + WhoIs,
                 response -> {

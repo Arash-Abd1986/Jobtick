@@ -255,6 +255,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     }
 
     private void init() {
+        showBottomSheetAddMustHave(true);
         recyclerAddMustHave.setLayoutManager(new GridLayoutManager(taskCreateActivity, 1));
         recyclerAddMustHave.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true));
         recyclerAddMustHave.setHasFixedSize(true);
@@ -290,7 +291,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rlt_add_must_have:
-                showBottomSheetAddMustHave();
+                showBottomSheetAddMustHave(false);
                 break;
             case R.id.lyt_btn_details:
                 break;
@@ -412,7 +413,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     }
 
     @SuppressLint("SetTextI18n")
-    private void showBottomSheetAddMustHave() {
+    private void showBottomSheetAddMustHave(boolean justInit) {
         @SuppressLint("InflateParams") final View view = getLayoutInflater().inflate(R.layout.sheet_add_must_have, null);
 
         mBottomSheetDialog = new BottomSheetDialog(taskCreateActivity);
@@ -472,8 +473,10 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
-        mBottomSheetDialog.show();
-        mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
+        if(!justInit) {
+            mBottomSheetDialog.show();
+            mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
+        }
     }
 
     private void uploadDataInTempApi(File pictureFile) {

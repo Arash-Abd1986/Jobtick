@@ -200,6 +200,7 @@
                             android:layout_height="wrap_content"
                             app:eTitle="@string/phone_number"
                             app:eInputType="verify"
+                            app:eVerifyVisible="false"
                             app:eMaxCharNumber="10"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_medium"

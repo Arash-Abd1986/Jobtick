@@ -1868,7 +1868,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         }
                         break;
                     case ConstantKey.BTN_OFFER_PENDING:
-                        showToast("offer pending", this);
                         break;
                     case ConstantKey.BTN_CANCELLATION_REQUEST_RECEIVED:
                         //TODO: this button should not be viewed in this stage

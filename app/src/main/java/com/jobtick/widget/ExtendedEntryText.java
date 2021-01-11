@@ -47,6 +47,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     private boolean eIsPassword;
     private final boolean eStartFocus;
     private int eInputType;
+    private boolean eVerifyVisible = true;
     private int eImeOptions;
     private boolean password_hide = true;
     private boolean eIsEnable = true;
@@ -78,6 +79,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             eHint = sharedAttribute.getString(R.styleable.ExtendedEntryText_eHint);
             eMaxCharNumber = sharedAttribute.getInt(R.styleable.ExtendedEntryText_eMaxCharNumber, 0);
             eIsEnable = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eIsEnable, true);
+            eVerifyVisible = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eVerifyVisible, true);
             eStartFocus = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eStartFocus, false);
             String inputType = sharedAttribute.getString(R.styleable.ExtendedEntryText_eInputType);
             if (inputType != null && !inputType.isEmpty())
@@ -202,8 +204,12 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             editText.setInputType(TYPE_CLASS_TEXT);
         }
         if (eInputType == EInputType.VERIFY) {
-            verify.setVisibility(View.VISIBLE);
             editText.setInputType(InputType.TYPE_CLASS_PHONE);
+
+            if (eVerifyVisible){
+                verify.setVisibility(View.VISIBLE);
+            }else
+                verify.setVisibility(View.GONE);
 
             verify.setOnClickListener(v -> {
                 if (extendedViewOnClickListener == null)
@@ -336,6 +342,16 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
     public void seteTitle(String eTitle) {
         this.eTitle = eTitle;
+    }
+    public void seteVerifyVisible(Boolean eVerifyVisible) {
+        this.eVerifyVisible = eVerifyVisible;
+        if(eVerifyVisible)
+            this.verify.setVisibility(VISIBLE) ;
+        else
+            this.verify.setVisibility(GONE);
+    }
+    public Boolean geteVerifyVisible() {
+        return this.eVerifyVisible;
     }
 
     public String geteContent() {

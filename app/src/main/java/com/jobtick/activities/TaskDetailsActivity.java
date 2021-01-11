@@ -2242,11 +2242,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
                     Tools.displayImageOriginal(act, image, attachment.getDrawable());
                     image.setAdjustViewBounds(true);
-                    image.setBackgroundResource(R.drawable.banner_green);
+                    image.setBackgroundResource(R.drawable.banner_green_new);
                 } else {
                     Tools.displayImageOriginal(act, image, attachment.getDrawable());
                     image.setAdjustViewBounds(true);
-                    image.setBackgroundResource(R.drawable.banner_red);
+                    image.setBackgroundResource(R.drawable.background_red_new);
                 }
 
                 image.setScaleType(ImageView.ScaleType.CENTER_CROP);

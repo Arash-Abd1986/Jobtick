@@ -648,6 +648,7 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
 
             Bundle bundle = new Bundle();
             bundle.putInt(Constant.userID, userAccountModel.getId());
+            bundle.putParcelable(Constant.userAccount, userAccountModel);
             bundle.putString("WhoIs", Constant.AS_A_WORKER);
             //      bundle.putParcelable(Constant.userAccount, userAccountModel);
 

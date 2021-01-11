@@ -87,6 +87,15 @@ public class SuburbAutoComplete {
             }
             i++;
         }
+        if(length < 4){
+
+            if(carmenFeature.text() != null && !carmenFeature.text().isEmpty()){
+                String detail = carmenFeature.text();
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(detail).append(", ").append(suburb.toString());
+                suburb = stringBuilder;
+            }
+        }
         return suburb.toString();
     }
 

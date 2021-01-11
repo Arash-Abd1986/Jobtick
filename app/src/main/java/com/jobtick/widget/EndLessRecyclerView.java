@@ -27,6 +27,11 @@ public class EndLessRecyclerView extends RecyclerView {
             public void onLoadMore(int currentPage) {
                 onLoadMore.loadMore();
             }
+
+            @Override
+            public int getTotalItem() {
+                return 0;
+            }
         };
 
         this.addOnScrollListener(endlessScroller);

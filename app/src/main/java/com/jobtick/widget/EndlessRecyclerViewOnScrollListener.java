@@ -2,10 +2,6 @@ package com.jobtick.widget;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-/**
- * Custom Scroll listener for RecyclerView.
- * Based on implementation https://gist.github.com/ssinss/e06f12ef66c51252563e
- */
 public abstract class EndlessRecyclerViewOnScrollListener extends RecyclerView.OnScrollListener {
 
 
@@ -36,16 +32,22 @@ public abstract class EndlessRecyclerViewOnScrollListener extends RecyclerView.O
         }
         if (!loading && (totalItemCount - visibleItemCount)
                 <= (firstVisibleItem + visibleThreshold)) {
-            // End has been reached
-            // Do something
-            currentPage++;
-
-            onLoadMore(currentPage);
-
-            loading = true;
+            if(totalItemCount != getTotalItem()) {
+                currentPage++;
+                System.out.println("myTasksFrag: loadmore");
+                onLoadMore(currentPage);
+                loading = true;
+            }
         }
     }
 
     //Start loading
     public abstract void onLoadMore(int currentPage);
+    public abstract int getTotalItem();
+
+    public void reset(){
+        previousTotal = 0;
+        loading = true;
+        currentPage = 1;
+    }
 }

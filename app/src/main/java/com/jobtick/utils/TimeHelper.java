@@ -1,6 +1,8 @@
 package com.jobtick.utils;
 
 
+import android.annotation.SuppressLint;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -10,13 +12,56 @@ import java.util.TimeZone;
 
 public class TimeHelper {
 
-    //Format: T separator of date and time
+    public static String convertToWeekDateFormat(String time){
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
+        SimpleDateFormat sdf
+                = new SimpleDateFormat("EEEE, MMM dd", Locale.UK);
+
+        Date date = null;
+        try {
+            date = format.parse(time);
+        } catch (ParseException e) {
+            return "-1";
+        } catch (NullPointerException e){
+            return "No date set";
+        }
+        return sdf.format(date);
+    }
+
+    //Format: T separator of date and time, output format: 13/03/2020
     public static String convertToJustDateFormat(String dateTime){
         if(!dateTime.contains("T")){
             return "-1";
         }
 
         return dateTime.substring(0, dateTime.indexOf("T"));
+    }
+
+    //Format: T separator of date and time, output format: 13/03/2020
+    public static String convertToShowJustDateFormat(String dateTime){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+
+        Date date = null;
+        try {
+            date = format.parse(dateTime);
+        } catch (ParseException e) {
+            return "-1";
+        } catch (NullPointerException e){
+            return "No date set";
+        }
+        return sdf.format(date);
+    }
+
+    //Format: T separator of date and time, output format: 13/03/2020
+    public static String convertToShowJustTimeFormat(String dateTime){
+        if(!dateTime.contains("T")){
+            return "-1";
+        }
+
+        return dateTime.substring(dateTime.indexOf("T") + 1, dateTime.indexOf("T") + 9);
     }
 
 
@@ -72,6 +117,7 @@ public class TimeHelper {
 
         return getDayWithThFormat(time) + " " + sdf.format(date);
     }
+
     public static String getCurrentDateTimeInShowTimeFormat() {
 
         SimpleDateFormat sdf

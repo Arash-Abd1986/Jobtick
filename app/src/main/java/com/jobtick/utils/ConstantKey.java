@@ -19,7 +19,8 @@ public class ConstantKey {
     public static final String KEY_TASK_CANCELLATION_ID = "cancellation_id";
 
     public static final String CREATE_A_JOB = "Post a job";
-    public static final String UPDATE_TASK = "Update Task";
+    public static final String UPDATE_TASK = "Edit the job";
+    public static final String COPY_TASK = "Copy the job";
     public static final String TASK_NAME = "task_name";
     public static final String TASK_BUDGET = "task_budget";
     public static final String RATING = "rating";
@@ -64,7 +65,7 @@ public class ConstantKey {
     public static final String LANGUAGE = "Language";
     public static final String EXPERIENCE = "Occupation";
     public static final String EDUCATION = "Education";
-    public static final String CREATE_TASK = "Create Task";
+    public static final String CREATE_TASK = "Create Job";
 
 
     public static final String TOOLBAR_TITLE = "Toolbar";
@@ -135,6 +136,7 @@ public class ConstantKey {
     public static final String PUSH_USER_ID = "user_id";
     public static final String PUSH_TASK_ID = "task_id";
     public static final String PUSH_TASK_SLUG = "task_slug";
+    public static final String TASK_SLUG = "task_slug";
     public static final String PUSH_TASK_STATUS = "task_status";
 
     public static final String PUSH_OFFER = "offer";
@@ -154,6 +156,7 @@ public class ConstantKey {
     public static final String FROM_MY_JOBS_WITH_LOVE = "from_my_jobs";
     public static final String ALL_MY_JOBS_URL_FILTER = "?mytask=draft,open,assigned,offered,completed,closed,cancelled";
     public static final String COPY = "copy";
+    public static final String EDIT = "edit";
     public static final int RESULTCODE_MY_JOBS = 2020;
     public static boolean IS_CHAT_SCREEN = false;
 

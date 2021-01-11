@@ -59,4 +59,36 @@ public class TimeHelperTest {
 
         Assert.assertEquals(86400000L, delta);
     }
+
+    @Test
+    public void convertToWeekDateFormat_usual() {
+        String time = "2020-01-01";
+        String formetedTime = TimeHelper.convertToWeekDateFormat(time);
+
+        Assert.assertEquals("Wednesday, Jan 01", formetedTime);
+    }
+
+    @Test
+    public void convertToWeekDateFormat_when_null() {
+        String time = null;
+        String formetedTime = TimeHelper.convertToWeekDateFormat(time);
+
+        Assert.assertEquals("No date set", formetedTime);
+    }
+
+    @Test
+    public void convertToWeekDateFormat_when_empty() {
+        String time = "";
+        String formattedTime = TimeHelper.convertToWeekDateFormat(time);
+
+        Assert.assertEquals("-1", formattedTime);
+    }
+
+    @Test
+    public void convertToShowJustTimeFormat() {
+        String time = "2020-11-13T15:58:15+00:00";
+        String formattedTime = TimeHelper.convertToShowJustTimeFormat(time);
+
+        Assert.assertEquals("15:58:15", formattedTime);
+    }
 }

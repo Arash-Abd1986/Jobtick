@@ -26,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.jobtick.R;
+import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.text_view.TextViewRegular;
 import com.jobtick.activities.ActivityBase;
 import com.jobtick.models.TaskModel;
@@ -59,7 +60,7 @@ public class IncreaseBudgetDeclineBottomSheet extends BottomSheetDialogFragment 
 
     public static IncreaseBudgetDeclineBottomSheet newInstance(TaskModel taskModel){
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ConstantKey.TASK, taskModel);
+    //    bundle.putParcelable(ConstantKey.TASK, taskModel);
         IncreaseBudgetDeclineBottomSheet fragment = new IncreaseBudgetDeclineBottomSheet();
         fragment.setArguments(bundle);
         return fragment;
@@ -78,7 +79,7 @@ public class IncreaseBudgetDeclineBottomSheet extends BottomSheetDialogFragment 
         sessionManager = new SessionManager(getContext());
 
         assert getArguments() != null;
-        taskModel = getArguments().getParcelable(ConstantKey.TASK);
+        taskModel = TaskDetailsActivity.taskModel;
 
 
         submit = view.findViewById(R.id.submit);

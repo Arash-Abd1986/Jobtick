@@ -1,26 +1,45 @@
 package com.jobtick.activities;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.R;
-import android.annotation.SuppressLint;
+import androidx.cardview.widget.CardView;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.gson.Gson;
+import com.jobtick.R;
 import com.jobtick.models.TaskModel;
+import com.jobtick.models.payments.PaymentMethodModel;
+import com.jobtick.models.receipt.Invoice;
+import com.jobtick.models.receipt.Item;
+import com.jobtick.models.receipt.JobReceiptModel;
+import com.jobtick.models.receipt.Receipt;
+import com.jobtick.utils.Constant;
 import com.jobtick.utils.ConstantKey;
-import com.jobtick.utils.ImageUtil;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.TimeHelper;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class JobReceiptActivity extends ActivityBase {
 
@@ -67,6 +86,9 @@ public class JobReceiptActivity extends ActivityBase {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.total_cost_value)
     TextView totalCost;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.total_cost_title)
+    TextView totalCostTitle;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.paid)
@@ -76,15 +98,22 @@ public class JobReceiptActivity extends ActivityBase {
     TextView paymentNumber;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_logo)
-    ImageView cardLogo;
+    CardView cardLogo;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.abn_number)
     TextView abnNumber;
 
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.invoice_number)
+    TextView invoiceNumber;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.job_tick_service_fee_value)
     TextView jobTickServiceValue;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.job_tick_service_fee_title)
+    TextView jobTickServiceTitle;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.job_tick_gts_value)
     TextView jobTickGtsValue;
@@ -93,8 +122,8 @@ public class JobReceiptActivity extends ActivityBase {
     TextView jobTickTotalValue;
 
     private SessionManager sessionManager;
-    private TaskModel taskModel;
     private Boolean isMyTask = false;
+    private String taskSlug;
 
 
     @Override
@@ -107,26 +136,22 @@ public class JobReceiptActivity extends ActivityBase {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             isMyTask = bundle.getBoolean(ConstantKey.IS_MY_TASK);
-            taskModel = TaskDetailsActivity.taskModel;
-          //  taskModel = bundle.getParcelable(ConstantKey.TASK);
+            taskSlug = bundle.getString(ConstantKey.TASK_SLUG);
         }
 
+        if (taskSlug == null)
+            throw new IllegalStateException("need to send taskslug on bundle");
         initToolbar();
         init();
-        setData();
-
-        serviceFeeTitle.setOnClickListener(v -> {
-
-        });
+        getData(taskSlug);
     }
 
-    private void init(){
-        if(isMyTask){
-
-        }else{
+    private void init() {
+        if (!isMyTask) {
             cardLogo.setVisibility(View.GONE);
             paidOn.setVisibility(View.GONE);
             paymentNumber.setVisibility(View.GONE);
+            totalCostTitle.setText(R.string.total);
         }
     }
 
@@ -149,81 +174,136 @@ public class JobReceiptActivity extends ActivityBase {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setData() {
+    private void setData(JobReceiptModel model) {
 
-        jobTitle.setText(taskModel.getTitle());
-        jobCostValue.setText(String.format(Locale.ENGLISH, "$ %d", taskModel.getAmount()));
+        TaskModel taskModel = null;
+        Receipt receipt = null;
+        Invoice invoice = null;
+        Item item = null;
+        PaymentMethodModel paymentMethod = null;
 
-        if (!isMyTask) {
-            //worker
-            if (taskModel.getPoster().getLocation() != null) {
-                txtLocation.setText(taskModel.getPoster().getLocation());
-            } else {
-                txtLocation.setText(R.string.in_person);
-            }
-            if (taskModel.getPoster().getAvatar() != null && taskModel.getPoster().getAvatar().getThumbUrl() != null) {
-                ImageUtil.displayImage(imgAvatar, taskModel.getPoster().getAvatar().getThumbUrl(), null);
-            } else {
-                //deafult image
-            }
-            if (taskModel.getPoster().getIsVerifiedAccount() == 1) {
-                imgVerifiedAccount.setVisibility(View.VISIBLE);
-            } else {
-                imgVerifiedAccount.setVisibility(View.GONE);
-            }
+        if (model.getTask() != null)
+            taskModel = model.getTask();
+        if (model.getReceipt() != null)
+            receipt = model.getReceipt();
+        if (model.getInvoice() != null)
+            invoice = model.getInvoice();
+        if (model.getInvoice() != null && model.getInvoice().getItems() != null &&
+                !model.getInvoice().getItems().isEmpty() && model.getInvoice().getItems().get(0) != null) {
+            item = model.getInvoice().getItems().get(0);
+        }
+        if (model.getReceipt() != null && model.getReceipt().getPaymentMethod() != null)
+            paymentMethod = model.getReceipt().getPaymentMethod();
 
+
+        if (receipt != null && receipt.getReceiptAmount() != null)
+            txtAmount.setText(String.format(Locale.ENGLISH, "$%.0f", receipt.getReceiptAmount()));
+        if (receipt != null && receipt.getReceiptNumber() != null)
+            receiptNumber.setText(receipt.getReceiptNumber());
+
+        if (taskModel != null && taskModel.getTitle() != null)
+            jobTitle.setText(taskModel.getTitle());
+
+        if (taskModel != null && taskModel.getPoster() != null && taskModel.getPoster().getLocation() != null) {
+            txtLocation.setText(taskModel.getPoster().getLocation());
+        } else {
+            txtLocation.setText(R.string.in_person);
+        }
+        if (taskModel != null && taskModel.getPoster() != null &&
+                taskModel.getPoster().getAvatar() != null && taskModel.getPoster().getAvatar().getThumbUrl() != null) {
+
+            Glide.with(imgAvatar).load(taskModel.getPoster().getAvatar().getThumbUrl()).into(imgAvatar);
+        } else {
+            //deafult image
+        }
+        if (taskModel != null && taskModel.getPoster() != null &&
+                taskModel.getPoster().getIsVerifiedAccount() == 1) {
+
+            imgVerifiedAccount.setVisibility(View.VISIBLE);
+        } else {
+            imgVerifiedAccount.setVisibility(View.GONE);
+        }
+
+        if (taskModel != null && taskModel.getPoster() != null && taskModel.getPoster().getName() != null)
             txtFullName.setText(taskModel.getPoster().getName());
 
-             // calculation
-            float totalServiceFee = taskModel.getAmount() * 0.1f;
-            float total = taskModel.getAmount() + totalServiceFee;
-            float gst = totalServiceFee - (totalServiceFee / 1.1f);
-            float jTServiceFee = totalServiceFee - gst;
+        if (receipt != null && receipt.getTaskCost() != null)
+            jobCostValue.setText(String.format(Locale.ENGLISH, "$%.2f",receipt.getTaskCost()));
+        if (receipt != null && receipt.getFee() != null)
+            serviceFee.setText(String.format(Locale.ENGLISH, "$%s", receipt.getFee()));
+        if (receipt != null && receipt.getNetAmount() != null)
+            totalCost.setText(String.format(Locale.ENGLISH, "$%.2f", receipt.getNetAmount()));
 
-            serviceFee.setText(String.format(Locale.ENGLISH,"%.2f",totalServiceFee));
-            totalCost.setText(String.format(Locale.ENGLISH,"%.2f",total));
-            txtAmount.setText(String.format(Locale.ENGLISH,"%.2f",total));
-            jobTickTotalValue.setText(String.format(Locale.ENGLISH,"%.2f",totalServiceFee));
-            jobTickGtsValue.setText(String.format(Locale.ENGLISH,"%.2f",gst));
-            jobTickServiceValue.setText(String.format(Locale.ENGLISH,"%.2f",jTServiceFee));
 
-        } else {
-            //poster
-            if (taskModel.getWorker().getLocation() != null) {
-                txtLocation.setText(taskModel.getWorker().getLocation());
-            } else {
-                txtLocation.setText(R.string.in_person);
-            }
-            if (taskModel.getWorker().getAvatar() != null && taskModel.getWorker().getAvatar().getThumbUrl() != null) {
-                ImageUtil.displayImage(imgAvatar, taskModel.getWorker().getAvatar().getThumbUrl(), null);
-            } else {
-                //deafult image
-            }
-            if (taskModel.getWorker().getIsVerifiedAccount() == 1) {
-                imgVerifiedAccount.setVisibility(View.VISIBLE);
-            } else {
-                imgVerifiedAccount.setVisibility(View.GONE);
-            }
-            txtFullName.setText(taskModel.getWorker().getName());
+        if (invoice != null && invoice.getInvoiceNumber() != null)
+            invoiceNumber.setText(invoice.getInvoiceNumber());
+        if(invoice != null && invoice.getAbn() != null)
+            abnNumber.setText(String.format(Locale.ENGLISH, "ABN: %s", invoice.getAbn()));
 
-            if(taskModel.getConversation().getTask() != null && taskModel.getConversation().getTask().getClosedAt() != null){
-            //    paymentNumber.setText();
-                paidOn.setText(String.format(Locale.ENGLISH, "Paid On %s", TimeHelper.convertToShowTimeFormat(taskModel.getConversation().getTask().getClosedAt())));
-            }
+        if(item != null && item.getItemName() != null)
+            jobTickServiceTitle.setText(item.getItemName());
+        if(item != null && item.getAmount() != null)
+            jobTickServiceValue.setText(String.format(Locale.ENGLISH, "$%s", item.getAmount()));
+        if(item != null && item.getTaxAmount() != null)
+            jobTickGtsValue.setText(String.format(Locale.ENGLISH, "$%s", item.getTaxAmount()));
+        if(item != null && item.getFinalAmount() != null)
+            jobTickTotalValue.setText(String.format(Locale.ENGLISH, "$%s", item.getFinalAmount()));
 
-            //calculation
-            float totalServiceFee = taskModel.getAmount() * 0.1f;
-            float total = taskModel.getAmount() + totalServiceFee;
-            float gst = totalServiceFee - (totalServiceFee / 1.1f);
-            float jTServiceFee = totalServiceFee - gst;
+        if (isMyTask) {
+            if(invoice != null && invoice.getCreatedAt() != null)
+                paidOn.setText(String.format(Locale.ENGLISH, "Paid On %s",
+                    TimeHelper.convertToShowTimeFormat(invoice.getCreatedAt())));
 
-            serviceFee.setText(String.format(Locale.ENGLISH,"%.2f",totalServiceFee));
-            totalCost.setText(String.format(Locale.ENGLISH,"%.2f",total));
-            txtAmount.setText(String.format(Locale.ENGLISH,"%.2f",total));
-            jobTickTotalValue.setText(String.format(Locale.ENGLISH,"%.2f",totalServiceFee));
-            jobTickGtsValue.setText(String.format(Locale.ENGLISH,"%.2f",gst));
-            jobTickServiceValue.setText(String.format(Locale.ENGLISH,"%.2f",jTServiceFee));
-
+            if(paymentMethod != null && paymentMethod.getBrand() != null && paymentMethod.getLast4() != null)
+                paymentNumber.setText(String.format(Locale.ENGLISH, "%s *******%s",
+                    paymentMethod.getBrand(),
+                    paymentMethod.getLast4()));
         }
+
+    }
+
+
+    private void getData(String taskSlug) {
+
+        showProgressDialog();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS + "/" + taskSlug + "/invoice",
+                response -> {
+                    Timber.e(response);
+                    hideProgressDialog();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                            JobReceiptModel model = new JobReceiptModel().getJsonToModel(jsonObject.getJSONObject("data"), this);
+                            setData(model);
+                        } else {
+                            showToast("something went wrong.", this);
+                            return;
+                        }
+
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                    }
+                    hideProgressDialog();
+                },
+                error -> {
+                    errorHandle1(error.networkResponse);
+                    hideProgressDialog();
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(JobReceiptActivity.this);
+        requestQueue.add(stringRequest);
+        Timber.e(stringRequest.getUrl());
     }
 }

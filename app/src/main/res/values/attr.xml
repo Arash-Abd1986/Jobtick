@@ -95,6 +95,7 @@
         <attr name="eContent"/>
         <attr name="eHint" />
         <attr name="eIsEnable" format="boolean"/>
+        <attr name="eVerifyVisible" format="boolean"/>
         <attr name="eStartFocus" format="boolean"/>
         <attr name="eMaxCharNumber" format="integer"/>
         <attr name="eInputType" format="enum">

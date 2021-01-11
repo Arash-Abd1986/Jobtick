@@ -6,7 +6,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -445,8 +447,32 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         edtFirstName.seteContent(userAccountModel.getFname());
         edtLastName.seteContent(userAccountModel.getLname());
         edtLastName.seteContent(userAccountModel.getLname());
-        if(userAccountModel.getMobile() != null)
-            edtPhoneNumber.setText("0" + userAccountModel.getMobile().substring(3));
+        if(userAccountModel.getMobile() != null) {
+            if (userAccountModel.getMobile().length() > 3)
+                edtPhoneNumber.setText("0" + userAccountModel.getMobile().substring(3));
+        }else{
+            edtPhoneNumber.seteVerifyVisible(true);
+        }
+
+        if(userAccountModel.getMobileVerifiedAt()==null){
+            edtPhoneNumber.seteVerifyVisible(true);
+        }
+        edtPhoneNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                edtPhoneNumber.seteVerifyVisible(true);
+            }
+        });
         //edtPaymentId.setText(userAccountModel.get());
         if (userAccountModel.getLocation() != null) {
             txtSuburb.seteContent(userAccountModel.getLocation());

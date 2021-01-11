@@ -732,7 +732,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             switch (item.getItemId()) {
                 case R.id.menu_share:
                     Helper.shareTask(TaskDetailsActivity.this,
-                            "Hey ! Checkout this task. \n " + "https://dev.jobtick.com/tasks/" + taskModel.getSlug());
+                            "Hey ! Checkout this task. \n " + "https://jobtick.com/explore/" + taskModel.getSlug());
                     break;
                 case R.id.menu_bookmark:
                     if (taskModel.getBookmarkID() != null) {

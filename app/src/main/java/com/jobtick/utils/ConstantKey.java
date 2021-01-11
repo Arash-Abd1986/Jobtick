@@ -60,10 +60,10 @@ public class ConstantKey {
     public static final String OFFER_LIST_MODEL = "OFFER LIST MODEL";
     public static final String SKILLS = "SKILLS";
 
-    public static final String SPECIALITIES = "Certificate";
+    public static final String SPECIALITIES = "Specialities";
     public static final String TRANSPORTATION = "Transportation";
     public static final String LANGUAGE = "Language";
-    public static final String EXPERIENCE = "Occupation";
+    public static final String EXPERIENCE = "Experience";
     public static final String EDUCATION = "Education";
     public static final String CREATE_TASK = "Create Job";
 

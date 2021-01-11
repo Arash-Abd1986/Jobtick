@@ -3,6 +3,7 @@ package com.jobtick.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -173,6 +174,7 @@ public class SkillsTagActivity extends ActivityBase {
             protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<>();
                 if (addTagList != null && addTagList.size() != 0) {
+                    Log.d("TagChecker",action_bat_title.toLowerCase());
                     for (int i = 0; addTagList.size() > i; i++) {
                         map1.put(action_bat_title.toLowerCase() + "[" + i + "]", addTagList.get(i));
                     }

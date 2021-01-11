@@ -57,7 +57,7 @@
                         android:textAppearance="@style/materialText_500_14"
                         android:textColor="@color/grey_70" />
 
-                    <com.rishabhharit.roundedimageview.RoundedImageView
+                    <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/ivAvatar"
                         android:layout_width="60dp"
                         android:layout_height="60dp"

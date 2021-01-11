@@ -16,6 +16,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.jobtick.R;
@@ -119,7 +120,7 @@ public abstract class AbstractCancellationSummaryActivity extends ActivityBase i
         title.setText(Html.fromHtml(bundle.getString(ConstantKey.CANCELLATION_TITLE)));
 
         if (taskModel.getPoster().getAvatar() != null && taskModel.getPoster().getAvatar().getThumbUrl() != null) {
-            ImageUtil.displayImage(imgAvatar, taskModel.getPoster().getAvatar().getThumbUrl(), null);
+            Glide.with(imgAvatar).load(taskModel.getPoster().getAvatar().getThumbUrl()).into(imgAvatar);
         } else {
             //deafult image
         }

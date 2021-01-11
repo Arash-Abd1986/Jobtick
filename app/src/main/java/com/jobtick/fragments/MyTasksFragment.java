@@ -202,6 +202,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     }
 
     private void getStatusList() {
+        int previousState = recyclerViewStatus.getScrollY();
         if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_VALUE)) {
             toolbar_title.setText(TASK_DRAFT_CASE_ALL_JOB_KEY);
             toolbar.getMenu().clear();
@@ -727,9 +728,11 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
     private TaskModel taskModel;
 
+    private int position = 0;
     @Override
-    public void onDraftDeleteButtonClick(View view, TaskModel taskModel) {
+    public void onDraftDeleteButtonClick(View view, TaskModel taskModel, int position) {
         this.taskModel = taskModel;
+        this.position = position;
         ConfirmDeleteTaskBottomSheet confirmBottomSheet = new ConfirmDeleteTaskBottomSheet(requireContext());
         confirmBottomSheet.setListener(this);
         confirmBottomSheet.show(requireActivity().getSupportFragmentManager(), "");

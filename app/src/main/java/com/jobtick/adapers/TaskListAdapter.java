@@ -50,7 +50,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public interface OnDraftDeleteListener {
 
-        void onDraftDeleteButtonClick(View view, TaskModel taskModel);
+        void onDraftDeleteButtonClick(View view, TaskModel taskModel, int position);
     }
 
     public OnDraftDeleteListener getOnDraftDeleteListener() {
@@ -173,7 +173,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         TextView txtStatusDraft;
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.tv_delete)
-        ImageView tvDelete;
+        TextView tvDelete;
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.card_task_background)
         CardView cardTaskBackground;
@@ -275,7 +275,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             tvDelete.setOnClickListener(v -> {
                 if (mOnDraftDeleteListener != null) {
-                    mOnDraftDeleteListener.onDraftDeleteButtonClick(v, item);
+                    mOnDraftDeleteListener.onDraftDeleteButtonClick(v, item, position);
                 }
             });
         }
@@ -286,18 +286,19 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 case "draft":
                     txtStatus.setVisibility(View.GONE);
                     txtStatusDraft.setVisibility(View.VISIBLE);
+                    tvDelete.setVisibility(View.VISIBLE);
                     txtStatusDraft.setBackgroundResource(R.drawable.shape_rounded_gray_light);
                     GradientDrawable backgroundGradient = (GradientDrawable) txtStatusDraft.getBackground();
                     cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.myJobsColorTaskOverDraft));
                     backgroundGradient.setColor(ContextCompat.getColor(context, R.color.myJobsColorTaskOverDraftTrans));
                     txtStatusDraft.setBackground(backgroundGradient);
                     txtStatusDraft.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskOverDraftTextColor));
-//                        tvDelete.setVisibility(View.VISIBLE);
                     break;
                 case "open":
                 case "offered":
                     txtStatus.setVisibility(View.VISIBLE);
                     txtStatusDraft.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.GONE);
                     cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.myJobsColorTaskOffer));
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskOfferTrans));
                     break;
@@ -306,18 +307,21 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 case "overdue":
                     txtStatus.setVisibility(View.VISIBLE);
                     txtStatusDraft.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.GONE);
                     cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.myJobsColorTaskAssigned));
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskAssignedTrans));
                     break;
                 case "closed":
                     txtStatus.setVisibility(View.VISIBLE);
                     txtStatusDraft.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.GONE);
                     cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.myJobsColorTaskCompleted));
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskCompletedTrans));
                     break;
                 case "cancelled":
                     txtStatus.setVisibility(View.VISIBLE);
                     txtStatusDraft.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.GONE);
                     cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.myJobsColorTaskCancelled));
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskCancelledTrans));
                     break;

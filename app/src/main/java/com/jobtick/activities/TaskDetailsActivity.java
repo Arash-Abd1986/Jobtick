@@ -732,7 +732,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             switch (item.getItemId()) {
                 case R.id.menu_share:
                     Helper.shareTask(TaskDetailsActivity.this,
-                            "Hey ! Checkout this task. \n " + "https://dev.jobtick.com/tasks/" + taskModel.getSlug());
+                            "Hey ! Checkout this task. \n " + "https://jobtick.com/explore/" + taskModel.getSlug());
                     break;
                 case R.id.menu_bookmark:
                     if (taskModel.getBookmarkID() != null) {
@@ -2242,11 +2242,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
                     Tools.displayImageOriginal(act, image, attachment.getDrawable());
                     image.setAdjustViewBounds(true);
-                    image.setBackgroundResource(R.drawable.banner_green);
+                    image.setBackgroundResource(R.drawable.banner_green_new);
                 } else {
                     Tools.displayImageOriginal(act, image, attachment.getDrawable());
                     image.setAdjustViewBounds(true);
-                    image.setBackgroundResource(R.drawable.banner_red);
+                    image.setBackgroundResource(R.drawable.background_red_new);
                 }
 
                 image.setScaleType(ImageView.ScaleType.CENTER_CROP);

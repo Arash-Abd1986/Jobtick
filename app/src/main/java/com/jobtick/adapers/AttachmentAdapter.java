@@ -1,5 +1,8 @@
 package com.jobtick.adapers;
 
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,16 +10,19 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
+import com.jobtick.activities.ZoomImageActivity;
 import com.jobtick.models.AttachmentModel;
 import com.jobtick.utils.ImageUtil;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -29,6 +35,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public static final int VIEW_TYPE_IMAGE = 1;
 
     private OnItemClickListener mOnItemClickListener;
+    private Context context;
 
     public interface OnItemClickListener {
         void onItemClick(View view, AttachmentModel obj, int position, String action);
@@ -44,6 +51,12 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public AttachmentAdapter(List<AttachmentModel> items, Boolean delete_action) {
         this.items = items;
         this.delete_action = delete_action;
+    }
+
+    public AttachmentAdapter(List<AttachmentModel> items, Boolean delete_action, Context context) {
+        this.items = items;
+        this.delete_action = delete_action;
+        this.context = context;
     }
 
     @NonNull
@@ -106,6 +119,9 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @BindView(R.id.img_view)
         ImageView imgView;
         @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.content)
+        CardView content;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_btn_delete)
         ImageView imgBtnDelete;
 
@@ -122,7 +138,20 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             AttachmentModel item = items.get(position);
             if (item.getThumbUrl() != null) {
                 ImageUtil.displayImage(imgView, item.getUrl(), null);
-
+                if(context!=null) {
+                    content.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(context, ZoomImageActivity.class);
+                            ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
+                            attachmentArrayList.add(item);
+                            intent.putExtra("url", attachmentArrayList);
+                            intent.putExtra("title", "");
+                            intent.putExtra("pos", 0);
+                            context.startActivity(intent);
+                        }
+                    });
+                }
             }
             if (delete_action) {
                 imgBtnDelete.setVisibility(View.VISIBLE);
@@ -132,11 +161,6 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             imgBtnDelete.setOnClickListener(view -> {
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemClick(view, items.get(position), position, "delete");
-                }
-            });
-            imgView.setOnClickListener(v -> {
-                if (mOnItemClickListener != null) {
-                    mOnItemClickListener.onItemClick(v, items.get(position), position, "show");
                 }
             });
 

@@ -80,9 +80,8 @@ public class PaymentHistoryBottomSheet extends BottomSheetDialogFragment {
             bsbTitle.setVisibility(View.GONE);
             bsbNumber.setVisibility(View.GONE);
             creditAccountNumber.setText(paymentHistory.getMethod().get(0).getInformation().getCardNumber());
-            //TODO: set wallet info
-            wallet.setVisibility(View.GONE);
-            walletTitle.setVisibility(View.GONE);
+            //TODO: set wallet info, I didn't get this value on documentation
+            wallet.setText("$0.0");
 
         }else if(paymentHistory.getType().equals("credit")){
             //earned or for ticker
@@ -92,10 +91,10 @@ public class PaymentHistoryBottomSheet extends BottomSheetDialogFragment {
             wallet.setVisibility(View.GONE);
             walletTitle.setVisibility(View.GONE);
 
-            //TODO: set account number and bsb when api has done.
-            //creditAccountNumber.setText("account number");
-            //bsbNumber.setText("bsb number");
-            cardBox.setVisibility(View.GONE);
+
+            creditAccountNumber.setText(String.format("**** **** **** %s",
+                    paymentHistory.getMethod().get(0).getInformation().getAccountNumberLastFour()));
+            bsbNumber.setText(paymentHistory.getMethod().get(0).getInformation().getRoutingNumber());
 
         }else{
             throw new IllegalArgumentException("this type of payment history is not debit or credit.");

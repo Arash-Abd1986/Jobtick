@@ -52,7 +52,8 @@ public class Constant {
     public static final String URL_privacy_policy = "https://www.jobtick.com/privacy";
     public static final String URL_support = "https://www.jobtick.com/support";
     public static final String URL_terms = "https://www.jobtick.com/terms";
-    public static final String URL_how_it_works = "https://www.jobtick.com/how-it-works";
+    public static final String URL_how_it_works_poster = "https://www.jobtick.com/how-it-works/poster";
+    public static final String URL_how_it_works_ticker = "https://www.jobtick.com/how-it-works/ticker";
 
     // base url
     public static final String BASE_URL_PRODUCT = "https://api.jobtick.com/api/v1/";

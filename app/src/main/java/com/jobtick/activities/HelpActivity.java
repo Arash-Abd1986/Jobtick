@@ -1,6 +1,5 @@
 package com.jobtick.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +17,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.jobtick.utils.Constant.URL_how_it_works;
+import static com.jobtick.utils.Constant.URL_how_it_works_poster;
+import static com.jobtick.utils.Constant.URL_how_it_works_ticker;
 import static com.jobtick.utils.Constant.URL_privacy_policy;
 
 public class HelpActivity extends AppCompatActivity {
@@ -73,10 +73,10 @@ public class HelpActivity extends AppCompatActivity {
                 ExternalIntentHelper.openLink(this, URL_privacy_policy);
                 break;
             case R.id.btn_guidelines_poster:
-                ExternalIntentHelper.openLink(this, URL_how_it_works);
+                ExternalIntentHelper.openLink(this, URL_how_it_works_poster);
                 break;
             case R.id.btn_guidelines_ticker:
-                ExternalIntentHelper.openLink(this, URL_how_it_works);
+                ExternalIntentHelper.openLink(this, URL_how_it_works_ticker);
                 break;
         }
     }

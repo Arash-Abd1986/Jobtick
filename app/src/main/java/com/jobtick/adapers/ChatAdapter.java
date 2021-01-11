@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.jobtick.R;
 import android.annotation.SuppressLint;
 
@@ -268,7 +269,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     doubleTickF.setVisibility(View.GONE);
                 }
 
-                ImageUtil.displayImage(imagePathF, item.getAttachment().getModalUrl(), null);
+                Glide.with(imagePathF).load(item.getAttachment().getThumbUrl()).into(imagePathF);
                 imagePathF.setOnClickListener(v -> {
                     ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
                     AttachmentModel model = new AttachmentModel();

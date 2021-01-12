@@ -400,14 +400,22 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private void initDatePicker(){
         userAccountModel = sessionManager.getUserAccount();
         Calendar calendar = Calendar.getInstance();
-        calendar.set(TimeHelper.getYear(userAccountModel.getDob()),
-                TimeHelper.getMonth(userAccountModel.getDob()) - 1,
-                TimeHelper.getDay(userAccountModel.getDob()));
+        if(userAccountModel.getDob() != null) {
+            calendar.set(TimeHelper.getYear(userAccountModel.getDob()),
+                    TimeHelper.getMonth(userAccountModel.getDob()) - 1,
+                    TimeHelper.getDay(userAccountModel.getDob()));
 
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
 
+        }else{
+            calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+        }
         datePickerDialog = new DatePickerDialog(this,
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                 mDateSetListener,

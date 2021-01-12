@@ -67,7 +67,7 @@ public abstract class VerifyPhoneNumberImpl implements VerifyPhoneNumber {
                                 onValidationError(ErrorType.UN_AUTHENTICATED_USER, "user is not authorized.");
                             }
                             if (Objects.equals(jsonObject_error.getString("error_code"), "400")) {
-                                onError(new Exception("This phone number is already verified."));
+                                onError(new Exception("This mobile number is already verified."));
                             }
                             else
                                 onError(new Exception(message));

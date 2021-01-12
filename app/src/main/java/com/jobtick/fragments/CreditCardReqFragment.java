@@ -22,6 +22,7 @@ import com.jobtick.activities.AddCreditCardActivity;
 import com.jobtick.payment.AddCreditCard;
 import com.jobtick.payment.AddCreditCardImpl;
 import com.jobtick.utils.SessionManager;
+import com.jobtick.utils.StringUtils;
 import com.jobtick.widget.ExtendedEntryText;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
@@ -66,6 +67,7 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
         btnAddCard = view.findViewById(R.id.btn_add_card);
         btnAddCard.setOnClickListener(v -> {
             if(validation()){
+                setExpiryDate(edtExpiryDate.getText());
                 ((ActivityBase) requireActivity()).showProgressDialog();
                 addCreditCard.getToken(edtCardNumber.getText(),
                         expMonth, expYear,
@@ -83,8 +85,6 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
         edtCardNumber.addTextChangedListener(this);
         edtSecurityNumber.addTextChangedListener(this);
         edtExpiryDate.addTextChangedListener(this);
-
-        edtExpiryDate.setExtendedViewOnClickListener(this::displayDialog);
 
 
         addCreditCard = new AddCreditCardImpl(requireContext(), sessionManager) {
@@ -125,42 +125,9 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
         ((PosterRequirementsBottomSheet) getParentFragment()).changeFragment(1);
     }
 
-
-    public void displayDialog() {
-        final Calendar today = Calendar.getInstance();
-
-        MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(requireActivity(), new MonthPickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(int selectedMonth, int selectedYear) {
-                expMonth = selectedMonth + 1;
-                expYear = selectedYear;
-                edtExpiryDate.setText((expMonth < 10) ? "0" + expMonth + "/" + expYear : expMonth + "/" + expYear);
-                Timber.d("selectedMonth : " + selectedMonth + " selectedYear : " + selectedYear);
-            }
-        }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
-
-        builder.setActivatedMonth(today.get(Calendar.MONTH))
-                .setActivatedYear(today.get(Calendar.YEAR))
-                .setTitle("Select month and year")
-                .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
-                    @Override
-                    public void onMonthChanged(int selectedMonth) {
-                        Timber.d("Selected month : " + selectedMonth);
-                    }
-                })
-                .setOnYearChangedListener(new MonthPickerDialog.OnYearChangedListener() {
-                    @Override
-                    public void onYearChanged(int selectedYear) {
-
-                        Timber.tag("a").d("Selected year : " + selectedYear);
-                    }
-                })
-                .setMinYear(today.get(Calendar.YEAR))
-                .setMinMonth(today.get(Calendar.MONTH))
-                .setMaxYear(today.get(Calendar.YEAR) + 20)
-                .build()
-                .show();
-
+    private void setExpiryDate(String expiryDate){
+        expMonth = Integer.parseInt(expiryDate.substring(0, 2));
+        expYear = Integer.parseInt(expiryDate.substring(3));
     }
 
     private boolean validation(){
@@ -172,9 +139,17 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
             edtCardNumber.setError("The card number must be filled.");
             return false;
         }
-        else if(edtExpiryDate.getText().isEmpty()){
+        else if(edtExpiryDate.getText().toString() == null || edtExpiryDate.getText().isEmpty()
+                || edtExpiryDate.getText().length() != 7){
             edtExpiryDate.setError("The card expiry date must be filled.");
             return false;
+        }
+        else if(!StringUtils.checkCreditCardExpiryFormat(edtExpiryDate.getText().toString())){
+            edtExpiryDate.setError("The card expiry date is not correct.");
+            return false;
+        }
+        else if(Integer.parseInt(edtExpiryDate.getText().substring(0, 2)) > 12){
+            edtExpiryDate.setError("The card expiry date is not correct.");
         }
         else if(edtSecurityNumber.getText().isEmpty()){
             edtSecurityNumber.setError("The card CVC must be filled.");

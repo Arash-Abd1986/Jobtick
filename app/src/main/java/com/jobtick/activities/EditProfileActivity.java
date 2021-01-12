@@ -748,11 +748,11 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private void verifyPhone() {
         //it should work with Australian Numbers, format: +0* **** ****
         if (edtPhoneNumber.getText().length() != 10) {
-            showToast("Please enter correct phone number", EditProfileActivity.this);
+            showToast("Please enter correct mobile number", EditProfileActivity.this);
             return;
         }
         if (edtPhoneNumber.getText().toString().equals(userAccountModel.getMobile())) {
-            showToast("This phone number is already registered.", EditProfileActivity.this);
+            showToast("This mobile number is already registered.", EditProfileActivity.this);
             return;
         }
 

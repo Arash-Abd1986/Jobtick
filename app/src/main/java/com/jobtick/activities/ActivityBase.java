@@ -189,7 +189,7 @@ public class ActivityBase extends AppCompatActivity {
                                     showToast("Email not verified", ActivityBase.this);
                                     break;
                                 case 1003:
-                                    showToast("Mobile Phone not verified", ActivityBase.this);
+                                    showToast("Mobile number not verified", ActivityBase.this);
                                     break;
                                 case 1004:
                                     showToast("You are suspended,Please contact to admin", ActivityBase.this);

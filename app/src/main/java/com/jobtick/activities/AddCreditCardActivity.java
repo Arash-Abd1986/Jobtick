@@ -15,6 +15,7 @@ import android.annotation.SuppressLint;
 
 import com.jobtick.payment.AddCreditCard;
 import com.jobtick.payment.AddCreditCardImpl;
+import com.jobtick.utils.StringUtils;
 import com.jobtick.utils.Tools;
 import com.jobtick.widget.ExtendedEntryText;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
@@ -26,7 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class AddCreditCardActivity extends ActivityBase implements ExtendedEntryText.ExtendedViewOnClickListener {
+public class AddCreditCardActivity extends ActivityBase {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
@@ -49,9 +50,6 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
     @BindView(R.id.lyt_btn_add_credit_card)
     MaterialButton lytBtnAddCreditCard;
 
-    int year, month, day;
-    String str_expire_date = null;
-
 
     private int expMonth;
     private int expYear;
@@ -65,7 +63,6 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
         setContentView(R.layout.activity_add_credit_card);
         ButterKnife.bind(this);
         initToolbar();
-        edtExpiryDate.setExtendedViewOnClickListener(this);
 
         addCreditCard = new AddCreditCardImpl(this, sessionManager) {
             @Override
@@ -104,10 +101,9 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
         getSupportActionBar().setTitle("Add Credit Card");
     }
 
-    private void setEdtExpiryDate(int year, int month){
-        month = month + 1;
-        str_expire_date = Tools.getExpireDateFormat(month + "/" + year);
-        edtExpiryDate.setText(str_expire_date);
+    private void setExpiryDate(String expiryDate){
+        expMonth = Integer.parseInt(expiryDate.substring(0, 2));
+        expYear = Integer.parseInt(expiryDate.substring(3));
     }
 
 
@@ -132,6 +128,7 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
         switch (view.getId()) {
             case R.id.lyt_btn_add_credit_card:
                 if(validation()){
+                    setExpiryDate(edtExpiryDate.getText());
                     showProgressDialog();
                     addCreditCard.getToken(edtCardNumber.getText(),
                             expMonth, expYear,
@@ -140,43 +137,6 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
                 }
                 break;
         }
-    }
-
-
-    public void displayDialog() {
-        final Calendar today = Calendar.getInstance();
-
-        MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(AddCreditCardActivity.this, new MonthPickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(int selectedMonth, int selectedYear) {
-                expMonth = selectedMonth + 1;
-                expYear = selectedYear;
-                edtExpiryDate.setText((expMonth < 10) ? "0" + expMonth + "/" + expYear : expMonth + "/" + expYear);
-                Timber.d("selectedMonth : " + selectedMonth + " selectedYear : " + selectedYear);
-            }
-        }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
-
-        builder.setActivatedMonth(today.get(Calendar.MONTH))
-                .setActivatedYear(today.get(Calendar.YEAR))
-                .setTitle("Select month and year")
-                .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
-                    @Override
-                    public void onMonthChanged(int selectedMonth) {
-                        Timber.d("Selected month : " + selectedMonth);
-                    }
-                })
-                .setOnYearChangedListener(new MonthPickerDialog.OnYearChangedListener() {
-                    @Override
-                    public void onYearChanged(int selectedYear) {
-                        Timber.tag("a").d("Selected year : " + selectedYear);
-                    }
-                })
-                .setMinYear(today.get(Calendar.YEAR))
-                .setMinMonth(today.get(Calendar.MONTH))
-                .setMaxYear(today.get(Calendar.YEAR) + 20)
-                .build()
-                .show();
-
     }
 
     private boolean validation(){
@@ -188,19 +148,22 @@ public class AddCreditCardActivity extends ActivityBase implements ExtendedEntry
             edtCardNumber.setError("The card number must be filled.");
             return false;
         }
-        else if(edtExpiryDate.getText().isEmpty()){
+        else if(edtExpiryDate.getText().toString() == null || edtExpiryDate.getText().isEmpty()
+                || edtExpiryDate.getText().length() != 7){
             edtExpiryDate.setError("The card expiry date must be filled.");
             return false;
+        }
+        else if(!StringUtils.checkCreditCardExpiryFormat(edtExpiryDate.getText().toString())){
+            edtExpiryDate.setError("The card expiry date is not correct.");
+            return false;
+        }
+        else if(Integer.parseInt(edtExpiryDate.getText().substring(0, 2)) > 12){
+            edtExpiryDate.setError("The card expiry date is not correct.");
         }
         else if(edtSecurityNumber.getText().isEmpty()){
             edtSecurityNumber.setError("The card CVC must be filled.");
             return false;
         }
         return true;
-    }
-
-    @Override
-    public void onClick() {
-        displayDialog();
     }
 }

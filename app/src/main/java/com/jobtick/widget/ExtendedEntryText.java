@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -27,6 +28,7 @@ import androidx.core.content.ContextCompat;
 
 import com.jobtick.R;
 
+import static android.text.InputType.TYPE_CLASS_NUMBER;
 import static android.text.InputType.TYPE_CLASS_TEXT;
 
 
@@ -149,6 +151,8 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
         editText.requestFocus();
         editText.performClick();
+        if(editText.getText().toString() != null && !editText.getText().toString().isEmpty())
+            editText.setSelection(editText.getText().length());
 
         showKeyboard(editText);
     }
@@ -187,7 +191,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         } else {
             editText.setLines(1);
         }
-        if (eInputType == EInputType.CALENDAR) {
+        if (eInputType == EInputType.CALENDAR || eInputType == EInputType.CALENDAR_KEYBOARD) {
             editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.inset_calendar), null);
         }
         if (eInputType == EInputType.SPINNER) {
@@ -217,6 +221,11 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
                 extendedViewOnClickListener.onClick();
                 ;
             });
+        }
+
+        if(eInputType == EInputType.CALENDAR_KEYBOARD){
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+            editText.setKeyListener(DigitsKeyListener.getInstance("0123456789/"));
         }
 
     }
@@ -441,6 +450,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         int SPINNER = 8;
         int AUTOCOMPLETE = 9;
         int VERIFY = 10;
+        int CALENDAR_KEYBOARD = 11;
     }
 
     public interface EImeOptions {

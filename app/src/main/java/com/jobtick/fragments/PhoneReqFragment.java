@@ -92,7 +92,7 @@ public class PhoneReqFragment extends Fragment implements TextWatcher {
             @Override
             public void onError(Exception e) {
                 ((ActivityBase) requireActivity()).hideProgressDialog();
-                if(Objects.equals(e.getMessage(), "This phone number is already verified."))
+                if(Objects.equals(e.getMessage(), "This mobile number is already verified."))
                     goNext();
                 ((ActivityBase) requireActivity()).showToast(e.getMessage(), requireContext());
             }
@@ -117,7 +117,7 @@ public class PhoneReqFragment extends Fragment implements TextWatcher {
 
     private boolean validationPhone() {
         if (phone.getText().length() != 10) {
-            phone.setError("Enter correct phone number");
+            phone.setError("Enter correct mobile number");
             return false;
         }
         return true;

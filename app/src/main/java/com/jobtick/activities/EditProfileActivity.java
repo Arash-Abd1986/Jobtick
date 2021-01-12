@@ -1,8 +1,11 @@
 package com.jobtick.activities;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -221,6 +224,10 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private UploadableImage uploadableImage;
     private boolean isImageProfile;
 
+    int year, month, day;
+    String str_DOB = null;
+    DatePickerDialog.OnDateSetListener mDateSetListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -370,11 +377,27 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
         txtBirthDate.setExtendedViewOnClickListener(() -> {
             Calendar calendar = Calendar.getInstance();
-            cyear = calendar.get(Calendar.YEAR);
-            cmonth = calendar.get(Calendar.MONTH);
-            cday = calendar.get(Calendar.DAY_OF_MONTH);
-            showBottomSheetDialogDate();
+            calendar.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog dialog = new DatePickerDialog(this,
+                    android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+                    mDateSetListener,
+                    year, month, day);
+            dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
         });
+
+        mDateSetListener = (view1, year, month, dayOfMonth) -> {
+            month = month + 1;
+            str_DOB_MODEL = year + "-" + month + "-" + dayOfMonth;
+            str_DOB = Tools.getDayMonthDateTimeFormat2(year + "-" + month + "-" + dayOfMonth);
+            txtBirthDate.setText(str_DOB);
+        };
+
         txtSuburb.setExtendedViewOnClickListener(() -> {
             Intent intent = new SuburbAutoComplete(this).getIntent();
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);

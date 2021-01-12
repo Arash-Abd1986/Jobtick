@@ -31,6 +31,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -224,9 +225,10 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private UploadableImage uploadableImage;
     private boolean isImageProfile;
 
-    int year, month, day;
-    String str_DOB = null;
-    DatePickerDialog.OnDateSetListener mDateSetListener;
+    private int year, month, day;
+    private String str_DOB = null;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private DatePickerDialog datePickerDialog;
 
 
     @Override
@@ -292,6 +294,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                             sessionManager.setUserAccount(userAccountModel);
                             sessionManager.setLatitude(str_latitude);
                             sessionManager.setLongitude(str_longitude);
+                            initDatePicker();
                             showSuccessToast(jsonObject.getString("message"), EditProfileActivity.this);
                             if (onProfileupdatelistener != null) {
                                 onProfileupdatelistener.updateProfile();
@@ -376,32 +379,48 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         adapter.setOnItemClickListener(this);
 
         txtBirthDate.setExtendedViewOnClickListener(() -> {
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
-            year = calendar.get(Calendar.YEAR);
-            month = calendar.get(Calendar.MONTH);
-            day = calendar.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog dialog = new DatePickerDialog(this,
-                    android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-                    mDateSetListener,
-                    year, month, day);
-            dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.show();
+            datePickerDialog.show();
         });
 
         mDateSetListener = (view1, year, month, dayOfMonth) -> {
             month = month + 1;
             str_DOB_MODEL = year + "-" + month + "-" + dayOfMonth;
-            str_DOB = Tools.getDayMonthDateTimeFormat2(year + "-" + month + "-" + dayOfMonth);
+            System.out.println("datepicker: " + str_DOB_MODEL);
+            str_DOB = Tools.getDayMonthDateTimeFormat(str_DOB_MODEL);
             txtBirthDate.setText(str_DOB);
         };
+        initDatePicker();
 
         txtSuburb.setExtendedViewOnClickListener(() -> {
             Intent intent = new SuburbAutoComplete(this).getIntent();
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
+    }
+
+    private void initDatePicker(){
+        userAccountModel = sessionManager.getUserAccount();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(TimeHelper.getYear(userAccountModel.getDob()),
+                TimeHelper.getMonth(userAccountModel.getDob()) - 1,
+                TimeHelper.getDay(userAccountModel.getDob()));
+
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        datePickerDialog = new DatePickerDialog(this,
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+                mDateSetListener,
+                year, month, day);
+
+        calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+        datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
     private void getAllUserProfileDetails() {
@@ -509,7 +528,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         txtBirthDate.setText(Tools.getDayMonthDateTimeFormat(userAccountModel.getDob()));
 
         if (userAccountModel.getAvatar() != null) {
-            ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getUrl(), null);
+            Glide.with(imgAvatar).load(userAccountModel.getAvatar().getThumbUrl()).into(imgAvatar);
             lytDeletePicture.setVisibility(View.VISIBLE);
         } else {
             lytDeletePicture.setVisibility(View.GONE);
@@ -1100,62 +1119,5 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         RequestQueue requestQueue = Volley.newRequestQueue(EditProfileActivity.this);
         requestQueue.add(stringRequest);
         Timber.e(stringRequest.getUrl());
-    }
-
-    private void showBottomSheetDialogDate() {
-
-        @SuppressLint("InflateParams") final View view = getLayoutInflater().inflate(R.layout.sheet_date, null);
-
-        mBottomSheetDialog = new BottomSheetDialog(this);
-        mBottomSheetDialog.setContentView(view);
-        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-
-        CalendarView calendarView = view.findViewById(R.id.calenderView);
-
-
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
-
-        calendarView.setMaxDate(c.getTimeInMillis());
-        if (userAccountModel.getDob() != null && !userAccountModel.getDob().equals(""))
-            calendarView.setDate(TimeHelper.convertDateTimeToLong(userAccountModel.getDob()));
-
-        TextView txtCancel = view.findViewById(R.id.txt_cancel);
-        txtCancel.setOnClickListener(v -> mBottomSheetDialog.dismiss());
-
-        LinearLayout lytBtnDone = view.findViewById(R.id.lyt_btn_done);
-
-        Calendar calendar = Calendar.getInstance();
-        cyear = calendar.get(Calendar.YEAR);
-
-        cmonth = calendar.get(Calendar.MONTH);
-        cmonth = cmonth + 1;
-
-        cday = calendar.get(Calendar.DAY_OF_MONTH);
-        lytBtnDone.setOnClickListener(v -> {
-
-
-            str_due_date = Tools.getDayMonthDateTimeFormat(cyear + "-" + cmonth + "-" + cday);
-            txtBirthDate.setText(str_due_date);
-            str_DOB_MODEL = cyear + "-" + cmonth + "-" + cday;
-
-            mBottomSheetDialog.dismiss();
-
-        });
-
-        calendarView.setOnDateChangeListener((arg0, year, month, date) -> {
-
-            cmonth = month + 1;
-            cyear = year;
-            cday = date;
-        });
-
-
-        // set background transparent
-        ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
-
-        mBottomSheetDialog.show();
-        mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
 }

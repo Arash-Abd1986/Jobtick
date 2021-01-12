@@ -91,4 +91,28 @@ public class TimeHelperTest {
 
         Assert.assertEquals("15:58:15", formattedTime);
     }
+
+    @Test
+    public void getYear() {
+        String time = "2007-12-01T00:00:00.000000Z";
+        int formattedTime = TimeHelper.getYear(time);
+
+        Assert.assertEquals(2007, formattedTime);
+    }
+
+    @Test
+    public void getMonth() {
+        String time = "2007-01-01T00:00:00.000000Z";
+        int formattedTime = TimeHelper.getMonth(time);
+
+        Assert.assertEquals(1, formattedTime);
+    }
+
+    @Test
+    public void getDay() {
+        String time = "2007-12-01T00:00:00.000000Z";
+        int formattedTime = TimeHelper.getDay(time);
+
+        Assert.assertEquals(1, formattedTime);
+    }
 }

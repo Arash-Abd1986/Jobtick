@@ -12,6 +12,50 @@ import java.util.TimeZone;
 
 public class TimeHelper {
 
+    public static int getYear(String time){
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        Date date = null;
+
+        try {
+            date = format.parse(time);
+        } catch (ParseException | NullPointerException e) {
+            return -1;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.ENGLISH);
+        return Integer.parseInt(sdf.format(date).toString());
+    }
+
+    public static int getMonth(String time){
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        Date date = null;
+
+        try {
+            date = format.parse(time);
+        } catch (ParseException | NullPointerException e) {
+            return -1;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM", Locale.ENGLISH);
+        return Integer.parseInt(sdf.format(date).toString());
+    }
+
+    public static int getDay(String time){
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        Date date = null;
+
+        try {
+            date = format.parse(time);
+        } catch (ParseException | NullPointerException e) {
+            return -1;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd", Locale.ENGLISH);
+        return Integer.parseInt(sdf.format(date).toString());
+    }
+
     public static String convertToWeekDateFormat(String time){
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);

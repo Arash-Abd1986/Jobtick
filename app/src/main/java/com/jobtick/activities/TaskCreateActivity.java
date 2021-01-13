@@ -545,7 +545,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                             map1.put("budget", String.valueOf(taskModel.getBudget()));
                     } else {
                         if (((taskModel.getTotalHours()) * taskModel.getHourlyRate()) >= 5) {
-                            map1.put("budget", String.valueOf(taskModel.getHourlyRate()));
+                            map1.put("budget", String.valueOf(taskModel.getHourlyRate() * taskModel.getTotalHours()));
                             map1.put("total_hours", String.valueOf(taskModel.getTotalHours()));
                             map1.put("hourly_rate", String.valueOf(taskModel.getHourlyRate()));
                         }

@@ -386,10 +386,10 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
             case R.id.lyt_btn_continue:
                 switch (validation()) {
                     case 1:
-                        edtDescription.setError("Please enter your description in video or text");
+                        edtDescription.setError("Please enter your description or record a video");
                         break;
                     case 2:
-                        checkboxSaveAsTemplate.setError("Please enter only video or text");
+                        ((ActivityBase)requireActivity()).showToast("Please enter only video or text", requireContext());
                         break;
                     case 0:
                         if (aboutCallbackFunction != null) {

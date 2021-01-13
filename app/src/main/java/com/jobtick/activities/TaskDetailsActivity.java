@@ -2509,7 +2509,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         Gson gson = new Gson();
                         data = gson.fromJson(jsonObject.toString(), OfferDeleteModel.class);
                         initialStage();
-                        showToast(data.getMessage(), this);
+                 //       showToast(data.getMessage(), this);
                     } catch (JSONException e) {
                         hideProgressDialog();
                         Timber.e(String.valueOf(e));

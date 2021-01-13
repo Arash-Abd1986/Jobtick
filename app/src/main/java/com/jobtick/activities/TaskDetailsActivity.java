@@ -1717,7 +1717,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         // startAutoSlider(adapterImageSlider.getCount());
     }
 
-    @SuppressLint("SetTextI18n")
     private void setQuestionView(int questionCount) {
         if (isUserThePoster) {
             rltQuestionAdd.setVisibility(View.GONE);
@@ -1726,9 +1725,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
 
         if (questionCount == 0) {
-            txtQuestionsCount.setText("Question");
+            txtQuestionsCount.setText(R.string.questions);
         } else {
-            txtQuestionsCount.setText("Questions (" + questionCount + ")");
+            txtQuestionsCount.setText(String.format("%s (%s)", R.string.questions, questionCount));
         }
 
         //TODO taskModel.getQuestionCount() > 5

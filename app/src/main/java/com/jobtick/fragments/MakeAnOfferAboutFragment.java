@@ -78,6 +78,7 @@ import timber.log.Timber;
 
 import static android.app.Activity.RESULT_OK;
 import static com.jobtick.utils.Constant.URL_VIDEO_GUIDELINE;
+import static com.jobtick.utils.Constant.userAccount;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -197,7 +198,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
         mBehavior = BottomSheetBehavior.from(bottomSheet);
         sessionManager = new SessionManager(getContext());
 
-        quickOffer = sessionManager.getQuickOffer();
+        quickOffer = sessionManager.getQuickOffer(sessionManager.getUserAccount().getId());
         setQuickOffer(quickOffer, "");
 
         edtDescription.setTextWatcher(
@@ -255,11 +256,11 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
     private void saveQuickOffer(String currentQuickOffer) {
         ((ActivityBase) requireActivity()).showSuccessToast("Quick offer saved", getContext());
         quickOfferDesc.setText(String.format(Locale.ENGLISH, "%s...", currentQuickOffer.trim().substring(0, Math.min(currentQuickOffer.trim().length() - 1, 19))));
-        sessionManager.setQuickOffer(currentQuickOffer);
+        sessionManager.setQuickOffer(currentQuickOffer, sessionManager.getUserAccount().getId());
     }
 
     private void loadQuickOffer() {
-        String quickOffer = sessionManager.getQuickOffer();
+        String quickOffer = sessionManager.getQuickOffer(sessionManager.getUserAccount().getId());
         quickOfferDesc.setText(String.format(Locale.ENGLISH, "%s...", quickOffer.trim().substring(0, Math.min(quickOffer.trim().length() - 1, 19))));
     }
 

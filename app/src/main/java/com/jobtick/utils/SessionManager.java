@@ -107,13 +107,13 @@ public class SessionManager {
         return pref.getString("latitude", "0");
     }
 
-    public void setQuickOffer(String offer) {
-        editor.putString("quickOfferPref", offer);
+    public void setQuickOffer(String offer, int id) {
+        editor.putString("quickOfferPref" + id, offer);
         editor.commit();
     }
 
-    public String getQuickOffer() {
-        return pref.getString("quickOfferPref", "");
+    public String getQuickOffer(int id) {
+        return pref.getString("quickOfferPref" + id, "");
     }
 
     public void setLongitude(String longitude) {

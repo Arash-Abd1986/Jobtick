@@ -208,7 +208,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
         if (!validation(false)) {
             txtServiceFee.setText(R.string.dollar_00);
             txtFinalBudget.setText(R.string.dollar_00);
-            txtCurrentServiceFee.setText("7%");
+            txtCurrentServiceFee.setText("%");
             //TODO i must change that in future but for now i don't know how much is it
             return;
         }

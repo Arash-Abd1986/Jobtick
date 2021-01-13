@@ -64,9 +64,6 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if(fragmentView != null){
-
-            authActivity.showToast("ExtendedEntryText: on load: " + ((ExtendedEntryText)fragmentView.findViewById(R.id.email)).getText(), requireContext());
-
             return fragmentView;
         }
 

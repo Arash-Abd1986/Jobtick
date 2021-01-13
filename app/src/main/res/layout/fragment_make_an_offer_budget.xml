@@ -252,7 +252,7 @@
                                 android:id="@+id/txt_current_service_fee"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="10%"
+                                android:text="%"
                                 android:textAppearance="@style/materialText_500_17"
                                 android:textColor="@color/textColor" />
 

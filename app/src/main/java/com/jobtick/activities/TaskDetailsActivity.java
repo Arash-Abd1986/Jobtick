@@ -427,6 +427,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
 
     private void initQuestionList() {
+        edtComment.setHint(String.format("Ask %s a question", taskModel.getPoster().getName()));
         recyclerViewQuestions.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(TaskDetailsActivity.this);
         recyclerViewQuestions.setLayoutManager(layoutManager);
@@ -1725,9 +1726,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
 
         if (questionCount == 0) {
-            txtQuestionsCount.setText(R.string.questions);
+            txtQuestionsCount.setText(getString(R.string.questions));
         } else {
-            txtQuestionsCount.setText(String.format("%s (%s)", R.string.questions, questionCount));
+            txtQuestionsCount.setText(String.format("%s (%s)", getString(R.string.questions), questionCount));
         }
 
         //TODO taskModel.getQuestionCount() > 5

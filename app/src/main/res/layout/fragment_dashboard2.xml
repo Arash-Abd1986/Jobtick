@@ -28,7 +28,7 @@
                 android:layout_weight="1"
                 app:eJobBottomColor="@color/colorTaskOffer"
                 app:eJobTitle="Awaiting\nfor offer"
-                app:eJobValue="23" />
+                app:eJobValue="00" />
 
             <com.jobtick.widget.ExtendedJobInfo
                 android:id="@+id/assigned"
@@ -38,7 +38,7 @@
                 android:layout_weight="1"
                 app:eJobBottomColor="@color/colorTaskAssigned"
                 app:eJobTitle="Assigned"
-                app:eJobValue="16" />
+                app:eJobValue="00" />
 
             <com.jobtick.widget.ExtendedJobInfo
                 android:id="@+id/overdue"
@@ -48,7 +48,7 @@
                 android:layout_weight="1"
                 app:eJobBottomColor="@color/colorTaskOverDue"
                 app:eJobTitle="Overdue"
-                app:eJobValue="12" />
+                app:eJobValue="00" />
 
 
         </LinearLayout>
@@ -67,7 +67,7 @@
                 android:layout_weight="1"
                 app:eJobBottomColor="@color/colorReleasedMoney"
                 app:eJobTitle="Released\nMoney"
-                app:eJobValue="23" />
+                app:eJobValue="00" />
 
             <com.jobtick.widget.ExtendedJobInfo
                 android:id="@+id/complete"
@@ -77,7 +77,7 @@
                 android:layout_weight="1"
                 app:eJobBottomColor="@color/colorTaskCompleted"
                 app:eJobTitle="Complete"
-                app:eJobValue="45" />
+                app:eJobValue="00" />
 
             <com.jobtick.widget.ExtendedJobInfo
                 android:id="@+id/cancelled"
@@ -87,7 +87,7 @@
                 android:layout_weight="1"
                 app:eJobBottomColor="@color/colorTaskCancelled"
                 app:eJobTitle="Cancelled"
-                app:eJobValue="07" />
+                app:eJobValue="00" />
 
         </LinearLayout>
     </LinearLayout>

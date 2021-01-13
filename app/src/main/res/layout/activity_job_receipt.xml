@@ -200,7 +200,7 @@
                         android:layout_below="@id/profile_container"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="21dp"
-                        android:text="Task Receipt"
+                        android:text="Job Receipt"
                         android:textAppearance="@style/materialText_500_17"
                         android:textColor="@color/N300" />
 

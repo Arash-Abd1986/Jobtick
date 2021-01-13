@@ -133,6 +133,7 @@
     <string name="server_went_wrong">Something Went Wrong</string>
     <string name="title_edit">Are you sure you want to Edit</string>
     <string name="title_upload">Are you sure you want to upload video ?</string>
+    <string name="title_withdraw">Are you sure you want to withdraw your offer?</string>
 
     <string name="action_search">Search</string>
     <string name="action_map">Map</string>

@@ -503,21 +503,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
             if (resultCode == RESULT_OK) {
                 // Refreshing the gallery
                 CameraUtils.refreshGallery(makeAnOfferActivity, imageStoragePath);
-
-                new MaterialAlertDialogBuilder(getContext())
-                        .setCancelable(false)
-                        .setTitle(getResources().getString(R.string.title_upload))
-                        .setNegativeButton(getResources().getString(R.string.no), (dialog, which) -> dialog.dismiss())
-                        .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-
-                                uploadDataInTempApi(new File(Uri.parse("file://" + imageStoragePath).getPath()));
-
-                            }
-                        }).show();
-
+                uploadDataInTempApi(new File(Uri.parse("file://" + imageStoragePath).getPath()));
 
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 // user cancelled recording

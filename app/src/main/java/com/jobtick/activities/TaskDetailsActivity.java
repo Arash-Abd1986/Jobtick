@@ -3,6 +3,7 @@ package com.jobtick.activities;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.net.Uri;
@@ -1850,7 +1851,31 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         showCustomDialogReleaseMoney();
                         break;
                     case ConstantKey.BTN_MAKE_AN_OFFER:
-                        if (!needRequirementSheet()) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        if (needRequirementSheet()) {
                             if (taskModel.getMusthave().size() == 0) {
                                 intent = new Intent(TaskDetailsActivity.this, MakeAnOfferActivity.class);
                                 bundle = new Bundle();
@@ -2184,7 +2209,18 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     @Override
     public void onWidthdraw(int id) {
-        doApiCall(Constant.URL_OFFERS + "/" + id);
+
+        new MaterialAlertDialogBuilder(this)
+                .setCancelable(false)
+                .setTitle(getResources().getString(R.string.title_withdraw))
+                .setNegativeButton(getResources().getString(R.string.no), (dialog, which) -> dialog.dismiss())
+                .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        doApiCall(Constant.URL_OFFERS + "/" + id);
+                    }
+                }).show();
     }
 
     @Override

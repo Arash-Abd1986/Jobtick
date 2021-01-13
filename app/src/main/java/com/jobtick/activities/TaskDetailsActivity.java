@@ -1851,31 +1851,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         showCustomDialogReleaseMoney();
                         break;
                     case ConstantKey.BTN_MAKE_AN_OFFER:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        if (needRequirementSheet()) {
+                        if (!needRequirementSheet()) {
                             if (taskModel.getMusthave().size() == 0) {
                                 intent = new Intent(TaskDetailsActivity.this, MakeAnOfferActivity.class);
                                 bundle = new Bundle();

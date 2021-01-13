@@ -57,8 +57,8 @@ public class Constant {
 
     // base url
     public static final String BASE_URL_PRODUCT = "https://api.jobtick.com/api/v1/";
-    public static final String BASE_URL_DEBUG =   "https://dev.jobtick.com/api/v1/";
-    public static final String BASE_URL = (!BuildConfig.DEBUG) ? BASE_URL_DEBUG : BASE_URL_PRODUCT;
+    public static final String BASE_URL_DEBUG =   "https://api-dev.jobtick.com/api/v1/";
+    public static final String BASE_URL = (BuildConfig.DEBUG) ? BASE_URL_DEBUG : BASE_URL_PRODUCT;
 
     public static final String URL_CHANGE_PASSWORD = BASE_URL + "account/change-password";
     public static final String URL_TASKS = BASE_URL + "tasks";

@@ -46,10 +46,10 @@ public class ApiClient {
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(new OkHttpClient().newBuilder()
-                            .readTimeout(5, TimeUnit.MINUTES)
-                            .callTimeout(5, TimeUnit.MINUTES)
-                            .connectTimeout(5, TimeUnit.MINUTES)
-                            .writeTimeout(5, TimeUnit.MINUTES)
+                            .readTimeout(2, TimeUnit.MINUTES)
+                            .callTimeout(2, TimeUnit.MINUTES)
+                            .connectTimeout(2, TimeUnit.MINUTES)
+                            .writeTimeout(2, TimeUnit.MINUTES)
                             .build())
                     .build();
 

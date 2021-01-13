@@ -151,7 +151,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
 
     public static final long MAX_VIDEO_DURATION = 30;
-    public static final long MAX_VIDEO_SIZE = 20 * 1024 * 1024;
+    public static final long MAX_VIDEO_SIZE = 80 * 1024 * 1024;
 
     private MakeAnOfferModel makeAnOfferModel;
     private MakeAnOfferActivity makeAnOfferActivity;
@@ -528,7 +528,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         // MultipartBody.Part is used to send also the actual file name
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
-        call = ApiClient.getClient().getTaskTempAttachmentMediaData(/*"application/x-www-form-urlencoded",*/ "XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
+        call = new ApiClient().buildAndGetClientForVideoUpload().getTaskTempAttachmentMediaData(/*"application/x-www-form-urlencoded",*/ "XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
 
 
         call.enqueue(new Callback<String>() {

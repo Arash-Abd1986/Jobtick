@@ -45,24 +45,6 @@
                 app:eImeOptions="actionNext"/>
 
             <com.jobtick.widget.ExtendedEntryText
-                android:id="@+id/edt_suburs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:eTitle="@string/suburb"
-                app:eInputType="text"
-                app:eImeOptions="actionNext" />
-
-            <com.jobtick.widget.ExtendedEntryText
-                android:id="@+id/edt_state"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:eTitle="@string/state"
-                app:eInputType="autoComplete"
-                app:eImeOptions="actionNext" />
-
-            <com.jobtick.widget.ExtendedEntryText
                 android:id="@+id/edt_postcode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,12 +55,30 @@
                 app:eImeOptions="actionDone" />
 
             <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/edt_suburs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:eTitle="@string/suburb"
+                app:eInputType="suburb"
+                app:eImeOptions="actionDone" />
+
+            <com.jobtick.widget.ExtendedEntryText
+                android:id="@+id/edt_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:eTitle="@string/state"
+                app:eIsEnable="false"
+                app:eInputType="text"
+                app:eImeOptions="actionDone" />
+
+            <com.jobtick.widget.ExtendedEntryText
                 android:id="@+id/edt_Country"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:eTitle="@string/country"
-                app:eContent="Australia"
                 app:eIsEnable="false"
                 app:eInputType="text"
                 app:eImeOptions="actionDone" />

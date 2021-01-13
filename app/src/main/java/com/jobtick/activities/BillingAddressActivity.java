@@ -3,9 +3,7 @@ package com.jobtick.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.MenuItem;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -17,7 +15,9 @@ import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.payment.AddBillingAddress;
 import com.jobtick.payment.AddBillingAddressImpl;
 import com.jobtick.utils.Constant;
+import com.jobtick.utils.Helper;
 import com.jobtick.utils.StateHelper;
+import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.widget.ExtendedEntryText;
 
 import butterknife.BindView;
@@ -60,18 +60,17 @@ public class BillingAddressActivity extends ActivityBase {
 
     private AddBillingAddress addBillingAddress;
 
-    private StateHelper stateHelper;
     private boolean editMode = false;
+
+    private final int PLACE_SELECTION_REQUEST_CODE = 10002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_billing_address);
         ButterKnife.bind(this);
-        stateHelper = new StateHelper(this);
         initUi();
         initToolbar();
-        edtState.setAdapter(stateHelper.getStates());
         addBillingAddress = new AddBillingAddressImpl(this, sessionManager) {
             @Override
             public void onSuccess() {
@@ -94,6 +93,11 @@ public class BillingAddressActivity extends ActivityBase {
                     showToast(message, BillingAddressActivity.this);
             }
         };
+
+        edtSuburs.setExtendedViewOnClickListener(() -> {
+            Intent intent = new SuburbAutoComplete(this).getIntent();
+            startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
+        });
     }
 
     private void initUi(){
@@ -105,8 +109,7 @@ public class BillingAddressActivity extends ActivityBase {
 
         edtAddressLine1.setText(billingAdreessModel.getData().getLine1());
         edtAddressLine2.setText(billingAdreessModel.getData().getLine2());
-        String state = stateHelper.getStateName(billingAdreessModel.getData().getState());
-        edtState.setText(state);
+        edtState.setText(billingAdreessModel.getData().getState());
         edtSuburs.setText(billingAdreessModel.getData().getCity());
         edtPostcode.setText(billingAdreessModel.getData().getPost_code());
         edtCountry.setText(getString(R.string.australia));
@@ -152,9 +155,21 @@ public class BillingAddressActivity extends ActivityBase {
         addBillingAddress.add(edtAddressLine1.getText(),
                 edtAddressLine2.getText(),
                 edtSuburs.getText(),
-                stateHelper.getStateAbr(edtState.getText()),
+                edtState.getText(),
                 edtPostcode.getText(), "AU");
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == RESULT_OK) {
+
+            Helper.closeKeyboard(this);
+            edtSuburs.setText(SuburbAutoComplete.getSuburbName(data));
+            edtState.setText(SuburbAutoComplete.getState());
+            edtCountry.setText(getString(R.string.australia));
+        }
     }
 
     private boolean validation() {
@@ -181,10 +196,6 @@ public class BillingAddressActivity extends ActivityBase {
         }
         if (TextUtils.isEmpty(edtCountry.getText().trim())) {
             edtCountry.setError("Please Enter Country");
-            return false;
-        }
-        if(!stateHelper.isCorrectState(edtState.getText())) {
-            edtState.setError("State is not correct!");
             return false;
         }
         return true;

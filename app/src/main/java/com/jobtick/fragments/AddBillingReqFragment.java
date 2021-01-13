@@ -1,5 +1,6 @@
 package com.jobtick.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,13 +21,17 @@ import com.jobtick.activities.TaskDetailsActivity;
 import com.jobtick.models.BillingAdreessModel;
 import com.jobtick.payment.AddBillingAddress;
 import com.jobtick.payment.AddBillingAddressImpl;
+import com.jobtick.utils.Helper;
 import com.jobtick.utils.SessionManager;
 import com.jobtick.utils.StateHelper;
+import com.jobtick.utils.SuburbAutoComplete;
 import com.jobtick.widget.ExtendedEntryText;
 
 import java.util.Objects;
 
 import butterknife.OnClick;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class AddBillingReqFragment extends Fragment implements TextWatcher {
@@ -40,7 +45,8 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher {
     SessionManager sessionManager;
 
     private AddBillingAddress addBillingAddress;
-    private StateHelper stateHelper;
+
+    private final int PLACE_SELECTION_REQUEST_CODE = 10002;
 
     public AddBillingReqFragment() {
     }
@@ -58,14 +64,11 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sessionManager = new SessionManager(getContext());
-        stateHelper = new StateHelper(getContext());
         edtAddressLine1 = view.findViewById(R.id.edt_address_line_1);
         edtSuburs = view.findViewById(R.id.edt_suburs);
         edtState = view.findViewById(R.id.edt_state);
         edtPostcode = view.findViewById(R.id.edt_postcode);
         edtCountry = view.findViewById(R.id.edt_Country);
-
-        edtState.setAdapter(stateHelper.getStates());
 
         edtState.addTextChangedListener(this);
         edtSuburs.addTextChangedListener(this);
@@ -112,6 +115,11 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher {
             edtPostcode.setText(billingAdreessModel.getData().getPost_code());
             edtCountry.setText(getString(R.string.australia));
         }
+
+        edtSuburs.setExtendedViewOnClickListener(() -> {
+            Intent intent = new SuburbAutoComplete(requireActivity()).getIntent();
+            startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
+        });
     }
 
     @Override
@@ -136,10 +144,22 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher {
 
         addBillingAddress.add(edtAddressLine1.getText(),"",
                 edtSuburs.getText(),
-                stateHelper.getStateAbr(edtState.getText()),
+                edtState.getText(),
                 edtPostcode.getText(),
                 "AU");
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == RESULT_OK) {
+
+            Helper.closeKeyboard(requireActivity());
+            edtSuburs.setText(SuburbAutoComplete.getSuburbName(data));
+            edtState.setText(SuburbAutoComplete.getState());
+            edtCountry.setText(getString(R.string.australia));
+        }
     }
 
 
@@ -148,7 +168,6 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher {
             edtAddressLine1.setError("Address is mandatory");
             return false;
         }
-
         if (TextUtils.isEmpty(edtSuburs.getText().trim())) {
             edtSuburs.setError("Please enter Suburb");
             return false;
@@ -167,10 +186,6 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher {
         }
         if (TextUtils.isEmpty(edtCountry.getText().trim())) {
             edtCountry.setError("Please Enter Country");
-            return false;
-        }
-        if(!stateHelper.isCorrectState(edtState.getText())) {
-            edtState.setError("State is not correct!");
             return false;
         }
         return true;

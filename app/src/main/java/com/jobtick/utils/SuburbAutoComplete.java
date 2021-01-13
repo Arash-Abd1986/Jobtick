@@ -16,6 +16,8 @@ import java.util.Objects;
 public class SuburbAutoComplete {
 
     private final Intent intent;
+    private static String postCode = null;
+    private static String state = null;
 
     public SuburbAutoComplete(Activity activity) {
         intent = new PlaceAutocomplete.IntentBuilder()
@@ -55,6 +57,8 @@ public class SuburbAutoComplete {
     }
 
     public static String getSuburbName(Intent data) {
+        postCode = null;
+        state = null;
         CarmenFeature carmenFeature = PlacePicker.getPlace(data);
         assert carmenFeature != null;
         System.out.println("SuburbAutoComplete: =======> " + carmenFeature.toJson());
@@ -65,15 +69,23 @@ public class SuburbAutoComplete {
         // 1- Suburb, city name, state name
         // 2- city name, sate name
         // 3- suburb name (village name), state name
+
+        CarmenContext postCodeOfCity = Objects.requireNonNull(carmenFeature.context().get(0));
+        if(isInteger(postCodeOfCity.text())){
+            postCode = postCodeOfCity.text();
+        }
+
         if (length >= 3) {
-            CarmenContext state = Objects.requireNonNull(carmenFeature.context().get(length - 2));
-            CarmenContext city = Objects.requireNonNull(carmenFeature.context().get(length - 3));
-            suburb.append(city.text()).append(", ").append(state.shortCode().substring(3));
+            CarmenContext stateOfCountry = Objects.requireNonNull(carmenFeature.context().get(length - 2));
+            CarmenContext cityOfState = Objects.requireNonNull(carmenFeature.context().get(length - 3));
+            state = stateOfCountry.shortCode().substring(3);
+            suburb.append(cityOfState.text()).append(", ").append(state);
         } else if (length == 2) {
-            CarmenContext state = Objects.requireNonNull(carmenFeature.context().get(length - 2));
-            suburb.append(state.shortCode().substring(3));
+            CarmenContext stateOfCountry = Objects.requireNonNull(carmenFeature.context().get(length - 2));
+            state = stateOfCountry.shortCode().substring(3);
+            suburb.append(state);
         }else if(length < 2){
-            throw new IllegalStateException("context of suburb has not at least two part!");
+            throw new IllegalStateException("context of suburb must have at least two part!");
         }
 
         //if we don't have enough information in suburb, so we append extra data from text
@@ -86,8 +98,23 @@ public class SuburbAutoComplete {
                 suburb = stringBuilder;
             }
         }
-
         return suburb.toString();
+    }
+
+    public static String getPostCode() {
+        return postCode;
+    }
+
+    public static void setPostCode(String postCode) {
+        SuburbAutoComplete.postCode = postCode;
+    }
+
+    public static String getState() {
+        return state;
+    }
+
+    public static void setState(String state) {
+        SuburbAutoComplete.state = state;
     }
 
     private static boolean isInteger(String s) {

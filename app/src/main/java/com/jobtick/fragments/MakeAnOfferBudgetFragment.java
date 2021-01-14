@@ -172,6 +172,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
         //edtBudget.setText(String.format("%d", makeAnOfferModel.getOffer_price()));
         tvOffer.setText(String.format(Locale.ENGLISH, "$%d", taskModel.getBudget()));
         txtAccountLevel.setText(String.format(Locale.ENGLISH, "Level %d", userAccountModel.getWorkerTier().getId()));
+        txtCurrentServiceFee.setText(String.format(Locale.ENGLISH, "%%%s", userAccountModel.getWorkerTier().getServiceFee()));
 
         if (userAccountModel.getWorkerTier().getId() == 1) {
             //TODO change image level 1
@@ -201,6 +202,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
         }
     }
 
+    boolean is4Digits = false;
     @Override
     public void afterTextChanged(Editable editable) {
         btnNext.setEnabled(true);
@@ -208,16 +210,13 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
         if (!validation(false)) {
             txtServiceFee.setText(R.string.dollar_00);
             txtFinalBudget.setText(R.string.dollar_00);
-            txtCurrentServiceFee.setText("%");
-            //TODO i must change that in future but for now i don't know how much is it
             return;
         }
-        String newBudget = edtBudget.getText().toString();
-        if(previousCalculatedBudget.equals(newBudget))
+        if(is4Digits && edtBudget.getText().length() == 4){
             return;
-
-        calculate(newBudget);
-        previousCalculatedBudget = newBudget;
+        }
+        is4Digits = edtBudget.getText().length() == 4;
+        calculate(edtBudget.getText().toString());
     }
 
     private boolean validation(boolean showToast) {
@@ -258,7 +257,6 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
                         makeAnOfferModel.setYouWillReceive(model.getNetEarning());
                         txtServiceFee.setText(String.format(Locale.ENGLISH, "$%.1f", makeAnOfferModel.getAllFee()));
                         txtFinalBudget.setText(String.format(Locale.ENGLISH, "$%.1f", makeAnOfferModel.getYouWillReceive()));
-                        txtCurrentServiceFee.setText(String.format(Locale.ENGLISH, "%s", model.getServiceFeeRate()));
 
                     } catch (JSONException e) {
                         e.printStackTrace();

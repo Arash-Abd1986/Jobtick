@@ -66,7 +66,6 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
             bugdet = bundle.getInt("budget");
 
             makeAnOfferModel.setTask_id(id);
-            makeAnOfferModel.setOffer_price(bugdet);
         }
         taskModel = TaskDetailsActivity.taskModel;
 

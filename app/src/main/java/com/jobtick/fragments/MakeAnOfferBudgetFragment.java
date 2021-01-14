@@ -174,7 +174,11 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
     }
 
     private void initLayout() {
-        //edtBudget.setText(String.format("%d", makeAnOfferModel.getOffer_price()));
+        if(makeAnOfferModel != null && makeAnOfferModel.getOffer_price() != 0) {
+            edtBudget.setText(String.format(Locale.ENGLISH, "%d", makeAnOfferModel.getOffer_price()));
+            txtServiceFee.setText(String.format(Locale.ENGLISH, "$%.1f", makeAnOfferModel.getAllFee()));
+            txtFinalBudget.setText(String.format(Locale.ENGLISH, "$%.1f", makeAnOfferModel.getYouWillReceive()));
+        }
         tvOffer.setText(String.format(Locale.ENGLISH, "$%d", taskModel.getBudget()));
         txtAccountLevel.setText(String.format(Locale.ENGLISH, "Level %d", userAccountModel.getWorkerTier().getId()));
         txtCurrentServiceFee.setText(String.format(Locale.ENGLISH, "%%%s", userAccountModel.getWorkerTier().getServiceFee()));

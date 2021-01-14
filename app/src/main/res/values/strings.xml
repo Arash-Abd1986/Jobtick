@@ -375,7 +375,7 @@
     <string name="_7_more_replies">7 more replies</string>
     <string name="reply">Reply</string>
     <string name="_00">0%</string>
-    <string name="_4_4_20">4.4(20)</string>
+    <string name="_0_0">0(0)</string>
     <string name="accept_offer">Accept Offer</string>
     <string name="withdraw_offer">withdraw offer</string>
     <string name="_8942">⋮</string>
@@ -445,7 +445,7 @@
     <string name="job_receipt">Job receipt</string>
     <string name="cancellation_respond_ticker">The job will be automatically cancelled if Ticker does\'t respond within 2 days of the request.</string>
     <string name="cancellation_respond_poster">The job will be automatically cancelled if Poster does\'t respond within 2 days of the request.</string>
-    <string name="cancellation_respond_you">The job will be automatically cancelled if you does\'t respond within 2 days of the request.</string>
+    <string name="cancellation_respond_you">The job will be automatically cancelled if you don\'t respond within 2 days of the request.</string>
     <string name="withdraw_the_request">Withdraw the request</string>
     <string name="hold_down_the_button_to_withdraw">Hold down the button to Withdraw</string>
     <string name="splash_logo">Splash logo</string>

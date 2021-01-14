@@ -139,7 +139,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:gravity="center_vertical"
-                            android:text="@string/_4_4_20"
+                            android:text="@string/_0_0"
                             android:textColor="#FF922B"/>
                     </LinearLayout>
                 </LinearLayout>

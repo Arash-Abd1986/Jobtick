@@ -440,6 +440,7 @@
     <string name="confirm_delete">Confirm delete</string>
     <string name="have_you_complete_the_job">Have you completed the job which you ask to release for?</string>
     <string name="are_you_satisfied_with_the_job">Are you satisfied with the job and ready to release the payment?</string>
+    <string name="are_you_sure_delete_draft">Are you sure you want to delete this draft?</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="job_receipt">Job receipt</string>
     <string name="cancellation_respond_ticker">The job will be automatically cancelled if Ticker does\'t respond within 2 days of the request.</string>

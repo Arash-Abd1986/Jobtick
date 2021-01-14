@@ -14,7 +14,7 @@ public class ConfirmDeleteTaskBottomSheet extends AbstractConfirmBottomSheet{
 
         super(
                 context.getString(R.string.confirm_delete),
-                context.getString(R.string.are_you_sure),
+                context.getString(R.string.are_you_sure_delete_draft),
                 context.getString(R.string.no),
                 context.getString(R.string.yes));
     }

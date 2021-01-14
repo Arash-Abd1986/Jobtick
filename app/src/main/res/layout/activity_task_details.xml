@@ -656,6 +656,7 @@
                                         android:layout_alignParentBottom="true"
                                         android:layout_centerHorizontal="true"
                                         android:layout_gravity="center"
+                                        android:visibility="gone"
                                         android:contentDescription="@string/todo"
                                         android:src="@drawable/ic_shield" />
 

@@ -16,6 +16,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
@@ -110,10 +111,6 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
     private Gson gson;
 
     private final HashMap<PosterRequirementsBottomSheet.Requirement, Boolean> stateRequirement = new HashMap<>();
-
-    float final_task_cost;
-    float final_service_fee;
-    float final_total_cost;
     float wallet;
 
     @SuppressLint("NonConstantResourceId")
@@ -152,15 +149,14 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
     private void setUpData() {
         txtPostTitle.setText(taskModel.getTitle());
         txtUserName.setText(taskModel.getPoster().getName());
-        txtTaskCost.setText(String.format(Locale.ENGLISH, "$%d", taskModel.getAmount()));
-        final_task_cost = taskModel.getAmount();
+        txtTaskCost.setText(String.format(Locale.ENGLISH, "$%d", offerModel.getOfferPrice()));
         if (taskModel.getPoster().getAvatar() != null && taskModel.getPoster().getAvatar().getThumbUrl() != null) {
             ImageUtil.displayImage(imgAvatar, taskModel.getPoster().getAvatar().getThumbUrl(), null);
         } else {
             //TODO set default image
         }
         stateRequirement.put(PosterRequirementsBottomSheet.Requirement.CreditCard, false);
-        calculate(Float.toString(final_task_cost));
+        calculate(Float.toString(offerModel.getOfferPrice()));
     }
 
     private void getPaymentMethod() {
@@ -259,7 +255,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
         } else {
             throw new IllegalStateException("There is no wallet value in api using provided format of object.");
         }
-        calculate(Float.toString(final_task_cost));
+        calculate(Float.toString(offerModel.getOfferPrice()));
     }
 
     @OnClick({R.id.lyt_add_credit_card, R.id.btn_new, R.id.btn_pay})

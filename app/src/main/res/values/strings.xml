@@ -417,13 +417,13 @@
     <string name="information_levels">Levels Information</string>
     <string name="level_one">Level One</string>
     <string name="_10_service_fee" tools:ignore="StringFormatInvalid">10% service fee</string>
-    <string name="less_than_1000_in_the_last_30_days">Less than $1000 in the last 30 days</string>
+    <string name="less_than_1000_in_the_last_30_days">Less than $2000 in the last 30 days</string>
     <string name="level_two">Level Two</string>
     <string name="level_three">Level Three</string>
     <string name="level_four">Level Four</string>
-    <string name="_2000_in_the_last_30_days">$2000 + in the last 30 days</string>
-    <string name="_3000_in_the_last_30_days">$3000 + in the last 30 days</string>
-    <string name="_4000_in_the_last_30_days">$4000 + in the last 30 days</string>
+    <string name="_2000_in_the_last_30_days">$2000+ in the last 30 days</string>
+    <string name="_3000_in_the_last_30_days">$3000+ in the last 30 days</string>
+    <string name="_4000_in_the_last_30_days">$4000+ in the last 30 days</string>
     <string name="_7_service_fee" tools:ignore="StringFormatInvalid">7% service fee</string>
     <string name="_8_service_fee" tools:ignore="StringFormatInvalid">8% service fee</string>
     <string name="_9_service_fee" tools:ignore="StringFormatInvalid">9% service fee</string>

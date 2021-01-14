@@ -166,6 +166,11 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
             ServiceFeeInfoBottomSheet infoBottomSheet = new ServiceFeeInfoBottomSheet();
             infoBottomSheet.show(getChildFragmentManager(), null);
         });
+
+        txtLearnHowLevelAffectsServiceFee.setOnClickListener( v-> {
+            LevelsInfoBottomSheet levelsInfoBottomSheet = new LevelsInfoBottomSheet();
+            levelsInfoBottomSheet.show(getParentFragmentManager(), "");
+        });
     }
 
     private void initLayout() {

@@ -76,6 +76,7 @@ public class DobReqFragment extends Fragment {
         txtBirthDate.setExtendedViewOnClickListener(() -> {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
+            calendar.add(Calendar.DAY_OF_MONTH, -1);
             year = calendar.get(Calendar.YEAR);
             month = calendar.get(Calendar.MONTH);
             day = calendar.get(Calendar.DAY_OF_MONTH);

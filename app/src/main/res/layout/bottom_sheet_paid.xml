@@ -162,7 +162,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Service Fee(5%)"
+                android:text="Service Fee(10%)"
                 android:textColor="@color/textColor"
                 android:textAppearance="@style/materialText_400_15" />
 

@@ -438,7 +438,6 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                         Timber.e(response);
                         hideProgressDialog();
                         try {
-                            Log.d("ChatCheck","added");
                             JSONObject jsonObject = new JSONObject(response);
                             Timber.e(jsonObject.toString());
                             if (jsonObject.has("success") && !jsonObject.isNull("success")) {
@@ -448,6 +447,8 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                                     CommentModel commentModel = new CommentModel().getJsonToModel(jsonObject_offer_chat);
 //                                    edtCommentMessage.setHint("Question");
                                     publicChatListAdapter.addItem(commentModel);
+                                    if(recyclerViewQuestion!=null)
+                                    recyclerViewQuestion.setAdapter(publicChatListAdapter);
 
 
                                 } else {

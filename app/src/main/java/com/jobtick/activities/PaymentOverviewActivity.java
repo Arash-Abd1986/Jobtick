@@ -2,6 +2,7 @@ package com.jobtick.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -385,7 +386,10 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
 
                         PayingCalculationModel model = gson.fromJson(data, PayingCalculationModel.class);
                         txtServiceFee.setText(String.format(Locale.ENGLISH, "$%.1f", model.getServiceFee()));
-                        txtTotalCost.setText(String.format(Locale.ENGLISH, "$%.1f", model.getNetPayingAmount() - wallet));
+                        if(model.getNetPayingAmount()-wallet>=0)
+                            txtTotalCost.setText(String.format(Locale.ENGLISH, "$%.1f", model.getNetPayingAmount()-wallet));
+                        else
+                            txtTotalCost.setText(String.format(Locale.ENGLISH, "$%.1f", "0"));
 
                     } catch (JSONException e) {
                         e.printStackTrace();

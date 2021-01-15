@@ -191,7 +191,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             super.onBind(position);
             TaskModel item = mItems.get(position);
             if (item.getPoster() != null && item.getPoster().getAvatar() != null && item.getPoster().getAvatar().getModalUrl() != null)
-                Glide.with(imgAvatar).load(item.getPoster().getAvatar().getThumbUrl()).into(imgAvatar);
+                ImageUtil.displayImage(imgAvatar, item.getPoster().getAvatar().getThumbUrl(), null);
+//                                Glide.with(imgAvatar).load(item.getPoster().getAvatar().getThumbUrl()).error(R.drawable.ic_profile).into(imgAvatar);
 
             txtTitle.setText(item.getTitle());
             txtDueDate.setText(TimeHelper.convertToWeekDateFormat(item.getDueDate()));

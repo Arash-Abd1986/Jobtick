@@ -225,10 +225,16 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
 
     @Override
     public void onBackPressed() {
+
         if (isDraftWorkDone) {
             super.onBackPressed();
         } else {
-            actionDraftTaskDetails.callDraftTaskDetails(this.taskModel);
+            if(isEditTask)
+            {
+                super.onBackPressed();
+            }else {
+                actionDraftTaskDetails.callDraftTaskDetails(this.taskModel);
+            }
         }
     }
 

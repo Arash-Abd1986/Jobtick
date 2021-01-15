@@ -323,7 +323,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     txtStatus.setVisibility(View.VISIBLE);
                     txtStatusDraft.setVisibility(View.GONE);
                     tvDelete.setVisibility(View.GONE);
-                    cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.myJobsColorTaskCancelled));
+                    cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.myJobsColorTaskOverDraft));
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskCancelledTrans));
                     break;
             }

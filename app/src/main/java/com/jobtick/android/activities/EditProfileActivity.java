@@ -1,7 +1,6 @@
 package com.jobtick.android.activities;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -48,6 +47,7 @@ import com.jobtick.android.utils.Tools;
 import com.jobtick.android.widget.ExtendedEntryText;
 import com.jobtick.android.widget.SpacingItemDecoration;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -57,7 +57,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -76,7 +78,7 @@ import static com.jobtick.android.utils.Constant.MIN_AGE_FOR_USE_APP;
 import static com.jobtick.android.utils.Constant.URL_REMOVE_AVTAR;
 
 public class
-EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile.OnItemClickListener {
+EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile.OnItemClickListener, com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener {
 
     private final int PLACE_SELECTION_REQUEST_CODE = 1;
     private static final int GALLERY_PICKUP_VIDEO_REQUEST_CODE = 300;
@@ -223,8 +225,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
     private int year, month, day;
     private String str_DOB = null;
-    private DatePickerDialog.OnDateSetListener mDateSetListener;
-    private DatePickerDialog datePickerDialog;
+//    private DatePickerDialog.OnDateSetListener mDateSetListener;
+//    private DatePickerDialog datePickerDialog;
 
 
     @Override
@@ -375,16 +377,25 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         adapter.setOnItemClickListener(this);
 
         txtBirthDate.setExtendedViewOnClickListener(() -> {
-            datePickerDialog.show();
+//            datePickerDialog.show();
+            DatePickerDialog dpd = DatePickerDialog.newInstance(
+                    EditProfileActivity.this,
+                    year, // Initial year selection
+                    month, // Initial month selection
+                   day // Inital day selection
+            );
+// If you're calling this from a support Fragment
+            dpd.show(getSupportFragmentManager(), "Datepickerdialog");
         });
 
-        mDateSetListener = (view1, year, month, dayOfMonth) -> {
-            month = month + 1;
-            str_DOB_MODEL = year + "-" + month + "-" + dayOfMonth;
-            System.out.println("datepicker: " + str_DOB_MODEL);
-            str_DOB = Tools.getDayMonthDateTimeFormat(str_DOB_MODEL);
-            txtBirthDate.setText(str_DOB);
-        };
+        //TODO
+//        mDateSetListener = (view1, year, month, dayOfMonth) -> {
+//            month = month + 1;
+//            str_DOB_MODEL = year + "-" + month + "-" + dayOfMonth;
+//            System.out.println("datepicker: " + str_DOB_MODEL);
+//            str_DOB = Tools.getDayMonthDateTimeFormat(str_DOB_MODEL);
+//            txtBirthDate.setText(str_DOB);
+//        };
         initDatePicker();
 
         txtSuburb.setExtendedViewOnClickListener(() -> {
@@ -398,7 +409,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         Calendar calendar = Calendar.getInstance();
         if(userAccountModel.getDob() != null) {
             calendar.set(TimeHelper.getYear(userAccountModel.getDob()),
-                    TimeHelper.getMonth(userAccountModel.getDob()) - 1,
+                    TimeHelper.getMonth(userAccountModel.getDob()),
                     TimeHelper.getDay(userAccountModel.getDob()));
 
             year = calendar.get(Calendar.YEAR);
@@ -413,10 +424,11 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             month = calendar.get(Calendar.MONTH);
             day = calendar.get(Calendar.DAY_OF_MONTH);
         }
-        datePickerDialog = new DatePickerDialog(this,
-                android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-                mDateSetListener,
-                year, month, day);
+        //TODO
+//        datePickerDialog = new DatePickerDialog(this,
+//                android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+//                mDateSetListener,
+//                year, month, day);
 
         calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
@@ -425,8 +437,9 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
-        datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //TODO
+//        datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+//        datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
     private void getAllUserProfileDetails() {
@@ -1125,5 +1138,25 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         RequestQueue requestQueue = Volley.newRequestQueue(EditProfileActivity.this);
         requestQueue.add(stringRequest);
         Timber.e(stringRequest.getUrl());
+    }
+
+    @Override
+    public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        Date temp = new Date(System.currentTimeMillis());
+        Calendar today = Calendar.getInstance();
+        today.setTime(temp);
+        int currentYear = today.get(Calendar.YEAR);
+        if(currentYear-13<year) {
+            showToast("You age must be over 13", this);
+            return;
+        }
+        Calendar dob = Calendar.getInstance();
+
+        dob.set(year,monthOfYear,dayOfMonth);
+        str_DOB_MODEL = year + "-" + (monthOfYear+1) + "-" + dayOfMonth;
+        this.year = year;
+        this.month = monthOfYear;
+        this.day = dayOfMonth;
+        txtBirthDate.setText(dob.getDisplayName(Calendar.MONTH,Calendar.LONG, Locale.getDefault()) + " "+ dayOfMonth+", " +year);
     }
 }

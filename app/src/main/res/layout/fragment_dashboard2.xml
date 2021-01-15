@@ -20,7 +20,7 @@
             android:layout_height="100dp"
             android:weightSum="3">
 
-            <com.jobtick.widget.ExtendedJobInfo
+            <com.jobtick.android.widget.ExtendedJobInfo
                 android:id="@+id/awaiting_for_offer"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -30,7 +30,7 @@
                 app:eJobTitle="Awaiting\nfor offer"
                 app:eJobValue="0" />
 
-            <com.jobtick.widget.ExtendedJobInfo
+            <com.jobtick.android.widget.ExtendedJobInfo
                 android:id="@+id/assigned"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -40,7 +40,7 @@
                 app:eJobTitle="Assigned"
                 app:eJobValue="0" />
 
-            <com.jobtick.widget.ExtendedJobInfo
+            <com.jobtick.android.widget.ExtendedJobInfo
                 android:id="@+id/overdue"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -59,7 +59,7 @@
             android:layout_marginTop="4dp"
             android:weightSum="3">
 
-            <com.jobtick.widget.ExtendedJobInfo
+            <com.jobtick.android.widget.ExtendedJobInfo
                 android:id="@+id/released_money"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -69,7 +69,7 @@
                 app:eJobTitle="Released\nMoney"
                 app:eJobValue="0" />
 
-            <com.jobtick.widget.ExtendedJobInfo
+            <com.jobtick.android.widget.ExtendedJobInfo
                 android:id="@+id/complete"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -79,7 +79,7 @@
                 app:eJobTitle="Complete"
                 app:eJobValue="0" />
 
-            <com.jobtick.widget.ExtendedJobInfo
+            <com.jobtick.android.widget.ExtendedJobInfo
                 android:id="@+id/cancelled"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

@@ -20,7 +20,7 @@
         android:gravity="bottom"
         android:orientation="vertical">
 
-        <com.jobtick.widget.ExtendedSettingItem
+        <com.jobtick.android.widget.ExtendedSettingItem
             android:id="@+id/btn_support"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             android:layout_marginEnd="@dimen/spacing_large"
             app:eSettingTitle="Support" />
 
-        <com.jobtick.widget.ExtendedSettingItem
+        <com.jobtick.android.widget.ExtendedSettingItem
             android:id="@+id/btn_terms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             android:layout_marginEnd="@dimen/spacing_large"
             app:eSettingTitle="@string/terms_condition" />
 
-        <com.jobtick.widget.ExtendedSettingItem
+        <com.jobtick.android.widget.ExtendedSettingItem
             android:id="@+id/btn_privacy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
             android:layout_marginEnd="@dimen/spacing_large"
             app:eSettingTitle="Privacy Policy" />
 
-        <com.jobtick.widget.ExtendedSettingItem
+        <com.jobtick.android.widget.ExtendedSettingItem
             android:id="@+id/btn_guidelines_poster"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
             android:layout_marginEnd="@dimen/spacing_large"
             app:eSettingTitle="Guidelines For Posters" />
 
-        <com.jobtick.widget.ExtendedSettingItem
+        <com.jobtick.android.widget.ExtendedSettingItem
             android:id="@+id/btn_guidelines_ticker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -62,7 +62,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/spacing_middle" />
 
-                        <com.jobtick.text_view.TextViewSemiBold
+                        <com.jobtick.android.text_view.TextViewSemiBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/details"
@@ -98,7 +98,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/spacing_middle" />
 
-                        <com.jobtick.text_view.TextViewSemiBold
+                        <com.jobtick.android.text_view.TextViewSemiBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/date_time"
@@ -133,7 +133,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/spacing_middle" />
 
-                        <com.jobtick.text_view.TextViewSemiBold
+                        <com.jobtick.android.text_view.TextViewSemiBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/budget"
@@ -195,7 +195,7 @@
                 </RadioGroup>
             </androidx.cardview.widget.CardView>
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_hours"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -207,7 +207,7 @@
                 app:eInputType="integer"
                 app:eTitle="Hours" />
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_budgetH"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -219,7 +219,7 @@
                 app:eInputType="budget"
                 app:eTitle="@string/budget" />
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_budgetT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -369,7 +369,7 @@
                     android:orientation="vertical"
                     android:padding="@dimen/spacing_large">
 
-                    <com.jobtick.text_view.TextViewRegular
+                    <com.jobtick.android.text_view.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/back"
@@ -408,7 +408,7 @@
                     android:orientation="vertical"
                     android:padding="@dimen/spacing_large">
 
-                    <com.jobtick.text_view.TextViewRegular
+                    <com.jobtick.android.text_view.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Post the job"

@@ -52,7 +52,7 @@
             tools:text="$2000" />
     </LinearLayout>
 
-    <com.jobtick.widget.ExtendedEntryText
+    <com.jobtick.android.widget.ExtendedEntryText
         android:id="@+id/new_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
             android:textColor="@color/colorPrimary" />
     </RelativeLayout>
 
-    <com.jobtick.widget.ExtendedCommentText
+    <com.jobtick.android.widget.ExtendedCommentText
         android:id="@+id/reason"
         android:layout_width="match_parent"
         android:layout_height="120dp"

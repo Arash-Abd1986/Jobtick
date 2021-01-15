@@ -31,7 +31,7 @@
                 android:text="@string/add_credit_card"
                 android:textAppearance="@style/materialText_500_14"/>
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_full_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                 app:eTitle="@string/full_name"
                 app:eBoxSize="small"/>
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_card_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                 app:eTitle="@string/card_number"
                 app:eBoxSize="small"/>
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_expiry_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                 app:eTitle="@string/expiry_date"
                 app:eBoxSize="small"/>
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_security_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

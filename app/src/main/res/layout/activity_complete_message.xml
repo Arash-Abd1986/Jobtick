@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/spacing_xlarge" />
 
-        <com.jobtick.text_view.TextViewBold
+        <com.jobtick.android.text_view.TextViewBold
             android:id="@+id/txt_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/spacing_mlarge" />
 
-        <com.jobtick.text_view.TextViewRegular
+        <com.jobtick.android.text_view.TextViewRegular
             android:id="@+id/txt_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

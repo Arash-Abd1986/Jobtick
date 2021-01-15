@@ -34,7 +34,7 @@
             android:orientation="vertical">
 
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
                 app:eTitle="@string/first_name" />
 
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                 app:eTitle="@string/last_name" />
 
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/suburb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

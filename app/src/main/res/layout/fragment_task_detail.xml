@@ -25,7 +25,7 @@
 
             <include layout="@layout/view_post_job_tab" />
 
-            <com.jobtick.widget.ExtendedCommentText
+            <com.jobtick.android.widget.ExtendedCommentText
                 android:id="@+id/edt_title"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -40,7 +40,7 @@
                 app:eSingleLine="true"
                 app:eImeOptionsComment="actionNext"/>
 
-            <com.jobtick.widget.ExtendedCommentText
+            <com.jobtick.android.widget.ExtendedCommentText
                 android:id="@+id/edt_description"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
@@ -154,7 +154,7 @@
             </LinearLayout>
 
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/txt_suburb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -18,7 +18,7 @@
         app:title="Report"
         app:titleTextColor="@color/textColor" />
 
-    <com.jobtick.widget.ExtendedEntryText
+    <com.jobtick.android.widget.ExtendedEntryText
         android:id="@+id/edt_subject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
     </androidx.cardview.widget.CardView>
 
 
-    <com.jobtick.widget.ExtendedCommentText
+    <com.jobtick.android.widget.ExtendedCommentText
         android:id="@+id/edt_description"
         android:layout_width="match_parent"
         android:layout_height="200dp"

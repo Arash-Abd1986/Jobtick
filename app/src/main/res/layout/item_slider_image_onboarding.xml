@@ -19,7 +19,7 @@
         app:lottie_rawRes="@raw/slide1"
         android:layout_weight="0.8"/>
 
-    <com.jobtick.text_view.TextViewRegular
+    <com.jobtick.android.text_view.TextViewRegular
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="0dp"

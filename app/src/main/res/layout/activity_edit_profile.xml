@@ -131,7 +131,7 @@
                             android:layout_height="@dimen/spacing_medium"
                             android:visibility="visible" />
 
-                        <com.jobtick.widget.ExtendedEntryText
+                        <com.jobtick.android.widget.ExtendedEntryText
                             android:id="@+id/edt_first_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
                             app:eInputType="text"
                             app:eTitle="@string/first_name" />
 
-                        <com.jobtick.widget.ExtendedEntryText
+                        <com.jobtick.android.widget.ExtendedEntryText
                             android:id="@+id/edt_last_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
                             app:eInputType="text"
                             app:eTitle="@string/last_name" />
 
-                        <com.jobtick.widget.ExtendedEntryText
+                        <com.jobtick.android.widget.ExtendedEntryText
                             android:id="@+id/txt_suburb"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
                             app:eInputType="suburb"
                             app:eTitle="@string/suburb" />
 
-                        <com.jobtick.widget.ExtendedEntryText
+                        <com.jobtick.android.widget.ExtendedEntryText
                             android:id="@+id/edt_tagline"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -172,7 +172,7 @@
                             app:eInputType="text"
                             app:eTitle="@string/tagline" />
 
-                        <com.jobtick.widget.ExtendedEntryText
+                        <com.jobtick.android.widget.ExtendedEntryText
                             android:id="@+id/edt_about_me"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -196,7 +196,7 @@
                             android:text="@string/private_information"
                             android:textColor="@color/textColor" />
 
-                        <com.jobtick.widget.ExtendedEntryText
+                        <com.jobtick.android.widget.ExtendedEntryText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:eTitle="@string/phone_number"
@@ -210,7 +210,7 @@
                             android:id="@+id/edt_phone_number"
                             app:eHint="0* **** ****"/>
 
-                        <com.jobtick.widget.ExtendedEntryText
+                        <com.jobtick.android.widget.ExtendedEntryText
                             android:id="@+id/edt_email_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -226,7 +226,7 @@
                             app:eTitle="@string/email" />
 
 
-                        <com.jobtick.widget.ExtendedEntryText
+                        <com.jobtick.android.widget.ExtendedEntryText
                             android:id="@+id/txt_birth_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -239,7 +239,7 @@
                             app:eTitle="@string/date_of_birth" />
 
 
-                        <com.jobtick.widget.ExtendedEntryText
+                        <com.jobtick.android.widget.ExtendedEntryText
                             android:id="@+id/edt_business_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

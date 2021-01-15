@@ -40,7 +40,7 @@
                     android:layout_gravity="center"
                     android:orientation="horizontal">
 
-                    <com.jobtick.radio_button.RadioButtonMedium
+                    <com.jobtick.android.radio_button.RadioButtonMedium
                         android:id="@+id/rb_payments"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -55,7 +55,7 @@
                         android:textColor="@color/radio_btn"
                         android:textSize="@dimen/_14sp" />
 
-                    <com.jobtick.radio_button.RadioButtonMedium
+                    <com.jobtick.android.radio_button.RadioButtonMedium
                         android:id="@+id/rb_withdrawal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -113,7 +113,7 @@
                             app:tint="@color/colorPrimary"
                              />
 
-                        <com.jobtick.text_view.TextViewMedium
+                        <com.jobtick.android.text_view.TextViewMedium
                             android:id="@+id/txt_add_credit_card"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
                             app:tint="@color/colorPrimary"
                              />
 
-                        <com.jobtick.text_view.TextViewMedium
+                        <com.jobtick.android.text_view.TextViewMedium
                             android:id="@+id/txt_add_bank_account"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -231,7 +231,7 @@
                             app:tint="@color/colorPrimary"
                              />
 
-                        <com.jobtick.text_view.TextViewMedium
+                        <com.jobtick.android.text_view.TextViewMedium
                             android:id="@+id/txt_add_billing_address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

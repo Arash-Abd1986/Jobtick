@@ -19,7 +19,7 @@
             android:layout_marginTop="10dp"
             android:orientation="vertical">
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_keyword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                 app:eStartFocus="true"
                 app:eTitle="Add a Keyword or Phrase" />
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/txt_suburb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -32,7 +32,7 @@
                 android:text="@string/provide_bank_account"
                 android:textColor="@color/textColor" />
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_account_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
                 app:eImeOptions="actionNext"
                 app:eBoxSize="small"/>
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_bsb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                 app:eImeOptions="actionNext"
                 app:eBoxSize="small"/>
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_account_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

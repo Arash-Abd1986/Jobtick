@@ -34,7 +34,7 @@
 
             </ImageView>
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_large"
@@ -43,7 +43,7 @@
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/_16sp">
 
-            </com.jobtick.text_view.TextViewMedium>
+            </com.jobtick.android.text_view.TextViewMedium>
 
 
             <RadioGroup

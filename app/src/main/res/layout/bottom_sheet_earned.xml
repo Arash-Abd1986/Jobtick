@@ -17,7 +17,7 @@
         android:src="@drawable/ic_down"
         tools:ignore="ContentDescription" />
 
-    <com.jobtick.text_view.TextViewMedium
+    <com.jobtick.android.text_view.TextViewMedium
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -41,7 +41,7 @@
             android:background="#4D576A"
             android:padding="16dp">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -50,7 +50,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14sp" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/tv_bsb"
@@ -60,7 +60,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14sp" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/tv_account_number"
@@ -70,7 +70,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14sp" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:id="@+id/tv_account_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14sp" />
 
-            <com.jobtick.text_view.TextViewBold
+            <com.jobtick.android.text_view.TextViewBold
                 android:id="@+id/tv_bsb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
             android:layout_marginTop="@dimen/spacing_large"
             android:orientation="horizontal">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -114,7 +114,7 @@
                 android:textColor="@color/textColor"
                 android:textSize="14dp" />
 
-            <com.jobtick.text_view.TextViewSemiBold
+            <com.jobtick.android.text_view.TextViewSemiBold
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_amount"
@@ -130,7 +130,7 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:orientation="horizontal">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -139,7 +139,7 @@
                 android:textColor="@color/textColor"
                 android:textSize="14dp" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:id="@+id/tv_service_fee"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -154,7 +154,7 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:orientation="horizontal">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -163,7 +163,7 @@
                 android:textColor="@color/textColor"
                 android:textSize="14dp" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_gst"
@@ -177,7 +177,7 @@
             android:layout_marginTop="@dimen/spacing_xlarge"
             android:orientation="horizontal">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -186,7 +186,7 @@
                 android:textColor="@color/textColor"
                 android:textSize="14dp" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_date"
@@ -200,7 +200,7 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:orientation="horizontal">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -209,7 +209,7 @@
                 android:textColor="@color/textColor"
                 android:textSize="14dp" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_time"
@@ -223,7 +223,7 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:orientation="horizontal">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -232,7 +232,7 @@
                 android:textColor="@color/textColor"
                 android:textSize="14dp" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_status"

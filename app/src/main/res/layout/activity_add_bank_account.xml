@@ -27,7 +27,7 @@
             android:layout_marginBottom="@dimen/spacing_middle"
             android:orientation="vertical">
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_account_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
                 app:eInputType="text"
                 app:eImeOptions="actionNext"/>
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_bsb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                 android:layout_marginTop="8dp"
                 app:eImeOptions="actionNext"/>
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_account_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

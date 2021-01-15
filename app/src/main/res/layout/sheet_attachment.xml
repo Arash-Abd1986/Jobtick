@@ -14,7 +14,7 @@
         android:src="@drawable/ic_down"
          />
 
-    <com.jobtick.text_view.TextViewMedium
+    <com.jobtick.android.text_view.TextViewMedium
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -56,7 +56,7 @@
                     android:src="@drawable/ic_file_manager"
                      />
 
-                <com.jobtick.text_view.TextViewRegular
+                <com.jobtick.android.text_view.TextViewRegular
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sp"
@@ -85,7 +85,7 @@
                     android:src="@drawable/ic_gallery"
                      />
 
-                <com.jobtick.text_view.TextViewRegular
+                <com.jobtick.android.text_view.TextViewRegular
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sp"
@@ -114,7 +114,7 @@
                     android:src="@drawable/ic_camera"
                      />
 
-                <com.jobtick.text_view.TextViewRegular
+                <com.jobtick.android.text_view.TextViewRegular
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sp"
@@ -152,7 +152,7 @@
                     android:src="@drawable/ic_video_recorder"
                      />
 
-                <com.jobtick.text_view.TextViewRegular
+                <com.jobtick.android.text_view.TextViewRegular
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Video Camera"
@@ -176,7 +176,7 @@
                     android:src="@drawable/ic_file_plus"
                      />
 
-                <com.jobtick.text_view.TextViewRegular
+                <com.jobtick.android.text_view.TextViewRegular
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Doc"

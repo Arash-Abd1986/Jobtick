@@ -5,7 +5,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.jobtick.text_view.TextViewRegular
+    <com.jobtick.android.text_view.TextViewRegular
         android:id="@+id/txt_bedge"
         android:visibility="gone"
         android:background="@drawable/round_shape_primary"

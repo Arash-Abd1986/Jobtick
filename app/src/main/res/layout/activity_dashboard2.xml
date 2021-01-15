@@ -70,7 +70,7 @@
                 </RadioGroup>
             </FrameLayout>
 
-            <com.jobtick.widget.ContentWrappingViewPager
+            <com.jobtick.android.widget.ContentWrappingViewPager
                 android:id="@+id/ticker_poster_view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

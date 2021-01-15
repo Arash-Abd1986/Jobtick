@@ -84,7 +84,7 @@
             </RadioGroup>
 
 
-            <com.jobtick.widget.ExtendedCommentText
+            <com.jobtick.android.widget.ExtendedCommentText
                 android:id="@+id/comment_box"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"

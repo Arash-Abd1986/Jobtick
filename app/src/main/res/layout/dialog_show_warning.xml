@@ -13,7 +13,7 @@
         android:orientation="vertical"
         >
 
-        <com.jobtick.text_view.TextViewRegular
+        <com.jobtick.android.text_view.TextViewRegular
             android:id="@+id/txt_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             android:layout_height="@dimen/spacing_line"
             android:background="@color/grey_10"/>
 
-        <com.jobtick.button.ButtonRegular
+        <com.jobtick.android.button.ButtonRegular
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/OK"

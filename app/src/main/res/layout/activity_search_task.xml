@@ -35,7 +35,7 @@
 
             </ImageView>
 
-            <com.jobtick.edit_text.EditTextRegular
+            <com.jobtick.android.edit_text.EditTextRegular
                 android:id="@+id/edt_search_categoreis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                 android:textColorHint="@color/grey_70"
                 android:textSize="@dimen/_15sp">
 
-            </com.jobtick.edit_text.EditTextRegular>
+            </com.jobtick.android.edit_text.EditTextRegular>
 
         </RelativeLayout>
 
@@ -116,7 +116,7 @@
 
                 </ImageView>
 
-                <com.jobtick.text_view.TextViewRegular
+                <com.jobtick.android.text_view.TextViewRegular
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_15sp"
@@ -124,7 +124,7 @@
                     android:gravity="center"
                     android:text="We didn't find any results for your search">
 
-                </com.jobtick.text_view.TextViewRegular>
+                </com.jobtick.android.text_view.TextViewRegular>
 
 
                 <LinearLayout
@@ -142,7 +142,7 @@
                     android:paddingStart="@dimen/spacing_xlarge"
                     android:paddingEnd="@dimen/spacing_xlarge">
 
-                    <com.jobtick.text_view.TextViewRegular
+                    <com.jobtick.android.text_view.TextViewRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -165,7 +165,7 @@
                     android:paddingEnd="@dimen/spacing_xxxlarge"
                     android:visibility="visible">
 
-                    <com.jobtick.text_view.TextViewSemiBold
+                    <com.jobtick.android.text_view.TextViewSemiBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

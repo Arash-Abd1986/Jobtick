@@ -83,7 +83,7 @@
                     android:layout_marginEnd="@dimen/_16sp"
                     tools:ignore="RelativeOverlap">
 
-                    <com.jobtick.text_view.TextViewRegular
+                    <com.jobtick.android.text_view.TextViewRegular
                         android:id="@+id/txt_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                         android:textColor="@color/red_600"
                         android:textSize="@dimen/_15sp" />
 
-                    <com.jobtick.text_view.TextViewRegular
+                    <com.jobtick.android.text_view.TextViewRegular
                         android:id="@+id/txt_total_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

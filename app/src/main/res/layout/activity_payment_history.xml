@@ -41,7 +41,7 @@
                     android:weightSum="2"
                     tools:ignore="UselessParent">
 
-                    <com.jobtick.radio_button.RadioButtonMedium
+                    <com.jobtick.android.radio_button.RadioButtonMedium
                         android:id="@+id/rb_outgoing"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -56,7 +56,7 @@
                         android:textColor="@color/radio_btn"
                         android:textSize="@dimen/_14sp" />
 
-                    <com.jobtick.radio_button.RadioButtonMedium
+                    <com.jobtick.android.radio_button.RadioButtonMedium
                         android:id="@+id/rb_earned"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

@@ -78,7 +78,7 @@
 
             </androidx.cardview.widget.CardView>
 
-            <com.jobtick.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/txt_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                 app:eInputType="calendar"
                 app:eTitle="@string/date" />
 
-            <com.jobtick.widget.ExtendedCommentText
+            <com.jobtick.android.widget.ExtendedCommentText
                 android:id="@+id/edt_note"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"

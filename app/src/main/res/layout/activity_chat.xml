@@ -209,7 +209,7 @@
                         android:padding="@dimen/_10sp"
                         android:src="@drawable/ic_down_arrow" />
 
-                    <com.jobtick.text_view.TextViewMedium
+                    <com.jobtick.android.text_view.TextViewMedium
                         android:id="@+id/txtCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

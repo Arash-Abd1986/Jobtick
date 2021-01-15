@@ -22,7 +22,7 @@
             android:text="@string/provide_a_date_of_birth"
             android:textColor="@color/textColor" />
 
-        <com.jobtick.widget.ExtendedEntryText
+        <com.jobtick.android.widget.ExtendedEntryText
             android:id="@+id/txt_birth_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

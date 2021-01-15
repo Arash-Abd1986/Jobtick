@@ -26,7 +26,7 @@
             android:src="@drawable/ic_back_white"
             tools:ignore="ContentDescription" />
 
-        <com.jobtick.text_view.TextViewMedium
+        <com.jobtick.android.text_view.TextViewMedium
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
 
     </LinearLayout>
 
-    <com.jobtick.utils.TouchImageView
+    <com.jobtick.android.utils.TouchImageView
         android:id="@+id/ivZoom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

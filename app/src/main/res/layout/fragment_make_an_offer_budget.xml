@@ -29,7 +29,7 @@
                 android:padding="@dimen/_5sp"
                 android:src="@drawable/ic_back" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
 
                 </LinearLayout>
 
-                <com.jobtick.widget.ExtendedEntryText
+                <com.jobtick.android.widget.ExtendedEntryText
                     android:id="@+id/edt_budget"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -222,7 +222,7 @@
                         </RelativeLayout>
 
                         <!--assign level number-->
-                        <com.jobtick.text_view.TextViewMedium
+                        <com.jobtick.android.text_view.TextViewMedium
                             android:id="@+id/txt_account_level"
                             android:layout_width="5dp"
                             android:layout_height="1dp"

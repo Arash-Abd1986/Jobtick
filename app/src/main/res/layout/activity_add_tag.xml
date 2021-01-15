@@ -18,7 +18,7 @@
         app:navigationIcon="@drawable/ic_cancel"
         app:titleTextColor="@color/textColor" />
 
-    <com.jobtick.text_view.TextViewSemiBold
+    <com.jobtick.android.text_view.TextViewSemiBold
         android:id="@+id/txt_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.jobtick.edit_text.EditTextRegular
+                <com.jobtick.android.edit_text.EditTextRegular
                     android:id="@+id/edt_add_tag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

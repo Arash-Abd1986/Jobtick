@@ -65,7 +65,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_middle" />
 
-                    <com.jobtick.text_view.TextViewMedium
+                    <com.jobtick.android.text_view.TextViewMedium
                         android:id="@+id/txt_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_middle" />
 
-                    <com.jobtick.text_view.TextViewMedium
+                    <com.jobtick.android.text_view.TextViewMedium
                         android:id="@+id/txt_date_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_middle" />
 
-                    <com.jobtick.text_view.TextViewMedium
+                    <com.jobtick.android.text_view.TextViewMedium
                         android:id="@+id/txt_budget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <com.jobtick.widget.NonSwipeableViewPager
+        <com.jobtick.android.widget.NonSwipeableViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

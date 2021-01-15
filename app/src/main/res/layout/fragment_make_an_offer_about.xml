@@ -27,7 +27,7 @@
                     android:padding="@dimen/_5sp"
                     android:src="@drawable/ic_back" />
 
-                <com.jobtick.text_view.TextViewMedium
+                <com.jobtick.android.text_view.TextViewMedium
                     android:id="@+id/toolbar_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                     android:layout_marginEnd="@dimen/_3sp"
                     android:orientation="vertical">
 
-                    <com.jobtick.widget.ExtendedCommentText
+                    <com.jobtick.android.widget.ExtendedCommentText
                         android:id="@+id/edt_description"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
@@ -135,7 +135,7 @@
                             android:background="@color/colorGrayC9C9C9" />
 
 
-                        <com.jobtick.text_view.TextViewRegular
+                        <com.jobtick.android.text_view.TextViewRegular
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_20sp"
@@ -238,7 +238,7 @@
                                         android:orientation="vertical">
 
 
-                                        <com.jobtick.text_view.TextViewSemiBold
+                                        <com.jobtick.android.text_view.TextViewSemiBold
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
@@ -306,7 +306,7 @@
                                     android:orientation="vertical">
 
 
-                                    <com.jobtick.text_view.TextViewSemiBold
+                                    <com.jobtick.android.text_view.TextViewSemiBold
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="REC"

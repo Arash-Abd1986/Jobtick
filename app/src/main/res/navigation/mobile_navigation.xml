@@ -7,30 +7,30 @@
 
     <fragment
         android:id="@+id/navigation_new_task"
-        android:name="com.jobtick.fragments.NewTaskFragment"
+        android:name="com.jobtick.android.fragments.NewTaskFragment"
         tools:layout="@layout/fragment_new_task_rev2" />
 
 
     <fragment
         android:id="@+id/navigation_my_tasks"
-        android:name="com.jobtick.fragments.MyTasksFragment"
+        android:name="com.jobtick.android.fragments.MyTasksFragment"
         tools:layout="@layout/fragment_my_tasks" />
 
 
     <fragment
         android:id="@+id/navigation_browse"
-        android:name="com.jobtick.fragments.BrowseFragment"
+        android:name="com.jobtick.android.fragments.BrowseFragment"
         tools:layout="@layout/fragment_browse" />
 
 
     <fragment
         android:id="@+id/navigation_inbox"
-        android:name="com.jobtick.fragments.InboxFragment"
+        android:name="com.jobtick.android.fragments.InboxFragment"
         tools:layout="@layout/fragment_inbox" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.jobtick.fragments.ProfileFragment"
+        android:name="com.jobtick.android.fragments.ProfileFragment"
         tools:layout="@layout/fragment_profile" />
 
 

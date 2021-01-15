@@ -27,7 +27,7 @@
                 android:padding="@dimen/_5sp"
                 android:src="@drawable/ic_back" />
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
                     android:orientation="horizontal"
                     android:padding="@dimen/_8sp">
 
-                    <com.jobtick.text_view.TextViewMedium
+                    <com.jobtick.android.text_view.TextViewMedium
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -260,7 +260,7 @@
                                 android:gravity="center"
                                 android:orientation="vertical">
 
-                                <com.jobtick.text_view.TextViewSemiBold
+                                <com.jobtick.android.text_view.TextViewSemiBold
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"

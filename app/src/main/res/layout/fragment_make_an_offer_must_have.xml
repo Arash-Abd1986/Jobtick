@@ -47,7 +47,7 @@
                     android:orientation="vertical"
                     android:padding="@dimen/spacing_large">
 
-                    <com.jobtick.text_view.TextViewBold
+                    <com.jobtick.android.text_view.TextViewBold
                         android:id="@+id/txtMustHave"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
             android:background="?attr/selectableItemBackground"
             android:gravity="center">
 
-            <com.jobtick.text_view.TextViewMedium
+            <com.jobtick.android.text_view.TextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

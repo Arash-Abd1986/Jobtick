@@ -15,7 +15,7 @@
         android:gravity="bottom"
         android:orientation="vertical">
 
-        <com.jobtick.widget.ExtendedSettingItem
+        <com.jobtick.android.widget.ExtendedSettingItem
             android:id="@+id/email_notifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:layout_marginEnd="@dimen/spacing_large"
             app:eSettingTitle="@string/email_notifications"/>
 
-        <com.jobtick.widget.ExtendedSettingItem
+        <com.jobtick.android.widget.ExtendedSettingItem
             android:id="@+id/push_notifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             android:layout_marginEnd="@dimen/spacing_large"
             app:eSettingTitle="@string/push_notifications"/>
 
-        <com.jobtick.widget.ExtendedSettingItem
+        <com.jobtick.android.widget.ExtendedSettingItem
             android:id="@+id/sms_notifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

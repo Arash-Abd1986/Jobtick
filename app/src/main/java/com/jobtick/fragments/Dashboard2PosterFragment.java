@@ -36,13 +36,13 @@ public class Dashboard2PosterFragment extends AbstractDashboard2Fragment {
             txtAssigend.setValue("0");
         }
         if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCancelled() != null) {
-            txtAssigend.setValue(userAccountModel.getPostTaskStatistics().getCancelled().toString());
+            extCancelled.setValue(userAccountModel.getPostTaskStatistics().getCancelled().toString());
         } else {
             extCancelled.setValue("0");
         }
 
-        if (userAccountModel.getPosterTier() != null && userAccountModel.getPosterTier().getServiceFee() != null) {
-            txtReleasedMoney.setValue(userAccountModel.getPosterTier().getServiceFee().toString());
+        if (userAccountModel.getPosterTier() != null && userAccountModel.getPostTaskStatistics().getCompleted() != null) {
+            txtReleasedMoney.setValue(userAccountModel.getPostTaskStatistics().getCompleted().toString());
         } else {
             txtReleasedMoney.setValue("0");
         }
@@ -57,6 +57,7 @@ public class Dashboard2PosterFragment extends AbstractDashboard2Fragment {
         } else {
             txtCompleted.setValue("0");
         }
+
         if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getOpenForBids() != null) {
             txtAwaitingOffer.setValue(userAccountModel.getPostTaskStatistics().getOpenForBids().toString());
         } else {

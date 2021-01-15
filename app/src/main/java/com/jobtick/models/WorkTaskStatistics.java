@@ -37,6 +37,29 @@ public class WorkTaskStatistics implements Parcelable
     @SerializedName("total_posted")
     @Expose
     private Integer totalPosted;
+    @SerializedName("unpaid")
+    @Expose
+    private Integer unpaid;
+    @SerializedName("active_offers")
+    @Expose
+    private Integer activeOffers;
+
+    public void setActiveOffers(Integer activeOffers) {
+        this.activeOffers = activeOffers;
+    }
+
+    public Integer getActiveOffers() {
+        return activeOffers;
+    }
+
+    public void setUnpaid(Integer unpaid) {
+        this.unpaid = unpaid;
+    }
+
+    public Integer getUnpaid() {
+        return unpaid;
+    }
+
     public final static Creator<WorkTaskStatistics> CREATOR = new Creator<WorkTaskStatistics>() {
 
 

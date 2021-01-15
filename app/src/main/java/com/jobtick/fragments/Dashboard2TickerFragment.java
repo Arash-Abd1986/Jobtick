@@ -40,8 +40,8 @@ public class Dashboard2TickerFragment extends AbstractDashboard2Fragment {
         } else {
             extCancelled.setValue("0");
         }
-        if (userAccountModel.getWorkerTier() != null && userAccountModel.getWorkerTier().getServiceFee() != null) {
-            txtReleasedMoney.setValue(userAccountModel.getWorkerTier().getServiceFee().toString());
+        if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getUnpaid() != null) {
+            txtReleasedMoney.setValue(userAccountModel.getWorkTaskStatistics().getUnpaid().toString());
         } else {
             txtReleasedMoney.setValue("0");
         }
@@ -56,13 +56,17 @@ public class Dashboard2TickerFragment extends AbstractDashboard2Fragment {
         } else {
             txtCompleted.setValue("0");
         }
-        if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getTotalPosted() != null) {
-            txtAwaitingOffer.setValue(userAccountModel.getWorkTaskStatistics().getTotalPosted().toString());
+        if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getActiveOffers() != null) {
+            txtAwaitingOffer.setValue(userAccountModel.getWorkTaskStatistics().getActiveOffers().toString());
         } else {
             txtAwaitingOffer.setValue("0");
         }
         if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getCompletionRate() != null) {
-            percentageChartView.setProgress(Float.parseFloat(userAccountModel.getWorkTaskStatistics().getCompletionRate().toString()), false);
+            if(userAccountModel.getWorkTaskStatistics().getCompletionRate()>=0 && userAccountModel.getWorkTaskStatistics().getCompletionRate()<=100)
+               percentageChartView.setProgress(Float.parseFloat(userAccountModel.getWorkTaskStatistics().getCompletionRate().toString()), false);
+            else
+                percentageChartView.setProgress(0F, false);
+
         } else {
             percentageChartView.setProgress(0F, false);
         }

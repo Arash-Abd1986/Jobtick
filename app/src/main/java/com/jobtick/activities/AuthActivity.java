@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -441,6 +442,7 @@ public class AuthActivity extends ActivityBase {
                     @Override
                     public void onError(FacebookException exception) {
                         // App code
+                        Log.d("FacebookCheck",exception.getLocalizedMessage().toString());
                     }
                 });
 
@@ -961,7 +963,9 @@ public class AuthActivity extends ActivityBase {
             handleSignInResult(task);
             Timber.tag("LoginGoogle").d(task.toString());
         } else {
+            Log.d("FacebookCheck",requestCode+":"+resultCode);
             callbackManager.onActivityResult(requestCode, resultCode, data);
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 

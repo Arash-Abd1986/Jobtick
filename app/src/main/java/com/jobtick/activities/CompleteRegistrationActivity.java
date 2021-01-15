@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.fragments.SelectRoleBottomSheet;
 import com.jobtick.utils.SuburbAutoComplete;
@@ -111,7 +112,9 @@ public class CompleteRegistrationActivity extends ActivityBase implements Select
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent AuthActivity = new Intent(this, AuthActivity.class);
+        startActivity(AuthActivity);
+        finish();
     }
 
 

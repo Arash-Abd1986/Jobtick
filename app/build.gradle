@@ -11,8 +11,8 @@ android {
         applicationId "com.jobtick.android"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 1000032
-        versionName "1.0.32"
+        versionCode 1000033
+        versionName "1.0.33"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 onesignal_app_id               : 'dd77e2db-8358-4c20-95b9-e4943e401d4b',
@@ -136,6 +136,9 @@ dependencies {
     implementation 'co.lujun:androidtagview:1.1.7'
     implementation 'com.rishabhharit.roundedimageview:RoundedImageView:0.8.4'
 
+
+    //Date picker
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
 
     //Lottie library for animations
     implementation 'com.airbnb.android:lottie:3.5.0'

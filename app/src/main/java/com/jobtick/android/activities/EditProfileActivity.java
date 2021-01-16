@@ -1147,7 +1147,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         today.setTime(temp);
         int currentYear = today.get(Calendar.YEAR);
         if(currentYear-13<year) {
-            showToast("You age must be over 13", this);
+            showToast("Your age must be over 13", this);
             return;
         }
         Calendar dob = Calendar.getInstance();

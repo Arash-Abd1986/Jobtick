@@ -8,13 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -47,8 +50,12 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
     TextView reason;
     Button decline;
     Button accept;
+    Button btnWithdraw;
+    LinearLayout llAcceptDecline;
+    LinearLayout llWithDraw;
 
     protected ProgressDialog pDialog;
+    static boolean isMine=false;
 
     private TaskModel taskModel;
     private SessionManager sessionManager;
@@ -56,8 +63,17 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
     private NoticeListener listener;
 
     public static IncreaseBudgetNoticeBottomSheet newInstance(TaskModel taskModel){
+        isMine=false;
         Bundle bundle = new Bundle();
     //    bundle.putParcelable(ConstantKey.TASK, taskModel);
+        IncreaseBudgetNoticeBottomSheet fragment = new IncreaseBudgetNoticeBottomSheet();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+    public static IncreaseBudgetNoticeBottomSheet newInstance(TaskModel taskModel,boolean isMineRequest){
+        isMine = isMineRequest;
+        Bundle bundle = new Bundle();
+        //    bundle.putParcelable(ConstantKey.TASK, taskModel);
         IncreaseBudgetNoticeBottomSheet fragment = new IncreaseBudgetNoticeBottomSheet();
         fragment.setArguments(bundle);
         return fragment;
@@ -80,12 +96,15 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
 
 
         name = view.findViewById(R.id.name);
+        llAcceptDecline = view.findViewById(R.id.lyt_button);
+        llWithDraw = view.findViewById(R.id.lytWithDraw);
         description = view.findViewById(R.id.description);
         newPrice = view.findViewById(R.id.new_price);
         oldPrice = view.findViewById(R.id.old_price);
         reason = view.findViewById(R.id.reason_description);
         decline = view.findViewById(R.id.btn_decline);
         accept = view.findViewById(R.id.btn_accept);
+        btnWithdraw = view.findViewById(R.id.btnWithdraw);
 
         decline.setOnClickListener(v -> {
             listener.onIncreaseBudgetRejectClick();
@@ -96,9 +115,100 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
             acceptRequest(taskModel.getAdditionalFund().getId().toString());
         });
 
+        btnWithdraw.setOnClickListener(v -> {
+            withdrawRequest(taskModel.getAdditionalFund().getId().toString());
+        });
         init();
         initProgressDialog();
         return view;
+    }
+
+    private void withdrawRequest(String id) {
+        ((ActivityBase)requireActivity()).showProgressDialog();
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, Constant.BASE_URL + URL_ADDITIONAL_FUND + "/" + id,
+                response -> {
+                    Timber.e(response);
+                    ((ActivityBase)requireActivity()).hideProgressDialog();
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(response);
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+                                listener.onIncreaseBudgetWithDrawClick();
+                                dismiss();
+                            } else {
+                                ((ActivityBase)requireActivity()).showToast("Something went Wrong", getContext());
+                            }
+                        }
+
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+
+                    }
+
+
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            ((ActivityBase)requireActivity()).unauthorizedUser();
+                            ((ActivityBase)requireActivity()).hideProgressDialog();
+                            return;
+                        }
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+
+
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                                if (jsonObject_errors.has("amount") && !jsonObject_errors.isNull("amount")) {
+                                    JSONArray jsonArray_amount = jsonObject_errors.getJSONArray("amount");
+                                    ((ActivityBase)requireActivity()).showToast(jsonArray_amount.getString(0), requireContext());
+                                } else if (jsonObject_errors.has("creation_reason") && !jsonObject_errors.isNull("creation_reason")) {
+                                    JSONArray jsonArray_amount = jsonObject_errors.getJSONArray("creation_reason");
+                                    ((ActivityBase)requireActivity()).showToast(jsonArray_amount.getString(0), requireContext());
+                                }
+                            } else {
+                                if (jsonObject_error.has("message")) {
+                                    ((ActivityBase)requireActivity()).showToast(jsonObject_error.getString("message"), requireContext());
+                                }
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        ((ActivityBase)requireActivity()).showToast("Something Went Wrong", getContext());
+                    }
+                    Timber.e(error.toString());
+                    ((ActivityBase)requireActivity()).hideProgressDialog();
+                }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<String, String>();
+
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                //   map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+        requestQueue.add(stringRequest);
     }
 
     private void init() {
@@ -107,10 +217,16 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
         int oldP = Integer.parseInt(taskModel.getAmount().toString());
         int newP = Integer.parseInt(taskModel.getAdditionalFund().getAmount().toString()) + oldP;
         name.setText(taskModel.getPoster().getName());
+
         description.setText(taskModel.getTitle());
         reason.setText(taskModel.getAdditionalFund().getCreationReason());
         newPrice.setText(String.format(Locale.ENGLISH, "%d", newP));
         oldPrice.setText(String.format(Locale.ENGLISH, "%d", oldP));
+        if(isMine){
+                name.setText("you");
+                llAcceptDecline.setVisibility(View.GONE);
+                llWithDraw.setVisibility(View.VISIBLE);
+        }
     }
     private void acceptRequest(String id) {
         ((ActivityBase)requireActivity()).showProgressDialog();
@@ -306,5 +422,6 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
     public interface NoticeListener {
         void onIncreaseBudgetAcceptClick();
         void onIncreaseBudgetRejectClick();
+        void onIncreaseBudgetWithDrawClick();
     }
 }

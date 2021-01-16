@@ -963,7 +963,6 @@ public class AuthActivity extends ActivityBase {
             handleSignInResult(task);
             Timber.tag("LoginGoogle").d(task.toString());
         } else {
-            Log.d("FacebookCheck",requestCode+":"+resultCode);
             callbackManager.onActivityResult(requestCode, resultCode, data);
             super.onActivityResult(requestCode, resultCode, data);
         }

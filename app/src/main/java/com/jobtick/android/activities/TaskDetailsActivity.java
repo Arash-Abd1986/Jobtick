@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
@@ -2847,6 +2848,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
 
             } else if (isUserTheTicker) {
+                showIncreaseBudgetCard();
                 //TODO: updated design of mahan should be applied here
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, false);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
@@ -2870,9 +2872,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         dialog.show(fragmentManager, "");
     }
 
-    private void showDialogIncreaseBudgetNoticeRequest() {
+    private void showDialogIncreaseBudgetNoticeRequest(boolean isMine) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        IncreaseBudgetNoticeBottomSheet dialog = IncreaseBudgetNoticeBottomSheet.newInstance(taskModel);
+        IncreaseBudgetNoticeBottomSheet dialog = IncreaseBudgetNoticeBottomSheet.newInstance(taskModel,isMine);
         dialog.show(fragmentManager, "");
     }
 
@@ -2883,6 +2885,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     private void showCustomDialogAskToReleaseMoney() {
+        if(taskModel.getAdditionalFund() != null && taskModel.getAdditionalFund().getStatus().equals("pending")){
+            showToast("Increase price request already pending. You either delete or wait for poster response on that.",this);
+            return;
+        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         ConfirmAskToReleaseBottomSheet dialog = new ConfirmAskToReleaseBottomSheet(getBaseContext());
         dialog.show(fragmentManager, "");
@@ -2961,14 +2967,31 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         TimeHelper.convertToShowTimeFormat(taskModel.getRescheduleReqeust().get(pos).getCreated_at()) + "</b>"),
                 ConstantKey.BTN_RESCHEDULE_REQUEST_SENT, AlertType.RESCHEDULE, true);
     }
-
+    boolean isIncreaseBudgetRequestForMine=false;
     private void showIncreaseBudgetCard() {
-        String increaseRequestByWho;
-        if (isUserThePoster)
-            increaseRequestByWho = taskModel.getWorker().getName();
-        else
-            increaseRequestByWho = taskModel.getPoster().getName();
+        String increaseRequestByWho="";
+        Integer requesterId = taskModel.getAdditionalFund().getRequesterId();
+        if(taskModel.getWorker()!=null)
+        {
+            if(taskModel.getWorker().getId().equals(requesterId))
+            {
+                increaseRequestByWho = taskModel.getWorker().getName();
+            }
+        }
+        if(taskModel.getPoster()!=null)
+        {
+            if(taskModel.getPoster().getId().equals(requesterId))
+            {
+                increaseRequestByWho = taskModel.getPoster().getName();
+            }
+        }
 
+        if(sessionManager.getUserAccount().getId().equals(requesterId)){
+            isIncreaseBudgetRequestForMine = true;
+            increaseRequestByWho = "You";
+        }else{
+            isIncreaseBudgetRequestForMine = false;
+        }
         showAlertBox(Html.fromHtml("<b>" + increaseRequestByWho + "</b> " +
                         "has requested to increase price on this job on <b>" +
                         TimeHelper.convertToShowTimeFormat(taskModel.getAdditionalFund().getCreatedAt()) + "</b>"),
@@ -3043,7 +3066,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         } else if (alertType == AlertType.RESCHEDULE) {
             showDialogRescheduleRequest(pos);
         } else if (alertType == AlertType.INCREASE_BUDGET) {
-            showDialogIncreaseBudgetNoticeRequest();
+            showDialogIncreaseBudgetNoticeRequest(isIncreaseBudgetRequestForMine);
         } else if (alertType == AlertType.REVIEW) {
             Intent intent = new Intent(TaskDetailsActivity.this, LeaveReviewActivity.class);
             Bundle bundle = new Bundle();
@@ -3077,6 +3100,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @Override
     public void onIncreaseBudgetRejectClick() {
         showDialogIncreaseBudgetDeclineRequest();
+    }
+    @Override
+    public void onIncreaseBudgetWithDrawClick() {
+        getData();
     }
 
     @Override

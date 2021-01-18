@@ -283,7 +283,7 @@ public class ReviewsActivity extends ActivityBase {
         //worker
         if (userAccountModel.getWorkerRatings() != null) {
             ratingBar.setRating(userAccountModel.getWorkerRatings().getAvgRating());
-            txtRatingValue.setText(userAccountModel.getWorkerRatings().getAvgRating().toString());
+            txtRatingValue.setText(String.format(java.util.Locale.US,"%.1f", userAccountModel.getWorkerRatings().getAvgRating()));
             txtReviewCounts.setText(userAccountModel.getWorkerRatings().getReceivedReviews().toString() + " Review");
             if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().getBreakdownModel().get1() != null) {
                 progress_bar_1_star.setProgress(userAccountModel.getWorkerRatings().getBreakdownModel().get1());
@@ -331,7 +331,7 @@ public class ReviewsActivity extends ActivityBase {
         //poster
         if (userAccountModel.getPosterRatings() != null) {
             ratingbar.setRating(userAccountModel.getPosterRatings().getAvgRating());
-            txtRatingValueP.setText(userAccountModel.getPosterRatings().getAvgRating().toString());
+            txtRatingValueP.setText(String.format(java.util.Locale.US,"%.1f", userAccountModel.getPosterRatings().getAvgRating()));
             txtReviewCountsP.setText(userAccountModel.getPosterRatings().getReceivedReviews().toString() + " Review");
             if (userAccountModel.getPosterRatings() != null && userAccountModel.getPosterRatings().getBreakdownModel().get1() != null) {
                 progress_bar_1_starP.setProgress(userAccountModel.getPosterRatings().getBreakdownModel().get1());

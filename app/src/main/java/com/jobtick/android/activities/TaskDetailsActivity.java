@@ -1658,8 +1658,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }  //TODO DUMMY IMAGE
 
             txtWorkerName.setText(taskModel.getWorker().getName());
-            if (taskModel.getWorker() != null && taskModel.getWorker().getWorkerRatings() != null && taskModel.getWorker().getWorkerRatings().getAvgRating() != null) {
-                txtRatingValue.setText("(" + taskModel.getWorker().getWorkerRatings().getAvgRating() + ")");
+            if (taskModel.getWorker() != null && taskModel.getWorker().getWorkerRatings() != null && taskModel.getWorker().getWorkerRatings().getAvgRating() != null && taskModel.getWorker().getWorkerRatings().getReceivedReviews()!=null) {
+                txtRatingValue.setText(String.format(java.util.Locale.US,"%.1f", taskModel.getWorker().getWorkerRatings().getAvgRating())+" (" + taskModel.getWorker().getWorkerRatings().getReceivedReviews() + ")");
             }
             if (taskModel.getWorker().getWorkTaskStatistics() != null)
                 txtCompletionRate.setText(taskModel.getWorker().getWorkTaskStatistics().getCompletionRate().toString() + "%");

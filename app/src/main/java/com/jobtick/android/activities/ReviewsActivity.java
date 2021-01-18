@@ -51,13 +51,13 @@ import timber.log.Timber;
 import static com.jobtick.android.pagination.PaginationListener.PAGE_START;
 
 public class ReviewsActivity extends ActivityBase {
-
+    public static boolean loadAnotherUser;
+    public static UserAccountModel userAccountModel;
     private final int currentPage = PAGE_START;
     private int totalPage = 10;
     private ReviewAdapter reviewAdapter;
     private List<ReviewModel.DataBean> reviewModelList;
     private SessionManager sessionManager;
-    private UserAccountModel userAccountModel;
 
 
     @SuppressLint("NonConstantResourceId")
@@ -173,11 +173,10 @@ public class ReviewsActivity extends ActivityBase {
                 userId = bundle.getInt(Constant.userID);
             }
             WhoIs = "poster";
-            if (bundle.containsKey(Constant.userAccount)) {
-                userAccountModel = bundle.getParcelable(Constant.userAccount);
-            } else {
-                userAccountModel = sessionManager.getUserAccount();
-            }
+
+        }
+        if (userAccountModel==null) {
+            userAccountModel = sessionManager.getUserAccount();
         }
         initProgressDialog();
         init();

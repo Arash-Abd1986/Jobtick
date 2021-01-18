@@ -214,6 +214,10 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         RecyclerView recyclerViewOfferChat;
 
         @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.ratingbar_worker)
+        ImageView starRatingBar;
+
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.card_deleteOffer)
         CardView cardDeleteOffer;
 
@@ -297,9 +301,13 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             txtBudget.setText("$ " + item.getOfferPrice());
             txtName.setText(item.getWorker().getName());
             if (item.getWorker() != null && item.getWorker().getWorkerRatings() != null && item.getWorker().getWorkerRatings().getAvgRating() != null) {
-                txtRatingValue.setText("(" + item.getWorker().getWorkerRatings().getAvgRating() + ")");
+                txtRatingValue.setText(String.format(java.util.Locale.US,"%.1f", item.getWorker().getWorkerRatings().getAvgRating())+" (" + item.getWorker().getWorkerRatings().getReceivedReviews() + ")");
+
 //                ratingbarWorker.setProgress(item.getWorker().getWorkerRatings().getAvgRating());
 
+            }else{
+                starRatingBar.setVisibility(View.GONE);
+                txtRatingValue.setText("No review");
             }
             assert item.getWorker() != null;
             txtCompletionRate.setText(item.getWorker().getWorkTaskStatistics().getCompletionRate() + "%");

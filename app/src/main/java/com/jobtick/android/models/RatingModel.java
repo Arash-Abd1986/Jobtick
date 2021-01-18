@@ -10,6 +10,8 @@ import com.google.gson.annotations.SerializedName;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+
 import timber.log.Timber;
 
 public class RatingModel implements Parcelable {
@@ -32,7 +34,7 @@ public class RatingModel implements Parcelable {
     private Integer totalRatings;
     @SerializedName("avg_rating")
     @Expose
-    private Integer avgRating;
+    private Float avgRating;
 
     public BreakdownModel getBreakdownModel() {
         return breakdownModel;
@@ -56,7 +58,7 @@ public class RatingModel implements Parcelable {
      * @param sentReviews
      * @param breakdownModel
      */
-    public RatingModel(Integer receivedReviews, Integer sentReviews, BreakdownModel breakdownModel, Integer pendingReviews, Integer totalRatings, Integer avgRating) {
+    public RatingModel(Integer receivedReviews, Integer sentReviews, BreakdownModel breakdownModel, Integer pendingReviews, Integer totalRatings, Float avgRating) {
         super();
         this.breakdownModel = breakdownModel;
         this.receivedReviews = receivedReviews;
@@ -91,7 +93,7 @@ public class RatingModel implements Parcelable {
         if (in.readByte() == 0) {
             avgRating = null;
         } else {
-            avgRating = in.readInt();
+            avgRating = in.readFloat();
         }
         breakdownModel = in.readParcelable(BreakdownModel.class.getClassLoader());
     }
@@ -126,7 +128,7 @@ public class RatingModel implements Parcelable {
             dest.writeByte((byte) 0);
         } else {
             dest.writeByte((byte) 1);
-            dest.writeInt(avgRating);
+            dest.writeFloat(avgRating);
         }
         dest.writeParcelable(breakdownModel, flags);
     }
@@ -180,11 +182,11 @@ public class RatingModel implements Parcelable {
         this.totalRatings = totalRatings;
     }
 
-    public Integer getAvgRating() {
+    public Float getAvgRating() {
         return avgRating;
     }
 
-    public void setAvgRating(Integer avgRating) {
+    public void setAvgRating(Float avgRating) {
         this.avgRating = avgRating;
     }
 
@@ -201,7 +203,7 @@ public class RatingModel implements Parcelable {
             if (jsonObject.has("total_ratings") && !jsonObject.isNull("total_ratings"))
                 ratingModel.setTotalRatings(jsonObject.getInt("total_ratings"));
             if (jsonObject.has("avg_rating") && !jsonObject.isNull("avg_rating"))
-                ratingModel.setAvgRating(jsonObject.getInt("avg_rating"));
+                ratingModel.setAvgRating(Float.parseFloat(jsonObject.getDouble("avg_rating")+""));
             if (jsonObject.has("rating_breakdown") && !jsonObject.isNull("rating_breakdown")) {
                 Gson gson = new Gson();
                 BreakdownModel breakdownModel = gson.fromJson(jsonObject.getJSONObject("rating_breakdown").toString(), BreakdownModel.class);

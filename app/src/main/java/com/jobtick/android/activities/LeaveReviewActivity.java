@@ -167,7 +167,7 @@ public class LeaveReviewActivity extends ActivityBase {
                 jobSuccess = taskModel.getPoster().getPostTaskStatistics().getCompletionRate();
             jobSuccessPercentage.setText(String.format(Locale.ENGLISH, "%d%%", jobSuccess));
 
-            int avgRating = 0;
+            float avgRating = 0;
             int reviews = 0;
             if(taskModel.getPoster().getPosterRatings() != null && taskModel.getPoster().getPosterRatings().getAvgRating() != null)
                 avgRating = taskModel.getPoster().getPosterRatings().getAvgRating();
@@ -199,7 +199,7 @@ public class LeaveReviewActivity extends ActivityBase {
                 jobSuccess = taskModel.getWorker().getWorkTaskStatistics().getCompletionRate();
             jobSuccessPercentage.setText(String.format(Locale.ENGLISH, "%d%%", jobSuccess));
 
-            int avgRating = 0;
+            float avgRating = 0;
             int reviews = 0;
             if(taskModel.getWorker().getWorkerRatings() != null && taskModel.getWorker().getWorkerRatings().getAvgRating() != null)
                 avgRating = taskModel.getWorker().getWorkerRatings().getAvgRating();

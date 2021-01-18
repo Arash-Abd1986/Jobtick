@@ -93,9 +93,6 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     @BindView(R.id.txt_name)
     TextView txtName;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.ratingbar_worker)
-    AppCompatRatingBar ratingbarWorker;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_rating_value)
     TextView txtRatingValue;
     @SuppressLint("NonConstantResourceId")
@@ -185,7 +182,9 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_btn_accept)
     TextView btnAccept;
-
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.ratingbar_worker)
+    ImageView starRatingBar;
     private OfferModel offerModel;
     private QuestionModel questionModel;
     @SuppressLint("NonConstantResourceId")
@@ -299,15 +298,17 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                 ImageUtil.displayImage(imgAvatar, offerModel.getWorker().getAvatar().getThumbUrl(), null);
             txtName.setText(offerModel.getWorker().getName());
             if (offerModel.getWorker() != null && offerModel.getWorker().getWorkerRatings() != null && offerModel.getWorker().getWorkerRatings().getAvgRating() != null) {
-                txtRatingValue.setText(String.format(Locale.ENGLISH, "(%d)", offerModel.getWorker().getWorkerRatings().getAvgRating()));
-                ratingbarWorker.setProgress(offerModel.getWorker().getWorkerRatings().getAvgRating());
+                txtRatingValue.setText(String.format(java.util.Locale.US,"%.1f", offerModel.getWorker().getWorkerRatings().getAvgRating())+" (" + offerModel.getWorker().getWorkerRatings().getReceivedReviews() + ")");
+//                ratingbarWorker.setProgress(Math.round(offerModel.getWorker().getWorkerRatings().getAvgRating()));
+            }else{
+                starRatingBar.setVisibility(View.GONE);
             }
             if (offerModel.getWorker().getIsVerifiedAccount() == 1) {
                 ivVerifiedAccount.setVisibility(View.VISIBLE);
             } else {
                 ivVerifiedAccount.setVisibility(View.GONE);
             }
-            txtCompletionRate.setText(String.format(Locale.ENGLISH, "%d%% Completion Rate", offerModel.getWorker().getWorkTaskStatistics().getCompletionRate()));
+            txtCompletionRate.setText(String.format(Locale.ENGLISH, "%d%% Job success", offerModel.getWorker().getWorkTaskStatistics().getCompletionRate()));
             txtCreatedDate.setText(offerModel.getCreatedAt());
             if (offerModel.getAttachments() != null && offerModel.getAttachments().size() != 0) {
                 cardLiveVideo.setVisibility(View.VISIBLE);

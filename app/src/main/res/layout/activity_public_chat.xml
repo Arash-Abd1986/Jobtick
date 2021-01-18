@@ -43,7 +43,7 @@
                 android:background="@drawable/radio_profile_bg"
                 android:orientation="vertical"
                 android:padding="4dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -147,11 +147,13 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="2dp"
                                     android:text="@string/_00"
+                                    android:layout_marginEnd="4dp"
                                     android:textColor="@color/green" />
 
                                 <com.google.android.material.textview.MaterialTextView
                                     style="@style/materialText_500_10"
                                     android:layout_width="wrap_content"
+                                    android:text="Job success"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/_4f4f4f" />
                             </LinearLayout>
@@ -161,16 +163,23 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
 
-                                <androidx.appcompat.widget.AppCompatRatingBar
+<!--                                <androidx.appcompat.widget.AppCompatRatingBar-->
+<!--                                    android:id="@+id/ratingbar_worker"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_gravity="center"-->
+<!--                                    android:rating="1"-->
+<!--                                    android:visibility="gone"-->
+<!--                                    android:contentDescription="@string/todo"-->
+<!--                                    android:src="@drawable/rating_fill" />-->
+                                <ImageView
                                     android:id="@+id/ratingbar_worker"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_marginEnd="4dp"
                                     android:layout_gravity="center"
-                                    android:rating="1"
-                                    android:visibility="gone"
-                                    android:contentDescription="@string/todo"
-                                    android:src="@drawable/rating_fill" />
-
+                                    android:src="@drawable/rating_fill"
+                                    android:contentDescription="@string/todo" />
                                 <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_rating_value"
                                     style="@style/materialText_600_12"
@@ -178,7 +187,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:gravity="center_vertical"
-                                    android:text="@string/_0_0"
+                                    android:text="No review"
                                     android:textColor="#FF922B" />
                             </LinearLayout>
                         </LinearLayout>

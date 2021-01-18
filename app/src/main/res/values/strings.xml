@@ -504,5 +504,6 @@
     <string name="paid_details">Paid Details</string>
     <string name="questions">Questions</string>
     <string name="withdrawal_the_request">Withdraw the request</string>
+    <string name="job_success_text">Job success</string>
 
 </resources>

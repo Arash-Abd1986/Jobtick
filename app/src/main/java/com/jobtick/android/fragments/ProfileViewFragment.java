@@ -339,8 +339,7 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
     private void onChangeTabUser() {
 
         if (userAccountModel.getPosterRatings() != null && userAccountModel.getPosterRatings().getAvgRating() != null) {
-            ratingbarAsPoster.setProgress(userAccountModel.getPosterRatings().getAvgRating());
-            tvTickerReview.setText("(" + userAccountModel.getPosterRatings().getAvgRating() + ")");
+            ratingbarAsPoster.setProgress(Math.round(userAccountModel.getPosterRatings().getAvgRating()));
         }
         if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCompletionRate() != null) {
             tvTickerCompletionRate.setText(userAccountModel.getPostTaskStatistics().getCompletionRate() + "%");
@@ -533,7 +532,7 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
             noReview.setVisibility(View.GONE);
             tickerReview.setVisibility(View.VISIBLE);
             ratingbarAsTicker.setRating(userAccountModel.getWorkerRatings().getAvgRating());
-            tvTickerReview.setText("("+userAccountModel.getWorkerRatings().getTotalRatings().toString()+")");
+            tvTickerReview.setText("("+userAccountModel.getWorkerRatings().getReceivedReviews().toString()+")");
             if(userAccountModel.getWorkTaskStatistics()!=null)
                 tvTickerCompletionRate.setText(userAccountModel.getWorkTaskStatistics().getCompletionRate().toString()+"%");
         }
@@ -545,7 +544,7 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
             posterReview.setVisibility(View.VISIBLE);
             noReview.setVisibility(View.GONE);
             ratingbarAsPoster.setRating(userAccountModel.getPosterRatings().getAvgRating());
-            tvPosterReview.setText("("+userAccountModel.getPosterRatings().getTotalRatings().toString()+")");
+            tvPosterReview.setText("("+userAccountModel.getPosterRatings().getReceivedReviews().toString()+")");
             if(userAccountModel.getPostTaskStatistics()!=null)
                 tvPosterCompletionRate.setText(userAccountModel.getPostTaskStatistics().getCompletionRate().toString()+"%");
         }
@@ -661,8 +660,8 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
         tvViewAllReviews.setOnClickListener(v -> {
 
             Bundle bundle = new Bundle();
-            bundle.putInt(Constant.userID, userAccountModel.getId());
-            bundle.putParcelable(Constant.userAccount, userAccountModel);
+            bundle.putInt(Constant.userID, userId);
+            ReviewsActivity.userAccountModel = userAccountModel;
             bundle.putString("WhoIs", Constant.AS_A_WORKER);
             //      bundle.putParcelable(Constant.userAccount, userAccountModel);
 

@@ -117,7 +117,9 @@
                             style="@style/materialText_500_10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/_4f4f4f"/>
+                            android:layout_marginStart="4dp"
+                            android:text="@string/job_success_text"
+                            android:textColor="@color/_4D576A"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -129,12 +131,13 @@
                             android:id="@+id/ratingbar_worker"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
+                            android:layout_marginEnd="4dp"
                             android:layout_gravity="center"
                             android:src="@drawable/rating_fill"
                             android:contentDescription="@string/todo" />
 
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/materialText_600_12"
+                            style="@style/materialText_500_12"
                             android:id="@+id/txt_rating_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

@@ -138,7 +138,6 @@ public abstract class AbstractPaymentFragment extends Fragment {
         }else
             url = Constant.URL_GET_PAYMENT_HISTORY_FILTER + "?" + type ;
 
-//        ((ActivityBase) requireActivity()).showProgressDialog();
         pbLoading.setVisibility(View.VISIBLE);
 
 

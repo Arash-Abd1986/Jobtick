@@ -442,7 +442,6 @@ public class AuthActivity extends ActivityBase {
                     @Override
                     public void onError(FacebookException exception) {
                         // App code
-                        Log.d("FacebookCheck",exception.getLocalizedMessage().toString());
                     }
                 });
 

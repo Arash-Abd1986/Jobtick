@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -27,6 +28,7 @@ import com.jobtick.android.utils.HttpStatus;
 import com.jobtick.android.utils.SessionManager;
 import com.jobtick.android.utils.TimeHelper;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,6 +37,7 @@ import java.util.Map;
 
 import timber.log.Timber;
 
+import static com.jobtick.android.utils.Constant.URL_ADDITIONAL_FUND;
 import static com.jobtick.android.utils.Constant.URL_CREATE_RESCHEDULE;
 
 public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBottomSheet {
@@ -47,6 +50,10 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
     TextView reason;
     Button decline;
     Button accept;
+    Button btnWithdraw;
+    LinearLayout llAcceptDecline;
+    LinearLayout llWithDraw;
+    static boolean isMine=false;
 
     private SessionManager sessionManager;
     private TaskModel taskModel;
@@ -55,7 +62,8 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
 
     private NoticeListener listener;
 
-    public static RescheduleNoticeBottomSheetState newInstance(TaskModel taskModel, int pos) {
+    public static RescheduleNoticeBottomSheetState newInstance(TaskModel taskModel, int pos,boolean isMineRequest) {
+        isMine = isMineRequest;
         Bundle bundle = new Bundle();
         //    bundle.putParcelable(ConstantKey.TASK, taskModel);
         bundle.putInt(ConstantKey.POSITION, pos);
@@ -85,12 +93,15 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
 
         name = view.findViewById(R.id.name);
         description = view.findViewById(R.id.description);
+        llAcceptDecline = view.findViewById(R.id.lyt_button);
+        llWithDraw = view.findViewById(R.id.lytWithDraw);
         previousDate = view.findViewById(R.id.txt_previous_date);
         previousTime = view.findViewById(R.id.txt_previous_time);
         newTime = view.findViewById(R.id.txt_new_time);
         reason = view.findViewById(R.id.reason_description);
         decline = view.findViewById(R.id.btn_decline);
         accept = view.findViewById(R.id.btn_accept);
+        btnWithdraw = view.findViewById(R.id.btnWithdraw);
 
         decline.setOnClickListener(v -> {
             declineRequest();
@@ -98,6 +109,9 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
 
         accept.setOnClickListener(v -> {
             acceptRequest();
+        });
+        btnWithdraw.setOnClickListener(v -> {
+            withdrawRequest();
         });
 
         init();
@@ -119,6 +133,12 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
             previousTime.setText(R.string.evening);
         if (taskModel.getDueTime().getAfternoon())
             previousTime.setText(R.string.afternoon);
+
+        if(isMine){
+            name.setText("You");
+            llAcceptDecline.setVisibility(View.GONE);
+            llWithDraw.setVisibility(View.VISIBLE);
+        }
     }
 
     public void onAttach(Context context) {
@@ -129,6 +149,93 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
             throw new ClassCastException(this.toString()
                     + " must implement NoticeListener");
         }
+    }
+    private void withdrawRequest() {
+        ((ActivityBase)requireActivity()).showProgressDialog();
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, Constant.BASE_URL + URL_CREATE_RESCHEDULE + "/" + taskModel.getRescheduleReqeust().get(pos).getId(),
+                response -> {
+                    Timber.e(response);
+                    ((ActivityBase)requireActivity()).hideProgressDialog();
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(response);
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+                                listener.onRescheduleWithDraw();
+                                dismiss();
+                            } else {
+                                ((ActivityBase)requireActivity()).showToast("Something went Wrong", getContext());
+                            }
+                        }
+
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+
+                    }
+
+
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            ((ActivityBase)requireActivity()).unauthorizedUser();
+                            ((ActivityBase)requireActivity()).hideProgressDialog();
+                            return;
+                        }
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+
+
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                                if (jsonObject_errors.has("amount") && !jsonObject_errors.isNull("amount")) {
+                                    JSONArray jsonArray_amount = jsonObject_errors.getJSONArray("amount");
+                                    ((ActivityBase)requireActivity()).showToast(jsonArray_amount.getString(0), requireContext());
+                                } else if (jsonObject_errors.has("creation_reason") && !jsonObject_errors.isNull("creation_reason")) {
+                                    JSONArray jsonArray_amount = jsonObject_errors.getJSONArray("creation_reason");
+                                    ((ActivityBase)requireActivity()).showToast(jsonArray_amount.getString(0), requireContext());
+                                }
+                            } else {
+                                if (jsonObject_error.has("message")) {
+                                    ((ActivityBase)requireActivity()).showToast(jsonObject_error.getString("message"), requireContext());
+                                }
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        ((ActivityBase)requireActivity()).showToast("Something Went Wrong", getContext());
+                    }
+                    Timber.e(error.toString());
+                    ((ActivityBase)requireActivity()).hideProgressDialog();
+                }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<String, String>();
+
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                //   map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+        requestQueue.add(stringRequest);
     }
 
     public void acceptRequest() {
@@ -285,5 +392,6 @@ public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBotto
 
     public interface NoticeListener {
         void onRescheduleTimeAcceptDeclineClick();
+        void onRescheduleWithDraw();
     }
 }

@@ -223,7 +223,7 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
         newPrice.setText(String.format(Locale.ENGLISH, "%d", newP));
         oldPrice.setText(String.format(Locale.ENGLISH, "%d", oldP));
         if(isMine){
-                name.setText("you");
+                name.setText("You");
                 llAcceptDecline.setVisibility(View.GONE);
                 llWithDraw.setVisibility(View.VISIBLE);
         }

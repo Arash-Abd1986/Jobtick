@@ -120,6 +120,7 @@ public class ConstantKey {
     public static final int RESULTCODE_CANCELLATION_DECLINE = 7;
     public static final int RESULTCODE_CANCELLATION_DONE = 8;
     public static final int RESULTCODE_INCREASE_BUDGET = 9;
+    public static final int RESULTCODE_RESCHEDULE = 15;
     public static final int RESULTCODE_WRITE_REVIEW = 10;
     public static final int RESULTCODE_CATEGORY = 11;
     public static final int RESULTCODE_ATTACHMENT = 12;

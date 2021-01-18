@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.CalendarView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -67,7 +68,9 @@ public abstract class AbstractPaymentFragment extends Fragment {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.container)
     CardView container;
-
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.pbLoading)
+    ProgressBar pbLoading;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.filter)
     TextView filter;
@@ -97,7 +100,6 @@ public abstract class AbstractPaymentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sessionManager = new SessionManager(requireActivity());
-        getPaymentHistory(null, null);
     }
 
     @Override
@@ -106,6 +108,7 @@ public abstract class AbstractPaymentFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_payment_history, container, false);
         ButterKnife.bind(this, view);
+        getPaymentHistory(null, null);
 
         filter.setOnClickListener(v -> {
             showBottomSheetDialogDate(true);
@@ -135,7 +138,9 @@ public abstract class AbstractPaymentFragment extends Fragment {
         }else
             url = Constant.URL_GET_PAYMENT_HISTORY_FILTER + "?" + type ;
 
-        ((ActivityBase) requireActivity()).showProgressDialog();
+//        ((ActivityBase) requireActivity()).showProgressDialog();
+        pbLoading.setVisibility(View.VISIBLE);
+
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
 
@@ -153,11 +158,13 @@ public abstract class AbstractPaymentFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    ((ActivityBase) requireActivity()).hideProgressDialog();
+//                    ((ActivityBase) requireActivity()).hideProgressDialog();
+                    pbLoading.setVisibility(View.GONE);
                 },
                 error -> {
                     ((ActivityBase) requireActivity()).errorHandle1(error.networkResponse);
-                    ((ActivityBase) requireActivity()).hideProgressDialog();
+//                    ((ActivityBase) requireActivity()).hideProgressDialog();
+                    pbLoading.setVisibility(View.GONE);
                 }) {
 
             @Override

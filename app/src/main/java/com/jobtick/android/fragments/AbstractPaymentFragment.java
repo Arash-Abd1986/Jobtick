@@ -126,7 +126,7 @@ public abstract class AbstractPaymentFragment extends Fragment {
         if(isPoster())
            type = "poster_payment_filter=true";
         else
-            type = "woker_payment_filter=true";
+            type = "worker_payment_filter=true";
 
         String url;
 

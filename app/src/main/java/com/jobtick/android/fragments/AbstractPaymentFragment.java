@@ -28,6 +28,7 @@ import com.google.gson.reflect.TypeToken;
 import com.jobtick.android.R;
 
 import android.annotation.SuppressLint;
+import android.widget.Toast;
 
 import com.jobtick.android.activities.ActivityBase;
 import com.jobtick.android.adapers.PaymentHistoryListAdapter;
@@ -35,6 +36,7 @@ import com.jobtick.android.models.payments.PaymentHistory;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.SessionManager;
 import com.jobtick.android.utils.StringUtils;
+import com.jobtick.android.widget.EndlessRecyclerViewOnScrollListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -182,6 +184,8 @@ public abstract class AbstractPaymentFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
+    private EndlessRecyclerViewOnScrollListener onScrollListener;
+    private int currentPage = 1;
 
     private void fillData(List<PaymentHistory> data, String total_amount, boolean firstInit) {
         if (data.size() == 0 && firstInit) {
@@ -195,6 +199,18 @@ public abstract class AbstractPaymentFragment extends Fragment {
         totalTransaction.setText(String.format(Locale.ENGLISH, "%d transactions", data.size()));
         paymentHistoryList.setLayoutManager(new LinearLayoutManager(getContext()));
         Collections.reverse(data);
+        onScrollListener = new EndlessRecyclerViewOnScrollListener() {
+            @Override
+            public void onLoadMore(int currentPage) {
+            }
+
+            @Override
+            public int getTotalItem() {
+                return 0;
+            }
+        };
+
+        paymentHistoryList.addOnScrollListener(onScrollListener);
         paymentHistoryList.setAdapter(new PaymentHistoryListAdapter(data, true, paymentHistory -> {
             PaymentHistoryBottomSheet paymentPaidBottomSheet = PaymentHistoryBottomSheet.newInstance(paymentHistory);
             paymentPaidBottomSheet.show(getParentFragmentManager(), "");

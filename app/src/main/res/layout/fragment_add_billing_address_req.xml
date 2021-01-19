@@ -42,16 +42,7 @@
                 app:eImeOptions="actionNext"
                 app:eBoxSize="small"/>
 
-            <com.jobtick.android.widget.ExtendedEntryText
-                android:id="@+id/edt_postcode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:eTitle="@string/post_code"
-                app:eMaxCharNumber="4"
-                app:eInputType="integer"
-                app:eImeOptions="actionDone"
-                app:eBoxSize="small"/>
+
 
             <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_suburs"
@@ -74,7 +65,16 @@
                 app:eIsEnable="false"
                 app:eImeOptions="actionDone"
                 app:eBoxSize="small"/>
-
+            <com.jobtick.android.widget.ExtendedEntryText
+                android:id="@+id/edt_postcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:eTitle="@string/post_code"
+                app:eMaxCharNumber="4"
+                app:eInputType="integer"
+                app:eImeOptions="actionDone"
+                app:eBoxSize="small"/>
             <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_Country"
                 android:layout_width="match_parent"

@@ -671,16 +671,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 lineOpenState.setVisibility(View.VISIBLE);
                 txtStatusOpen.setSelected(false);
                 txtStatusAssigned.setSelected(false);
-                txtStatusCompleted.setSelected(false);
+                txtStatusCompleted.setSelected(true);
                 txtStatusCancelled.setSelected(false);
                 txtStatusOverdue.setSelected(false);
-                txtStatusReviewed.setSelected(true);
+                txtStatusReviewed.setSelected(false);
                 txtStatusOpen.setVisibility(View.VISIBLE);
                 txtStatusAssigned.setVisibility(View.VISIBLE);
                 txtStatusCompleted.setVisibility(View.VISIBLE);
                 txtStatusCancelled.setVisibility(View.GONE);
                 txtStatusOverdue.setVisibility(View.GONE);
-                txtStatusReviewed.setVisibility(View.VISIBLE);
+                txtStatusReviewed.setVisibility(View.GONE);
                 if (isUserThePoster) {
                     cardMakeAnOffer.setVisibility(View.GONE);
                     txtBtnText.setText(ConstantKey.BTN_WRITE_A_REVIEW);

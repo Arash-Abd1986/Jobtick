@@ -143,7 +143,7 @@ public abstract class AbstractPaymentFragment extends Fragment {
         pbLoading.setVisibility(View.VISIBLE);
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url+"&limit=50",
 
                 response -> {
                     try {

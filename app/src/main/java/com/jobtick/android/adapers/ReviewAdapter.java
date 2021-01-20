@@ -2,6 +2,7 @@ package com.jobtick.android.adapers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -160,7 +161,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             txtUserName.setText(item.getRater().getName());
             txtCreatedDate.setText(TimeAgo.getTimeAgo(item.getCreated_at()));
             txtReviewMessage.setText(item.getMessage());
-            ratingBar.setProgress(item.getRating());
+            ratingBar.setRating(item.getRating());
+            Log.d("RatingModel",""+item.getRating());
             if (item.getRater().getAvatar() != null)
                 ImageUtil.displayImage(imgAvatar, item.getRater().getAvatar().getThumbUrl(), null);
 

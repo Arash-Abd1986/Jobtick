@@ -107,6 +107,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     private ActionDraftTaskBudget actionDraftTaskBudget;
     private boolean isDraftWorkDone = false;
     private boolean isEditTask = false;
+    private boolean isJobDraftedYet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +150,8 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
             taskModel = TaskDetailsActivity.taskModel;
             isEditTask = true;
         }
+        if(bundle!=null && bundle.getBoolean(ConstantKey.DRAFT_JOB,false))
+            isJobDraftedYet = true;
         initToolbar(title);
         initComponent();
     }
@@ -232,7 +235,10 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
             {
                 super.onBackPressed();
             }else {
-                actionDraftTaskDetails.callDraftTaskDetails(this.taskModel);
+                if(isJobDraftedYet)
+                    super.onBackPressed();
+                else
+                    actionDraftTaskDetails.callDraftTaskDetails(this.taskModel);
             }
         }
     }

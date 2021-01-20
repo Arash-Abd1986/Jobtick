@@ -66,6 +66,7 @@ public class ConstantKey {
     public static final String EXPERIENCE = "Experience";
     public static final String EDUCATION = "Education";
     public static final String CREATE_TASK = "Create Job";
+    public static final String DRAFT_JOB = "isDraftJob";
 
 
     public static final String TOOLBAR_TITLE = "Toolbar";

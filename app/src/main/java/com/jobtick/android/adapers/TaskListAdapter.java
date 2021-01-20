@@ -15,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.jobtick.android.R;
 import com.jobtick.android.models.TaskModel;
 import com.jobtick.android.utils.Constant;
@@ -185,9 +186,13 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         public void onBind(int position) {
             super.onBind(position);
             TaskModel item = mItems.get(position);
-            if (item.getPoster() != null && item.getPoster().getAvatar() != null && item.getPoster().getAvatar().getModalUrl() != null)
+            if (item.getPoster() != null && item.getPoster().getAvatar() != null && item.getPoster().getAvatar().getModalUrl() != null) {
+//                ImageUtil.displayImage(imgAvatar, item.getPoster().getAvatar().getThumbUrl(), null);
+//                Glide.with(imgAvatar).load(item.getPoster().getAvatar().getThumbUrl()).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(imgAvatar);
                 ImageUtil.displayImage(imgAvatar, item.getPoster().getAvatar().getThumbUrl(), null);
-//                                Glide.with(imgAvatar).load(item.getPoster().getAvatar().getThumbUrl()).error(R.drawable.ic_profile).into(imgAvatar);
+            }else{
+                imgAvatar.setImageResource(R.drawable.pic);
+            }
 
             txtTitle.setText(item.getTitle());
             txtDueDate.setText(TimeHelper.convertToWeekDateFormat(item.getDueDate()));

@@ -58,10 +58,13 @@
 <!--            android:name="com.facebook.sdk.ApplicationId"-->
 <!--            android:value="@string/facebook_app_id" />-->
 
-        <activity android:name=".activities.ChatSearchActivity"/>
-        <activity android:name=".activities.ProfileActivity" />
+        <activity android:name=".activities.ChatSearchActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.ProfileActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.NewSplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/NewSplash.AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,105 +72,158 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".cancellations.TTCancellationSummaryActivity" />
-        <activity android:name=".cancellations.TPCancellationSummaryActivity" />
-        <activity android:name=".cancellations.PTCancellationSummaryActivity" />
-        <activity android:name=".cancellations.PPCancellationSummaryActivity" />
-        <activity android:name=".activities.NotificationSettings" />
+        <activity android:name=".cancellations.TTCancellationSummaryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".cancellations.TPCancellationSummaryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".cancellations.PTCancellationSummaryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".cancellations.PPCancellationSummaryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.NotificationSettings"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
 
-        <activity android:name=".activities.Dashboard2Activity" />
-        <activity android:name=".activities.PaymentHistoryActivity" />
-        <activity android:name=".activities.JobReceiptActivity" />
+        <activity android:name=".activities.Dashboard2Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.PaymentHistoryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.JobReceiptActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".cancellations.CancellationDeclineActivity"
-            android:windowSoftInputMode="adjustPan|stateVisible" />
+            android:windowSoftInputMode="adjustPan|stateVisible"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".cancellations.CancellationWorkerActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".cancellations.CancellationPosterActivity"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".cancellations.CancellationDeclinedActivity" />
-        <activity android:name=".cancellations.cancellationSubmittedActivity" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".cancellations.CancellationDeclinedActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".cancellations.cancellationSubmittedActivity"
+            android:screenOrientation="portrait"/>
         <activity
+            android:screenOrientation="portrait"
             android:name=".activities.LeaveReviewActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.ChatActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".activities.PaymentOverviewActivity" />
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.PaymentOverviewActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.MapViewActivity"
-            android:theme="@style/AppTheme.fullScreen" />
-        <activity android:name=".activities.ReviewsActivity" />
-        <activity android:name=".activities.SkillsTagActivity" />
-        <activity android:name=".activities.ViewAllOffersActivity" />
+            android:theme="@style/AppTheme.fullScreen"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.ReviewsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.SkillsTagActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.ViewAllOffersActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.PublicChatActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".activities.PortfolioActivity" />
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.PortfolioActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.MakeAnOfferActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.TaskDetailsActivity"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activities.NotificationActivity" />
-        <activity android:name=".activities.CompleteMessageActivity" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.NotificationActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.CompleteMessageActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.NewTaskAlertsActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
-        <activity android:name=".activities.TaskAlertsActivity" />
-        <activity android:name=".activities.EditProfileActivity" />
-        <activity android:name=".activities.FiltersActivity" />
-        <activity android:name=".activities.AddTagActivity" />
-        <activity android:name=".activities.AttachmentActivity" />
+            android:windowSoftInputMode="stateVisible|adjustPan"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.TaskAlertsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.EditProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.FiltersActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.AddTagActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.AttachmentActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.MobileVerificationActivity"
-            android:windowSoftInputMode="adjustPan|stateVisible" />
+            android:windowSoftInputMode="adjustPan|stateVisible"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.BillingAddressActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
+            android:windowSoftInputMode="stateVisible|adjustPan"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.AddCreditCardActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
+            android:windowSoftInputMode="stateVisible|adjustPan"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.AddBankAccountActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
-        <activity android:name=".activities.PaymentSettingsActivity" />
+            android:windowSoftInputMode="stateVisible|adjustPan"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.PaymentSettingsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.ChangePasswordActivity"
-            android:windowSoftInputMode="adjustPan|stateVisible" />
-        <activity android:name=".activities.HelpActivity" />
-        <activity android:name=".activities.SettingActivity" />
+            android:windowSoftInputMode="adjustPan|stateVisible"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.HelpActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.SettingActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.CompleteRegistrationActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
+            android:windowSoftInputMode="stateVisible|adjustPan"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.TaskCreateActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateVisible" />
-        <activity android:name=".activities.SavedTaskActivity" />
-        <activity android:name=".activities.WebViewActivity" />
+        <activity android:name=".activities.SavedTaskActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.WebViewActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.ReportActivity"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activities.EmailNotificationsSettingsActivity" />
-        <activity android:name=".activities.PushNotificationsSettingsActivity" />
-        <activity android:name=".activities.SMSNotificationsSettingsActivity" />
-        <activity android:name=".activities.ZoomImageActivity" />
-        <activity android:name=".activities.VideoPlayerActivity" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.EmailNotificationsSettingsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.PushNotificationsSettingsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.SMSNotificationsSettingsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.ZoomImageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.VideoPlayerActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.DashboardActivity"
-            android:label="@string/title_activity_dashboard" />
+            android:label="@string/title_activity_dashboard"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.SplashActivity"
-            android:theme="@style/Splash.AppTheme" />
+            android:theme="@style/Splash.AppTheme"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.AuthActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 <!--        <activity-->
 <!--            android:name="com.facebook.FacebookActivity"-->
@@ -185,16 +241,16 @@
 <!--                <data android:scheme="@string/fb_login_protocol_scheme" />-->
 <!--            </intent-filter>-->
 <!--        </activity>-->
-        <activity android:name=".activities.ActivityBase" />
-        <activity android:name=".activities.ViewAllQuestionsActivity" />
+        <activity android:name=".activities.ActivityBase" android:screenOrientation="portrait"/>
+        <activity android:name=".activities.ViewAllQuestionsActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.RescheduleTimeRequestActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
-        <activity android:name=".activities.SigInSigUpActivity" />
-        <activity android:name=".activities.CategoryListActivity" />
-        <activity android:name=".activities.OnboardActivity" />
-        <activity android:name=".activities.SearchCategoryActivity" />
-        <activity android:name=".activities.SearchTaskActivity" />
+            android:windowSoftInputMode="stateVisible|adjustPan" android:screenOrientation="portrait"/>
+        <activity android:name=".activities.SigInSigUpActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activities.CategoryListActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activities.OnboardActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activities.SearchCategoryActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activities.SearchTaskActivity" android:screenOrientation="portrait"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

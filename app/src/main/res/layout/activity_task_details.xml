@@ -59,7 +59,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#34000000"
+                    android:background="#11000000"
                     android:elevation="5dp"
                     android:translationZ="2dp" />
             </FrameLayout>

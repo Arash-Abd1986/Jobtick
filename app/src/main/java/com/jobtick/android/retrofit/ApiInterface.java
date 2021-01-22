@@ -4,11 +4,13 @@ package com.jobtick.android.retrofit;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 public interface ApiInterface {
@@ -50,5 +52,13 @@ public interface ApiInterface {
                                          @Part ("conversation_id") RequestBody conversation_id);
 
 
+
+    //when you want to delete attachment from edit job
+    @DELETE("tasks/{task-slug}/attachment")
+    Call<String> deleteEditTaskAttachment(@Path("task-slug") String task_slug,
+                                              @Header("X-Requested-With") String XMLHttpRequest,
+                                              @Header("authorization") String auth,
+                                              // @Part("file\"; filename=\"pp.png\" ") RequestBody file);
+                                              @Query("media") int attachmentId);
 }
 

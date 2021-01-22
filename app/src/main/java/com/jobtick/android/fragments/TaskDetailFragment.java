@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -141,11 +142,12 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     private TaskModel task;
     private SessionManager sessionManager;
     private UploadableImage uploadableImage;
-
+    boolean isEditTask=false;
+    String taskSlug=null;
     private final ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
 
     public static TaskDetailFragment newInstance(String title, String description, ArrayList<String> musthave,
-                                                 String task_type, String location, PositionModel positionModel, AttachmentModels attachmentModels, OperationsListener operationsListener) {
+                                                 String task_type, String location, PositionModel positionModel, AttachmentModels attachmentModels, OperationsListener operationsListener,boolean isEditTask,String taskSlug) {
         TaskDetailFragment fragment = new TaskDetailFragment();
         fragment.operationsListener = operationsListener;
         Bundle args = new Bundle();
@@ -154,6 +156,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         args.putStringArrayList("MUSTHAVE", musthave);
         args.putString("TASK_TYPE", task_type);
         args.putString("LOCATION", location);
+        args.putBoolean("isEditTask", isEditTask);
+        args.putString("taskSlug", taskSlug);
         args.putParcelable("POSITION", positionModel);
         args.putParcelable("ATTACHMENT", attachmentModels);
 
@@ -173,7 +177,10 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         uploadableImage = new AbstractUploadableImageImpl(requireActivity()) {
             @Override
             public void onImageReady(File imageFile) {
-                uploadDataInTempApi(imageFile);
+                if(!isEditTask)
+                    uploadDataInTempApi(imageFile);
+                else
+                    uploadDataForEditTask(imageFile);
             }
         };
         return view;
@@ -198,7 +205,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         task.setLocation(getArguments().getString("LOCATION"));
         task.setPosition(getArguments().getParcelable("POSITION"));
         task.setAttachments(new ArrayList<>(((AttachmentModels) getArguments().getParcelable("ATTACHMENT")).getAttachmentModelList()));
-
+        isEditTask = getArguments().getBoolean("isEditTask",false);
+        taskSlug = getArguments().getString("taskSlug",null);
 
         taskCreateActivity.setActionDraftTaskDetails(taskModel -> {
 
@@ -354,6 +362,9 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             uploadableImage.showAttachmentImageBottomSheet(false);
 
         } else if (action.equalsIgnoreCase("delete")) {
+            if (isEditTask) {
+                deleteEditTaskAttachment(obj.getId());
+            }
             rcAttachment.removeViewAt(position);
             attachmentArrayList.remove(position);
             attachmentAdapter.notifyItemRemoved(position);
@@ -361,6 +372,36 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         } else if (action.equalsIgnoreCase("show")) {
             showBottomSheetDialogViewFullImage(obj.getModalUrl(), position);
         }
+    }
+
+    private void deleteEditTaskAttachment(int attachmentId) {
+        if(taskSlug==null)return;
+        taskCreateActivity.showProgressDialog();
+        Call<String> call;
+        call = ApiClient.getClient().deleteEditTaskAttachment(taskSlug, "XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), attachmentId);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                taskCreateActivity.hideProgressDialog();
+                if (response.code() == 422) {
+                    return;
+                }
+
+                try {
+                    String strResponse = response.body();
+                    JSONObject jsonObject = new JSONObject(strResponse);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                ((AppController) getContext()).mCrashlytics.recordException(t);
+            }
+        });
     }
 
     public interface OperationsListener {
@@ -391,6 +432,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         LinearLayout lyt_btn_delete = view.findViewById(R.id.lyt_btn_delete);
         lyt_btn_delete.setOnClickListener(v -> {
+            if(isEditTask)
+                deleteEditTaskAttachment(attachmentArrayList.get(currentPosition).getId());
             rcAttachment.removeViewAt(currentPosition);
             attachmentArrayList.remove(currentPosition);
             attachmentAdapter.notifyItemRemoved(currentPosition);
@@ -485,6 +528,49 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
         call = ApiClient.getClient().getTaskTempAttachmentMediaData(/*"application/x-www-form-urlencoded",*/ "XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                taskCreateActivity.hideProgressDialog();
+                if (response.code() == 422) {
+                    taskCreateActivity.showToast(response.message(), taskCreateActivity);
+                    return;
+                }
+
+                try {
+                    String strResponse = response.body();
+                    JSONObject jsonObject = new JSONObject(strResponse);
+                    if (jsonObject.has("data")) {
+                        JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+                        AttachmentModel attachment = new AttachmentModel().getJsonToModel(jsonObject_data);
+                        if (attachmentArrayList.size() != 0) {
+                            attachmentArrayList.add(attachmentArrayList.size() - 1, attachment);
+                        }
+                    }
+                    attachmentAdapter.notifyItemInserted(attachmentArrayList.size() - 1);
+
+                } catch (JSONException e) {
+                    taskCreateActivity.showToast("Something went wrong", taskCreateActivity);
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                ((AppController) getContext()).mCrashlytics.recordException(t);
+                t.printStackTrace();
+                taskCreateActivity.hideProgressDialog();
+            }
+        });
+    }
+    private void uploadDataForEditTask(File pictureFile) {
+        if(taskSlug==null)return;
+        taskCreateActivity.showProgressDialog();
+        Call<String> call;
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
+        MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
+        call = ApiClient.getClient().getTasKAttachmentMediaUpload(taskSlug, "XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
 
         call.enqueue(new Callback<String>() {
             @Override

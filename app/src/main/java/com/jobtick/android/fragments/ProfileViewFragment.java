@@ -337,10 +337,6 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
 
     @SuppressLint("SetTextI18n")
     private void onChangeTabUser() {
-
-        if (userAccountModel.getPosterRatings() != null && userAccountModel.getPosterRatings().getAvgRating() != null) {
-//            ratingbarAsPoster.setProgress(Math.round(userAccountModel.getPosterRatings().getAvgRating()));
-        }
         if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCompletionRate() != null) {
             tvTickerCompletionRate.setText(userAccountModel.getPostTaskStatistics().getCompletionRate() + "%");
         }

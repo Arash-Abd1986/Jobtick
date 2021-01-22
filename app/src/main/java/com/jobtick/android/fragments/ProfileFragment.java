@@ -378,7 +378,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     private void onChangeTabUser() {
 
         if (userAccountModel.getPosterRatings() != null && userAccountModel.getPosterRatings().getAvgRating() != null) {
-            ratingbarAsPoster.setProgress(Math.round(userAccountModel.getPosterRatings().getAvgRating()));
+//            ratingbarAsPoster.setRating(Math.round(userAccountModel.getPosterRatings().getAvgRating()));
         }
         if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCompletionRate() != null) {
             tvTickerCompletionRate.setText(userAccountModel.getPostTaskStatistics().getCompletionRate() + "%");

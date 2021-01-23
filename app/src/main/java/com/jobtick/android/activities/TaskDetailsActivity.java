@@ -595,7 +595,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusReviewed.setVisibility(View.GONE);
 
 //                cardMessage.setVisibility(View.VISIBLE);
-                cardAssigneeLayout.setVisibility(View.VISIBLE);
+                if(taskModel.getWorker()!=null)
+                    cardAssigneeLayout.setVisibility(View.VISIBLE);
+                else{
+                    cardAssigneeLayout.setVisibility(View.GONE);
+                }
 //                cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.setVisibility(View.GONE);
                 cardQuestionsLayout.setVisibility(View.GONE);

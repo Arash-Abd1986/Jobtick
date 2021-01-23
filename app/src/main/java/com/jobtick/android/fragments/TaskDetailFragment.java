@@ -509,7 +509,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                         tagAdapter.updateItem(addTagList);
                         edtAddTag.setText("");
                     } else {
-                        taskCreateActivity.showToast("Max. 3 Tag you can add", taskCreateActivity);
+                        taskCreateActivity.showToast("you can add only 3 requirements", taskCreateActivity);
                     }
                 }
         );

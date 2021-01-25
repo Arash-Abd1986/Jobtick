@@ -40,6 +40,18 @@ public class PostedTaskStatistics implements Parcelable
     @SerializedName("total_posted")
     @Expose
     private Integer totalPosted;
+    @SerializedName("paid")
+    @Expose
+    private Integer unpaid;
+
+    public void setUnpaid(Integer unpaid) {
+        this.unpaid = unpaid;
+    }
+
+    public Integer getUnpaid() {
+        return unpaid;
+    }
+
     public final static Creator<PostedTaskStatistics> CREATOR = new Creator<PostedTaskStatistics>() {
 
 

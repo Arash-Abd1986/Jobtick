@@ -29,7 +29,7 @@ public class Dashboard2PosterFragment extends AbstractDashboard2Fragment {
         }
 
         txtAwaitingOffer.setTitle("Awaiting \nfor offer");
-        txtReleasedMoney.setTitle("Released\nMoney");
+        txtReleasedMoney.setTitle("Unpaid");
         if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getAssigned() != null) {
             txtAssigend.setValue(userAccountModel.getPostTaskStatistics().getAssigned().toString());
         } else {

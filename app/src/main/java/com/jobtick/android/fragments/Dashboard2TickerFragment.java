@@ -29,7 +29,7 @@ public class Dashboard2TickerFragment extends AbstractDashboard2Fragment {
         }
 
         txtAwaitingOffer.setTitle("Offered");
-        txtReleasedMoney.setTitle("Asked to\nrelease");
+        txtReleasedMoney.setTitle("Payment pending");
         if (userAccountModel.getWorkTaskStatistics() != null && userAccountModel.getWorkTaskStatistics().getAssigned() != null) {
             txtAssigend.setValue(userAccountModel.getWorkTaskStatistics().getAssigned().toString());
         } else {

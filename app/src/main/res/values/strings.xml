@@ -411,6 +411,7 @@
     <string name="jobtick">JobTick</string>
     <string name="browse_categories">Browse categories</string>
     <string name="we_didn_t_find_any_results_for_your_search">We didn\'t find any results for your search</string>
+    <string name="we_didn_t_find_any_results_for_your_filter">We didn\'t find any results for your filter</string>
     <string name="add">Add</string>
     <string name="_3">3</string>
     <string name="apply">Apply</string>
@@ -505,5 +506,6 @@
     <string name="questions">Questions</string>
     <string name="withdrawal_the_request">Withdraw the request</string>
     <string name="job_success_text">Job success</string>
+    <string name="change_filter">Set a new Filter</string>
 
 </resources>

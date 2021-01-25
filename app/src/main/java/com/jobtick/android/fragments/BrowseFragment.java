@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -90,6 +91,9 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ivMapView)
     FloatingActionButton ivMapView;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.empty_filter)
+    RelativeLayout empty_filter;
 
     private DashboardActivity dashboardActivity;
     private final ArrayList<String> filters = new ArrayList<>();
@@ -167,6 +171,8 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
             intent.putExtras(bundle);
             dashboardActivity.startActivity(intent);
         });
+
+
     }
 
     private void initBrowse() {
@@ -258,7 +264,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         }
     }
 
-    @OnClick(R.id.lyt_btn_filters)
+    @OnClick({R.id.lyt_btn_filters,R.id.lyt_search_new})
     public void onViewClicked() {
         Bundle bundle = new Bundle();
         Intent intent = new Intent(dashboardActivity, FiltersActivity.class);
@@ -349,6 +355,13 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
                         taskArrayList = items;
                         swipeRefresh.setRefreshing(false);
                         isLoading = false;
+                        if(totalItem==0){
+                            empty_filter.setVisibility(View.VISIBLE);
+                            recyclerViewBrowse.setVisibility(View.GONE);
+                        }else{
+                            empty_filter.setVisibility(View.GONE);
+                            recyclerViewBrowse.setVisibility(View.VISIBLE);
+                        }
 
                     } catch (JSONException e) {
                         dashboardActivity.hideProgressDialog();

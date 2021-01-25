@@ -2,6 +2,7 @@ package com.jobtick.android.adapers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +17,10 @@ import com.jobtick.android.R;
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.activities.ProfileActivity;
+import com.jobtick.android.activities.TaskDetailsActivity;
 import com.jobtick.android.models.ReviewModel;
 import com.jobtick.android.models.TaskModel;
+import com.jobtick.android.utils.ConstantKey;
 import com.jobtick.android.utils.ImageUtil;
 import com.jobtick.android.utils.TimeAgo;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -162,7 +165,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             txtCreatedDate.setText(TimeAgo.getTimeAgo(item.getCreated_at()));
             txtReviewMessage.setText(item.getMessage());
             ratingBar.setRating(item.getRating());
-            Log.d("RatingModel",""+item.getRating());
+//            Log.d("RatingModel",""+item.getRating());
             if (item.getRater().getAvatar() != null)
                 ImageUtil.displayImage(imgAvatar, item.getRater().getAvatar().getThumbUrl(), null);
 
@@ -174,6 +177,20 @@ public class ReviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             imgAvatar.setOnClickListener(v -> txtUserName.performClick());
             txtCreatedDate.setOnClickListener(v -> txtUserName.performClick());
+
+            txtPostTitle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(item.getTask()==null)return;
+
+                    Intent intent = new Intent(mContext, TaskDetailsActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ConstantKey.SLUG, item.getTask().getSlug());
+                    //    bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
+                    intent.putExtras(bundle);
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 

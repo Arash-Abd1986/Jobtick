@@ -43,7 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/materialText_500_16"
-                    android:text="No notifiaction here"
+                    android:text="No notifications here"
                     android:gravity="center"
                     android:textColor="@color/colorNavyBlue"
                     android:layout_marginTop="16dp"/>

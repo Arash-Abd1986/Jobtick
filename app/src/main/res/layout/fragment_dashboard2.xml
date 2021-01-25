@@ -76,7 +76,7 @@
                 android:layout_margin="4dp"
                 android:layout_weight="1"
                 app:eJobBottomColor="@color/colorTaskCompleted"
-                app:eJobTitle="Complete"
+                app:eJobTitle="Completed"
                 app:eJobValue="0" />
 
             <com.jobtick.android.widget.ExtendedJobInfo

@@ -76,7 +76,7 @@
     <string name="attachment">Attachments</string>
     <string name="back">Back</string>
     <string name="post_task">post the job</string>
-    <string name="terms_condition"><![CDATA[Terms & Condition]]></string>
+    <string name="terms_condition"><![CDATA[Terms & Conditions]]></string>
     <string name="submit">Submit</string>
     <string name="edit_bank_account">Edit Bank Account</string>
     <string name="add_bank_account">Add Bank Account</string>
@@ -245,11 +245,11 @@
     <string name="enter_last_name">Enter Last Name</string>
     <string name="what_would_you_like_to_do">What would you like to do on Jobtick?</string>
     <string name="post_tasks">Post a Job</string>
-    <string name="complete_tasks">Complete Jobs</string>
+    <string name="complete_tasks">Explore Jobs</string>
     <string name="suburb">Suburb</string>
     <string name="email_verification_code">Email verification code</string>
     <string name="verification_sent">\"Enter verification code sent to "</string>
-    <string name="enter_verification_code">Enter verification code sent to</string>
+    <string name="enter_verification_code">Enter the verification code sent to</string>
 
     <!-- onboarding descriptions -->
     <string name="poster_page1">Post whatever you need to get done!</string>

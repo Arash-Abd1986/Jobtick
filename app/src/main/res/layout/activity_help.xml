@@ -54,7 +54,7 @@
             android:layout_marginStart="@dimen/spacing_large"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="@dimen/spacing_large"
-            app:eSettingTitle="Guidelines For Posters" />
+            app:eSettingTitle="Guidelines for Posters" />
 
         <com.jobtick.android.widget.ExtendedSettingItem
             android:id="@+id/btn_guidelines_ticker"
@@ -63,7 +63,7 @@
             android:layout_marginStart="@dimen/spacing_large"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="@dimen/spacing_large"
-            app:eSettingTitle="Guidelines For Tickers" />
+            app:eSettingTitle="Guidelines for Tickers" />
 
     </LinearLayout>
 

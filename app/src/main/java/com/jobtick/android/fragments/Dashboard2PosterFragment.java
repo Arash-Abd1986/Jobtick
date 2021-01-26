@@ -41,8 +41,8 @@ public class Dashboard2PosterFragment extends AbstractDashboard2Fragment {
             extCancelled.setValue("0");
         }
 
-        if (userAccountModel.getPosterTier() != null && userAccountModel.getPostTaskStatistics().getCompleted() != null) {
-            txtReleasedMoney.setValue(userAccountModel.getPostTaskStatistics().getCompleted().toString());
+        if (userAccountModel.getPosterTier() != null && userAccountModel.getPostTaskStatistics().getUnpaid() != null) {
+            txtReleasedMoney.setValue(userAccountModel.getPostTaskStatistics().getUnpaid().toString());
         } else {
             txtReleasedMoney.setValue("0");
         }

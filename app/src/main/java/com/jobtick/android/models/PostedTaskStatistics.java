@@ -40,7 +40,7 @@ public class PostedTaskStatistics implements Parcelable
     @SerializedName("total_posted")
     @Expose
     private Integer totalPosted;
-    @SerializedName("paid")
+    @SerializedName("unpaid")
     @Expose
     private Integer unpaid;
 

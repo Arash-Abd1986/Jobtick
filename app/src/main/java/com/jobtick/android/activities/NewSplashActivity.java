@@ -16,7 +16,6 @@ import com.android.volley.toolbox.Volley;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
-import android.widget.Toast;
 
 import com.jobtick.android.models.UserAccountModel;
 import com.jobtick.android.utils.Constant;
@@ -55,7 +54,6 @@ public class NewSplashActivity extends AppCompatActivity {
         handler.postDelayed(() -> {
             sessionManager = new SessionManager(NewSplashActivity.this);
             login();
-        //    checkCountry();
         },2000);
     }
 
@@ -98,14 +96,12 @@ public class NewSplashActivity extends AppCompatActivity {
                         openSignUpPage();
                     }
                 },
-                error -> {
-                    openSignUpPage();
-                }) {
+                error -> openSignUpPage()) {
 
 
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<String, String>();
+                Map<String, String> map1 = new HashMap<>();
 
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
@@ -130,44 +126,4 @@ public class NewSplashActivity extends AppCompatActivity {
         finish();
     }
 
-    private void checkCountry() {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://iplist.cc/api",
-                response -> {
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        String country = jsonObject.getString("countrycode");
-
-                        if(country.equals("IR")){
-                            Toast.makeText(this, "Sorry, we don't service to IRAN.", Toast.LENGTH_LONG).show();
-                            finish();
-                        }
-                        else{
-                            login();
-                        }
-
-                    } catch (JSONException e) {
-
-                    }
-                },
-                error -> {
-
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<String, String>();
-
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(NewSplashActivity.this);
-        requestQueue.add(stringRequest);
-    }
 }

@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -101,83 +100,83 @@ public class AuthActivity extends ActivityBase {
         this.editTextError = editTextError;
     }
 
-    public void forgotPasswordverification(String email, String otp) {
-        showProgressDialog();
-        String str_email = email;
-        String str_otp = otp;
-        Helper.closeKeyboard(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_VERIFY_OTP,
-                response -> {
-                    hideProgressDialog();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Bundle bundle = new Bundle();
-                        Fragment fragment = new ForgotPassword3Fragment();
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.auth_layout, fragment);
-                        bundle.putString("email", str_email);
-                        bundle.putString("otp", otp);
-                        fragment.setArguments(bundle);
-                        ft.commit();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            String message = jsonObject_error.getString("message");
-                            if (message.equalsIgnoreCase("unauthorized")) {
-                                Fragment fragment = new SignInFragment();
-                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                                ft.replace(R.id.container, fragment);
-                                ft.commit();
-                            }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            showToast(message, AuthActivity.this);
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        showToast("Something Went Wrong", AuthActivity.this);
-                    }
-                    hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("email", str_email);
-                map1.put("otp", str_otp);
-
-                return map1;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-
-    }
+//    public void forgotPasswordverification(String email, String otp) {
+//        showProgressDialog();
+//        String str_email = email;
+//        String str_otp = otp;
+//        Helper.closeKeyboard(this);
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_VERIFY_OTP,
+//                response -> {
+//                    hideProgressDialog();
+//                    try {
+//                        JSONObject jsonObject = new JSONObject(response);
+//                        Bundle bundle = new Bundle();
+//                        Fragment fragment = new ForgotPassword3Fragment();
+//                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//                        ft.replace(R.id.auth_layout, fragment);
+//                        bundle.putString("email", str_email);
+//                        bundle.putString("otp", otp);
+//                        fragment.setArguments(bundle);
+//                        ft.commit();
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                },
+//                error -> {
+//                    NetworkResponse networkResponse = error.networkResponse;
+//                    if (networkResponse != null && networkResponse.data != null) {
+//                        String jsonError = new String(networkResponse.data);
+//                        // Print Error!
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(jsonError);
+//                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+//                            String message = jsonObject_error.getString("message");
+//                            if (message.equalsIgnoreCase("unauthorized")) {
+//                                Fragment fragment = new SignInFragment();
+//                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//                                ft.replace(R.id.container, fragment);
+//                                ft.commit();
+//                            }
+//                            if (jsonObject_error.has("errors")) {
+//                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+//                            }
+//                            showToast(message, AuthActivity.this);
+//
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    } else {
+//                        showToast("Something Went Wrong", AuthActivity.this);
+//                    }
+//                    hideProgressDialog();
+//                }) {
+//
+//
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> map1 = new HashMap<String, String>();
+//                map1.put("Content-Type", "application/x-www-form-urlencoded");
+//                map1.put("X-Requested-With", "XMLHttpRequest");
+//                return map1;
+//            }
+//
+//            @Override
+//            protected Map<String, String> getParams() {
+//                Map<String, String> map1 = new HashMap<String, String>();
+//                map1.put("email", str_email);
+//                map1.put("otp", str_otp);
+//
+//                return map1;
+//            }
+//        };
+//
+//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        RequestQueue requestQueue = Volley.newRequestQueue(this);
+//        requestQueue.add(stringRequest);
+//
+//    }
 
     public void forgotPasswordSpecialVerification(String email, String otp) {
         showProgressDialog();
@@ -526,53 +525,50 @@ public class AuthActivity extends ActivityBase {
                         }
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        NetworkResponse networkResponse = error.networkResponse;
-                        if (networkResponse != null && networkResponse.data != null) {
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
 
 
-                            String jsonError = new String(networkResponse.data);
-                            // Print Error!
-                            Timber.e(jsonError);
-                            FirebaseCrashlytics.getInstance().recordException(error);
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        FirebaseCrashlytics.getInstance().recordException(error);
 
-                            try {
-                                JSONObject jsonObject = new JSONObject(jsonError);
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
 
-                                JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
-                                if (jsonObject_error.has("message")) {
-                                    showToast(jsonObject_error.getString("message"), AuthActivity.this);
-                                }
-                                if (jsonObject_error.has("errors")) {
-                                    JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-
-                                 /*   if (jsonObject_errors.has("email")) {
-                                        JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
-                                        String email = jsonArray_mobile.getString(0);
-                                        edtEmailAddress.setError(email);
-                                    }
-                                    if (jsonObject_errors.has("password")) {
-                                        JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("password");
-                                        String password = jsonArray_mobile.getString(0);
-                                        edtPassword.setError(password);
-                                    }*/
-
-
-                                }
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            if (jsonObject_error.has("message")) {
+                                showToast(jsonObject_error.getString("message"), AuthActivity.this);
                             }
-                        } else {
-                            //  ((CredentialActivity)requireActivity()).showToast("Something Went Wrong",requireActivity());
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+
+                             /*   if (jsonObject_errors.has("email")) {
+                                    JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
+                                    String email = jsonArray_mobile.getString(0);
+                                    edtEmailAddress.setError(email);
+                                }
+                                if (jsonObject_errors.has("password")) {
+                                    JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("password");
+                                    String password = jsonArray_mobile.getString(0);
+                                    edtPassword.setError(password);
+                                }*/
+
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        Timber.e(error.toString());
-                        hideProgressDialog();
+                    } else {
+                        //  ((CredentialActivity)requireActivity()).showToast("Something Went Wrong",requireActivity());
                     }
+                    Timber.e(error.toString());
+                    hideProgressDialog();
                 }) {
 
 
@@ -783,8 +779,8 @@ public class AuthActivity extends ActivityBase {
 
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
@@ -792,7 +788,7 @@ public class AuthActivity extends ActivityBase {
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<String, String>();
+                Map<String, String> map1 = new HashMap<>();
                 if (str_email != null)
                     map1.put("email", str_email);
                 if (str_password != null)
@@ -821,16 +817,13 @@ public class AuthActivity extends ActivityBase {
 
     private String getToken() {
         final String[] token = {""};
-        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-            @Override
-            public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                if (!task.isSuccessful()) {
-                    return;
-                }
-
-                // Get new Instance ID token
-                token[0] = task.getResult().getToken();
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                return;
             }
+
+            // Get new Instance ID token
+            token[0] = task.getResult().getToken();
         });
         return token[0];
     }
@@ -838,73 +831,63 @@ public class AuthActivity extends ActivityBase {
 
     private void resendOtp(String email, String password) {
 
-        String str_email = email;
-        String str_password = password;
-
         Helper.closeKeyboard(this);
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_RESEND_OTP,
-                new Response.Listener<String>() {
+                response -> {
+                    Timber.e(response);
 
-                    @Override
-                    public void onResponse(String response) {
-                        Timber.e(response);
+                    hideProgressDialog();
+                    // showToast("Check your inbox",AuthActivity.this);
+                    Bundle bundle = new Bundle();
+                    Fragment fragment = new VerifyAccountFragment();
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.auth_layout, fragment).addToBackStack(fragment.toString());
+                    bundle.putString("email", email);
+                    bundle.putString("password", password);
+                    fragment.setArguments(bundle);
+                    ft.commit();
 
-                        hideProgressDialog();
-                        // showToast("Check your inbox",AuthActivity.this);
-                        Bundle bundle = new Bundle();
-                        Fragment fragment = new VerifyAccountFragment();
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.auth_layout, fragment).addToBackStack(fragment.toString());
-                        bundle.putString("email", str_email);
-                        bundle.putString("password", str_password);
-                        fragment.setArguments(bundle);
-                        ft.commit();
-
-                    }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        NetworkResponse networkResponse = error.networkResponse;
-                        if (networkResponse != null && networkResponse.data != null) {
-                            String jsonError = new String(networkResponse.data);
-                            // Print Error!
-                            Timber.e(jsonError);
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
 
-                            try {
-                                JSONObject jsonObject = new JSONObject(jsonError);
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
 
-                                JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
-                                String message = jsonObject_error.getString("message");
+                            String message = jsonObject_error.getString("message");
 
-                                showToast(message, AuthActivity.this);
+                            showToast(message, AuthActivity.this);
 
 
-                                if (jsonObject_error.has("errors")) {
+                            if (jsonObject_error.has("errors")) {
 
-                                    JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
 
-                                }
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
-                        } else {
-                            showToast("Something Went Wrong", AuthActivity.this);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        Timber.e(error.toString());
-                        hideProgressDialog();
+                    } else {
+                        showToast("Something Went Wrong", AuthActivity.this);
                     }
+                    Timber.e(error.toString());
+                    hideProgressDialog();
                 }) {
 
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
@@ -912,8 +895,8 @@ public class AuthActivity extends ActivityBase {
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("email", str_email);
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("email", email);
 
                 return map1;
             }
@@ -1074,7 +1057,7 @@ public class AuthActivity extends ActivityBase {
                                                 showToast(jsonObject_error.getString("message"), AuthActivity.this);
                                             }
                                             if (jsonObject_error.has("errors")) {
-                                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+//                                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
 
 
                                             }
@@ -1264,9 +1247,6 @@ public class AuthActivity extends ActivityBase {
 
     public void verification(String email, String password, String otp) {
         showProgressDialog();
-        String str_email = email;
-        String str_password = password;
-        String str_otp = otp;
         Helper.closeKeyboard(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_SIGNIN,
                 response -> {
@@ -1299,45 +1279,42 @@ public class AuthActivity extends ActivityBase {
 
 
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        NetworkResponse networkResponse = error.networkResponse;
-                        if (networkResponse != null && networkResponse.data != null) {
-                            String jsonError = new String(networkResponse.data);
-                            // Print Error!
-                            Timber.e(jsonError);
-                            try {
-                                JSONObject jsonObject = new JSONObject(jsonError);
-                                JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                                String message = jsonObject_error.getString("message");
-                                if (message.equalsIgnoreCase("unauthorized")) {
-                                    Fragment fragment = new SignInFragment();
-                                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                                    ft.replace(R.id.container, fragment);
-                                    ft.commit();
-                                }
-                                if (jsonObject_error.has("errors")) {
-                                    JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                                }
-                                showToast(message, AuthActivity.this);
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            String message = jsonObject_error.getString("message");
+                            if (message.equalsIgnoreCase("unauthorized")) {
+                                Fragment fragment = new SignInFragment();
+                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                                ft.replace(R.id.container, fragment);
+                                ft.commit();
                             }
-                        } else {
-                            showToast("Something Went Wrong", AuthActivity.this);
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            showToast(message, AuthActivity.this);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        Timber.e(error.toString());
-                        hideProgressDialog();
+                    } else {
+                        showToast("Something Went Wrong", AuthActivity.this);
                     }
+                    Timber.e(error.toString());
+                    hideProgressDialog();
                 }) {
 
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
@@ -1345,10 +1322,10 @@ public class AuthActivity extends ActivityBase {
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("email", str_email);
-                map1.put("password", str_password);
-                map1.put("otp", str_otp);
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("email", email);
+                map1.put("password", password);
+                map1.put("otp", otp);
 
                 return map1;
             }
@@ -1363,8 +1340,6 @@ public class AuthActivity extends ActivityBase {
 
     public void newEmailVerification(String email, String otp) {
         showProgressDialog();
-        String str_email = email;
-        String str_otp = otp;
         Helper.closeKeyboard(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_EMAIL_VERIFICATION,
                 response -> {
@@ -1396,45 +1371,42 @@ public class AuthActivity extends ActivityBase {
 
 
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        NetworkResponse networkResponse = error.networkResponse;
-                        if (networkResponse != null && networkResponse.data != null) {
-                            String jsonError = new String(networkResponse.data);
-                            // Print Error!
-                            Timber.e(jsonError);
-                            try {
-                                JSONObject jsonObject = new JSONObject(jsonError);
-                                JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                                String message = jsonObject_error.getString("message");
-                                if (message.equalsIgnoreCase("unauthorized")) {
-                                    Fragment fragment = new SignInFragment();
-                                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                                    ft.replace(R.id.container, fragment);
-                                    ft.commit();
-                                }
-                                if (jsonObject_error.has("errors")) {
-                                    JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                                }
-                                showToast(message, AuthActivity.this);
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            String message = jsonObject_error.getString("message");
+                            if (message.equalsIgnoreCase("unauthorized")) {
+                                Fragment fragment = new SignInFragment();
+                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                                ft.replace(R.id.container, fragment);
+                                ft.commit();
                             }
-                        } else {
-                            showToast("Something Went Wrong", AuthActivity.this);
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            showToast(message, AuthActivity.this);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        Timber.e(error.toString());
-                        hideProgressDialog();
+                    } else {
+                        showToast("Something Went Wrong", AuthActivity.this);
                     }
+                    Timber.e(error.toString());
+                    hideProgressDialog();
                 }) {
 
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
@@ -1442,9 +1414,9 @@ public class AuthActivity extends ActivityBase {
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("email", str_email);
-                map1.put("otp", str_otp);
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("email", email);
+                map1.put("otp", otp);
 
                 return map1;
             }
@@ -1460,27 +1432,22 @@ public class AuthActivity extends ActivityBase {
 
     public void nextStepForgotPassowrd(String email) {
         showProgressDialog();
-        String str_email = email;
 
         Helper.closeKeyboard(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_RESET_PASSWORD,
-                new Response.Listener<String>() {
+                response -> {
+                    Timber.e(response);
 
-                    @Override
-                    public void onResponse(String response) {
-                        Timber.e(response);
+                    hideProgressDialog();
+                    //  showToast("Check your inbox", AuthActivity.this);
+                    Bundle bundle = new Bundle();
+                    Fragment fragment = new ForgotPassword2Fragment();
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.auth_layout, fragment).addToBackStack(fragment.toString());
+                    bundle.putString("email", email);
+                    fragment.setArguments(bundle);
+                    ft.commit();
 
-                        hideProgressDialog();
-                        //  showToast("Check your inbox", AuthActivity.this);
-                        Bundle bundle = new Bundle();
-                        Fragment fragment = new ForgotPassword2Fragment();
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.auth_layout, fragment).addToBackStack(fragment.toString());
-                        bundle.putString("email", str_email);
-                        fragment.setArguments(bundle);
-                        ft.commit();
-
-                    }
                 },
                 error -> {
                     NetworkResponse networkResponse = error.networkResponse;
@@ -1526,8 +1493,8 @@ public class AuthActivity extends ActivityBase {
 
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
@@ -1535,8 +1502,8 @@ public class AuthActivity extends ActivityBase {
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("email", str_email);
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("email", email);
                 return map1;
             }
         };
@@ -1552,19 +1519,14 @@ public class AuthActivity extends ActivityBase {
     //There is no such API any more, but we keep it af any changes occurs again
     public void resendOtp(String email) {
         showProgressDialog();
-        String str_email = email;
 
         Helper.closeKeyboard(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_RESEND_OTP,
-                new Response.Listener<String>() {
+                response -> {
+                    Timber.e(response);
 
-                    @Override
-                    public void onResponse(String response) {
-                        Timber.e(response);
-
-                        hideProgressDialog();
-                        onResendOtp.success();
-                    }
+                    hideProgressDialog();
+                    onResendOtp.success();
                 },
                 error -> {
                     onResendOtp.failure();
@@ -1581,7 +1543,7 @@ public class AuthActivity extends ActivityBase {
 
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
 
-                                String error_email = null;
+                                String error_email;
                                 if (jsonObject_errors.has("email")) {
                                     JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
                                     error_email = jsonArray_mobile.getString(0);
@@ -1605,8 +1567,8 @@ public class AuthActivity extends ActivityBase {
 
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
@@ -1614,8 +1576,8 @@ public class AuthActivity extends ActivityBase {
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("email", str_email);
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("email", email);
                 return map1;
             }
         };
@@ -1629,19 +1591,14 @@ public class AuthActivity extends ActivityBase {
 
     public void resendOtpForResetPassword(String email) {
         showProgressDialog();
-        String str_email = email;
 
         Helper.closeKeyboard(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_RESET_PASSWORD,
-                new Response.Listener<String>() {
+                response -> {
+                    Timber.e(response);
 
-                    @Override
-                    public void onResponse(String response) {
-                        Timber.e(response);
-
-                        hideProgressDialog();
-                        onResendOtp.success();
-                    }
+                    hideProgressDialog();
+                    onResendOtp.success();
                 },
                 error -> {
                     onResendOtp.failure();
@@ -1658,7 +1615,7 @@ public class AuthActivity extends ActivityBase {
 
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
 
-                                String error_email = null;
+                                String error_email;
                                 if (jsonObject_errors.has("email")) {
                                     JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
                                     error_email = jsonArray_mobile.getString(0);
@@ -1682,8 +1639,8 @@ public class AuthActivity extends ActivityBase {
 
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
@@ -1691,8 +1648,8 @@ public class AuthActivity extends ActivityBase {
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("email", str_email);
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("email", email);
                 return map1;
             }
         };
@@ -1706,19 +1663,14 @@ public class AuthActivity extends ActivityBase {
 
     public void newResendOtp(String email) {
         showProgressDialog();
-        String str_email = email;
 
         Helper.closeKeyboard(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_NEW_RESEND_OTP,
-                new Response.Listener<String>() {
+                response -> {
+                    Timber.e(response);
 
-                    @Override
-                    public void onResponse(String response) {
-                        Timber.e(response);
-
-                        hideProgressDialog();
-                        onResendOtp.success();
-                    }
+                    hideProgressDialog();
+                    onResendOtp.success();
                 },
                 error -> {
                     onResendOtp.failure();
@@ -1737,7 +1689,7 @@ public class AuthActivity extends ActivityBase {
 
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
 
-                                String error_email = null;
+                                String error_email;
                                 if (jsonObject_errors.has("email")) {
                                     JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
                                     error_email = jsonArray_mobile.getString(0);
@@ -1762,8 +1714,8 @@ public class AuthActivity extends ActivityBase {
 
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
@@ -1771,8 +1723,8 @@ public class AuthActivity extends ActivityBase {
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("email", str_email);
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("email", email);
                 return map1;
             }
         };
@@ -1784,9 +1736,9 @@ public class AuthActivity extends ActivityBase {
 
     }
 
-    public OnResendOtp getOnResendOtp() {
-        return onResendOtp;
-    }
+//    public OnResendOtp getOnResendOtp() {
+//        return onResendOtp;
+//    }
 
     public void setOnResendOtp(OnResendOtp onResendOtp) {
         this.onResendOtp = onResendOtp;

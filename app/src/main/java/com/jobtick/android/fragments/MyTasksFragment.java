@@ -463,18 +463,25 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
             radioCompleted.performClick();
         });
 
-        if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_VALUE)) {
-            rbAll.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_ASSIGNED_CASE_RELATED_JOB_VALUE)) {
-            radioAssigned.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_OPEN_CASE_UPPER_FIRST)) {
-            radioPosted.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_OFFERED_CASE_UPPER_FIRST)) {
-            radioOffer.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_DRAFT_CASE_UPPER_FIRST)) {
-            radioDraft.setChecked(true);
-        } else if (single_choice_selected.equals(TASK_COMPLETED_CASE_UPPER_FIRST)) {
-            radioCompleted.setChecked(true);
+        switch (single_choice_selected) {
+            case TASK_DRAFT_CASE_ALL_JOB_VALUE:
+                rbAll.setChecked(true);
+                break;
+            case TASK_ASSIGNED_CASE_RELATED_JOB_VALUE:
+                radioAssigned.setChecked(true);
+                break;
+            case TASK_OPEN_CASE_UPPER_FIRST:
+                radioPosted.setChecked(true);
+                break;
+            case TASK_OFFERED_CASE_UPPER_FIRST:
+                radioOffer.setChecked(true);
+                break;
+            case TASK_DRAFT_CASE_UPPER_FIRST:
+                radioDraft.setChecked(true);
+                break;
+            case TASK_COMPLETED_CASE_UPPER_FIRST:
+                radioCompleted.setChecked(true);
+                break;
         }
 
 

@@ -1,6 +1,7 @@
 package com.jobtick.android.fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
@@ -22,6 +25,8 @@ import com.jobtick.android.utils.ImageUtil;
 import com.jobtick.android.utils.SessionManager;
 import com.jobtick.android.widget.ExtendedJobInfo;
 import com.ramijemli.percentagechartview.PercentageChartView;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -108,7 +113,9 @@ public abstract class AbstractDashboard2Fragment extends Fragment {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.complete_profile)
     TextView completeProfile;
-
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.barChart)
+    BarChart chart;
     protected UserAccountModel userAccountModel;
     protected SessionManager sessionManager;
 

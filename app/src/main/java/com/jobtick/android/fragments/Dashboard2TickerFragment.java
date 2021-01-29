@@ -1,14 +1,22 @@
 package com.jobtick.android.fragments;
 
+import android.graphics.Color;
+
 import androidx.core.content.ContextCompat;
+
 
 import com.jobtick.android.R;
 
-public class Dashboard2TickerFragment extends AbstractDashboard2Fragment {
 
+public class Dashboard2TickerFragment extends AbstractDashboard2Fragment {
+    public static final int[] CHART_COLORS = {
+            Color.rgb(88, 107, 245),Color.rgb(243, 176, 4),Color.rgb(43, 50, 64),
+            Color.rgb(255, 86, 48)
+    };
     public static Dashboard2TickerFragment newInstance(){
         return new Dashboard2TickerFragment();
     }
+
 
     @Override
     public void setData() {

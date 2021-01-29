@@ -26,6 +26,10 @@
             android:contentDescription="@string/todo"
             android:src="@drawable/ic_back" />
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_search_categoreis"
             android:layout_width="match_parent"
@@ -36,10 +40,21 @@
             android:hint="@string/SearchCategories"
             android:imeOptions="actionSearch"
             android:inputType="text"
+            android:layout_weight="1"
             android:lines="1"
             android:textAppearance="@style/materialText_400_12"
             android:textColor="@color/grey_70"
             android:textColorHint="@color/grey_70" />
+            <ImageView
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="@dimen/_8dp"
+                android:layout_width="35dp"
+                android:padding="5dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_voice_search"
+                android:id="@+id/btnVoice"/>
+        </FrameLayout>
+
 
     </LinearLayout>
 

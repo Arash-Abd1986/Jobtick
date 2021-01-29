@@ -145,7 +145,7 @@
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rbSkills"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="67dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@drawable/radio_portfolio"
@@ -426,6 +426,19 @@
                     android:text="Complete Your Profile"
                     android:textAppearance="@style/materialText_400_12"
                     android:textColor="@color/blue" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/chartContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.github.mikephil.charting.charts.BarChart
+                    android:visibility="visible"
+                    android:id="@+id/barChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_margin="20dp"
+                    />
 
             </RelativeLayout>
         </LinearLayout>

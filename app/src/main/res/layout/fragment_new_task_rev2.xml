@@ -127,7 +127,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Explore jobs which suit you, Make your best offer to get the job!"
+                        android:text="@string/explore_jobs_that_interest_you_make_an_offer_that_will_get_you_the_job"
                         android:textAppearance="@style/materialText_400_16"
                         android:textColor="@color/grey_70" />
 
@@ -204,7 +204,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Post whatever you need to get done! Select a Ticker to get it done!"
+                        android:text="@string/post_the_job_you_need_done_select_the_best_ticker_for_your_job"
                         android:textAppearance="@style/materialText_400_16"
                         android:textColor="@color/grey_70" />
 

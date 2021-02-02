@@ -412,6 +412,7 @@
     <color name="quickOfferColorDisable">#97a2f5</color>
     <color name="timeColor">#D5D6D9</color>
     <color name="transparent">#00000000</color>
+    <color name="transparentLight">#ffffffff</color>
 
     <color name="myJobsColorTaskOffer">@color/P300</color>
     <color name="myJobsColorTaskOfferTrans">@color/P300</color>
@@ -427,4 +428,6 @@
     <color name="colorJobOpenSelected">#DDE1FD</color>
     <color name="colorJobNotSelected">#EBECF0</color>
     <color name="colorJobAssignedSelected">@color/Y100</color>
+    <color name="my_statusbar_color">#11000000</color>
+    <color name="transparentWhite">#00FFFFFF</color>
 </resources>

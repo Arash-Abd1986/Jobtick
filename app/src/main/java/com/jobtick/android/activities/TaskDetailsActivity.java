@@ -2246,22 +2246,19 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             View v = inflater.inflate(R.layout.item_slider_image, container, false);
 
             ImageView image = v.findViewById(R.id.image);
-            image.setAdjustViewBounds(true);
             if (attachment.getModalUrl() != null) {
                 Glide.with(image).load(attachment.getModalUrl()).into(image);
                 image.setScaleType(ImageView.ScaleType.CENTER_CROP);
             } else {
                 if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
                     Tools.displayImageOriginal(act, image, attachment.getDrawable());
-                    image.setAdjustViewBounds(true);
                     image.setBackgroundResource(R.drawable.banner_green_new);
                 } else {
                     Tools.displayImageOriginal(act, image, attachment.getDrawable());
-                    image.setAdjustViewBounds(true);
                     image.setBackgroundResource(R.drawable.background_red_new);
                 }
 
-                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                image.setScaleType(ImageView.ScaleType.FIT_XY);
             }
             image.setOnClickListener(v1 -> {
              /*   if (onItemClickListener != null) {

@@ -525,7 +525,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     }
 
 
-    //TODO 
+    //TODO
     private void showRateAppDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.item_rate_app);

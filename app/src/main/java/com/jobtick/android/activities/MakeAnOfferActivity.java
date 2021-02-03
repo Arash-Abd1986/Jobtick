@@ -247,7 +247,7 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
                 map1.put("offer_price", String.valueOf(makeAnOfferModel.getOffer_price()));
                 map1.put("offer_price_type ", makeAnOfferModel.getOffer_price_type());
                 if (makeAnOfferModel.getAttachment() != null && makeAnOfferModel.getAttachment().getThumbUrl() != null) {
-                    map1.put("attachments[0]", String.valueOf(makeAnOfferModel.getAttachment().getId()));
+                    map1.put("attachment_id", String.valueOf(makeAnOfferModel.getAttachment().getId()));
                 } else {
                     map1.put("message", makeAnOfferModel.getMessage());
                 }

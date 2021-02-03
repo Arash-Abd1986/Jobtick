@@ -509,5 +509,9 @@
     <string name="change_filter">Set a new Filter</string>
     <string name="post_the_job_you_need_done_select_the_best_ticker_for_your_job">Post the job you need done, select the best ticker for your job.</string>
     <string name="explore_jobs_that_interest_you_make_an_offer_that_will_get_you_the_job">Explore jobs that interest you, Make an offer that will get you the job.</string>
+    <string name="enjoying_jobtick">Enjoying Jobtick?</string>
+    <string name="we_are_working_hard_for_a_better_user_experience">We are working hard for a better user experience.</string>
+    <string name="rate">Rate</string>
+    <string name="the_best_we_can_get">The best we can get :)</string>
 
 </resources>

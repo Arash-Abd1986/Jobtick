@@ -384,13 +384,16 @@
         <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">18sp</item>
     </style>
-
     <style name="materialText_700_14" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="fontFamily">@font/roboto_bold</item>
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">14sp</item>
     </style>
-
+    <style name="btnRateStyle" parent="@style/Widget.AppCompat.Button.Borderless">
+        <item name="fontFamily">@font/roboto_semi_bold</item>
+        <item name="android:fontFamily">@font/roboto_semi_bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
     <style name="materialText_700_12" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="fontFamily">@font/roboto_bold</item>
         <item name="android:fontFamily">@font/roboto_bold</item>

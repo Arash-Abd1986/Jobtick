@@ -1,5 +1,7 @@
 package com.jobtick.android.activities;
 
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -7,9 +9,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -202,6 +206,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
         goToFragment();
     }
+
 
     private void goToFragment(){
         if(getIntent().getBooleanExtra(ConstantKey.GO_TO_MY_JOBS, false))
@@ -517,5 +522,44 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         EXPLORE,
         CHAT,
         PROFILE
+    }
+
+
+    //TODO 
+    private void showRateAppDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.item_rate_app);
+        dialog.setTitle("Title...");
+
+        ImageView dialogButton = (ImageView) dialog.findViewById(R.id.ivClose);
+        Button submit = (Button) dialog.findViewById(R.id.submit);
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                launchMarket();
+            }
+        });
+
+        dialog.show();
+    }
+    private void launchMarket() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(
+                "https://play.google.com/store/apps/details?id=com.jobtick.android"));
+        intent.setPackage("com.android.vending");
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(DashboardActivity.this, " unable to find market app", Toast.LENGTH_LONG).show();
+        }
     }
 }

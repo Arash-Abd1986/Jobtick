@@ -26,57 +26,57 @@ public class Dashboard2PosterFragment extends AbstractDashboard2Fragment {
     public static Dashboard2PosterFragment newInstance(){
         return new Dashboard2PosterFragment();
     }
-    private void setChart() {
-        Description desc ;
-        Legend L;
-
-        L = chart.getLegend();
-        desc = chart.getDescription();
-        desc.setText(""); // this is the weirdest way to clear something!!
-        L.setEnabled(false);
-
-
-        YAxis leftAxis = chart.getAxisLeft();
-        YAxis rightAxis = chart.getAxisRight();
-        XAxis xAxis = chart.getXAxis();
-
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextSize(10f);
-        xAxis.setDrawAxisLine(true);
-        xAxis.setDrawGridLines(false);
-
-
-        leftAxis.setTextSize(10f);
-        leftAxis.setDrawLabels(false);
-        leftAxis.setDrawAxisLine(true);
-        leftAxis.setDrawGridLines(false);
-
-        rightAxis.setDrawAxisLine(false);
-        rightAxis.setDrawGridLines(false);
-        rightAxis.setDrawLabels(false);
-
-        BarData data = new BarData(  setDataChart());
-
-
-        data.setBarWidth(0.9f); // set custom bar width
-        chart.setData(data);
-
-        chart.setFitBars(true); // make the x-axis fit exactly all bars
-        chart.invalidate(); // refresh
-        chart.setScaleEnabled(false);
-        chart.setBackground(null);
-        chart.setBorderColor(Color.WHITE);
-        chart.setGridBackgroundColor(Color.WHITE);
-        chart.setBorderColor(Color.WHITE);
-        chart.setDoubleTapToZoomEnabled(false);
-        chart.setBackgroundColor(Color.TRANSPARENT);
-        chart.animateXY(2000, 2000);
-        chart.setDrawBorders(false);
-        chart.setDescription(desc);
-        chart.setDrawValueAboveBar(true);
-
-
-    }
+//    private void setChart() {
+//        Description desc ;
+//        Legend L;
+//
+//        L = chart.getLegend();
+//        desc = chart.getDescription();
+//        desc.setText(""); // this is the weirdest way to clear something!!
+//        L.setEnabled(false);
+//
+//
+//        YAxis leftAxis = chart.getAxisLeft();
+//        YAxis rightAxis = chart.getAxisRight();
+//        XAxis xAxis = chart.getXAxis();
+//
+//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//        xAxis.setTextSize(10f);
+//        xAxis.setDrawAxisLine(true);
+//        xAxis.setDrawGridLines(false);
+//
+//
+//        leftAxis.setTextSize(10f);
+//        leftAxis.setDrawLabels(false);
+//        leftAxis.setDrawAxisLine(true);
+//        leftAxis.setDrawGridLines(false);
+//
+//        rightAxis.setDrawAxisLine(false);
+//        rightAxis.setDrawGridLines(false);
+//        rightAxis.setDrawLabels(false);
+//
+//        BarData data = new BarData(  setDataChart());
+//
+//
+//        data.setBarWidth(0.9f); // set custom bar width
+//        chart.setData(data);
+//
+//        chart.setFitBars(true); // make the x-axis fit exactly all bars
+//        chart.invalidate(); // refresh
+//        chart.setScaleEnabled(false);
+//        chart.setBackground(null);
+//        chart.setBorderColor(Color.WHITE);
+//        chart.setGridBackgroundColor(Color.WHITE);
+//        chart.setBorderColor(Color.WHITE);
+//        chart.setDoubleTapToZoomEnabled(false);
+//        chart.setBackgroundColor(Color.TRANSPARENT);
+//        chart.animateXY(2000, 2000);
+//        chart.setDrawBorders(false);
+//        chart.setDescription(desc);
+//        chart.setDrawValueAboveBar(true);
+//
+//
+//    }
     public BarDataSet setDataChart()
     {
         ArrayList<BarEntry> entries = new ArrayList<>();
@@ -183,7 +183,7 @@ public class Dashboard2PosterFragment extends AbstractDashboard2Fragment {
                 iv_badges.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grayActive), android.graphics.PorterDuff.Mode.SRC_IN);
             }
             percentageChartView.setProgress(percent, false);
-            setChart();
+//            setChart();
         }
     }
 }

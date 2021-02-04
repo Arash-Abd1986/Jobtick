@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.android.activities.ProfileActivity;
 import com.jobtick.android.activities.ReportActivity;
+import com.jobtick.android.activities.ZoomImageActivity;
+import com.jobtick.android.models.AttachmentModel;
 import com.jobtick.android.utils.ConstantKey;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.android.R;
@@ -29,6 +31,7 @@ import com.jobtick.android.utils.ImageUtil;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -269,6 +272,20 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
                     size() != 0) {
                 cardImgFile.setVisibility(View.VISIBLE);
                 ImageUtil.displayImage(imgFile, item.getAttachments().get(0).getModalUrl(), null);
+                if(context!=null) {
+                    imgFile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(context, ZoomImageActivity.class);
+                            ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
+                            attachmentArrayList.add(item.getAttachments().get(0));
+                            intent.putExtra("url", attachmentArrayList);
+                            intent.putExtra("title", "");
+                            intent.putExtra("pos", 0);
+                            context.startActivity(intent);
+                        }
+                    });
+                }
             } else {
                 cardImgFile.setVisibility(View.GONE);
             }

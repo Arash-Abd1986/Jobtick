@@ -113,9 +113,7 @@ public abstract class AbstractDashboard2Fragment extends Fragment {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.complete_profile)
     TextView completeProfile;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.barChart)
-    BarChart chart;
+
     protected UserAccountModel userAccountModel;
     protected SessionManager sessionManager;
 

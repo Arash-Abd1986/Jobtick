@@ -24,6 +24,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -95,7 +96,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     RelativeLayout rltAddMustHave;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.checkbox_online)
-    CheckBox checkboxOnline;
+    SwitchCompat checkboxOnline;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_suburb)
     ExtendedEntryText txtSuburb;

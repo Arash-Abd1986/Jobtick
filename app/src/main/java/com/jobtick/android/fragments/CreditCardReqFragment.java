@@ -1,9 +1,13 @@
 package com.jobtick.android.fragments;
 
+import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +26,15 @@ import com.jobtick.android.payment.AddCreditCard;
 import com.jobtick.android.payment.AddCreditCardImpl;
 import com.jobtick.android.utils.SessionManager;
 import com.jobtick.android.utils.StringUtils;
+import com.jobtick.android.utils.Tools;
 import com.jobtick.android.widget.ExtendedEntryText;
 
+import java.util.Calendar;
+import java.util.Locale;
+
 import butterknife.BindView;
+
+import static com.jobtick.android.utils.Constant.MIN_AGE_FOR_USE_APP;
 
 public class CreditCardReqFragment extends Fragment implements TextWatcher {
 
@@ -54,6 +64,7 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+    DatePickerDialog.OnDateSetListener mDateSetListener;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -80,7 +91,26 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
         edtCardNumber.addTextChangedListener(this);
         edtSecurityNumber.addTextChangedListener(this);
         edtExpiryDate.addTextChangedListener(this);
+        edtExpiryDate.setExtendedViewOnClickListener(() -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DAY_OF_MONTH, -1);
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
 
+            DatePickerDialog dialog = new DatePickerDialog(getActivity(),
+                    android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+                    mDateSetListener,
+                    year, month,1);
+            dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+        });
+        mDateSetListener = (view1, year, month, dayOfMonth) -> {
+            month = month + 1;
+            String formattedMonth = String.format(Locale.US,"%02d", month);
+            String date = formattedMonth + "/" + year;
+            edtExpiryDate.setText(date);
+        };
 
         addCreditCard = new AddCreditCardImpl(requireContext(), sessionManager) {
             @Override

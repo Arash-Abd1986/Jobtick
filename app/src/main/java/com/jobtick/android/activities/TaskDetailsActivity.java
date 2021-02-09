@@ -2260,15 +2260,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     act.startActivity(intent);
                 });
             } else {
+                image.setScaleType(ImageView.ScaleType.FIT_XY);
+
                 if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
-                    Tools.displayImageOriginal(act, image, attachment.getDrawable());
-                    image.setBackgroundResource(R.drawable.banner_green_new);
+//                    Tools.displayImageOriginal(act, image, attachment.getDrawable());
+                    image.setImageResource(R.drawable.banner1);
                 } else {
-                    Tools.displayImageOriginal(act, image, attachment.getDrawable());
-                    image.setBackgroundResource(R.drawable.background_red_new);
+//                    Tools.displayImageOriginal(act, image, attachment.getDrawable());
+                    image.setImageResource(R.drawable.banner1);
                 }
 
-                image.setScaleType(ImageView.ScaleType.FIT_XY);
             }
 
 

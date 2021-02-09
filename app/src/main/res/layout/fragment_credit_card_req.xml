@@ -57,11 +57,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:eImeOptions="actionNext"
-                app:eInputType="calendarKeyboard"
                 app:eHint="09/2023"
                 app:eMaxCharNumber="7"
                 app:eTitle="@string/expiry_date"
+                app:eInputType="calendar"
+                app:eImeOptions="normal"
                 app:eBoxSize="small"/>
 
             <com.jobtick.android.widget.ExtendedEntryText

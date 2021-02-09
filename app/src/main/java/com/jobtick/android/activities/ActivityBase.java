@@ -135,10 +135,10 @@ public class ActivityBase extends AppCompatActivity {
     }
 
     public void initProgressDialog() {
-        pDialog = new ProgressDialog(this);
-        pDialog.setTitle(getString(R.string.processing));
-        pDialog.setMessage(getString(R.string.please_wait));
-        pDialog.setCancelable(false);
+            pDialog = new ProgressDialog(this);
+            pDialog.setTitle(getString(R.string.processing));
+            pDialog.setMessage(getString(R.string.please_wait));
+            pDialog.setCancelable(false);
     }
 
 

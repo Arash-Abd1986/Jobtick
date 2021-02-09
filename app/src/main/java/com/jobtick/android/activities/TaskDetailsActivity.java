@@ -465,7 +465,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusReviewed.setVisibility(View.GONE);
 //                txtStatusOpen.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_tab_primary_2dp));
                 if (isUserThePoster) {
-                    cardMakeAnOffer.setVisibility(View.VISIBLE);
+                    cardMakeAnOffer.setVisibility(View.GONE);
                     txtBtnText.setText(ConstantKey.BTN_ASSIGNED);
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_cancellation, true);
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, false);
@@ -2249,6 +2249,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             if (attachment.getModalUrl() != null) {
                 Glide.with(image).load(attachment.getModalUrl()).into(image);
                 image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                image.setOnClickListener(v1 -> {
+             /*   if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(v, attachment);
+                }*/
+                    Intent intent = new Intent(act, ZoomImageActivity.class);
+                    intent.putExtra("url", items);
+                    intent.putExtra("title", "");
+                    intent.putExtra("pos", position);
+                    act.startActivity(intent);
+                });
             } else {
                 if (taskModel.getLocation() != null && !taskModel.getLocation().isEmpty()) {
                     Tools.displayImageOriginal(act, image, attachment.getDrawable());
@@ -2260,16 +2270,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
                 image.setScaleType(ImageView.ScaleType.FIT_XY);
             }
-            image.setOnClickListener(v1 -> {
-             /*   if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(v, attachment);
-                }*/
-                Intent intent = new Intent(act, ZoomImageActivity.class);
-                intent.putExtra("url", items);
-                intent.putExtra("title", "");
-                intent.putExtra("pos", position);
-                act.startActivity(intent);
-            });
+
 
             container.addView(v);
 

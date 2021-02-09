@@ -327,6 +327,8 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
                                     hideProgressDialog();
                                     showToast("Something went Wrong", PaymentOverviewActivity.this);
                                 }
+                            }else{
+                                showToast("Payment failed", PaymentOverviewActivity.this);
                             }
 
 
@@ -340,7 +342,6 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
                     }
                 },
                 error -> {
-                    errorHandle1(error.networkResponse);
                     hideProgressDialog();
                 }) {
 

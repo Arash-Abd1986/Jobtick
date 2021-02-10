@@ -532,6 +532,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
                 if (isUserThePoster) {
                     //poster task
+
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_edit, true);
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_delete, true);
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, false);

@@ -456,7 +456,8 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                                     intent.putExtras(bundle);
                                     setResult(ConstantKey.RESULTCODE_UPDATE_TASK, intent);
                                     isDraftWorkDone = true;
-                                    Toasty.success(TaskCreateActivity.this,"Successfully drafted", Toast.LENGTH_LONG).show();
+//                                    Toasty.info(TaskCreateActivity.this,"Draft saved", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(TaskCreateActivity.this,"Draft saved", Toast.LENGTH_LONG).show();
                                     onBackPressed();
                                     return;
                                 } else {

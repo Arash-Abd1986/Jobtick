@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.cardview.widget.CardView;
@@ -52,6 +53,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
 import timber.log.Timber;
 
 import static com.jobtick.android.utils.ConstantKey.COMPLETES_MESSAGE_FROM;
@@ -454,6 +456,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                                     intent.putExtras(bundle);
                                     setResult(ConstantKey.RESULTCODE_UPDATE_TASK, intent);
                                     isDraftWorkDone = true;
+                                    Toasty.success(TaskCreateActivity.this,"Successfully drafted", Toast.LENGTH_LONG).show();
                                     onBackPressed();
                                     return;
                                 } else {

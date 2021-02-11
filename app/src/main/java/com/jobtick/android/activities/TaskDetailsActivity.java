@@ -249,6 +249,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @BindView(R.id.txt_worker_name)
     TextView txtWorkerName;
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.ratingbar_worker)
+    ImageView ratingbar_worker;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lineOpen)
     View lineOpenState;
 
@@ -463,6 +466,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusCancelled.setVisibility(View.GONE);
                 txtStatusOverdue.setVisibility(View.GONE);
                 txtStatusReviewed.setVisibility(View.GONE);
+                txtOffersCount.setVisibility(View.GONE);
 //                txtStatusOpen.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_tab_primary_2dp));
                 if (isUserThePoster) {
                     cardMakeAnOffer.setVisibility(View.GONE);
@@ -532,8 +536,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
                 if (isUserThePoster) {
                     //poster task
+                    toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_edit, taskModel == null || taskModel.getOffers().size() == 0);
 
-                    toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_edit, true);
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_delete, true);
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, false);
 
@@ -585,7 +589,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusAssigned.setSelected(false);
                 txtStatusCompleted.setSelected(false);
                 txtStatusCancelled.setSelected(true);
-
+                txtOffersCount.setVisibility(View.GONE);
                 txtStatusOverdue.setSelected(false);
                 txtStatusReviewed.setSelected(false);
                 txtStatusOpen.setVisibility(View.VISIBLE);
@@ -596,9 +600,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusReviewed.setVisibility(View.GONE);
 
 //                cardMessage.setVisibility(View.VISIBLE);
-                if(taskModel.getWorker()!=null)
+                if (taskModel.getWorker() != null)
                     cardAssigneeLayout.setVisibility(View.VISIBLE);
-                else{
+                else {
                     cardAssigneeLayout.setVisibility(View.GONE);
                 }
 //                cardPrivateChat.setVisibility(View.VISIBLE);
@@ -618,6 +622,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 lineOpenState.setVisibility(View.VISIBLE);
                 txtStatusOpen.setSelected(false);
                 txtStatusAssigned.setSelected(false);
+                txtOffersCount.setVisibility(View.GONE);
                 txtStatusCompleted.setSelected(true);
                 txtStatusCancelled.setSelected(false);
                 txtStatusOverdue.setSelected(true);
@@ -682,6 +687,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 txtStatusReviewed.setSelected(false);
                 txtStatusOpen.setVisibility(View.VISIBLE);
                 txtStatusAssigned.setVisibility(View.VISIBLE);
+                txtOffersCount.setVisibility(View.GONE);
                 txtStatusCompleted.setVisibility(View.VISIBLE);
                 txtStatusCancelled.setVisibility(View.GONE);
                 txtStatusOverdue.setVisibility(View.GONE);
@@ -1663,8 +1669,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }  //TODO DUMMY IMAGE
 
             txtWorkerName.setText(taskModel.getWorker().getName());
-            if (taskModel.getWorker() != null && taskModel.getWorker().getWorkerRatings() != null && taskModel.getWorker().getWorkerRatings().getAvgRating() != null && taskModel.getWorker().getWorkerRatings().getReceivedReviews()!=null) {
-                txtRatingValue.setText(String.format(java.util.Locale.US,"%.1f", taskModel.getWorker().getWorkerRatings().getAvgRating())+" (" + taskModel.getWorker().getWorkerRatings().getReceivedReviews() + ")");
+            if (taskModel.getWorker() != null && taskModel.getWorker().getWorkerRatings() != null && taskModel.getWorker().getWorkerRatings().getAvgRating() != null && taskModel.getWorker().getWorkerRatings().getReceivedReviews() != null) {
+                txtRatingValue.setText(String.format(java.util.Locale.US, "%.1f", taskModel.getWorker().getWorkerRatings().getAvgRating()) + " (" + taskModel.getWorker().getWorkerRatings().getReceivedReviews() + ")");
+            }else{
+                ratingbar_worker.setVisibility(View.GONE);
             }
             if (taskModel.getWorker().getWorkTaskStatistics() != null)
                 txtCompletionRate.setText(taskModel.getWorker().getWorkTaskStatistics().getCompletionRate().toString() + "%");

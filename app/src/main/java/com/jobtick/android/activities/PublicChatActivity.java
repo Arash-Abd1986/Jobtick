@@ -236,10 +236,10 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
 
         if (isOfferQuestion.equals("offer")) {
             offerModel = TaskDetailsActivity.offerModel;
-            toolbar.setTitle("Offer Chat");
+            toolbar.setTitle("Replay Offer");
         } else {
             questionModel = TaskDetailsActivity.questionModel;
-            toolbar.setTitle("Question Chat");
+            toolbar.setTitle("Replay Question");
         }
 
         initLayout();

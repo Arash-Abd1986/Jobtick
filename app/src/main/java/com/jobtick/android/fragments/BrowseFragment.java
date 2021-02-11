@@ -63,6 +63,7 @@ import butterknife.OnClick;
 import timber.log.Timber;
 
 import static com.jobtick.android.pagination.PaginationListener.PAGE_START;
+import static com.jobtick.android.utils.Constant.MAX_FILTER_DISTANCE_IN_KILOMETERS;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -247,11 +248,16 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
             filters.add(filterModel.getSection());
         }
         if (filterModel.getLocation() != null && filterModel.getDistance() != null) {
-            if (filterModel.getLocation().length() > 10) {
-                filters.add(filterModel.getLocation().substring(0, 10) + " - " + filterModel.getDistance() + " KM");
-            } else {
-                filters.add(filterModel.getLocation() + " - " + filterModel.getDistance() + " KM");
+            String distance = "100 KM+";
+            if (!filterModel.getDistance().equals(Integer.toString(MAX_FILTER_DISTANCE_IN_KILOMETERS))) {
+                distance = filterModel.getDistance() + " KM";
             }
+            if (filterModel.getLocation().length() > 10) {
+                filters.add(filterModel.getLocation().substring(0, 10) + " - " + distance);
+            } else {
+                filters.add(filterModel.getLocation() + " - " + distance);
+            }
+
         }
         if (filterModel.getPrice() != null) {
             filters.add(filterModel.getPrice());

@@ -906,12 +906,12 @@
 
                                     <com.google.android.material.textview.MaterialTextView
                                         android:id="@+id/txt_rating_value"
-                                        style="@style/materialText_600_12"
+                                        style="@style/materialText_500_12"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
                                         android:gravity="center_vertical"
-                                        android:text="@string/_0_0"
+                                        android:text="No review"
                                         android:textColor="#FF922B" />
                                 </LinearLayout>
                             </LinearLayout>

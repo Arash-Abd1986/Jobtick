@@ -90,7 +90,10 @@
                 android:id="@+id/recycler_add_must_have"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="10dp"
                 android:nestedScrollingEnabled="false"
                 android:overScrollMode="never"
                 android:scrollbars="none"
@@ -102,8 +105,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_xlarge"
                 android:background="?attr/selectableItemBackground">
 
                 <ImageView
@@ -130,7 +131,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/_16sp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -163,7 +165,6 @@
                 app:eTitle="@string/location"
                 app:eInputType="suburb"
                 android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="75dp"/>
 

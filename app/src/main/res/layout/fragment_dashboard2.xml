@@ -152,7 +152,7 @@
                     android:button="@null"
                     android:checked="false"
                     android:gravity="center"
-                    android:text="Static date"
+                    android:text="Static data"
                     android:textAppearance="@style/materialText_600_14"
                     android:textColor="@drawable/radio_button_secondary_color_text_selector" />
             </RadioGroup>

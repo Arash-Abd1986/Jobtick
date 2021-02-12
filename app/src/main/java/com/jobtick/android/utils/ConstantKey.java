@@ -44,6 +44,7 @@ public class ConstantKey {
     public static final String IMAGE_EXTENSION = "jpg";
     public static final String VIDEO_EXTENSION = "mp4";
     public static final String COMPLETES_MESSAGE_TITLE = "TITLE";
+    public static final String COMPLETES_SLUG = "SLUG";
     public static final String COMPLETES_MESSAGE_FROM = "FROM";
 
     public static final String VIDEO_PATH="video_path";

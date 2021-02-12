@@ -340,6 +340,12 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         }
         txtJobTitle.setText(conversationModel.getName());
         txtStatus.setText(conversationModel.getStatus());
+        if(!conversationModel.getStatus().equals(Constant.TASK_ASSIGNED)){
+            cardStatus.setCardBackgroundColor(getColor(R.color.colorTaskCompleted));
+        }
+        if(conversationModel.getStatus().equals(Constant.TASK_CANCELLED)){
+            cardStatus.setCardBackgroundColor(getColor(R.color.colorTaskCancelled));
+        }
 
 
 
@@ -415,7 +421,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         } else {
             runOnUiThread(() -> {
                 txtSubtitle.setText("Offline");
-                txtSubtitle.setTextColor(getResources().getColor(R.color.colorPrimary));
+                txtSubtitle.setTextColor(getResources().getColor(R.color.colorRedOffline));
                 // Stuff that updates the UI
 
             });

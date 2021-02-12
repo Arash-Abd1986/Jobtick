@@ -512,6 +512,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                     } else {
                         taskCreateActivity.showToast("you can add only 3 requirements", taskCreateActivity);
                     }
+
+                    if(addTagList.size()==3)
+                        mBottomSheetDialog.dismiss();
+
+
                 }
         );
 

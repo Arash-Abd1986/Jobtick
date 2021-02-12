@@ -120,7 +120,7 @@
                     android:layout_width="@dimen/_70dp"
                     android:layout_height="30dp"
                     android:layout_margin="@dimen/spacing_line"
-                    android:backgroundTint="@color/colorTaskAssigned"
+                    app:cardBackgroundColor="@color/colorTaskAssigned"
                     android:elevation="0dp"
                     android:padding="8dp"
                     app:cardCornerRadius="3dp">

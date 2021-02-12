@@ -55,7 +55,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="Transectional"
+                            android:text="@string/transactions"
                             android:textColor="@color/textColor"
                             android:textAppearance="@style/materialText_400_14" />
 

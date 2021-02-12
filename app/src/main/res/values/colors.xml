@@ -430,4 +430,5 @@
     <color name="colorJobAssignedSelected">@color/Y100</color>
     <color name="my_statusbar_color">#11000000</color>
     <color name="transparentWhite">#00FFFFFF</color>
+    <color name="colorRedOffline">#ff5630</color>
 </resources>

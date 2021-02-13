@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +28,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.gson.JsonObject;
 import com.jobtick.android.R;
 import com.jobtick.android.adapers.SectionsPagerAdapter;
 import com.jobtick.android.fragments.TaskBudgetFragment;
@@ -483,12 +485,29 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                                     Bundle bundle1 = new Bundle();
                                     bundle1.putString(ConstantKey.COMPLETES_MESSAGE_TITLE, "Job Edited Successfully");
                                     bundle1.putInt(ConstantKey.COMPLETES_MESSAGE_FROM, ConstantKey.RESULTCODE_CREATE_TASK);
+                                    bundle1.putString(ConstantKey.SLUG, taskModel.getSlug());
                                     intent.putExtras(bundle1);
                                     startActivity(intent);
+                                    finish();
                                 }
                                 else {
+                                    String taskSlug=null;
+
+                                    try{
+                                        if (jsonObject.has("data") && !jsonObject.isNull("data")){
+                                            JSONObject data = jsonObject.getJSONObject("data");
+                                            taskSlug = data.getString("slug");
+                                            Log.d("taskSlug",taskSlug);
+                                        }else
+                                            taskSlug=null;
+                                    }catch (Exception e){
+                                        taskSlug=null;
+                                    }
                                     intent = new Intent(TaskCreateActivity.this, CompleteMessageActivity.class);
-                                    intent.putExtra(COMPLETES_MESSAGE_FROM, RESULTCODE_CREATE_TASK);
+                                    Bundle bundle2 = new Bundle();
+                                    bundle2.putInt(ConstantKey.COMPLETES_MESSAGE_FROM, ConstantKey.RESULTCODE_CREATE_TASK);
+                                    bundle2.putString(ConstantKey.SLUG, taskSlug);
+                                    intent.putExtras(bundle2);
                                     startActivity(intent);
                                     finish();
                                 }

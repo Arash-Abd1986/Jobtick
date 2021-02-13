@@ -304,7 +304,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskOfferTrans));
                     break;
                 case "assigned":
-                case "completed":
                 case "overdue":
                     txtStatus.setVisibility(View.VISIBLE);
                     txtStatusDraft.setVisibility(View.GONE);
@@ -312,6 +311,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     cardTaskBackground.setCardBackgroundColor(ContextCompat.getColor(context, R.color.myJobsColorTaskAssigned));
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskAssignedTrans));
                     break;
+                case "completed":
                 case "closed":
                     txtStatus.setVisibility(View.VISIBLE);
                     txtStatusDraft.setVisibility(View.GONE);

@@ -249,6 +249,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
         if (creditCardModel.getData() != null && creditCardModel.getData().get(1) != null && creditCardModel.getData().get(1).getWallet() != null) {
             txtWallet.setVisibility(View.VISIBLE);
             txtWalletTitle.setVisibility(View.VISIBLE);
+            txtWalletTitle.setText("Wallet Balance");
             wallet = creditCardModel.getData().get(1).getWallet().getBalance();
             txtWallet.setText(String.format(Locale.ENGLISH, "$ %.1f", wallet));
         } else {
@@ -385,10 +386,18 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
 
                         PayingCalculationModel model = gson.fromJson(data, PayingCalculationModel.class);
                         txtServiceFee.setText(String.format(Locale.ENGLISH, "$%.1f", model.getServiceFee()));
-                        if(model.getNetPayingAmount()-wallet>=0)
-                            txtTotalCost.setText(String.format(Locale.ENGLISH, "$%.1f", model.getNetPayingAmount()-wallet));
-                        else
-                            txtTotalCost.setText(String.format(Locale.ENGLISH, "$%.1f", "0"));
+                        if(model.getNetPayingAmount()-wallet>=0) {
+                            if(wallet>=0)
+                                txtWallet.setText(String.format(Locale.ENGLISH, "-$ %.1f", wallet));
+                            else
+                                txtWallet.setText(String.format(Locale.ENGLISH, "$ %.1f", wallet));
+
+                            txtTotalCost.setText(String.format(Locale.ENGLISH, "$%.1f", model.getNetPayingAmount() - wallet));
+                        }
+                        else {
+                            txtTotalCost.setText(String.format(Locale.ENGLISH, "$%.1f", 0f));
+                            txtWallet.setText(String.format(Locale.ENGLISH, "-$ %.1f", model.getNetPayingAmount()));
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -3,6 +3,7 @@ package com.jobtick.android.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -66,6 +67,7 @@ public class CompleteMessageActivity extends AppCompatActivity {
     MaterialButton exploreJobs;
 
     public int from = 0;
+    public String taskSlug = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,10 @@ public class CompleteMessageActivity extends AppCompatActivity {
             }
             if (bundle.containsKey(ConstantKey.COMPLETES_MESSAGE_FROM)) {
                 from = bundle.getInt(ConstantKey.COMPLETES_MESSAGE_FROM, 0);
+            }
+            if (bundle.containsKey(ConstantKey.SLUG)) {
+                taskSlug = bundle.getString(ConstantKey.SLUG, null);
+                Log.d("taskSlug",taskSlug+"");
             }
         }
 
@@ -137,10 +143,18 @@ public class CompleteMessageActivity extends AppCompatActivity {
 
                 break;
             case R.id.lyt_btn_view_your_job:
-
                 Intent intent = new Intent(this, DashboardActivity.class);
-                intent.putExtra(ConstantKey.GO_TO_MY_JOBS, true);
-                startActivity(intent);
+                if(taskSlug==null) {
+                    intent.putExtra(ConstantKey.GO_TO_MY_JOBS, true);
+                    startActivity(intent);
+                }else{
+                    Intent taskDetail = new Intent(this, TaskDetailsActivity.class);
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString(ConstantKey.SLUG, taskSlug);
+                    //    bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
+                    taskDetail.putExtras(bundle1);
+                    startActivity(taskDetail);
+                }
                 break;
             case R.id.lyt_btn_new_job:
 

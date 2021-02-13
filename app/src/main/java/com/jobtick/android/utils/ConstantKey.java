@@ -88,7 +88,7 @@ public class ConstantKey {
     public static final String BTN_OFFER_PENDING = "Offer pending";
     public static final String BTN_MAKE_AN_OFFER = "Make an offer";
     public static final String BTN_COMPLETED = "Completed";
-    public static final String BTN_ASK_TO_RELEASE_MONEY = "Ask to release money";
+    public static final String BTN_ASK_TO_RELEASE_MONEY = "Ask for Payment";
     public static final String BTN_WAIT_TO_RELEASE_MONEY = "Waiting for poster to release money";
 
     public static final String BTN_POST_NEW_JOB = "Post a new job";

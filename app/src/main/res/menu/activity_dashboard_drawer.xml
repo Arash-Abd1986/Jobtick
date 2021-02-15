@@ -35,7 +35,7 @@
         <item
             android:id="@+id/nav_refer_a_friend"
             android:icon="@drawable/ic_refrer_frnd"
-            android:title="Refer a Friend" />
+            android:title="Invite Friend" />
 
         <item
             android:id="@+id/nav_settings"

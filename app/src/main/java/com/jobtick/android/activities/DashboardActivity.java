@@ -27,6 +27,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.jobtick.android.R;
 
+import com.jobtick.android.activities.others.ReferAFriendActivity;
 import com.jobtick.android.fragments.CashOutBottomSheet;
 import com.jobtick.android.fragments.LogOutBottomSheet;
 import com.jobtick.android.interfaces.onProfileUpdateListener;
@@ -317,7 +318,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 startActivity(rate_us);
                 return true;
             case R.id.action_share:
-
+//                startActivity(new Intent(this, ReferAFriendActivity.class));
                 referAFriend();
                 return true;
             case R.id.action_privacy_policy:
@@ -413,8 +414,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 return true;
 
             case R.id.nav_refer_a_friend:
-                referAFriend();
-
+                startActivity(new Intent(this, ReferAFriendActivity.class));
                 return true;
 
             case R.id.nav_settings:

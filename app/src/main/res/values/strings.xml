@@ -514,5 +514,18 @@
     <string name="rate">Rate</string>
     <string name="the_best_we_can_get">The best we can get :)</string>
     <string name="transactions">Transactions</string>
+    <string name="invite_friends">Invite Friends</string>
+    <string name="and_you_can_both_save_5">And you can both save $5</string>
+    <string name="how_it_works">How it works</string>
+    <string name="step_1">1</string>
+    <string name="just_share_your_link">Just share your link</string>
+    <string name="invite_your_friends">Invite your friends</string>
+    <string name="step_2">2</string>
+    <string name="they_post_or_complete_a_job">They post or complete a job</string>
+    <string name="with_5_off">With $5 off</string>
+    <string name="you_make_savings">You make savings!</string>
+    <string name="find_5_in_your_wallet">Find $5 in your wallet</string>
+    <string name="step_3">3</string>
+    <string name="invite_now">Invite now</string>
 
 </resources>

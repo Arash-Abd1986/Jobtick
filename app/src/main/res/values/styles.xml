@@ -435,7 +435,16 @@
         <item name="android:fontFamily">@font/hreg</item>
         <item name="android:textSize">14sp</item>
     </style>
-
+    <style name="materialText_300_14" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/hlight</item>
+        <item name="android:fontFamily">@font/hlight</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="materialText_300_12" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/hlight</item>
+        <item name="android:fontFamily">@font/hlight</item>
+        <item name="android:textSize">12sp</item>
+    </style>
     <style name="materialText_400_13" parent="TextAppearance.MaterialComponents.Body2">
         <item name="fontFamily">@font/hreg</item>
         <item name="android:fontFamily">@font/hreg</item>

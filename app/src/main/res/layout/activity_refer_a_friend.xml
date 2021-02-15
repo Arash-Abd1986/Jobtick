@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#E5E5E5"
+    tools:context=".activities.others.ReferAFriendActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/bg_refer_a_friend_page" />
+
+    <LinearLayout
+        android:id="@+id/llBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_back_white" />
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/materialText_700_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/invite_friends"
+            android:textColor="@color/white" />
+    </LinearLayout>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_marginTop="80dp"
+        android:layout_marginStart="25dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        android:layout_marginEnd="15dp"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_600_14"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_height="wrap_content"
+                android:text="@string/invite_friends"
+                android:textColor="@color/black" />
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_300_12"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_height="wrap_content"
+                android:text="@string/and_you_can_both_save_5"
+                android:textColor="#4D576A" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_600_14"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="15dp"
+                android:layout_height="wrap_content"
+                android:text="@string/how_it_works"
+                android:textColor="@color/black" />
+            <RelativeLayout
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_600_16"
+                    android:layout_width="50dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_refer_a_friend_steps"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:id="@+id/stepOne"
+                    android:text="@string/step_1"
+                    android:textColor="@color/colorPrimary" />
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_600_14"
+                    android:id="@+id/headerOne"
+                    android:layout_toEndOf="@id/stepOne"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/invite_your_friends"
+                    android:textColor="@color/colorPrimary" />
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_300_12"
+                    android:layout_toEndOf="@id/stepOne"
+                    android:layout_width="wrap_content"
+                    android:layout_below="@id/headerOne"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/just_share_your_link"
+                    android:textColor="#253858" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_600_16"
+                    android:layout_width="50dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_refer_a_friend_steps"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:id="@+id/stepTwo"
+                    android:text="@string/step_2"
+                    android:textColor="@color/colorPrimary" />
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_600_14"
+                    android:id="@+id/headerTwo"
+                    android:layout_toEndOf="@id/stepTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/they_post_or_complete_a_job"
+                    android:textColor="@color/colorPrimary" />
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_300_12"
+                    android:layout_toEndOf="@id/stepTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_below="@id/headerTwo"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/with_5_off"
+                    android:textColor="#253858" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_600_16"
+                    android:layout_width="50dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_refer_a_friend_steps"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:id="@+id/stepThree"
+                    android:text="@string/step_3"
+                    android:textColor="@color/colorPrimary" />
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_600_14"
+                    android:id="@+id/headerThree"
+                    android:layout_toEndOf="@id/stepThree"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/you_make_savings"
+                    android:textColor="@color/colorPrimary" />
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_300_12"
+                    android:layout_toEndOf="@id/stepThree"
+                    android:layout_width="wrap_content"
+                    android:layout_below="@id/headerThree"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/find_5_in_your_wallet"
+                    android:textColor="#253858" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/relCopy"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="35dp"
+                android:background="@drawable/bg_refer_a_friend_copy"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvLink"
+                    style="@style/materialText_500_12"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toStartOf="@+id/copy"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_marginEnd="15dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/copy"
+                    style="@style/materialText_700_14"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:text="@string/copy"
+                    android:textAllCaps="true"
+                    android:layout_marginEnd="15dp"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="@color/colorPrimary" />
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:id="@+id/btnInviteFriend"
+        android:text="@string/invite_now"
+        android:layout_marginStart="25dp"
+        android:textAllCaps="false"
+        style="@style/materialText_600_16"
+        android:layout_marginEnd="25dp"
+        android:textColor="@color/white"
+        android:layout_marginBottom="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_height="@dimen/_60dp"/>
+</RelativeLayout>

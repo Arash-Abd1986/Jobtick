@@ -1,8 +1,12 @@
 package com.jobtick.android.activities;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -15,6 +19,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -75,6 +81,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import timber.log.Timber;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static com.jobtick.android.activities.TaskDetailsActivity.isOfferQuestion;
 import static com.jobtick.android.pagination.PaginationListener.PAGE_START;
 
@@ -447,8 +454,20 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         // start the image capture Intent
         startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
     }
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
 
-
+    public boolean checkPermissionREAD_EXTERNAL_STORAGE(final Context context) {
+        int currentAPIVersion = Build.VERSION.SDK_INT;
+        if (ContextCompat.checkSelfPermission(context,
+                READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) context,
+                    new String[]{READ_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+            return false;
+        } else {
+            return true;
+        }
+    }
     private void addCommentIntoServer(String str_message, Integer id, String url) {
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/comments",
@@ -735,19 +754,21 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     }
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
-        if (action.equalsIgnoreCase("add")) {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
-        } else if (action.equalsIgnoreCase("delete")) {
-            recyclerViewQuestionAttachment.removeViewAt(position);
-            attachmentArrayList_question.remove(position);
-            adapter.notifyItemRemoved(position);
-            adapter.notifyItemRangeRemoved(position, attachmentArrayList_question.size());
-            attachmentArrayList_question.clear();
-            attachmentArrayList_question.add(new AttachmentModel());
-            adapter.notifyDataSetChanged();
+        if(checkPermissionREAD_EXTERNAL_STORAGE(this)) {
+            if (action.equalsIgnoreCase("add")) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
+            } else if (action.equalsIgnoreCase("delete")) {
+                recyclerViewQuestionAttachment.removeViewAt(position);
+                attachmentArrayList_question.remove(position);
+                adapter.notifyItemRemoved(position);
+                adapter.notifyItemRangeRemoved(position, attachmentArrayList_question.size());
+                attachmentArrayList_question.clear();
+                attachmentArrayList_question.add(new AttachmentModel());
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 

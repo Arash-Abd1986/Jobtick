@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -120,6 +123,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import timber.log.Timber;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static com.jobtick.android.activities.SavedTaskActivity.onRemoveSavedtasklistener;
 import static com.jobtick.android.fragments.TickerRequirementsBottomSheet.Requirement;
 import static com.jobtick.android.utils.Constant.ADD_ACCOUNT_DETAILS;
@@ -345,6 +349,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     public static QuestionModel questionModel;
     public static OnRequestAcceptListener requestAcceptListener;
     public static OnWidthDrawListener widthDrawListener;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
 
 
     public UserAccountModel userAccountModel;
@@ -2379,6 +2384,18 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }
         }
     }
+    public boolean checkPermissionREAD_EXTERNAL_STORAGE(final Context context) {
+        int currentAPIVersion = Build.VERSION.SDK_INT;
+            if (ContextCompat.checkSelfPermission(context,
+                    READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions((Activity) context,
+                        new String[]{READ_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                return false;
+            } else {
+                return true;
+            }
+    }
 
     //Adapter override method
     @Override
@@ -2433,19 +2450,21 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
-        if (action.equalsIgnoreCase("add")) {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
-        } else if (action.equalsIgnoreCase("delete")) {
-            recyclerViewQuestionAttachment.removeViewAt(position);
-            attachmentArrayList_question.remove(position);
-            adapter.notifyItemRemoved(position);
-            adapter.notifyItemRangeRemoved(position, attachmentArrayList_question.size());
-            attachmentArrayList_question.clear();
-            attachmentArrayList_question.add(new AttachmentModel());
-            adapter.notifyDataSetChanged();
+        if(checkPermissionREAD_EXTERNAL_STORAGE(this)) {
+            if (action.equalsIgnoreCase("add")) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
+            } else if (action.equalsIgnoreCase("delete")) {
+                recyclerViewQuestionAttachment.removeViewAt(position);
+                attachmentArrayList_question.remove(position);
+                adapter.notifyItemRemoved(position);
+                adapter.notifyItemRangeRemoved(position, attachmentArrayList_question.size());
+                attachmentArrayList_question.clear();
+                attachmentArrayList_question.add(new AttachmentModel());
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 

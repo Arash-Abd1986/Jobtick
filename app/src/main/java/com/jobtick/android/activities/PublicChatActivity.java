@@ -28,6 +28,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.jobtick.android.adapers.QuestionAttachmentAdapter;
+import com.jobtick.android.utils.Tools;
+import com.jobtick.android.widget.SpacingItemDecoration;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -75,7 +78,7 @@ import timber.log.Timber;
 import static com.jobtick.android.activities.TaskDetailsActivity.isOfferQuestion;
 import static com.jobtick.android.pagination.PaginationListener.PAGE_START;
 
-public class PublicChatActivity extends ActivityBase implements View.OnClickListener, AttachmentAdapter.OnItemClickListener {
+public class PublicChatActivity extends ActivityBase implements View.OnClickListener, AttachmentAdapter.OnItemClickListener, QuestionAttachmentAdapter.OnItemClickListener {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
@@ -211,6 +214,11 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.iv_verified_account)
     ImageView ivVerifiedAccount;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.recycler_view_question_attachment)
+    RecyclerView recyclerViewQuestionAttachment;
+    private final ArrayList<AttachmentModel> attachmentArrayList_question = new ArrayList<>();
+    private QuestionAttachmentAdapter adapter;
 
     boolean isPoster = false;
     @Override
@@ -262,13 +270,26 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         publicChatListAdapter = new PublicChatListAdapter(PublicChatActivity.this, new ArrayList<>(),true);
         recyclerViewOfferChat.setAdapter(publicChatListAdapter);
         // publicChatListAdapter.setOnItemClickListener(this);
+        initQuestion();
         if (offerModel.getTaskId() != null) {
             doApiCall(Constant.URL_OFFERS + "/" + offerModel.getId(),true);
         } else {
             doApiCall(Constant.URL_QUESTIONS + "/" + questionModel.getId(),false);
         }
     }
+    private void initQuestion() {
+        attachmentArrayList_question.clear();
+        attachmentArrayList_question.add(new AttachmentModel());
+        recyclerViewQuestionAttachment.setLayoutManager(new LinearLayoutManager(PublicChatActivity.this, RecyclerView.HORIZONTAL, false));
+        recyclerViewQuestionAttachment.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(PublicChatActivity.this, 5), true));
+        recyclerViewQuestionAttachment.setHasFixedSize(true);
+        //set data and list adapter
+        adapter = new QuestionAttachmentAdapter(attachmentArrayList_question, true);
+        recyclerViewQuestionAttachment.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        adapter.setOnItemClickListener(this);
 
+    }
     private void initLayout() {
         if (offerModel.getTaskId() != null) {
             if(isPoster){
@@ -440,6 +461,8 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                             JSONObject jsonObject = new JSONObject(response);
                             Timber.e(jsonObject.toString());
                             if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                                attachmentArrayList_question.clear();
+                                attachmentArrayList_question.add(new AttachmentModel());
                                 if (jsonObject.getBoolean("success")) {
                                     //TODO update recycler view
                                     JSONObject jsonObject_offer_chat = jsonObject.getJSONObject("data");
@@ -452,6 +475,9 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
 
                                 } else {
                                     showToast("Something went Wrong", PublicChatActivity.this);
+                                }
+                                if(adapter!=null){
+                                    adapter.notifyDataSetChanged();
                                 }
                             }
                         } catch (JSONException e) {
@@ -620,6 +646,8 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                     return;
                 }
                 try {
+                    adapter.clear();
+
                     String strResponse = response.body();
                     if (response.code() == HttpStatus.NOT_FOUND) {
                         showToast("not found", PublicChatActivity.this);
@@ -636,8 +664,11 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                         if (jsonObject.has("data")) {
                             JSONObject jsonObject_data = jsonObject.getJSONObject("data");
                             attachment = new AttachmentModel().getJsonToModel(jsonObject_data);
+                            attachmentArrayList_question.add(attachment);
                         }
 
+                        adapter.notifyItemInserted(0);
+                        adapter.notifyDataSetChanged();
                         //  ImageUtil.displayRoundImage(imgBtnImageSelect, attachment.getThumbUrl(), null);
                     } else {
                         showToast("Something went wrong", PublicChatActivity.this);
@@ -704,6 +735,24 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     }
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
+        if (action.equalsIgnoreCase("add")) {
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_PICKUP_IMAGE_REQUEST_CODE);
+        } else if (action.equalsIgnoreCase("delete")) {
+            recyclerViewQuestionAttachment.removeViewAt(position);
+            attachmentArrayList_question.remove(position);
+            adapter.notifyItemRemoved(position);
+            adapter.notifyItemRangeRemoved(position, attachmentArrayList_question.size());
+            attachmentArrayList_question.clear();
+            attachmentArrayList_question.add(new AttachmentModel());
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
 }

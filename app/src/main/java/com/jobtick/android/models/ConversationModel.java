@@ -23,6 +23,9 @@ public class ConversationModel implements Parcelable {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("blocked_by")
+    @Expose
+    private Integer blocked_by;
     @SerializedName("task_id")
     @Expose
     private Integer taskId;
@@ -83,8 +86,20 @@ public class ConversationModel implements Parcelable {
         this.chatClosed = chatClosed;
     }
 
+    public void setBlocked_by(Integer blocked_by) {
+        this.blocked_by = blocked_by;
+    }
+
+    public Integer getBlocked_by() {
+        return blocked_by;
+    }
 
     protected ConversationModel(Parcel in) {
+        if (in.readByte() == 0) {
+            blocked_by = null;
+        } else {
+            blocked_by = in.readInt();
+        }
         if (in.readByte() == 0) {
             id = null;
         } else {
@@ -112,6 +127,12 @@ public class ConversationModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        if (blocked_by == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(blocked_by);
+        }
         if (id == null) {
             dest.writeByte((byte) 0);
         } else {
@@ -253,6 +274,8 @@ public class ConversationModel implements Parcelable {
                 conversationModel.setId(jsonObject.getInt("id"));
             if (jsonObject.has("name") && !jsonObject.isNull("name"))
                 conversationModel.setName(jsonObject.getString("name"));
+            if (jsonObject.has("blocked_by") && !jsonObject.isNull("blocked_by"))
+                conversationModel.setBlocked_by(jsonObject.getInt("blocked_by"));
 
 
             if (jsonObject.has("task") && !jsonObject.isNull("task")) {

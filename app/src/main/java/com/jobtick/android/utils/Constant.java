@@ -62,6 +62,7 @@ public class Constant {
 
     public static final String URL_CHANGE_PASSWORD = BASE_URL + "account/change-password";
     public static final String URL_TASKS = BASE_URL + "tasks";
+    public static final String URL_BLOCK_CHAT = BASE_URL + "chat/blocking";
     public static final String URL_BOOKMARK = BASE_URL + "bookmarks";
 
     public static final String URL_NOTIFICATION_LIST = BASE_URL + "notifications";

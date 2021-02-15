@@ -3,7 +3,11 @@ package com.jobtick.android.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -26,6 +30,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.adapers.ChatAdapter;
@@ -77,6 +82,8 @@ import retrofit2.Callback;
 import timber.log.Timber;
 
 import static com.jobtick.android.pagination.PaginationListener.PAGE_START;
+import static com.jobtick.android.utils.Constant.URL_BLOCK_CHAT;
+import static com.jobtick.android.utils.Constant.URL_TASKS;
 
 public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -84,6 +91,12 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.cvAction)
+    CardView cvAction;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.btnUnblock)
+    Button btnUnblock;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_status)
     TextView txtStatus;
@@ -158,13 +171,21 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     private UploadableImage uploadableImage;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.chat_menu, menu);
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
         ButterKnife.bind(this);
 
         ConstantKey.IS_CHAT_SCREEN = true;
-        //  setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         toolbar.setSubtitle("Offline");
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
         HashMap<String, String> headers = new HashMap<>();
@@ -187,7 +208,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
             if (bundle.getParcelable(ConstantKey.CONVERSATION) != null) {
                 try {
                     conversationModel = bundle.getParcelable(ConstantKey.CONVERSATION);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -195,7 +216,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
         if (conversationModel != null) {
             setToolbar(conversationModel);
-            if(conversationModel.getChatClosed() != null &&
+            if (conversationModel.getChatClosed() != null &&
                     conversationModel.getChatClosed())
                 rltLayoutActionData.setVisibility(View.GONE);
 
@@ -247,8 +268,94 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 uploadDataInPortfolioMediaApi(imageFile);
             }
         };
+        addBlockingSystem();
     }
 
+    private void addBlockingSystem() {
+        toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.block_user:
+                    setUserBlockState(true);
+                    break;
+            }
+
+            return false;
+        });
+
+        btnUnblock.setOnClickListener(v -> {
+            setUserBlockState(false);
+        });
+
+        if(conversationModel!=null){
+            if(conversationModel.getBlocked_by()!=null){
+                if(sessionManager.getUserAccount().getId().equals(conversationModel.getBlocked_by()))
+                {
+                    btnUnblock.setVisibility(View.VISIBLE);
+                    cvAction.setVisibility(View.GONE);
+                }
+            }
+        }
+    }
+
+//    private void setUserBlockState(boolean state) {
+//        if(state){
+//            btnUnblock.setVisibility(View.VISIBLE);
+//            cvAction.setVisibility(View.GONE);
+//        }else{
+//            btnUnblock.setVisibility(View.GONE);
+//            cvAction.setVisibility(View.VISIBLE);
+//        }
+//        callBlockAPI(state);
+//
+//    }
+
+    private void setUserBlockState(boolean state) {
+        Log.d("ConversationId",conversationModel.getId().toString());
+        showProgressDialog();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_BLOCK_CHAT,
+                response -> {
+                    if(state){
+                        btnUnblock.setVisibility(View.VISIBLE);
+                        cvAction.setVisibility(View.GONE);
+                    } else {
+                        btnUnblock.setVisibility(View.GONE);
+                        cvAction.setVisibility(View.VISIBLE);
+                    }
+                    hideProgressDialog();
+                },
+                error -> {
+                    hideProgressDialog();
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("conversation_id", conversationModel.getId().toString());
+                if(state)
+                    map1.put("block","1");
+                else
+                    map1.put("block","0");
+
+                return map1;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(ChatActivity.this);
+        requestQueue.add(stringRequest);
+        Timber.e(stringRequest.getUrl());
+    }
 
 
     @Override
@@ -321,7 +428,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 txtTitle.setText(conversationModel.getReceiver().getName());
                 imgAvatar.setOnClickListener(v -> {
                     Intent intent = new Intent(ChatActivity.this, ProfileActivity.class);
-                    intent.putExtra("id",conversationModel.getReceiver().getId());
+                    intent.putExtra("id", conversationModel.getReceiver().getId());
                     startActivity(intent);
                 });
                 txtTitle.setOnClickListener(v -> {
@@ -340,68 +447,71 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         }
         txtJobTitle.setText(conversationModel.getName());
         txtStatus.setText(conversationModel.getStatus());
-        if(!conversationModel.getStatus().equals(Constant.TASK_ASSIGNED)){
+        if (!conversationModel.getStatus().equals(Constant.TASK_ASSIGNED)) {
             cardStatus.setCardBackgroundColor(getColor(R.color.colorTaskCompleted));
         }
-        if(conversationModel.getStatus().equals(Constant.TASK_CANCELLED)){
+        if (conversationModel.getStatus().equals(Constant.TASK_CANCELLED)) {
             cardStatus.setCardBackgroundColor(getColor(R.color.colorTaskCancelled));
         }
-
 
 
     }
 
     private void subscribeToPresenceChannel() {
-        presenceChannel = pusher.subscribePresence("presence-userStatus", new PresenceChannelEventListener() {
-            @Override
-            public void onUsersInformationReceived(String channelName, Set<User> users) {
-                ArrayList<Integer> integerArrayList = new ArrayList<>();
-                for (User user : users) {
-                    integerArrayList.add(Integer.parseInt(user.getId()));
+        try {
+            presenceChannel = pusher.subscribePresence("presence-userStatus", new PresenceChannelEventListener() {
+                @Override
+                public void onUsersInformationReceived(String channelName, Set<User> users) {
+                    ArrayList<Integer> integerArrayList = new ArrayList<>();
+                    for (User user : users) {
+                        integerArrayList.add(Integer.parseInt(user.getId()));
+                    }
+                    setToolbarSubTitle(false);
+                    for (int i = 0; integerArrayList.size() > i; i++) {
+                        int id = integerArrayList.get(i);
+                        if (id == conversationModel.getReceiver().getId()) {
+                            setToolbarSubTitle(true);
+                        }
+                    }
+                    Timber.e("%s", integerArrayList.size());
                 }
-                setToolbarSubTitle(false);
-                for (int i = 0; integerArrayList.size() > i; i++) {
-                    int id = integerArrayList.get(i);
-                    if (id == conversationModel.getReceiver().getId()) {
+
+                @Override
+                public void userSubscribed(String channelName, User user) {
+                    //   adapter.addNewSubscribe(Integer.parseInt(user.getId()));
+                    Timber.e(user.toString());
+                    if (Integer.parseInt(user.getId()) == conversationModel.getReceiver().getId()) {
                         setToolbarSubTitle(true);
                     }
                 }
-                Timber.e("%s", integerArrayList.size());
-            }
 
-            @Override
-            public void userSubscribed(String channelName, User user) {
-                //   adapter.addNewSubscribe(Integer.parseInt(user.getId()));
-                Timber.e(user.toString());
-                if (Integer.parseInt(user.getId()) == conversationModel.getReceiver().getId()) {
-                    setToolbarSubTitle(true);
+                @Override
+                public void userUnsubscribed(String channelName, User user) {
+                    // adapter.addNewUnSubscribe(Integer.parseInt(user.getId()));
+                    Timber.e(user.toString());
+                    if (Integer.parseInt(user.getId()) == conversationModel.getReceiver().getId()) {
+                        setToolbarSubTitle(false);
+                    }
                 }
-            }
 
-            @Override
-            public void userUnsubscribed(String channelName, User user) {
-                // adapter.addNewUnSubscribe(Integer.parseInt(user.getId()));
-                Timber.e(user.toString());
-                if (Integer.parseInt(user.getId()) == conversationModel.getReceiver().getId()) {
-                    setToolbarSubTitle(false);
+                @Override
+                public void onAuthenticationFailure(String message, Exception e) {
+                    Timber.e(message);
                 }
-            }
 
-            @Override
-            public void onAuthenticationFailure(String message, Exception e) {
-                Timber.e(message);
-            }
+                @Override
+                public void onSubscriptionSucceeded(String channelName) {
+                    Timber.e(channelName);
+                }
 
-            @Override
-            public void onSubscriptionSucceeded(String channelName) {
-                Timber.e(channelName);
-            }
+                @Override
+                public void onEvent(PusherEvent event) {
+                    Timber.e(event.toString());
+                }
+            });
+        }catch (Exception e){
 
-            @Override
-            public void onEvent(PusherEvent event) {
-                Timber.e(event.toString());
-            }
-        });
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -606,8 +716,8 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_btn_image_select:
-               uploadableImage.showAttachmentImageBottomSheet(false);
-             //   showBottomSheetDialog(true);
+                uploadableImage.showAttachmentImageBottomSheet(false);
+                //   showBottomSheetDialog(true);
                 break;
             case R.id.img_btn_send:
                 if (validation()) {
@@ -622,7 +732,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 Intent intent = new Intent(ChatActivity.this, TaskDetailsActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString(ConstantKey.SLUG, conversationModel.getSlug());
-            //    bundle.putInt(ConstantKey.USER_ID, sessionManager.getUserAccount().getId());
+                //    bundle.putInt(ConstantKey.USER_ID, sessionManager.getUserAccount().getId());
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
@@ -682,7 +792,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                               showToast(jsonObject_error.getString("message"), this);
+                                showToast(jsonObject_error.getString("message"), this);
                             }
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
@@ -751,7 +861,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 try {
                     String strResponse = response.body();
                     if (response.code() == HttpStatus.NOT_FOUND) {
-                       showToast("not found", ChatActivity.this);
+                        showToast("not found", ChatActivity.this);
                         return;
                     }
                     if (response.code() == HttpStatus.AUTH_FAILED) {

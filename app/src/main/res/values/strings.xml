@@ -527,5 +527,8 @@
     <string name="find_5_in_your_wallet">Find $5 in your wallet</string>
     <string name="step_3">3</string>
     <string name="invite_now">Invite now</string>
+    <string name="options">Options</string>
+    <string name="block_user">Block User</string>
+    <string name="unblock">Unblock</string>
 
 </resources>

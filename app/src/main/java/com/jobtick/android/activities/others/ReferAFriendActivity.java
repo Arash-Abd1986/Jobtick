@@ -78,8 +78,8 @@ public class ReferAFriendActivity extends ActivityBase {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT,
-                    capitalize(sessionManager.getUserAccount().getFname(),true) +
-                            capitalize(sessionManager.getUserAccount().getLname(),true)+ " gave you a 5$ off your first job. \n" +
+                    capitalize(sessionManager.getUserAccount().getFname(),true) +" "+
+                            capitalize(sessionManager.getUserAccount().getLname(),true)+ " gave you a 10$ off your first job. \n" +
                             "Sign up and complete your first job using this link: \n\n" + link);
             sendIntent.setType("text/plain");
             startActivity(sendIntent);

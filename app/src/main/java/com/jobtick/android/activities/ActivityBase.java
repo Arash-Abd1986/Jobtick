@@ -24,6 +24,7 @@ import com.jobtick.android.R;
 import com.jobtick.android.utils.CameraUtils;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.SessionManager;
+import com.segment.analytics.android.integrations.appsflyer.AppsflyerIntegration;
 import com.tapadoo.alerter.Alerter;
 
 import org.json.JSONException;
@@ -32,10 +33,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 import timber.log.Timber;
-
+import com.segment.analytics.Analytics;
+import com.segment.analytics.Properties;
 
 public class ActivityBase extends AppCompatActivity {
-
+    static final String SEGMENT_WRITE_KEY = "CQ6XaLaFHQacQ54uQK4G36";
     protected ProgressDialog pDialog;
     SessionManager sessionManager;
 
@@ -47,6 +49,9 @@ public class ActivityBase extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getExtras();
         initProgressDialog();
+
+        Analytics.Builder builder = new Analytics.Builder(this , SEGMENT_WRITE_KEY)
+                .use(AppsflyerIntegration.FACTORY);
         sessionManager = new SessionManager(this);
 
         if (sessionManager.getLogin()) {

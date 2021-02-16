@@ -154,6 +154,7 @@ public class CompleteMessageActivity extends AppCompatActivity {
                     //    bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
                     taskDetail.putExtras(bundle1);
                     startActivity(taskDetail);
+                    finish();
                 }
                 break;
             case R.id.lyt_btn_new_job:

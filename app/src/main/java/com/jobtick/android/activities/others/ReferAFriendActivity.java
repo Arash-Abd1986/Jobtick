@@ -78,7 +78,8 @@ public class ReferAFriendActivity extends ActivityBase {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT,
-                    capitalize(sessionManager.getUserAccount().getFname()) + " gave you a 5$ off your first job. \n" +
+                    capitalize(sessionManager.getUserAccount().getFname(),true) +
+                            capitalize(sessionManager.getUserAccount().getLname(),true)+ " gave you a 5$ off your first job. \n" +
                             "Sign up and complete your first job using this link: \n\n" + link);
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
@@ -87,9 +88,12 @@ public class ReferAFriendActivity extends ActivityBase {
         }
     }
 
-    public static String capitalize(String str) {
+    public static String capitalize(String str,boolean isFname) {
         if(str == null || str.isEmpty()) {
-            return "Jobtick user";
+            if(isFname)
+                return "Jobtick";
+            else
+                return "user";
         }
 
         return str.substring(0, 1).toUpperCase() + str.substring(1);

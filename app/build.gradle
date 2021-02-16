@@ -101,6 +101,12 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
 
+    //app flyer
+    implementation 'com.appsflyer:af-android-sdk:6.1.4'
+    implementation 'com.appsflyer:segment-android-integration:6.1.1'
+    implementation 'com.android.installreferrer:installreferrer:2.2'
+    implementation 'com.segment.analytics.android:analytics:4.+'
+
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'            // image loader
     implementation 'io.github.memfis19:annca:0.3.7'

@@ -186,7 +186,7 @@
                 android:layout_height="40dp">
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvLink"
-                    style="@style/materialText_500_12"
+                    style="@style/materialText_500_10"
                     android:layout_width="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"

@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_600_14"
+                style="@style/materialText_600_16"
                 android:layout_width="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginStart="15dp"
@@ -52,7 +52,7 @@
                 android:text="@string/invite_friends"
                 android:textColor="@color/black" />
             <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_300_12"
+                style="@style/materialText_300_14"
                 android:layout_width="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                     android:text="@string/invite_your_friends"
                     android:textColor="@color/colorPrimary" />
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_300_12"
+                    style="@style/materialText_300_14"
                     android:layout_toEndOf="@id/stepOne"
                     android:layout_width="wrap_content"
                     android:layout_below="@id/headerOne"
@@ -129,7 +129,7 @@
                     android:text="@string/they_post_or_complete_a_job"
                     android:textColor="@color/colorPrimary" />
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_300_12"
+                    style="@style/materialText_300_14"
                     android:layout_toEndOf="@id/stepTwo"
                     android:layout_width="wrap_content"
                     android:layout_below="@id/headerTwo"
@@ -165,7 +165,7 @@
                     android:text="@string/you_make_savings"
                     android:textColor="@color/colorPrimary" />
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_300_12"
+                    style="@style/materialText_300_14"
                     android:layout_toEndOf="@id/stepThree"
                     android:layout_width="wrap_content"
                     android:layout_below="@id/headerThree"

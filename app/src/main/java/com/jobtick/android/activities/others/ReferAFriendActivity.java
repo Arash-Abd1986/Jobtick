@@ -78,9 +78,9 @@ public class ReferAFriendActivity extends ActivityBase {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT,
-                    capitalize(sessionManager.getUserAccount().getFname(),true) +" "+
-                            capitalize(sessionManager.getUserAccount().getLname(),true)+ " gave you a 10$ off your first job. \n" +
-                            "Sign up and complete your first job using this link: \n\n" + link);
+                    "Say yes to "+capitalize(sessionManager.getUserAccount().getFname(),true) +" "+
+                            capitalize(sessionManager.getUserAccount().getLname(),false)+ " VIP Invitation and receive $10 towards your first job completion. \n" +
+                            "Sign-up using the link to join our professional and welcoming community and start your journey on JOBTICK. \n\n" + link);
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
         } catch (Exception e) {

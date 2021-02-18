@@ -21,11 +21,12 @@
 
         <ImageView
             android:layout_width="20dp"
+            android:layout_gravity="center"
             android:layout_height="20dp"
             android:src="@drawable/ic_back_white" />
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/materialText_700_14"
+            style="@style/materialText_700_16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/invite_friends"
@@ -186,7 +187,7 @@
                 android:layout_height="40dp">
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvLink"
-                    style="@style/materialText_500_10"
+                    style="@style/materialText_500_12"
                     android:layout_width="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"

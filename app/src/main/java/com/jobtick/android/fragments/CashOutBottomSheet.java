@@ -60,16 +60,14 @@ public class CashOutBottomSheet extends AbstractStateExpandedBottomSheet {
         myBalance = view.findViewById(R.id.my_balance);
 
         button.setOnClickListener(v -> {
-            if(!validation()) return;
-
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(Constant.CASH_OUT, creditCardModel);
-            Intent intent = new Intent(requireContext(), CashOutActivity.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
+            cashOut();
         });
 
         return view;
+    }
+
+    private void cashOut() {
+        //TODO call cash out api
     }
 
     @Override

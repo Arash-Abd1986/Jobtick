@@ -21,8 +21,8 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/materialText_500_14"
-        android:text="Wallet"
+        android:textAppearance="@style/materialText_500_18"
+        android:text="@string/wallet"
         android:gravity="center"
         android:layout_below="@id/handle"
         android:layout_marginTop="16dp"/>
@@ -42,8 +42,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/materialText_400_14"
-            android:text="@string/my_personal_balance"
+            android:text="@string/balance"
             android:layout_marginTop="24dp"
+            android:textColor="#4D576A"
             android:gravity="center"/>
 
         <com.google.android.material.textview.MaterialTextView
@@ -51,62 +52,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/materialText_600_22"
-            tools:text="$ 300"
+            tools:text="$300"
+            android:textColor="@color/colorPrimary"
             android:layout_margin="32dp"
             android:gravity="center"
             android:textSize="48sp"/>
 
     </LinearLayout>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/time_cashout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/content"
-        android:textAppearance="@style/materialText_500_14"
-        android:layout_alignParentStart="true"
-        android:text="@string/this_text_description_for_time_cash_out"
-        android:layout_marginTop="19dp"
-        android:textColor="@color/grey_70"
-        android:gravity="start"
-        android:layout_marginStart="16dp" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/next_time_cashout_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/materialText_500_16"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@id/next_time_cashout_value"
-        android:layout_alignTop="@id/next_time_cashout_value"
-        android:layout_alignBottom="@id/next_time_cashout_value"
-        android:textColor="@color/textColor"
-        android:text="@string/this_text_description_for_time_cash_out"
-        android:gravity="start"
-        android:layout_marginStart="16dp" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/next_time_cashout_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/time_cashout"
-        android:textAppearance="@style/materialText_700_16"
-        android:layout_alignParentEnd="true"
-        android:textColor="@color/colorPrimary"
-        android:text="3d"
-        android:layout_marginTop="11dp"
-        android:gravity="end"
-        android:layout_marginEnd="16dp" />
+
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_cashout"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        style="@style/materialButton.outlined"
+        android:layout_height="60dp"
         android:text="@string/cash_out"
-        android:layout_below="@id/next_time_cashout_value"
+        android:textColor="@color/white"
+        style="@style/materialText_700_14"
+        android:layout_below="@id/content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:textAllCaps="false"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="32dp" />
 

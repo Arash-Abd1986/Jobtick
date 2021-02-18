@@ -390,6 +390,7 @@
     <color name="colorTaskAssigned">#FFC400</color>
     <color name="colorTaskAssignedTrans">#1AF3B004</color>
     <color name="colorTaskOverDraft">#FF4343</color>
+    <color name="colorRedBalance">#FF4343</color>
 
     <color name="colorTaskOverDue">#FF4343</color>
     <color name="colorTaskOverDueTrans">#1AFF4343</color>

@@ -43,7 +43,6 @@ public class CashOutActivity extends ActivityBase {
     }
 
     private void init(){
-        availableBalance.setText(String.format(Locale.ENGLISH, "$ %d Available", creditCardModel.getData().get(1).getWallet().getBalance()));
     }
 
     private void requestCashout() {

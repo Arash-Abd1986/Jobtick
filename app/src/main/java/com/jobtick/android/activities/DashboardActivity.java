@@ -79,6 +79,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     TextView txtAccountLevel;
     CardView btnCashOut;
     TextView myBalance;
+    LinearLayout llWalletBalance;
 
     private CreditCardModel creditCardModel;
 
@@ -89,7 +90,6 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
@@ -108,16 +108,13 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         txtAccountLevel = headerView.findViewById(R.id.txt_account_level);
         btnCashOut = headerView.findViewById(R.id.btn_cashout);
         myBalance = headerView.findViewById(R.id.my_balance);
+        llWalletBalance = headerView.findViewById(R.id.llWalletBalance);
 
         setHeaderLayout();
         navigationView.setNavigationItemSelectedListener(this);
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
-        btnCashOut.setOnClickListener( v -> {
-            drawerLayout.close();
-            CashOutBottomSheet cashOutBottomSheet = CashOutBottomSheet.newInstance(creditCardModel);
-            cashOutBottomSheet.show(getSupportFragmentManager(), "");
-        });
+
 
 
 
@@ -206,19 +203,20 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         }
 
         goToFragment();
+        getBalance();
     }
 
 
-    private void goToFragment(){
-        if(getIntent().getBooleanExtra(ConstantKey.GO_TO_MY_JOBS, false))
+    private void goToFragment() {
+        if (getIntent().getBooleanExtra(ConstantKey.GO_TO_MY_JOBS, false))
             navController.navigate(R.id.navigation_my_tasks);
-        else if(getIntent().getBooleanExtra(ConstantKey.GO_TO_HOME, false))
+        else if (getIntent().getBooleanExtra(ConstantKey.GO_TO_HOME, false))
             navController.navigate(R.id.navigation_new_task);
-        else if(getIntent().getBooleanExtra(ConstantKey.GO_TO_EXPLORE, false))
+        else if (getIntent().getBooleanExtra(ConstantKey.GO_TO_EXPLORE, false))
             navController.navigate(R.id.navigation_browse);
-        else if(getIntent().getBooleanExtra(ConstantKey.GO_TO_CHAT, false))
+        else if (getIntent().getBooleanExtra(ConstantKey.GO_TO_CHAT, false))
             navController.navigate(R.id.navigation_inbox);
-        else if(getIntent().getBooleanExtra(ConstantKey.GO_TO_PROFILE, false))
+        else if (getIntent().getBooleanExtra(ConstantKey.GO_TO_PROFILE, false))
             navController.navigate(R.id.navigation_profile);
 
         //TODO: when this activity is opening again, (for second time) tool bar background becomes white.
@@ -226,16 +224,16 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         toolbar.setBackgroundResource(R.color.backgroundLightGrey);
     }
 
-    public void goToFragment(Fragment fragment){
-        if(fragment == Fragment.MY_JOBS)
+    public void goToFragment(Fragment fragment) {
+        if (fragment == Fragment.MY_JOBS)
             navController.navigate(R.id.navigation_my_tasks);
-        else if(fragment == Fragment.HOME)
+        else if (fragment == Fragment.HOME)
             navController.navigate(R.id.navigation_new_task);
-        else if(fragment == Fragment.EXPLORE)
+        else if (fragment == Fragment.EXPLORE)
             navController.navigate(R.id.navigation_browse);
-        else if(fragment == Fragment.CHAT)
+        else if (fragment == Fragment.CHAT)
             navController.navigate(R.id.navigation_inbox);
-        else if(fragment == Fragment.PROFILE)
+        else if (fragment == Fragment.PROFILE)
             navController.navigate(R.id.navigation_profile);
     }
 
@@ -244,7 +242,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         super.onStart();
 
         //TODO: we disable this due to comment regarding removing balance from, but when they decided from place of balance, maybe this is required to add again
-    //    getBalance();
+        //    getBalance();
     }
 
     private void setHeaderLayout() {
@@ -338,7 +336,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         logOutBottomSheet.show(getSupportFragmentManager(), "");
     }
 
-    private void referAFriend(){
+    private void referAFriend() {
         try {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
@@ -452,6 +450,25 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
                                     if (creditCardModel != null && creditCardModel.getData() != null && creditCardModel.getData().get(1).getWallet() != null) {
                                         myBalance.setText(String.format(Locale.ENGLISH, "$ %d", creditCardModel.getData().get(1).getWallet().getBalance()));
+                                        if (creditCardModel.getData().get(1).getWallet().getBalance() > 0) {
+                                            myBalance.setVisibility(View.VISIBLE);
+                                            btnCashOut.setOnClickListener(v -> {
+                                                drawerLayout.close();
+                                                CashOutBottomSheet cashOutBottomSheet = CashOutBottomSheet.newInstance(creditCardModel);
+                                                cashOutBottomSheet.show(getSupportFragmentManager(), "");
+                                            });
+                                            llWalletBalance.setBackgroundColor(getResources().getColor(R.color.colorPrimary, null));
+                                        } else if (creditCardModel.getData().get(1).getWallet().getBalance() < 0) {
+                                            myBalance.setVisibility(View.VISIBLE);
+                                            llWalletBalance.setBackgroundColor(getResources().getColor(R.color.colorRedBalance, null));
+                                            btnCashOut.setOnClickListener( v -> {
+                                                drawerLayout.close();
+                                                CashOutBottomSheet cashOutBottomSheet = CashOutBottomSheet.newInstance(creditCardModel);
+                                                cashOutBottomSheet.show(getSupportFragmentManager(), "");
+                                            });
+                                        } else {
+                                            myBalance.setVisibility(View.GONE);
+                                        }
                                     }
                                 }
                             } else {
@@ -484,8 +501,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                     }
                     Timber.e(error.toString());
                     errorHandle1(error.networkResponse);
-                })
-        {
+                }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
@@ -516,7 +532,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     public void updateProfile() {
     }
 
-    public enum Fragment{
+    public enum Fragment {
         HOME,
         MY_JOBS,
         EXPLORE,
@@ -551,6 +567,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
         dialog.show();
     }
+
     private void launchMarket() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(

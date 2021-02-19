@@ -219,111 +219,147 @@
                     android:textAppearance="@style/materialText_600_14"
                     android:textColor="@color/colorPrimary" />
 
-                <RelativeLayout
-                    android:id="@+id/rlt_payment_method"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <LinearLayout
                     android:layout_below="@+id/payment_method"
-                    android:layout_marginTop="16dp"
-                    android:visibility="gone">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/img_brand"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:backgroundTint="@color/grey_E2E2E2"
-                        android:elevation="0dp"
-                        app:cardElevation="0dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_credit_card"
-                             />
-                    </androidx.cardview.widget.CardView>
-
-
-                    <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:id="@+id/rlt_payment_method"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/spacing_large"
-                        android:layout_marginEnd="@dimen/spacing_large"
-                        android:layout_toStartOf="@+id/btn_new"
-                        android:layout_toEndOf="@id/img_brand"
-                        android:orientation="vertical">
+                        android:layout_marginTop="16dp"
+                        android:visibility="gone">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/img_brand"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:backgroundTint="@color/grey_E2E2E2"
+                            android:elevation="0dp"
+                            app:cardElevation="0dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_credit_card"
+                                />
+                        </androidx.cardview.widget.CardView>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/spacing_large"
+                            android:layout_marginEnd="@dimen/spacing_large"
+                            android:layout_toStartOf="@+id/btn_new"
+                            android:layout_toEndOf="@id/img_brand"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/txt_account_number"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:singleLine="true"
+                                android:textAppearance="@style/materialText_400_12"
+                                android:textColor="@color/textColor"
+                                tools:text="**** **** **** 4949" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/txt_expires_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:gravity="center_vertical"
+                                android:singleLine="true"
+                                android:textAppearance="@style/materialText_400_12"
+                                android:textColor="@color/textColor"
+                                tools:text="Expires 06/22" />
+
+
+                        </LinearLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_new"
+                            style="@style/materialButton.outlined"
+                            android:layout_width="70dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/spacing_line"
+                            android:text="@string/new_text" />
+
+
+                    </RelativeLayout>
+                    <LinearLayout
+                        android:id="@+id/lyt_add_credit_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:src="@drawable/ic_add_primary"
+                            />
+
+                        <View
+                            android:layout_width="@dimen/spacing_large"
+                            android:layout_height="match_parent" />
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/txt_account_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
+                            android:layout_gravity="center_vertical"
                             android:singleLine="true"
-                            android:textAppearance="@style/materialText_400_12"
-                            android:textColor="@color/textColor"
-                            tools:text="**** **** **** 4949" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/txt_expires_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center_vertical"
-                            android:singleLine="true"
-                            android:textAppearance="@style/materialText_400_12"
-                            android:textColor="@color/textColor"
-                            tools:text="Expires 06/22" />
+                            android:text="@string/add_credit_card"
+                            android:textAppearance="@style/materialText_500_14"
+                            android:textColor="@color/colorPrimary" />
 
 
                     </LinearLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_new"
-                        style="@style/materialButton.outlined"
-                        android:layout_width="70dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/spacing_line"
-                        android:text="New" />
-
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/lyt_add_credit_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/payment_method"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal"
-                    android:visibility="visible">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:src="@drawable/ic_add_primary"
-                         />
-
-                    <View
-                        android:layout_width="@dimen/spacing_large"
-                        android:layout_height="match_parent" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/llCoupon"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:singleLine="true"
-                        android:text="Add Credit Card"
-                        android:textAppearance="@style/materialText_500_14"
-                        android:textColor="@color/colorPrimary" />
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:src="@drawable/ic_add_primary"
+                            />
+
+                        <View
+                            android:layout_width="@dimen/spacing_large"
+                            android:layout_height="match_parent" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:singleLine="true"
+                            android:text="@string/add_promo_code"
+                            android:textAppearance="@style/materialText_500_14"
+                            android:textColor="@color/colorPrimary" />
 
 
+                    </LinearLayout>
                 </LinearLayout>
+
+
+
 
             </RelativeLayout>
         </LinearLayout>

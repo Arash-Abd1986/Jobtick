@@ -532,5 +532,10 @@
     <string name="unblock">Unblock</string>
     <string name="wallet_balance">Wallet Balance</string>
     <string name="balance">Balance</string>
+    <string name="add_promo_code">Add Promo Code</string>
+    <string name="new_text">New</string>
+    <string name="promo_code">Promo Code</string>
+    <string name="enter_your_promo_code">Enter your promo code</string>
+    <string name="that_code_isn_t_valid_or_has_been_expired">That code isn’t valid or has been expired.</string>
 
 </resources>

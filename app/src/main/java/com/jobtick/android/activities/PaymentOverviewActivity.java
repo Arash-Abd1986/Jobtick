@@ -23,7 +23,9 @@ import com.google.gson.Gson;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
 
+import com.jobtick.android.fragments.LogOutBottomSheet;
 import com.jobtick.android.fragments.PosterRequirementsBottomSheet;
+import com.jobtick.android.fragments.others.AddCouponFragment;
 import com.jobtick.android.models.CreditCardModel;
 import com.jobtick.android.models.OfferModel;
 import com.jobtick.android.models.TaskModel;
@@ -103,6 +105,10 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
     @BindView(R.id.lyt_add_credit_card)
     LinearLayout lytAddCreditCard;
 
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.llCoupon)
+    LinearLayout llCoupon;
+
     private TaskModel taskModel;
     private OfferModel offerModel;
     private UserAccountModel userAccountModel;
@@ -130,6 +136,14 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
         gson = new Gson();
         setUpData();
         getPaymentMethod();
+        setupCoupon();
+    }
+
+    private void setupCoupon() {
+        llCoupon.setOnClickListener(v -> {
+            AddCouponFragment addCouponFragment = AddCouponFragment.newInstance();
+            addCouponFragment.show(getSupportFragmentManager(), "");
+        });
     }
 
     private void initToolbar() {

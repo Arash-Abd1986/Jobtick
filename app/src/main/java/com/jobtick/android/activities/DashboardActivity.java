@@ -449,9 +449,9 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                                     creditCardModel = gson.fromJson(jsonString, CreditCardModel.class);
 
                                     if (creditCardModel != null && creditCardModel.getData() != null && creditCardModel.getData().get(1).getWallet() != null) {
-                                        myBalance.setText(String.format(Locale.ENGLISH, "$ %d", creditCardModel.getData().get(1).getWallet().getBalance()));
                                         if (creditCardModel.getData().get(1).getWallet().getBalance() > 0) {
-                                            myBalance.setVisibility(View.VISIBLE);
+                                            myBalance.setText(String.format(Locale.ENGLISH, "$%d", creditCardModel.getData().get(1).getWallet().getBalance()));
+                                            btnCashOut.setVisibility(View.VISIBLE);
                                             btnCashOut.setOnClickListener(v -> {
                                                 drawerLayout.close();
                                                 CashOutBottomSheet cashOutBottomSheet = CashOutBottomSheet.newInstance(creditCardModel);
@@ -459,15 +459,11 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                                             });
                                             llWalletBalance.setBackgroundColor(getResources().getColor(R.color.colorPrimary, null));
                                         } else if (creditCardModel.getData().get(1).getWallet().getBalance() < 0) {
-                                            myBalance.setVisibility(View.VISIBLE);
+                                            myBalance.setText(String.format(Locale.ENGLISH, "-$%d", Math.abs(creditCardModel.getData().get(1).getWallet().getBalance())));
+                                            btnCashOut.setVisibility(View.VISIBLE);
                                             llWalletBalance.setBackgroundColor(getResources().getColor(R.color.colorRedBalance, null));
-                                            btnCashOut.setOnClickListener( v -> {
-                                                drawerLayout.close();
-                                                CashOutBottomSheet cashOutBottomSheet = CashOutBottomSheet.newInstance(creditCardModel);
-                                                cashOutBottomSheet.show(getSupportFragmentManager(), "");
-                                            });
                                         } else {
-                                            myBalance.setVisibility(View.GONE);
+                                            btnCashOut.setVisibility(View.GONE);
                                         }
                                     }
                                 }

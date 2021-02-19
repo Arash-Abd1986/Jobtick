@@ -1,6 +1,7 @@
 package com.jobtick.android.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.jobtick.android.activities.ActivityBase;
 import com.jobtick.android.activities.CashOutActivity;
 import com.jobtick.android.models.CreditCardModel;
 import com.jobtick.android.utils.Constant;
+import com.jobtick.android.utils.SessionManager;
 
 import java.util.Locale;
 
@@ -51,6 +53,7 @@ public class CashOutBottomSheet extends AbstractStateExpandedBottomSheet {
             creditCardModel = getArguments().getParcelable(Constant.CASH_OUT);
 
     }
+    SessionManager sessionManager;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -58,6 +61,7 @@ public class CashOutBottomSheet extends AbstractStateExpandedBottomSheet {
         View view = inflater.inflate(R.layout.fragment_cashout_bottom_sheet, container, false);
         button = view.findViewById(R.id.btn_cashout);
         myBalance = view.findViewById(R.id.my_balance);
+        sessionManager = new SessionManager(getActivity());
 
         button.setOnClickListener(v -> {
             cashOut();
@@ -67,7 +71,9 @@ public class CashOutBottomSheet extends AbstractStateExpandedBottomSheet {
     }
 
     private void cashOut() {
-        //TODO call cash out api
+        String link = "https://www.jobtick.com/contact?email="+sessionManager.getUserAccount().getEmail()+"&type=cashout";
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+        startActivity(browserIntent);
     }
 
     @Override

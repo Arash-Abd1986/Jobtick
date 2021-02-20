@@ -23,7 +23,6 @@ import com.google.gson.Gson;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
 
-import com.jobtick.android.fragments.LogOutBottomSheet;
 import com.jobtick.android.fragments.PosterRequirementsBottomSheet;
 import com.jobtick.android.fragments.others.AddCouponFragment;
 import com.jobtick.android.models.CreditCardModel;
@@ -136,12 +135,11 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
         gson = new Gson();
         setUpData();
         getPaymentMethod();
-        setupCoupon();
     }
 
-    private void setupCoupon() {
+    private void setupCoupon(Integer netPayingAmount) {
         llCoupon.setOnClickListener(v -> {
-            AddCouponFragment addCouponFragment = AddCouponFragment.newInstance();
+            AddCouponFragment addCouponFragment = AddCouponFragment.newInstance(netPayingAmount);
             addCouponFragment.show(getSupportFragmentManager(), "");
         });
     }
@@ -169,7 +167,9 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
             //TODO set default image
         }
         stateRequirement.put(PosterRequirementsBottomSheet.Requirement.CreditCard, false);
+        setupCoupon(offerModel.getOfferPrice());
         calculate(Float.toString(offerModel.getOfferPrice()));
+
     }
 
     private void getPaymentMethod() {

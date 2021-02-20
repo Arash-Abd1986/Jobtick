@@ -88,7 +88,7 @@
         android:id="@+id/btnVerify"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="@string/verify"
+        android:text="@string/submit"
         android:textColor="@color/white"
         style="@style/materialText_700_14"
         android:layout_below="@id/content"

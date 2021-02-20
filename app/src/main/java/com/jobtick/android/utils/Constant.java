@@ -152,6 +152,7 @@ public class Constant {
 
     public static String URL_OFFERS_EARNING_CALCULATION = BASE_URL + "offers/earning_calculation";
     public static String URL_OFFERS_PAYING_CALCULATION = BASE_URL + "offers/paying_calculation";
+    public static String URL_CHECK_COUPON = BASE_URL + "coupons/check-coupon";
 
 
     public static String CASH_OUT = "cash out";

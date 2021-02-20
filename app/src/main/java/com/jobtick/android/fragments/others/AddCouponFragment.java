@@ -18,13 +18,28 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.jobtick.android.R;
+import com.jobtick.android.activities.PaymentOverviewActivity;
 import com.jobtick.android.fragments.AbstractStateExpandedBottomSheet;
 import com.jobtick.android.fragments.CashOutBottomSheet;
 import com.jobtick.android.models.CreditCardModel;
+import com.jobtick.android.models.calculation.PayingCalculationModel;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.SessionManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -114,6 +129,66 @@ public class AddCouponFragment extends AbstractStateExpandedBottomSheet {
 
     private void checkPromoCode() {
 
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_CHECK_COUPON,
+                response -> {
+            pbLoading.setVisibility(View.GONE);
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String data = jsonObject.getString("data");
+
+                        ivState.setVisibility(View.VISIBLE);
+                        ivState.setImageResource(R.drawable.ic_verified_coupon);
+                        pbLoading.setVisibility(View.GONE);
+                        tvError.setVisibility(View.GONE);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    pbLoading.setVisibility(View.GONE);
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            String message = jsonObject_error.getString("message");
+                            tvError.setText(message);
+                            tvError.setVisibility(View.VISIBLE);
+                            ivState.setImageResource(R.drawable.ic_unverified_coupon);
+                            ivState.setVisibility(View.VISIBLE);
+                        } catch (Exception e) {
+                            tvError.setVisibility(View.GONE);
+                            ivState.setImageResource(R.drawable.ic_unverified_coupon);
+                        }
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+
+                return map1;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> map1 = new HashMap<String, String>();
+                map1.put("amount", "100");
+                map1.put("coupon", etPromoCode.getText().toString());
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(stringRequest);
     }
 
     private void verify() {

@@ -22,6 +22,7 @@ import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
+import android.widget.Toast;
 
 import com.jobtick.android.fragments.PosterRequirementsBottomSheet;
 import com.jobtick.android.fragments.others.AddCouponFragment;
@@ -49,7 +50,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class PaymentOverviewActivity extends ActivityBase implements PosterRequirementsBottomSheet.NoticeListener {
+public class PaymentOverviewActivity extends ActivityBase implements PosterRequirementsBottomSheet.NoticeListener,AddCouponFragment.SubmitListener {
 
     private static final String TAG = PaymentOverviewActivity.class.getSimpleName();
     @SuppressLint("NonConstantResourceId")
@@ -65,8 +66,14 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
     @BindView(R.id.txt_post_title)
     MaterialTextView txtPostTitle;
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_discount_fee)
+    MaterialTextView txtDiscountFee;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_task_cost)
     MaterialTextView txtTaskCost;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.btnDeleteCoupon)
+    MaterialButton btnDeleteCoupon;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_service_fee)
     MaterialTextView txtServiceFee;
@@ -79,6 +86,9 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_total_cost)
     MaterialTextView txtTotalCost;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.tvCoupon)
+    MaterialTextView tvCoupon;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_brand)
     CardView imgBrand;
@@ -108,10 +118,14 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
     @BindView(R.id.llCoupon)
     LinearLayout llCoupon;
 
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.relCouponDetails)
+    RelativeLayout relCouponDetails;
     private TaskModel taskModel;
     private OfferModel offerModel;
     private UserAccountModel userAccountModel;
 
+    private String coupon=null;
     private Gson gson;
 
     private final HashMap<PosterRequirementsBottomSheet.Requirement, Boolean> stateRequirement = new HashMap<>();
@@ -136,11 +150,23 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
         setUpData();
         getPaymentMethod();
     }
-
+    AddCouponFragment addCouponFragment;
     private void setupCoupon(Integer netPayingAmount) {
         llCoupon.setOnClickListener(v -> {
-            AddCouponFragment addCouponFragment = AddCouponFragment.newInstance(netPayingAmount);
+            addCouponFragment = AddCouponFragment.newInstance(netPayingAmount);
             addCouponFragment.show(getSupportFragmentManager(), "");
+        });
+
+        if(coupon!=null){
+            tvCoupon.setText(coupon);
+            relCouponDetails.setVisibility(View.VISIBLE);
+        }
+
+        btnDeleteCoupon.setOnClickListener(v -> {
+            coupon = null;
+            relCouponDetails.setVisibility(View.GONE);
+            llCoupon.setVisibility(View.VISIBLE);
+            calculate(offerModel.getOfferPrice()+"");
         });
     }
 
@@ -390,7 +416,6 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
     }
 
     public void calculate(String amount) {
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_OFFERS_PAYING_CALCULATION,
                 response -> {
                     hideProgressDialog();
@@ -400,17 +425,19 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
 
                         PayingCalculationModel model = gson.fromJson(data, PayingCalculationModel.class);
                         txtServiceFee.setText(String.format(Locale.ENGLISH, "$%.1f", model.getServiceFee()));
+
+                        txtDiscountFee.setText(String.format(Locale.ENGLISH, "$%.1f", model.getDiscount()));
                         if(model.getNetPayingAmount()-wallet>=0) {
                             if(wallet>=0)
-                                txtWallet.setText(String.format(Locale.ENGLISH, "-$ %.1f", wallet));
+                                txtWallet.setText(String.format(Locale.ENGLISH, "-$%.1f", wallet));
                             else
-                                txtWallet.setText(String.format(Locale.ENGLISH, "$ %.1f", wallet));
+                                txtWallet.setText(String.format(Locale.ENGLISH, "$%.1f", Math.abs(wallet)));
 
                             txtTotalCost.setText(String.format(Locale.ENGLISH, "$%.1f", model.getNetPayingAmount() - wallet));
                         }
                         else {
                             txtTotalCost.setText(String.format(Locale.ENGLISH, "$%.1f", 0f));
-                            txtWallet.setText(String.format(Locale.ENGLISH, "-$ %.1f", model.getNetPayingAmount()));
+                            txtWallet.setText(String.format(Locale.ENGLISH, "-$%.1f", model.getNetPayingAmount()));
                         }
 
                     } catch (JSONException e) {
@@ -451,6 +478,8 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
             protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("amount", amount);
+                if(coupon!=null)
+                    map1.put("discount_code", coupon);
                 return map1;
             }
         };
@@ -464,5 +493,22 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
     @Override
     public void onCreditCardAdded() {
         getPaymentMethod();
+    }
+
+    @Override
+    public void onVerifySubmit(String coupon) {
+        calculate(offerModel.getOfferPrice()+"");
+        this.coupon = coupon;
+        tvCoupon.setText(coupon);
+        llCoupon.setVisibility(View.GONE);
+        relCouponDetails.setVisibility(View.VISIBLE);
+        if (addCouponFragment!=null)
+            addCouponFragment.dismiss();
+    }
+
+    @Override
+    public void onClose() {
+        if (addCouponFragment!=null)
+            addCouponFragment.dismiss();
     }
 }

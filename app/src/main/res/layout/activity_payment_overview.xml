@@ -141,7 +141,7 @@
                     android:layout_alignBottom="@id/txt_service_fee"
                     android:layout_alignParentStart="true"
                     android:singleLine="true"
-                    android:text="Service Fee"
+                    android:text="Fee (GST Inc.)"
                     android:textAppearance="@style/materialText_400_14"
                     android:textColor="@color/textColor" />
 
@@ -158,6 +158,28 @@
                     android:textColor="@color/colorPrimary" />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/txt_discount_fee"
+                    android:layout_alignBottom="@id/txt_discount_fee"
+                    android:layout_alignParentStart="true"
+                    android:singleLine="true"
+                    android:text="@string/promotion"
+                    android:textAppearance="@style/materialText_400_14"
+                    android:textColor="@color/textColor" />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_discount_fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_wallet_value"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="12dp"
+                    tools:text="$ 00"
+                    android:textAppearance="@style/materialText_600_16"
+                    android:textColor="@color/colorGreen" />
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_wallet_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -166,7 +188,7 @@
                     android:layout_alignParentStart="true"
                     android:gravity="center_vertical"
                     android:singleLine="true"
-                    android:text="@string/wallet"
+                    android:text="@string/wallet_balance"
                     android:visibility="gone"
                     android:textAppearance="@style/materialText_400_14"
                     android:textColor="@color/textColor" />
@@ -181,7 +203,7 @@
                     android:layout_marginTop="12dp"
                     android:visibility="gone"
                     android:textAppearance="@style/materialText_600_16"
-                    android:textColor="@color/strokeRed"
+                    android:textColor="@color/colorPrimary"
                     tools:text="-$ 50" />
 
 
@@ -201,7 +223,7 @@
                     android:id="@+id/txt_total_cost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/txt_wallet_value"
+                    android:layout_below="@id/txt_discount_fee"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="12dp"
                     tools:text="$ 200"
@@ -356,6 +378,29 @@
 
 
                     </LinearLayout>
+                    <RelativeLayout
+                        android:visibility="gone"
+                        android:id="@+id/relCouponDetails"
+                        android:layout_marginTop="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            style="@style/materialText_500_16"
+                            android:textColor="#596880"
+                            android:id="@+id/tvCoupon"
+                            android:layout_centerVertical="true"
+                            android:layout_height="wrap_content"/>
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnDeleteCoupon"
+                            style="@style/materialButton.outlined.red"
+                            android:layout_width="70dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/spacing_line"
+                            android:text="@string/delete" />
+                    </RelativeLayout>
                 </LinearLayout>
 
 

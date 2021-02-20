@@ -1,5 +1,6 @@
 package com.jobtick.android.fragments.others;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,7 @@ import com.jobtick.android.R;
 import com.jobtick.android.activities.PaymentOverviewActivity;
 import com.jobtick.android.fragments.AbstractStateExpandedBottomSheet;
 import com.jobtick.android.fragments.CashOutBottomSheet;
+import com.jobtick.android.fragments.PosterRequirementsBottomSheet;
 import com.jobtick.android.models.CreditCardModel;
 import com.jobtick.android.models.calculation.PayingCalculationModel;
 import com.jobtick.android.utils.Constant;
@@ -48,6 +50,8 @@ public class AddCouponFragment extends AbstractStateExpandedBottomSheet {
     SessionManager sessionManager;
     static Integer amount;
     boolean isVerified = false;
+    private SubmitListener listener;
+
     public static AddCouponFragment newInstance(Integer netPaying) {
         amount = netPaying;
         Bundle args = new Bundle();
@@ -78,6 +82,17 @@ public class AddCouponFragment extends AbstractStateExpandedBottomSheet {
         });
 
         return view;
+    }
+    public interface SubmitListener{
+
+        void onVerifySubmit(String coupon);
+        void onClose();
+    }
+    private void verify() {
+        if(isVerified)
+            listener.onVerifySubmit(etPromoCode.getText().toString());
+        else
+            listener.onClose();
     }
 
     private void setupPromotionCodeChecker(View view) {
@@ -203,7 +218,15 @@ public class AddCouponFragment extends AbstractStateExpandedBottomSheet {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
     }
-
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            listener = (SubmitListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(this.toString()
+                    + " must implement NoticeListener");
+        }
+    }
     @Deprecated
     private void checkPromoCodeOld() {
 
@@ -218,7 +241,6 @@ public class AddCouponFragment extends AbstractStateExpandedBottomSheet {
                         ivState.setImageResource(R.drawable.ic_verified_coupon);
                         pbLoading.setVisibility(View.GONE);
                         tvError.setVisibility(View.GONE);
-
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -273,7 +295,5 @@ public class AddCouponFragment extends AbstractStateExpandedBottomSheet {
         requestQueue.add(stringRequest);
     }
 
-    private void verify() {
 
-    }
 }

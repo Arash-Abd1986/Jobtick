@@ -9,7 +9,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class PayingCalculationModel implements Parcelable
 {
-
     @SerializedName("amount")
     @Expose
     private String amount;
@@ -28,6 +27,9 @@ public class PayingCalculationModel implements Parcelable
     @SerializedName("net_paying_amount")
     @Expose
     private Float netPayingAmount;
+    @SerializedName("discount")
+    @Expose
+    private Float discount;
     @SerializedName("min_service_fee_amount")
     @Expose
     private Integer minServiceFeeAmount;
@@ -64,6 +66,7 @@ public class PayingCalculationModel implements Parcelable
         this.gstAmount = ((Float) in.readValue((Float.class.getClassLoader())));
         this.serviceFee = ((Float) in.readValue((Float.class.getClassLoader())));
         this.netPayingAmount = ((Float) in.readValue((Float.class.getClassLoader())));
+        this.discount = ((Float) in.readValue((Float.class.getClassLoader())));
         this.minServiceFeeAmount = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.maxServiceFeeAmount = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.taxEffect = ((String) in.readValue((String.class.getClassLoader())));
@@ -90,7 +93,7 @@ public class PayingCalculationModel implements Parcelable
      * @param serviceFeeRate
      * @param maxServiceFeeAmount
      */
-    public PayingCalculationModel(String amount, String gstRate, String serviceFeeRate, Float gstAmount, Float serviceFee, Float netPayingAmount, Integer minServiceFeeAmount, Integer maxServiceFeeAmount, String taxEffect, LevelTier levelTier) {
+    public PayingCalculationModel(String amount, String gstRate, String serviceFeeRate, Float gstAmount, Float serviceFee, Float netPayingAmount,Float discount, Integer minServiceFeeAmount, Integer maxServiceFeeAmount, String taxEffect, LevelTier levelTier) {
         super();
         this.amount = amount;
         this.gstRate = gstRate;
@@ -98,6 +101,7 @@ public class PayingCalculationModel implements Parcelable
         this.gstAmount = gstAmount;
         this.serviceFee = serviceFee;
         this.netPayingAmount = netPayingAmount;
+        this.discount = discount;
         this.minServiceFeeAmount = minServiceFeeAmount;
         this.maxServiceFeeAmount = maxServiceFeeAmount;
         this.taxEffect = taxEffect;
@@ -152,6 +156,14 @@ public class PayingCalculationModel implements Parcelable
         this.netPayingAmount = netPayingAmount;
     }
 
+    public void setDiscount(Float discount) {
+        this.discount = discount;
+    }
+
+    public Float getDiscount() {
+        return discount;
+    }
+
     public Integer getMinServiceFeeAmount() {
         return minServiceFeeAmount;
     }
@@ -191,6 +203,7 @@ public class PayingCalculationModel implements Parcelable
         dest.writeValue(gstAmount);
         dest.writeValue(serviceFee);
         dest.writeValue(netPayingAmount);
+        dest.writeValue(discount);
         dest.writeValue(minServiceFeeAmount);
         dest.writeValue(maxServiceFeeAmount);
         dest.writeValue(taxEffect);

@@ -131,7 +131,7 @@
                                 android:layout_gravity="center"
                                 android:drawableEnd="@drawable/ic_alert_circle_new_grey_12dp"
                                 android:gravity="center"
-                                android:text="Fee "
+                                android:text="@string/fee_min_2"
                                 android:textAppearance="@style/materialText_400_15"
                                 android:textColor="@color/grey_70" />
 

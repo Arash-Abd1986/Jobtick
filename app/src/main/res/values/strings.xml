@@ -538,5 +538,6 @@
     <string name="enter_your_promo_code">Enter your promo code</string>
     <string name="that_code_isn_t_valid_or_has_been_expired">That code isn’t valid or has been expired.</string>
     <string name="promotion">Promotion</string>
+    <string name="fee_min_2">Fee (min. 2$) </string>
 
 </resources>

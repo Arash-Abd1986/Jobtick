@@ -84,7 +84,6 @@ public class ReferAFriendActivity extends ActivityBase {
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
         } catch (Exception e) {
-            Timber.d(e.getMessage());
         }
     }
 

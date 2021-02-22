@@ -110,7 +110,7 @@ public class AddCouponFragment extends AbstractStateExpandedBottomSheet {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(etPromoCode.getText().length()>2){
+                if(etPromoCode.getText().length()==8){
                     ivState.setVisibility(View.GONE);
                     pbLoading.setVisibility(View.VISIBLE);
                 }else{

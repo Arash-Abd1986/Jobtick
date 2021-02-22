@@ -302,7 +302,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_pay:
-                payAcceptOffer();
+                payAcceptOffer(coupon);
                 break;
             case R.id.btn_new:
                 showCreditCardRequirementBottomSheet();
@@ -319,7 +319,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
         posterRequirementsBottomSheet.show(getSupportFragmentManager(), "");
     }
 
-    private void payAcceptOffer() {
+    private void payAcceptOffer(String coupon) {
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_TASKS + "/" + taskModel.getSlug() + "/accept-offer",
                 new Response.Listener<String>() {
@@ -401,6 +401,8 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("offer_id", String.valueOf(offerModel.getId()));
+                if(coupon!=null)
+                    map1.put("discount_code",coupon);
                 Timber.e(String.valueOf(map1.size()));
                 Timber.e(map1.toString());
                 return map1;
@@ -508,6 +510,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
 
     @Override
     public void onClose() {
+        this.coupon=null;
         if (addCouponFragment!=null)
             addCouponFragment.dismiss();
     }

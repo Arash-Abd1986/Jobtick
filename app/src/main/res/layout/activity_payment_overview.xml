@@ -386,7 +386,7 @@
                         android:layout_height="wrap_content">
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
-                            style="@style/materialText_500_16"
+                            style="@style/materialText_500_14"
                             android:textColor="#596880"
                             android:id="@+id/tvCoupon"
                             android:layout_centerVertical="true"

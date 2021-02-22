@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public class ReferAFriendActivity extends ActivityBase {
-    String link = "https://www.jobtick.com/?auth=invite&refer=";
+    String link = "https://www.jobtick.com/?auth=invite&referrer=";
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.relCopy)
     RelativeLayout relCopy;

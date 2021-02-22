@@ -144,7 +144,7 @@ public class LeaveReviewActivity extends ActivityBase {
         } else {
             txtLocation.setText(R.string.remote_task);
         }
-        txtAmount.setText(String.format(Locale.ENGLISH, "$ %d", taskModel.getAmount()));
+        txtAmount.setText(String.format(Locale.ENGLISH, "$%d", taskModel.getAmount()));
         txtCalenderDate.setText(Tools.getDayMonthDateTimeFormat(taskModel.getDueDate()));
 
         if (!isMyTask) {

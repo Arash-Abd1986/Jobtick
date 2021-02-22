@@ -430,7 +430,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
 
                         txtDiscountFee.setText(String.format(Locale.ENGLISH, "$%.1f", model.getDiscount()));
                         if(model.getNetPayingAmount()-wallet>=0) {
-                            if(wallet>=0)
+                            if(wallet>0)
                                 txtWallet.setText(String.format(Locale.ENGLISH, "-$%.1f", wallet));
                             else
                                 txtWallet.setText(String.format(Locale.ENGLISH, "$%.1f", Math.abs(wallet)));

@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.rpc.Help;
 import com.jobtick.android.R;
 import com.jobtick.android.activities.PaymentOverviewActivity;
 import com.jobtick.android.fragments.AbstractStateExpandedBottomSheet;
@@ -34,6 +36,8 @@ import com.jobtick.android.fragments.PosterRequirementsBottomSheet;
 import com.jobtick.android.models.CreditCardModel;
 import com.jobtick.android.models.calculation.PayingCalculationModel;
 import com.jobtick.android.utils.Constant;
+import com.jobtick.android.utils.Helper;
+import com.jobtick.android.utils.KeyboardUtil;
 import com.jobtick.android.utils.SessionManager;
 
 import org.json.JSONException;
@@ -71,10 +75,11 @@ public class AddCouponFragment extends AbstractStateExpandedBottomSheet {
     EditText etPromoCode;
     ImageView ivState;
     ProgressBar pbLoading;
+    View view;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_coupon, container, false);
+        view = inflater.inflate(R.layout.fragment_add_coupon, container, false);
         sessionManager = new SessionManager(getActivity());
         setupPromotionCodeChecker(view);
         btnVerify.setOnClickListener(v -> {
@@ -122,23 +127,18 @@ public class AddCouponFragment extends AbstractStateExpandedBottomSheet {
 
             @Override
             public void afterTextChanged(Editable s) {
-                timer.cancel();
-                timer =new Timer();
-                long delay = 3000L;
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        if(etPromoCode.getText().length()==8){
-                            ivState.setVisibility(View.GONE);
-                            pbLoading.setVisibility(View.VISIBLE);
-                            checkPromoCode();
-                        }
-                        else{
-                            ivState.setVisibility(View.VISIBLE);
-                            pbLoading.setVisibility(View.GONE);
-                        }
-                    }
-                }, delay);
+                if(etPromoCode.getText().length()==8) {
+                    final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+                    ivState.setVisibility(View.GONE);
+                    pbLoading.setVisibility(View.VISIBLE);
+                    checkPromoCode();
+                }
+                else{
+                    ivState.setVisibility(View.VISIBLE);
+                    pbLoading.setVisibility(View.GONE);
+                }
+                
             }
         });
 

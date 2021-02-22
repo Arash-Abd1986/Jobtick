@@ -120,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Become a Ticker"
-                        android:textAppearance="@style/materialText_500_16"
+                        android:textAppearance="@style/materialText_600_14"
                         android:textColor="@color/textColor" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -128,7 +128,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="@string/explore_jobs_that_interest_you_make_an_offer_that_will_get_you_the_job"
-                        android:textAppearance="@style/materialText_400_16"
+                        android:textAppearance="@style/materialText_400_14"
                         android:textColor="@color/grey_70" />
 
                 </LinearLayout>
@@ -197,7 +197,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Post a job"
-                        android:textAppearance="@style/materialText_500_16"
+                        android:textAppearance="@style/materialText_600_14"
                         android:textColor="@color/textColor" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -205,7 +205,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="@string/post_the_job_you_need_done_select_the_best_ticker_for_your_job"
-                        android:textAppearance="@style/materialText_400_16"
+                        android:textAppearance="@style/materialText_400_14"
                         android:textColor="@color/grey_70" />
 
 

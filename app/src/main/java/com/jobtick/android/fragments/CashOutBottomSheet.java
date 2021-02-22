@@ -84,7 +84,7 @@ public class CashOutBottomSheet extends AbstractStateExpandedBottomSheet {
 
     private void init(){
         if (creditCardModel != null && creditCardModel.getData() != null && creditCardModel.getData().get(1).getWallet() != null) {
-            myBalance.setText(String.format(Locale.ENGLISH, "$ %d", creditCardModel.getData().get(1).getWallet().getBalance()));
+            myBalance.setText(String.format(Locale.ENGLISH, "$%d", creditCardModel.getData().get(1).getWallet().getBalance()));
         }
     }
 

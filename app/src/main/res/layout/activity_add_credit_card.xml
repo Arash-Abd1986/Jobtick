@@ -37,15 +37,29 @@
                 app:eInputType="text"
                 app:eTitle="@string/full_name" />
 
+            <FrameLayout
+                android:animateLayoutChanges="true"
+                android:layout_width="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content">
+
             <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_card_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 app:eMaxCharNumber="16"
                 app:eImeOptions="actionNext"
                 app:eInputType="integer"
                 app:eTitle="@string/card_number" />
+                <ImageView
+                    android:id="@+id/ivCardType"
+                    android:visibility="gone"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="10dp"
+                    android:padding="10dp"
+                    android:layout_width="@dimen/_70dp"
+                    android:layout_height="@dimen/_70dp"/>
+            </FrameLayout>
 
             <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_expiry_date"

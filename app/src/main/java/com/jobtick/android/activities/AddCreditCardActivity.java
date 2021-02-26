@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -14,6 +16,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
+import android.widget.ImageView;
 
 import com.jobtick.android.payment.AddCreditCard;
 import com.jobtick.android.payment.AddCreditCardImpl;
@@ -49,7 +52,9 @@ public class AddCreditCardActivity extends ActivityBase {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_add_credit_card)
     MaterialButton lytBtnAddCreditCard;
-
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.ivCardType)
+    ImageView ivCardType;
 
     private int expMonth;
     private int expYear;
@@ -114,6 +119,46 @@ public class AddCreditCardActivity extends ActivityBase {
             }
         };
 
+        setupCardTypes();
+    }
+
+    private void setupCardTypes() {
+        edtCardNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(edtCardNumber.getText().length()>1)
+                {
+                    ivCardType.setVisibility(View.GONE);
+
+                    String cardFirstLetters = edtCardNumber.getText().toString().substring(0,2);
+                    if(cardFirstLetters.equals("34") || cardFirstLetters.equals("37")){
+                        ivCardType.setVisibility(View.VISIBLE);
+                        ivCardType.setImageResource(R.drawable.ic_card_american_express);
+                    }
+                    if(edtCardNumber.getText().substring(0,1).equals("5")){
+                        ivCardType.setVisibility(View.VISIBLE);
+                        ivCardType.setImageResource(R.drawable.ic_card_master);
+                    }
+                    if(edtCardNumber.getText().substring(0,1).equals("4")){
+                        ivCardType.setVisibility(View.VISIBLE);
+                        ivCardType.setImageResource(R.drawable.ic_card_visa);
+                    }
+
+                }else{
+                    ivCardType.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
 

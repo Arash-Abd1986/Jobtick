@@ -20,6 +20,7 @@ import com.android.volley.NetworkResponse;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
+import android.widget.ImageView;
 
 import com.jobtick.android.activities.ActivityBase;
 import com.jobtick.android.payment.AddCreditCard;
@@ -46,6 +47,7 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
     ExtendedEntryText edtCardNumber;
     ExtendedEntryText edtExpiryDate;
     ExtendedEntryText edtSecurityNumber;
+    ImageView ivCardType;
 
     private int expMonth;
     private int expYear;
@@ -83,6 +85,7 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
         });
 
         edtFullName = view.findViewById(R.id.edt_full_name);
+        ivCardType = view.findViewById(R.id.ivCardType);
         edtCardNumber = view.findViewById(R.id.edt_card_number);
         edtExpiryDate = view.findViewById(R.id.edt_expiry_date);
         edtSecurityNumber = view.findViewById(R.id.edt_security_number);
@@ -138,6 +141,45 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
             }
         };
         btnAddCard.setEnabled(false);
+        setupCardTypes();
+    }
+    private void setupCardTypes() {
+        edtCardNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(edtCardNumber.getText().length()>1)
+                {
+                    ivCardType.setVisibility(View.GONE);
+
+                    String cardFirstLetters = edtCardNumber.getText().toString().substring(0,2);
+                    if(cardFirstLetters.equals("34") || cardFirstLetters.equals("37")){
+                        ivCardType.setVisibility(View.VISIBLE);
+                        ivCardType.setImageResource(R.drawable.ic_card_american_express);
+                    }
+                    if(edtCardNumber.getText().substring(0,1).equals("5")){
+                        ivCardType.setVisibility(View.VISIBLE);
+                        ivCardType.setImageResource(R.drawable.ic_card_master);
+                    }
+                    if(edtCardNumber.getText().substring(0,1).equals("4")){
+                        ivCardType.setVisibility(View.VISIBLE);
+                        ivCardType.setImageResource(R.drawable.ic_card_visa);
+                    }
+
+                }else{
+                    ivCardType.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     @Override

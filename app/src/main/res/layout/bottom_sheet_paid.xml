@@ -131,7 +131,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginTop="3dp"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
@@ -155,14 +155,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginTop="3dp"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Service Fee(10%)"
+                android:text="Service Fee"
                 android:textColor="@color/textColor"
                 android:textAppearance="@style/materialText_400_15" />
 
@@ -178,7 +178,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginTop="3dp"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView

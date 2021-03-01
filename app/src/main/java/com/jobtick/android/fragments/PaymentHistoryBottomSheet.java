@@ -86,7 +86,7 @@ public class PaymentHistoryBottomSheet extends BottomSheetDialogFragment {
         }else if(paymentHistory.getType().equals("credit")){
             //earned or for ticker
             title.setText(R.string.earned_details);
-            typeCardTxt.setText(R.string.account_name);
+            typeCardTxt.setText(paymentHistory.getMethod().get(0).getInformation().getAccountHolderName());
             creditAccountTitle.setText(R.string.account_number);
             wallet.setVisibility(View.GONE);
             walletTitle.setVisibility(View.GONE);

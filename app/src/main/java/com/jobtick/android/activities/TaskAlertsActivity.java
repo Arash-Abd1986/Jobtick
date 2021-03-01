@@ -123,13 +123,6 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
             removeTaskAlert(obj.getId());
 
             checkList();
-        } else {
-            Intent newTaskAlerts = new Intent(TaskAlertsActivity.this, NewTaskAlertsActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("TASK_ALERT", obj);
-            bundle.putInt("POSITION", position);
-            newTaskAlerts.putExtras(bundle);
-            startActivityForResult(newTaskAlerts, 1);
         }
     }
 

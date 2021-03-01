@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.interfaces.PaymentOnClick;
@@ -71,7 +72,9 @@ public class PaymentHistoryListAdapter extends RecyclerView.Adapter<PaymentHisto
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         PaymentHistory temp = items.get(position);
-        holder.descriptionTxt.setText(temp.getDescription());
+        if (temp.getTask() != null)
+            holder.descriptionTxt.setText(temp.getTask().getTitle());
+
         if (isPoster) {
             holder.nameTxt.setText(temp.getTask().getWorker().getName());
 
@@ -93,27 +96,20 @@ public class PaymentHistoryListAdapter extends RecyclerView.Adapter<PaymentHisto
             holder.debitedTxt.setVisibility(View.GONE);
         }
 
-        if(position == 0) {
+        if (position == 0) {
             holder.dateTxt.setText(TimeHelper.convertToJustDateFormat(temp.getCreatedAt()));
             holder.dateTxt.setVisibility(View.VISIBLE);
-        }
-        else{
-            if(!TimeHelper.convertToJustDateFormat(items.get(position - 1).getCreatedAt()).equals(
-                    TimeHelper.convertToJustDateFormat(temp.getCreatedAt()))){
-                
+        } else {
+            if (!TimeHelper.convertToJustDateFormat(items.get(position - 1).getCreatedAt()).equals(
+                    TimeHelper.convertToJustDateFormat(temp.getCreatedAt()))) {
+
                 holder.dateTxt.setText(TimeHelper.convertToJustDateFormat(temp.getCreatedAt()));
                 holder.dateTxt.setVisibility(View.VISIBLE);
-            }
-            else
+            } else
                 holder.dateTxt.setVisibility(View.GONE);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onclick.onClick(temp);
-            }
-        });
+        holder.itemView.setOnClickListener(view -> onclick.onClick(temp));
 
     }
 

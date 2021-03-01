@@ -88,6 +88,8 @@
                     android:valueTo="101"
                     app:haloColor="@color/grey_E2E2E2"
                     app:labelBehavior="gone"
+                    app:thumbColor="@color/colorPrimary"
+                    app:trackColorActive="@color/colorPrimary"
                     app:trackColorInactive="@color/grey_E2E2E2" />
             </LinearLayout>
 
@@ -140,6 +142,8 @@
                     android:valueTo="9999"
                     app:haloColor="@color/grey_E2E2E2"
                     app:labelBehavior="gone"
+                    app:trackColorActive="@color/colorPrimary"
+                    app:thumbColor="@color/colorPrimary"
                     app:trackColorInactive="@color/grey_E2E2E2"
                     app:values="@array/initial_slider_values_select_price" />
 

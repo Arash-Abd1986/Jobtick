@@ -186,7 +186,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="GST(10%)"
+                android:text="GST"
                 android:textColor="@color/textColor"
                 android:textAppearance="@style/materialText_400_15" />
 

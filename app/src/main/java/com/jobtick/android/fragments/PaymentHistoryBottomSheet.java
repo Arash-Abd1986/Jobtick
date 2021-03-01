@@ -98,7 +98,7 @@ public class PaymentHistoryBottomSheet extends BottomSheetDialogFragment {
 
         amount.setText(String.format(Locale.ENGLISH, "$%s", paymentHistory.getAmount()));
         fee.setText(String.format(Locale.ENGLISH, "$%s", paymentHistory.getPlatformFee()));
-        taxTxt.setText(String.format(Locale.ENGLISH, "$%s", String.valueOf(Float.parseFloat(paymentHistory.getPlatformFee()) / 10.00)));
+        taxTxt.setText(String.format(Locale.ENGLISH, "$%s", paymentHistory.getTax_amount_on_fee()));
         date.setText(TimeHelper.convertToShowJustDateFormat(paymentHistory.getCreatedAt()));
         time.setText(TimeHelper.convertToShowJustTimeFormat(paymentHistory.getCreatedAt()));
         status.setText(paymentHistory.getStatus());

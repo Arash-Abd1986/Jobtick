@@ -19,6 +19,9 @@ public class PaymentHistory implements Serializable {
     @SerializedName("platform_fee")
     @Expose
     private String platformFee;
+    @SerializedName("tax_amount_on_fee")
+    @Expose
+    private String tax_amount_on_fee;
     @SerializedName("tax_rate")
     @Expose
     private String taxRate;
@@ -61,6 +64,14 @@ public class PaymentHistory implements Serializable {
 
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    public void setTax_amount_on_fee(String tax_amount_on_fee) {
+        this.tax_amount_on_fee = tax_amount_on_fee;
+    }
+
+    public String getTax_amount_on_fee() {
+        return tax_amount_on_fee;
     }
 
     public String getDiscount() {

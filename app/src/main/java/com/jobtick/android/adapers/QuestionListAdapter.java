@@ -232,13 +232,13 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 public void run() {
                     int lineCount = txtMessage.getLineCount();
                     Timber.tag("COUNT").e(String.valueOf(lineCount));
-                    if (lineCount > Constant.MAX_LINE_TEXTVIEW_MORE_2) {
+                    if (lineCount > Constant.MAX_LINE_TEXTVIEW_MORE_4) {
                         // view.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE);
                         lytBtnMore.setVisibility(View.VISIBLE);
                         txtMoreLess.setText(item.getStrMore());
                         mItems.get(getAdapterPosition()).setIsUserPrefrenceToMore(true);
                         if (item.getIsUserPrefrenceToMore()) {
-                            txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_2);
+                            txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
                         }
                     } else {
                         lytBtnMore.setVisibility(View.GONE);
@@ -278,7 +278,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     mItems.get(getAdapterPosition()).setStrMore("Less");
                     item.setStrMore("Less");
                 } else {
-                    txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_2);
+                    txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
                     lytBtnMore.setVisibility(View.VISIBLE);
                     txtMoreLess.setText(R.string.more);
                     mItems.get(getAdapterPosition()).setStrMore("More");

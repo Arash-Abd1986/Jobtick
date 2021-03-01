@@ -20,6 +20,7 @@ import com.android.volley.NetworkResponse;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.jobtick.android.activities.ActivityBase;
@@ -72,6 +73,8 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sessionManager = new SessionManager(getContext());
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
         btnAddCard = view.findViewById(R.id.btn_add_card);
         btnAddCard.setOnClickListener(v -> {
             if(validation()){
@@ -175,7 +178,7 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
                         ivCardType.setImageResource(R.drawable.ic_card_visa);
                     }
 
-                }else{
+                }else if(ivCardType.getVisibility()==View.VISIBLE){
                     ivCardType.setVisibility(View.GONE);
                 }
             }

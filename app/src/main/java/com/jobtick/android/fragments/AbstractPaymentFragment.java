@@ -186,7 +186,7 @@ public abstract class AbstractPaymentFragment extends Fragment {
     }
     private EndlessRecyclerViewOnScrollListener onScrollListener;
     private int currentPage = 1;
-
+    PaymentHistoryBottomSheet paymentPaidBottomSheet;
     private void fillData(List<PaymentHistory> data, String total_amount, boolean firstInit) {
         if (data.size() == 0 && firstInit) {
             noTransactions.setVisibility(View.VISIBLE);
@@ -209,14 +209,20 @@ public abstract class AbstractPaymentFragment extends Fragment {
                 return 0;
             }
         };
-
         paymentHistoryList.addOnScrollListener(onScrollListener);
-        paymentHistoryList.setAdapter(new PaymentHistoryListAdapter(data, true, paymentHistory -> {
-            PaymentHistoryBottomSheet paymentPaidBottomSheet = PaymentHistoryBottomSheet.newInstance(paymentHistory);
+        paymentHistoryList.setAdapter(new PaymentHistoryListAdapter(data, isPoster(), paymentHistory -> {
+            paymentPaidBottomSheet = PaymentHistoryBottomSheet.newInstance(paymentHistory);
             paymentPaidBottomSheet.show(getParentFragmentManager(), "");
 
         }));
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(paymentPaidBottomSheet!=null)
+            paymentPaidBottomSheet.dismiss();
     }
 
     private void showBottomSheetDialogDate(boolean from) {

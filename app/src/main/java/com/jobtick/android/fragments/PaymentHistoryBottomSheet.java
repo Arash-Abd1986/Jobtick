@@ -35,7 +35,11 @@ public class PaymentHistoryBottomSheet extends BottomSheetDialogFragment {
         setStyle(DialogFragment.STYLE_NORMAL, R.style.ThemeOverlay_BottomSheetDialog);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            paymentHistory = (PaymentHistory) bundle.getSerializable("paymentHistoryKEY");
+            try {
+                paymentHistory = (PaymentHistory) bundle.getSerializable("paymentHistoryKEY");
+            }catch (Exception ignored){
+
+            }
         }
     }
 

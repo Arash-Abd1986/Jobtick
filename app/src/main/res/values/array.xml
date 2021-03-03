@@ -5,7 +5,9 @@
         <item>5</item>
         <item>9999</item>
     </array>
+    <array name="initial_slider_values">
 
+    </array>
     <!-- ARRAYS -->
     <string-array name="au_states_array">
         <item>Australian Capital Territory</item>

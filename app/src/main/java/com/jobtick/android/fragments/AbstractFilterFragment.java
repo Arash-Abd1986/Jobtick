@@ -109,7 +109,7 @@ public abstract class AbstractFilterFragment extends Fragment {
                 txtSuburb.setText(filterModel.getLocation());
                 if(filterModel.getDistance().equals(Integer.toString(MAX_FILTER_DISTANCE_IN_KILOMETERS))){
                     txtDistanceKm.setText(R.string.plus_100_km);
-                    skDistance.setValue(101);
+                    skDistance.setValue(105);
                 }else{
                     txtDistanceKm.setText(String.format("%s KM", (int) Float.parseFloat(filterModel.getDistance())));
                     skDistance.setValue((int) Float.parseFloat(filterModel.getDistance()));
@@ -147,7 +147,7 @@ public abstract class AbstractFilterFragment extends Fragment {
 
     private void initDistanceSlider() {
         skDistance.addOnChangeListener((slider, value, fromUser) -> {
-            if(slider.getValue() != 101){
+            if(slider.getValue() != 105){
                 txtDistanceKm.setText(String.format(Locale.ENGLISH, "%d KM", (int) slider.getValue()));
             }else {
                 txtDistanceKm.setText(R.string.plus_100_km);
@@ -189,7 +189,7 @@ public abstract class AbstractFilterFragment extends Fragment {
         }
         if (getFilterType() == FilterType.IN_PERSON || getFilterType() == FilterType.ALL) {
             filterModel.setLocation(txtSuburb.getText().trim());
-            if(skDistance.getValue() != 101)
+            if(skDistance.getValue() != 105)
                 filterModel.setDistance(String.valueOf((int) skDistance.getValue()));
             else{
                 filterModel.setDistance(Integer.toString(MAX_FILTER_DISTANCE_IN_KILOMETERS));

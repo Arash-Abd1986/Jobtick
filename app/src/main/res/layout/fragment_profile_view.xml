@@ -541,6 +541,7 @@
                         android:textColor="@android:color/black"
                         app:trimLines="5"
                         app:trimMode="trimModeLine"
+                        android:lineSpacingExtra="5dp"
                         tools:text="Let me help you stand out!Whatever area you're pitching for Let me help you stand out! I have over" />
 
                     <LinearLayout

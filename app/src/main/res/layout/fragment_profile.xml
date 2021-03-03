@@ -543,6 +543,7 @@
                             android:layout_marginTop="@dimen/_10sp"
                             android:textColor="@android:color/black"
                             app:trimLines="5"
+                            android:lineSpacingExtra="5dp"
                             app:trimMode="trimModeLine"
                             tools:text="Let me help you stand out!Whatever area you're pitching for Let me help you stand out! I have over" />
 

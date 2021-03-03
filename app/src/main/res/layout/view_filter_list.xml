@@ -34,10 +34,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawableStart="@drawable/ic_browse_filter"
-                android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:singleLine="true"
-                android:text="@string/filters"
                 android:textAppearance="@style/materialText_600_10"
                 android:textColor="@color/white" />
         </LinearLayout>

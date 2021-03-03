@@ -125,7 +125,43 @@ public class AddCreditCardActivity extends ActivityBase {
     }
 
     private void setupCardTypes() {
+        edtCardNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(edtCardNumber.getText().length()>1)
+                {
+
+                    String cardFirstLetters = edtCardNumber.getText().toString().substring(0,2);
+                    if(cardFirstLetters.equals("34") || cardFirstLetters.equals("37")){
+                        ivCardType.setVisibility(View.VISIBLE);
+                        ivCardType.setImageResource(R.drawable.ic_card_american_express);
+                    }
+                    else if(edtCardNumber.getText().substring(0,1).equals("5")){
+                        ivCardType.setVisibility(View.VISIBLE);
+                        ivCardType.setImageResource(R.drawable.ic_card_master);
+                    }
+                    else if(edtCardNumber.getText().substring(0,1).equals("4")){
+                        ivCardType.setVisibility(View.VISIBLE);
+                        ivCardType.setImageResource(R.drawable.ic_card_visa);
+                    }else{
+                        ivCardType.setVisibility(View.INVISIBLE);
+                    }
+
+                }else if(ivCardType.getVisibility()==View.VISIBLE){
+                    ivCardType.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
     }
 
 

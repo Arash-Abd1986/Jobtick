@@ -352,7 +352,7 @@
     <style name="fontSmall" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="fontFamily">@font/hreg</item>
         <item name="android:fontFamily">@font/hreg</item>
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
     <style name="materialText_500_16" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="fontFamily">@font/hreg</item>

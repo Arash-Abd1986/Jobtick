@@ -112,7 +112,12 @@ public abstract class AbstractFilterFragment extends Fragment {
                     skDistance.setValue(105);
                 }else{
                     txtDistanceKm.setText(String.format("%s KM", (int) Float.parseFloat(filterModel.getDistance())));
-                    skDistance.setValue((int) Float.parseFloat(filterModel.getDistance()));
+
+                    //prevent crash in step size
+                    if((int) Float.parseFloat(filterModel.getDistance())%5==0)
+                        skDistance.setValue((int) Float.parseFloat(filterModel.getDistance()));
+                    else
+                        skDistance.setValue(15);
                 }
             }
         }

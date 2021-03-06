@@ -70,8 +70,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="@dimen/spacing_middle"
-                android:layout_marginEnd="@dimen/spacing_middle"
+                android:layout_marginStart="17dp"
+                android:layout_marginEnd="17dp"
                 android:layout_marginBottom="@dimen/_40dp"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -91,7 +91,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_due_date"
-                    style="@style/materialText_500_10"
+                    style="@style/materialText_500_12"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -103,7 +103,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_due_time"
-                    style="@style/materialText_500_10"
+                    style="@style/materialText_500_12"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -159,6 +159,8 @@
                 android:paddingTop="10dp"
                 android:layout_marginBottom="14dp"
                 app:contentInsetLeft="0dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 app:contentInsetStart="0dp"
                 app:contentInsetStartWithNavigation="0dp"
                 app:layout_collapseMode="pin"
@@ -172,6 +174,7 @@
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
+
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_scroll_view"
@@ -233,10 +236,10 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_marginStart="@dimen/_16sp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="@dimen/_16sp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="@dimen/_13sp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="@dimen/_13sp"
                         android:layout_marginBottom="@dimen/spacing_middle"
                         android:orientation="horizontal">
 
@@ -347,9 +350,10 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_title"
-                            style="@style/materialText_700_20"
+                            style="@style/materialText_700_18"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
                             android:layout_marginStart="@dimen/spacing_smlarge"
                             android:layout_marginTop="15dp"
                             android:layout_marginEnd="@dimen/spacing_smlarge"
@@ -413,11 +417,13 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_description"
-                            style="@style/materialText_500_13"
+                            style="@style/materialText_500_14"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical|center_horizontal"
                             android:layout_marginStart="@dimen/spacing_smlarge"
+                            android:layout_marginTop="5dp"
+                            android:lineSpacingExtra="@dimen/_3dp"
                             android:layout_marginEnd="@dimen/spacing_smlarge"
                             android:layout_marginBottom="@dimen/spacing_medium"
                             android:textColor="@color/textColor" />

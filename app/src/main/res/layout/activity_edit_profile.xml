@@ -172,15 +172,15 @@
                             app:eInputType="text"
                             app:eTitle="@string/tagline" />
 
-                        <com.jobtick.android.widget.ExtendedEntryText
+                        <com.jobtick.android.widget.ExtendedCommentText
                             android:id="@+id/edt_about_me"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="70dp"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginEnd="@dimen/spacing_large"
                             android:layout_marginBottom="8dp"
                             app:eInputType="text"
-
+                            app:eMaxCharSize="500"
                             app:eTitle="@string/about" />
 
                         <View

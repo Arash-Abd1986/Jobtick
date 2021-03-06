@@ -44,6 +44,7 @@ import com.jobtick.android.utils.HttpStatus;
 import com.jobtick.android.utils.SuburbAutoComplete;
 import com.jobtick.android.utils.TimeHelper;
 import com.jobtick.android.utils.Tools;
+import com.jobtick.android.widget.ExtendedCommentText;
 import com.jobtick.android.widget.ExtendedEntryText;
 import com.jobtick.android.widget.SpacingItemDecoration;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -108,7 +109,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_about_me)
-    ExtendedEntryText edtAboutMe;
+    ExtendedCommentText edtAboutMe;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_email_address)

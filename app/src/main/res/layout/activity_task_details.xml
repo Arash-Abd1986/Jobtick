@@ -109,7 +109,6 @@
                     android:layout_gravity="center"
                     android:background="@drawable/shape_tab_right_white"
                     android:gravity="center"
-                    android:paddingStart="@dimen/spacing_medium"
                     android:paddingTop="@dimen/spacing_medium"
                     android:paddingEnd="@dimen/spacing_middle"
                     android:paddingBottom="@dimen/spacing_medium"

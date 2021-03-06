@@ -1487,7 +1487,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             txtDueTime.setText(dueTime);
         }
         if (taskModel.getDueTime() != null) {
-            txtDueDate.setText(taskModel.getDueDate() + " - ");
+            try {
+                long time = Tools.jobDetailsDate(taskModel.getDueDate());
+                txtDueDate.setText(Tools.formatJobDetailsDate(time)+ " - ");
+            } catch (ParseException e) {
+                txtDueDate.setText(taskModel.getDueDate() + " - ");
+            }
         }
 
 

@@ -87,7 +87,10 @@ public class Tools {
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
         return dateFormat.format(timeInMillis);
     }
-
+    public static String formatJobDetailsDate(long timeInMillis) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM d", Locale.getDefault());
+        return dateFormat.format(timeInMillis);
+    }
     public static boolean hasSameDate(long millisFirst, long millisSecond) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
         return dateFormat.format(millisFirst).equals(dateFormat.format(millisSecond));
@@ -104,6 +107,14 @@ public class Tools {
         Date date = sdf.parse(dateString);
         return date.getTime();
     }
+
+    public static long jobDetailsDate(String dateString) throws ParseException {
+        dateString =dateString.replace("T"," ");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date = sdf.parse(dateString);
+        return date.getTime();
+    }
+
     public static long compareTwoDate(String untilDate) {
         Date userDob = null;
         try {

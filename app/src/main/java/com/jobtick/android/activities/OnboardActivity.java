@@ -126,8 +126,7 @@ public class OnboardActivity extends ActivityBase {
                 {
                     if (viewPager.getCurrentItem() == lottieAnimList.size() - 1) {
                         Intent main = new Intent(OnboardActivity.this, DashboardActivity.class);
-                        main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        main.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         startActivity(main);
 
                     } else {
@@ -140,8 +139,7 @@ public class OnboardActivity extends ActivityBase {
 
         txtSkip.setOnClickListener(v -> {
             Intent main = new Intent(OnboardActivity.this, DashboardActivity.class);
-            main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            main.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(main);
 
 

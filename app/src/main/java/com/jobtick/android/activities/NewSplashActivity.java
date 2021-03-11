@@ -43,13 +43,6 @@ public class NewSplashActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
-        ViewAnimator
-                .animate(logo)
-                .duration(2000)
-                .alpha(0,1)
-                .scale(0.9f,1)
-                .start();
-
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             sessionManager = new SessionManager(NewSplashActivity.this);

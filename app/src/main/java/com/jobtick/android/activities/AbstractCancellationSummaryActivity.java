@@ -263,6 +263,7 @@ public abstract class AbstractCancellationSummaryActivity extends ActivityBase i
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            showToast("Something Went Wrong", this);
                         }
                     } else {
                         showToast("Something Went Wrong", this);
@@ -420,6 +421,7 @@ public abstract class AbstractCancellationSummaryActivity extends ActivityBase i
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            showToast("Something Went Wrong", this);
                         }
                     } else {
                         showToast("Something Went Wrong", this);
@@ -506,6 +508,7 @@ public abstract class AbstractCancellationSummaryActivity extends ActivityBase i
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            showToast("Something Went Wrong", this);
                         }
                     } else {
                         showToast("Something Went Wrong", this);

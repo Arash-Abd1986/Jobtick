@@ -76,7 +76,7 @@ public abstract class AddBankAccountImpl implements AddBankAccount {
                     e.printStackTrace();
 
                     FirebaseCrashlytics.getInstance().recordException(e);
-                    errorOnMainTread(e);
+                    errorOnMainTread(new Exception("Something went wrong."));
                 }
             }
         });

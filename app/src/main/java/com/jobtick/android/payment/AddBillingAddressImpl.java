@@ -54,7 +54,7 @@ public abstract class AddBillingAddressImpl implements AddBillingAddress{
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
                         FirebaseCrashlytics.getInstance().recordException(e);
-                        onError(e);
+                        onError(new Exception("Something went wrong."));
                     }
 
 
@@ -82,7 +82,7 @@ public abstract class AddBillingAddressImpl implements AddBillingAddress{
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            onError(e);
+                            onError(new Exception("Something went wrong."));
                         }
                     } else {
                         onError(new Exception("something went wrong."));

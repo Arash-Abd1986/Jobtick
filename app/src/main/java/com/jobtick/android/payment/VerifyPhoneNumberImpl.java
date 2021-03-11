@@ -50,7 +50,7 @@ public abstract class VerifyPhoneNumberImpl implements VerifyPhoneNumber {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        onError(e);
+                        onError(new Exception("Something went wrong."));
                     }
 
                 },
@@ -74,7 +74,7 @@ public abstract class VerifyPhoneNumberImpl implements VerifyPhoneNumber {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            onError(e);
+                            onError(new Exception("something went wrong"));
                         }
                     } else {
                         onError(new Exception("something went wrong."));
@@ -123,7 +123,7 @@ public abstract class VerifyPhoneNumberImpl implements VerifyPhoneNumber {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        onError(e);
+                        onError(new Exception("something went wrong"));
                     }
 
                 },
@@ -143,7 +143,7 @@ public abstract class VerifyPhoneNumberImpl implements VerifyPhoneNumber {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            onError(e);
+                            onError(new Exception("something went wrong"));
                         }
                     } else {
                         onError(new Exception("something went wrong"));

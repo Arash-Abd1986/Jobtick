@@ -223,6 +223,7 @@ public class AuthActivity extends ActivityBase {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            showToast("Something Went Wrong", AuthActivity.this);
                         }
                     } else {
                         showToast("Something Went Wrong", AuthActivity.this);
@@ -318,6 +319,7 @@ public class AuthActivity extends ActivityBase {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            showToast("Something Went Wrong", AuthActivity.this);
                         }
                     } else {
                         showToast("Something Went Wrong", AuthActivity.this);
@@ -674,37 +676,33 @@ public class AuthActivity extends ActivityBase {
         String str_device = "Android";
         Helper.closeKeyboard(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_SIGNIN,
-                new Response.Listener<String>() {
+                response -> {
+                    Timber.e(response);
 
-                    @Override
-                    public void onResponse(String response) {
-                        Timber.e(response);
+                    hideProgressDialog();
+                    try {
 
-                        hideProgressDialog();
-                        try {
+                        JSONObject jsonObject = new JSONObject(response);
 
-                            JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+                        sessionManager.setAccessToken(jsonObject_data.getString("access_token"));
+                        sessionManager.setTokenType(jsonObject_data.getString("token_type"));
+                        JSONObject jsonObject_user = jsonObject_data.getJSONObject("user");
+                        UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
+                        sessionManager.setUserAccount(userAccountModel);
 
-                            Timber.e(jsonObject.toString());
-                            JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                            sessionManager.setAccessToken(jsonObject_data.getString("access_token"));
-                            sessionManager.setTokenType(jsonObject_data.getString("token_type"));
-                            JSONObject jsonObject_user = jsonObject_data.getJSONObject("user");
-                            UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
-                            sessionManager.setUserAccount(userAccountModel);
+                        fireBaseEvent.sendEvent(FireBaseEvent.Event.LOGIN,
+                                FireBaseEvent.EventType.API_RESPOND_SUCCESS, LOGIN_NORMAL);
 
-                            fireBaseEvent.sendEvent(FireBaseEvent.Event.LOGIN,
-                                    FireBaseEvent.EventType.API_RESPOND_SUCCESS, LOGIN_NORMAL);
+                        proceedToCorrectActivity(userAccountModel);
 
-                            proceedToCorrectActivity(userAccountModel);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-
-                        }
-
-
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        showToast("Something Went Wrong", AuthActivity.this);
                     }
+
+
                 },
                 error -> {
                     NetworkResponse networkResponse = error.networkResponse;

@@ -26,7 +26,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
-    <string name="forgot_password">Forgot Your Password?</string>
+    <string name="forgot_password">Forgot password?</string>
     <string name="log_in">Login</string>
     <string name="google">GOOGLE</string>
     <string name="sign_up">Sign up</string>
@@ -236,6 +236,7 @@
     <string name="filters">Filters</string>
     <string name="create_your_account">Create Your Account</string>
     <string name="email">Email Address</string>
+    <string name="email_s">Email</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="by_joining_you_agree">By joining you agree to JobTick’s </string>
     <string name="terms_of_services"><u>Terms of Services</u></string>
@@ -248,6 +249,7 @@
     <string name="complete_tasks">Explore Jobs</string>
     <string name="suburb">Suburb</string>
     <string name="email_verification_code">Email verification code</string>
+    <string name="email_confirmation_code">Confirmation code</string>
     <string name="verification_sent">\"Enter verification code sent to "</string>
     <string name="enter_verification_code">Enter the verification code sent to</string>
 
@@ -539,5 +541,14 @@
     <string name="that_code_isn_t_valid_or_has_been_expired">That code isn’t valid or has been expired.</string>
     <string name="promotion">Promotion</string>
     <string name="fee_min_2">Fee (min. 2$) </string>
+    <string name="create_account">Create account</string>
+    <string name="or_sign_up_with">Or Sign up with</string>
+    <string name="sign_up_with_google">Sign up with Google</string>
+    <string name="sign_up_with_facebook">Sign up with Facebook</string>
+    <string name="enter_confirmation_code">Enter confirmation code</string>
+    <string name="create_profile">Create Profile</string>
+    <string name="what_would_you_like_to_do_on_jobtick">What would you like to do on Jobtick?</string>
+    <string name="forget_pass_title">Please enter the email address that you registered with</string>
+    <string name="new_pass_title">Please choose a password for your account</string>
 
 </resources>

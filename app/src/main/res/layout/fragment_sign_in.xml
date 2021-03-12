@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundLightGrey"
+    android:background="@color/white"
     android:fillViewport="true"
     android:importantForAutofill="yes"
     android:scrollbarThumbVertical="@android:color/transparent">
@@ -17,13 +17,13 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/spacing_large"/>
+            android:layout_height="20dp"/>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/_15sp"
+            android:layout_marginBottom="10dp"
             android:src="@mipmap/ic_launcher_foreground"
              />
 
@@ -34,13 +34,13 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/welcome_back"
-            android:textAppearance="@style/materialText_600_18"
+            android:textAppearance="@style/materialText_500_28"
             android:textColor="@color/textColor" />
 
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="40dp" />
+            android:layout_height="10dp" />
 
 
         <LinearLayout

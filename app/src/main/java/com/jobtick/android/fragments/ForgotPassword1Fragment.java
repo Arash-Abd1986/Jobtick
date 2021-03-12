@@ -53,12 +53,7 @@ public class ForgotPassword1Fragment extends Fragment implements AuthActivity.Ed
         authActivity = (AuthActivity) requireActivity();
         authActivity.setEditTextError(this);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                authActivity.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> authActivity.onBackPressed());
         return view;
 
     }

@@ -14,7 +14,7 @@
         android:focusable="false"
         android:text="First Name"
         android:textAppearance="@style/materialText_400_13"
-        android:textColor="@color/colorPrimary" />
+        android:textColor="@color/textTitle" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/error"

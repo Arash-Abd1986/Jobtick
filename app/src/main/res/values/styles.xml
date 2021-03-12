@@ -545,7 +545,7 @@
     <!-- theme for splash - resolving blank screen before splash -->
     <style name="NewSplash.AppTheme" parent="AppTheme">
         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowBackground">@drawable/new_splash_screen_layer</item>
+        <item  name="android:windowBackground">@drawable/new_splash_screen_layer</item>
         <item name="android:navigationBarColor">@color/grey_transparent</item>
     </style>
 

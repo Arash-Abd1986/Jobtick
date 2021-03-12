@@ -19,8 +19,6 @@ public class VerifyAccountFragment extends AbstractVerifyAccountFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        lytBtnFinish.setText(getResources().getString(R.string.finish));
     }
 
     @Override

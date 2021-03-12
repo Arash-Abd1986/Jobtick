@@ -15,7 +15,16 @@
         android:layout_height="?attr/actionBarSize"
         app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="@drawable/ic_back"
-        app:title="Create Profile" />
+        >
+        <com.google.android.material.textview.MaterialTextView
+            android:textAppearance="@style/materialToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_60dp"
+            android:gravity="center"
+            android:text="@string/create_profile"
+            />
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -31,6 +40,7 @@
             android:focusable="false"
             android:focusableInTouchMode="true"
             android:gravity="start"
+            android:layout_marginTop="@dimen/spacing_medium"
             android:orientation="vertical">
 
 
@@ -85,6 +95,7 @@
         android:layout_marginEnd="@dimen/spacing_large"
         android:layout_marginBottom="@dimen/margin_bottom_button"
         android:text="@string/submit"
+        android:textStyle="bold"
         android:textColor="@color/white" />
 
 </RelativeLayout>

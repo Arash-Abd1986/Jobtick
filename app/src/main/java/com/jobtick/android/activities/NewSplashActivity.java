@@ -33,8 +33,6 @@ import butterknife.ButterKnife;
 public class NewSplashActivity extends AppCompatActivity {
     SessionManager sessionManager;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.logo)
-    ImageView logo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -7,21 +7,46 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.jobtick.android.text_view.TextViewRegular
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="- OR -"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/grey_70"
-        android:textSize="@dimen/_12sp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="16dp"
+            android:layout_width="0dp"
+            android:background="@color/N050"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/other"
+            android:layout_centerVertical="true"
+            android:layout_height="1dp"/>
+        <com.jobtick.android.text_view.TextViewRegular
+            android:id="@+id/other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/or_sign_up_with"
+            android:textColor="@color/grey_70"
+            android:textSize="@dimen/_12sp" />
+        <View
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="16dp"
+            android:layout_width="0dp"
+            android:background="@color/N050"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/other"
+            android:layout_centerVertical="true"
+            android:layout_height="1dp"/>
+    </RelativeLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -36,8 +61,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="fill"
-                android:gravity="fill"
-                android:background="@drawable/rectangle_card_round_corners_outlined_n900">
+                android:background="@drawable/rectangle_card_round_corners_outlined_n900"
+                android:gravity="fill">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvGoogle"
@@ -46,11 +71,12 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="40dp"
+                    android:textStyle="bold"
                     android:drawableStart="@drawable/ic_google"
                     android:gravity="center_vertical|center"
-                    android:text="Sign up with Google"
+                    android:text="@string/sign_up_with_google"
                     android:textAppearance="@style/materialText_500_14"
-                    android:textColor="@color/textColor" />
+                    android:textColor="#4D576A" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -69,8 +95,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:background="@drawable/rectangle_card_round_corners_outlined_n900">
+                android:background="@drawable/rectangle_card_round_corners_outlined_n900"
+                android:gravity="center">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvFB"
@@ -79,11 +105,12 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="40dp"
+                    android:textStyle="bold"
                     android:drawableStart="@drawable/ic_facebook"
                     android:gravity="center_vertical|center"
-                    android:text="Sign up with Facebook"
+                    android:text="@string/sign_up_with_facebook"
                     android:textAppearance="@style/materialText_500_14"
-                    android:textColor="@color/textColor" />
+                    android:textColor="#4D576A" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

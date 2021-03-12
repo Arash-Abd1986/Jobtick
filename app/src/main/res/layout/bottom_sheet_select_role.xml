@@ -23,9 +23,10 @@
             android:layout_below="@+id/bottom_sheet_handler"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:text="What would you like to do on Jobtick?"
-            android:textAppearance="@style/materialText_500_14"
-            android:textColor="@color/textColor" />
+            android:textStyle="bold"
+            android:text="@string/what_would_you_like_to_do_on_jobtick"
+            android:textAppearance="@style/materialText_600_14"
+            android:textColor="@color/textColorDark" />
 
 
             <LinearLayout
@@ -51,7 +52,8 @@
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:text="@string/post_tasks"
-                        android:textAppearance="@style/materialText_600_14"/>
+                        android:textColor="#2B3240"
+                        android:textAppearance="@style/materialText_500_14"/>
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
                         android:id="@+id/cb_worker"
@@ -63,8 +65,9 @@
                         android:layout_marginTop="12dp"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
+                        android:textColor="#2B3240"
                         android:text="@string/complete_tasks"
-                        android:textAppearance="@style/materialText_600_14"/>
+                        android:textAppearance="@style/materialText_500_14"/>
 
                 </RadioGroup>
             </LinearLayout>

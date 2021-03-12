@@ -2,18 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/transparent"
     android:layout_height="match_parent"
     tools:context=".activities.SplashActivity">
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_centerInParent="true"
-        android:contentDescription="@string/splash_logo"
-        android:layout_width="100dp"
-        android:src="@drawable/ic_splash_logo"
-        android:scaleType="centerCrop"
-        android:layout_height="100dp"/>
     <ProgressBar
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"

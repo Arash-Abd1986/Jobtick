@@ -325,14 +325,11 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
 
     public void hideKeyboard(EditText editText) {
-        editText.post(new Runnable() {
-            @Override
-            public void run() {
-                InputMethodManager imm = (InputMethodManager) getContext()
-                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                editText.clearFocus();
-            }
+        editText.post(() -> {
+            InputMethodManager imm = (InputMethodManager) getContext()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            editText.clearFocus();
         });
     }
 

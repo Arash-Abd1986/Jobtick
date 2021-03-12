@@ -50,7 +50,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="12dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="15dp"
         android:layout_toStartOf="@id/buttons"
         android:layout_toEndOf="@id/dollar"
         android:background="@null"
@@ -88,7 +88,7 @@
     <LinearLayout
         android:id="@+id/buttons"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/title"
         android:layout_alignBottom="@id/content"
         android:layout_alignParentEnd="true"
@@ -116,7 +116,9 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/img_btn_password_toggle"
             android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_height="@dimen/_20sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_3dp"
             android:src="@drawable/password_selector"
             android:layout_marginEnd="13dp"/>
 

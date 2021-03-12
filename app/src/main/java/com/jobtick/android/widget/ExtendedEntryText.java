@@ -52,6 +52,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     private int eImeOptions;
     private boolean password_hide = true;
     private boolean eIsEnable = true;
+    private int tHigh = 0;
     private ExtendedViewOnClickListener extendedViewOnClickListener;
     private TextWatcher textWatcher;
 
@@ -118,11 +119,16 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         imageView = (ImageView) findViewById(R.id.img_btn_password_toggle);
         dollar = (TextView) findViewById(R.id.dollar);
         verify = (Button) findViewById(R.id.verifyButton);
-
+        LayoutParams params = (LayoutParams) textView.getLayoutParams();
+        tHigh = params.height;
+        params.height = 0;
+        textView.setLayoutParams(params);
         textView.setText(eTitle);
         editText.setText(eContent);
-
-        editText.setHint(eHint);
+        editText.setHint(eTitle);
+        if (eHint != null)
+            if (eHint.length() > 0)
+                editText.setHint(eHint);
         editText.setEnabled(eIsEnable);
 
         editText.setOnFocusChangeListener(this);
@@ -150,7 +156,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
         editText.requestFocus();
         editText.performClick();
-        if(editText.getText().toString() != null && !editText.getText().toString().isEmpty())
+        if (editText.getText().toString() != null && !editText.getText().toString().isEmpty())
             editText.setSelection(editText.getText().length());
 
         showKeyboard(editText);
@@ -209,9 +215,9 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         if (eInputType == EInputType.VERIFY) {
             editText.setInputType(InputType.TYPE_CLASS_PHONE);
 
-            if (eVerifyVisible){
+            if (eVerifyVisible) {
                 verify.setVisibility(View.VISIBLE);
-            }else
+            } else
                 verify.setVisibility(View.GONE);
 
             verify.setOnClickListener(v -> {
@@ -222,7 +228,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             });
         }
 
-        if(eInputType == EInputType.CALENDAR_KEYBOARD){
+        if (eInputType == EInputType.CALENDAR_KEYBOARD) {
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);
             editText.setKeyListener(DigitsKeyListener.getInstance("0123456789/"));
         }
@@ -313,13 +319,10 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     }
 
     private void showKeyboard(EditText editText) {
-        editText.post(new Runnable() {
-            @Override
-            public void run() {
-                InputMethodManager imm = (InputMethodManager) getContext()
-                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(editText, 0);
-            }
+        editText.post(() -> {
+            InputMethodManager imm = (InputMethodManager) getContext()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(editText, 0);
         });
     }
 
@@ -348,13 +351,15 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     public void seteTitle(String eTitle) {
         this.eTitle = eTitle;
     }
+
     public void seteVerifyVisible(Boolean eVerifyVisible) {
         this.eVerifyVisible = eVerifyVisible;
-        if(eVerifyVisible)
-            this.verify.setVisibility(VISIBLE) ;
+        if (eVerifyVisible)
+            this.verify.setVisibility(VISIBLE);
         else
             this.verify.setVisibility(GONE);
     }
+
     public Boolean geteVerifyVisible() {
         return this.eVerifyVisible;
     }
@@ -414,7 +419,15 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+        if (charSequence.length() == 0) {
+            LayoutParams params = (LayoutParams) textView.getLayoutParams();
+            params.height = 0;
+            textView.setLayoutParams(params);
+        } else {
+            LayoutParams params = (LayoutParams) textView.getLayoutParams();
+            params.height = tHigh;
+            textView.setLayoutParams(params);
+        }
         if (eMaxCharNumber != 0 && charSequence.length() > eMaxCharNumber) {
             editText.setText(charSequence.subSequence(0, eMaxCharNumber).toString());
             editText.setSelection(eMaxCharNumber);

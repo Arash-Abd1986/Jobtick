@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -17,6 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 import android.widget.TextView;
 
@@ -51,7 +53,7 @@ public class OnboardActivity extends ActivityBase {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_skip)
-    TextView txtSkip;
+    MaterialButton txtSkip;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,7 +113,6 @@ public class OnboardActivity extends ActivityBase {
 
             @Override
             public void onPageSelected(int pos) {
-                //   ((TextView) findViewById(R.id.title)).setText(items.get(pos).name);
                 //   ((TextView) findViewById(R.id.brief)).setText(items.get(pos).brief);
                 addBottomDots(layoutDots, adapterImageSlider.getCount(), pos);
             }

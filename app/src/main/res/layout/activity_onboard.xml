@@ -2,33 +2,40 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FBFBFB"
+    android:background="@color/white"
     android:orientation="vertical">
 
 
-    <com.jobtick.android.text_view.TextViewMedium
-        android:id="@+id/txt_skip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/spacing_xlarge"
-        android:layout_marginEnd="@dimen/spacing_large"
-        android:gravity="end"
-        android:padding="@dimen/_15sp"
-        android:text="Skip"
-        android:textColor="@color/blue">
-
-    </com.jobtick.android.text_view.TextViewMedium>
-
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:src="@mipmap/ic_launcher_foreground" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottomLayout"
-        android:layout_below="@+id/txt_skip"
+        android:layout_above="@+id/layout_dots"
+        android:layout_below="@+id/icon"
         android:layout_marginTop="@dimen/spacing_medium"
-        android:layout_marginBottom="@dimen/spacing_medium" />
+        android:layout_marginBottom="@dimen/spacing_large" />
+
+    <LinearLayout
+        android:id="@+id/layout_dots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottomLayout"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="start"
+        android:orientation="horizontal" />
 
     <LinearLayout
         android:id="@+id/bottomLayout"
@@ -38,16 +45,21 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <LinearLayout
-            android:id="@+id/layout_dots"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="48dp"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/txt_skip"
+            style="@style/materialButton.outlined"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_gravity="end"
             android:layout_marginStart="24dp"
-            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="32dp"
             android:layout_weight="0.5"
-            android:gravity="start"
-            android:orientation="horizontal" />
+            android:gravity="center"
+            android:lines="1"
+            android:text="@string/skip"
+            android:textColor="@color/colorAccent" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -56,14 +68,13 @@
             android:layout_width="0dp"
             android:layout_height="42dp"
             android:layout_gravity="end"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="32dp"
-            android:paddingStart="0dp"
-            android:paddingEnd="0dp"
             android:layout_weight="0.5"
-            android:lines="1"
             android:gravity="center"
+            android:lines="1"
             android:text="@string/get_started"
             android:textColor="@color/white" />
 

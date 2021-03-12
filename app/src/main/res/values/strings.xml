@@ -550,5 +550,6 @@
     <string name="what_would_you_like_to_do_on_jobtick">What would you like to do on Jobtick?</string>
     <string name="forget_pass_title">Please enter the email address that you registered with</string>
     <string name="new_pass_title">Please choose a password for your account</string>
+    <string name="skip">Skip</string>
 
 </resources>

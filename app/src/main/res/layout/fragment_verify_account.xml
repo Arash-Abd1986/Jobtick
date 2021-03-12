@@ -117,7 +117,7 @@
         android:layout_marginStart="@dimen/spacing_large"
         android:layout_marginTop="@dimen/spacing_medium"
         android:layout_marginEnd="@dimen/spacing_large"
-        android:layout_marginBottom="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/margin_bottom_button"
         android:text="@string/accept"
         android:textStyle="bold"
         android:textColor="@color/white" />

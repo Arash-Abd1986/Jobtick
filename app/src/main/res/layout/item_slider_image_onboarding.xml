@@ -4,9 +4,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     android:weightSum="1">
-
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".2"
+        android:layout_marginStart="@dimen/horizontal_margin_double"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/horizontal_margin_double"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:gravity="top|center"
+        android:paddingLeft="@dimen/_40dp"
+        android:paddingRight="@dimen/_40dp"
+        android:text="@string/forget_pass_title"
+        android:textAppearance="@style/materialText_400_14"
+        android:textColor="@color/grey_70" />
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieAnimationView"
         android:layout_width="match_parent"
@@ -19,20 +34,6 @@
         app:lottie_rawRes="@raw/slide1"
         android:layout_weight="0.8"/>
 
-    <com.jobtick.android.text_view.TextViewRegular
-        android:id="@+id/description"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/spacing_xxlarge"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="@dimen/spacing_xxlarge"
-        android:layout_marginBottom="@dimen/spacing_xxlarge"
-        android:gravity="center"
-        android:text="@string/short_lorem_ipsum"
-        android:textColor="@color/grey_70"
-        android:textSize="@dimen/_18sp"
-        android:lineHeight="28dp"
-        android:visibility="visible"
-        android:layout_weight="0.2"/>
+
 
 </LinearLayout>

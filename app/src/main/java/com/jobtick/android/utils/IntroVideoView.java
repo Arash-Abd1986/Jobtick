@@ -43,11 +43,7 @@ public class IntroVideoView extends VideoView {
 
     @Override
     public void layout(int l, int t, int r, int b) {
-        if (mScaleType == SCALE_TYPE_CENTER_CROP) {
             applyCenterCropLayout(l, t, r, b);
-        } else {
-            super.layout(l, t, r, b);
-        }
     }
 
     private void applyCenterCropLayout(int left, int top, int right, int bottom) {
@@ -79,6 +75,8 @@ public class IntroVideoView extends VideoView {
     private void applyFillMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = getDefaultSize(0, widthMeasureSpec);
         int height = getDefaultSize(0, heightMeasureSpec);
-        setMeasuredDimension(width, height);
+        mHorizontalAspectRatioThreshold = -width/3;
+        mVerticalAspectRatioThreshold = 0;
+        setMeasuredDimension(width*3 , height);
     }
 }

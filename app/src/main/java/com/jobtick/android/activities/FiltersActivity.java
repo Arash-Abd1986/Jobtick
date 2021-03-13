@@ -3,6 +3,8 @@ package com.jobtick.android.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -15,6 +17,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.fragments.FilterAllFragment;
@@ -33,10 +36,6 @@ import butterknife.ButterKnife;
 
 public class FiltersActivity extends AppCompatActivity implements FilterInPersonFragment.FragmentCallbackFilterInPerson, FilterAllFragment.FragmentCallbackFilterAll, FilterRemotelyFragment.FragmentCallbackFilterRemote {
 
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_remotely)
     RadioButton rbRemotely;
@@ -52,6 +51,9 @@ public class FiltersActivity extends AppCompatActivity implements FilterInPerson
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.ic_close)
+    ImageView icClose;
     FilterModel filterModel;
     Map<String, String> filters;
 
@@ -66,11 +68,13 @@ public class FiltersActivity extends AppCompatActivity implements FilterInPerson
         if (bundle != null && bundle.getParcelable(Constant.FILTER) != null) {
             filterModel = bundle.getParcelable(Constant.FILTER);
         }
-        initToolbar();
         initComponent();
     }
 
     private void initComponent() {
+        icClose.setOnClickListener(view -> {
+            this.onBackPressed();
+        });
         setupViewPager(viewPager);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
         viewPager.setOffscreenPageLimit(3);
@@ -129,12 +133,6 @@ public class FiltersActivity extends AppCompatActivity implements FilterInPerson
         viewPager.setAdapter(adapter);
     }
 
-
-    private void initToolbar() {
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Filters");
-    }
 
 
     @Override

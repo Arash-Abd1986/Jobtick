@@ -147,7 +147,7 @@ public abstract class AbstractFilterFragment extends Fragment {
     }
 
     private void setSeekBarPrice(int pMin, int pMax) {
-        txtPriceMinMax.setText(String.format(Locale.ENGLISH, "$ %d - $ %d", pMin, pMax));
+        txtPriceMinMax.setText(String.format(Locale.ENGLISH, "$%d - $%d", pMin, pMax));
     }
 
     private void initDistanceSlider() {

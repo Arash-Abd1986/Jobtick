@@ -59,4 +59,9 @@ public class SigInSigUpActivity extends ActivityBase {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        videoView.start();
+    }
 }

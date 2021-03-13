@@ -16,7 +16,13 @@
         </attr>
     </declare-styleable>
 
-
+    <declare-styleable name="IntroVideoView">
+        <attr name="scaleType" format="integer">
+            <flag name="normal" value="0" />
+            <flag name="centerCrop" value="1" />
+            <flag name="fill" value="2" />
+        </attr>
+    </declare-styleable>
 
     <declare-styleable name="ExtensiblePageIndicator">
         <attr name="indicatorRadius" format="dimension" />

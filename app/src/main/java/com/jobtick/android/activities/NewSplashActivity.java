@@ -109,10 +109,7 @@ public class NewSplashActivity extends AppCompatActivity {
     }
 
     private void openSignUpPage(){
-        Intent intent = new Intent(NewSplashActivity.this, AuthActivity.class);
-        intent.putExtra("type", "Signup");
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = new Intent(NewSplashActivity.this, SigInSigUpActivity.class);
         startActivity(intent);
         finish();
     }

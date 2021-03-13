@@ -23,6 +23,7 @@ import com.jobtick.android.fragments.SelectRoleBottomSheet;
 import com.jobtick.android.utils.SuburbAutoComplete;
 import com.jobtick.android.widget.ExtendedEntryText;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.models.UserAccountModel;
@@ -71,7 +72,6 @@ public class CompleteRegistrationActivity extends ActivityBase implements Select
     private String str_suburb;
 
 
-
     Context context;
 
     @Override
@@ -85,7 +85,6 @@ public class CompleteRegistrationActivity extends ActivityBase implements Select
             Intent intent = new SuburbAutoComplete(this).getIntent();
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
-
 
 
     }
@@ -213,8 +212,14 @@ public class CompleteRegistrationActivity extends ActivityBase implements Select
         if (TextUtils.isEmpty(edtFirstName.getText())) {
             edtFirstName.setError("Please enter first name");
             return false;
+        } else if (edtFirstName.getText().length() < 3) {
+            edtFirstName.setError("Please enter the first name correctly");
+            return false;
         } else if (TextUtils.isEmpty(edtLastName.getText())) {
             edtLastName.setError("Please enter last name");
+            return false;
+        } else if (edtLastName.getText().length() < 3) {
+            edtLastName.setError("Please enter the last name correctly");
             return false;
         } else if (TextUtils.isEmpty(suburb.getText())) {
             suburb.setError("Please enter suburb");
@@ -244,9 +249,9 @@ public class CompleteRegistrationActivity extends ActivityBase implements Select
             case R.id.lyt_btn_complete_registration:
 
                 if (validation()) {
-                     str_fname = edtFirstName.getText().trim();
-                     str_lname = edtLastName.getText().trim();
-                     str_suburb = suburb.getText().trim();
+                    str_fname = edtFirstName.getText().trim();
+                    str_lname = edtLastName.getText().trim();
+                    str_suburb = suburb.getText().trim();
 
                     openSelectRoleBottomSheet();
                 }
@@ -254,7 +259,7 @@ public class CompleteRegistrationActivity extends ActivityBase implements Select
         }
     }
 
-    private void openSelectRoleBottomSheet(){
+    private void openSelectRoleBottomSheet() {
         SelectRoleBottomSheet roleBottomSheet = new SelectRoleBottomSheet();
         roleBottomSheet.show(getSupportFragmentManager(), "");
     }

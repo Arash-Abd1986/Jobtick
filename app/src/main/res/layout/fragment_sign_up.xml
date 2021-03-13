@@ -59,6 +59,7 @@
                 android:layout_marginBottom="@dimen/spacing_middle"
                 app:eImeOptions="actionNext"
                 app:eInputType="email"
+                app:eMaxCharNumber="30"
                 app:eTitle="@string/email_address" />
 
 
@@ -71,6 +72,7 @@
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
                 app:eInputType="password"
+                app:eMaxCharNumber="30"
                 app:eTitle="@string/password" />
 
             <com.jobtick.android.widget.ExtendedEntryText
@@ -83,6 +85,7 @@
                 android:layout_marginBottom="@dimen/spacing_middle"
                 app:eImeOptions="actionDone"
                 app:eInputType="password"
+                app:eMaxCharNumber="30"
                 app:eTitle="@string/confirm_password" />
 
         </LinearLayout>

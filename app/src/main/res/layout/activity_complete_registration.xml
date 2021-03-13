@@ -54,6 +54,7 @@
                 android:layout_marginBottom="@dimen/spacing_middle"
                 app:eImeOptions="actionNext"
                 app:eInputType="text"
+                app:eMaxCharNumber="20"
                 app:eStartFocus="true"
                 app:eTitle="@string/first_name" />
 
@@ -67,6 +68,7 @@
                 android:layout_marginBottom="@dimen/spacing_middle"
                 app:eImeOptions="actionDone"
                 app:eInputType="text"
+                app:eMaxCharNumber="20"
                 app:eTitle="@string/last_name" />
 
 

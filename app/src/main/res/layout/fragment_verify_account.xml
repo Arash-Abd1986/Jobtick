@@ -72,6 +72,7 @@
                 app:eInputType="integer"
                 app:eImeOptions="actionDone"
                 app:eStartFocus="true"
+                app:eMaxCharNumber="10"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"

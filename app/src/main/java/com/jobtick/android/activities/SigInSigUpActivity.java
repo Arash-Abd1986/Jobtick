@@ -1,6 +1,7 @@
 package com.jobtick.android.activities;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -42,6 +43,8 @@ public class SigInSigUpActivity extends ActivityBase {
         ButterKnife.bind(this);
         videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" +
                 R.raw.signinup));
+        videoView.setOnPreparedListener(mp -> mp.setLooping(true));
+
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         videoView.setLayoutParams(new RelativeLayout.LayoutParams(metrics.widthPixels, metrics.heightPixels));

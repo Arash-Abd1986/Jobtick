@@ -75,8 +75,10 @@ public class IntroVideoView extends VideoView {
     private void applyFillMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = getDefaultSize(0, widthMeasureSpec);
         int height = getDefaultSize(0, heightMeasureSpec);
-        mHorizontalAspectRatioThreshold = -width/3;
+        //mHorizontalAspectRatioThreshold = -width/3;
+        mHorizontalAspectRatioThreshold = 0;
         mVerticalAspectRatioThreshold = 0;
-        setMeasuredDimension(width*3 , height);
+        //setMeasuredDimension(width*3 , height);
+        setMeasuredDimension(width , height);
     }
 }

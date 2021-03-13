@@ -30,14 +30,14 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="-18dp"
-            android:layout_marginBottom="@dimen/_15sp"
+            android:layout_gravity="center"
             android:src="@mipmap/ic_launcher_foreground" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_10sp"
+            android:gravity="center"
             android:text="It's where job is done"
             android:textAppearance="@style/materialText_700_20"
             android:textColor="@color/white" />
@@ -65,7 +65,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/lyt_btn_sign_in"
-            style="@style/materialButton.outlined"
+            style="@style/materialButton.outlined.gray.back"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="16dp"

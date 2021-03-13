@@ -14,6 +14,7 @@ import com.potyvideo.library.AndExoPlayerView;
 
 import android.annotation.SuppressLint;
 import android.util.DisplayMetrics;
+import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
@@ -40,6 +41,7 @@ public class SigInSigUpActivity extends ActivityBase {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin_signup);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ButterKnife.bind(this);
         videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" +
                 R.raw.signinup));

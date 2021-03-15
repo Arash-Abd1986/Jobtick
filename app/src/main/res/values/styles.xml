@@ -272,7 +272,7 @@
         <item name="android:paddingEnd">0dp</item>
         <item name="android:letterSpacing">0.00714285714</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:backgroundTint">#1BBFBFBF</item>
+        <item name="android:backgroundTint">#FFFFFF</item>
         <item name="strokeColor">@color/colorPrimary</item>
         <item name="android:stateListAnimator">@null</item>
     </style>

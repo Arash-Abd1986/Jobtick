@@ -31,6 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:visibility="gone"
             android:src="@mipmap/ic_launcher_foreground" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -38,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_10sp"
             android:gravity="center"
+            android:visibility="gone"
             android:text="It's where job is done"
             android:textAppearance="@style/materialText_700_20"
             android:textColor="@color/white" />
@@ -50,28 +52,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:weightSum="10"
         android:paddingStart="@dimen/_30dp"
         android:paddingEnd="@dimen/_30dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/lyt_btn_sign_up"
             style="@style/materialButton"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginTop="16dp"
+            android:layout_weight="5"
+            android:layout_marginEnd="10dp"
             android:text="@string/sign_up"
             android:textColor="@color/white" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/lyt_btn_sign_in"
             style="@style/materialButton.outlined.gray.back"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="5"
             android:layout_height="50dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="32dp"
+            android:layout_marginStart="10dp"
             android:text="@string/log_in"
-            android:textColor="@color/white"
+            android:textColor="@color/blueButtons"
             app:strokeColor="@color/blueButtons"
             app:strokeWidth="@dimen/outline_normal" />
 

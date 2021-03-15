@@ -45,7 +45,10 @@ public class SigInSigUpActivity extends ActivityBase {
         ButterKnife.bind(this);
         videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" +
                 R.raw.signinup));
-        videoView.setOnPreparedListener(mp -> mp.setLooping(true));
+        videoView.setOnPreparedListener(mp -> {
+            mp.setLooping(true);
+            mp.setVolume(0f, 0f);
+        });
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);

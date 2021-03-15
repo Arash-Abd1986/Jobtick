@@ -75,7 +75,7 @@ public class NewSplashActivity extends AppCompatActivity {
                             startActivity(main);
                         }
                         else{
-                            Intent main = new Intent(NewSplashActivity.this, CompleteRegistrationActivity.class);
+                            Intent main = new Intent(NewSplashActivity.this, SigInSigUpActivity.class);
                             main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(main);

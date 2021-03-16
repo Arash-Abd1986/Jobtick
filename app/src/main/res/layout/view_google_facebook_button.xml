@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <View
@@ -27,7 +28,7 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:text="@string/or_sign_up_with"
-            android:textColor="@color/grey_70"
+            android:textColor="#7A869A"
             android:textSize="@dimen/_12sp" />
         <View
             android:layout_marginLeft="5dp"
@@ -51,7 +52,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_weight="1"
             app:cardCornerRadius="@dimen/buttonCorners"
             app:cardElevation="0dp">

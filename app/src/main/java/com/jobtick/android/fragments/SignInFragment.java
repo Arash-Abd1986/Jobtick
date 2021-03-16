@@ -84,8 +84,10 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
     private void setSocialBox() {
         TextView tvGoogle = socialBox.findViewById(R.id.tvGoogle);
         TextView tvFB = socialBox.findViewById(R.id.tvFB);
-        tvGoogle.setText(getString(R.string.sign_in_google_text));
-        tvFB.setText(getString(R.string.sign_in_facebook_text));
+        TextView other = socialBox.findViewById(R.id.other);
+        tvGoogle.setText(getString(R.string.log_in_google_text));
+        tvFB.setText(getString(R.string.log_in_facebook_text));
+        other.setText(getString(R.string.other_login));
     }
 
 

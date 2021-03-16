@@ -73,7 +73,7 @@
                 android:layout_marginBottom="@dimen/spacing_middle"
                 app:eInputType="password"
                 app:eMaxCharNumber="30"
-                app:eTitle="@string/password" />
+                app:eTitle="Choose a password" />
 
             <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/confirm_password"
@@ -86,7 +86,7 @@
                 app:eImeOptions="actionDone"
                 app:eInputType="password"
                 app:eMaxCharNumber="30"
-                app:eTitle="@string/confirm_password" />
+                app:eTitle="Confirm password" />
 
         </LinearLayout>
 

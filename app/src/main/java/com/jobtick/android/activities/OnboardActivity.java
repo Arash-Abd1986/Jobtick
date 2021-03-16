@@ -20,9 +20,11 @@ import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
 
 import android.annotation.SuppressLint;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jobtick.android.models.AttachmentModel;
+import com.nostra13.universalimageloader.utils.L;
 
 import java.util.ArrayList;
 
@@ -63,11 +65,6 @@ public class OnboardActivity extends ActivityBase {
         lottieAnimList = new ArrayList<>();
         descriptionList = new ArrayList<>();
         init();
-
-        txtSkip.setOnClickListener(v -> {
-            Intent intent = new Intent(OnboardActivity.this, DashboardActivity.class);
-            startActivity(intent);
-        });
     }
 
     public void init() {
@@ -127,8 +124,10 @@ public class OnboardActivity extends ActivityBase {
                 {
                     if (viewPager.getCurrentItem() == lottieAnimList.size() - 1) {
                         Intent main = new Intent(OnboardActivity.this, DashboardActivity.class);
-                        main.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(main);
+                        OnboardActivity.this.finish();
 
                     } else {
                         viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
@@ -140,8 +139,10 @@ public class OnboardActivity extends ActivityBase {
 
         txtSkip.setOnClickListener(v -> {
             Intent main = new Intent(OnboardActivity.this, DashboardActivity.class);
-            main.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(main);
+            OnboardActivity.this.finish();
 
 
         });
@@ -177,7 +178,7 @@ public class OnboardActivity extends ActivityBase {
 
         @Override
         public boolean isViewFromObject(View view, Object object) {
-            return view == ((LinearLayout) object);
+            return view == ((RelativeLayout) object);
         }
 
         @Override
@@ -200,7 +201,7 @@ public class OnboardActivity extends ActivityBase {
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            ((ViewPager) container).removeView((LinearLayout) object);
+            ((ViewPager) container).removeView((RelativeLayout) object);
 
         }
 

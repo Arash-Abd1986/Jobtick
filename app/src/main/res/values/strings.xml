@@ -24,7 +24,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="email_address">Email Address</string>
+    <string name="email_address">Email address</string>
     <string name="password">Password</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="log_in">Log in</string>
@@ -238,7 +238,7 @@
     <string name="email">Email Address</string>
     <string name="email_s">Email</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="by_joining_you_agree">By joining you agree to JobTick’s </string>
+    <string name="by_joining_you_agree">By joining you agree to Jobtick’s </string>
     <string name="terms_of_services"><u>Terms of Services</u></string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
@@ -257,7 +257,7 @@
     <string name="poster_page1">Post whatever you need to get done!</string>
     <string name="poster_page2">The best offers will be made on your job by Tickers</string>
     <string name="poster_page3">Select the best Ticker to get your job done</string>
-    <string name="poster_page4">Great! Job is done! Enjoy JobTick!</string>
+    <string name="poster_page4">Great! Job is done! Enjoy Jobtick!</string>
 
     <string name="worker_page1">Explore jobs which suit you</string>
     <string name="worker_page2">Make your best offer to get the job</string>
@@ -319,7 +319,7 @@
     <string name="select_one_reason_for_your_request">Select one reason for your request</string>
     <string name="comments_optional">Comments (Optional)</string>
     <string name="done">Done</string>
-    <string name="jobTick">JobTick</string>
+    <string name="jobTick">Jobtick</string>
     <string name="SearchCategories">Search Categories</string>
     <string name="estimated_budget">Estimated Budget:</string>
     <string name="job_title">Job title</string>
@@ -410,7 +410,7 @@
     <string name="post_code">Postcode</string>
     <string name="country">Country</string>
     <string name="receive_alerts">Receive Alerts?</string>
-    <string name="jobtick">JobTick</string>
+    <string name="jobtick">Jobtick</string>
     <string name="browse_categories">Browse categories</string>
     <string name="we_didn_t_find_any_results_for_your_search">We didn\'t find any results for your search</string>
     <string name="we_didn_t_find_any_results_for_your_filter">We didn\'t find any results for your filter</string>
@@ -493,7 +493,10 @@
     <string name="join_jobtick">Join Jobtick</string>
     <string name="welcome_back">Welcome back</string>
     <string name="sign_in_google_text">Sign in with Google</string>
+    <string name="log_in_google_text">Log in with Google</string>
     <string name="sign_in_facebook_text">Sign in with Facebook</string>
+    <string name="log_in_facebook_text">Log in with Facebook</string>
+    <string name="other_login">Or Log in with</string>
     <string name="badges">Badges</string>
     <string name="these_badges_will_be_shown_on_when_all_requirements_are_provided_by_user">These badges will be shown on when all requirements are provided by user.</string>
     <string name="add_bank_account_error">Your bank account information is not correct.</string>

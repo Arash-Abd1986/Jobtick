@@ -469,7 +469,7 @@ public class Helper {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         String shareBody = taskMessage;
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "JobTick");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Jobtick");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         context.startActivity(Intent.createChooser(sharingIntent, "Share via"));
 

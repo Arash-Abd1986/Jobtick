@@ -705,6 +705,7 @@ public class AuthActivity extends ActivityBase {
 
                 },
                 error -> {
+                    hideProgressDialog();
                     NetworkResponse networkResponse = error.networkResponse;
                     if (networkResponse != null && networkResponse.data != null) {
                         String jsonError = new String(networkResponse.data);
@@ -720,7 +721,7 @@ public class AuthActivity extends ActivityBase {
                                 if (jsonObject_error.getInt("error_code") == 1002) {
 
                                     //TODO: we need to direct user to signup page, if email is not verified.
-                                    if(jsonObject_error.has("message"))
+                                    if (jsonObject_error.has("message"))
                                         showToast(jsonObject_error.getString("message"), this);
 
                                     return;
@@ -1036,40 +1037,37 @@ public class AuthActivity extends ActivityBase {
                                     FirebaseCrashlytics.getInstance().recordException(e);
                                 }
                             },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    NetworkResponse networkResponse = error.networkResponse;
-                                    if (networkResponse != null && networkResponse.data != null) {
-                                        String jsonError = new String(networkResponse.data);
-                                        // Print Error!
-                                        Timber.e(jsonError);
-                                        FirebaseCrashlytics.getInstance().recordException(error);
+                            error -> {
+                                NetworkResponse networkResponse = error.networkResponse;
+                                if (networkResponse != null && networkResponse.data != null) {
+                                    String jsonError = new String(networkResponse.data);
+                                    // Print Error!
+                                    Timber.e(jsonError);
+                                    FirebaseCrashlytics.getInstance().recordException(error);
 
-                                        try {
-                                            JSONObject jsonObject = new JSONObject(jsonError);
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(jsonError);
 
-                                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                                        JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
-                                            if (jsonObject_error.has("message")) {
-                                                showToast(jsonObject_error.getString("message"), AuthActivity.this);
-                                            }
-                                            if (jsonObject_error.has("errors")) {
+                                        if (jsonObject_error.has("message")) {
+                                            showToast(jsonObject_error.getString("message"), AuthActivity.this);
+                                        }
+                                        if (jsonObject_error.has("errors")) {
 //                                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
 
 
-                                            }
-
-
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
                                         }
-                                    } else {
-                                        showToast("Something Went Wrong", AuthActivity.this);
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                    Timber.e(error.toString());
-                                    hideProgressDialog();
+                                } else {
+                                    showToast("Something Went Wrong", AuthActivity.this);
                                 }
+                                Timber.e(error.toString());
+                                hideProgressDialog();
                             }) {
 
 

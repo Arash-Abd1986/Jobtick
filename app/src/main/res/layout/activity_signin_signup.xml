@@ -56,7 +56,6 @@
         android:weightSum="10"
         android:paddingStart="@dimen/_30dp"
         android:paddingEnd="@dimen/_30dp">
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/lyt_btn_sign_up"
             style="@style/materialButton"
@@ -79,7 +78,7 @@
             android:layout_marginStart="10dp"
             android:text="@string/log_in"
             android:textColor="@color/blueButtons"
-            app:strokeColor="@color/blueButtons"
+            app:strokeColor="@color/white"
             app:strokeWidth="@dimen/outline_normal" />
 
     </LinearLayout>

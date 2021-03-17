@@ -223,9 +223,9 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
                 if (item.getDueTime().getAnytime() != null && item.getDueTime().getAnytime()) {
                     if (TextUtils.isEmpty(txtDueTime.getText().toString())) {
-                        txtDueTime.setText("Any time");
+                        txtDueTime.setText("Anytime");
                     } else {
-                        txtDueTime.append(", Any time");
+                        txtDueTime.append(", Anytime");
                     }
                 }
                 if (!item.getDueTime().getMorning() && !item.getDueTime().getAfternoon() &&

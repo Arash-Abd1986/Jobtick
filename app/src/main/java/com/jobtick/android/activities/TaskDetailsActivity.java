@@ -1527,9 +1527,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
         if (time.getAnytime() != null && time.getAnytime()) {
             if (dueTime.length() != 0) {
-                dueTime = dueTime + ",Any time";
+                dueTime = dueTime + ",Anytime";
             } else {
-                dueTime = dueTime + "Any time";
+                dueTime = dueTime + "Anytime";
             }
         }
         return dueTime;

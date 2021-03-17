@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/img_user_avatar"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:scaleType="centerCrop"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="15dp"
+        android:layout_marginStart="19dp"
         android:layout_marginTop="40dp"
-        android:layout_marginStart="24dp"
-        android:src="@drawable/ic_place_holder"
-        android:adjustViewBounds="true"/>
+        android:layout_marginBottom="15dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_place_holder" />
 
     <LinearLayout
         android:id="@+id/holder_img_verified"
@@ -28,56 +28,55 @@
         android:layout_marginBottom="-6dp"
         android:gravity="center">
 
-    <ImageView
-        android:id="@+id/img_verified_account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:layout_gravity="center_vertical"
-        android:background="@drawable/ic_shield"
-         />
+        <ImageView
+            android:id="@+id/img_verified_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:adjustViewBounds="true"
+            android:background="@drawable/ic_shield" />
     </LinearLayout>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text=""
-        android:textColor="@color/textColor"
+        android:layout_alignTop="@+id/img_user_avatar"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_toEndOf="@id/img_user_avatar"
         android:lineHeight="20dp"
         android:textAppearance="@style/materialText_600_16"
-        android:layout_marginEnd="8dp"
-        android:layout_toEndOf="@id/img_user_avatar"
-        android:layout_alignTop="@+id/img_user_avatar"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="8dp" />
+        android:textColor="@color/textColor"
+        tools:text="" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_account_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Level 2"
         android:layout_below="@+id/txt_user_name"
-        android:textColor="@color/grey_70"
-        android:textAppearance="@style/materialText_400_12"
-        android:layout_toEndOf="@id/img_user_avatar"
         android:layout_alignBottom="@+id/holder_img_verified"
+        android:layout_marginStart="10dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"/>
+        android:layout_toEndOf="@id/img_user_avatar"
+        android:text="Level 2"
+        android:textAppearance="@style/materialText_400_12"
+        android:textColor="@color/grey_70" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/btn_cashout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/img_user_avatar"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
         android:elevation="0dp"
-        android:layout_below="@id/img_user_avatar"
+        android:visibility="visible"
         app:cardCornerRadius="4dp"
-        app:cardElevation="0dp"
-        android:visibility="visible">
+        app:cardElevation="0dp">
 
         <LinearLayout
             android:id="@+id/llWalletBalance"
@@ -94,7 +93,7 @@
                 android:gravity="start|center_vertical"
                 android:text="@string/wallet_balance"
                 android:textAppearance="@style/materialText_400_12"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/my_balance"
@@ -103,12 +102,18 @@
                 android:layout_gravity="end|center_vertical"
                 android:gravity="end"
                 android:text="$ 0"
-                android:textColor="@color/white"
-                android:textAppearance="@style/materialText_600_12" />
+                android:textAppearance="@style/materialText_600_12"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/btn_cashout"
+        android:background="#DFE1E6" />
 
 </RelativeLayout>

@@ -22,7 +22,7 @@
         app:headerLayout="@layout/nav_header_dashboard"
         app:itemIconTint="#4D576A"
         app:itemTextAppearance="@style/NavigationView"
-        app:itemTextColor="#2B3240"
+        app:itemTextColor="#091E42"
         app:menu="@menu/activity_dashboard_drawer" />
 </androidx.drawerlayout.widget.DrawerLayout>
 

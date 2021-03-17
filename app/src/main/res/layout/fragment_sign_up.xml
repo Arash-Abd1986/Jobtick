@@ -49,7 +49,7 @@
             android:orientation="vertical">
 
 
-            <com.jobtick.android.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryTextDiffId
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

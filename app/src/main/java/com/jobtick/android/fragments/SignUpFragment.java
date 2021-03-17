@@ -18,6 +18,7 @@ import com.jobtick.android.activities.AuthActivity;
 import com.jobtick.android.utils.ExternalIntentHelper;
 import com.jobtick.android.utils.Helper;
 import com.jobtick.android.widget.ExtendedEntryText;
+import com.jobtick.android.widget.ExtendedEntryTextDiffId;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +32,7 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.email)
-    ExtendedEntryText edtEmailAddress;
+    ExtendedEntryTextDiffId edtEmailAddress;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.password)
     ExtendedEntryText edtPassword;

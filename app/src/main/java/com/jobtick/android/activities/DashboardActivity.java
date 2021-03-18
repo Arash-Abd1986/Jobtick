@@ -32,7 +32,10 @@ import com.jobtick.android.fragments.CashOutBottomSheet;
 import com.jobtick.android.fragments.LogOutBottomSheet;
 import com.jobtick.android.interfaces.onProfileUpdateListener;
 import com.jobtick.android.models.CreditCardModel;
+import com.jobtick.android.models.FilterModel;
 import com.jobtick.android.models.PushNotificationModel;
+import com.jobtick.android.models.UserAccountModel;
+import com.jobtick.android.models.response.AccountResponse;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.ConstantKey;
 import com.jobtick.android.utils.ImageUtil;
@@ -201,7 +204,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 }
             }
         }
-
+        getAccountDetails();
         goToFragment();
         getBalance();
     }
@@ -546,22 +549,70 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         ImageView dialogButton = (ImageView) dialog.findViewById(R.id.ivClose);
         Button submit = (Button) dialog.findViewById(R.id.submit);
         // if button is clicked, close the custom dialog
-        dialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        dialogButton.setOnClickListener(v -> dialog.dismiss());
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                launchMarket();
-            }
+        submit.setOnClickListener(v -> {
+            dialog.dismiss();
+            launchMarket();
         });
 
         dialog.show();
+    }
+
+    private void getAccountDetails() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_GET_ACCOUNT,
+                response -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+
+                        UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_data);
+                        sessionManager.setUserAccount(userAccountModel);
+
+                        if (sessionManager.getUserAccount().getAccount_status().isBasic_info()) {
+                            if (sessionManager.getFilter() == null) {
+                                Gson gson = new Gson();
+                                FilterModel filterModel = new FilterModel();
+                                AccountResponse data = gson.fromJson(response, AccountResponse.class);
+                                filterModel.setDistance(data.getData().getBrowsejobs_default_filters().getDistance());
+                                filterModel.setLatitude(data.getData().getPosition().getLatitude().toString());
+                                filterModel.setLogitude(data.getData().getPosition().getLongitude().toString());
+                                filterModel.setLocation(data.getData().getLocation());
+                                filterModel.setPrice(data.getData().getBrowsejobs_default_filters().getMin_price()
+                                        + "$-" + data.getData().getBrowsejobs_default_filters().getMax_price() + "$");
+                                filterModel.setSection(Constant.FILTER_ALL);
+                                sessionManager.setFilter(filterModel);
+                            }
+                            sessionManager.setLatitude(Double.toString(userAccountModel.getLatitude()));
+                            sessionManager.setLongitude(Double.toString(userAccountModel.getLongitude()));
+
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
+
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1;
+            }
+
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(DashboardActivity.this);
+        requestQueue.add(stringRequest);
     }
 
     private void launchMarket() {

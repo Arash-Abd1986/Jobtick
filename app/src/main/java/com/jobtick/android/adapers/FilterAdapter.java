@@ -8,9 +8,12 @@ import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.jobtick.android.R;
 
 import java.util.List;
+
+import static com.jobtick.android.utils.Constant.FILTER_TASK_OPEN;
 
 public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIEW_TYPE_BUTTON = 0;
@@ -45,9 +48,9 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         context = parent.getContext();
         RecyclerView.ViewHolder vh;
         View v;
-        if(viewType == VIEW_TYPE_CELL){
-             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_filter, parent, false);
-        }else{
+        if (viewType == VIEW_TYPE_CELL) {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_filter, parent, false);
+        } else {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_delete_filter, parent, false);
         }
         vh = new OriginalViewHolder(v);
@@ -60,13 +63,15 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (holder instanceof OriginalViewHolder) {
             OriginalViewHolder view = (OriginalViewHolder) holder;
             String string = items.get(position);
-            view.txtData.setText(string);
-
-            if(position == items.size()) {
+            if (string.equals(FILTER_TASK_OPEN))
+                 view.txtData.setText("Open jobs");
+            else
+                view.txtData.setText(string);
+            if (position == items.size()) {
                 view.button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(mOnFilterDeleteListener != null){
+                        if (mOnFilterDeleteListener != null) {
                             mOnFilterDeleteListener.onFilterDeleteButtonClick();
                         }
                     }
@@ -85,7 +90,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return items.size();
     }
 
-    public interface OnFilterDeleteListener{
+    public interface OnFilterDeleteListener {
         void onFilterDeleteButtonClick();
     }
 

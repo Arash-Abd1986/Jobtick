@@ -24,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.activities.ActivityBase;
@@ -121,6 +122,14 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (edtBudget.getText().length() > 0) {
+            btnNext.setEnabled(true);
+        }
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         makeAnOfferActivity = (MakeAnOfferActivity) requireActivity();
@@ -162,19 +171,19 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
             }
         });
 
-        txtFeeTitle.setOnClickListener(v-> {
+        txtFeeTitle.setOnClickListener(v -> {
             ServiceFeeInfoBottomSheet infoBottomSheet = new ServiceFeeInfoBottomSheet();
             infoBottomSheet.show(getChildFragmentManager(), null);
         });
 
-        txtLearnHowLevelAffectsServiceFee.setOnClickListener( v-> {
+        txtLearnHowLevelAffectsServiceFee.setOnClickListener(v -> {
             LevelsInfoBottomSheet levelsInfoBottomSheet = new LevelsInfoBottomSheet();
             levelsInfoBottomSheet.show(getParentFragmentManager(), "");
         });
     }
 
     private void initLayout() {
-        if(makeAnOfferModel != null && makeAnOfferModel.getOffer_price() != 0) {
+        if (makeAnOfferModel != null && makeAnOfferModel.getOffer_price() != 0) {
             edtBudget.setText(String.format(Locale.ENGLISH, "%d", makeAnOfferModel.getOffer_price()));
             txtServiceFee.setText(String.format(Locale.ENGLISH, "$%.1f", makeAnOfferModel.getAllFee()));
             txtFinalBudget.setText(String.format(Locale.ENGLISH, "$%.1f", makeAnOfferModel.getYouWillReceive()));
@@ -209,19 +218,20 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
             edtBudget.setText(charSequence.subSequence(0, 4).toString());
             edtBudget.setSelection(4);
         }
+        btnNext.setEnabled(charSequence.length() != 0);
     }
 
     boolean is4Digits = false;
+
     @Override
     public void afterTextChanged(Editable editable) {
-        btnNext.setEnabled(true);
 
         if (!validation(false)) {
             txtServiceFee.setText(R.string.dollar_00);
             txtFinalBudget.setText(R.string.dollar_00);
             return;
         }
-        if(is4Digits && edtBudget.getText().length() == 4){
+        if (is4Digits && edtBudget.getText().length() == 4) {
             return;
         }
         is4Digits = edtBudget.getText().length() == 4;

@@ -2,6 +2,7 @@ package com.jobtick.android.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -250,7 +252,16 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        CameraPosition cameraPosition =
+                new CameraPosition.Builder()
+                        .target(new LatLng( Double.parseDouble(sessionManager.getLatitude()),  Double.parseDouble(sessionManager.getLongitude())))
+                        .zoom(12)
+                        .build();
         this.googleMap = googleMap;
+        this.googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        new Handler().postDelayed(() -> {
+            mapView.setVisibility(View.VISIBLE);
+        },200);
         this.googleMap.setOnMarkerClickListener(this);
 
 

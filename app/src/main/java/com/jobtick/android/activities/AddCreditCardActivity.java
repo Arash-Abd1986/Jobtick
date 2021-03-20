@@ -17,13 +17,16 @@ import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 
 import com.jobtick.android.payment.AddCreditCard;
 import com.jobtick.android.payment.AddCreditCardImpl;
 import com.jobtick.android.utils.StringUtils;
 import com.jobtick.android.widget.ExtendedEntryText;
+import com.segment.analytics.internal.Private;
 
+import java.lang.reflect.Field;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -78,10 +81,10 @@ public class AddCreditCardActivity extends ActivityBase {
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
 
-            DatePickerDialog dialog = new DatePickerDialog(this,
+            DatePickerDialog dialog = createDialogWithoutDateField(new  DatePickerDialog(this,
                     android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                     mDateSetListener,
-                    year, month,1);
+                    year, month,1));
             dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
@@ -209,6 +212,16 @@ public class AddCreditCardActivity extends ActivityBase {
                 break;
         }
     }
+    private DatePickerDialog createDialogWithoutDateField(DatePickerDialog dpd){
+        try{
+            dpd.getDatePicker().findViewById(getResources().getIdentifier("day","id","android")).setVisibility(View.GONE);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return dpd;
+
+    }
+
 
     private boolean validation(){
         if(edtFullName.getText().isEmpty()){

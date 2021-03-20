@@ -146,7 +146,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/spacing_medium"
-                    android:layout_marginBottom="@dimen/spacing_xmlarge"
+                    android:layout_marginBottom="20dp"
                     android:orientation="horizontal" />
             </RelativeLayout>
 

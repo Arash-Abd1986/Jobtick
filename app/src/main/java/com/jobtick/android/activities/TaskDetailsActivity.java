@@ -1793,7 +1793,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(width_height, width_height));
             params.setMargins(10, 10, 10, 10);
             dots[i].setLayoutParams(params);
-            dots[i].setImageResource(R.drawable.shape_circle_outline);
+            dots[i].setImageResource(R.drawable.shape_circle_outline_gray);
             layout_dots.addView(dots[i]);
         }
 

@@ -462,7 +462,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         mBottomSheetDialog = new BottomSheetDialog(taskCreateActivity);
         mBottomSheetDialog.setContentView(view);
-        mBottomSheetDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mBottomSheetDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         TextView txtCount = view.findViewById(R.id.txt_count);
         RecyclerView recyclerAddMustHaveBottomSheet = view.findViewById(R.id.recycler_add_must_have_bottom_sheet);
@@ -470,15 +470,12 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         MaterialButton btnAdd = view.findViewById(R.id.btn_add);
         EditText edtAddTag = view.findViewById(R.id.edtAddTag);
-        edtAddTag.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_SEND) {
-                    btnAdd.performClick();
-                    return true;
-                }
-                return false;
+        edtAddTag.setOnEditorActionListener((textView, i, keyEvent) -> {
+            if (i == EditorInfo.IME_ACTION_SEND) {
+                btnAdd.performClick();
+                return true;
             }
+            return false;
         });
         recyclerAddMustHaveBottomSheet.setLayoutManager(new GridLayoutManager(taskCreateActivity, 1));
         recyclerAddMustHaveBottomSheet.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true));

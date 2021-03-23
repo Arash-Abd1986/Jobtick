@@ -90,7 +90,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Set Custom Job Alerts"
                                 android:textAppearance="@style/materialText_600_14"
-                                android:textColor="@color/colorPrimary" />
+                                android:textColor="@color/N300" />
 
                             <View
                                 android:layout_width="match_parent"

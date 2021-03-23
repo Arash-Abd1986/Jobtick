@@ -72,7 +72,7 @@
                         android:gravity="center_vertical"
                         android:text="Distance"
                         android:textAppearance="@style/materialText_600_14"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="@color/N500" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_distance_km"
@@ -106,8 +106,11 @@
                         android:value="15"
                         android:valueFrom="0"
                         android:valueTo="101"
+                        app:tickColor="@color/colorPrimary"
                         app:haloColor="@color/grey_E2E2E2"
+                        app:thumbColor="@color/colorPrimary"
                         app:labelBehavior="gone"
+                        app:trackColorActive="@color/colorPrimary"
                         app:trackColorInactive="@color/grey_E2E2E2" />
 
                 </RelativeLayout>

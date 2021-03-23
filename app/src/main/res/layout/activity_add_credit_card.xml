@@ -66,9 +66,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:eImeOptions="normal"
-                app:eInputType="calendar"
-                app:eHint="09/2023"
-                app:eMaxCharNumber="7"
+                app:eInputType="calendarKeyboard"
+                app:eHint="MM/YY"
+                app:eMaxCharNumber="5"
                 app:eTitle="@string/expiry_date" />
 
             <com.jobtick.android.widget.ExtendedEntryText

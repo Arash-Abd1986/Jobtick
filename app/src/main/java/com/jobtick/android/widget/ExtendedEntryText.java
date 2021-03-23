@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
@@ -229,6 +230,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         }
 
         if (eInputType == EInputType.CALENDAR_KEYBOARD) {
+            editText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(5)});
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);
             editText.setKeyListener(DigitsKeyListener.getInstance("0123456789/"));
         }
@@ -295,6 +297,10 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
     public void addTextChangedListener(TextWatcher textWatcher) {
         this.textWatcher = textWatcher;
+    }
+
+    public void removeTextChangedListener(TextWatcher textWatcher) {
+        this.editText.removeTextChangedListener(textWatcher);
     }
 
     @Override

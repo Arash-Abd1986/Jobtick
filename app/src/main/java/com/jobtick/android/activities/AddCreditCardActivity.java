@@ -15,6 +15,7 @@ import com.android.volley.NetworkResponse;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 import android.view.WindowManager;
 import android.widget.DatePicker;
@@ -22,6 +23,7 @@ import android.widget.ImageView;
 
 import com.jobtick.android.payment.AddCreditCard;
 import com.jobtick.android.payment.AddCreditCardImpl;
+import com.jobtick.android.utils.NumberTextWatcherForSlash;
 import com.jobtick.android.utils.StringUtils;
 import com.jobtick.android.widget.ExtendedEntryText;
 import com.segment.analytics.internal.Private;
@@ -66,6 +68,7 @@ public class AddCreditCardActivity extends ActivityBase {
     private AddCreditCard addCreditCard;
 
     DatePickerDialog.OnDateSetListener mDateSetListener;
+    private int lastLen = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,17 +84,17 @@ public class AddCreditCardActivity extends ActivityBase {
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
 
-            DatePickerDialog dialog = createDialogWithoutDateField(new  DatePickerDialog(this,
+            DatePickerDialog dialog = createDialogWithoutDateField(new DatePickerDialog(this,
                     android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                     mDateSetListener,
-                    year, month,1));
+                    year, month, 1));
             dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
         });
         mDateSetListener = (view1, year, month, dayOfMonth) -> {
             month = month + 1;
-            String formattedMonth = String.format(Locale.US,"%02d", month);
+            String formattedMonth = String.format(Locale.US, "%02d", month);
             String date = formattedMonth + "/" + year;
             edtExpiryDate.setText(date);
         };
@@ -125,6 +128,11 @@ public class AddCreditCardActivity extends ActivityBase {
         };
 
         setupCardTypes();
+        setupExpireDateAutoSlash();
+    }
+
+    private void setupExpireDateAutoSlash() {
+        edtExpiryDate.addTextChangedListener(new NumberTextWatcherForSlash(edtExpiryDate));
     }
 
     private void setupCardTypes() {
@@ -141,26 +149,23 @@ public class AddCreditCardActivity extends ActivityBase {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(edtCardNumber.getText().length()>1)
-                {
+                if (edtCardNumber.getText().length() > 1) {
 
-                    String cardFirstLetters = edtCardNumber.getText().toString().substring(0,2);
-                    if(cardFirstLetters.equals("34") || cardFirstLetters.equals("37")){
+                    String cardFirstLetters = edtCardNumber.getText().substring(0, 2);
+                    if (cardFirstLetters.equals("34") || cardFirstLetters.equals("37")) {
                         ivCardType.setVisibility(View.VISIBLE);
                         ivCardType.setImageResource(R.drawable.ic_card_american_express);
-                    }
-                    else if(edtCardNumber.getText().substring(0,1).equals("5")){
+                    } else if (edtCardNumber.getText().startsWith("5")) {
                         ivCardType.setVisibility(View.VISIBLE);
                         ivCardType.setImageResource(R.drawable.ic_card_master);
-                    }
-                    else if(edtCardNumber.getText().substring(0,1).equals("4")){
+                    } else if (edtCardNumber.getText().startsWith("4")) {
                         ivCardType.setVisibility(View.VISIBLE);
                         ivCardType.setImageResource(R.drawable.ic_card_visa);
-                    }else{
+                    } else {
                         ivCardType.setVisibility(View.INVISIBLE);
                     }
 
-                }else if(ivCardType.getVisibility()==View.VISIBLE){
+                } else if (ivCardType.getVisibility() == View.VISIBLE) {
                     ivCardType.setVisibility(View.INVISIBLE);
                 }
             }
@@ -175,9 +180,9 @@ public class AddCreditCardActivity extends ActivityBase {
         getSupportActionBar().setTitle("Add Credit Card");
     }
 
-    private void setExpiryDate(String expiryDate){
+    private void setExpiryDate(String expiryDate) {
         expMonth = Integer.parseInt(expiryDate.substring(0, 2));
-        expYear = Integer.parseInt(expiryDate.substring(3));
+        expYear = 2000 + Integer.parseInt(expiryDate.substring(3));
     }
 
 
@@ -201,7 +206,7 @@ public class AddCreditCardActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_btn_add_credit_card:
-                if(validation()){
+                if (validation()) {
                     setExpiryDate(edtExpiryDate.getText());
                     showProgressDialog();
                     addCreditCard.getToken(edtCardNumber.getText(),
@@ -212,10 +217,11 @@ public class AddCreditCardActivity extends ActivityBase {
                 break;
         }
     }
-    private DatePickerDialog createDialogWithoutDateField(DatePickerDialog dpd){
-        try{
-            dpd.getDatePicker().findViewById(getResources().getIdentifier("day","id","android")).setVisibility(View.GONE);
-        }catch(Exception ex){
+
+    private DatePickerDialog createDialogWithoutDateField(DatePickerDialog dpd) {
+        try {
+            dpd.getDatePicker().findViewById(getResources().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return dpd;
@@ -223,28 +229,23 @@ public class AddCreditCardActivity extends ActivityBase {
     }
 
 
-    private boolean validation(){
-        if(edtFullName.getText().isEmpty()){
+    private boolean validation() {
+        if (edtFullName.getText().isEmpty()) {
             edtFullName.setError("The card name must be filled.");
             return false;
-        }
-        else if(edtCardNumber.getText().isEmpty()){
+        } else if (edtCardNumber.getText().isEmpty()) {
             edtCardNumber.setError("The card number must be filled.");
             return false;
-        }
-        else if(edtExpiryDate.getText().toString() == null || edtExpiryDate.getText().isEmpty()
-                || edtExpiryDate.getText().length() != 7){
+        } else if (edtExpiryDate.getText() == null || edtExpiryDate.getText().isEmpty()
+                || edtExpiryDate.getText().length() != 5) {
             edtExpiryDate.setError("The card expiry date must be filled.");
             return false;
-        }
-        else if(!StringUtils.checkCreditCardExpiryFormat(edtExpiryDate.getText().toString())){
+        } else if (!StringUtils.checkCreditCardExpiryFormatSimple(edtExpiryDate.getText())) {
             edtExpiryDate.setError("The card expiry date is not correct.");
             return false;
-        }
-        else if(Integer.parseInt(edtExpiryDate.getText().substring(0, 2)) > 12){
+        } else if (Integer.parseInt(edtExpiryDate.getText().substring(0, 2)) > 12) {
             edtExpiryDate.setError("The card expiry date is not correct.");
-        }
-        else if(edtSecurityNumber.getText().isEmpty()){
+        } else if (edtSecurityNumber.getText().isEmpty()) {
             edtSecurityNumber.setError("The card CVC must be filled.");
             return false;
         }

@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -22,11 +24,13 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.models.BankAccountModel;
 import com.jobtick.android.models.BillingAdreessModel;
 import com.jobtick.android.models.CreditCardModel;
+import com.jobtick.android.utils.CardTypes;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.ConstantKey;
 import com.jobtick.android.utils.HttpStatus;
@@ -142,6 +146,10 @@ public class PaymentSettingsActivity extends ActivityBase {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_type)
     TextView cardType;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.card_icon)
+    ImageView cardIcon;
 
 
     @Override
@@ -329,8 +337,7 @@ public class PaymentSettingsActivity extends ActivityBase {
 
                                     accountNumber.setText(String.format("xxxxx%s", bankAccountModel.getData().getAccount_number()));
                                     bsb.setText(bankAccountModel.getData().getBsb_code());
-                                }
-                                else{
+                                } else {
                                     setupViewBankAccountDetails(false);
                                 }
                             } else {
@@ -510,12 +517,18 @@ public class PaymentSettingsActivity extends ActivityBase {
                                     if (creditCardModel != null && creditCardModel.getData() != null && creditCardModel.getData().get(0).getCard() != null) {
 
                                         setupViewCreditCard(true);
+                                        String brand = creditCardModel.getData().get(0).getCard().getBrand();
+                                        cardType.setText(brand);
+                                        if (brand.equalsIgnoreCase(CardTypes.MASTER.getType()))
+                                            cardIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_card_master));
+                                        if (brand.equalsIgnoreCase(CardTypes.VISA.getType()))
+                                            cardIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_card_visa));
 
-                                        cardType.setText(creditCardModel.getData().get(0).getCard().getBrand());
                                         edtExpiryDate.setText(String.format(Locale.ENGLISH, "Expiry Date: %s/%d",
                                                 (creditCardModel.getData().get(0).getCard().getExp_month() < 10) ? "0" + creditCardModel.getData().get(0).getCard().getExp_month() : creditCardModel.getData().get(0).getCard().getExp_month(),
                                                 creditCardModel.getData().get(0).getCard().getExp_year()));
                                         creditAccountNumber.setText(String.format("xxxx xxxx xxxx %s", creditCardModel.getData().get(0).getCard().getLast4()));
+
                                     } else {
                                         setupViewCreditCard(false);
                                     }

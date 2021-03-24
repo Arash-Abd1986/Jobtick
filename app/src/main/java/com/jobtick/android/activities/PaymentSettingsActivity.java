@@ -523,6 +523,8 @@ public class PaymentSettingsActivity extends ActivityBase {
                                             cardIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_card_master));
                                         if (brand.equalsIgnoreCase(CardTypes.VISA.getType()))
                                             cardIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_card_visa));
+                                        if (brand.contains(CardTypes.AMERICAN.getType()))
+                                            cardIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_card_american_express));
 
                                         edtExpiryDate.setText(String.format(Locale.ENGLISH, "Expiry Date: %s/%d",
                                                 (creditCardModel.getData().get(0).getCard().getExp_month() < 10) ? "0" + creditCardModel.getData().get(0).getCard().getExp_month() : creditCardModel.getData().get(0).getCard().getExp_month(),

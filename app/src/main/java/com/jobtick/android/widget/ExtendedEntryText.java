@@ -230,7 +230,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
         }
 
         if (eInputType == EInputType.CALENDAR_KEYBOARD) {
-            editText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(5)});
+            editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(5)});
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);
             editText.setKeyListener(DigitsKeyListener.getInstance("0123456789/"));
         }
@@ -254,6 +254,11 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
             editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         if (eImeOptions == EImeOptions.NORMAL)
             editText.setImeOptions(EditorInfo.IME_ACTION_UNSPECIFIED);
+    }
+
+    public void setFilter(int max) {
+        editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(max)});
+
     }
 
     private void setListeners() {

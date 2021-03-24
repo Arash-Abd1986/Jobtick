@@ -7,7 +7,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -136,14 +138,44 @@ public class AddCreditCardActivity extends ActivityBase {
     }
 
     private void setupCardTypes() {
+        final int[] keyDel = {0};
+        final int[] lenB = {0};
+        final int[] lenA = {0};
         edtCardNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                lenB[0] = s.length();
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                lenA[0] = s.length();
+                boolean is465 = false;
+                boolean is4444 = false;
+                if (lenB[0] >= lenA[0])
+                    keyDel[0] = 1;
+                edtCardNumber.setFilter(19);
+                if (edtCardNumber.getText().startsWith("34") || edtCardNumber.getText().startsWith("37")) {
+                    is465 = true;
+                    edtCardNumber.setFilter(17);
+                } else if (edtCardNumber.getText().startsWith("5")) {
+                    is4444 = true;
+                } else if (edtCardNumber.getText().startsWith("4")) {
+                    is4444 = true;
+                }
+
+
+                if (keyDel[0] == 0) {
+                    int len = edtCardNumber.getText().length();
+                    Boolean needs465Spacing = (is465 && (len == 4 || len == 11));
+                    Boolean needs4444Spacing = (is4444 && (len == 4 || len == 9 || len == 14));
+                    if (needs465Spacing || needs4444Spacing) {
+                        edtCardNumber.setText(edtCardNumber.getText() + "-");
+                        edtCardNumber.setSelection(edtCardNumber.getText().length());
+                    }
+                } else {
+                    keyDel[0] = 0;
+                }
 
             }
 
@@ -209,7 +241,7 @@ public class AddCreditCardActivity extends ActivityBase {
                 if (validation()) {
                     setExpiryDate(edtExpiryDate.getText());
                     showProgressDialog();
-                    addCreditCard.getToken(edtCardNumber.getText(),
+                    addCreditCard.getToken(edtCardNumber.getText().replace("-", ""),
                             expMonth, expYear,
                             edtSecurityNumber.getText(),
                             edtFullName.getText());

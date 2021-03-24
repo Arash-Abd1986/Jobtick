@@ -46,7 +46,7 @@
                 android:id="@+id/edt_card_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:eMaxCharNumber="16"
+                app:eMaxCharNumber="19"
                 app:eImeOptions="actionNext"
                 app:eInputType="integer"
                 app:eTitle="@string/card_number" />

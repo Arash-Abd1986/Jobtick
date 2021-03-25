@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
@@ -101,9 +102,9 @@ public class ExtendedEntryTextDiffId extends RelativeLayout implements View.OnCl
 
         //Inflate and attach the content
         if (eBoxSize == EBoxSize.NORMAL)
-            LayoutInflater.from(context).inflate(R.layout.view_extended_entry_diff_id_text, this);
+            LayoutInflater.from(context).inflate(R.layout.view_extended_entry_text_diff_id, this);
         else if (eBoxSize == EBoxSize.SMALL)
-            LayoutInflater.from(context).inflate(R.layout.view_extended_entry_diff_id_text_small, this);
+            LayoutInflater.from(context).inflate(R.layout.view_extended_entry_text_small_diff_id, this);
 
         setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
 
@@ -229,6 +230,7 @@ public class ExtendedEntryTextDiffId extends RelativeLayout implements View.OnCl
         }
 
         if (eInputType == EInputType.CALENDAR_KEYBOARD) {
+            editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(5)});
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);
             editText.setKeyListener(DigitsKeyListener.getInstance("0123456789/"));
         }
@@ -252,6 +254,11 @@ public class ExtendedEntryTextDiffId extends RelativeLayout implements View.OnCl
             editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         if (eImeOptions == EImeOptions.NORMAL)
             editText.setImeOptions(EditorInfo.IME_ACTION_UNSPECIFIED);
+    }
+
+    public void setFilter(int max) {
+        editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(max)});
+
     }
 
     private void setListeners() {
@@ -295,6 +302,10 @@ public class ExtendedEntryTextDiffId extends RelativeLayout implements View.OnCl
 
     public void addTextChangedListener(TextWatcher textWatcher) {
         this.textWatcher = textWatcher;
+    }
+
+    public void removeTextChangedListener(TextWatcher textWatcher) {
+        this.editText.removeTextChangedListener(textWatcher);
     }
 
     @Override

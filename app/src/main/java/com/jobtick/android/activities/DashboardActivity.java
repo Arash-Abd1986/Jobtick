@@ -1,15 +1,21 @@
 package com.jobtick.android.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,6 +28,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
@@ -29,7 +36,9 @@ import com.jobtick.android.R;
 
 import com.jobtick.android.activities.others.ReferAFriendActivity;
 import com.jobtick.android.fragments.CashOutBottomSheet;
+import com.jobtick.android.fragments.CategoryListBottomSheet;
 import com.jobtick.android.fragments.LogOutBottomSheet;
+import com.jobtick.android.fragments.ServiceFeeInfoBottomSheet;
 import com.jobtick.android.interfaces.onProfileUpdateListener;
 import com.jobtick.android.models.CreditCardModel;
 import com.jobtick.android.models.FilterModel;
@@ -39,20 +48,26 @@ import com.jobtick.android.models.response.AccountResponse;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.ConstantKey;
 import com.jobtick.android.utils.ImageUtil;
+import com.jobtick.android.utils.Navigator;
 import com.jobtick.android.utils.SessionManager;
 import com.onesignal.OneSignal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.NavGraph;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,7 +85,7 @@ import static com.jobtick.android.utils.ConstantKey.PUSH_CONVERSATION_ID;
 import static com.jobtick.android.utils.ConstantKey.PUSH_NOTIFICATION_MODEL;
 import static com.jobtick.android.utils.ConstantKey.PUSH_TASK;
 
-public class DashboardActivity extends ActivityBase implements NavigationView.OnNavigationItemSelectedListener, onProfileUpdateListener {
+public class DashboardActivity extends ActivityBase implements NavigationView.OnNavigationItemSelectedListener, onProfileUpdateListener, Navigator {
 
     DrawerLayout drawerLayout;
     Toolbar toolbar;
@@ -82,8 +97,22 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     TextView txtAccountLevel;
     CardView btnCashOut;
     TextView myBalance;
+    TextView navT1;
+    TextView navT2;
+    TextView navT3;
+    TextView navT4;
+    TextView navT5;
+    AppCompatImageView navI1;
+    AppCompatImageView navI2;
+    AppCompatImageView navI4;
+    AppCompatImageView navI5;
     LinearLayout llWalletBalance;
-
+    LinearLayout home;
+    LinearLayout search;
+    LinearLayout chat;
+    LinearLayout profile;
+    FrameLayout bigPlus;
+    FrameLayout smallPlus;
     private CreditCardModel creditCardModel;
 
 
@@ -91,6 +120,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
     NavController navController;
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -112,13 +142,24 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         btnCashOut = headerView.findViewById(R.id.btn_cashout);
         myBalance = headerView.findViewById(R.id.my_balance);
         llWalletBalance = headerView.findViewById(R.id.llWalletBalance);
+        home = findViewById(R.id.home);
+        search = findViewById(R.id.search);
+        chat = findViewById(R.id.chat);
+        profile = findViewById(R.id.profile);
+        navT1 = findViewById(R.id.nav_t1);
+        navT2 = findViewById(R.id.nav_t2);
+        navT3 = findViewById(R.id.nav_t3);
+        navT4 = findViewById(R.id.nav_t4);
+        navT5 = findViewById(R.id.nav_t5);
+        navI1 = findViewById(R.id.nav_i1);
+        navI2 = findViewById(R.id.nav_i2);
+        navI4 = findViewById(R.id.nav_i4);
+        navI5 = findViewById(R.id.nav_i5);
+        bigPlus = findViewById(R.id.big_plus);
+        smallPlus = findViewById(R.id.small_plus);
 
         setHeaderLayout();
         navigationView.setNavigationItemSelectedListener(this);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-
-
-
 
 
        /* OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
@@ -145,7 +186,6 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
 
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupWithNavController(navView, navController);
         //    NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
 
@@ -204,11 +244,161 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 }
             }
         }
+        setNavClick();
         getAccountDetails();
         goToFragment();
         getBalance();
+        onNavClick();
+
     }
 
+    private void setNavClick() {
+        home.setOnClickListener(v -> {
+            navController.navigate(R.id.navigation_new_task);
+        });
+        search.setOnClickListener(v -> {
+            navController.navigate(R.id.navigation_browse);
+        });
+        chat.setOnClickListener(v -> {
+            navController.navigate(R.id.navigation_inbox);
+        });
+        profile.setOnClickListener(v -> {
+            navController.navigate(R.id.navigation_profile);
+        });
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    private void onNavClick() {
+        smallPlus.setOnClickListener(v ->
+                startCategoryList()
+        );
+        bigPlus.setOnClickListener(v ->
+                startCategoryList()
+        );
+        navController.addOnDestinationChangedListener((controller, destination, arguments) ->
+        {
+
+            switch (destination.getId()) {
+                case R.id.navigation_new_task: {
+                    setMenuItemProperties(0);
+                    break;
+                }
+                case R.id.navigation_browse: {
+                    setMenuItemProperties(1);
+                    break;
+                }
+                case R.id.navigation_inbox: {
+                    setMenuItemProperties(3);
+                    break;
+                }
+                case R.id.navigation_profile: {
+                    setMenuItemProperties(4);
+                    break;
+                }
+            }
+        });
+    }
+
+    public void setMenuItemProperties(int index) {
+        bigPlus.setVisibility(View.GONE);
+        navT3.setVisibility(View.GONE);
+        smallPlus.setVisibility(View.VISIBLE);
+        for (int i = 0; i < 5; ++i) {
+            if (i == index) {
+                chooseItem(i, "LARGE");
+                if (index == 0) {
+                    bigPlus.setVisibility(View.VISIBLE);
+                    navT3.setVisibility(View.VISIBLE);
+                    smallPlus.setVisibility(View.GONE);
+                }
+            } else {
+                chooseItem(i, "SMALL");
+            }
+
+
+        }
+    }
+
+    private void chooseItem(int i, String status) {
+        switch (i) {
+            case 0: {
+                setMenuItemIcon(navI1, i, status);
+                break;
+            }
+            case 1: {
+                setMenuItemIcon(navI2, i, status);
+                break;
+            }
+            case 3: {
+                setMenuItemIcon(navI4, i, status);
+                break;
+            }
+            case 4: {
+                setMenuItemIcon(navI5, i, status);
+                break;
+            }
+        }
+    }
+
+    private void startCategoryList() {
+        CategoryListBottomSheet infoBottomSheet = new CategoryListBottomSheet(sessionManager);
+        infoBottomSheet.show(getSupportFragmentManager(), null);
+//        Intent creating_task = new Intent(this, CategoryListActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putString("category", "");
+//        creating_task.putExtras(bundle);
+//        startActivity(creating_task);
+    }
+
+    public void setMenuItemIcon(AppCompatImageView item, int itemId, String status) {
+        if (status.equals("LARGE")) {
+            switch (itemId) {
+                case 0: {
+                    item.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_home_medium));
+                    navT1.setVisibility(View.VISIBLE);
+                    break;
+                }
+                case 1: {
+                    item.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_explore_medium));
+                    navT2.setVisibility(View.VISIBLE);
+                    break;
+                }
+                case 3: {
+                    item.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_chats_medium));
+                    navT4.setVisibility(View.VISIBLE);
+                    break;
+                }
+                case 4: {
+                    item.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_profile_medium));
+                    navT5.setVisibility(View.VISIBLE);
+                    break;
+                }
+            }
+        } else {
+            switch (itemId) {
+                case 0: {
+                    item.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_home_small));
+                    navT1.setVisibility(View.INVISIBLE);
+                    break;
+                }
+                case 1: {
+                    item.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_explore_small));
+                    navT2.setVisibility(View.INVISIBLE);
+                    break;
+                }
+                case 3: {
+                    item.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_chats_small));
+                    navT4.setVisibility(View.INVISIBLE);
+                    break;
+                }
+                case 4: {
+                    item.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_profile_small));
+                    navT5.setVisibility(View.INVISIBLE);
+                    break;
+                }
+            }
+        }
+    }
 
     private void goToFragment() {
         if (getIntent().getBooleanExtra(ConstantKey.GO_TO_MY_JOBS, false))
@@ -531,6 +721,11 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     public void updateProfile() {
     }
 
+    @Override
+    public void navigate(int id) {
+    navController.navigate(id);
+    }
+
     public enum Fragment {
         HOME,
         MY_JOBS,
@@ -538,6 +733,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         CHAT,
         PROFILE
     }
+
 
 
     //TODO

@@ -2,41 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/lyt_outer"
+    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_margin="10dp"
     android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/img_view"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
         android:scaleType="fitCenter"
-        android:background="@drawable/rectangle_card_round_corners_dark_grey" />
+         />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_name"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_alignTop="@id/img_view"
-        android:layout_alignBottom="@id/img_view"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_toEndOf="@id/img_view"
-        android:gravity="center_vertical"
-        android:text="Car"
-        android:textAppearance="@style/materialText_400_20"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:maxLines="2"
+        android:layout_below="@+id/img_view"
         android:textColor="@color/N900" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/img_view"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/N30" />
+
 </RelativeLayout>

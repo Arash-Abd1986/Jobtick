@@ -55,7 +55,7 @@
     <string name="post_a_job">Post a Job</string>
 
     <string name="title_my_jobs">My Jobs</string>
-    <string name="title_explore">Explore</string>
+    <string name="title_explore">Explore\n</string>
     <string name="title_chat">Chat</string>
     <string name="title_profile">Profile</string>
     <string name="search_categories">Search categories</string>

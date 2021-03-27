@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/btn_grey"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/lin_main"
+        android:layout_below="@+id/big_plus"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@android:color/white"
+        android:weightSum="15">
+
+        <LinearLayout
+            android:id="@+id/home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/nav_i1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40dp"
+                app:srcCompat="@drawable/ic_home_small" />
+
+            <com.jobtick.android.text_view.TextViewBold
+                android:id="@+id/nav_t1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_20sp"
+                android:layout_marginTop="-10dp"
+                android:gravity="center"
+                android:textColor="@color/blueButtons"
+                android:text="•" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/nav_i2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40dp"
+                app:srcCompat="@drawable/ic_explore_small" />
+
+            <com.jobtick.android.text_view.TextViewBold
+                android:id="@+id/nav_t2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="-10dp"
+                android:textSize="@dimen/_20sp"
+                android:textColor="@color/blueButtons"
+                android:text="•" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/add_job"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <com.jobtick.android.text_view.TextViewMedium
+                android:id="@+id/nav_t3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="Post a Job"
+                android:textColor="@color/N900"
+                android:textSize="@dimen/_13sp" />
+
+            <FrameLayout
+                android:id="@+id/small_plus"
+                android:layout_width="@dimen/_30dp"
+                android:layout_height="@dimen/_30dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/add_blue_c">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/ic_btn_plus" />
+            </FrameLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/chat"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/nav_i4"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40dp"
+                app:srcCompat="@drawable/ic_chats_small" />
+
+            <com.jobtick.android.text_view.TextViewBold
+                android:id="@+id/nav_t4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="-10dp"
+                android:textSize="@dimen/_20sp"
+                android:textColor="@color/blueButtons"
+                android:text="•" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/profile"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/nav_i5"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40dp"
+                app:srcCompat="@drawable/ic_profile_small" />
+
+            <com.jobtick.android.text_view.TextViewBold
+                android:id="@+id/nav_t5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="-10dp"
+                android:textSize="@dimen/_20sp"
+                android:textColor="@color/blueButtons"
+                android:text="•" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/big_plus"
+        android:layout_width="@dimen/_50dp"
+        android:layout_height="@dimen/_50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-10dp"
+        android:background="@drawable/add_blue_c">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_btn_plus" />
+    </FrameLayout>
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+

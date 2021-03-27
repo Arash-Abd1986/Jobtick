@@ -21,6 +21,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:layout_marginEnd="16dp"
                 android:layout_height="wrap_content">
 
                 <ImageView
@@ -31,7 +32,7 @@
                     android:layout_alignBottom="@id/hi"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="6dp"
-                    android:src="@drawable/waving_hand" />
+                    android:src="@drawable/wave_hand4" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/hi"
@@ -54,6 +55,19 @@
                     android:layout_toEndOf="@id/hi"
                     android:text="User"
                     android:textAppearance="@style/materialText_400_20"
+                    android:textColor="@color/colorPrimary" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/update_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:paddingBottom="10dp"
+                    android:padding="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/rectangle_card_round_corners_outlined_blue"
+                    android:text="Update Profile"
+                    android:textAppearance="@style/materialText_400_16"
                     android:textColor="@color/colorPrimary" />
 
             </RelativeLayout>
@@ -218,23 +232,5 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/lty_btn_post"
-        android:layout_width="65dp"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:src="@drawable/ic_baseline_add"
-        android:textColor="@color/white"
-        app:borderWidth="0dp"
-        app:elevation="2dp"
-        app:fabCustomSize="65dp"
-        app:fabSize="normal"
-        app:maxImageSize="30dp"
-        app:rippleColor="@color/colorPrimary"
-        app:tint="@color/white" />
 
 </RelativeLayout>

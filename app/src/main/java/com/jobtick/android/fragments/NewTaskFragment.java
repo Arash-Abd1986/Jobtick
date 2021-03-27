@@ -1,6 +1,8 @@
 package com.jobtick.android.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -18,6 +20,8 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -25,6 +29,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.jobtick.android.R;
 import com.jobtick.android.activities.ActivityBase;
 import com.jobtick.android.activities.CategoryListActivity;
@@ -32,6 +37,7 @@ import com.jobtick.android.activities.DashboardActivity;
 import com.jobtick.android.activities.NotificationActivity;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.ConstantKey;
+import com.jobtick.android.utils.Navigator;
 import com.jobtick.android.utils.SessionManager;
 
 import org.json.JSONException;
@@ -59,8 +65,8 @@ public class NewTaskFragment extends Fragment {
     @BindView(R.id.name)
     TextView name;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lty_btn_post)
-    FloatingActionButton lytBtnPost;
+    @BindView(R.id.update_profile)
+    TextView updateProfile;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.scrollView)
@@ -70,6 +76,7 @@ public class NewTaskFragment extends Fragment {
     private Toolbar toolbar;
 
     private ImageView ivNotification;
+    private Navigator navigator;
 
     public NewTaskFragment() {
     }
@@ -81,25 +88,31 @@ public class NewTaskFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_new_task_rev2, container, false);
         ButterKnife.bind(this, root);
 
-        lytBtnPost.setOnClickListener(v -> {
-            startCategoryList();
-        });
-
         posterCard.setOnClickListener(v -> {
             startCategoryList();
         });
+
         tickerCard.setOnClickListener(v -> {
             ((DashboardActivity) requireActivity()).goToFragment(DashboardActivity.Fragment.EXPLORE);
         });
 
         sessionManager = new SessionManager(getContext());
         name.setText(sessionManager.getUserAccount().getName());
-
+        //lytBtnPost.bringToFront();
         initToolbar();
         return root;
     }
 
-    private void startCategoryList(){
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        navigator = (DashboardActivity) context;
+        ;
+        super.onAttach(context);
+
+    }
+
+    private void startCategoryList() {
         Intent creating_task = new Intent(requireActivity(), CategoryListActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("category", "");
@@ -127,6 +140,10 @@ public class NewTaskFragment extends Fragment {
 
         ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
         ivNotification.setVisibility(View.VISIBLE);
+        updateProfile.setOnClickListener(v ->
+        {
+            navigator.navigate(R.id.navigation_profile);
+        });
         ivNotification.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), NotificationActivity.class);
             startActivityForResult(intent, ConstantKey.RESULTCODE_NOTIFICATION_READ);

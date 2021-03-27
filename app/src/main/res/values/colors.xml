@@ -410,7 +410,7 @@
     <color name="rating_card_bg">#EAEBEC</color>
     <color name="accent">#5568FE</color>
     <color name="blueButtons">#586BF5</color>
-    <color name="backgroundLightGrey">#E5E5E5</color>
+    <color name="backgroundLightGrey">#F5F5F5</color>
     <color name="semiBlack">#B32B3240</color>
     <color name="colorPrimary_60">#995568FE</color>
     <color name="quickOfferColor">#586BF5</color>

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:descendantFocusability="blocksDescendants"
-    android:background="@color/grey_100"
+    android:background="@color/backgroundLightGrey"
     android:overScrollMode="never">
 
     <ProgressBar
@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:id="@+id/content"
         android:visibility="gone"
-        android:background="@color/grey_100"
+        android:background="@color/backgroundLightGrey"
         android:orientation="vertical">
 
         <androidx.core.widget.NestedScrollView

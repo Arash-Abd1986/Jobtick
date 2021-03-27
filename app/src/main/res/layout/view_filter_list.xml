@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginBottom="10dp"
     android:orientation="horizontal"
+    android:background="@color/backgroundLightGrey"
     android:id="@+id/filter_container"
     app:layout_scrollFlags="scroll|enterAlways">
 

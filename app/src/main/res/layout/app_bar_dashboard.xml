@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/jobtick"
-            android:textAppearance="@style/materialText_700_20"
+            android:textAppearance="@style/materialText_500_24"
             android:textColor="@color/textColor"
             android:visibility="visible" />
 

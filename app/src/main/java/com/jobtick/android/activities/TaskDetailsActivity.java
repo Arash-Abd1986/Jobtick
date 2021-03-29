@@ -433,7 +433,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
 
     private void initQuestionList() {
-        edtComment.setHint(String.format("Ask %s a question", taskModel.getPoster().getName()));
+        String name = taskModel.getPoster().getName();
+        String simpleName = name;
+        try {
+            simpleName = name.substring(0, name.indexOf(" ") + 2) + ".";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        edtComment.setHint(String.format("Ask %s a question", simpleName));
         recyclerViewQuestions.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(TaskDetailsActivity.this);
         recyclerViewQuestions.setLayoutManager(layoutManager);
@@ -1489,7 +1496,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         if (taskModel.getDueTime() != null) {
             try {
                 long time = Tools.jobDetailsDate(taskModel.getDueDate());
-                txtDueDate.setText(Tools.formatJobDetailsDate(time)+ " - ");
+                txtDueDate.setText(Tools.formatJobDetailsDate(time) + " - ");
             } catch (ParseException e) {
                 txtDueDate.setText(taskModel.getDueDate() + " - ");
             }
@@ -1681,7 +1688,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             txtWorkerName.setText(taskModel.getWorker().getName());
             if (taskModel.getWorker() != null && taskModel.getWorker().getWorkerRatings() != null && taskModel.getWorker().getWorkerRatings().getAvgRating() != null && taskModel.getWorker().getWorkerRatings().getReceivedReviews() != null) {
                 txtRatingValue.setText(String.format(java.util.Locale.US, "%.1f", taskModel.getWorker().getWorkerRatings().getAvgRating()) + " (" + taskModel.getWorker().getWorkerRatings().getReceivedReviews() + ")");
-            }else{
+            } else {
                 ratingbar_worker.setVisibility(View.GONE);
             }
             if (taskModel.getWorker().getWorkTaskStatistics() != null)
@@ -2389,17 +2396,18 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             }
         }
     }
+
     public boolean checkPermissionREAD_EXTERNAL_STORAGE(final Context context) {
         int currentAPIVersion = Build.VERSION.SDK_INT;
-            if (ContextCompat.checkSelfPermission(context,
-                    READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions((Activity) context,
-                        new String[]{READ_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-                return false;
-            } else {
-                return true;
-            }
+        if (ContextCompat.checkSelfPermission(context,
+                READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) context,
+                    new String[]{READ_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+            return false;
+        } else {
+            return true;
+        }
     }
 
     //Adapter override method
@@ -2455,7 +2463,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
-        if(checkPermissionREAD_EXTERNAL_STORAGE(this)) {
+        if (checkPermissionREAD_EXTERNAL_STORAGE(this)) {
             if (action.equalsIgnoreCase("add")) {
                 Intent intent = new Intent();
                 intent.setType("image/*");

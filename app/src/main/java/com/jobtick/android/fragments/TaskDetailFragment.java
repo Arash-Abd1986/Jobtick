@@ -208,6 +208,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         task.setAttachments(new ArrayList<>(((AttachmentModels) getArguments().getParcelable("ATTACHMENT")).getAttachmentModelList()));
         isEditTask = getArguments().getBoolean("isEditTask",false);
         taskSlug = getArguments().getString("taskSlug",null);
+        lytBtnDetails.setBackgroundResource(R.drawable.rectangle_round_white);
 
         taskCreateActivity.setActionDraftTaskDetails(taskModel -> {
 

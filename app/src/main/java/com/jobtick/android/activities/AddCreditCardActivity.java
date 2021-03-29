@@ -170,7 +170,7 @@ public class AddCreditCardActivity extends ActivityBase {
                     Boolean needs465Spacing = (is465 && (len == 4 || len == 11));
                     Boolean needs4444Spacing = (is4444 && (len == 4 || len == 9 || len == 14));
                     if (needs465Spacing || needs4444Spacing) {
-                        edtCardNumber.setText(edtCardNumber.getText() + "-");
+                        edtCardNumber.setText(edtCardNumber.getText() + " ");
                         edtCardNumber.setSelection(edtCardNumber.getText().length());
                     }
                 } else {
@@ -241,7 +241,7 @@ public class AddCreditCardActivity extends ActivityBase {
                 if (validation()) {
                     setExpiryDate(edtExpiryDate.getText());
                     showProgressDialog();
-                    addCreditCard.getToken(edtCardNumber.getText().replace("-", ""),
+                    addCreditCard.getToken(edtCardNumber.getText().replace(" ", ""),
                             expMonth, expYear,
                             edtSecurityNumber.getText(),
                             edtFullName.getText());

@@ -15,6 +15,7 @@
     app:cardElevation="0dp">
 
     <LinearLayout
+        android:background="@drawable/rectangle_round_gray_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -27,7 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -51,12 +51,9 @@
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:contentDescription="@string/todo"
-            android:src="@drawable/ic_round_shape" />
+       <Space
+           android:layout_width="10dp"
+           android:layout_height="match_parent"/>
 
         <LinearLayout
             android:id="@+id/lyt_bnt_date_time"
@@ -88,12 +85,9 @@
                 android:textColor="@color/colorGrayC9C9C9" />
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_round_shape"
-            tools:ignore="ContentDescription" />
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="match_parent"/>
 
         <LinearLayout
             android:id="@+id/lyt_btn_budget"

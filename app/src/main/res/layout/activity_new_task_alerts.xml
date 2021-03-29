@@ -40,7 +40,7 @@
                 android:background="@drawable/radio_button_left_tab"
                 android:button="@null"
                 android:gravity="center"
-                android:text="In Person"
+                android:text="In person"
                 android:textAppearance="@style/materialText_500_14" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton

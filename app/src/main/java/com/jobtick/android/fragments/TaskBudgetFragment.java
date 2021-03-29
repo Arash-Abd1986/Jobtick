@@ -147,6 +147,8 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
         edtBudgetT = view.findViewById(R.id.edt_budgetT);
         estimatedT = view.findViewById(R.id.card_estimated_t);
         txtBudgetT = view.findViewById(R.id.txt_budget_t);
+        lytBtnBudget.setBackgroundResource(R.drawable.rectangle_round_white);
+
         lytBtnBack.setOnClickListener(view1 -> {
 
             operationsListener.onBackClickBudget(budgetT, budgetH, hours, rbHourly.isChecked() ? "hourly " : "fixed");

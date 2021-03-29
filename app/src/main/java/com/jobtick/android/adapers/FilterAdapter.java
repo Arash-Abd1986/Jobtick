@@ -13,6 +13,7 @@ import com.jobtick.android.R;
 
 import java.util.List;
 
+import static com.jobtick.android.utils.Constant.FILTER_ALL;
 import static com.jobtick.android.utils.Constant.FILTER_TASK_OPEN;
 
 public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -65,6 +66,8 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             String string = items.get(position);
             if (string.equals(FILTER_TASK_OPEN))
                  view.txtData.setText("Open jobs");
+            else if (string.equals(FILTER_ALL))
+                 view.txtData.setText("Remote & In person");
             else
                 view.txtData.setText(string);
             if (position == items.size()) {

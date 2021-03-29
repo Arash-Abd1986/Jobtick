@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="@dimen/spacing_middle"
+                android:background="@drawable/rectangle_round_gray_light"
                 android:weightSum="3">
 
                 <LinearLayout

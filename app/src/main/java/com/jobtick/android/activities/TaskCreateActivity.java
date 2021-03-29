@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -55,11 +56,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import es.dmoral.toasty.Toasty;
 import timber.log.Timber;
 
-import static com.jobtick.android.utils.ConstantKey.COMPLETES_MESSAGE_FROM;
-import static com.jobtick.android.utils.ConstantKey.RESULTCODE_CREATE_TASK;
 
 public class TaskCreateActivity extends ActivityBase implements TaskDetailFragment.OperationsListener,
         TaskDateTimeFragment.OperationsListener, TaskBudgetFragment.OperationsListener {
@@ -281,6 +279,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         imgDetails.setImageTintList(csl_green);
         txtDateTime.setTextColor(getResources().getColor(R.color.green));
         txtDetails.setTextColor(getResources().getColor(R.color.green));
+
     }
 
     private void selectDateTimeBtn() {

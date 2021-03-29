@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginBottom="10dp"
     android:orientation="horizontal"
-    android:background="@color/backgroundLightGrey"
+    android:background="@color/transparent"
     android:id="@+id/filter_container"
     app:layout_scrollFlags="scroll|enterAlways">
 
@@ -48,6 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:background="@color/transparent"
         android:overScrollMode="never"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 </LinearLayout>

@@ -20,8 +20,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:focusableInTouchMode="true"
+            android:orientation="vertical"
             android:paddingBottom="80dp">
 
             <include layout="@layout/view_post_job_tab" />
@@ -30,50 +30,54 @@
                 android:id="@+id/edt_title"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                app:eTitle="@string/job_title"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                app:eMinCharSize="10"
-                app:eMaxCharSize="60"
+                app:eImeOptionsComment="actionNext"
                 app:eIsMandatory="true"
+                app:eMaxCharSize="60"
+                app:eMinCharSize="10"
                 app:eSingleLine="true"
-                app:eImeOptionsComment="actionNext"/>
+                app:eTitle="@string/job_title" />
 
             <com.jobtick.android.widget.ExtendedCommentText
                 android:id="@+id/edt_description"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
-                app:eTitle="@string/job_description"
-                app:eIsMandatory="true"
-                app:eMinCharSize="25"
-                app:eMaxCharSize="500"
-                app:eImeOptionsComment="normal"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"/>
+                android:layout_marginBottom="@dimen/spacing_middle"
+                app:eImeOptionsComment="normal"
+                app:eIsMandatory="true"
+                app:eMaxCharSize="500"
+                app:eMinCharSize="25"
+                app:eTitle="@string/job_description" />
 
-            <androidx.cardview.widget.CardView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginEnd="@dimen/spacing_large"
-                app:cardCornerRadius="@dimen/spacing_xmedium"
-                app:cardElevation="0dp">
+                android:layout_marginEnd="@dimen/spacing_large">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_toLeftOf="@+id/add_attach"
+                    android:background="@drawable/rectangle_round_white"
+                    android:minHeight="64dp"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    >
 
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/materialText_400_13"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
                         android:text="@string/attachment"
                         android:textColor="@color/colorPrimary" />
 
@@ -81,11 +85,28 @@
                         android:id="@+id/rcAttachment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
                         android:overScrollMode="never"
                         tools:itemCount="2"
                         tools:listitem="@layout/item_show_attachment_1" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+
+                <FrameLayout
+                    android:id="@+id/add_attach"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/add_blue_c">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_btn_plus" />
+                </FrameLayout>
+            </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_add_must_have"
@@ -113,8 +134,7 @@
                     android:layout_width="35dp"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_add_white"
-                     />
+                    android:src="@drawable/ic_add_white" />
 
                 <com.google.android.material.textview.MaterialTextView
                     style="@style/materialText_400_15"
@@ -131,8 +151,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
@@ -149,13 +169,13 @@
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/checkbox_online"
                     android:layout_width="80dp"
-                    android:scaleX="1.3"
-                    android:paddingRight="10dp"
-                    android:scaleY="1.3"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:button="@null"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:paddingRight="10dp"
+                    android:scaleX="1.3"
+                    android:scaleY="1.3" />
             </LinearLayout>
 
 
@@ -163,11 +183,11 @@
                 android:id="@+id/txt_suburb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:eTitle="@string/location"
-                app:eInputType="suburb"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="75dp"/>
+                android:layout_marginBottom="75dp"
+                app:eInputType="suburb"
+                app:eTitle="@string/location" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

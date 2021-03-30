@@ -74,6 +74,9 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     @BindView(R.id.lyt_btn_details)
     LinearLayout lytBtnDetails;
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.add_attach)
+    FrameLayout addAttach;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_bnt_date_time)
     LinearLayout lytBntDateTime;
     @SuppressLint("NonConstantResourceId")
@@ -143,12 +146,12 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     private TaskModel task;
     private SessionManager sessionManager;
     private UploadableImage uploadableImage;
-    boolean isEditTask=false;
-    String taskSlug=null;
+    boolean isEditTask = false;
+    String taskSlug = null;
     private final ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
 
     public static TaskDetailFragment newInstance(String title, String description, ArrayList<String> musthave,
-                                                 String task_type, String location, PositionModel positionModel, AttachmentModels attachmentModels, OperationsListener operationsListener,boolean isEditTask,String taskSlug) {
+                                                 String task_type, String location, PositionModel positionModel, AttachmentModels attachmentModels, OperationsListener operationsListener, boolean isEditTask, String taskSlug) {
         TaskDetailFragment fragment = new TaskDetailFragment();
         fragment.operationsListener = operationsListener;
         Bundle args = new Bundle();
@@ -178,7 +181,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         uploadableImage = new AbstractUploadableImageImpl(requireActivity()) {
             @Override
             public void onImageReady(File imageFile) {
-                if(!isEditTask)
+                if (!isEditTask)
                     uploadDataInTempApi(imageFile);
                 else
                     uploadDataForEditTask(imageFile);
@@ -195,7 +198,6 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         sessionManager = new SessionManager(taskCreateActivity);
 
         task = new TaskModel();
-        attachmentArrayList.add(new AttachmentModel());
         selectDetailsBtn();
 
         addTagList = new ArrayList<>();
@@ -206,9 +208,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         task.setLocation(getArguments().getString("LOCATION"));
         task.setPosition(getArguments().getParcelable("POSITION"));
         task.setAttachments(new ArrayList<>(((AttachmentModels) getArguments().getParcelable("ATTACHMENT")).getAttachmentModelList()));
-        isEditTask = getArguments().getBoolean("isEditTask",false);
-        taskSlug = getArguments().getString("taskSlug",null);
+        isEditTask = getArguments().getBoolean("isEditTask", false);
+        taskSlug = getArguments().getString("taskSlug", null);
         lytBtnDetails.setBackgroundResource(R.drawable.rectangle_round_white);
+        addAttach.setOnClickListener(v -> uploadableImage.showAttachmentImageBottomSheet(false));
+
 
         taskCreateActivity.setActionDraftTaskDetails(taskModel -> {
 
@@ -346,12 +350,12 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     }
 
     private int getValidationCode() {
-        if (TextUtils.isEmpty(edtTitle.getText().toString().trim()) || edtTitle.getText().toString().trim().length() < 10) {
+        if (TextUtils.isEmpty(edtTitle.getText().trim()) || edtTitle.getText().trim().length() < 10) {
             return 1;
-        } else if (TextUtils.isEmpty(edtDescription.getText().toString().trim()) || edtDescription.getText().toString().trim().length() < 25) {
+        } else if (TextUtils.isEmpty(edtDescription.getText().trim()) || edtDescription.getText().trim().length() < 25) {
             return 2;
         } else if (!checkboxOnline.isChecked()) {
-            if (TextUtils.isEmpty(txtSuburb.getText().toString().trim())) {
+            if (TextUtils.isEmpty(txtSuburb.getText().trim())) {
                 return 3;
             }
         }
@@ -360,10 +364,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
-        if (action.equalsIgnoreCase("add")) {
-            uploadableImage.showAttachmentImageBottomSheet(false);
-
-        } else if (action.equalsIgnoreCase("delete")) {
+        if (action.equalsIgnoreCase("delete")) {
             if (isEditTask) {
                 deleteEditTaskAttachment(obj.getId());
             }
@@ -377,7 +378,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     }
 
     private void deleteEditTaskAttachment(int attachmentId) {
-        if(taskSlug==null)return;
+        if (taskSlug == null) return;
         taskCreateActivity.showProgressDialog();
         Call<String> call;
         call = ApiClient.getClient().deleteEditTaskAttachment(taskSlug, "XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), attachmentId);
@@ -434,7 +435,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         LinearLayout lyt_btn_delete = view.findViewById(R.id.lyt_btn_delete);
         lyt_btn_delete.setOnClickListener(v -> {
-            if(isEditTask)
+            if (isEditTask)
                 deleteEditTaskAttachment(attachmentArrayList.get(currentPosition).getId());
             rcAttachment.removeViewAt(currentPosition);
             attachmentArrayList.remove(currentPosition);
@@ -511,7 +512,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                         taskCreateActivity.showToast("you can add only 3 requirements", taskCreateActivity);
                     }
 
-                    if(addTagList.size()==3)
+                    if (addTagList.size() == 3)
                         mBottomSheetDialog.dismiss();
 
 
@@ -520,7 +521,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
-        if(!justInit) {
+        if (!justInit) {
             mBottomSheetDialog.show();
             mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
         }
@@ -548,7 +549,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                     if (jsonObject.has("data")) {
                         JSONObject jsonObject_data = jsonObject.getJSONObject("data");
                         AttachmentModel attachment = new AttachmentModel().getJsonToModel(jsonObject_data);
-                        if (attachmentArrayList.size() != 0) {
+                        if (attachmentArrayList.size() >= 0) {
                             attachmentArrayList.add(attachmentArrayList.size() - 1, attachment);
                         }
                     }
@@ -568,8 +569,9 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             }
         });
     }
+
     private void uploadDataForEditTask(File pictureFile) {
-        if(taskSlug==null)return;
+        if (taskSlug == null) return;
         taskCreateActivity.showProgressDialog();
         Call<String> call;
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);

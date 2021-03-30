@@ -77,6 +77,9 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     @BindView(R.id.add_attach)
     FrameLayout addAttach;
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.add_attach_small)
+    FrameLayout addAttachSmall;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_bnt_date_time)
     LinearLayout lytBntDateTime;
     @SuppressLint("NonConstantResourceId")
@@ -92,11 +95,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     @BindView(R.id.recycler_add_must_have)
     RecyclerView recyclerAddMustHave;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.img_add_white)
-    ImageView imgAddWhite;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rlt_add_must_have)
-    RelativeLayout rltAddMustHave;
+    FrameLayout rltAddMustHave;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.rel_req_small)
+    RelativeLayout relReqSmall;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.checkbox_online)
     SwitchCompat checkboxOnline;
@@ -212,11 +215,12 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         taskSlug = getArguments().getString("taskSlug", null);
         lytBtnDetails.setBackgroundResource(R.drawable.rectangle_round_white);
         addAttach.setOnClickListener(v -> uploadableImage.showAttachmentImageBottomSheet(false));
+        addAttachSmall.setOnClickListener(v -> uploadableImage.showAttachmentImageBottomSheet(false));
 
 
         taskCreateActivity.setActionDraftTaskDetails(taskModel -> {
 
-            if (edtTitle.getText().toString().trim().length() >= 10) {
+            if (edtTitle.getText().trim().length() >= 10) {
                 taskModel.setTitle(edtTitle.getText().toString().trim());
             }
             if (edtDescription.getText().toString().trim().length() >= 25) {
@@ -281,7 +285,6 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         recyclerAddMustHave.setAdapter(tagAdapter);
         rcAttachment.setLayoutManager(new GridLayoutManager(taskCreateActivity, 4));
-        rcAttachment.addItemDecoration(new SpacingItemDecoration(4, Tools.dpToPx(taskCreateActivity, 5), true));
         rcAttachment.setHasFixedSize(true);
         attachmentAdapter = new AttachmentAdapter1(attachmentArrayList, true);
         rcAttachment.setAdapter(attachmentAdapter);
@@ -300,11 +303,14 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     }
 
     @SuppressLint("NonConstantResourceId")
-    @OnClick({R.id.rlt_add_must_have, R.id.lyt_btn_details, R.id.lyt_bnt_date_time, R.id.lyt_btn_budget, R.id.checkbox_online, R.id.btn_next
+    @OnClick({R.id.rlt_add_must_have, R.id.lyt_btn_details, R.id.lyt_bnt_date_time, R.id.lyt_btn_budget, R.id.checkbox_online, R.id.btn_next, R.id.rel_req_small
     })
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rlt_add_must_have:
+                showBottomSheetAddMustHave(false);
+                break;
+            case R.id.rel_req_small:
                 showBottomSheetAddMustHave(false);
                 break;
             case R.id.lyt_btn_details:
@@ -372,6 +378,10 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             attachmentArrayList.remove(position);
             attachmentAdapter.notifyItemRemoved(position);
             attachmentAdapter.notifyItemRangeRemoved(position, attachmentArrayList.size());
+            if (attachmentArrayList.size() == 0) {
+                addAttach.setVisibility(View.VISIBLE);
+                addAttachSmall.setVisibility(View.GONE);
+            }
         } else if (action.equalsIgnoreCase("show")) {
             showBottomSheetDialogViewFullImage(obj.getModalUrl(), position);
         }
@@ -495,6 +505,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         txtCount.setText(addTagList.size() + "");
 
         btnAdd.setOnClickListener(v -> {
+                    if (addTagList.size() == 0)
+                        relReqSmall.setVisibility(View.INVISIBLE);
+                    else if (addTagList.size() < 4)
+                        relReqSmall.setVisibility(View.INVISIBLE);
+
                     if (TextUtils.isEmpty(edtAddTag.getText().toString().trim())) {
                         edtAddTag.setError("Text is empty");
                         return;
@@ -502,7 +517,6 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
                     if (addTagList.size() < 3) {
                         btnAdd.setEnabled(addTagList.size() != 2);
-
                         txtCount.setText(addTagList.size() + 1 + "");
                         addTagList.add(edtAddTag.getText().toString().trim());
                         tagAdapterBottomSheet.updateItem(addTagList);
@@ -515,7 +529,13 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                     if (addTagList.size() == 3)
                         mBottomSheetDialog.dismiss();
 
-
+                    if (addTagList.size() == 0) {
+                        relReqSmall.setVisibility(View.GONE);
+                        rltAddMustHave.setVisibility(View.VISIBLE);
+                    } else if (addTagList.size() < 4) {
+                        relReqSmall.setVisibility(View.VISIBLE);
+                        rltAddMustHave.setVisibility(View.GONE);
+                    }
                 }
         );
 
@@ -549,9 +569,20 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                     if (jsonObject.has("data")) {
                         JSONObject jsonObject_data = jsonObject.getJSONObject("data");
                         AttachmentModel attachment = new AttachmentModel().getJsonToModel(jsonObject_data);
-                        if (attachmentArrayList.size() >= 0) {
-                            attachmentArrayList.add(attachmentArrayList.size() - 1, attachment);
+                        if (attachmentArrayList.size() == 0) {
+                            attachmentArrayList.add(attachment);
+                        } else {
+                            attachmentArrayList.size();
+                            attachmentArrayList.add(attachmentArrayList.size(), attachment);
                         }
+                        if (attachmentArrayList.size() > 0) {
+                            addAttach.setVisibility(View.GONE);
+                            addAttachSmall.setVisibility(View.VISIBLE);
+                        } else {
+                            addAttach.setVisibility(View.VISIBLE);
+                            addAttachSmall.setVisibility(View.GONE);
+                        }
+
                     }
                     attachmentAdapter.notifyItemInserted(attachmentArrayList.size() - 1);
 

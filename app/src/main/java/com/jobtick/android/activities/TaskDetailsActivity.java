@@ -754,7 +754,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             switch (item.getItemId()) {
                 case R.id.menu_share:
                     Helper.shareTask(TaskDetailsActivity.this,
-                            "Hey ! Checkout this task. \n " + "https://jobtick.com/explore/" + taskModel.getSlug());
+                            "Hey ! Checkout this task. \n " + "https://" + Constant.SHARE_APPEND_TXT + "jobtick.com/explore-jobs/" + taskModel.getSlug());
                     break;
                 case R.id.menu_bookmark:
                     if (taskModel.getBookmarkID() != null) {
@@ -769,7 +769,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     Intent intentReport = new Intent(TaskDetailsActivity.this, ReportActivity.class);
                     bundleReport.putString(ConstantKey.SLUG, taskModel.getSlug());
                     bundleReport.putString("key", ConstantKey.KEY_TASK_REPORT);
-
                     intentReport.putExtras(bundleReport);
                     startActivity(intentReport);
                     break;

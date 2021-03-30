@@ -62,42 +62,71 @@
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="12dp"
                     android:layout_toLeftOf="@+id/add_attach"
-                    android:background="@drawable/rectangle_round_white"
-                    android:minHeight="64dp"
-                    android:orientation="vertical"
-                    >
+                    android:background="@drawable/rectangle_round_white">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_400_13"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="@string/attachment"
-                        android:textColor="@color/colorPrimary" />
+                        android:minHeight="@dimen/_54dp"
+                        android:orientation="vertical">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rcAttachment"
-                        android:layout_width="match_parent"
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/materialText_400_13"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/attachment"
+                            android:textColor="@color/colorPrimary" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rcAttachment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="7dp"
+                            android:minHeight="15dp"
+                            android:paddingBottom="4dp"
+                            tools:itemCount="2"
+                            tools:listitem="@layout/item_show_attachment_1" />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:overScrollMode="never"
-                        tools:itemCount="2"
-                        tools:listitem="@layout/item_show_attachment_1" />
-                </LinearLayout>
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:paddingEnd="9dp"
+                        android:paddingBottom="4dp">
+
+                        <FrameLayout
+                            android:id="@+id/add_attach_small"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/add_blue_c"
+                            android:visibility="gone">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_btn_plus" />
+                        </FrameLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
 
                 <FrameLayout
                     android:id="@+id/add_attach"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
                     android:background="@drawable/add_blue_c">
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -108,87 +137,159 @@
                 </FrameLayout>
             </RelativeLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_add_must_have"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="10dp"
-                android:nestedScrollingEnabled="false"
-                android:overScrollMode="never"
-                android:scrollbars="none"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_add_must_have" />
-
-            <RelativeLayout
-                android:id="@+id/rlt_add_must_have"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_large">
 
-                <ImageView
-                    android:id="@+id/img_add_white"
-                    android:layout_width="35dp"
-                    android:layout_height="30dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_add_white" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_400_15"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_toLeftOf="@+id/rlt_add_must_have"
+                    android:background="@drawable/rectangle_round_white">
+
+                    <LinearLayout
+                        android:id="@+id/ln_req"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="@dimen/_54dp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/materialText_400_13"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="Requirements"
+                            android:textColor="@color/colorPrimary" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_add_must_have"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:nestedScrollingEnabled="false"
+                            android:overScrollMode="never"
+                            android:scrollbars="none"
+                            tools:itemCount="3"
+                            tools:listitem="@layout/item_add_must_have" />
+
+                        <RelativeLayout
+                            android:id="@+id/rel_req_small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="20dp"
+                            android:paddingEnd="9dp"
+                            android:paddingBottom="4dp"
+                            android:visibility="gone">
+
+                            <FrameLayout
+                                android:id="@+id/add_req_small"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:background="@drawable/add_blue_c"
+                                android:visibility="visible">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/ic_btn_plus" />
+                            </FrameLayout>
+
+                            <com.google.android.material.textview.MaterialTextView
+                                style="@style/materialText_400_13"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="10dp"
+                                android:layout_toRightOf="@+id/add_req_small"
+                                android:gravity="center_vertical"
+                                android:paddingBottom="4dp"
+                                android:text="Requirements"
+                                android:textColor="@color/N100" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+                <FrameLayout
+                    android:id="@+id/rlt_add_must_have"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="4dp"
-                    android:layout_toEndOf="@id/img_add_white"
-                    android:text="@string/add_requirements"
-                    android:textColor="@color/colorPrimary" />
+                    android:background="@drawable/add_blue_c">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_btn_plus" />
+                </FrameLayout>
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_400_15"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/can_the_job_be_done_remotely"
-                    android:textColor="@color/textColor" />
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/checkbox_online"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:paddingRight="10dp"
-                    android:scaleX="1.3"
-                    android:scaleY="1.3" />
-            </LinearLayout>
-
-
-            <com.jobtick.android.widget.ExtendedEntryText
-                android:id="@+id/txt_suburb"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="75dp"
-                app:eInputType="suburb"
-                app:eTitle="@string/location" />
+                android:layout_margin="@dimen/spacing_large"
+                android:background="@drawable/rectangle_round_white"
+                android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/materialText_400_15"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/can_the_job_be_done_remotely"
+                        android:textColor="@color/textColor" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/checkbox_online"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:paddingRight="10dp"
+                        android:scaleX="1.3"
+                        android:scaleY="1.3" />
+                </LinearLayout>
+
+
+                <com.jobtick.android.widget.ExtendedEntryText
+                    android:id="@+id/txt_suburb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="10dp"
+                    app:eInputType="suburb"
+                    app:eTitle="@string/location" />
+
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

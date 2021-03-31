@@ -281,6 +281,10 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             addTagList.remove(data);
             tagAdapter.updateItem(addTagList);
             tagAdapterBottomSheet.updateItem(addTagList);
+            if (addTagList.size() == 0) {
+                relReqSmall.setVisibility(View.GONE);
+                rltAddMustHave.setVisibility(View.VISIBLE);
+            }
         });
 
         recyclerAddMustHave.setAdapter(tagAdapter);
@@ -497,7 +501,6 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             addTagList.remove(data);
             tagAdapterBottomSheet.updateItem(addTagList);
             tagAdapter.updateItem(addTagList);
-
             btnAdd.setEnabled(addTagList.size() < 3);
         });
 

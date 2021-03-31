@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="600dp"
     android:background="@android:color/transparent"
+    android:minHeight="600dp"
     android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
@@ -14,6 +14,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
             android:orientation="vertical">
 
@@ -26,39 +28,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/spacing_large"
-                android:src="@drawable/ic_down"
-                android:contentDescription="@string/todo" />
-
-            <LinearLayout
-                android:id="@+id/card_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:background="@drawable/ic_rounded_button_fill_withour_broder">
-
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_400_14"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_16sp"
-                    android:text="@string/write_maximum_three_things_you_expect"
-                    android:textColor="@color/grey_70" />
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_add_must_have_bottom_sheet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_large"
-                android:nestedScrollingEnabled="false"
-                android:overScrollMode="never"
-                android:scrollbars="none" />
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_down" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -72,7 +43,7 @@
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginBottom="@dimen/spacing_medium"
                     android:text="@string/requirements"
-                    android:textColor="@color/grey_70" />
+                    android:textColor="@color/P300" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -102,6 +73,49 @@
                         android:textSize="@dimen/_15sp" />
                 </LinearLayout>
             </RelativeLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_400_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:text="@string/write_maximum_three_things_you_expect"
+                android:textColor="@color/grey_70" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_marginStart="15dp"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_700_28"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="."
+                    android:layout_marginEnd="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/P300" />
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_400_14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Licence required for doing the job."
+                    android:textColor="@color/grey_70" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_add_must_have_bottom_sheet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_large"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -136,14 +150,14 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtAddTag"
-                            android:textAppearance="@style/materialText_500_14"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:background="@null"
-                            android:inputType="text"
                             android:imeOptions="actionSend"
+                            android:inputType="text"
                             android:maxLines="1"
+                            android:textAppearance="@style/materialText_500_14"
                             android:textColor="@color/textColor" />
                     </LinearLayout>
                 </FrameLayout>
@@ -151,14 +165,14 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_add"
+                style="@style/materialButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/materialButton"
-                android:text="@string/add"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="40dp"/>
+                android:layout_marginBottom="40dp"
+                android:text="@string/add" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

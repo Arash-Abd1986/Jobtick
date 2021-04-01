@@ -286,15 +286,21 @@
                 </LinearLayout>
 
 
-                <com.jobtick.android.widget.ExtendedEntryText
+                <com.jobtick.android.widget.ExtendedCommentText
                     android:id="@+id/txt_suburb"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="10dp"
                     app:eInputType="suburb"
-                    app:eTitle="@string/location" />
+                    android:layout_height="64dp"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_middle"
+                    app:eImeOptionsComment="actionNext"
+                    app:eSingleLine="true"
+                    app:isRequired="false"
+                    app:showCounter="false"
+                    app:isSuburb="true"
+                    app:eTitle="Job location" />
 
             </LinearLayout>
         </LinearLayout>

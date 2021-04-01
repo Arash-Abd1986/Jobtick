@@ -105,7 +105,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     SwitchCompat checkboxOnline;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_suburb)
-    ExtendedEntryText txtSuburb;
+    ExtendedCommentText txtSuburb;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_next)
     MaterialButton btnNext;
@@ -213,7 +213,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         task.setAttachments(new ArrayList<>(((AttachmentModels) getArguments().getParcelable("ATTACHMENT")).getAttachmentModelList()));
         isEditTask = getArguments().getBoolean("isEditTask", false);
         taskSlug = getArguments().getString("taskSlug", null);
-        lytBtnDetails.setBackgroundResource(R.drawable.rectangle_round_white);
+        lytBtnDetails.setBackgroundResource(R.drawable.rectangle_round_white_with_shadow);
         addAttach.setOnClickListener(v -> uploadableImage.showAttachmentImageBottomSheet(false));
         addAttachSmall.setOnClickListener(v -> uploadableImage.showAttachmentImageBottomSheet(false));
 
@@ -241,7 +241,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             operationsListener.draftTaskDetails(taskModel, false);
         });
 
-        txtSuburb.setExtendedViewOnClickListener(() -> {
+        txtSuburb.setOnClickListener(v -> {
             Intent intent = new SuburbAutoComplete(requireActivity()).getIntent();
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });

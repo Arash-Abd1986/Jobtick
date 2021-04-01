@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatImageView;
+
 import com.jobtick.android.R;
 
 import java.util.Locale;
@@ -30,11 +32,14 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
     private final boolean eStartFocus;
     private final boolean eSingleLine;
     private final boolean isRequired;
+    private final boolean isSuburb;
+    private final boolean showCounter;
     private int eImeOptions;
 
     private final TextView textView;
     private final TextView counter;
     private final EditText editText;
+    private final AppCompatImageView suburbIcon;
 
     private TextWatcher textWatcher;
 
@@ -65,6 +70,8 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
             eMaxSize = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMaxCharSize, 100);
             isMandatory = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_eIsMandatory, false);
             isRequired = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_isRequired, false);
+            showCounter = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_showCounter, true);
+            isSuburb = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_isSuburb, false);
 
             String imeOptions = sharedAttribute.getString(R.styleable.ExtendedCommentText_eImeOptionsComment);
             if (imeOptions != null && !imeOptions.isEmpty())
@@ -81,12 +88,17 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
         editText = (EditText) findViewById(R.id.content);
         textView = (TextView) findViewById(R.id.title);
         counter = (TextView) findViewById(R.id.counter);
-
+        suburbIcon = (AppCompatImageView) findViewById(R.id.suburb_icon);
+        if (!showCounter)
+            counter.setVisibility(INVISIBLE);
         textView.setText(eTitle);
         editText.setText(eContent);
         editText.setHint(eHint);
         if(eSingleLine)
             editText.setMaxLines(1);
+        if(isSuburb)
+            suburbIcon.setVisibility(VISIBLE);
+
         editText.setSingleLine(eSingleLine);
 
         editText.setOnFocusChangeListener(this);

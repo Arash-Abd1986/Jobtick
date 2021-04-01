@@ -11,8 +11,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:overScrollMode="never"
         android:layout_above="@+id/lyt_button"
+        android:overScrollMode="never"
         android:scrollbars="none">
 
         <LinearLayout
@@ -22,12 +22,28 @@
 
             <include layout="@layout/view_post_job_tab" />
 
-            <CalendarView
-                android:background="@drawable/rectangle_round_white"
-                android:id="@+id/calenderView"
-                android:layout_margin="16dp"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/rectangle_round_white"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/edt_time_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Preferred date"
+                    android:textAppearance="@style/materialText_400_15"
+                    android:textColor="@color/textColor" />
+
+                <CalendarView
+                    android:id="@+id/calenderView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -47,10 +63,10 @@
                     android:padding="@dimen/spacing_large">
 
                     <include
-                        android:layout_marginTop="10dp"
+                        layout="@layout/time_spinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        layout="@layout/time_spinner"/>
+                        android:layout_marginTop="10dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

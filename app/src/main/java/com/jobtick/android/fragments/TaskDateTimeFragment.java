@@ -159,7 +159,7 @@ public class TaskDateTimeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        lytBntDateTime.setBackgroundResource(R.drawable.rectangle_round_white);
+        lytBntDateTime.setBackgroundResource(R.drawable.rectangle_round_white_with_shadow);
         Calendar calendar = Calendar.getInstance();
         cyear = calendar.get(Calendar.YEAR);
         cmonth = calendar.get(Calendar.MONTH);

@@ -96,8 +96,11 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
         editText.setHint(eHint);
         if(eSingleLine)
             editText.setMaxLines(1);
-        if(isSuburb)
+        if(isSuburb) {
+            editText.setEnabled(false);
+            editText.setFocusable(false);
             suburbIcon.setVisibility(VISIBLE);
+        }
 
         editText.setSingleLine(eSingleLine);
 

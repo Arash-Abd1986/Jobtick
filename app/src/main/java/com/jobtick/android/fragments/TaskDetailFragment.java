@@ -484,7 +484,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         RecyclerView recyclerAddMustHaveBottomSheet = view.findViewById(R.id.recycler_add_must_have_bottom_sheet);
         TextView txtTotalCount = view.findViewById(R.id.txt_total_count);
 
-        MaterialButton btnAdd = view.findViewById(R.id.btn_add);
+        FrameLayout btnAdd = view.findViewById(R.id.btn_add);
+        MaterialButton btnClose = view.findViewById(R.id.btn_close);
         EditText edtAddTag = view.findViewById(R.id.edtAddTag);
         edtAddTag.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == EditorInfo.IME_ACTION_SEND) {
@@ -492,6 +493,9 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                 return true;
             }
             return false;
+        });
+        btnClose.setOnClickListener(v -> {
+            mBottomSheetDialog.dismiss();
         });
         recyclerAddMustHaveBottomSheet.setLayoutManager(new GridLayoutManager(taskCreateActivity, 1));
         recyclerAddMustHaveBottomSheet.addItemDecoration(new SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true));

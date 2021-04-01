@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragments.TaskDetailFragment">
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/edt_time_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:textAppearance="@style/materialText_400_15"
+                android:text="Select a certain time" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/spinner_arrow"
+                android:layout_width="12dp"
+                app:srcCompat="@drawable/ic_d_arrow_g"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_height="12dp"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/spinner_items"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/spinner_morning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/morning_before_12_00_pm"
+                android:textAppearance="@style/materialText_400_14"
+                android:textColor="@color/textColor" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/spinner_afternoon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/afternoon_between_12_00_pm_to_6_00_pm"
+                android:textAppearance="@style/materialText_400_14"
+                android:textColor="@color/textColor" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/spinner_evening"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/evening_after_6_00_pm"
+                android:textAppearance="@style/materialText_400_14"
+                android:textColor="@color/textColor" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/spinner_anytime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/anytime_you_and_the_ticker_agree_on"
+                android:textAppearance="@style/materialText_400_14"
+                android:textColor="@color/textColor" />
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

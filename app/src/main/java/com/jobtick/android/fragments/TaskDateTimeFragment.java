@@ -13,21 +13,29 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.textview.MaterialTextView;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
+
 import timber.log.Timber;
 
 import com.jobtick.android.activities.TaskCreateActivity;
 import com.jobtick.android.models.DueTimeModel;
 import com.jobtick.android.models.TaskModel;
+import com.jobtick.android.utils.KeyboardUtil;
 import com.jobtick.android.utils.Tools;
 import com.jobtick.android.widget.ExtendedEntryText;
 
@@ -44,21 +52,7 @@ public class TaskDateTimeFragment extends Fragment {
 
     TaskModel task;
     OperationsListener operationsListener;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_date)
-    ExtendedEntryText txtDate;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.cb_morning)
-    CheckBox cbMorning;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.cb_anytime)
-    CheckBox cbAnyTime;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.cb_afternoon)
-    CheckBox cbAfternoon;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.cb_evening)
-    CheckBox cbEvening;
+
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bottom_sheet)
     FrameLayout bottomSheet;
@@ -91,10 +85,44 @@ public class TaskDateTimeFragment extends Fragment {
     LinearLayout lytBtnBudget;
 
 
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.spinner_items)
+    LinearLayout spinnerItems;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.edt_time_spinner)
+    MaterialTextView edtTimeSpinner;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.spinner_morning)
+    MaterialTextView spinnerMorning;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.spinner_afternoon)
+    MaterialTextView spinnerAfternoon;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.spinner_evening)
+    MaterialTextView spinnerEvening;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.spinner_anytime)
+    MaterialTextView spinnerAnytime;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.spinner_arrow)
+    AppCompatImageView spinnerArrow;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.calenderView)
+    CalendarView calendarView;
+    private Boolean isSpinnerOpen = false;
+
+
     private TaskCreateActivity taskCreateActivity;
     private int cyear, cmonth, cday;
     private String str_due_date = null;
-    private BottomSheetDialog mBottomSheetDialog;
+    private String txtDate = "";
+
+    private Boolean cbMorning = (false);
+    private Boolean cbAnyTime = (false);
+    private Boolean cbAfternoon = (false);
+    private Boolean cbEvening = (false);
 
     public static TaskDateTimeFragment newInstance(String due_date, DueTimeModel due_time, OperationsListener operationsListener) {
 
@@ -132,78 +160,92 @@ public class TaskDateTimeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         lytBntDateTime.setBackgroundResource(R.drawable.rectangle_round_white);
+        Calendar calendar = Calendar.getInstance();
+        cyear = calendar.get(Calendar.YEAR);
+        cmonth = calendar.get(Calendar.MONTH);
+        cday = calendar.get(Calendar.DAY_OF_MONTH);
+
         DatePickerDialog.OnDateSetListener mDateSetListener = (view1, year, month, dayOfMonth) -> {
             month = month + 1;
             str_due_date = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + dayOfMonth);
-            txtDate.setText(str_due_date);
+            txtDate = str_due_date;
         };
-        txtDate.setText(task.getDueDate());
+        txtDate = task.getDueDate();
         if (task.getDueTime() != null) {
-            cbMorning.setChecked(task.getDueTime().getMorning());
-            cbAfternoon.setChecked(task.getDueTime().getAfternoon());
-            cbEvening.setChecked(task.getDueTime().getEvening());
-            cbAnyTime.setChecked(task.getDueTime().getAnytime());
+            cbMorning = (task.getDueTime().getMorning());
+            cbAfternoon = (task.getDueTime().getAfternoon());
+            cbEvening = (task.getDueTime().getEvening());
+            cbAnyTime = (task.getDueTime().getAnytime());
 
         } else {
-            cbMorning.setChecked(false);
-            cbAnyTime.setChecked(false);
-            cbAfternoon.setChecked(false);
-            cbEvening.setChecked(false);
+            cbMorning = (false);
+            cbAnyTime = (false);
+            cbAfternoon = (false);
+            cbEvening = (false);
         }
         selectDateTimeBtn();
         taskCreateActivity.setActionDraftDateTime(taskModel -> {
             if (taskModel.getDueDate() != null) {
                 operationsListener.draftTaskDateTime(taskModel, true);
             } else {
-                if (!TextUtils.isEmpty(txtDate.getText().toString().trim()) && !checkDateTodayOrOnwords()) {
-                    taskModel.setDueDate(Tools.getDayMonthDateTimeFormat(txtDate.getText().toString().trim()));
+                if (!TextUtils.isEmpty(txtDate.trim()) && !checkDateTodayOrOnwords()) {
+                    taskModel.setDueDate(Tools.getDayMonthDateTimeFormat(txtDate.trim()));
                 }
                 taskModel.setDueTime(getDueTimeModel());
                 operationsListener.draftTaskDateTime(taskModel, false);
             }
         });
 
-        cbMorning.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                cbAfternoon.setChecked(false);
-                cbEvening.setChecked(false);
-                cbAnyTime.setChecked(false);
+        spinnerMorning.setOnClickListener(v -> {
+            cbMorning = true;
+            cbAfternoon = (false);
+            cbEvening = (false);
+            cbAnyTime = (false);
+            edtTimeSpinner.setText(R.string.morning_before_12_00_pm);
+            hideSpinner();
+        });
+
+        spinnerAfternoon.setOnClickListener(v -> {
+            cbAfternoon = true;
+            cbMorning = (false);
+            cbEvening = (false);
+            cbAnyTime = (false);
+
+            edtTimeSpinner.setText(R.string.afternoon_between_12_00_pm_to_6_00_pm);
+            hideSpinner();
+        });
+
+        spinnerEvening.setOnClickListener(v -> {
+            cbEvening = true;
+            cbAfternoon = (false);
+            cbMorning = (false);
+            cbAnyTime = (false);
+
+            edtTimeSpinner.setText(R.string.evening_after_6_00_pm);
+            hideSpinner();
+        });
+
+
+        spinnerAnytime.setOnClickListener(v -> {
+            cbAnyTime = true;
+            cbAfternoon = (false);
+            cbEvening = (false);
+            cbMorning = (false);
+
+            edtTimeSpinner.setText(R.string.anytime_you_and_the_ticker_agree_on);
+            hideSpinner();
+        });
+
+
+        edtTimeSpinner.setOnClickListener(v -> {
+            if (isSpinnerOpen) {
+                hideSpinner();
+            } else {
+                showSpinner();
             }
         });
 
-        cbAfternoon.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                cbMorning.setChecked(false);
-                cbEvening.setChecked(false);
-                cbAnyTime.setChecked(false);
-            }
-        });
-
-        cbEvening.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                cbAfternoon.setChecked(false);
-                cbMorning.setChecked(false);
-                cbAnyTime.setChecked(false);
-            }
-        });
-
-
-        cbAnyTime.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                cbAfternoon.setChecked(false);
-                cbEvening.setChecked(false);
-                cbMorning.setChecked(false);
-            }
-        });
-
-        txtDate.setExtendedViewOnClickListener(() ->{
-            Calendar calendar = Calendar.getInstance();
-            cyear = calendar.get(Calendar.YEAR);
-            cmonth = calendar.get(Calendar.MONTH);
-            cday = calendar.get(Calendar.DAY_OF_MONTH);
-            showBottomSheetDialogDate();
-        });
-
+        confDate();
     }
 
     @OnClick({R.id.txt_title_morning, R.id.txt_subtitle_morning,
@@ -216,22 +258,22 @@ public class TaskDateTimeFragment extends Fragment {
             case R.id.txt_title_morning:
             case R.id.txt_subtitle_morning:
             case R.id.rlt_btn_morning:
-                cbMorning.setChecked(!cbMorning.isChecked());
+                cbMorning = (!cbMorning);
                 break;
             case R.id.txt_title_anytime:
             case R.id.txt_subtitle_anytime:
             case R.id.rlt_btn_anytime:
-                cbAnyTime.setChecked(!cbAnyTime.isChecked());
+                cbAnyTime = (!cbAnyTime);
                 break;
             case R.id.txt_title_afternoon:
             case R.id.txt_subtitle_afternoon:
             case R.id.rlt_btn_afternoon:
-                cbAfternoon.setChecked(!cbAfternoon.isChecked());
+                cbAfternoon = (!cbAfternoon);
                 break;
             case R.id.txt_title_evening:
             case R.id.txt_subtitle_evening:
             case R.id.rlt_btn_evening:
-                cbEvening.setChecked(!cbEvening.isChecked());
+                cbEvening = (!cbEvening);
                 break;
             case R.id.lyt_btn_back:
 
@@ -239,25 +281,25 @@ public class TaskDateTimeFragment extends Fragment {
                     case 0:
                         //success
                         operationsListener.onBackClickDateTime(
-                                Tools.getDayMonthDateTimeFormat(txtDate.getText().toString().trim()),
+                                Tools.getDayMonthDateTimeFormat(txtDate.trim()),
                                 getDueTimeModel()
                         );
                         operationsListener.onValidDataFilledDateTimeBack();
                         break;
                     case 1:
                         operationsListener.onBackClickDateTime(
-                                Tools.getDayMonthDateTimeFormat(txtDate.getText().toString().trim()),
+                                Tools.getDayMonthDateTimeFormat(txtDate.trim()),
                                 getDueTimeModel()
                         );
-                    //    txtDate.setError("Please select date");
+                        //    txtDate.setError("Please select date");
                         operationsListener.onValidDataFilledDateTimeBack();
                         break;
                     case 2:
                         operationsListener.onBackClickDateTime(
-                                Tools.getDayMonthDateTimeFormat(txtDate.getText().toString().trim()),
+                                Tools.getDayMonthDateTimeFormat(txtDate.trim()),
                                 getDueTimeModel()
                         );
-                     //   taskCreateActivity.showToast("Select Due time", taskCreateActivity);
+                        //   taskCreateActivity.showToast("Select Due time", taskCreateActivity);
                         operationsListener.onValidDataFilledDateTimeBack();
                         break;
                 }
@@ -268,13 +310,13 @@ public class TaskDateTimeFragment extends Fragment {
                     case 0:
                         //success
                         operationsListener.onNextClickDateTime(
-                                txtDate.getText().toString().trim(),
+                                txtDate.trim(),
                                 getDueTimeModel()
                         );
                         operationsListener.onValidDataFilledDateTimeNext();
                         break;
                     case 1:
-                        txtDate.setError("Please select date");
+                        // txtDate.setError("Please select date");
                         break;
                     case 2:
                         taskCreateActivity.showToast("Select Due time", taskCreateActivity);
@@ -289,19 +331,19 @@ public class TaskDateTimeFragment extends Fragment {
 
     private DueTimeModel getDueTimeModel() {
         DueTimeModel dueTimeModel = new DueTimeModel();
-        dueTimeModel.setMorning(cbMorning.isChecked());
-        dueTimeModel.setAfternoon(cbAfternoon.isChecked());
-        dueTimeModel.setEvening(cbEvening.isChecked());
-        dueTimeModel.setAnytime(cbAnyTime.isChecked());
+        dueTimeModel.setMorning(cbMorning);
+        dueTimeModel.setAfternoon(cbAfternoon);
+        dueTimeModel.setEvening(cbEvening);
+        dueTimeModel.setAnytime(cbAnyTime);
 
         return dueTimeModel;
     }
 
 
     private int getValidationCode() {
-        if (TextUtils.isEmpty(txtDate.getText().toString().trim())) {
+        if (TextUtils.isEmpty(txtDate.trim())) {
             return 1;
-        } else if (!cbMorning.isChecked() && !cbEvening.isChecked() && !cbAfternoon.isChecked() && !cbAnyTime.isChecked()) {
+        } else if (!cbMorning && !cbEvening && !cbAfternoon && !cbAnyTime) {
             return 2;
         } else if (checkDateTodayOrOnwords()) {
             return 3;
@@ -310,7 +352,7 @@ public class TaskDateTimeFragment extends Fragment {
     }
 
     private boolean checkDateTodayOrOnwords() {
-        String date = txtDate.getText().toString().trim();
+        String date = txtDate.trim();
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
 
@@ -345,61 +387,31 @@ public class TaskDateTimeFragment extends Fragment {
     }
 
 
-    private void showBottomSheetDialogDate() {
-
-        final View view = getLayoutInflater().inflate(R.layout.sheet_date, null);
-
-        mBottomSheetDialog = new BottomSheetDialog(taskCreateActivity);
-        mBottomSheetDialog.setContentView(view);
-        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-
-        CalendarView calendarView = view.findViewById(R.id.calenderView);
+    private void confDate() {
+        str_due_date = Tools.getDayMonthDateTimeFormat(cyear + "-" + cmonth + "-" + cday);
+        txtDate = (str_due_date);
         calendarView.setMinDate(System.currentTimeMillis());
-
 
         Calendar c = Calendar.getInstance();
         c.add(Calendar.MONTH, 2); // subtract 2 years from now
-
         calendarView.setMaxDate(c.getTimeInMillis());
-
-        TextView txtCancel = view.findViewById(R.id.txt_cancel);
-        txtCancel.setOnClickListener(v -> {
-            mBottomSheetDialog.dismiss();
-        });
-
-        LinearLayout lytBtnDone = view.findViewById(R.id.lyt_btn_done);
 
         Calendar calendar = Calendar.getInstance();
         cyear = calendar.get(Calendar.YEAR);
 
         cmonth = calendar.get(Calendar.MONTH);
         cmonth = cmonth + 1;
-
         cday = calendar.get(Calendar.DAY_OF_MONTH);
-        lytBtnDone.setOnClickListener(v -> {
-
-
-            str_due_date = Tools.getDayMonthDateTimeFormat(cyear + "-" + cmonth + "-" + cday);
-            txtDate.setText(str_due_date);
-
-            mBottomSheetDialog.dismiss();
-
-        });
 
         calendarView.setOnDateChangeListener((arg0, year, month, date) -> {
-
             cmonth = month + 1;
             cyear = year;
             cday = date;
+            str_due_date = Tools.getDayMonthDateTimeFormat(cyear + "-" + cmonth + "-" + cday);
+            txtDate = (str_due_date);
         });
 
 
-        // set background transparent
-        ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
-
-        mBottomSheetDialog.show();
-        mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
     }
 
     private void selectDateTimeBtn() {
@@ -421,5 +433,20 @@ public class TaskDateTimeFragment extends Fragment {
             lytBntDateTime.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
             lytBtnBudget.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
         }
+    }
+
+
+    private void showSpinner() {
+        edtTimeSpinner.setTextColor(ContextCompat.getColor(getActivity(), R.color.P300));
+        spinnerArrow.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_up_arrow_g));
+        isSpinnerOpen = true;
+        spinnerItems.setVisibility(View.VISIBLE);
+    }
+
+    private void hideSpinner() {
+        isSpinnerOpen = false;
+        spinnerArrow.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_d_arrow_g));
+        edtTimeSpinner.setTextColor(ContextCompat.getColor(getActivity(), R.color.N9001));
+        spinnerItems.setVisibility(View.GONE);
     }
 }

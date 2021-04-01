@@ -8,10 +8,11 @@
     android:orientation="vertical"
     tools:context=".fragments.TaskDetailFragment">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:overScrollMode="never"
+        android:layout_above="@+id/lyt_button"
         android:scrollbars="none">
 
         <LinearLayout
@@ -21,16 +22,12 @@
 
             <include layout="@layout/view_post_job_tab" />
 
-            <com.jobtick.android.widget.ExtendedEntryText
-                android:id="@+id/txt_date"
+            <CalendarView
+                android:background="@drawable/rectangle_round_white"
+                android:id="@+id/calenderView"
+                android:layout_margin="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:eTitle="@string/date"
-                app:eInputType="calendar"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"/>
+                android:layout_height="wrap_content"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -49,21 +46,17 @@
                     android:orientation="vertical"
                     android:padding="@dimen/spacing_large">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_600_12"
+                    <include
+                        android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/time"
-                        android:textColor="@color/colorPrimary" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_middle" />
+                        layout="@layout/time_spinner"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <RelativeLayout
                             android:id="@+id/rlt_btn_morning"
@@ -97,11 +90,11 @@
 
                                 <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_subtitle_morning"
-                                    android:textAppearance="@style/materialText_400_13"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/txt_title_morning"
                                     android:text="Before 12:00pm"
+                                    android:textAppearance="@style/materialText_400_13"
                                     android:textColor="@color/grey_40"
                                     tools:ignore="HardcodedText" />
                             </RelativeLayout>
@@ -183,11 +176,11 @@
 
                                 <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_subtitle_evening"
-                                    android:textAppearance="@style/materialText_400_13"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/txt_title_evening"
                                     android:text="After 06:00pm"
+                                    android:textAppearance="@style/materialText_400_13"
                                     android:textColor="@color/grey_40"
                                     tools:ignore="HardcodedText" />
                             </RelativeLayout>
@@ -227,11 +220,11 @@
 
                                 <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_subtitle_anytime"
-                                    android:textAppearance="@style/materialText_400_13"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/txt_title_anytime"
                                     android:text="You and Ticker agree on"
+                                    android:textAppearance="@style/materialText_400_13"
                                     android:textColor="@color/grey_40"
                                     tools:ignore="HardcodedText" />
                             </RelativeLayout>
@@ -245,7 +238,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
     <LinearLayout

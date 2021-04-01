@@ -3,6 +3,7 @@
 
     <!-- Neutral colors -->
     <color name="N900">#091E42</color>
+    <color name="N9001">#444444</color>
     <color name="N800">#172B4D</color>
     <color name="N700">#253858</color>
     <color name="N600">#344563</color>

@@ -39,6 +39,7 @@
                 app:eMaxCharSize="60"
                 app:eMinCharSize="10"
                 app:eSingleLine="true"
+                app:isRequired="true"
                 app:eTitle="@string/job_title" />
 
             <com.jobtick.android.widget.ExtendedCommentText
@@ -52,6 +53,7 @@
                 app:eImeOptionsComment="normal"
                 app:eIsMandatory="true"
                 app:eMaxCharSize="500"
+                app:isRequired="true"
                 app:eMinCharSize="25"
                 app:eTitle="@string/job_description" />
 
@@ -278,6 +280,7 @@
                         android:button="@null"
                         android:gravity="center"
                         android:paddingRight="10dp"
+                        android:shadowColor="#DEE1FD"
                         android:scaleX="1.3"
                         android:scaleY="1.3" />
                 </LinearLayout>

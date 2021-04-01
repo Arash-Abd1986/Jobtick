@@ -1,5 +1,6 @@
 package com.jobtick.android.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.Editable;
@@ -28,6 +29,7 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
     private int eMaxSize;
     private final boolean eStartFocus;
     private final boolean eSingleLine;
+    private final boolean isRequired;
     private int eImeOptions;
 
     private final TextView textView;
@@ -62,6 +64,7 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
             eMinSize = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMinCharSize, 10);
             eMaxSize = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMaxCharSize, 100);
             isMandatory = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_eIsMandatory, false);
+            isRequired = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_isRequired, false);
 
             String imeOptions = sharedAttribute.getString(R.styleable.ExtendedCommentText_eImeOptionsComment);
             if (imeOptions != null && !imeOptions.isEmpty())
@@ -103,6 +106,7 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
             editText.setImeOptions(EditorInfo.IME_ACTION_UNSPECIFIED);
     }
 
+    @SuppressLint("SetTextI18n")
     private void init(){
         if(isMandatory){
             counter.setText(String.format(Locale.ENGLISH, "0/%d+", eMinSize));
@@ -117,6 +121,8 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
             editText.requestFocus();
             showKeyboard(editText);
         }
+        if (isRequired)
+            textView.setText(textView.getText() + " * ");
     }
 
     public void setSelection(int i) {

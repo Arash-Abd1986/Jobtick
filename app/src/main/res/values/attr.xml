@@ -151,6 +151,7 @@
         <attr name="eHint"/>
         <attr name="eStartFocusComment" format="boolean"/>
         <attr name="eSingleLine" format="boolean"/>
+        <attr name="isRequired" format="boolean"/>
         <attr name="eMinCharSize" format="integer"/>
         <attr name="eMaxCharSize" format="integer"/>
         <attr name="eIsMandatory" format="boolean"/>

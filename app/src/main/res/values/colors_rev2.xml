@@ -27,6 +27,7 @@
     <color name="P500">#344093</color>
     <color name="P400">#4655C4</color>
     <color name="P300">#586BF5</color>
+    <color name="P300_alpha">#80586BF5</color>
     <color name="P200">#7988F7</color>
     <color name="P100">#9AA6F9</color>
     <color name="P075">#BCC3FB</color>

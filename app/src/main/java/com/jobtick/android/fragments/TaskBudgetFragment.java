@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.jobtick.android.R;
@@ -81,6 +82,9 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_post_task)
     LinearLayout lytBtnPostTask;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.card_post)
+    CardView cardPost;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_button)
     LinearLayout lytButton;
@@ -202,13 +206,59 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
         taskCreateActivity.setActionDraftTaskBudget(taskModel -> {
             if (rbTotal.isChecked()) {
                 taskModel.setTaskType("fixed");
-                taskModel.setBudget(Integer.parseInt(edtBudgetT.getText().toString()));
+                taskModel.setBudget(Integer.parseInt(edtBudgetT.getText()));
             } else {
                 taskModel.setTaskType("hourly");
-                taskModel.setTotalHours(Integer.parseInt(edtHours.getText().toString()));
-                taskModel.setHourlyRate(Integer.parseInt(edtBudgetH.getText().toString()));
+                taskModel.setTotalHours(Integer.parseInt(edtHours.getText()));
+                taskModel.setHourlyRate(Integer.parseInt(edtBudgetH.getText()));
             }
             operationsListener.draftTaskBudget(taskModel);
+        });
+
+        cardPost.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300));
+
+        txtBudgetT.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if (getValidationCode(false)) {
+                    cardPost.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300));
+                } else {
+                    cardPost.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300_alpha));
+                }
+            }
+        });
+
+        txtBudgetH.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if (getValidationCode(false)) {
+                    cardPost.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300));
+                } else {
+                    cardPost.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300_alpha));
+                }
+            }
         });
     }
 
@@ -242,16 +292,16 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
 
         if (rbHourly.isChecked()) {
 
-            if(edtHours.getText().toString().trim().length() != 0)
+            if (edtHours.getText().toString().trim().length() != 0)
                 hours = Integer.parseInt(edtHours.getText().toString().trim());
             else hours = 0;
-            if(edtBudgetH.getText().toString().trim().length() != 0)
+            if (edtBudgetH.getText().toString().trim().length() != 0)
                 budgetH = Integer.parseInt(edtBudgetH.getText().toString().trim());
             else budgetH = 0;
 
             txtBudgetH.setText(String.valueOf(hours * budgetH));
         } else {
-            if(edtBudgetT.getText().toString().trim().length() != 0)
+            if (edtBudgetT.getText().toString().trim().length() != 0)
                 budgetT = Integer.parseInt(edtBudgetT.getText().toString().trim());
             else budgetT = 0;
 

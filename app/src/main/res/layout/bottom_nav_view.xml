@@ -9,7 +9,6 @@
 
     <LinearLayout
         android:id="@+id/lin_main"
-        android:layout_below="@+id/big_plus"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@android:color/white"
@@ -69,16 +68,6 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:orientation="vertical">
-
-            <com.jobtick.android.text_view.TextViewMedium
-                android:id="@+id/nav_t3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="Post a Job"
-                android:textColor="@color/N900"
-                android:textSize="@dimen/_13sp" />
 
             <FrameLayout
                 android:id="@+id/small_plus"
@@ -145,20 +134,7 @@
 
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/big_plus"
-        android:layout_width="@dimen/_50dp"
-        android:layout_height="@dimen/_50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-10dp"
-        android:background="@drawable/add_blue_c">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/ic_btn_plus" />
-    </FrameLayout>
 </RelativeLayout>
 
 

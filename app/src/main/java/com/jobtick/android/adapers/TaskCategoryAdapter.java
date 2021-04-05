@@ -1,6 +1,9 @@
 package com.jobtick.android.adapers;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.ColorSpace;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,9 @@ import com.jobtick.android.models.TaskCategory;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Handler;
 
 public class TaskCategoryAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
@@ -54,12 +60,14 @@ public class TaskCategoryAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         ImageView imgView;
         TextView txtName;
         RelativeLayout lytOuter;
+        RelativeLayout relItem;
 
         public OriginalViewHolder(View v) {
             super(v);
             imgView = v.findViewById(R.id.img_view);
             txtName = v.findViewById(R.id.txt_name);
             lytOuter = v.findViewById(R.id.lyt_outer);
+            relItem = v.findViewById(R.id.rel_item);
         }
 
         @Override
@@ -77,12 +85,16 @@ public class TaskCategoryAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 ImageUtil.displayImage(imgView, items.get(position).getIcon(), null);
 
             }*/
-            lytOuter.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(v, items.get(position), position);
-                    }
+            lytOuter.setOnClickListener(v -> {
+                if (mOnItemClickListener != null) {
+                    relItem.setBackgroundColor( Color.parseColor("#dce2fc"));
+                    mOnItemClickListener.onItemClick(v, items.get(position), position);
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            relItem.setBackgroundColor( Color.parseColor("#FFFFFF"));
+                        }
+                    }, 2000);
                 }
             });
 

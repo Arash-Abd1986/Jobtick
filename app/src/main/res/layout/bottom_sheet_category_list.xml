@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/transparent"
     android:orientation="vertical"
     android:paddingTop="10dp">
@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_below="@+id/close"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_white_top_c"
         android:orientation="vertical">
 
@@ -24,8 +24,10 @@
                 android:id="@+id/recyclerView_categories"
                 android:layout_width="match_parent"
                 android:background="@color/transparent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
+                android:minHeight="300dp"
+                android:layout_marginBottom="42dp"
                 tools:listitem="@layout/item_task_category" />
         </LinearLayout>
 
@@ -41,6 +43,7 @@
             android:backgroundTint="@color/white"
             android:clipToPadding="true"
             app:cardCornerRadius="4dp"
+            android:visibility="gone"
             app:cardElevation="@dimen/_3sp">
 
             <!-- this search box is deprecated in design -->
@@ -77,15 +80,15 @@
     </RelativeLayout>
     <FrameLayout
         android:id="@+id/close"
-        android:layout_width="@dimen/_50dp"
-        android:layout_height="@dimen/_50dp"
+        android:layout_width="41dp"
+        android:layout_height="41dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-25dp"
-        android:background="@drawable/add_blue_c">
+        android:layout_marginBottom="-20.5dp"
+        android:background="@drawable/add_blue_c_8_radius">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_two_arrow_down" />
     </FrameLayout>

@@ -99,7 +99,6 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     TextView myBalance;
     TextView navT1;
     TextView navT2;
-    TextView navT3;
     TextView navT4;
     TextView navT5;
     AppCompatImageView navI1;
@@ -111,7 +110,6 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     LinearLayout search;
     LinearLayout chat;
     LinearLayout profile;
-    FrameLayout bigPlus;
     FrameLayout smallPlus;
     private CreditCardModel creditCardModel;
 
@@ -148,14 +146,12 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         profile = findViewById(R.id.profile);
         navT1 = findViewById(R.id.nav_t1);
         navT2 = findViewById(R.id.nav_t2);
-        navT3 = findViewById(R.id.nav_t3);
         navT4 = findViewById(R.id.nav_t4);
         navT5 = findViewById(R.id.nav_t5);
         navI1 = findViewById(R.id.nav_i1);
         navI2 = findViewById(R.id.nav_i2);
         navI4 = findViewById(R.id.nav_i4);
         navI5 = findViewById(R.id.nav_i5);
-        bigPlus = findViewById(R.id.big_plus);
         smallPlus = findViewById(R.id.small_plus);
 
         setHeaderLayout();
@@ -272,9 +268,6 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
         smallPlus.setOnClickListener(v ->
                 startCategoryList()
         );
-        bigPlus.setOnClickListener(v ->
-                startCategoryList()
-        );
         navController.addOnDestinationChangedListener((controller, destination, arguments) ->
         {
 
@@ -300,17 +293,9 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
     }
 
     public void setMenuItemProperties(int index) {
-        bigPlus.setVisibility(View.GONE);
-        navT3.setVisibility(View.GONE);
-        smallPlus.setVisibility(View.VISIBLE);
         for (int i = 0; i < 5; ++i) {
             if (i == index) {
                 chooseItem(i, "LARGE");
-                if (index == 0) {
-                    bigPlus.setVisibility(View.VISIBLE);
-                    navT3.setVisibility(View.VISIBLE);
-                    smallPlus.setVisibility(View.GONE);
-                }
             } else {
                 chooseItem(i, "SMALL");
             }

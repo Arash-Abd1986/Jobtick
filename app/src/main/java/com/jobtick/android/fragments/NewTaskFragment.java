@@ -114,7 +114,7 @@ public class NewTaskFragment extends Fragment {
 
     private void startCategoryList() {
         DashboardActivity dashboardActivity = (DashboardActivity) requireActivity();
-        dashboardActivity.findViewById(R.id.big_plus).performClick();
+        dashboardActivity.findViewById(R.id.small_plus).performClick();
     }
 
     private void initToolbar() {

@@ -3,7 +3,9 @@ package com.jobtick.android.fragments;
 import android.app.DatePickerDialog;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.jobtick.android.R;
 
@@ -48,7 +51,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TaskDateTimeFragment extends Fragment {
+public class TaskDateTimeFragment extends Fragment implements TextWatcher {
 
     TaskModel task;
     OperationsListener operationsListener;
@@ -83,6 +86,9 @@ public class TaskDateTimeFragment extends Fragment {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_budget)
     LinearLayout lytBtnBudget;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.lyt_btn_next)
+    MaterialButton btnNext;
 
 
     @SuppressLint("NonConstantResourceId")
@@ -164,7 +170,7 @@ public class TaskDateTimeFragment extends Fragment {
         cyear = calendar.get(Calendar.YEAR);
         cmonth = calendar.get(Calendar.MONTH);
         cday = calendar.get(Calendar.DAY_OF_MONTH);
-
+        edtTimeSpinner.addTextChangedListener(this);
         DatePickerDialog.OnDateSetListener mDateSetListener = (view1, year, month, dayOfMonth) -> {
             month = month + 1;
             str_due_date = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + dayOfMonth);
@@ -252,7 +258,7 @@ public class TaskDateTimeFragment extends Fragment {
             R.id.rlt_btn_morning, R.id.txt_title_anytime, R.id.txt_subtitle_anytime,
             R.id.rlt_btn_anytime, R.id.txt_title_afternoon, R.id.txt_subtitle_afternoon,
             R.id.rlt_btn_afternoon, R.id.txt_title_evening, R.id.txt_subtitle_evening,
-            R.id.rlt_btn_evening, R.id.lyt_btn_back, R.id.lyt_btn_next})
+            R.id.rlt_btn_evening, R.id.lyt_btn_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.txt_title_morning:
@@ -274,36 +280,6 @@ public class TaskDateTimeFragment extends Fragment {
             case R.id.txt_subtitle_evening:
             case R.id.rlt_btn_evening:
                 cbEvening = (!cbEvening);
-                break;
-            case R.id.lyt_btn_back:
-
-                switch (getValidationCode()) {
-                    case 0:
-                        //success
-                        operationsListener.onBackClickDateTime(
-                                Tools.getDayMonthDateTimeFormat(txtDate.trim()),
-                                getDueTimeModel()
-                        );
-                        operationsListener.onValidDataFilledDateTimeBack();
-                        break;
-                    case 1:
-                        operationsListener.onBackClickDateTime(
-                                Tools.getDayMonthDateTimeFormat(txtDate.trim()),
-                                getDueTimeModel()
-                        );
-                        //    txtDate.setError("Please select date");
-                        operationsListener.onValidDataFilledDateTimeBack();
-                        break;
-                    case 2:
-                        operationsListener.onBackClickDateTime(
-                                Tools.getDayMonthDateTimeFormat(txtDate.trim()),
-                                getDueTimeModel()
-                        );
-                        //   taskCreateActivity.showToast("Select Due time", taskCreateActivity);
-                        operationsListener.onValidDataFilledDateTimeBack();
-                        break;
-                }
-
                 break;
             case R.id.lyt_btn_next:
                 switch (getValidationCode()) {
@@ -361,6 +337,25 @@ public class TaskDateTimeFragment extends Fragment {
         return Tools.getTimeStamp(date) < Tools.getTimeStamp(formattedDate);
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (getValidationCode() == 0) {
+            btnNext.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300));
+        } else {
+            btnNext.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300_alpha));
+        }
+    }
+
     public interface OperationsListener {
         void onNextClickDateTime(String due_date, DueTimeModel dueTimeModel);
 
@@ -402,13 +397,24 @@ public class TaskDateTimeFragment extends Fragment {
         cmonth = calendar.get(Calendar.MONTH);
         cmonth = cmonth + 1;
         cday = calendar.get(Calendar.DAY_OF_MONTH);
-
+        str_due_date = Tools.getDayMonthDateTimeFormat(cyear + "-" + cmonth + "-" + cday);
+        txtDate = (str_due_date);
+        if (getValidationCode() == 0) {
+            btnNext.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300));
+        } else {
+            btnNext.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300_alpha));
+        }
         calendarView.setOnDateChangeListener((arg0, year, month, date) -> {
             cmonth = month + 1;
             cyear = year;
             cday = date;
             str_due_date = Tools.getDayMonthDateTimeFormat(cyear + "-" + cmonth + "-" + cday);
             txtDate = (str_due_date);
+            if (getValidationCode() == 0) {
+                btnNext.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300));
+            } else {
+                btnNext.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300_alpha));
+            }
         });
 
 

@@ -120,6 +120,9 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
         if(eImeOptions == ExtendedEntryText.EImeOptions.NORMAL)
             editText.setImeOptions(EditorInfo.IME_ACTION_UNSPECIFIED);
     }
+    public void addTextChangedListener(TextWatcher textWatcher) {
+        this.textWatcher = textWatcher;
+    }
 
     @SuppressLint("SetTextI18n")
     private void init(){

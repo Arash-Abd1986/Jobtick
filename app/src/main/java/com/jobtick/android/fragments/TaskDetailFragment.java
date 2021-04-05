@@ -5,7 +5,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -25,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -68,7 +71,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.OnItemClickListener {
+public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.OnItemClickListener,TextWatcher {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_details)
@@ -133,6 +136,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_budget)
     TextView txtBudget;
+    private int requiredCount = -1;
 
 
     private final String TAG = TaskDetailFragment.class.getName();
@@ -248,8 +252,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         setComponent();
         init();
+        textChangeCheck();
 
     }
+
+
 
     private void setComponent() {
         edtTitle.setText(task.getTitle());
@@ -419,6 +426,29 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                 ((AppController) getContext()).mCrashlytics.recordException(t);
             }
         });
+    }
+    private void textChangeCheck() {
+        edtTitle.addTextChangedListener(this);
+        edtDescription.addTextChangedListener(this);
+        txtSuburb.addTextChangedListener(this);
+    }
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (getValidationCode() == 0) {
+            btnNext.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300));
+        } else {
+            btnNext.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300_alpha));
+        }
     }
 
     public interface OperationsListener {

@@ -2,19 +2,26 @@ package com.jobtick.android.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -27,7 +34,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +44,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 import com.jobtick.android.AppController;
 import com.jobtick.android.R;
 import com.jobtick.android.activities.AbstractUploadableImageImpl;
@@ -47,10 +57,12 @@ import com.jobtick.android.models.PositionModel;
 import com.jobtick.android.models.TaskModel;
 import com.jobtick.android.models.task.AttachmentModels;
 import com.jobtick.android.retrofit.ApiClient;
+import com.jobtick.android.text_view.TextViewMedium;
 import com.jobtick.android.utils.SessionManager;
 import com.jobtick.android.utils.SuburbAutoComplete;
 import com.jobtick.android.utils.Tools;
 import com.jobtick.android.widget.ExtendedCommentText;
+import com.jobtick.android.widget.ExtendedCommentTextNewDesign;
 import com.jobtick.android.widget.ExtendedEntryText;
 import com.jobtick.android.widget.SpacingItemDecoration;
 
@@ -71,14 +83,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.OnItemClickListener,TextWatcher {
+public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.OnItemClickListener, TextWatcher {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_details)
     LinearLayout lytBtnDetails;
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.card_details)
+    CardView cardDetails;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.add_attach)
     FrameLayout addAttach;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.tv_attach_title)
+    MaterialTextView tvAttachTitle;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.tv_require_title)
+    MaterialTextView tvRequireTitle;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.add_attach_small)
     FrameLayout addAttachSmall;
@@ -90,10 +111,10 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     LinearLayout lytBtnBudget;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_title)
-    ExtendedCommentText edtTitle;
+    ExtendedCommentTextNewDesign edtTitle;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_description)
-    ExtendedCommentText edtDescription;
+    ExtendedCommentTextNewDesign edtDescription;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_add_must_have)
     RecyclerView recyclerAddMustHave;
@@ -108,7 +129,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     SwitchCompat checkboxOnline;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_suburb)
-    ExtendedCommentText txtSuburb;
+    ExtendedCommentTextNewDesign txtSuburb;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_next)
     MaterialButton btnNext;
@@ -217,20 +238,28 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         task.setAttachments(new ArrayList<>(((AttachmentModels) getArguments().getParcelable("ATTACHMENT")).getAttachmentModelList()));
         isEditTask = getArguments().getBoolean("isEditTask", false);
         taskSlug = getArguments().getString("taskSlug", null);
-        lytBtnDetails.setBackgroundResource(R.drawable.rectangle_round_white_with_shadow);
-        addAttach.setOnClickListener(v -> uploadableImage.showAttachmentImageBottomSheet(false));
-        addAttachSmall.setOnClickListener(v -> uploadableImage.showAttachmentImageBottomSheet(false));
+        //lytBtnDetails.setBackgroundResource(R.drawable.rectangle_round_white_with_shadow);
+        cardDetails.setOutlineProvider(ViewOutlineProvider.BACKGROUND);
+        addAttach.setOnClickListener(v -> {
+            edtDescription.clearFocus();
+            edtTitle.clearFocus();
+            uploadableImage.showAttachmentImageBottomSheet(false);
+        });
+        addAttachSmall.setOnClickListener(v -> {
+            edtDescription.clearFocus();
+            edtTitle.clearFocus();
+            uploadableImage.showAttachmentImageBottomSheet(false);});
 
 
         taskCreateActivity.setActionDraftTaskDetails(taskModel -> {
 
             if (edtTitle.getText().trim().length() >= 10) {
-                taskModel.setTitle(edtTitle.getText().toString().trim());
+                taskModel.setTitle(edtTitle.getText().trim());
             }
-            if (edtDescription.getText().toString().trim().length() >= 25) {
-                taskModel.setDescription(edtDescription.getText().toString().trim());
+            if (edtDescription.getText().trim().length() >= 25) {
+                taskModel.setDescription(edtDescription.getText().trim());
             }
-            if (!TextUtils.isEmpty(txtSuburb.getText().toString().trim())) {
+            if (!TextUtils.isEmpty(txtSuburb.getText().trim())) {
                 taskModel.setLocation(task.getLocation());
                 taskModel.setPosition(task.getPosition());
             }
@@ -246,6 +275,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         });
 
         txtSuburb.setOnClickListener(v -> {
+            edtDescription.clearFocus();
+            edtTitle.clearFocus();
             Intent intent = new SuburbAutoComplete(requireActivity()).getIntent();
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
         });
@@ -255,7 +286,6 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         textChangeCheck();
 
     }
-
 
 
     private void setComponent() {
@@ -290,12 +320,13 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             tagAdapterBottomSheet.updateItem(addTagList);
             if (addTagList.size() == 0) {
                 relReqSmall.setVisibility(View.GONE);
+                tvRequireTitle.setTextColor(getResources().getColor(R.color.N100));
                 rltAddMustHave.setVisibility(View.VISIBLE);
             }
         });
 
         recyclerAddMustHave.setAdapter(tagAdapter);
-        rcAttachment.setLayoutManager(new GridLayoutManager(taskCreateActivity, 4));
+        rcAttachment.setLayoutManager(new GridLayoutManager(taskCreateActivity, 5));
         rcAttachment.setHasFixedSize(true);
         attachmentAdapter = new AttachmentAdapter1(attachmentArrayList, true);
         rcAttachment.setAdapter(attachmentAdapter);
@@ -319,6 +350,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rlt_add_must_have:
+                edtDescription.clearFocus();
+                edtTitle.clearFocus();
                 showBottomSheetAddMustHave(false);
                 break;
             case R.id.rel_req_small:
@@ -331,6 +364,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             case R.id.lyt_btn_budget:
                 break;
             case R.id.checkbox_online:
+                edtDescription.clearFocus();
+                edtTitle.clearFocus();
                 if (checkboxOnline.isChecked()) {
                     txtSuburb.setVisibility(View.GONE);
                 } else {
@@ -342,11 +377,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                     case 0:
                         //success
                         operationsListener.onNextClick(
-                                edtTitle.getText().toString().trim(),
-                                edtDescription.getText().toString().trim(),
+                                edtTitle.getText().trim(),
+                                edtDescription.getText().trim(),
                                 addTagList,
                                 checkboxOnline.isChecked() ? "remote" : "physical",
-                                txtSuburb.getText().toString().trim(),
+                                txtSuburb.getText().trim(),
                                 task.getPosition(),
                                 attachmentArrayList
                         );
@@ -391,6 +426,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             attachmentAdapter.notifyItemRangeRemoved(position, attachmentArrayList.size());
             if (attachmentArrayList.size() == 0) {
                 addAttach.setVisibility(View.VISIBLE);
+                tvAttachTitle.setTextColor(getResources().getColor(R.color.N100));
                 addAttachSmall.setVisibility(View.GONE);
             }
         } else if (action.equalsIgnoreCase("show")) {
@@ -427,11 +463,13 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             }
         });
     }
+
     private void textChangeCheck() {
         edtTitle.addTextChangedListener(this);
         edtDescription.addTextChangedListener(this);
         txtSuburb.addTextChangedListener(this);
     }
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -516,7 +554,25 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
         FrameLayout btnAdd = view.findViewById(R.id.btn_add);
         MaterialButton btnClose = view.findViewById(R.id.btn_close);
+        RelativeLayout root = view.findViewById(R.id.root_bottom_sheet);
+        RelativeLayout relRequire = view.findViewById(R.id.rel_require);
         EditText edtAddTag = view.findViewById(R.id.edtAddTag);
+        Resources r = getResources();
+        int px = Math.round(TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 600,r.getDisplayMetrics()));
+        int pxMin = Math.round(TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 400,r.getDisplayMetrics()));
+        edtAddTag.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus)
+                root.setMinimumHeight(px);
+            else
+                root.setMinimumHeight(pxMin);
+        });
+        relRequire.setOnClickListener(v->{
+            edtAddTag.requestFocus();
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(edtAddTag, InputMethodManager.SHOW_IMPLICIT);
+        });
         edtAddTag.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == EditorInfo.IME_ACTION_SEND) {
                 btnAdd.performClick();
@@ -569,7 +625,9 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                     if (addTagList.size() == 0) {
                         relReqSmall.setVisibility(View.GONE);
                         rltAddMustHave.setVisibility(View.VISIBLE);
+                        tvRequireTitle.setTextColor(getResources().getColor(R.color.N100));
                     } else if (addTagList.size() < 4) {
+                        tvRequireTitle.setTextColor(getResources().getColor(R.color.P300));
                         relReqSmall.setVisibility(View.VISIBLE);
                         rltAddMustHave.setVisibility(View.GONE);
                     }
@@ -614,8 +672,10 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                         }
                         if (attachmentArrayList.size() > 0) {
                             addAttach.setVisibility(View.GONE);
+                            tvAttachTitle.setTextColor(getResources().getColor(R.color.P300));
                             addAttachSmall.setVisibility(View.VISIBLE);
                         } else {
+                            tvAttachTitle.setTextColor(getResources().getColor(R.color.N100));
                             addAttach.setVisibility(View.VISIBLE);
                             addAttachSmall.setVisibility(View.GONE);
                         }
@@ -687,6 +747,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         ColorStateList csl_primary = AppCompatResources.getColorStateList(getContext(), R.color.colorPrimary);
         imgDetails.setImageTintList(csl_primary);
         txtDetails.setTextColor(getResources().getColor(R.color.colorPrimary));
+        Typeface face = ResourcesCompat.getFont(getActivity(), R.font.roboto_medium);
+        txtDetails.setTypeface(face);
         ColorStateList csl_grey = AppCompatResources.getColorStateList(getContext(), R.color.greyC4C4C4);
         imgDateTime.setImageTintList(csl_grey);
         imgBudget.setImageTintList(csl_grey);
@@ -717,7 +779,6 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         }
 
         if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-
             txtSuburb.setText(SuburbAutoComplete.getSuburbName(data));
             PositionModel positionModel = new PositionModel();
             positionModel.setLatitude(SuburbAutoComplete.getLatitudeDouble(data));

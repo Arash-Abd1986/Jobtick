@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/transparent"
-    android:minHeight="600dp"
+    android:minHeight="400dp"
+    android:id="@+id/root_bottom_sheet"
     android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
@@ -136,6 +137,7 @@
                     tools:ignore="UselessParent">
 
                     <RelativeLayout
+                        android:id="@+id/rel_require"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="12dp"

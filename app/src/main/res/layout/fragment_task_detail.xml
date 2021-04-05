@@ -26,14 +26,14 @@
 
             <include layout="@layout/view_post_job_tab" />
 
-            <com.jobtick.android.widget.ExtendedCommentText
+            <com.jobtick.android.widget.ExtendedCommentTextNewDesign
                 android:id="@+id/edt_title"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
+                android:layout_marginBottom="7dp"
                 app:eImeOptionsComment="actionNext"
                 app:eIsMandatory="true"
                 app:eMaxCharSize="60"
@@ -42,14 +42,14 @@
                 app:isRequired="true"
                 app:eTitle="@string/job_title" />
 
-            <com.jobtick.android.widget.ExtendedCommentText
+            <com.jobtick.android.widget.ExtendedCommentTextNewDesign
                 android:id="@+id/edt_description"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
+                android:layout_marginBottom="7dp"
                 app:eImeOptionsComment="normal"
                 app:eIsMandatory="true"
                 app:eMaxCharSize="500"
@@ -77,22 +77,22 @@
                         android:layout_height="wrap_content"
                         android:minHeight="@dimen/_50dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginStart="5dp"
                         android:orientation="vertical">
 
                         <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_attach_title"
                             style="@style/materialText_400_13"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
+                            android:layout_marginStart="16dp"
                             android:text="@string/attachment"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/N100" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rcAttachment"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
+                            android:layout_marginStart="5dp"
                             android:layout_marginTop="7dp"
                             android:minHeight="15dp"
                             android:paddingBottom="4dp"
@@ -145,7 +145,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="@dimen/spacing_large">
 
                 <RelativeLayout
@@ -165,13 +165,14 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_require_title"
                             style="@style/materialText_400_13"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
+                            android:layout_marginStart="16dp"
                             android:layout_marginTop="5dp"
                             android:text="Requirements"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/N100" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recycler_add_must_have"
@@ -201,7 +202,7 @@
                                 android:id="@+id/add_req_small"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:background="@drawable/add_blue_c"
+                                android:background="@drawable/add_blue_c_radius_4"
                                 android:visibility="visible">
 
                                 <androidx.appcompat.widget.AppCompatImageView
@@ -250,7 +251,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="75dp"
-                android:layout_margin="@dimen/spacing_large"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="@dimen/spacing_large"
+                android:layout_marginRight="@dimen/spacing_large"
                 android:background="@drawable/rectangle_round_white"
                 android:orientation="vertical">
 
@@ -280,13 +283,18 @@
                         android:button="@null"
                         android:gravity="center"
                         android:paddingRight="10dp"
-                        android:shadowColor="#DEE1FD"
+                        android:outlineProvider="none"
+                        android:stateListAnimator="@null"
+                        android:shadowColor="@color/white"
+                        android:elevation="0dp"
+                        android:shadowDx="0"
+                        android:shadowDy="0"
                         android:scaleX="1.3"
                         android:scaleY="1.3" />
                 </LinearLayout>
 
 
-                <com.jobtick.android.widget.ExtendedCommentText
+                <com.jobtick.android.widget.ExtendedCommentTextNewDesign
                     android:id="@+id/txt_suburb"
                     android:layout_width="match_parent"
                     app:eInputType="suburb"

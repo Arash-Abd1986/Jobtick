@@ -82,8 +82,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_gallery"
-                     />
+                    android:src="@drawable/ic_group_gallery" />
 
                 <com.jobtick.android.text_view.TextViewRegular
                     android:layout_width="match_parent"
@@ -111,7 +110,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_camera"
+                    android:src="@drawable/ic_group_cam"
                      />
 
                 <com.jobtick.android.text_view.TextViewRegular

@@ -2,6 +2,7 @@ package com.jobtick.android.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.res.ColorStateList;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -9,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.view.WindowManager;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
@@ -24,6 +26,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -83,6 +86,12 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_bnt_date_time)
     LinearLayout lytBntDateTime;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.card_date_time)
+    CardView cardDateTime;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.card_details)
+    CardView cardDetails;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_budget)
     LinearLayout lytBtnBudget;
@@ -165,7 +174,35 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        lytBntDateTime.setBackgroundResource(R.drawable.rectangle_round_white_with_shadow);
+        //lytBntDateTime.setBackgroundResource(R.drawable.rectangle_round_white_with_shadow);
+        cardDateTime.setOutlineProvider(ViewOutlineProvider.BACKGROUND);
+        cardDetails.setOnClickListener(v -> {
+            switch (getValidationCode()) {
+                case 0:
+                    //success
+                    operationsListener.onBackClickDateTime(
+                            Tools.getDayMonthDateTimeFormat(txtDate.trim()),
+                            getDueTimeModel()
+                    );
+                    operationsListener.onValidDataFilledDateTimeBack();
+                    break;
+                case 1:
+                    operationsListener.onBackClickDateTime(
+                            Tools.getDayMonthDateTimeFormat(txtDate.trim()),
+                            getDueTimeModel()
+                    );
+                    //    txtDate.setError("Please select date");
+                    operationsListener.onValidDataFilledDateTimeBack();
+                    break;
+                case 2:
+                    operationsListener.onBackClickDateTime(
+                            Tools.getDayMonthDateTimeFormat(txtDate.trim()),
+                            getDueTimeModel()
+                    );
+                    //   taskCreateActivity.showToast("Select Due time", taskCreateActivity);
+                    operationsListener.onValidDataFilledDateTimeBack();
+            }
+        });
         Calendar calendar = Calendar.getInstance();
         cyear = calendar.get(Calendar.YEAR);
         cmonth = calendar.get(Calendar.MONTH);
@@ -386,7 +423,6 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
         str_due_date = Tools.getDayMonthDateTimeFormat(cyear + "-" + cmonth + "-" + cday);
         txtDate = (str_due_date);
         calendarView.setMinDate(System.currentTimeMillis());
-
         Calendar c = Calendar.getInstance();
         c.add(Calendar.MONTH, 2); // subtract 2 years from now
         calendarView.setMaxDate(c.getTimeInMillis());
@@ -424,6 +460,8 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
         ColorStateList csl_primary = AppCompatResources.getColorStateList(getContext(), R.color.colorPrimary);
         imgDateTime.setImageTintList(csl_primary);
         txtDateTime.setTextColor(getResources().getColor(R.color.colorPrimary));
+        Typeface face= ResourcesCompat.getFont(getActivity(), R.font.roboto_medium);
+        txtDateTime.setTypeface(face);
         ColorStateList csl_grey = AppCompatResources.getColorStateList(getContext(), R.color.greyC4C4C4);
         ColorStateList csl_green = AppCompatResources.getColorStateList(getContext(), R.color.green);
         imgDetails.setImageTintList(csl_green);

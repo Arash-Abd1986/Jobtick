@@ -2,12 +2,14 @@ package com.jobtick.android.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -19,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.jobtick.android.R;
@@ -58,6 +61,12 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_budget)
     LinearLayout lytBtnBudget;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.card_budget)
+    CardView cardBudget;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.card_date_time)
+    CardView cardDatetime;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_hourly)
     RadioButton rbHourly;
@@ -151,7 +160,6 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
         edtBudgetT = view.findViewById(R.id.edt_budgetT);
         estimatedT = view.findViewById(R.id.card_estimated_t);
         txtBudgetT = view.findViewById(R.id.txt_budget_t);
-        lytBtnBudget.setBackgroundResource(R.drawable.rectangle_round_white_with_shadow);
 
         lytBtnBack.setOnClickListener(view1 -> {
 
@@ -400,15 +408,22 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
     }
 
     private void selectBudgetBtn() {
+        cardBudget.setOutlineProvider(ViewOutlineProvider.BACKGROUND);
         ColorStateList csl_primary = AppCompatResources.getColorStateList(getContext(), R.color.colorPrimary);
         imgBudget.setImageTintList(csl_primary);
         txtBudget.setTextColor(getResources().getColor(R.color.colorPrimary));
+        Typeface face= ResourcesCompat.getFont(getActivity(), R.font.roboto_medium);
+        txtBudget.setTypeface(face);
         ColorStateList csl_green = AppCompatResources.getColorStateList(getContext(), R.color.green);
         imgDateTime.setImageTintList(csl_green);
         imgDetails.setImageTintList(csl_green);
         txtDateTime.setTextColor(getResources().getColor(R.color.green));
         txtDetails.setTextColor(getResources().getColor(R.color.green));
         tabClickListener();
+        cardDatetime.setOnClickListener(v->{
+            operationsListener.onBackClickBudget(budgetT, budgetH, hours, rbHourly.isChecked() ? "hourly " : "fixed");
+            operationsListener.onValidDataFilledBudgetBack();
+        });
     }
 
     private void tabClickListener() {

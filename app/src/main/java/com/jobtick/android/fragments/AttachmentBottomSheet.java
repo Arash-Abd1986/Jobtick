@@ -66,20 +66,18 @@ public class AttachmentBottomSheet extends BottomSheetDialogFragment {
         LinearLayout lyrBtnVideoCamera = view.findViewById(R.id.lyt_btn_video_camera);
 
         cameraBtn.setOnClickListener(view1 -> {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (getContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
-                } else {
-                    Intent cameraIntent = NewCameraUtil.getTakePictureIntent(requireContext());
-                    if (cameraIntent == null) {
-                        ((ActivityBase) requireActivity()).showToast("can not write to your files to save picture.", requireContext());
-                    }
-                    try {
-                        requireActivity().startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                        dismiss();
-                    } catch (ActivityNotFoundException e) {
-                        ((ActivityBase) requireActivity()).showToast("Can not find your camera.", requireContext());
-                    }
+            if (getContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
+            } else {
+                Intent cameraIntent = NewCameraUtil.getTakePictureIntent(requireContext());
+                if (cameraIntent == null) {
+                    ((ActivityBase) requireActivity()).showToast("can not write to your files to save picture.", requireContext());
+                }
+                try {
+                    requireActivity().startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                    dismiss();
+                } catch (ActivityNotFoundException e) {
+                    ((ActivityBase) requireActivity()).showToast("Can not find your camera.", requireContext());
                 }
             }
         });

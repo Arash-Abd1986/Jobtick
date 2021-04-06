@@ -309,7 +309,7 @@ public class ExtendedEntryTextNewDesign extends RelativeLayout implements View.O
             textView.setTextColor(getResources().getColor(R.color.P300));
             setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_primary);
         } else {
-            if (textView.getText().length() == 0)
+            if (editText.getText().length() == 0)
                 textView.setTextColor(getResources().getColor(R.color.N100));
             setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
         }

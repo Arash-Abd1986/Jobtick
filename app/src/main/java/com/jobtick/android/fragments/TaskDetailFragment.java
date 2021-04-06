@@ -743,9 +743,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     }
 
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void selectDetailsBtn() {
         ColorStateList csl_primary = AppCompatResources.getColorStateList(getContext(), R.color.colorPrimary);
         imgDetails.setImageTintList(csl_primary);
+        imgDetails.setImageDrawable(getResources().getDrawable(R.drawable.ic_details_big));
         txtDetails.setTextColor(getResources().getColor(R.color.colorPrimary));
         Typeface face = ResourcesCompat.getFont(getActivity(), R.font.roboto_medium);
         txtDetails.setTypeface(face);

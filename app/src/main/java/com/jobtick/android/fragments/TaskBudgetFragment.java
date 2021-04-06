@@ -411,12 +411,14 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
         void draftTaskBudget(TaskModel taskModel);
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void selectBudgetBtn() {
         cardBudget.setOutlineProvider(ViewOutlineProvider.BACKGROUND);
         ColorStateList csl_primary = AppCompatResources.getColorStateList(getContext(), R.color.colorPrimary);
         imgBudget.setImageTintList(csl_primary);
+        imgBudget.setImageDrawable(getResources().getDrawable(R.drawable.ic_budget_big));
         txtBudget.setTextColor(getResources().getColor(R.color.colorPrimary));
-        Typeface face= ResourcesCompat.getFont(getActivity(), R.font.roboto_medium);
+        Typeface face = ResourcesCompat.getFont(getActivity(), R.font.roboto_medium);
         txtBudget.setTypeface(face);
         ColorStateList csl_green = AppCompatResources.getColorStateList(getContext(), R.color.green);
         imgDateTime.setImageTintList(csl_green);
@@ -424,7 +426,7 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
         txtDateTime.setTextColor(getResources().getColor(R.color.green));
         txtDetails.setTextColor(getResources().getColor(R.color.green));
         tabClickListener();
-        cardDatetime.setOnClickListener(v->{
+        cardDatetime.setOnClickListener(v -> {
             operationsListener.onBackClickBudget(budgetT, budgetH, hours, rbHourly.isChecked() ? "hourly " : "fixed");
             operationsListener.onValidDataFilledBudgetBack();
         });

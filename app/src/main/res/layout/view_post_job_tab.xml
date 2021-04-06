@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/todo"
-                    android:src="@drawable/ic_info_new" />
+                    android:src="@drawable/ic_details_small" />
 
                 <View
                     android:layout_width="match_parent"
@@ -97,7 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/todo"
-                    android:src="@drawable/ic_date_gray" />
+                    android:src="@drawable/ic_date_time_small" />
 
                 <View
                     android:layout_width="match_parent"
@@ -145,7 +145,7 @@
                     android:id="@+id/img_budget"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_doller"
+                    android:src="@drawable/ic_budget_small"
                     tools:ignore="ContentDescription" />
 
                 <View

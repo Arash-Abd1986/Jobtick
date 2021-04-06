@@ -456,9 +456,11 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
 
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void selectDateTimeBtn() {
         ColorStateList csl_primary = AppCompatResources.getColorStateList(getContext(), R.color.colorPrimary);
         imgDateTime.setImageTintList(csl_primary);
+        imgDateTime.setImageDrawable(getResources().getDrawable(R.drawable.ic_date_time_big));
         txtDateTime.setTextColor(getResources().getColor(R.color.colorPrimary));
         Typeface face= ResourcesCompat.getFont(getActivity(), R.font.roboto_medium);
         txtDateTime.setTypeface(face);

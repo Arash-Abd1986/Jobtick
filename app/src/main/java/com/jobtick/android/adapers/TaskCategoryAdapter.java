@@ -87,12 +87,12 @@ public class TaskCategoryAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }*/
             lytOuter.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) {
-                    relItem.setBackgroundColor( Color.parseColor("#dce2fc"));
+                    relItem.setBackgroundResource(R.drawable.rectangle_button_round_corners_outlined_blue_haf);
                     mOnItemClickListener.onItemClick(v, items.get(position), position);
                     new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            relItem.setBackgroundColor( Color.parseColor("#FFFFFF"));
+                            relItem.setBackgroundResource(R.drawable.rectangle_button_round_corners_outlined_6);
                         }
                     }, 2000);
                 }

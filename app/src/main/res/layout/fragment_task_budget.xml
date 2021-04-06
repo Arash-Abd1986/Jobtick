@@ -199,7 +199,7 @@
                 </RadioGroup>
             </androidx.cardview.widget.CardView>
 
-            <com.jobtick.android.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryTextNewDesign
                 android:id="@+id/edt_hours"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -210,9 +210,10 @@
                 app:eMaxCharNumber="9"
                 app:eImeOptions="actionNext"
                 app:eInputType="integer"
+                app:eHint="2 hours"
                 app:eTitle="Hours" />
 
-            <com.jobtick.android.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryTextNewDesign
                 android:id="@+id/edt_budgetH"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -223,9 +224,10 @@
                 app:eImeOptions="actionDone"
                 app:eMaxCharNumber="9"
                 app:eInputType="budget"
+                app:eHint="$"
                 app:eTitle="@string/budget" />
 
-            <com.jobtick.android.widget.ExtendedEntryText
+            <com.jobtick.android.widget.ExtendedEntryTextNewDesign
                 android:id="@+id/edt_budgetT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -236,6 +238,7 @@
                 app:eImeOptions="actionDone"
                 app:eMaxCharNumber="9"
                 app:eInputType="budget"
+                app:eHint="$"
                 app:eTitle="@string/budget" />
 
         </LinearLayout>

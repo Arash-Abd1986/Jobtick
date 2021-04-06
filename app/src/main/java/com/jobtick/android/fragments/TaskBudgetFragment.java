@@ -27,9 +27,11 @@ import androidx.fragment.app.Fragment;
 import com.jobtick.android.R;
 import com.jobtick.android.activities.ActivityBase;
 import com.jobtick.android.activities.TaskCreateActivity;
+import com.jobtick.android.activities.TaskDetailsActivity;
 import com.jobtick.android.models.TaskModel;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.widget.ExtendedEntryText;
+import com.jobtick.android.widget.ExtendedEntryTextNewDesign;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -117,7 +119,7 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
     TextView txtBudget;
 
     private LinearLayout estimatedH, estimatedT;
-    private ExtendedEntryText edtBudgetT, edtBudgetH, edtHours;
+    private ExtendedEntryTextNewDesign edtBudgetT, edtBudgetH, edtHours;
     private TextView txtBudgetT, txtBudgetH;
     int hours = 0;
     int budgetH = 0;
@@ -240,9 +242,11 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 if (getValidationCode(false)) {
-                    cardPost.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300));
+                    cardPost.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(),
+                            R.color.P300));
                 } else {
-                    cardPost.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300_alpha));
+                    cardPost.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(),
+                            R.color.P300_alpha));
                 }
             }
         });

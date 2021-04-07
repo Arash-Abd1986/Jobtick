@@ -154,7 +154,7 @@
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:clipToPadding="false"
-                app:cardCornerRadius="@dimen/spacing_middle"
+                app:cardCornerRadius="5dp"
                 app:cardBackgroundColor="@color/P300"
                 app:cardElevation="0dp">
 
@@ -162,16 +162,16 @@
                     android:layout_gravity="center"
                     android:id="@+id/rg_hourly_total"
                     android:layout_width="match_parent"
-                    android:layout_height="46dp"
+                    android:layout_height="50dp"
                     android:orientation="horizontal"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginLeft="3dp"
                     android:weightSum="2">
 
                     <RadioButton
                         android:id="@+id/rb_total"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/radio_button_left_tab"
                         android:button="@null"
@@ -186,7 +186,7 @@
                     <RadioButton
                         android:id="@+id/rb_hourly"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/radio_button_right_tab"
                         android:button="@null"
@@ -357,7 +357,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginTop="6dp"
                 android:layout_marginEnd="@dimen/spacing_medium"
                 android:layout_marginBottom="@dimen/spacing_large"
                 android:layout_weight="0.3"
@@ -392,7 +392,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
-                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginTop="6dp"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_large"
                 android:layout_weight=".7"

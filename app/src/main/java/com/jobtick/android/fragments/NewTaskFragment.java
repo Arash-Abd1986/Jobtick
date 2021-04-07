@@ -98,6 +98,8 @@ public class NewTaskFragment extends Fragment {
 
         sessionManager = new SessionManager(getContext());
         name.setText(sessionManager.getUserAccount().getName());
+        if (!sessionManager.getUserAccount().getName().isEmpty())
+            updateProfile.setVisibility(View.GONE);
         //lytBtnPost.bringToFront();
         initToolbar();
         return root;

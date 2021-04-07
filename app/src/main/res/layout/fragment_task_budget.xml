@@ -350,9 +350,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="1">
 
-            <androidx.cardview.widget.CardView
+            <RelativeLayout
                 android:id="@+id/card_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -360,11 +360,11 @@
                 android:layout_marginTop="@dimen/spacing_large"
                 android:layout_marginEnd="@dimen/spacing_medium"
                 android:layout_marginBottom="@dimen/spacing_large"
-                android:layout_weight="0.7"
+                android:layout_weight="0.3"
                 android:backgroundTint="@color/white"
                 android:clipToPadding="false"
-                app:cardCornerRadius="@dimen/spacing_medium"
-                app:cardElevation="0dp">
+                android:background="@drawable/shape_rounded_back_button_white"
+               >
 
                 <LinearLayout
                     android:id="@+id/lyt_btn_back"
@@ -385,26 +385,20 @@
                         android:textSize="@dimen/_14sp" />
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </RelativeLayout>
 
-            <View
-                android:layout_width="@dimen/spacing_medium"
-                android:layout_height="match_parent" />
-
-
-            <androidx.cardview.widget.CardView
+            <RelativeLayout
                 android:id="@+id/card_post"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_large"
-                android:layout_weight="1.30"
-                android:backgroundTint="@color/P300_alpha"
+                android:layout_weight=".7"
+                android:background="@drawable/shape_rounded_back_button_deactive"
                 android:clipToPadding="false"
-                app:cardCornerRadius="@dimen/spacing_medium"
-                app:cardElevation="0dp">
+                >
 
                 <LinearLayout
                     android:id="@+id/lyt_btn_post_task"
@@ -424,7 +418,7 @@
                         android:textSize="@dimen/_14sp"
                         app:textAllCaps="false" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

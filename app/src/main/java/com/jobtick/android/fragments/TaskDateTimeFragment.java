@@ -244,7 +244,7 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
             cbAfternoon = (false);
             cbEvening = (false);
             cbAnyTime = (false);
-            edtTimeSpinner.setText(R.string.morning_before_12_00_pm);
+            edtTimeSpinner.setText(R.string.morning_s);
             hideSpinner();
         });
 
@@ -254,7 +254,7 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
             cbEvening = (false);
             cbAnyTime = (false);
 
-            edtTimeSpinner.setText(R.string.afternoon_between_12_00_pm_to_6_00_pm);
+            edtTimeSpinner.setText(R.string.afternoon_s);
             hideSpinner();
         });
 
@@ -264,7 +264,7 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
             cbMorning = (false);
             cbAnyTime = (false);
 
-            edtTimeSpinner.setText(R.string.evening_after_6_00_pm);
+            edtTimeSpinner.setText(R.string.evening_s);
             hideSpinner();
         });
 
@@ -275,7 +275,7 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
             cbEvening = (false);
             cbMorning = (false);
 
-            edtTimeSpinner.setText(R.string.anytime_you_and_the_ticker_agree_on);
+            edtTimeSpinner.setText(R.string.anytime_s);
             hideSpinner();
         });
 
@@ -294,7 +294,7 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
     @OnClick({R.id.txt_title_morning, R.id.txt_subtitle_morning,
             R.id.rlt_btn_morning, R.id.txt_title_anytime, R.id.txt_subtitle_anytime,
             R.id.rlt_btn_anytime, R.id.txt_title_afternoon, R.id.txt_subtitle_afternoon,
-            R.id.rlt_btn_afternoon, R.id.txt_title_evening, R.id.txt_subtitle_evening,
+            R.id.rlt_btn_afternoon, R.id.txt_title_evening,R.id.lyt_btn_back, R.id.txt_subtitle_evening,
             R.id.rlt_btn_evening, R.id.lyt_btn_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -317,6 +317,36 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
             case R.id.txt_subtitle_evening:
             case R.id.rlt_btn_evening:
                 cbEvening = (!cbEvening);
+                break;
+            case R.id.lyt_btn_back:
+
+                switch (getValidationCode()) {
+                    case 0:
+                        //success
+                        operationsListener.onBackClickDateTime(
+                                Tools.getDayMonthDateTimeFormat(txtDate.trim()),
+                                getDueTimeModel()
+                        );
+                        operationsListener.onValidDataFilledDateTimeBack();
+                        break;
+                    case 1:
+                        operationsListener.onBackClickDateTime(
+                                Tools.getDayMonthDateTimeFormat(txtDate.trim()),
+                                getDueTimeModel()
+                        );
+                        //    txtDate.setError("Please select date");
+                        operationsListener.onValidDataFilledDateTimeBack();
+                        break;
+                    case 2:
+                        operationsListener.onBackClickDateTime(
+                                Tools.getDayMonthDateTimeFormat(txtDate.trim()),
+                                getDueTimeModel()
+                        );
+                        //   taskCreateActivity.showToast("Select Due time", taskCreateActivity);
+                        operationsListener.onValidDataFilledDateTimeBack();
+                        break;
+                }
+
                 break;
             case R.id.lyt_btn_next:
                 switch (getValidationCode()) {
@@ -387,9 +417,9 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         if (getValidationCode() == 0) {
-            btnNext.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300));
+            btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_active));
         } else {
-            btnNext.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300_alpha));
+            btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_deactive));
         }
     }
 
@@ -436,9 +466,9 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
         str_due_date = Tools.getDayMonthDateTimeFormat(cyear + "-" + cmonth + "-" + cday);
         txtDate = (str_due_date);
         if (getValidationCode() == 0) {
-            btnNext.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300));
+            btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_active));
         } else {
-            btnNext.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300_alpha));
+            btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_deactive));
         }
         calendarView.setOnDateChangeListener((arg0, year, month, date) -> {
             cmonth = month + 1;
@@ -447,9 +477,9 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
             str_due_date = Tools.getDayMonthDateTimeFormat(cyear + "-" + cmonth + "-" + cday);
             txtDate = (str_due_date);
             if (getValidationCode() == 0) {
-                btnNext.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300));
+                btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_active));
             } else {
-                btnNext.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300_alpha));
+                btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_deactive));
             }
         });
 

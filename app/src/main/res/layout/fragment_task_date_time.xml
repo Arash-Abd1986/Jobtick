@@ -11,8 +11,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_above="@+id/lyt_button"
+        android:layout_alignParentTop="true"
         android:overScrollMode="never"
         android:scrollbars="none">
 
@@ -28,8 +28,8 @@
 
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="16dp"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/rectangle_round_white"
                 android:orientation="vertical">
@@ -265,16 +265,49 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        >
+        android:weightSum="10">
+
+        <RelativeLayout
+            android:id="@+id/card_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:layout_weight="3"
+            android:background="@drawable/shape_rounded_back_button_white"
+            android:clipToPadding="false">
+
+            <LinearLayout
+                android:id="@+id/lyt_btn_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_large">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_500_14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/back"
+                    android:textColor="@color/grey_70" />
+            </LinearLayout>
+        </RelativeLayout>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/lyt_btn_next"
             style="@style/materialButton.disable"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="3dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:layout_weight="7"
             android:background="@color/P300_alpha"
             android:text="@string/next" />
     </LinearLayout>

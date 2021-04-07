@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -89,13 +90,13 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
     LinearLayout lytBtnBack;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_button)
-    CardView cardButton;
+    RelativeLayout cardButton;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_post_task)
     LinearLayout lytBtnPostTask;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_post)
-    CardView cardPost;
+    RelativeLayout cardPost;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_button)
     LinearLayout lytButton;
@@ -225,7 +226,7 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
             operationsListener.draftTaskBudget(taskModel);
         });
 
-        cardPost.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300));
+        cardPost.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_active));
 
         txtBudgetT.addTextChangedListener(new TextWatcher() {
 
@@ -242,11 +243,9 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 if (getValidationCode(false)) {
-                    cardPost.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(),
-                            R.color.P300));
+                    cardPost.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_active));
                 } else {
-                    cardPost.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(),
-                            R.color.P300_alpha));
+                    cardPost.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_deactive));
                 }
             }
         });
@@ -266,9 +265,9 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 if (getValidationCode(false)) {
-                    cardPost.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300));
+                    cardPost.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_active));
                 } else {
-                    cardPost.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300_alpha));
+                    cardPost.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_deactive));
                 }
             }
         });

@@ -18,24 +18,23 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_tick" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/spacing_xlarge" />
+            android:layout_height="15dp" />
 
-        <com.jobtick.android.text_view.TextViewBold
+        <com.jobtick.android.text_view.TextViewMedium
             android:id="@+id/txt_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Job Posted Successfully"
             android:textColor="@color/textColor"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
 
         <View
             android:layout_width="match_parent"
@@ -82,8 +81,9 @@
             style="@style/materialButton"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="6dp"
             android:layout_weight="0.5"
+            android:background="@drawable/rectangle_card_round_blue_8"
             android:text="@string/post_a_new_job" />
 
         <com.google.android.material.button.MaterialButton
@@ -91,11 +91,11 @@
             style="@style/materialButton"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="6dp"
             android:layout_weight="0.5"
+            android:background="@drawable/rectangle_card_round_corners_outlined_blue_8"
             android:text="@string/view_your_job"
-            android:backgroundTint="@color/white"
-            android:textColor="@color/textColor" />
+            android:textColor="@color/P300" />
 
     </LinearLayout>
 
@@ -127,8 +127,8 @@
             android:layout_height="48dp"
             android:layout_marginStart="4dp"
             android:layout_weight="0.5"
-            android:text="@string/view_your_offer"
             android:backgroundTint="@color/white"
+            android:text="@string/view_your_offer"
             android:textColor="@color/textColor" />
 
     </LinearLayout>

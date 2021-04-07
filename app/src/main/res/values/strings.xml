@@ -555,9 +555,13 @@
     <string name="forget_pass_title">Please enter the email address that you registered with</string>
     <string name="new_pass_title">Please choose a password for your account</string>
     <string name="skip">Skip</string>
-    <string name="morning_before_12_00_pm">Morning ( Before 12:00 pm )</string>
-    <string name="afternoon_between_12_00_pm_to_6_00_pm">Afternoon (Between 12:00 pm to 6:00 pm )</string>
-    <string name="evening_after_6_00_pm">Evening ( After 6:00 pm )</string>
-    <string name="anytime_you_and_the_ticker_agree_on">Anytime ( You and the ticker agree on )</string>
+    <string name="morning_before_12_00_pm">Morning (Before 12:00 pm)</string>
+    <string name="afternoon_between_12_00_pm_to_6_00_pm">Afternoon (Between 12:00 pm to 6:00 pm)</string>
+    <string name="evening_after_6_00_pm">Evening (After 6:00 pm )</string>
+    <string name="anytime_you_and_the_ticker_agree_on">Anytime (You and the ticker agree on)</string>
+    <string name="morning_s">Morning</string>
+    <string name="afternoon_s">Afternoon</string>
+    <string name="evening_s">Evening</string>
+    <string name="anytime_s">Anytime</string>
 
 </resources>

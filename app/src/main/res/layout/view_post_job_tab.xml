@@ -24,14 +24,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
             android:outlineProvider="none"
             android:padding="10dp"
-            app:cardCornerRadius="7dp"
-            app:cardElevation="2dp">
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="3dp">
 
             <LinearLayout
                 android:id="@+id/lyt_btn_details"
@@ -52,7 +55,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/spacing_middle" />
+                    android:layout_height="6.85dp" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_details"
@@ -64,23 +67,24 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="match_parent" />
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_date_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
             android:outlineProvider="none"
             android:padding="10dp"
-            app:cardCornerRadius="7dp"
-            app:cardElevation="2dp">
+            android:layout_marginRight="5dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="3dp"
+          >
 
             <LinearLayout
                 android:id="@+id/lyt_bnt_date_time"
@@ -101,7 +105,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/spacing_middle" />
+                    android:layout_height="6.85dp"  />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_date_time"
@@ -113,23 +117,23 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="match_parent" />
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_budget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
             android:outlineProvider="none"
             android:padding="10dp"
-            app:cardCornerRadius="7dp"
-            app:cardElevation="2dp">
+            android:layout_marginRight="5dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="3dp">
 
             <LinearLayout
                 android:id="@+id/lyt_btn_budget"
@@ -150,7 +154,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/spacing_middle" />
+                    android:layout_height="6.85dp"  />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_budget"

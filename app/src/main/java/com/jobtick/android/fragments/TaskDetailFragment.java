@@ -248,7 +248,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         addAttachSmall.setOnClickListener(v -> {
             edtDescription.clearFocus();
             edtTitle.clearFocus();
-            uploadableImage.showAttachmentImageBottomSheet(false);});
+            uploadableImage.showAttachmentImageBottomSheet(false);
+        });
 
 
         taskCreateActivity.setActionDraftTaskDetails(taskModel -> {
@@ -326,7 +327,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         });
 
         recyclerAddMustHave.setAdapter(tagAdapter);
-        rcAttachment.setLayoutManager(new GridLayoutManager(taskCreateActivity, 5));
+        rcAttachment.setLayoutManager(new GridLayoutManager(taskCreateActivity, 4));
         rcAttachment.setHasFixedSize(true);
         attachmentAdapter = new AttachmentAdapter1(attachmentArrayList, true);
         rcAttachment.setAdapter(attachmentAdapter);
@@ -483,9 +484,9 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
     @Override
     public void afterTextChanged(Editable s) {
         if (getValidationCode() == 0) {
-            btnNext.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300));
+            btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_active));
         } else {
-            btnNext.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.P300_alpha));
+            btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_deactive));
         }
     }
 
@@ -557,18 +558,28 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         RelativeLayout root = view.findViewById(R.id.root_bottom_sheet);
         RelativeLayout relRequire = view.findViewById(R.id.rel_require);
         EditText edtAddTag = view.findViewById(R.id.edtAddTag);
+
         Resources r = getResources();
         int px = Math.round(TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 600,r.getDisplayMetrics()));
+                TypedValue.COMPLEX_UNIT_DIP, 750, r.getDisplayMetrics()));
         int pxMin = Math.round(TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 400,r.getDisplayMetrics()));
+                TypedValue.COMPLEX_UNIT_DIP, 400, r.getDisplayMetrics()));
+
         edtAddTag.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus)
                 root.setMinimumHeight(px);
             else
                 root.setMinimumHeight(pxMin);
         });
-        relRequire.setOnClickListener(v->{
+
+        edtAddTag.requestFocus();
+        edtAddTag.post(() -> {
+            InputMethodManager imm = (InputMethodManager) getActivity().getBaseContext()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(edtAddTag, 0);
+        });
+
+        relRequire.setOnClickListener(v -> {
             edtAddTag.requestFocus();
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(edtAddTag, InputMethodManager.SHOW_IMPLICIT);
@@ -618,7 +629,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                     } else {
                         taskCreateActivity.showToast("you can add only 3 requirements", taskCreateActivity);
                     }
-
+                    if (addTagList.size() > 0) {
+                        recyclerAddMustHaveBottomSheet.setVisibility(View.VISIBLE);
+                    } else {
+                        recyclerAddMustHaveBottomSheet.setVisibility(View.GONE);
+                    }
                     if (addTagList.size() == 3)
                         mBottomSheetDialog.dismiss();
 

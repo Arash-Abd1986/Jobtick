@@ -24,6 +24,7 @@
             android:id="@+id/img_view"
             android:layout_width="@dimen/_55dp"
             android:layout_height="@dimen/_55dp"
+            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
@@ -32,11 +33,11 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_name"
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_below="@+id/img_view"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="16dp"
-            android:gravity="center"
+            android:gravity="center|top"
             android:maxLines="2"
             android:textColor="@color/N900" />
     </RelativeLayout>

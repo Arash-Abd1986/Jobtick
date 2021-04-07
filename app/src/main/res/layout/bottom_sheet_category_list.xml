@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:background="@color/transparent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="52dp"
                 android:minHeight="300dp"
                 android:layout_marginBottom="42dp"
                 tools:listitem="@layout/item_task_category" />
@@ -92,4 +92,13 @@
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_two_arrow_down" />
     </FrameLayout>
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_below="@+id/close"
+        android:layout_marginTop="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Post a job"
+        android:gravity="center"
+        android:textAppearance="@style/materialText_400_14"
+        android:textColor="@color/P300" />
 </RelativeLayout>

@@ -11,13 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
-import android.view.WindowManager;
 import android.widget.CalendarView;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,7 +26,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.jobtick.android.R;
@@ -41,9 +37,7 @@ import timber.log.Timber;
 import com.jobtick.android.activities.TaskCreateActivity;
 import com.jobtick.android.models.DueTimeModel;
 import com.jobtick.android.models.TaskModel;
-import com.jobtick.android.utils.KeyboardUtil;
 import com.jobtick.android.utils.Tools;
-import com.jobtick.android.widget.ExtendedEntryText;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -417,8 +411,10 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         if (getValidationCode() == 0) {
+            ((TaskCreateActivity) getActivity()).setDateTimeComplete(true);
             btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_active));
         } else {
+            ((TaskCreateActivity) getActivity()).setDateTimeComplete(false);
             btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_deactive));
         }
     }
@@ -466,8 +462,10 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
         str_due_date = Tools.getDayMonthDateTimeFormat(cyear + "-" + cmonth + "-" + cday);
         txtDate = (str_due_date);
         if (getValidationCode() == 0) {
+            ((TaskCreateActivity) getActivity()).setDateTimeComplete(true);
             btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_active));
         } else {
+            ((TaskCreateActivity) getActivity()).setDateTimeComplete(false);
             btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_deactive));
         }
         calendarView.setOnDateChangeListener((arg0, year, month, date) -> {
@@ -477,8 +475,10 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
             str_due_date = Tools.getDayMonthDateTimeFormat(cyear + "-" + cmonth + "-" + cday);
             txtDate = (str_due_date);
             if (getValidationCode() == 0) {
+                ((TaskCreateActivity) getActivity()).setDateTimeComplete(true);
                 btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_active));
             } else {
+                ((TaskCreateActivity) getActivity()).setDateTimeComplete(false);
                 btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_deactive));
             }
         });
@@ -500,7 +500,16 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
         imgBudget.setImageTintList(csl_grey);
         txtDetails.setTextColor(getResources().getColor(R.color.green));
         txtBudget.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
+
         tabClickListener();
+    }
+
+    public void checkTabs(){
+        if (((TaskCreateActivity) getActivity()).isBudgetComplete()){
+            ColorStateList csl_green = AppCompatResources.getColorStateList(getContext(), R.color.green);
+            imgBudget.setImageTintList(csl_green);
+            txtBudget.setTextColor(getResources().getColor(R.color.green));
+        }
     }
 
     private void tabClickListener() {

@@ -782,6 +782,19 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         }
     }
 
+    public void checkTabs() {
+        if (((TaskCreateActivity) getActivity()).isBudgetComplete()) {
+            ColorStateList csl_green = AppCompatResources.getColorStateList(getContext(), R.color.green);
+            imgBudget.setImageTintList(csl_green);
+            txtBudget.setTextColor(getResources().getColor(R.color.green));
+        }
+        if (((TaskCreateActivity) getActivity()).isDateTimeComplete()) {
+            ColorStateList csl_green = AppCompatResources.getColorStateList(getContext(), R.color.green);
+            imgDateTime.setImageTintList(csl_green);
+            txtDateTime.setTextColor(getResources().getColor(R.color.green));
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

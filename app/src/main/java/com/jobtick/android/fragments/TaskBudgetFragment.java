@@ -243,8 +243,10 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 if (getValidationCode(false)) {
+                    ((TaskCreateActivity) getActivity()).setBudgetComplete(true);
                     cardPost.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_active));
                 } else {
+                    ((TaskCreateActivity) getActivity()).setBudgetComplete(false);
                     cardPost.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_deactive));
                 }
             }
@@ -265,8 +267,10 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 if (getValidationCode(false)) {
+                    ((TaskCreateActivity) getActivity()).setBudgetComplete(true);
                     cardPost.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_active));
                 } else {
+                    ((TaskCreateActivity) getActivity()).setBudgetComplete(false);
                     cardPost.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_deactive));
                 }
             }

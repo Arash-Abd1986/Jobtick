@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -29,7 +28,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.gson.JsonObject;
 import com.jobtick.android.R;
 import com.jobtick.android.adapers.SectionsPagerAdapter;
 import com.jobtick.android.fragments.TaskBudgetFragment;
@@ -110,6 +108,25 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     private boolean isDraftWorkDone = false;
     private boolean isEditTask = false;
     private boolean isJobDraftedYet = false;
+    private boolean isBudgetComplete = false;
+    private boolean isDateTimeComplete = false;
+    private SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+    public boolean isDateTimeComplete() {
+        return isDateTimeComplete;
+    }
+
+    public void setDateTimeComplete(boolean dateTimeComplete) {
+        isDateTimeComplete = dateTimeComplete;
+    }
+
+    public boolean isBudgetComplete() {
+        return isBudgetComplete;
+    }
+
+    public void setBudgetComplete(boolean budgetComplete) {
+        isBudgetComplete = budgetComplete;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,17 +136,17 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
 
         Bundle bundle = getIntent().getExtras();
         taskModel = new TaskModel();
-        if(bundle != null && bundle.containsKey(ConstantKey.TASK)){
+        if (bundle != null && bundle.containsKey(ConstantKey.TASK)) {
             taskModel = bundle.getParcelable(ConstantKey.TASK);
         }
         if (bundle != null && bundle.containsKey(ConstantKey.CATEGORY_ID)) {
             taskModel.setCategory_id(bundle.getInt(ConstantKey.CATEGORY_ID, 1));
         }
 
-        if (bundle != null && bundle.getBoolean(ConstantKey.COPY, false)){
+        if (bundle != null && bundle.getBoolean(ConstantKey.COPY, false)) {
             taskModel = TaskDetailsActivity.taskModel;
 
-            if(taskModel.getPoster() != null &&
+            if (taskModel.getPoster() != null &&
                     !taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
                 TaskModel taskModelTemp = new TaskModel();
                 taskModelTemp.setPoster(sessionManager.getUserAccount());
@@ -137,7 +154,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                 taskModelTemp.setTitle(taskModel.getTitle());
                 taskModelTemp.setDescription(taskModel.getDescription());
                 taskModel = taskModelTemp;
-            }else if (taskModel.getPoster() != null &&
+            } else if (taskModel.getPoster() != null &&
                     taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
                 taskModel.setSlug(null);
                 taskModel.setId(null);
@@ -148,11 +165,11 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         if (bundle != null && bundle.getString(ConstantKey.TITLE) != null) {
             title = bundle.getString(ConstantKey.TITLE);
         }
-        if(bundle != null && bundle.getBoolean(ConstantKey.EDIT, false)){
+        if (bundle != null && bundle.getBoolean(ConstantKey.EDIT, false)) {
             taskModel = TaskDetailsActivity.taskModel;
             isEditTask = true;
         }
-        if(bundle!=null && bundle.getBoolean(ConstantKey.DRAFT_JOB,false))
+        if (bundle != null && bundle.getBoolean(ConstantKey.DRAFT_JOB, false))
             isJobDraftedYet = true;
         initToolbar(title);
         initComponent();
@@ -183,8 +200,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(TaskDetailFragment.newInstance(taskModel.getTitle(), taskModel.getDescription(), taskModel.getMusthave(), taskModel.getTaskType(), taskModel.getLocation(), taskModel.getPosition(), new AttachmentModels(taskModel.getAttachments()), this,isEditTask,taskModel.getSlug()), getResources().getString(R.string.details));
+        adapter.addFragment(TaskDetailFragment.newInstance(taskModel.getTitle(), taskModel.getDescription(), taskModel.getMusthave(), taskModel.getTaskType(), taskModel.getLocation(), taskModel.getPosition(), new AttachmentModels(taskModel.getAttachments()), this, isEditTask, taskModel.getSlug()), getResources().getString(R.string.details));
         adapter.addFragment(TaskDateTimeFragment.newInstance(taskModel.getDueDate() == null ? null : taskModel.getDueDate().substring(0, 10), taskModel.getDueTime(), this), getResources().getString(R.string.date_time));
         adapter.addFragment(TaskBudgetFragment.newInstance(taskModel.getBudget(), taskModel.getHourlyRate(), taskModel.getTotalHours(), taskModel.getPaymentType(), this), getResources().getString(R.string.budget));
         viewPager.setAdapter(adapter);
@@ -233,11 +249,10 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         if (isDraftWorkDone) {
             super.onBackPressed();
         } else {
-            if(isEditTask)
-            {
+            if (isEditTask) {
                 super.onBackPressed();
-            }else {
-                if(isJobDraftedYet)
+            } else {
+                if (isJobDraftedYet)
                     super.onBackPressed();
                 else
                     actionDraftTaskDetails.callDraftTaskDetails(this.taskModel);
@@ -251,9 +266,13 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
             switch (position) {
                 case 0:
                     selectDetailsBtn();
+                    TaskDetailFragment fragmentDetails = (TaskDetailFragment) adapter.getItem(0);
+                    fragmentDetails.checkTabs();
                     break;
                 case 1:
                     selectDateTimeBtn();
+                    TaskDateTimeFragment fragmentDateTime = (TaskDateTimeFragment) adapter.getItem(1);
+                    fragmentDateTime.checkTabs();
                     break;
                 case 2:
                     selectBudgetBtn();
@@ -458,7 +477,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                                     setResult(ConstantKey.RESULTCODE_UPDATE_TASK, intent);
                                     isDraftWorkDone = true;
 //                                    Toasty.info(TaskCreateActivity.this,"Draft saved", Toast.LENGTH_LONG).show();
-                                    Toast.makeText(TaskCreateActivity.this,"Draft saved", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(TaskCreateActivity.this, "Draft saved", Toast.LENGTH_LONG).show();
                                     onBackPressed();
                                     return;
                                 } else {
@@ -479,7 +498,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                                         .sendEvent(FireBaseEvent.Event.POST_A_JOB,
                                                 FireBaseEvent.EventType.API_RESPOND_SUCCESS,
                                                 FireBaseEvent.EventValue.POST_A_JOB_SUBMIT);
-                                if(isEditTask) {
+                                if (isEditTask) {
                                     intent = new Intent(this, CompleteMessageActivity.class);
                                     Bundle bundle1 = new Bundle();
                                     bundle1.putString(ConstantKey.COMPLETES_MESSAGE_TITLE, "Job Edited Successfully");
@@ -488,19 +507,18 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                                     intent.putExtras(bundle1);
                                     startActivity(intent);
                                     finish();
-                                }
-                                else {
-                                    String taskSlug=null;
+                                } else {
+                                    String taskSlug = null;
 
-                                    try{
-                                        if (jsonObject.has("data") && !jsonObject.isNull("data")){
+                                    try {
+                                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                             JSONObject data = jsonObject.getJSONObject("data");
                                             taskSlug = data.getString("slug");
-                                            Log.d("taskSlug",taskSlug);
-                                        }else
-                                            taskSlug=null;
-                                    }catch (Exception e){
-                                        taskSlug=null;
+                                            Log.d("taskSlug", taskSlug);
+                                        } else
+                                            taskSlug = null;
+                                    } catch (Exception e) {
+                                        taskSlug = null;
                                     }
                                     intent = new Intent(TaskCreateActivity.this, CompleteMessageActivity.class);
                                     Bundle bundle2 = new Bundle();
@@ -658,7 +676,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         super.onActivityResult(requestCode, resultCode, data);
 
         for (Fragment fragment : getSupportFragmentManager().getFragments())
-            if(fragment instanceof TaskDetailFragment)
+            if (fragment instanceof TaskDetailFragment)
                 fragment.onActivityResult(requestCode, resultCode, data);
 
 

@@ -53,16 +53,7 @@ import static com.jobtick.android.pagination.PaginationListener.PAGE_START;
 
 public class CategoryListBottomSheet extends BottomSheetDialogFragment implements TaskCategoryAdapter.OnItemClickListener {
     RecyclerView recyclerViewCategories;
-
-
-
-
-    private TaskModel taskModel;
     private TaskCategoryAdapter adapter;
-    private int currentPage = PAGE_START;
-    private boolean isLastPage = false;
-    private int totalPage = 10;
-    private boolean isLoading = false;
     private SessionManager sessionManager;
     private FrameLayout close;
 
@@ -98,32 +89,13 @@ public class CategoryListBottomSheet extends BottomSheetDialogFragment implement
     }
 
     private void setCategoryData() {
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),3);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
         recyclerViewCategories.setLayoutManager(layoutManager);
         recyclerViewCategories.setHasFixedSize(true);
-        List<TaskCategory> items = getTaskCategoryData();
         adapter = new TaskCategoryAdapter(getActivity(), new ArrayList<>());
         recyclerViewCategories.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
-
-        recyclerViewCategories.addOnScrollListener(new PaginationListener(layoutManager) {
-            @Override
-            protected void loadMoreItems() {
-                isLoading = true;
-                currentPage++;
-                getTaskCategoryData();
-            }
-
-            @Override
-            public boolean isLastPage() {
-                return isLastPage;
-            }
-
-            @Override
-            public boolean isLoading() {
-                return isLoading;
-            }
-        });
+        getTaskCategoryData();
     }
 
     @Override
@@ -138,45 +110,42 @@ public class CategoryListBottomSheet extends BottomSheetDialogFragment implement
     public List<TaskCategory> getTaskCategoryData() {
         List<TaskCategory> items = new ArrayList<>();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.BASE_URL + Constant.TASK_CATEGORY + "?query=" + query + "&page=" + currentPage,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.BASE_URL + Constant.TASK_CATEGORY_V2 + "?query=" + query,
                 response -> {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                             JSONArray jsonArray_data = jsonObject.getJSONArray("data");
-                            for (int i = 0; jsonArray_data.length() > i; i++) {
-                                JSONObject jsonObject_taskModel_list = jsonArray_data.getJSONObject(i);
-                                TaskCategory taskModel = new TaskCategory().getJsonToModel(jsonObject_taskModel_list, getActivity());
-                                items.add(taskModel);
+                            if (jsonArray_data.length() > 0)
+                                for (int i = 0; jsonArray_data.length() > i; i++) {
+                                    JSONObject jsonObject_taskModel_list = jsonArray_data.getJSONObject(i);
+                                    TaskCategory taskModel = new TaskCategory().getJsonToModel(jsonObject_taskModel_list, getActivity());
+                                    items.add(taskModel);
+                                }
+                            else {
+                                showToast("some went to wrong", getActivity());
+                                this.dismiss();
                             }
                         } else {
                             showToast("some went to wrong", getActivity());
+                            this.dismiss();
                             return;
                         }
 
                         if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
                             JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
-                            totalPage = jsonObject_meta.getInt("last_page");
                             Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
                         }
 
-                        if (currentPage != PAGE_START)
-                            adapter.removeLoading();
                         if (items.size() <= 0) {
                             recyclerViewCategories.setVisibility(View.GONE);
                         } else {
                             recyclerViewCategories.setVisibility(View.VISIBLE);
                         }
                         adapter.addItems(items);
-
-                        if (currentPage < totalPage) {
-                            adapter.addLoading();
-                        } else {
-                            isLastPage = true;
-                        }
-                        isLoading = false;
                     } catch (JSONException e) {
                         // hideProgressDialog();
+                        this.dismiss();
                         e.printStackTrace();
                     }
                 },

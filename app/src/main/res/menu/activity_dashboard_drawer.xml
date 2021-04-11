@@ -19,7 +19,7 @@
         <item
             android:id="@+id/nav_saved_tasks"
             android:icon="@drawable/ic_saved_task"
-            android:title="Saved  Jobs" />
+            android:title="Saved Jobs" />
 
         <item
             android:id="@+id/nav_notifications"

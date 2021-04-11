@@ -55,8 +55,6 @@ public class OnUCropImageImpl implements OnCropImage{
             options.setCropGridColor(activity.getColor(R.color.transparent));
 
             UCrop.of(cacheCopyUri, destinationUri)
-                    .withAspectRatio(3, 3)
-                    .withMaxResultSize(768, 768)
                     .withOptions(options)
                     .start(activity);
         }  else{
@@ -65,8 +63,6 @@ public class OnUCropImageImpl implements OnCropImage{
             options.setCropGridColor(activity.getColor(R.color.N050));
 
             UCrop.of(cacheCopyUri, destinationUri)
-                    .withAspectRatio(4, 3)
-                    .withMaxResultSize(1024, 768)
                     .withOptions(options)
                     .start(activity);
             }

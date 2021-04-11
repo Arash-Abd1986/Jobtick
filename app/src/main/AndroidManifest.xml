@@ -78,6 +78,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.UpdateActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".cancellations.TTCancellationSummaryActivity"
             android:screenOrientation="portrait" />
         <activity

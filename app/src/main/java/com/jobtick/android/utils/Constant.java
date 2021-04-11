@@ -54,6 +54,7 @@ public class Constant {
     public static final String URL_terms = "https://www.jobtick.com/terms";
     public static final String URL_how_it_works_poster = "https://www.jobtick.com/how-it-works/poster";
     public static final String URL_how_it_works_ticker = "https://www.jobtick.com/how-it-works/ticker";
+    public static final String URL_google_play = "https://play.google.com/store/apps/details?id=com.jobtick.android";
 
     // base url
     public static final String BASE_URL_PRODUCT = "https://api.jobtick.com/api/v1/";
@@ -75,6 +76,8 @@ public class Constant {
     public static final String TASK_PAYMENT_TYPE_FIXED = "fixed";
     public static final String TASK_PAYMENT_TYPE_HOURLY = "hourly";
     public static final String TASK_CATEGORY = "category";
+    public static final String TASK_CATEGORY_V2 = "category/v2";
+    public static final String CHECK_UPDATE = "init-info";
     public static final String ADD_BILLING = "account/billingaddress";
     public static final String ADD_ACCOUNT_DETAILS = "account/bankaccount";
 

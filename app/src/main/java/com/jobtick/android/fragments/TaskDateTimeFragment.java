@@ -389,13 +389,30 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
     }
 
     private boolean checkDateTodayOrOnwords() {
-        String date = txtDate.trim();
-        Date c = Calendar.getInstance().getTime();
-        System.out.println("Current time => " + c);
+        String selectedDate = txtDate.trim();
+
+        Calendar rightNow = Calendar.getInstance();
+        Date rightNowTime = rightNow.getTime();
+        int currentHourIn24Format = rightNow.get(Calendar.HOUR_OF_DAY);
+        System.out.println("Current time => " + rightNowTime);
 
         SimpleDateFormat df = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
-        String formattedDate = df.format(c);
-        return Tools.getTimeStamp(date) < Tools.getTimeStamp(formattedDate);
+        String formattedRightNowDate = df.format(rightNowTime);
+
+        if(Tools.getTimeStamp(selectedDate).equals(Tools.getTimeStamp(formattedRightNowDate))){
+            if(cbMorning){
+                if( currentHourIn24Format >= 12)
+                    return true;
+
+            }
+            if(cbAfternoon){
+                if( currentHourIn24Format >= 18)
+                    return true;
+
+            }
+        }
+
+        return !(Tools.getTimeStamp(selectedDate) >= Tools.getTimeStamp(formattedRightNowDate));
     }
 
     @Override

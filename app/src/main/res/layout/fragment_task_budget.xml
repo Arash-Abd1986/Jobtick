@@ -173,7 +173,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/radio_button_left_tab"
+                        android:background="@drawable/radio_button_left_tab_reverse"
                         android:button="@null"
                         android:checked="true"
                         android:gravity="center"
@@ -181,21 +181,21 @@
                         android:paddingEnd="@dimen/spacing_large"
                         android:text="Total"
                         android:textAppearance="@style/materialText_500_16"
-                        android:textColor="@color/radio_btn" />
+                        android:textColor="@color/radio_btn_reverse" />
 
                     <RadioButton
                         android:id="@+id/rb_hourly"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/radio_button_right_tab"
+                        android:background="@drawable/radio_button_right_tab_reverse"
                         android:button="@null"
                         android:gravity="center"
                         android:paddingStart="@dimen/spacing_large"
                         android:paddingEnd="@dimen/spacing_large"
                         android:text="Hourly"
                         android:textAppearance="@style/materialText_500_16"
-                        android:textColor="@color/radio_btn" />
+                        android:textColor="@color/radio_btn_reverse" />
                 </RadioGroup>
             </androidx.cardview.widget.CardView>
 

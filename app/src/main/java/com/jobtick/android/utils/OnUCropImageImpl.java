@@ -56,6 +56,7 @@ public class OnUCropImageImpl implements OnCropImage{
 
             UCrop.of(cacheCopyUri, destinationUri)
                     .withOptions(options)
+                    .withMaxResultSize(768, 768)
                     .start(activity);
         }  else{
 
@@ -64,6 +65,7 @@ public class OnUCropImageImpl implements OnCropImage{
 
             UCrop.of(cacheCopyUri, destinationUri)
                     .withOptions(options)
+                    .withMaxResultSize(1024, 768)
                     .start(activity);
             }
     }

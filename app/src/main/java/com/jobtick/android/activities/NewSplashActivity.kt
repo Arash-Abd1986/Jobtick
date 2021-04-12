@@ -115,14 +115,18 @@ class NewSplashActivity : AppCompatActivity() {
                         val gson = Gson()
                         val (data, _, success) = gson.fromJson(jsonString, CheckForUpdateResponse::class.java)
                         if (success!!) {
-                            if (BuildConfig.VERSION_CODE < data!!.latest_major_version!!.toInt()) {
-                                val intent = Intent(this@NewSplashActivity, UpdateActivity::class.java)
-                                startActivity(intent)
-                                finish()
-                            } else if (BuildConfig.VERSION_CODE <= data.latest_version!!.toInt()) {
-                                showNormalUpdate()
-                            } else {
-                                login()
+                            when {
+                                BuildConfig.VERSION_CODE <= data!!.latest_major_version!!.toInt() -> {
+                                    val intent = Intent(this@NewSplashActivity, UpdateActivity::class.java)
+                                    startActivity(intent)
+                                    finish()
+                                }
+                                BuildConfig.VERSION_CODE <= data.latest_version!!.toInt() -> {
+                                    showNormalUpdate()
+                                }
+                                else -> {
+                                    login()
+                                }
                             }
                         }
                     } catch (e: JSONException) {

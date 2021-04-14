@@ -207,7 +207,7 @@
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                app:eMaxCharNumber="9"
+                app:eMaxCharNumber="3"
                 app:eImeOptions="actionNext"
                 app:eInputType="integer"
                 app:eHint="2 hours"
@@ -222,7 +222,7 @@
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
                 app:eImeOptions="actionDone"
-                app:eMaxCharNumber="9"
+                app:eMaxCharNumber="4"
                 app:eInputType="budget"
                 app:eHint="$"
                 app:eTitle="@string/budget" />
@@ -236,7 +236,7 @@
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
                 app:eImeOptions="actionDone"
-                app:eMaxCharNumber="9"
+                app:eMaxCharNumber="4"
                 app:eInputType="budget"
                 app:eHint="$"
                 app:eTitle="@string/budget" />

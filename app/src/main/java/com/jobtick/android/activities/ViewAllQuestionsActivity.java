@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
 
@@ -179,6 +180,7 @@ public class ViewAllQuestionsActivity extends ActivityBase implements SwipeRefre
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
         };

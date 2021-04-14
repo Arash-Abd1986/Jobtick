@@ -43,6 +43,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import com.jobtick.android.fragments.ForgotPassword1Fragment;
 import com.jobtick.android.fragments.ForgotPassword2Fragment;
@@ -237,6 +238,7 @@ public class AuthActivity extends ActivityBase {
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
 
@@ -333,6 +335,7 @@ public class AuthActivity extends ActivityBase {
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
 
@@ -579,6 +582,7 @@ public class AuthActivity extends ActivityBase {
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
 
@@ -782,6 +786,7 @@ public class AuthActivity extends ActivityBase {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
 
@@ -889,6 +894,7 @@ public class AuthActivity extends ActivityBase {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
 
@@ -1078,6 +1084,7 @@ public class AuthActivity extends ActivityBase {
 
                             map1.put("Content-Type", "application/x-www-form-urlencoded");
                             map1.put("X-Requested-With", "XMLHttpRequest");
+                            map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                             return map1;
                         }
 
@@ -1211,6 +1218,7 @@ public class AuthActivity extends ActivityBase {
 
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
 
@@ -1313,6 +1321,7 @@ public class AuthActivity extends ActivityBase {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
 
@@ -1405,6 +1414,7 @@ public class AuthActivity extends ActivityBase {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
 
@@ -1493,6 +1503,7 @@ public class AuthActivity extends ActivityBase {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
 
@@ -1567,6 +1578,7 @@ public class AuthActivity extends ActivityBase {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
 
@@ -1639,6 +1651,7 @@ public class AuthActivity extends ActivityBase {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
 
@@ -1714,6 +1727,7 @@ public class AuthActivity extends ActivityBase {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
 

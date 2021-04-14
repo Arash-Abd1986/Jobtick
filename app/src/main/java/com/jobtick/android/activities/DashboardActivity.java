@@ -32,6 +32,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
+import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 
 import com.jobtick.android.activities.others.ReferAFriendActivity;
@@ -681,6 +682,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 // map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
             }
@@ -785,6 +787,7 @@ public class DashboardActivity extends ActivityBase implements NavigationView.On
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
 

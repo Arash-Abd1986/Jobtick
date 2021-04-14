@@ -80,6 +80,20 @@
                     android:text="Update Profile"
                     android:textAppearance="@style/materialText_400_15"
                     android:textColor="@color/colorPrimary" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/my_jobs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/rectangle_card_round_corners_outlined_blue"
+                    android:padding="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="My jobs"
+                    android:visibility="gone"
+                    android:textAppearance="@style/materialText_400_15"
+                    android:drawableLeft="@drawable/ic_my_jobs"
+                    android:textColor="@color/colorPrimary" />
 
             </RelativeLayout>
 

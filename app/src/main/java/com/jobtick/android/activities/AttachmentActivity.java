@@ -793,6 +793,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
 
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 // map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
             }

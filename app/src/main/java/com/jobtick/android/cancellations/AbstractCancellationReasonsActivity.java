@@ -13,6 +13,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
+import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
 
@@ -177,6 +178,7 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
         };
@@ -264,6 +266,7 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
         };

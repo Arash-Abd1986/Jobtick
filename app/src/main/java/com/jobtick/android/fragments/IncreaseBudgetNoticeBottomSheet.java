@@ -21,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import com.jobtick.android.activities.TaskDetailsActivity;
 import com.jobtick.android.activities.ActivityBase;
@@ -200,6 +201,7 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
 
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 //   map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
             }
@@ -305,6 +307,7 @@ public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottom
 
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 //   map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
             }

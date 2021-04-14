@@ -19,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
+import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import com.jobtick.android.cancellations.AbstractCancellationReasonsActivity;
 import com.jobtick.android.cancellations.CancellationDeclineActivity;
@@ -279,6 +280,7 @@ public abstract class AbstractCancellationSummaryActivity extends ActivityBase i
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
         };
@@ -355,6 +357,7 @@ public abstract class AbstractCancellationSummaryActivity extends ActivityBase i
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
         };
@@ -437,6 +440,7 @@ public abstract class AbstractCancellationSummaryActivity extends ActivityBase i
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
         };
@@ -525,6 +529,7 @@ public abstract class AbstractCancellationSummaryActivity extends ActivityBase i
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
 

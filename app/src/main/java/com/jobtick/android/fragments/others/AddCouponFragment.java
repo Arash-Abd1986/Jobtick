@@ -28,6 +28,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.rpc.Help;
+import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import com.jobtick.android.activities.PaymentOverviewActivity;
 import com.jobtick.android.fragments.AbstractStateExpandedBottomSheet;
@@ -199,6 +200,7 @@ public class AddCouponFragment extends AbstractStateExpandedBottomSheet {
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
 
                 return map1;
             }
@@ -276,6 +278,7 @@ public class AddCouponFragment extends AbstractStateExpandedBottomSheet {
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
 
                 return map1;
             }

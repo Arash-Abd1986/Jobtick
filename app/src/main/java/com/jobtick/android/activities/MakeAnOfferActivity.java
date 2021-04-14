@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
 
@@ -235,6 +236,7 @@ public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMust
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
 
                 map1.put("X-REQUESTED-WITH", "xmlhttprequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
 //                headers.put("Accept", "application/json");
                 // map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;

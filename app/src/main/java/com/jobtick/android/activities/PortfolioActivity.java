@@ -27,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.jobtick.android.BuildConfig;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -494,6 +495,7 @@ public class  PortfolioActivity extends ActivityBase implements AttachmentAdapte
 
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 // map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
             }

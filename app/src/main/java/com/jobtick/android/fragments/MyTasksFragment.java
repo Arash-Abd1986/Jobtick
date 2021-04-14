@@ -38,6 +38,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import com.jobtick.android.activities.ActivityBase;
 import com.jobtick.android.activities.DashboardActivity;
@@ -300,6 +301,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
         };
@@ -381,6 +383,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 // map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
             }
@@ -724,6 +727,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
         };

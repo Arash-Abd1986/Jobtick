@@ -30,6 +30,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import com.jobtick.android.activities.ActivityBase;
 import com.jobtick.android.activities.CategoryListActivity;
@@ -69,6 +70,10 @@ public class NewTaskFragment extends Fragment {
     TextView updateProfile;
 
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.my_jobs)
+    TextView myJobs;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.scrollView)
     NestedScrollView scrollView;
 
@@ -98,8 +103,14 @@ public class NewTaskFragment extends Fragment {
 
         sessionManager = new SessionManager(getContext());
         name.setText(sessionManager.getUserAccount().getName());
-        if (!sessionManager.getUserAccount().getName().isEmpty())
+        if (!sessionManager.getUserAccount().getName().isEmpty()) {
             updateProfile.setVisibility(View.GONE);
+            myJobs.setVisibility(View.VISIBLE);
+        }
+
+
+
+        myJobs.setOnClickListener(v -> ((DashboardActivity) requireActivity()).goToFragment(DashboardActivity.Fragment.MY_JOBS));
         //lytBtnPost.bringToFront();
         initToolbar();
         return root;
@@ -203,6 +214,7 @@ public class NewTaskFragment extends Fragment {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
                 map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
         };

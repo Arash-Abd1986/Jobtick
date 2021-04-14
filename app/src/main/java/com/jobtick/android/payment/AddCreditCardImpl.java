@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.jobtick.android.BuildConfig;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.SessionManager;
 import com.stripe.android.ApiResultCallback;
@@ -133,6 +134,7 @@ public abstract class AddCreditCardImpl implements AddCreditCard {
 
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 // map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1;
             }

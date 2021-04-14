@@ -28,6 +28,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import com.jobtick.android.adapers.SectionsPagerAdapter;
 import com.jobtick.android.fragments.TaskBudgetFragment;
@@ -570,6 +571,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Accept", "application/json");
                 map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
                 return map1;
             }
 

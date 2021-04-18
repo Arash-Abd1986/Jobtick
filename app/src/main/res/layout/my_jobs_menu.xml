@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:paddingEnd="11dp"
+
+ >
+<androidx.cardview.widget.CardView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:elevation="5dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="5dp">
+
+    <LinearLayout
+        android:layout_width="161dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_rounded_back_white_button_active_r8"
+        android:orientation="vertical"
+        android:padding="17dp"
+        tools:context=".activities.ChatActivity">
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/all_jobs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="start"
+            android:text="All jobs"
+            android:textAppearance="@style/materialText_400_14"
+            android:textColor="@color/N900" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/assigned"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="start"
+            android:text="Assigned"
+            android:textAppearance="@style/materialText_400_14"
+            android:textColor="@color/N300" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/posted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="start"
+            android:text="Posted"
+            android:textAppearance="@style/materialText_400_14"
+            android:textColor="@color/N300" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/offered"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="start"
+            android:text="Offered"
+            android:textAppearance="@style/materialText_400_14"
+            android:textColor="@color/N300" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/draft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="start"
+            android:text="Draft"
+            android:textAppearance="@style/materialText_400_14"
+            android:textColor="@color/N300" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/completed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="start"
+            android:text="Completed"
+            android:textAppearance="@style/materialText_400_14"
+            android:textColor="@color/N300" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/overdue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="start"
+            android:text="Overdue"
+            android:textAppearance="@style/materialText_400_14"
+            android:textColor="@color/N300" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cancelled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="start"
+            android:text="Cancelled"
+            android:textAppearance="@style/materialText_400_14"
+            android:textColor="@color/N300" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/closed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="start"
+            android:text="Closed"
+            android:textAppearance="@style/materialText_400_14"
+            android:textColor="@color/N300" />
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+</RelativeLayout>

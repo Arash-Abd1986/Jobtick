@@ -31,6 +31,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
@@ -42,8 +43,11 @@ import com.jobtick.android.activities.SearchTaskActivity;
 import com.jobtick.android.activities.TaskDetailsActivity;
 import com.jobtick.android.adapers.FilterAdapter;
 import com.jobtick.android.adapers.TaskListAdapter;
+import com.jobtick.android.adapers.TaskListAdapterV2;
 import com.jobtick.android.models.FilterModel;
 import com.jobtick.android.models.TaskModel;
+import com.jobtick.android.models.response.myjobs.Data;
+import com.jobtick.android.models.response.myjobs.MyJobsResponse;
 import com.jobtick.android.pagination.PaginationListener;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.ConstantKey;
@@ -69,7 +73,7 @@ import static com.jobtick.android.utils.Constant.MAX_FILTER_DISTANCE_IN_KILOMETE
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, TaskListAdapter.OnItemClickListener,
+public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, TaskListAdapterV2.OnItemClickListener,
         SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
     @SuppressLint("NonConstantResourceId")
@@ -82,11 +86,20 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @BindView(R.id.lyt_btn_filters)
     LinearLayout lytBtnFilters;
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.lin_search)
+    LinearLayout linSearch;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_filters)
     TextView txtFilters;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.edt_search_categoreis)
+    TextView edtSearch;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.btnVoice)
+    ImageView btnVoice;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.appbar)
     AppBarLayout appbar;
@@ -102,15 +115,17 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     private FilterModel filterModel = new FilterModel();
     private FilterAdapter filterAdapter;
     private SessionManager sessionManager;
-    private TaskListAdapter taskListAdapter;
+    private TaskListAdapterV2 taskListAdapter;
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
     private int totalPage = 10;
     private int totalItem = 10;
     private boolean isLoading = false;
     private Toolbar toolbar;
+    private LinearLayout linFilterExplore;
+    private TextView txtFilter;
     private boolean isFabHide = false;
-    private ArrayList<TaskModel> taskArrayList = new ArrayList<>();
+    private ArrayList<Data> taskArrayList = new ArrayList<>();
 
     public BrowseFragment() {
     }
@@ -131,9 +146,19 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         if (dashboardActivity == null) return;
         toolbar = dashboardActivity.findViewById(R.id.toolbar);
         toolbar.getMenu().clear();
-        toolbar.inflateMenu(R.menu.menu_browse_task);
+        //toolbar.inflateMenu(R.menu.menu_browse_task);
         ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
+        linFilterExplore = dashboardActivity.findViewById(R.id.lin_filter_explore);
+        txtFilter = dashboardActivity.findViewById(R.id.txt_filter);
         ivNotification.setVisibility(View.GONE);
+        linFilterExplore.setVisibility(View.VISIBLE);
+        linFilterExplore.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            Intent intent = new Intent(dashboardActivity, FiltersActivity.class);
+            bundle.putParcelable(Constant.FILTER, filterModel);
+            intent.putExtras(bundle);
+            startActivityForResult(intent, 101);
+        });
         TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
         toolbar_title.setVisibility(View.VISIBLE);
         toolbar_title.setText(R.string.explore);
@@ -144,6 +169,18 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         params.gravity = Gravity.START;
         toolbar_title.setLayoutParams(params);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        linFilterExplore.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        linFilterExplore.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -158,12 +195,17 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     }
 
     private void setCTAListener() {
-        toolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.action_search) {
-                Intent creating_task = new Intent(requireActivity(), SearchTaskActivity.class);
-                startActivity(creating_task);
-            }
-            return false;
+        linSearch.setOnClickListener(v -> {
+            Intent creating_task = new Intent(requireActivity(), SearchTaskActivity.class);
+            startActivity(creating_task);
+        });
+        edtSearch.setOnClickListener(v -> {
+            Intent creating_task = new Intent(requireActivity(), SearchTaskActivity.class);
+            startActivity(creating_task);
+        });
+        btnVoice.setOnClickListener(v -> {
+            Intent creating_task = new Intent(requireActivity(), SearchTaskActivity.class);
+            startActivity(creating_task);
         });
 
         ivMapView.setOnClickListener(v -> {
@@ -182,7 +224,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         recyclerViewBrowse.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerViewBrowse.setLayoutManager(layoutManager);
-        taskListAdapter = new TaskListAdapter(taskArrayList, null);
+        taskListAdapter = new TaskListAdapterV2(taskArrayList, null);
         recyclerViewBrowse.setAdapter(taskListAdapter);
         taskListAdapter.setOnItemClickListener(this);
         swipeRefresh.setRefreshing(true);
@@ -216,7 +258,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         filterAdapter = new FilterAdapter(filters);
         filterAdapter.setmOnFilterDeleteListener(filters::clear);
         recyclerViewFilters.setAdapter(filterAdapter);
-
+        txtFilter.setText(filters.size() + " Filter");
         if (sessionManager.getFilter() != null) {
             filterModel = sessionManager.getFilter();
         }
@@ -269,9 +311,10 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         if (filters.size() != 0) {
             filterAdapter.notifyDataSetChanged();
         }
+        txtFilter.setText(filters.size() + " Filter");
     }
 
-    @OnClick({R.id.lyt_btn_filters,R.id.lyt_search_new})
+    @OnClick({R.id.lyt_search_new})
     public void onViewClicked() {
         Bundle bundle = new Bundle();
         Intent intent = new Intent(dashboardActivity, FiltersActivity.class);
@@ -331,35 +374,27 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         }
 //        queryParameter = queryParameter + "&hide_assigned=true";
 
-        ArrayList<TaskModel> items = new ArrayList<>();
         Helper.closeKeyboard(dashboardActivity);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS + "?page=" + currentPage + queryParameter,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS_v2 + "?page=" + currentPage + queryParameter,
                 response -> {
                     Timber.e(response);
                     // categoryArrayList.clear();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
-                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                            JSONArray jsonArray_data = jsonObject.getJSONArray("data");
-                            for (int i = 0; jsonArray_data.length() > i; i++) {
-                                JSONObject jsonObject_taskModel_list = jsonArray_data.getJSONObject(i);
-                                TaskModel taskModel = new TaskModel().getJsonToModel(jsonObject_taskModel_list, dashboardActivity);
-                                items.add(taskModel);
-                            }
-                        } else {
+                        Gson gson = new Gson();
+                        MyJobsResponse myJobsResponse = gson.fromJson(jsonObject.toString(), MyJobsResponse.class);
+                        if (myJobsResponse.getData() == null) {
                             dashboardActivity.showToast("some went to wrong", dashboardActivity);
                             return;
                         }
-                        if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
-                            JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
-                            totalPage = jsonObject_meta.getInt("last_page");
-                            totalItem = jsonObject_meta.getInt("total");
-                            Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
-                        }
+                        totalItem = myJobsResponse.getTotal();
+                        Constant.PAGE_SIZE = myJobsResponse.getPer_page();
+                        totalPage = myJobsResponse.getTotal();
 
-                        taskListAdapter.addItems(items, totalItem);
-                        taskArrayList = items;
+                        taskListAdapter.addItems(myJobsResponse.getData(), totalItem);
+                        isLastPage = taskListAdapter.getItemCount() == totalItem;
+
                         swipeRefresh.setRefreshing(false);
                         isLoading = false;
                         if(totalItem==0){
@@ -408,7 +443,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     }
 
     @Override
-    public void onItemClick(View view, TaskModel obj, int position, String action) {
+    public void onItemClick(View view, Data obj, int position, String action) {
         Intent intent = new Intent(dashboardActivity, TaskDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString(ConstantKey.SLUG, obj.getSlug());

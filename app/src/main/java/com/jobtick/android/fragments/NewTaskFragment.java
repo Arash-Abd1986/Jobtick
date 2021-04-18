@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -139,6 +140,9 @@ public class NewTaskFragment extends Fragment {
         toolbar.getMenu().findItem(R.id.action_search).setVisible(false);
 
         TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
+        TextView filter_text = dashboardActivity.findViewById(R.id.filter_text);
+        dashboardActivity.findViewById(R.id.lin_filter).setVisibility(View.GONE);
+        filter_text.setText("All jobs");
         toolbar_title.setVisibility(View.VISIBLE);
         toolbar_title.setText(R.string.jobTick);
         toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.backgroundLightGrey));

@@ -16,73 +16,90 @@
         app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="@drawable/ic_back"
         app:title="Filter"
-        app:titleTextAppearance="@style/materialText_500_18"/>
+        app:titleTextAppearance="@style/materialText_500_18" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_large"
         android:layout_marginEnd="@dimen/spacing_large"
         android:background="@color/grey_100"
         android:orientation="vertical">
 
-
-        <RadioGroup
-            android:id="@+id/rg_filters"
+        <RelativeLayout
+            android:background="@drawable/shape_rounded_back_white_button_active_r8"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape_tab_white_f"
-            android:orientation="horizontal"
-            android:padding="4dp"
-            android:weightSum="3">
-
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/rb_remotely"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:layout_marginBottom="12dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="start"
+                android:layout_centerVertical="true"
+                android:text="Remotely"
+                android:textColor="@color/N900"
+                android:textAppearance="@style/materialText_400_14"/>
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/rb_remotely"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_marginEnd="@dimen/spacing_middle"
                 android:layout_weight="1"
-                android:background="@drawable/radio_button_tab_f"
-                android:button="@null"
                 android:checked="true"
                 android:gravity="center"
-                android:text="@string/remotely"
+                android:text=""
                 android:textAppearance="@style/materialText_500_14"
                 android:textColor="@color/radio_btn" />
+        </RelativeLayout>
 
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/rb_in_person"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/radio_button_tab_f"
-                android:button="@null"
-                android:gravity="center"
-                android:text="@string/in_person"
-                android:textColor="@color/radio_btn"
-                android:textAppearance="@style/materialText_500_14" />
-
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/rb_all"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_middle"
-                android:layout_weight="1"
-                android:background="@drawable/radio_button_tab_f"
-                android:button="@null"
-                android:gravity="center"
-                android:text="@string/all"
-                android:textAppearance="@style/materialText_500_14"
-                android:textColor="@color/radio_btn"
-                android:textSize="@dimen/_14sp" />
-
-
-        </RadioGroup>
-
-        <View
+        <RelativeLayout
+            android:background="@drawable/shape_rounded_back_white_button_active_r8"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/spacing_middle" />
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/lin_in_person"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="In person"
+                android:layout_toLeftOf="@+id/rb_in_person"
+                android:textColor="@color/N900"
+                android:textAppearance="@style/materialText_400_14"/>
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/rb_in_person"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/spacing_middle"
+                android:layout_weight="1"
+                android:checked="true"
+                android:gravity="center"
+                android:text=""
+                android:textAppearance="@style/materialText_500_14"
+                android:textColor="@color/radio_btn" />
+            </LinearLayout>
+            <com.jobtick.android.widget.ExtendedEntryText
+                android:id="@+id/txt_suburb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lin_in_person"
+                android:layout_marginBottom="16dp"
+                app:eInputType="suburb"
+                android:background="@drawable/shape_rounded_back_white_button_active_r8"
+                app:eTitle="@string/suburb" />
+        </RelativeLayout>
+
 
 
     </LinearLayout>

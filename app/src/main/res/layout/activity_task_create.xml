@@ -22,7 +22,18 @@
             app:contentInsetStartWithNavigation="0dp"
             app:navigationIcon="@drawable/ic_cancel"
             app:title="Post a Job"
-            app:titleTextColor="@color/textColor" />
+            app:titleTextColor="@color/textColor" >
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="18dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_trash"
+                android:visibility="gone" />
+        </com.google.android.material.appbar.MaterialToolbar>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_selection_view"

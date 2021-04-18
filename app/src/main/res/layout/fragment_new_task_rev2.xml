@@ -25,12 +25,12 @@
                 android:layout_marginEnd="16dp">
 
                 <LinearLayout
-                    android:layout_toLeftOf="@+id/update_profile"
-                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
-                    android:layout_height="match_parent">
+                    android:layout_toLeftOf="@+id/update_profile">
 
                     <ImageView
                         android:id="@+id/hand"
@@ -79,21 +79,35 @@
                     android:paddingBottom="10dp"
                     android:text="Update Profile"
                     android:textAppearance="@style/materialText_400_15"
-                    android:textColor="@color/colorPrimary" />
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/my_jobs"
+                    android:textColor="@color/colorPrimary"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/lin_my_jobs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerHorizontal="true"
                     android:background="@drawable/rectangle_card_round_corners_outlined_blue"
-                    android:padding="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="My jobs"
-                    android:visibility="gone"
-                    android:textAppearance="@style/materialText_400_15"
-                    android:drawableLeft="@drawable/ic_my_jobs"
-                    android:textColor="@color/colorPrimary" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="15dp"
+                        app:srcCompat="@drawable/ic_my_jobs"
+                        android:layout_marginLeft="12dp"
+                        android:layout_height="match_parent"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/my_jobs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="8dp"
+                        android:text="My jobs"
+                        android:textAppearance="@style/materialText_400_15"
+                        android:textColor="@color/colorPrimary"
+                        android:visibility="visible" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 

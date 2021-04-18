@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/all_jobs"
+        android:title="All jobs"
+        app:showAsAction="withText" />
+
+    <item
+        android:id="@+id/assigned"
+        android:title="Assigned"
+        app:showAsAction="withText" />
+
+    <item
+        android:id="@+id/posted"
+        android:icon="@drawable/ic_menu_camera"
+        android:title="Posted"
+        app:showAsAction="withText" />
+
+    <item
+        android:id="@+id/offered"
+        android:title="Offered"
+        app:showAsAction="withText" />
+
+    <item
+        android:id="@+id/draft"
+        android:title="Draft"
+        app:showAsAction="withText" />
+
+    <item
+        android:id="@+id/completed"
+        android:title="Completed"
+        app:showAsAction="withText" />
+
+    <item
+        android:id="@+id/overdue"
+        android:title="Overdue"
+        app:showAsAction="withText" />
+
+    <item
+        android:id="@+id/closed"
+        android:title="Closed"
+        app:showAsAction="withText" />
+
+
+
+</menu>

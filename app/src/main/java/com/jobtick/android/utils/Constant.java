@@ -59,13 +59,18 @@ public class Constant {
     // base url
     public static final String BASE_URL_PRODUCT = "https://api.jobtick.com/api/v1/";
     public static final String BASE_URL_DEBUG = "https://api-dev.jobtick.com/api/v1/";
+    public static final String BASE_URL_PRODUCT_V2 = "https://api.jobtick.com/api/v2/";
+    public static final String BASE_URL_DEBUG_V2 = "https://api-dev.jobtick.com/api/v2/";
     public static final String BASE_URL = (BuildConfig.DEBUG) ? BASE_URL_DEBUG : BASE_URL_PRODUCT;
+    public static final String BASE_URL_v2 = (BuildConfig.DEBUG) ? BASE_URL_DEBUG_V2 : BASE_URL_PRODUCT_V2;
     public static final String PROD = "";
     public static final String DEV = "dev.";
     public static final String SHARE_APPEND_TXT = (BuildConfig.DEBUG) ? DEV : PROD;
 
     public static final String URL_CHANGE_PASSWORD = BASE_URL + "account/change-password";
     public static final String URL_TASKS = BASE_URL + "tasks";
+    public static final String URL_TASKS_v2 = BASE_URL_v2 + "jobs";
+    public static final String URL_MY_JOBS = BASE_URL_v2 + "my-jobs";
     public static final String URL_BLOCK_CHAT = BASE_URL + "chat/blocking";
     public static final String URL_BOOKMARK = BASE_URL + "bookmarks";
 

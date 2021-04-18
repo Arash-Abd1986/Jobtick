@@ -12,6 +12,7 @@
         <item name="android:navigationBarColor">@color/gray</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="sliderStyle">@style/Widget.App.Slider</item>
+        <item name="android:popupMenuStyle">@style/MyPopupMenu</item>
     </style><style name="ThemeFullscreen" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -339,6 +340,14 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="MyPopupMenu" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="android:dropDownHorizontalOffset">-165dp</item>
+        <item name="background">@drawable/shape_rounded_back_white_button_active_r8</item>
+        <item name="android:popupBackground">@drawable/shape_rounded_back_white_button_active_r8</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+
+    </style>
+
     <style name="Widget.BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.BottomSheet</item>
         <item name="android:windowIsFloating">false</item>
@@ -651,6 +660,7 @@
 
     <style name="AppTheme.fullScreen">
         <item name="android:windowFullscreen">true</item>
+        <item name="android:popupMenuStyle">@style/MyPopupMenu</item>
     </style>
 
     <style name="transparentTitleBar" parent="TextAppearance.MaterialComponents.Body2">

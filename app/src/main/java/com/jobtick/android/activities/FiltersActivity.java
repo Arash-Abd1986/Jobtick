@@ -3,11 +3,15 @@ package com.jobtick.android.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -15,13 +19,18 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.android.R;
-import android.annotation.SuppressLint;
 
+import android.annotation.SuppressLint;
+import android.widget.Switch;
+
+import com.jobtick.android.fragments.AbstractFilterFragment;
 import com.jobtick.android.fragments.FilterAllFragment;
 import com.jobtick.android.fragments.FilterInPersonFragment;
 import com.jobtick.android.fragments.FilterRemotelyFragment;
 import com.jobtick.android.models.FilterModel;
 import com.jobtick.android.utils.Constant;
+import com.jobtick.android.utils.SuburbAutoComplete;
+import com.jobtick.android.widget.ExtendedEntryText;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,21 +48,24 @@ public class FiltersActivity extends AppCompatActivity implements FilterInPerson
     MaterialToolbar toolbar;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_remotely)
-    RadioButton rbRemotely;
+    SwitchCompat rbRemotely;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rb_in_person)
-    RadioButton rbInPerson;
+    SwitchCompat rbInPerson;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rb_all)
-    RadioButton rbAll;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rg_filters)
-    RadioGroup rgFilters;
+    @BindView(R.id.txt_suburb)
+    ExtendedEntryText txtSuburb;
+
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.view_pager)
     ViewPager viewPager;
     FilterModel filterModel;
     Map<String, String> filters;
+    private boolean all = true;
+    private AbstractFilterFragment abstractFilterFragment1;
+    private AbstractFilterFragment abstractFilterFragment2;
+    private AbstractFilterFragment abstractFilterFragment3;
+    private int currentTab = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +82,13 @@ public class FiltersActivity extends AppCompatActivity implements FilterInPerson
         initComponent();
     }
 
+
+    public void setSuburb(String suburb){
+        txtSuburb.setText(suburb);
+    }
+    public void setSubError(String error){
+        txtSuburb.setError(error);
+    }
     private void initComponent() {
         setupViewPager(viewPager);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
@@ -80,52 +99,84 @@ public class FiltersActivity extends AppCompatActivity implements FilterInPerson
                 viewPager.setCurrentItem(0);
                 rbRemotely.setChecked(true);
                 rbInPerson.setChecked(false);
-                rbAll.setChecked(false);
+                all = (false);
             } else if (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_IN_PERSON)) {
                 viewPager.setCurrentItem(1);
                 rbRemotely.setChecked(false);
                 rbInPerson.setChecked(true);
-                rbAll.setChecked(false);
+                all = (false);
             } else {
                 viewPager.setCurrentItem(2);
                 rbRemotely.setChecked(false);
                 rbInPerson.setChecked(false);
-                rbAll.setChecked(true);
+                all = (true);
             }
         } else {
             viewPager.setCurrentItem(2);
             rbRemotely.setChecked(false);
             rbInPerson.setChecked(false);
-            rbAll.setChecked(true);
+            all = (true);
         }
 
 
-        rgFilters.setOnCheckedChangeListener((group, checkedId) -> {
-            RadioButton rb_btn = (RadioButton) findViewById(checkedId);
-            if (rb_btn.getText().equals(getResources().getString(R.string.remotely))) {
-                viewPager.setCurrentItem(0);
-                rbRemotely.setChecked(true);
-                rbInPerson.setChecked(false);
-                rbAll.setChecked(false);
-            } else if (rb_btn.getText().equals(getResources().getString(R.string.in_person))) {
+        rbRemotely.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                if (!rbInPerson.isChecked()) {
+                    viewPager.setCurrentItem(0);
+                    all = (false);
+                }
+                if (rbInPerson.isChecked()) {
+                    all = (true);
+                    viewPager.setCurrentItem(2);
+                }
+            } else {
                 viewPager.setCurrentItem(1);
-                rbRemotely.setChecked(false);
                 rbInPerson.setChecked(true);
-                rbAll.setChecked(false);
-            } else if (rb_btn.getText().equals(getResources().getString(R.string.all))) {
-                viewPager.setCurrentItem(2);
-                rbRemotely.setChecked(false);
-                rbInPerson.setChecked(false);
-                rbAll.setChecked(true);
+                all = (false);
             }
         });
+        rbInPerson.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                if (!rbRemotely.isChecked()) {
+                    viewPager.setCurrentItem(1);
+                    all = (false);
+                }
+                if (rbRemotely.isChecked()) {
+                    all = (true);
+                    viewPager.setCurrentItem(2);
+                }
+            } else {
+                rbRemotely.setChecked(true);
+                viewPager.setCurrentItem(0);
+                all = (false);
+            }
+        });
+        txtSuburb.setExtendedViewOnClickListener(() -> {
+            switch (currentTab){
+                case 0:
+                    abstractFilterFragment1.startFindLocation();
+                    break;
+                case 1:
+                    abstractFilterFragment2.startFindLocation();
+                    break;
+                case 2:
+                    abstractFilterFragment3.startFindLocation();
+                    break;
+            }
+
+        });
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(FilterRemotelyFragment.newInstance(this, filterModel), getResources().getString(R.string.remotely));
-        adapter.addFragment(FilterInPersonFragment.newInstance(this, filterModel), getResources().getString(R.string.in_person));
-        adapter.addFragment(FilterAllFragment.newInstance(this, filterModel), getResources().getString(R.string.all));
+        abstractFilterFragment1 = FilterRemotelyFragment.newInstance(this, filterModel);
+        abstractFilterFragment2 = FilterInPersonFragment.newInstance(this, filterModel);
+        abstractFilterFragment3 = FilterAllFragment.newInstance(this, filterModel);
+        adapter.addFragment(abstractFilterFragment1, getResources().getString(R.string.remotely));
+        adapter.addFragment(abstractFilterFragment2, getResources().getString(R.string.in_person));
+        adapter.addFragment(abstractFilterFragment3, getResources().getString(R.string.all));
+
         viewPager.setAdapter(adapter);
     }
 
@@ -133,7 +184,7 @@ public class FiltersActivity extends AppCompatActivity implements FilterInPerson
     private void initToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Filters");
+        getSupportActionBar().setTitle("Filter");
     }
 
 
@@ -163,21 +214,16 @@ public class FiltersActivity extends AppCompatActivity implements FilterInPerson
 
         @Override
         public void onPageSelected(final int position) {
+            currentTab = position;
             switch (position) {
                 case 0:
-                    rbRemotely.setChecked(true);
-                    rbInPerson.setChecked(false);
-                    rbAll.setChecked(false);
+                    txtSuburb.setVisibility(View.GONE);
                     break;
                 case 1:
-                    rbRemotely.setChecked(false);
-                    rbInPerson.setChecked(true);
-                    rbAll.setChecked(false);
+                    txtSuburb.setVisibility(View.VISIBLE);
                     break;
                 case 2:
-                    rbRemotely.setChecked(false);
-                    rbInPerson.setChecked(false);
-                    rbAll.setChecked(true);
+                    txtSuburb.setVisibility(View.VISIBLE);
                     break;
             }
 

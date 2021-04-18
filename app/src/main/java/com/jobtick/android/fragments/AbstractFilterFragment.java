@@ -9,18 +9,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.RangeSlider;
 import com.google.android.material.slider.Slider;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
+import com.jobtick.android.activities.FiltersActivity;
 import com.jobtick.android.models.FilterModel;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.SuburbAutoComplete;
@@ -57,10 +62,13 @@ public abstract class AbstractFilterFragment extends Fragment {
     RangeSlider skPrice;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.cb_open_tasks)
-    CheckBox cbOpenTasks;
+    SwitchCompat cbOpenTasks;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_save_filter)
-    MaterialButton lytBtnSaveFilter;
+    LinearLayout lytBtnSaveFilter;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.cancel_filter)
+    LinearLayout cancelFilter;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.distance_container)
@@ -70,6 +78,7 @@ public abstract class AbstractFilterFragment extends Fragment {
     private final int pMax = 9999;
     private final int PLACE_SELECTION_REQUEST_CODE = 1;
     private FilterModel filterModel;
+    private FiltersActivity filtersActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,6 +86,7 @@ public abstract class AbstractFilterFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
         ButterKnife.bind(this, view);
+        filtersActivity = (FiltersActivity) requireActivity();
         txtSuburb.setExtendedViewOnClickListener(() -> {
             Intent intent = new SuburbAutoComplete(requireActivity()).getIntent();
             startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
@@ -87,6 +97,11 @@ public abstract class AbstractFilterFragment extends Fragment {
             txtSuburb.setVisibility(View.GONE);
         }
         return view;
+    }
+
+    public void startFindLocation() {
+        Intent intent = new SuburbAutoComplete(requireActivity()).getIntent();
+        startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
     }
 
     @Override
@@ -103,35 +118,35 @@ public abstract class AbstractFilterFragment extends Fragment {
                 }
                 if (filterModel != null && filterModel.getTask_open() != null) {
                     cbOpenTasks.setChecked(filterModel.getTask_open() != null);
-            }
-            if (filterModel != null && (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_ALL)
-                    || filterModel.getSection().equalsIgnoreCase(Constant.FILTER_IN_PERSON))) {
-                txtSuburb.setText(filterModel.getLocation());
-                if(filterModel.getDistance().equals(Integer.toString(MAX_FILTER_DISTANCE_IN_KILOMETERS))){
-                    txtDistanceKm.setText(R.string.plus_100_km);
-                    skDistance.setValue(105);
-                }else{
-                    txtDistanceKm.setText(String.format("%s KM", (int) Float.parseFloat(filterModel.getDistance())));
+                }
+                if (filterModel != null && (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_ALL)
+                        || filterModel.getSection().equalsIgnoreCase(Constant.FILTER_IN_PERSON))) {
+                    txtSuburb.setText(filterModel.getLocation());
+                    filtersActivity.setSuburb(filterModel.getLocation());
+                    if (filterModel.getDistance().equals(Integer.toString(MAX_FILTER_DISTANCE_IN_KILOMETERS))) {
+                        txtDistanceKm.setText(R.string.plus_100_km);
+                        skDistance.setValue(105);
+                    } else {
+                        txtDistanceKm.setText(String.format("%s KM", (int) Float.parseFloat(filterModel.getDistance())));
 
-                    //prevent crash in step size
-                    if((int) Float.parseFloat(filterModel.getDistance())%5==0)
-                        skDistance.setValue((int) Float.parseFloat(filterModel.getDistance()));
-                    else
-                        skDistance.setValue(15);
+                        //prevent crash in step size
+                        if ((int) Float.parseFloat(filterModel.getDistance()) % 5 == 0)
+                            skDistance.setValue((int) Float.parseFloat(filterModel.getDistance()));
+                        else
+                            skDistance.setValue(15);
+                    }
                 }
             }
+
+        } else {
+            setSeekBarPrice(pMin, pMax);
         }
 
-    } else
+        initDistanceSlider();
 
-    {
-        setSeekBarPrice(pMin, pMax);
+        initPriceSlider();
+        setOnclick();
     }
-
-    initDistanceSlider();
-
-    initPriceSlider();
-}
 
     private void getPminPmax(int min, int max) {
         skPrice.setValues((float) min, (float) max);
@@ -152,9 +167,9 @@ public abstract class AbstractFilterFragment extends Fragment {
 
     private void initDistanceSlider() {
         skDistance.addOnChangeListener((slider, value, fromUser) -> {
-            if(slider.getValue() != 105){
+            if (slider.getValue() != 105) {
                 txtDistanceKm.setText(String.format(Locale.ENGLISH, "%d KM", (int) slider.getValue()));
-            }else {
+            } else {
                 txtDistanceKm.setText(R.string.plus_100_km);
             }
         });
@@ -164,58 +179,62 @@ public abstract class AbstractFilterFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == requireActivity().RESULT_OK) {
-
-
             txtSuburb.setText(SuburbAutoComplete.getSuburbName(data));
+            filtersActivity.setSuburb(SuburbAutoComplete.getSuburbName(data));
             filterModel.setLatitude(SuburbAutoComplete.getLatitude(data));
             filterModel.setLogitude(SuburbAutoComplete.getLongitude(data));
         }
     }
 
-    @SuppressLint("NonConstantResourceId")
-    @OnClick(R.id.lyt_btn_save_filter)
-    public void onViewClicked() {
-        if (TextUtils.isEmpty(txtSuburb.getText().trim()) &&
-                (getFilterType() == FilterType.IN_PERSON || getFilterType() == FilterType.ALL)) {
-            txtSuburb.setError("Select location");
-            return;
-        }
-
-        if (getFilterType() == FilterType.ALL)
-            filterModel.setSection(Constant.FILTER_ALL);
-        else if (getFilterType() == FilterType.IN_PERSON)
-            filterModel.setSection(Constant.FILTER_IN_PERSON);
-        else if (getFilterType() == FilterType.REMOTELY) {
-            filterModel.setSection(Constant.FILTER_REMOTE);
-            filterModel.setDistance(null);
-            filterModel.setLocation(null);
-            filterModel.setLogitude(null);
-            filterModel.setLatitude(null);
-        }
-        if (getFilterType() == FilterType.IN_PERSON || getFilterType() == FilterType.ALL) {
-            filterModel.setLocation(txtSuburb.getText().trim());
-            if(skDistance.getValue() != 105)
-                filterModel.setDistance(String.valueOf((int) skDistance.getValue()));
-            else{
-                filterModel.setDistance(Integer.toString(MAX_FILTER_DISTANCE_IN_KILOMETERS));
+    public void setOnclick() {
+        lytBtnSaveFilter.setOnClickListener(v->{
+            if (TextUtils.isEmpty(txtSuburb.getText().trim()) &&
+                    (getFilterType() == FilterType.IN_PERSON || getFilterType() == FilterType.ALL)) {
+                filtersActivity.setSubError("Select location");
+                return;
             }
-        }
-        filterModel.setPrice(txtPriceMinMax.getText().toString().trim());
-        if (cbOpenTasks.isChecked()) {
-            filterModel.setTask_open(Constant.FILTER_TASK_OPEN);
-        } else {
-            filterModel.setTask_open(null);
-        }
-        fragmentCallback(filterModel);
+
+            if (getFilterType() == FilterType.ALL)
+                filterModel.setSection(Constant.FILTER_ALL);
+            else if (getFilterType() == FilterType.IN_PERSON)
+                filterModel.setSection(Constant.FILTER_IN_PERSON);
+            else if (getFilterType() == FilterType.REMOTELY) {
+                filterModel.setSection(Constant.FILTER_REMOTE);
+                filterModel.setDistance(null);
+                filterModel.setLocation(null);
+                filterModel.setLogitude(null);
+                filterModel.setLatitude(null);
+            }
+            if (getFilterType() == FilterType.IN_PERSON || getFilterType() == FilterType.ALL) {
+                filterModel.setLocation(txtSuburb.getText().trim());
+                if (skDistance.getValue() != 105)
+                    filterModel.setDistance(String.valueOf((int) skDistance.getValue()));
+                else {
+                    filterModel.setDistance(Integer.toString(MAX_FILTER_DISTANCE_IN_KILOMETERS));
+                }
+            }
+            filterModel.setPrice(txtPriceMinMax.getText().toString().trim());
+            if (cbOpenTasks.isChecked()) {
+                filterModel.setTask_open(Constant.FILTER_TASK_OPEN);
+            } else {
+                filterModel.setTask_open(null);
+            }
+            fragmentCallback(filterModel);
+        });
+        cancelFilter.setOnClickListener(v->{
+            txtSuburb.setText("");
+            filtersActivity.setSuburb("");
+            cbOpenTasks.setChecked(false);
+        });
     }
 
     abstract void fragmentCallback(FilterModel filterModel);
 
     abstract int getFilterType();
 
-public interface FilterType {
-    int ALL = 0;
-    int IN_PERSON = 1;
-    int REMOTELY = 2;
-}
+    public interface FilterType {
+        int ALL = 0;
+        int IN_PERSON = 1;
+        int REMOTELY = 2;
+    }
 }

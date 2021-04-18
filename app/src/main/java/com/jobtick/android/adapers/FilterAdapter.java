@@ -71,12 +71,9 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             else
                 view.txtData.setText(string);
             if (position == items.size()) {
-                view.button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (mOnFilterDeleteListener != null) {
-                            mOnFilterDeleteListener.onFilterDeleteButtonClick();
-                        }
+                view.button.setOnClickListener(view1 -> {
+                    if (mOnFilterDeleteListener != null) {
+                        mOnFilterDeleteListener.onFilterDeleteButtonClick();
                     }
                 });
             }

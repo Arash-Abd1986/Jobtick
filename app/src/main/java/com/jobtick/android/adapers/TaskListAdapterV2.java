@@ -2,8 +2,6 @@ package com.jobtick.android.adapers;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +9,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.jobtick.android.R;
 import com.jobtick.android.models.TaskModel;
+import com.jobtick.android.models.response.myjobs.Data;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.ImageUtil;
 import com.jobtick.android.utils.TimeHelper;
@@ -30,7 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class TaskListAdapterV2 extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int VIEW_TYPE_LOADING = 0;
     private static final int VIEW_TYPE_NORMAL = 1;
     private Context context;
@@ -40,13 +37,13 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private Integer userId;
 
     public interface OnItemClickListener {
-        void onItemClick(View view, TaskModel obj, int position, String action);
+        void onItemClick(View view, Data obj, int position, String action);
 
     }
 
     public interface OnDraftDeleteListener {
 
-        void onDraftDeleteButtonClick(View view, TaskModel taskModel, int position);
+        void onDraftDeleteButtonClick(View view, Data taskModel, int position);
     }
 
     public OnDraftDeleteListener getOnDraftDeleteListener() {
@@ -62,9 +59,9 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     private boolean isLoaderVisible = false;
-    private final List<TaskModel> mItems;
+    private final List<Data> mItems;
 
-    public TaskListAdapter(List<TaskModel> mItems, @Nullable Integer userId) {
+    public TaskListAdapterV2(List<Data> mItems, @Nullable Integer userId) {
         this.mItems = mItems;
         this.userId = userId;
     }
@@ -100,7 +97,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return mItems == null ? 0 : mItems.size();
     }
 
-    public void addItems(List<TaskModel> mItems, int allItems) {
+    public void addItems(List<Data> mItems, int allItems) {
         removeLoading();
         this.mItems.addAll(mItems);
         notifyDataSetChanged();
@@ -113,7 +110,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         if (isLoaderVisible) return;
         isLoaderVisible = true;
         int position = mItems.size() - 1;
-        this.mItems.add(new TaskModel());
+        this.mItems.add(new Data(null,null,null,null, null, null, null, null, null, null, null, null, null,null,null));
         notifyItemInserted(position);
     }
 
@@ -123,7 +120,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         int position = mItems.size() - 1;
         if (position == -1)
             return;
-        TaskModel item = getItem(position);
+        Data item = getItem(position);
         if (item != null) {
             mItems.remove(position);
             notifyItemRemoved(position);
@@ -135,7 +132,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         notifyDataSetChanged();
     }
 
-    TaskModel getItem(int position) {
+    Data getItem(int position) {
         return mItems.get(position);
     }
 
@@ -191,45 +188,94 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("SetTextI18n")
         public void onBind(int position) {
             super.onBind(position);
-            TaskModel item = mItems.get(position);
-            if (item.getPoster() != null && item.getPoster().getAvatar() != null && item.getPoster().getAvatar().getModalUrl() != null) {
-//                ImageUtil.displayImage(imgAvatar, item.getPoster().getAvatar().getThumbUrl(), null);
-//                Glide.with(imgAvatar).load(item.getPoster().getAvatar().getThumbUrl()).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(imgAvatar);
-                ImageUtil.displayImage(imgAvatar3, item.getPoster().getAvatar().getThumbUrl(), null);
-                ImageUtil.displayImage(imgAvatar2, item.getPoster().getAvatar().getThumbUrl(), null);
-                ImageUtil.displayImage(imgAvatar1, item.getPoster().getAvatar().getThumbUrl(), null);
-            } else {
-                imgAvatar3.setImageResource(R.drawable.pic);
+            Data item = mItems.get(position);
+            if (item.getOffered_users() != null)
+                if (item.getOffered_users().size() > 0) {
+                    if (item.getOffered_users().size() >= 3) {
+                        imgAvatar3.setVisibility(View.VISIBLE);
+                        imgAvatar2.setVisibility(View.VISIBLE);
+                        imgAvatar1.setVisibility(View.VISIBLE);
+
+                        if (item.getOffered_users().get(2).getAvatar() != null)
+                            ImageUtil.displayImage(imgAvatar3, item.getOffered_users().get(2).getAvatar(), null);
+                        else
+                            imgAvatar3.setImageResource(R.drawable.pic);
+                        if (item.getOffered_users().get(1).getAvatar() != null)
+                            ImageUtil.displayImage(imgAvatar2, item.getOffered_users().get(1).getAvatar(), null);
+                        else
+                            imgAvatar2.setImageResource(R.drawable.pic);
+
+                        if (item.getOffered_users().get(0).getAvatar() != null)
+                            ImageUtil.displayImage(imgAvatar1, item.getOffered_users().get(0).getAvatar(), null);
+                        else
+                            imgAvatar1.setImageResource(R.drawable.pic);
+
+                    } else if (item.getOffered_users().size() == 2) {
+                        imgAvatar1.setVisibility(View.GONE);
+                        imgAvatar2.setVisibility(View.VISIBLE);
+                        imgAvatar3.setVisibility(View.VISIBLE);
+
+                        if (item.getOffered_users().get(1).getAvatar() != null)
+                            ImageUtil.displayImage(imgAvatar2, item.getOffered_users().get(1).getAvatar(), null);
+                        else
+                            imgAvatar2.setImageResource(R.drawable.pic);
+
+                        if (item.getOffered_users().get(0).getAvatar() != null)
+                            ImageUtil.displayImage(imgAvatar3, item.getOffered_users().get(0).getAvatar(), null);
+                        else
+                            imgAvatar3.setImageResource(R.drawable.pic);
+                    } else if (item.getOffered_users().size() == 1) {
+                        imgAvatar1.setVisibility(View.GONE);
+                        imgAvatar2.setVisibility(View.GONE);
+                        imgAvatar3.setVisibility(View.VISIBLE);
+                        if (item.getOffered_users().get(0).getAvatar() != null)
+                            ImageUtil.displayImage(imgAvatar3, item.getOffered_users().get(0).getAvatar(), null);
+                        else
+                            imgAvatar3.setImageResource(R.drawable.pic);
+                    }
+                } else {
+                    imgAvatar3.setVisibility(View.GONE);
+                    imgAvatar2.setVisibility(View.GONE);
+                    imgAvatar1.setVisibility(View.GONE);
+                    //imgAvatar3.setImageResource(R.drawable.pic);
+                }
+            else {
+                imgAvatar3.setVisibility(View.GONE);
+                imgAvatar2.setVisibility(View.GONE);
+                imgAvatar1.setVisibility(View.GONE);
+                //imgAvatar3.setImageResource(R.drawable.pic);
             }
 
-            txtTitle.setText(item.getTitle());
-            txtDueDate.setText(TimeHelper.convertToWeekDateFormat(item.getDueDate()));
 
-            if (item.getLocation() != null && item.getTaskType() != null && item.getTaskType().equals("physical")) {
+            txtTitle.setText(item.getTitle());
+            txtDueDate.setText(TimeHelper.convertToWeekDateFormat(item.getDue_date()));
+
+            if (item.getLocation() != null && item.getStatus() != null && item.getStatus().equals("physical")) {
                 txtLocation.setText(item.getLocation());
-            } else if (item.getTaskType() != null && item.getTaskType().equals("remote")) {
+            } else if (item.getStatus() != null && item.getStatus().equals("remote")) {
                 txtLocation.setText("Remote job");
             } else {
                 txtLocation.setText("No location set");
             }
-            if (item.getStatus() != null && item.getStatus().equalsIgnoreCase(Constant.TASK_DRAFT)) {
-                // txtStatus.setVisibility(View.GONE);
+            if (item.getBudget() != null) {
                 txtBudget.setText("$" + item.getBudget());
-            } else {
-                //  txtStatus.setVisibility(View.VISIBLE);
-                if (item.getStatus() != null && item.getStatus().equalsIgnoreCase(Constant.TASK_OPEN)) {
-                    txtBudget.setText("$" + item.getBudget());
-                } else {
-                    txtBudget.setText("$" + item.getAmount());
-                }
-            }
+            } else
+                txtBudget.setText("$");
 
-            if (item.getOfferCount() == null)
+            if (item.getOffered_users() == null)
                 txtOfferCount.setVisibility(View.GONE);
             else {
-                if (item.getOfferCount() >= 1) {
+                int count = item.getOffered_users().size();
+                if (count >= 1) {
                     txtOfferCount.setVisibility(View.VISIBLE);
-                    txtOfferCount.setText(item.getOfferCount().toString());
+                    txtOfferCount.setText(count + "");
+                    if (count > 1000) {
+                        txtOfferCount.setText("+" + count / 1000 + "K");
+                    } else if (count > 100) {
+                        txtOfferCount.setText("+" + (count / 100) * 100);
+                    } else if (count > 10) {
+                        txtOfferCount.setText("+" + (count / 10) * 10);
+                    }
                 } else {
                     txtOfferCount.setVisibility(View.GONE);
                 }
@@ -252,14 +298,14 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
 
 
-        private void setColors(TaskModel item) {
+        private void setColors(Data item) {
             switch (item.getStatus()) {
                 case "draft":
                     txtStatus.setVisibility(View.VISIBLE);
                     txtStatusDraft.setVisibility(View.GONE);
                     tvDelete.setVisibility(View.GONE);
                     cardTaskBackground.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_rounded_draft));
-                    txtStatus.setTextColor(ContextCompat.getColor(context, R.color.N080));
+                    txtStatus.setTextColor(ContextCompat.getColor(context, R.color.P100));
                     break;
                 case "open":
                 case "posted":
@@ -279,12 +325,18 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskAssignedTrans));
                     break;
                 case "completed":
+                    txtStatus.setVisibility(View.VISIBLE);
+                    txtStatusDraft.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.GONE);
+                    cardTaskBackground.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_rounded_completed));
+                    txtStatus.setTextColor(ContextCompat.getColor(context, R.color.G400));
+                    break;
                 case "closed":
                     txtStatus.setVisibility(View.VISIBLE);
                     txtStatusDraft.setVisibility(View.GONE);
                     tvDelete.setVisibility(View.GONE);
                     cardTaskBackground.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_rounded_closed));
-                    txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskCompletedTrans));
+                    txtStatus.setTextColor(ContextCompat.getColor(context, R.color.N080));
                     break;
                 case "cancelled":
                     txtStatus.setVisibility(View.VISIBLE);
@@ -296,19 +348,24 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }
         }
 
-        private void setStatusText(TaskModel item) {
-            if (userId != null && item.getPoster() != null && item.getPoster().getId() != null &&
-                    item.getPoster().getId().equals(userId) && item.getStatus().equals("open")) {
-                txtStatus.setText("Posted");
-            } else if (userId != null && item.getStatus() != null && item.getStatus().equals("open")) {
+        private void setStatusText(Data item) {
+//            if (userId != null && item.getPoster() != null && item.getPoster().getId() != null &&
+//                    item.getPoster().getId().equals(userId) && item.getStatus().equals("open")) {
+//                txtStatus.setText("Posted");
+//            } else
+            if (userId != null && item.getStatus() != null && item.getStatus().equals("open")) {
+                txtStatus.setText("Open");
+            } else if (item.getStatus().equalsIgnoreCase("Offered")) {
                 txtStatus.setText("Offered");
-            } else if (item.getStatus().equals("assigned") || item.getStatus().equals("overdue")) {
+            } else if (item.getStatus().equalsIgnoreCase("assigned")) {
                 txtStatus.setText("Assigned");
-            } else if (item.getStatus().equals("completed")) {
+            } else if (item.getStatus().equalsIgnoreCase("overdue")) {
+                txtStatus.setText("Overdue");
+            } else if (item.getStatus().equalsIgnoreCase("completed")) {
                 txtStatus.setText("Completed");
-            } else if (item.getStatus().equals("closed")) {
+            } else if (item.getStatus().equalsIgnoreCase("closed")) {
                 txtStatus.setText("Closed");
-            } else if (item.getStatus().equals("cancelled")) {
+            } else if (item.getStatus().equalsIgnoreCase("cancelled")) {
                 txtStatus.setText("Cancelled");
             } else if (item.getStatus().equals("draft")) {
                 txtStatus.setText("Drafted");

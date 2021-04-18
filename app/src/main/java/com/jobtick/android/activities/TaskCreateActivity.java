@@ -31,6 +31,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import com.jobtick.android.adapers.SectionsPagerAdapter;
+import com.jobtick.android.fragments.ConfirmDeleteTaskBottomSheet;
 import com.jobtick.android.fragments.TaskBudgetFragment;
 import com.jobtick.android.fragments.TaskDateTimeFragment;
 import com.jobtick.android.fragments.TaskDetailFragment;
@@ -38,6 +39,7 @@ import com.jobtick.android.models.AttachmentModel;
 import com.jobtick.android.models.DueTimeModel;
 import com.jobtick.android.models.PositionModel;
 import com.jobtick.android.models.TaskModel;
+import com.jobtick.android.models.response.myjobs.Data;
 import com.jobtick.android.models.task.AttachmentModels;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.ConstantKey;
@@ -59,7 +61,7 @@ import timber.log.Timber;
 
 
 public class TaskCreateActivity extends ActivityBase implements TaskDetailFragment.OperationsListener,
-        TaskDateTimeFragment.OperationsListener, TaskBudgetFragment.OperationsListener {
+        TaskDateTimeFragment.OperationsListener, TaskBudgetFragment.OperationsListener,ConfirmDeleteTaskBottomSheet.NoticeListener {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.creating_task_layout)
@@ -86,6 +88,9 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     @BindView(R.id.img_details)
     ImageView imgDetails;
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.iv_delete)
+    ImageView ivDelete;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_details)
     TextView txtDetails;
     @SuppressLint("NonConstantResourceId")
@@ -111,6 +116,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     private boolean isJobDraftedYet = false;
     private boolean isBudgetComplete = false;
     private boolean isDateTimeComplete = false;
+    private String slug = "";
     private SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
     public boolean isDateTimeComplete() {
@@ -170,8 +176,10 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
             taskModel = TaskDetailsActivity.taskModel;
             isEditTask = true;
         }
-        if (bundle != null && bundle.getBoolean(ConstantKey.DRAFT_JOB, false))
+        if (bundle != null && bundle.getBoolean(ConstantKey.DRAFT_JOB, false)) {
+            slug = bundle.getString(ConstantKey.SLUG);
             isJobDraftedYet = true;
+        }
         initToolbar(title);
         initComponent();
     }
@@ -208,8 +216,19 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
     }
 
     private void initToolbar(String title) {
-        toolbar.setNavigationIcon(R.drawable.ic_cancel);
-        setSupportActionBar(toolbar);
+        if (isJobDraftedYet) {
+            toolbar.setNavigationIcon(R.drawable.ic_back_black);
+            ivDelete.setVisibility(View.VISIBLE);
+            title = ("Edit draft");
+        }
+        else
+            toolbar.setNavigationIcon(R.drawable.ic_cancel);
+            ivDelete.setOnClickListener(v -> {
+                ConfirmDeleteTaskBottomSheet confirmBottomSheet = new ConfirmDeleteTaskBottomSheet(this);
+                confirmBottomSheet.setListener(this);
+                confirmBottomSheet.show(this.getSupportFragmentManager(), "");
+            });
+            setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(title);
@@ -692,6 +711,85 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         }
     }
 
+    @Override
+    public void onDeleteConfirmClick() {
+        deleteTask(slug);
+    }
+
+
+    protected void deleteTask(String slug) {
+        showProgressDialog();
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, Constant.URL_TASKS + "/" + slug,
+                response -> {
+                    Timber.e(response);
+                    hideProgressDialog();
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+
+                            if (jsonObject.getBoolean("success")) {
+                                showToast("Job has been deleted successfully", this);
+                                onBackPressed();
+                            } else {
+                                showToast("Something went Wrong", this);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.e(jsonError);
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser();
+                            return;
+                        }
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+
+                            if (jsonObject_error.has("message")) {
+                                showToast(jsonObject_error.getString("message"),this);
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                            }
+                            //  ((CredentialActivity)requireActivity()).showToast(message,requireActivity());
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showToast("Something Went Wrong", this);
+                    }
+                    Timber.e(error.toString());
+                }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<String, String>();
+
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
+                return map1;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
     public interface ActionDraftTaskDetails {
         void callDraftTaskDetails(TaskModel taskModel);
     }

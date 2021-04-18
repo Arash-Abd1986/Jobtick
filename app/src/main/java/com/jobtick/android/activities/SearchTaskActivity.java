@@ -33,6 +33,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
+import com.google.gson.Gson;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
@@ -40,9 +41,12 @@ import android.widget.Toast;
 
 import com.jobtick.android.adapers.PreviewTaskAdapter;
 import com.jobtick.android.adapers.TaskListAdapter;
+import com.jobtick.android.adapers.TaskListAdapterV2;
 import com.jobtick.android.models.PreviewTaskModel;
 import com.jobtick.android.models.PreviewTaskSetModel;
 import com.jobtick.android.models.TaskModel;
+import com.jobtick.android.models.response.myjobs.Data;
+import com.jobtick.android.models.response.myjobs.MyJobsResponse;
 import com.jobtick.android.pagination.PaginationListener;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.ConstantKey;
@@ -65,7 +69,7 @@ import timber.log.Timber;
 import static com.jobtick.android.pagination.PaginationListener.PAGE_START;
 
 public class SearchTaskActivity extends ActivityBase implements TextView.OnEditorActionListener,
-        TaskListAdapter.OnItemClickListener, PreviewTaskAdapter.OnItemClickListener<PreviewTaskModel> {
+        TaskListAdapterV2.OnItemClickListener, PreviewTaskAdapter.OnItemClickListener<PreviewTaskModel> {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_search_new)
@@ -89,7 +93,7 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
     EditText edtSearch;
 
     private SessionManager sessionManager;
-    private TaskListAdapter adapter;
+    private TaskListAdapterV2 adapter;
     private PreviewTaskSetModel previewTaskSetModel;
     private PreviewTaskAdapter previewTaskAdapter;
 
@@ -160,11 +164,10 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
 
         queryParameter = edtSearch.getText().toString();
 
-        ArrayList<TaskModel> items = new ArrayList<>();
         Helper.closeKeyboard(this);
-        String url = Constant.URL_TASKS + "?search_query=" +  queryParameter + "&page=" + currentPage;
+        String url = Constant.URL_TASKS_v2 + "?search_query=" +  queryParameter + "&page=" + currentPage;
         if(isFromMyJobs)
-            url = Constant.URL_TASKS + ConstantKey.ALL_MY_JOBS_URL_FILTER + "&search_query=" +  queryParameter + "&page=" + currentPage;
+            url = Constant.URL_TASKS_v2 + "&search_query=" +  queryParameter + "&page=" + currentPage;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
@@ -172,32 +175,25 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
-                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                            JSONArray jsonArray_data = jsonObject.getJSONArray("data");
-                            for (int i = 0; jsonArray_data.length() > i; i++) {
-                                JSONObject jsonObject_taskModel_list = jsonArray_data.getJSONObject(i);
-                                TaskModel taskModel = new TaskModel().getJsonToModel(jsonObject_taskModel_list, this);
-                                items.add(taskModel);
-                            }
-                        } else {
-                            showToast("some went to wrong", this);
+                        Gson gson = new Gson();
+                        MyJobsResponse myJobsResponse = gson.fromJson(jsonObject.toString(), MyJobsResponse.class);
+
+                        if (myJobsResponse.getData() == null) {
+                            this.showToast("some went to wrong", this);
                             return;
                         }
-                        if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
-                            JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
-                            totalPage = jsonObject_meta.getInt("last_page");
-                            totalItem = jsonObject_meta.getInt("total");
-                            Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
-                        }
+                        totalItem = myJobsResponse.getTotal();
+                        Constant.PAGE_SIZE = myJobsResponse.getPer_page();
+                        totalPage = myJobsResponse.getTotal();
 
-                        if (items.size() <= 0) {
+                        if (myJobsResponse.getData().size()  <= 0) {
                             emptySearch.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.GONE);
                         } else {
                             recyclerView.setVisibility(View.VISIBLE);
                             emptySearch.setVisibility(View.GONE);
                         }
-                        adapter.addItems(items, totalItem);
+                        adapter.addItems(myJobsResponse.getData(), totalItem);
 
                     } catch (JSONException e) {
                         hideProgressDialog();
@@ -239,7 +235,7 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
     }
 
     private void setOnlineAdapter(){
-        adapter = new TaskListAdapter(new ArrayList<>(), null);
+        adapter = new TaskListAdapterV2(new ArrayList<>(), null);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
     }
@@ -280,8 +276,9 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
     }
 
     @Override
-    public void onItemClick(View view, TaskModel obj, int position, String action) {
-        onItemClick(view, obj.getPreviewTaskModel(), position);
+    public void onItemClick(View view, Data obj, int position, String action) {
+        PreviewTaskModel previewTaskModel = new PreviewTaskModel(obj.getId(),obj.getTitle(),sessionManager.getUserAccount().getId(),obj.getSlug());
+        onItemClick(view, previewTaskModel, position);
     }
 
     @Override
@@ -304,17 +301,14 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
 
     private void searchWithVoice() {
         btnVoice.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (ContextCompat.checkSelfPermission(SearchTaskActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(SearchTaskActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_RECORD_AUDIO);
-                        }
-                        else {
-                            speechToText();
-                        }
-
+                view -> {
+                    if (ContextCompat.checkSelfPermission(SearchTaskActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(SearchTaskActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_RECORD_AUDIO);
                     }
+                    else {
+                        speechToText();
+                    }
+
                 });
     }
 

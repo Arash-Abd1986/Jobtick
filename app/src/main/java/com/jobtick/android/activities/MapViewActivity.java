@@ -29,14 +29,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.gson.Gson;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
 import timber.log.Timber;
 import com.jobtick.android.adapers.FilterAdapter;
 import com.jobtick.android.adapers.TaskListAdapter;
+import com.jobtick.android.adapers.TaskListAdapterV2;
 import com.jobtick.android.models.FilterModel;
 import com.jobtick.android.models.TaskModel;
+import com.jobtick.android.models.response.myjobs.Data;
+import com.jobtick.android.models.response.myjobs.MyJobsResponse;
 import com.jobtick.android.pagination.PaginationListener;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.ConstantKey;
@@ -59,7 +63,7 @@ import butterknife.OnClick;
 import static com.jobtick.android.pagination.PaginationListener.PAGE_START;
 
 
-public class MapViewActivity extends ActivityBase implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, TaskListAdapter.OnItemClickListener {
+public class MapViewActivity extends ActivityBase implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, TaskListAdapterV2.OnItemClickListener {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
@@ -90,7 +94,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
     private FilterAdapter filterAdapter;
     private SessionManager sessionManager;
 
-    private TaskListAdapter taskListAdapter;
+    private TaskListAdapterV2 taskListAdapter;
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
     private int totalPage = 10;
@@ -142,7 +146,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerViewTask.setLayoutManager(layoutManager);
-        taskListAdapter = new TaskListAdapter( new ArrayList<>(), null);
+        taskListAdapter = new TaskListAdapterV2( new ArrayList<>(), null);
         recyclerViewTask.setAdapter(taskListAdapter);
         taskListAdapter.setOnItemClickListener(this);
 
@@ -311,45 +315,41 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
                 queryParameter = queryParameter + "&hide_assigned=true";
             }
         }
-        ArrayList<TaskModel> items = new ArrayList<>();
         Helper.closeKeyboard(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS + "?task_type=physical&page=" + currentPage + queryParameter,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS_v2 + "?task_type=physical&page=" + currentPage + queryParameter,
                 response -> {
                     Timber.e(response);
                     // categoryArrayList.clear();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
-                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                            JSONArray jsonArray_data = jsonObject.getJSONArray("data");
-                            for (int i = 0; jsonArray_data.length() > i; i++) {
-                                JSONObject jsonObject_taskModel_list = jsonArray_data.getJSONObject(i);
-                                TaskModel taskModel = new TaskModel().getJsonToModel(jsonObject_taskModel_list, MapViewActivity.this);
-                                items.add(taskModel);
-                            }
-                        } else {
-                            showToast("some went to wrong", MapViewActivity.this);
+                        Gson gson = new Gson();
+                        MyJobsResponse myJobsResponse = gson.fromJson(jsonObject.toString(), MyJobsResponse.class);
+                        if (myJobsResponse.getData() == null) {
+                            this.showToast("some went to wrong", this);
                             return;
                         }
-                        for (int i = 0; items.size() > i; i++) {
-                            Double latitude = items.get(i).getPosition().getLatitude();
-                            Double longitude = items.get(i).getPosition().getLongitude();
+                        totalItem = myJobsResponse.getTotal();
+                        Constant.PAGE_SIZE = myJobsResponse.getPer_page();
+                        totalPage = myJobsResponse.getTotal();
 
-                            addMarker(latitude, longitude, items.get(i).getTitle(), i);
+                        for (int i = 0; myJobsResponse.getData().size() > i; i++) {
+                            try {
+                                Double latitude = Double.valueOf(myJobsResponse.getData().get(i).getLatitude());
+                                Double longitude = Double.valueOf(myJobsResponse.getData().get(i).getLongitude());
+
+                                addMarker(latitude, longitude, myJobsResponse.getData().get(i).getTitle(), i);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                         }
 
-                        if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
-                            JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
-                            totalPage = jsonObject_meta.getInt("last_page");
-                            totalItem = jsonObject_meta.getInt("total");
-                            Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
-                        }
                         findCurrentLocation();
 
                         addMarker(myLatitude, myLongitude, mySuburb, -1);
 
                         goToLocation(myLatitude, myLongitude);
-                        taskListAdapter.addItems(items, totalItem);
+                        taskListAdapter.addItems(myJobsResponse.getData(), totalItem);
 
 
                     } catch (JSONException e) {
@@ -378,7 +378,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
 
 
     @Override
-    public void onItemClick(View view, TaskModel obj, int position, String action) {
+    public void onItemClick(View view, Data obj, int position, String action) {
         Intent intent = new Intent(MapViewActivity.this, TaskDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString(ConstantKey.SLUG, obj.getSlug());

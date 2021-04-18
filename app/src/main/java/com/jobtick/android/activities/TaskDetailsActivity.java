@@ -1136,7 +1136,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                 JSONObject jsonObject_data = jsonObject.getJSONObject("data");
                                 taskModel = new TaskModel().getJsonToModel(jsonObject_data, TaskDetailsActivity.this);
-
+                                taskModel.setOfferSent(true);
+                                taskModel.getOffers().forEach(offerModel1 -> {
+                                            if (offerModel1.getId().equals(sessionManager.getUserAccount().getId()))
+                                                taskModel.setOfferSent(true);
+                                        }
+                                );
                                 setOwnerTask();
                                 initOfferList();
                                 initQuestionList();
@@ -1220,7 +1225,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                 JSONObject jsonObject_data = jsonObject.getJSONObject("data");
                                 taskModel = new TaskModel().getJsonToModel(jsonObject_data, TaskDetailsActivity.this);
-
+                                taskModel.setOfferSent(true);
+                                taskModel.getOffers().forEach(offerModel1 -> {
+                                            if (offerModel1.getId().equals(sessionManager.getUserAccount().getId()))
+                                                taskModel.setOfferSent(true);
+                                        }
+                                );
                                 setOwnerTask();
 //                                initOfferList();
                                 initStatusTask(taskModel.getStatus().toLowerCase());

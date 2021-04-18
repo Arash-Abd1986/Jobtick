@@ -1,26 +1,26 @@
 package com.jobtick.android.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,12 +32,11 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.gson.Gson;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import com.jobtick.android.activities.ActivityBase;
@@ -45,8 +44,11 @@ import com.jobtick.android.activities.DashboardActivity;
 import com.jobtick.android.activities.SearchTaskActivity;
 import com.jobtick.android.activities.TaskCreateActivity;
 import com.jobtick.android.activities.TaskDetailsActivity;
-import com.jobtick.android.adapers.TaskListAdapter;
+import com.jobtick.android.adapers.TaskListAdapterV2;
+import com.jobtick.android.models.CreditCardModel;
 import com.jobtick.android.models.TaskModel;
+import com.jobtick.android.models.response.myjobs.Data;
+import com.jobtick.android.models.response.myjobs.MyJobsResponse;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.ConstantKey;
 import com.jobtick.android.utils.Helper;
@@ -68,18 +70,14 @@ import timber.log.Timber;
 
 import static com.jobtick.android.utils.Constant.TASK_ASSIGNED_CASE_RELATED_JOB_VALUE;
 import static com.jobtick.android.utils.Constant.TASK_ASSIGNED_CASE_UPPER_FIRST;
-import static com.jobtick.android.utils.Constant.TASK_COMPLETED_CASE_UPPER_FIRST;
 import static com.jobtick.android.utils.Constant.TASK_DRAFT_CASE_ALL_JOB_KEY;
 import static com.jobtick.android.utils.Constant.TASK_DRAFT_CASE_ALL_JOB_VALUE;
-import static com.jobtick.android.utils.Constant.TASK_DRAFT_CASE_UPPER_FIRST;
-import static com.jobtick.android.utils.Constant.TASK_OFFERED_CASE_UPPER_FIRST;
-import static com.jobtick.android.utils.Constant.TASK_OPEN_CASE_UPPER_FIRST;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener,
-        TaskListAdapter.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListener {
+public class MyTasksFragment extends Fragment implements TaskListAdapterV2.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener,
+        TaskListAdapterV2.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListener {
 
 
     @SuppressLint("NonConstantResourceId")
@@ -94,12 +92,15 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     private EndlessRecyclerViewOnScrollListener onScrollListener;
 
 
-    private TaskListAdapter taskListAdapter;
+    private TaskListAdapterV2 taskListAdapter;
     private int currentPage = 1;
     private boolean isLastPage = false;
     private int totalItem = 10;
     ImageView ivNotification;
     TextView toolbar_title;
+    private TextView filterText;
+    private ImageView filterIcon;
+    private LinearLayout linFilter;
     private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
     @SuppressLint("NonConstantResourceId")
@@ -113,6 +114,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     private final String temp_str_search = null;
     private Toolbar toolbar;
     private LinearLayout noJobs;
+    PopupWindow mypopupWindow;
 
     public MyTasksFragment() {
         // Required empty public constructor
@@ -139,18 +141,189 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         if (dashboardActivity == null) return;
         toolbar = dashboardActivity.findViewById(R.id.toolbar);
         toolbar.getMenu().clear();
-        toolbar.inflateMenu(R.menu.menu_my_task_black);
+        //toolbar.inflateMenu(R.menu.menu_my_task_black);
         toolbar.setVisibility(View.VISIBLE);
         ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
         ivNotification.setVisibility(View.GONE);
         toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
+        linFilter = dashboardActivity.findViewById(R.id.lin_filter);
+        filterText = dashboardActivity.findViewById(R.id.filter_text);
+        filterIcon = dashboardActivity.findViewById(R.id.filter_icon);
+        linFilter.setOnClickListener(v -> {
+            filterText.setTextColor(ContextCompat.getColor(getActivity(), R.color.P300));
+            filterIcon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_sort_arrow_up));
+            mypopupWindow.showAsDropDown(toolbar.findViewById(R.id.lin_filter), 0, 0);
+        });
         toolbar_title.setVisibility(View.VISIBLE);
+        linFilter.setVisibility(View.VISIBLE);
         toolbar_title.setText(R.string.my_jobs);
 
         toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.roboto_semi_bold));
         androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.START;
         toolbar_title.setLayoutParams(params);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        linFilter.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        linFilter.setVisibility(View.VISIBLE);
+    }
+
+    private void setPopUpWindow() {
+        LayoutInflater inflater = (LayoutInflater)
+                getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.my_jobs_menu, null);
+
+        mypopupWindow = new PopupWindow(view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+        mypopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        TextView allJobs = (TextView) view.findViewById(R.id.all_jobs);
+        TextView assigned = (TextView) view.findViewById(R.id.assigned);
+        TextView posted = (TextView) view.findViewById(R.id.posted);
+        TextView offered = (TextView) view.findViewById(R.id.offered);
+        TextView draft = (TextView) view.findViewById(R.id.draft);
+        TextView completed = (TextView) view.findViewById(R.id.completed);
+        TextView overdue = (TextView) view.findViewById(R.id.overdue);
+        TextView closed = (TextView) view.findViewById(R.id.closed);
+        TextView cancelled = (TextView) view.findViewById(R.id.cancelled);
+        mypopupWindow.setOnDismissListener(() -> {
+            filterText.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
+            filterIcon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_sort_arrow_down));
+        });
+        allJobs.setOnClickListener(v -> {
+            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
+            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            refreshSort("All Jobs");
+            mypopupWindow.dismiss();
+            filterText.setText("All jobs");
+        });
+        assigned.setOnClickListener(v -> {
+            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
+            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            refreshSort("Assigned");
+            mypopupWindow.dismiss();
+            filterText.setText("Assigned");
+        });
+        posted.setOnClickListener(v -> {
+            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
+            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            refreshSort("Open");
+            mypopupWindow.dismiss();
+            filterText.setText("Posted");
+
+        });
+        offered.setOnClickListener(v -> {
+            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
+            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            refreshSort("Offered");
+            mypopupWindow.dismiss();
+            filterText.setText("Offered");
+        });
+        draft.setOnClickListener(v -> {
+            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
+            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            refreshSort("Draft");
+            mypopupWindow.dismiss();
+            filterText.setText("Draft");
+        });
+        completed.setOnClickListener(v -> {
+            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
+            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            refreshSort("Completed");
+            mypopupWindow.dismiss();
+            filterText.setText("Completed");
+        });
+        overdue.setOnClickListener(v -> {
+            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
+            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            refreshSort("Overdue");
+            mypopupWindow.dismiss();
+            filterText.setText("Overdue");
+        });
+        closed.setOnClickListener(v -> {
+            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
+            refreshSort("Closed");
+            mypopupWindow.dismiss();
+            filterText.setText("Closed");
+        });
+        cancelled.setOnClickListener(v -> {
+            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
+            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
+            refreshSort("Cancelled");
+            mypopupWindow.dismiss();
+            filterText.setText("Cancelled");
+        });
     }
 
     @Override
@@ -181,6 +354,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         };
 
         recyclerViewStatus.addOnScrollListener(onScrollListener);
+        setPopUpWindow();
 
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -191,11 +365,6 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
                     dashboardActivity.startActivity(intent);
 
                     break;
-                case R.id.action_filter:
-
-                    //showSingleChoiceDialog();
-                    showSortBottomSheet();
-                    break;
             }
             return false;
         });
@@ -203,98 +372,67 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     }
 
     private void getStatusList() {
-        int previousState = recyclerViewStatus.getScrollY();
-        if (single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_VALUE)) {
-            toolbar_title.setText(TASK_DRAFT_CASE_ALL_JOB_KEY);
-            toolbar.getMenu().clear();
-            toolbar.inflateMenu(R.menu.menu_my_task_black);
-
-        } else {
-            String title = single_choice_selected;
-            if (single_choice_selected.equals(TASK_ASSIGNED_CASE_RELATED_JOB_VALUE)) {
-                title = TASK_ASSIGNED_CASE_UPPER_FIRST;
-            }
-            toolbar.getMenu().clear();
-            toolbar.inflateMenu(R.menu.menu_my_task_blue);
-            if (title.equals(TASK_OPEN_CASE_UPPER_FIRST)) {
-                title = "Posted";
-            }
-            toolbar_title.setText(title);
-        }
         String query_parameter = "";
         if (str_search != null) {
             query_parameter += "&search_query=" + str_search;
         }
 
-        query_parameter += "&mytask=" + single_choice_selected.toLowerCase();
+        if (single_choice_selected.equalsIgnoreCase(TASK_DRAFT_CASE_ALL_JOB_VALUE))
+            query_parameter += "";
+        else
+            query_parameter += "&status=" + single_choice_selected.toLowerCase();
 
         if (currentPage == 1)
             swipeRefresh.setRefreshing(true);
 
-        ArrayList<TaskModel> items = new ArrayList<>();
         Helper.closeKeyboard(dashboardActivity);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS + "?page=" + currentPage + query_parameter,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Timber.e(response);
-                        // categoryArrayList.clear();
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            Timber.e(jsonObject.toString());
-                            if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                JSONArray jsonArray_data = jsonObject.getJSONArray("data");
-                                for (int i = 0; jsonArray_data.length() > i; i++) {
-                                    JSONObject jsonObject_taskModel_list = jsonArray_data.getJSONObject(i);
-                                    TaskModel taskModel = new TaskModel().getJsonToModel(jsonObject_taskModel_list, dashboardActivity);
-                                    items.add(taskModel);
-                                }
-                            } else {
-                                dashboardActivity.showToast("some went to wrong", dashboardActivity);
-                                return;
-                            }
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_MY_JOBS + "?page=" + currentPage + query_parameter,
+                response -> {
+                    Timber.e(response);
+                    // categoryArrayList.clear();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        Gson gson = new Gson();
+                        MyJobsResponse myJobsResponse = gson.fromJson(jsonObject.toString(), MyJobsResponse.class);
 
-                            if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
-                                JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
-                                totalItem = jsonObject_meta.getInt("total");
-                                Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
-                            }
-
-                            if (currentPage == 1) {
-                                resetTaskListAdapter();
-                            }
-                            taskListAdapter.addItems(items, totalItem);
-                            isLastPage = taskListAdapter.getItemCount() == totalItem;
-                            System.out.println("myTasksFrag: total: " + totalItem);
-                            System.out.println("myTasksFrag: items: " + items.size());
-
-                            if (items.size() <= 0) {
-                                noJobs.setVisibility(View.VISIBLE);
-                                recyclerViewStatus.setVisibility(View.GONE);
-                            } else {
-                                noJobs.setVisibility(View.GONE);
-                                recyclerViewStatus.setVisibility(View.VISIBLE);
-
-                            }
-
-                            swipeRefresh.setRefreshing(false);
-                            str_search = null;
-                        } catch (JSONException e) {
-                            str_search = null;
-                            dashboardActivity.hideProgressDialog();
-                            Timber.e(String.valueOf(e));
-                            e.printStackTrace();
+                        if (myJobsResponse.getData() == null) {
+                            dashboardActivity.showToast("some went to wrong", dashboardActivity);
+                            return;
                         }
+
+                        totalItem = myJobsResponse.getTotal();
+                        Constant.PAGE_SIZE = myJobsResponse.getPer_page();
+
+                        if (currentPage == 1) {
+                            resetTaskListAdapter();
+                        }
+                        taskListAdapter.addItems(myJobsResponse.getData(), totalItem);
+                        isLastPage = taskListAdapter.getItemCount() == totalItem;
+
+                        if (myJobsResponse.getData().size() <= 0) {
+                            noJobs.setVisibility(View.VISIBLE);
+                            recyclerViewStatus.setVisibility(View.GONE);
+                        } else {
+                            noJobs.setVisibility(View.GONE);
+                            recyclerViewStatus.setVisibility(View.VISIBLE);
+
+                        }
+
+                        swipeRefresh.setRefreshing(false);
+                        str_search = null;
+                    } catch (JSONException e) {
+                        str_search = null;
+                        dashboardActivity.hideProgressDialog();
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //  swipeRefresh.setRefreshing(false);
-                        str_search = null;
-                        swipeRefresh.setRefreshing(false);
-                        dashboardActivity.errorHandle1(error.networkResponse);
-                    }
+                error -> {
+                    //  swipeRefresh.setRefreshing(false);
+                    str_search = null;
+                    swipeRefresh.setRefreshing(false);
+                    dashboardActivity.errorHandle1(error.networkResponse);
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -315,7 +453,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     }
 
     private void resetTaskListAdapter() {
-        taskListAdapter = new TaskListAdapter(new ArrayList<>(), sessionManager.getUserAccount().getId());
+        taskListAdapter = new TaskListAdapterV2(new ArrayList<>(), sessionManager.getUserAccount().getId());
         taskListAdapter.setOnItemClickListener(this);
         taskListAdapter.setOnDraftDeleteListener(this);
         recyclerViewStatus.setAdapter(taskListAdapter);
@@ -323,7 +461,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
 
     @Override
-    public void onItemClick(View view, TaskModel obj, int position, String action) {
+    public void onItemClick(View view, Data obj, int position, String action) {
         if (obj.getStatus().toLowerCase().equalsIgnoreCase(Constant.TASK_DRAFT.toLowerCase())) {
             getDataFromServer(obj.getSlug());
         } else {
@@ -340,35 +478,31 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
     private void getDataFromServer(String slug) {
         dashboardActivity.showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS + "/" + slug,
-                new Response.Listener<String>() {
+                response -> {
+                    Timber.e(response);
+                    dashboardActivity.hideProgressDialog();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
 
-                    @Override
-                    public void onResponse(String response) {
-                        Timber.e(response);
-                        dashboardActivity.hideProgressDialog();
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            Timber.e(jsonObject.toString());
-                            if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                                if (jsonObject.getBoolean("success")) {
-
-                                    if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                        JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                                        TaskModel taskModel = new TaskModel().getJsonToModel(jsonObject_data, dashboardActivity);
-                                        EditTask(taskModel);
-                                    }
-
-                                } else {
-                                    dashboardActivity.showToast("Something went wrong", dashboardActivity);
+                                if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                                    JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+                                    TaskModel taskModel = new TaskModel().getJsonToModel(jsonObject_data, dashboardActivity);
+                                    EditTask(taskModel);
                                 }
+
                             } else {
                                 dashboardActivity.showToast("Something went wrong", dashboardActivity);
                             }
-                        } catch (JSONException e) {
-                            dashboardActivity.showToast("JSONException", dashboardActivity);
-                            Timber.e(String.valueOf(e));
-                            e.printStackTrace();
+                        } else {
+                            dashboardActivity.showToast("Something went wrong", dashboardActivity);
                         }
+                    } catch (JSONException e) {
+                        dashboardActivity.showToast("JSONException", dashboardActivity);
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
                     }
                 },
                 error -> {
@@ -378,7 +512,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<String, String>();
 
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
@@ -403,225 +537,19 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         Bundle bundle = new Bundle();
         bundle.putParcelable(ConstantKey.TASK, taskModel);
         bundle.putString(ConstantKey.TITLE, ConstantKey.CREATE_TASK);
+        bundle.putString(ConstantKey.SLUG, taskModel.getSlug());
         bundle.putBoolean(ConstantKey.DRAFT_JOB, true);
         update_task.putExtras(bundle);
         startActivityForResult(update_task, ConstantKey.RESULTCODE_UPDATE_TASK);
     }
 
 
-    private void showSortBottomSheet() {
-        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        }
-
-        final View view = getLayoutInflater().inflate(R.layout.custom_task_filter, null);
-
-        //  new KeyboardUtil(requireActivity(), view);
-
-        mBottomSheetDialog = new BottomSheetDialog(dashboardActivity);
-        mBottomSheetDialog.setContentView(view);
-        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        mBottomSheetDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
-
-        AppCompatRadioButton rbAll = view.findViewById(R.id.radioAll);
-        AppCompatRadioButton radioDraft = view.findViewById(R.id.radioDraft);
-        AppCompatRadioButton radioPosted = view.findViewById(R.id.radioPosted);
-        AppCompatRadioButton radioAssigned = view.findViewById(R.id.radioAssigned);
-        AppCompatRadioButton radioCompleted = view.findViewById(R.id.radioCompleted);
-        AppCompatRadioButton radioOffer = view.findViewById(R.id.radioOffer);
-
-
-        RelativeLayout relativeCompleted = view.findViewById(R.id.relativeCompleted);
-        RelativeLayout relativeAllJobs = view.findViewById(R.id.relativeAllJobs);
-        RelativeLayout relativeDraft = view.findViewById(R.id.relativeDraft);
-        RelativeLayout relativePosted = view.findViewById(R.id.relativePosted);
-        RelativeLayout relativeAssigned = view.findViewById(R.id.relativeAssigned);
-        RelativeLayout relativeOffer = view.findViewById(R.id.relativeOffer);
-
-        relativeDraft.setOnClickListener(v -> {
-            radioDraft.performClick();
-        });
-
-        relativePosted.setOnClickListener(v -> {
-            radioPosted.performClick();
-
-        });
-
-        relativeAssigned.setOnClickListener(v -> {
-            radioAssigned.performClick();
-        });
-
-        relativeOffer.setOnClickListener(v -> {
-            radioOffer.performClick();
-        });
-
-
-        relativeAllJobs.setOnClickListener(v -> {
-            rbAll.performClick();
-        });
-
-        relativeCompleted.setOnClickListener(v -> {
-            radioCompleted.performClick();
-        });
-
-        switch (single_choice_selected) {
-            case TASK_DRAFT_CASE_ALL_JOB_VALUE:
-                rbAll.setChecked(true);
-                break;
-            case TASK_ASSIGNED_CASE_RELATED_JOB_VALUE:
-                radioAssigned.setChecked(true);
-                break;
-            case TASK_OPEN_CASE_UPPER_FIRST:
-                radioPosted.setChecked(true);
-                break;
-            case TASK_OFFERED_CASE_UPPER_FIRST:
-                radioOffer.setChecked(true);
-                break;
-            case TASK_DRAFT_CASE_UPPER_FIRST:
-                radioDraft.setChecked(true);
-                break;
-            case TASK_COMPLETED_CASE_UPPER_FIRST:
-                radioCompleted.setChecked(true);
-                break;
-        }
-
-
-        radioDraft.setOnClickListener(v -> {
-            radioDraft.setChecked(true);
-            rbAll.setChecked(false);
-            radioAssigned.setChecked(false);
-            radioPosted.setChecked(false);
-            radioAssigned.setChecked(false);
-            radioCompleted.setChecked(false);
-            radioOffer.setChecked(false);
-
-            refreshSort(radioDraft.getTag().toString());
-
-            mBottomSheetDialog.dismiss();
-
-        });
-
-        rbAll.setOnClickListener(v -> {
-            radioDraft.setChecked(false);
-            rbAll.setChecked(true);
-            radioAssigned.setChecked(false);
-            radioPosted.setChecked(false);
-            radioCompleted.setChecked(false);
-            radioOffer.setChecked(false);
-            refreshSort(rbAll.getTag().toString());
-            mBottomSheetDialog.dismiss();
-
-        });
-
-
-        radioAssigned.setOnClickListener(v -> {
-            radioAssigned.setChecked(true);
-            radioDraft.setChecked(false);
-            rbAll.setChecked(false);
-            radioPosted.setChecked(false);
-            radioCompleted.setChecked(false);
-            radioOffer.setChecked(false);
-            refreshSort(radioAssigned.getTag().toString());
-            mBottomSheetDialog.dismiss();
-
-        });
-
-
-        radioPosted.setOnClickListener(v -> {
-            radioDraft.setChecked(false);
-            rbAll.setChecked(false);
-            radioAssigned.setChecked(false);
-            radioPosted.setChecked(true);
-            radioCompleted.setChecked(false);
-            radioOffer.setChecked(false);
-            refreshSort(radioPosted.getTag().toString());
-
-            mBottomSheetDialog.dismiss();
-
-        });
-
-
-        radioCompleted.setOnClickListener(v ->
-        {
-
-            radioDraft.setChecked(false);
-            rbAll.setChecked(false);
-            radioAssigned.setChecked(false);
-            radioPosted.setChecked(false);
-            radioCompleted.setChecked(true);
-            radioOffer.setChecked(false);
-            refreshSort(radioCompleted.getTag().toString());
-
-            mBottomSheetDialog.dismiss();
-
-        });
-
-        radioOffer.setOnClickListener(v -> {
-
-            radioDraft.setChecked(false);
-            rbAll.setChecked(false);
-            radioAssigned.setChecked(false);
-            radioPosted.setChecked(false);
-            radioCompleted.setChecked(false);
-            radioOffer.setChecked(true);
-            refreshSort(radioOffer.getTag().toString());
-            mBottomSheetDialog.dismiss();
-
-
-        });
-
-
-        // set background transparent
-        ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
-        RadioGroup radioFilter = view.findViewById(R.id.radioFilter);
-
-
-        radioFilter.setOnCheckedChangeListener((group, checkedId) -> {
-            RadioButton rb = (RadioButton) view.findViewById(checkedId);
-            temp_single_choice_selected = rb.getText().toString();
-            if (temp_single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
-                temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
-            }
-            if (temp_single_choice_selected.equals(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
-                temp_single_choice_selected = TASK_ASSIGNED_CASE_RELATED_JOB_VALUE;
-            }
-
-            single_choice_selected = temp_single_choice_selected;
-            temp_single_choice_selected = null;
-            onScrollListener.reset();
-            totalItem = 0;
-            currentPage = 1;
-            taskListAdapter.clear();
-            getStatusList();
-
-
-        });
-
-
-        mBottomSheetDialog.show();
-        mBottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                mBottomSheetDialog = null;
-            }
-        });
-
-       /* AddTagSheetFragment addPhotoBottomDialogFragment =
-                AddTagSheetFragment.newInstance();
-        addPhotoBottomDialogFragment.show(taskCreateActivity.getSupportFragmentManager(),
-                "add_photo_dialog_fragment");
-*/
-
-    }
-
     public void refreshSort(String rbText) {
-        temp_single_choice_selected = rbText;
-        if (temp_single_choice_selected.equals(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
+        temp_single_choice_selected = rbText.toLowerCase();
+        if (temp_single_choice_selected.equalsIgnoreCase(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
             temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
         }
-        if (temp_single_choice_selected.equals(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
+        if (temp_single_choice_selected.equalsIgnoreCase(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
             temp_single_choice_selected = TASK_ASSIGNED_CASE_RELATED_JOB_VALUE;
         }
 
@@ -665,7 +593,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         }
     }
 
-    protected void deleteTask(TaskModel taskModel) {
+    protected void deleteTask(Data taskModel) {
         swipeRefresh.setRefreshing(true);
         StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, Constant.URL_TASKS + "/" + taskModel.getSlug(),
                 response -> {
@@ -721,7 +649,7 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
 
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<String, String>();
 
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
@@ -738,11 +666,12 @@ public class MyTasksFragment extends Fragment implements TaskListAdapter.OnItemC
         requestQueue.add(stringRequest);
     }
 
-    private TaskModel taskModel;
+    private Data taskModel;
 
     private int position = 0;
+
     @Override
-    public void onDraftDeleteButtonClick(View view, TaskModel taskModel, int position) {
+    public void onDraftDeleteButtonClick(View view, Data taskModel, int position) {
         this.taskModel = taskModel;
         this.position = position;
         ConfirmDeleteTaskBottomSheet confirmBottomSheet = new ConfirmDeleteTaskBottomSheet(requireContext());

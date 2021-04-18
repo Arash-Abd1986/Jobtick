@@ -51,12 +51,9 @@ public class PreviewTaskAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             super.onBind(position);
             txtName.setText(items.get(position).getTitle());
 
-            lytOuter.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(v, items.get(position), position);
-                    }
+            lytOuter.setOnClickListener(v -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(v, items.get(position), position);
                 }
             });
         }

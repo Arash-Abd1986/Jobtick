@@ -265,13 +265,10 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
     }
 
     private void showKeyboard(EditText editText) {
-        editText.post(new Runnable() {
-            @Override
-            public void run() {
-                InputMethodManager imm = (InputMethodManager) getBaseContext()
-                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(editText, 0);
-            }
+        editText.post(() -> {
+            InputMethodManager imm = (InputMethodManager) getBaseContext()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(editText, 0);
         });
     }
 

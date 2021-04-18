@@ -91,6 +91,10 @@ public class Tools {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM d", Locale.getDefault());
         return dateFormat.format(timeInMillis);
     }
+    public static String formatJobDetailsDateV2(long timeInMillis) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dMMMM yyyy", Locale.getDefault());
+        return dateFormat.format(timeInMillis);
+    }
     public static boolean hasSameDate(long millisFirst, long millisSecond) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
         return dateFormat.format(millisFirst).equals(dateFormat.format(millisSecond));
@@ -104,6 +108,13 @@ public class Tools {
     public static long chatDateToMillis(String dateString) throws ParseException {
         dateString =dateString.replace("T"," ");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss+00:00", Locale.getDefault());
+        Date date = sdf.parse(dateString);
+        return date.getTime();
+    }
+    public static long chatDateToMillisZ(String dateString) throws ParseException {
+        dateString =dateString.replace("T"," ");
+        dateString =dateString.substring(0,dateString.indexOf("."));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date date = sdf.parse(dateString);
         return date.getTime();
     }

@@ -48,10 +48,10 @@
             <ImageView
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="@dimen/_8dp"
-                android:layout_width="35dp"
+                android:layout_width="30dp"
                 android:padding="5dp"
                 android:layout_height="35dp"
-                android:src="@drawable/ic_voice_search"
+                android:src="@drawable/ic_mic_gray"
                 android:id="@+id/btnVoice"/>
         </FrameLayout>
 

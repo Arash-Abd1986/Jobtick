@@ -5,18 +5,18 @@ import android.os.Parcelable
 
 data class OfferedUser(
     val avatar: String?,
-    val pivot: Pivot?,
+    val task_id: Int?,
     val user_id: Int?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
-            parcel.readParcelable(Pivot::class.java.classLoader),
+            parcel.readValue(Int::class.java.classLoader) as? Int,
             parcel.readValue(Int::class.java.classLoader) as? Int) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(avatar)
-        parcel.writeParcelable(pivot, flags)
+        parcel.writeValue(task_id)
         parcel.writeValue(user_id)
     }
 

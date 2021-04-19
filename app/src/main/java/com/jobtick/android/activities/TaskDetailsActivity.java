@@ -10,10 +10,10 @@ import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
@@ -343,6 +342,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bottom_sheet)
     FrameLayout bottom_sheet;
+    private boolean isFav = true;
 
     public static TaskModel taskModel = new TaskModel();
     public static String isOfferQuestion = "";
@@ -759,9 +759,30 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     break;
                 case R.id.menu_bookmark:
                     if (taskModel.getBookmarkID() != null) {
-                        removeBookmark();
+                        try {
+                            if (isFav) {
+                                isFav = false;
+                                removeBookmark();
+                                new Handler().postDelayed(() -> {
+                                    isFav = true;
+                                },3000);
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     } else {
-                        addToBookmark();
+                        try {
+                            if (isFav) {
+                                isFav = false;
+                                addToBookmark();
+                                new Handler().postDelayed(() -> {
+                                    isFav = true;
+                                },3000);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                     break;
                 case R.id.action_report:
@@ -2645,7 +2666,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 toolbar.getMenu().findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp);
-
                                 getData();
                                 if (onRemoveSavedtasklistener != null) {
                                     onRemoveSavedtasklistener.onRemoveSavedTask();

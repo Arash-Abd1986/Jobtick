@@ -30,8 +30,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:padding="12dp"
-                android:src="@drawable/ic_back"
-                >
+                android:src="@drawable/ic_back">
 
             </ImageView>
 
@@ -106,13 +105,12 @@
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_no_search_found"
-                    >
+                    android:src="@drawable/ic_no_search_found">
 
                 </ImageView>
 

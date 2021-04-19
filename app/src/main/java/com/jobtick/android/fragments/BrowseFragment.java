@@ -34,6 +34,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.activities.DashboardActivity;
@@ -314,14 +315,14 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         txtFilter.setText(filters.size() + " Filter");
     }
 
-    @OnClick({R.id.lyt_search_new})
-    public void onViewClicked() {
-        Bundle bundle = new Bundle();
-        Intent intent = new Intent(dashboardActivity, FiltersActivity.class);
-        bundle.putParcelable(Constant.FILTER, filterModel);
-        intent.putExtras(bundle);
-        startActivityForResult(intent, 101);
-    }
+//    @OnClick({R.id.lyt_search_new})
+//    public void onViewClicked() {
+//        Bundle bundle = new Bundle();
+//        Intent intent = new Intent(dashboardActivity, FiltersActivity.class);
+//        bundle.putParcelable(Constant.FILTER, filterModel);
+//        intent.putExtras(bundle);
+//        startActivityForResult(intent, 101);
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -334,7 +335,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 setFilterData();
                 onRefresh();
             }
-        }else if (requestCode == 202) {
+        } else if (requestCode == 202) {
             //TODO: Do something to show user that he offered on the job.
         }
     }
@@ -397,10 +398,10 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
                         swipeRefresh.setRefreshing(false);
                         isLoading = false;
-                        if(totalItem==0){
+                        if (totalItem == 0) {
                             empty_filter.setVisibility(View.VISIBLE);
                             recyclerViewBrowse.setVisibility(View.GONE);
-                        }else{
+                        } else {
                             empty_filter.setVisibility(View.GONE);
                             recyclerViewBrowse.setVisibility(View.VISIBLE);
                         }
@@ -447,7 +448,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         Intent intent = new Intent(dashboardActivity, TaskDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString(ConstantKey.SLUG, obj.getSlug());
-    //    bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
+        //    bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
         intent.putExtras(bundle);
         startActivityForResult(intent, 202);
     }

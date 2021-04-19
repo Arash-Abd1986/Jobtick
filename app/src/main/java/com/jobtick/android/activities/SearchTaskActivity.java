@@ -71,9 +71,6 @@ import static com.jobtick.android.pagination.PaginationListener.PAGE_START;
 public class SearchTaskActivity extends ActivityBase implements TextView.OnEditorActionListener,
         TaskListAdapterV2.OnItemClickListener, PreviewTaskAdapter.OnItemClickListener<PreviewTaskModel> {
 
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_search_new)
-    MaterialButton lytSearchNew;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.iv_back)
@@ -128,17 +125,10 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
     }
 
     @SuppressLint("NonConstantResourceId")
-    @OnClick({R.id.lyt_search_new, R.id.iv_back})
+    @OnClick({ R.id.iv_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.lyt_search_new:
-                recyclerView.setVisibility(View.VISIBLE);
-                emptySearch.setVisibility(View.GONE);
-                edtSearch.setText("");
-                edtSearch.requestFocus();
-                edtSearch.performClick();
-                showKeyboard(edtSearch);
-                break;
+
             case R.id.iv_back:
                 onBackPressed();
                 break;

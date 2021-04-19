@@ -572,5 +572,7 @@
     -->
     <string name="hello_world">Hello Square World!</string>
     <string name="good_new_a_new_version_of_jobtick_is_available_update_the_app_to_take_advantage_of_the_latest_features">Good new! a new version of Jobtick is available. Update the app to take advantage of the latest features.</string>
+    <string name="no_result_found">No result found :(</string>
+    <string name="sorry_we_couldn_t_find_any_matches_for_you_please_check_spelling_or_try_another_keyword">Sorry we couldn’t find any matches for you. Please check spelling or try another keyword</string>
 
 </resources>

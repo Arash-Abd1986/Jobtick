@@ -116,12 +116,12 @@ class NewSplashActivity : AppCompatActivity() {
                         val (data, _, success) = gson.fromJson(jsonString, CheckForUpdateResponse::class.java)
                         if (success!!) {
                             when {
-                                BuildConfig.VERSION_CODE < data!!.latest_major_version!!.toInt() -> {
+                                BuildConfig.VERSION_CODE <= data!!.latest_major_version!!.toInt() -> {
                                     val intent = Intent(this@NewSplashActivity, UpdateActivity::class.java)
                                     startActivity(intent)
                                     finish()
                                 }
-                                BuildConfig.VERSION_CODE < data.latest_version!!.toInt() -> {
+                                BuildConfig.VERSION_CODE <= data.latest_version!!.toInt() -> {
                                     showNormalUpdate()
                                 }
                                 else -> {
@@ -131,9 +131,10 @@ class NewSplashActivity : AppCompatActivity() {
                         }
                     } catch (e: JSONException) {
                         e.printStackTrace()
+                        login()
                     }
                 },
-                Response.ErrorListener { error: VolleyError -> Log.d("error", error.networkResponse.toString()) } /*errorHandle1(error.networkResponse)*/) {
+                Response.ErrorListener { error: VolleyError ->  login() } /*errorHandle1(error.networkResponse)*/) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] = sessionManager!!.tokenType + " " + sessionManager!!.accessToken

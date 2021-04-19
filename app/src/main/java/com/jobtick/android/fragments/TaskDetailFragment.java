@@ -72,6 +72,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -356,7 +357,10 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                 showBottomSheetAddMustHave(false);
                 break;
             case R.id.rel_req_small:
-                showBottomSheetAddMustHave(false);
+                if (Objects.requireNonNull(recyclerAddMustHave.getAdapter()).getItemCount() >= 3)
+                    taskCreateActivity.showToast("you can add only 3 requirements", taskCreateActivity);
+                else
+                    showBottomSheetAddMustHave(false);
                 break;
             case R.id.lyt_btn_details:
                 break;
@@ -371,6 +375,11 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                     txtSuburb.setVisibility(View.GONE);
                 } else {
                     txtSuburb.setVisibility(View.VISIBLE);
+                }
+                if (getValidationCode() == 0) {
+                    btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_active));
+                } else {
+                    btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_deactive));
                 }
                 break;
             case R.id.btn_next:

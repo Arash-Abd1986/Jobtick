@@ -19,8 +19,8 @@
         app:layout_collapseMode="parallax">
 
         <include
-            android:visibility="gone"
-            layout="@layout/view_filter_list"/>
+            layout="@layout/view_filter_list"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/lin_search"
@@ -30,7 +30,7 @@
             android:layout_marginTop="@dimen/spacing_large"
             android:layout_marginEnd="@dimen/spacing_large"
             android:layout_marginBottom="7dp"
-            android:background="@drawable/rectangle_card_round_corners_outlined_half"
+            android:background="@drawable/linear_rounded_white_fill_6dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -52,23 +52,24 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|end"
                     android:layout_marginStart="8dp"
+                    android:layout_weight="1"
                     android:background="@null"
-                    android:text="Explore jobs"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
-                    android:layout_weight="1"
                     android:lines="1"
+                    android:text="Explore jobs"
                     android:textAppearance="@style/materialText_400_12"
                     android:textColor="@color/N080"
                     android:textColorHint="@color/grey_70" />
+
                 <ImageView
+                    android:id="@+id/btnVoice"
+                    android:layout_width="30dp"
+                    android:layout_height="@dimen/_30dp"
                     android:layout_gravity="center_vertical|end"
                     android:layout_marginEnd="@dimen/_8dp"
-                    android:layout_width="30dp"
                     android:padding="5dp"
-                    android:layout_height="@dimen/_30dp"
-                    android:src="@drawable/ic_mic_gray"
-                    android:id="@+id/btnVoice"/>
+                    android:src="@drawable/ic_mic_gray" />
             </FrameLayout>
 
 
@@ -89,57 +90,60 @@
                 android:id="@+id/recycler_view_browse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:listitem="@layout/item_task_view"
                 android:paddingBottom="8dp"
                 android:visibility="visible"
-                android:clipToPadding="false"/>
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:listitem="@layout/item_task_view" />
+
             <RelativeLayout
                 android:id="@+id/empty_filter"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="25dp"
+                android:background="@drawable/linear_rounded_white_fill_without_border"
                 android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginEnd="@dimen/spacing_large"
                     android:gravity="center"
                     android:orientation="vertical"
                     tools:ignore="UselessParent">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_no_search_found" />
 
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/lottieAnimationView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:adjustViewBounds="true"
+                        android:visibility="visible"
+                        app:srcCompat="@drawable/no_result" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_400_12"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_15sp"
-                        android:layout_marginBottom="@dimen/_15sp"
-                        android:gravity="center"
-                        android:text="@string/we_didn_t_find_any_results_for_your_filter" />
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_horizontal"
+                        android:text="@string/no_result_found"
+                        android:textAppearance="@style/materialText_500_18"
+                        android:textColor="@color/colorNavyBlue"
+                        android:textStyle="bold" />
 
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/lyt_search_new"
-                        style="@style/materialButton.outlined"
-                        android:layout_width="245dp"
-                        android:layout_height="46dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/spacing_large"
-                        android:gravity="center"
-                        android:text="@string/change_filter"
-                        android:textColor="@color/blueButtons"
-                        android:textSize="@dimen/_14sp"
-                        app:strokeColor="@color/blueButtons"
-                        app:strokeWidth="@dimen/outline_normal" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="40dp"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_horizontal"
+                        android:text="@string/sorry_we_couldn_t_find_any_matches_for_you_please_check_spelling_or_try_another_keyword"
+                        android:textAppearance="@style/materialText_500_16"
+                        android:textColor="@color/colorNavyBlue" />
 
 
                 </LinearLayout>
@@ -159,7 +163,6 @@
         app:borderWidth="0dp"
         app:elevation="@dimen/_16sp"
         app:fabSize="normal"
-        app:tint="@color/white"
-         />
+        app:tint="@color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

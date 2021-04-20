@@ -3212,22 +3212,23 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         if (myJobsResponse.getSuccess()) {
                             Data data = myJobsResponse.getData();
 
-
-                            chatModel.setId(data.getLast_message().getId());
-                            chatModel.setConversationId(data.getLast_message().getConversation_id());
-                            chatModel.setCreatedAt(data.getLast_message().getCreated_at());
-                            chatModel.setMessage(data.getLast_message().getMessage());
-                            chatModel.setSenderId(data.getLast_message().getSender_id());
-                            chatModel.setIsSeen(data.getLast_message().is_seen());
-                            if (data.getLast_message().getAttachment() != null){
-                                attachment.setUrl(data.getLast_message().getAttachment().getUrl());
-                                attachment.setId(data.getLast_message().getAttachment().getId());
-                                attachment.setThumbUrl(data.getLast_message().getAttachment().getThumb_url());
-                                attachment.setName(data.getLast_message().getAttachment().getName());
-                                attachment.setModalUrl(data.getLast_message().getAttachment().getModal_url());
-                                attachment.setMime(data.getLast_message().getAttachment().getMime());
-                                attachment.setCreatedAt(data.getLast_message().getAttachment().getCreated_at());
-                                chatModel.setAttachment(attachment);
+                            if (data.getLast_message() != null) {
+                                chatModel.setId(data.getLast_message().getId());
+                                chatModel.setConversationId(data.getLast_message().getConversation_id());
+                                chatModel.setCreatedAt(data.getLast_message().getCreated_at());
+                                chatModel.setMessage(data.getLast_message().getMessage());
+                                chatModel.setSenderId(data.getLast_message().getSender_id());
+                                chatModel.setIsSeen(data.getLast_message().is_seen());
+                                if (data.getLast_message().getAttachment() != null) {
+                                    attachment.setUrl(data.getLast_message().getAttachment().getUrl());
+                                    attachment.setId(data.getLast_message().getAttachment().getId());
+                                    attachment.setThumbUrl(data.getLast_message().getAttachment().getThumb_url());
+                                    attachment.setName(data.getLast_message().getAttachment().getName());
+                                    attachment.setModalUrl(data.getLast_message().getAttachment().getModal_url());
+                                    attachment.setMime(data.getLast_message().getAttachment().getMime());
+                                    attachment.setCreatedAt(data.getLast_message().getAttachment().getCreated_at());
+                                    chatModel.setAttachment(attachment);
+                                }
                             }
 
 
@@ -3295,6 +3296,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     } catch (Exception e) {
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
+                        showToast("Something Went Wrong", this);
                     }
                     isGetBankAccountLoaded = true;
                     onLoadingFinished();

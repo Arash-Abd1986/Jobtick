@@ -23,6 +23,7 @@ import com.jobtick.android.utils.ConstantKey;
 import com.jobtick.android.utils.SessionManager;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.models.CommentModel;
@@ -159,6 +160,10 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_budget)
         TextView txtBudget;
+        @BindView(R.id.txt_budget2)
+        TextView txtBudget2;
+        @BindView(R.id.txt_reply)
+        TextView txtReply;
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_btn_accept)
         TextView txtBtnAccept;
@@ -209,6 +214,10 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         LinearLayout linOfferMessage;
 
         @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.lin_budget)
+        LinearLayout linBudget;
+
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.linear_more_reply)
         LinearLayout linearMoreReply;
 
@@ -219,6 +228,10 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.ratingbar_worker)
         ImageView starRatingBar;
+
+        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.img_reply)
+        ImageView imgReply;
 
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.card_deleteOffer)
@@ -251,12 +264,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         public void onBind(int position) {
             super.onBind(position);
             OfferModel item = mItems.get(position);
-            imgAvatar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    linearUserProfile.performClick();
-                }
-            });
+            imgAvatar.setOnClickListener(v -> linearUserProfile.performClick());
             if (item.getWorker().getAvatar() != null) {
                 ImageUtil.displayImage(imgAvatar, item.getWorker().getAvatar().getThumbUrl(), null);
             }
@@ -288,27 +296,38 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 linearMoreReply.setVisibility(View.GONE);
             }
 
+            txtBudget.setText("$" + item.getOfferPrice());
+            txtBudget2.setText("$" + item.getOfferPrice());
             if (item.getWorker().getId().equals(sessionManager.getUserAccount().getId())) {
                 cardDeleteOffer.setVisibility(View.VISIBLE);
                 txtBudget.setVisibility(View.VISIBLE);
                 linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
-
+                linOfferMessage.setVisibility(View.GONE);
+                txtBudget.setVisibility(View.GONE);
+                txtReply.setVisibility(View.VISIBLE);
+                linBudget.setVisibility(View.VISIBLE);
+                imgReply.setVisibility(View.VISIBLE);
+                txtBudget2.setText("$" + item.getOfferPrice());
                 ivFlag.setVisibility(View.GONE);
             } else {
+                txtReply.setVisibility(View.GONE);
+                txtBudget.setVisibility(View.VISIBLE);
+                linOfferMessage.setVisibility(View.VISIBLE);
+                linBudget.setVisibility(View.GONE);
+                imgReply.setVisibility(View.GONE);
                 cardDeleteOffer.setVisibility(View.GONE);
                 ivFlag.setVisibility(View.VISIBLE);
 
             }
 
 
-            txtBudget.setText("$" + item.getOfferPrice());
             txtName.setText(item.getWorker().getName());
             if (item.getWorker() != null && item.getWorker().getWorkerRatings() != null && item.getWorker().getWorkerRatings().getAvgRating() != null) {
-                txtRatingValue.setText(String.format(java.util.Locale.US,"%.1f", item.getWorker().getWorkerRatings().getAvgRating())+" (" + item.getWorker().getWorkerRatings().getReceivedReviews() + ")");
+                txtRatingValue.setText(String.format(java.util.Locale.US, "%.1f", item.getWorker().getWorkerRatings().getAvgRating()) + " (" + item.getWorker().getWorkerRatings().getReceivedReviews() + ")");
 
 //                ratingbarWorker.setProgress(item.getWorker().getWorkerRatings().getAvgRating());
 
-            }else{
+            } else {
                 starRatingBar.setVisibility(View.GONE);
                 txtRatingValue.setText("No review");
             }
@@ -378,7 +397,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             linearUserProfile.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ProfileActivity.class);
-                intent.putExtra("id",item.getWorker().getId());
+                intent.putExtra("id", item.getWorker().getId());
                 context.startActivity(intent);
             });
 
@@ -421,6 +440,12 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             });
 
             txtMoreReply.setOnClickListener(v -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemOfferClick(v, item, getAdapterPosition(), "reply");
+                }
+            });
+
+            txtReply.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemOfferClick(v, item, getAdapterPosition(), "reply");
                 }

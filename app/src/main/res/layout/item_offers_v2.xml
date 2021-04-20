@@ -179,6 +179,7 @@
                     android:padding="@dimen/spacing_small">
 
                     <ImageView
+                        android:id="@+id/img_reply"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
@@ -196,6 +197,17 @@
                         android:layout_marginStart="1dp"
                         android:gravity="center_vertical"
                         android:text="@string/reply"
+                        android:textColor="@color/colorPrimary" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_reply"
+                        style="@style/materialText_400_16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="1dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/reply"
+                        android:visibility="gone"
                         android:textColor="@color/colorPrimary" />
                 </LinearLayout>
             </LinearLayout>
@@ -236,6 +248,25 @@
                             android:contentDescription="@string/todo" />
                         <com.google.android.material.textview.MaterialTextView
                             style="@style/materialText_500_18"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="Message"
+                            android:textColor="@color/colorPrimary"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/lin_budget"
+                        android:layout_width="0dp"
+                        android:visibility="gone"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/_16sp"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/linear_rounded_white_fill_without_border"
+                        android:gravity="center">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_budget2"
+                            style="@style/materialText_500_24_body"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"

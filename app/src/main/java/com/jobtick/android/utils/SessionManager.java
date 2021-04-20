@@ -98,6 +98,16 @@ public class SessionManager {
     }
 
 
+    public void setNeedRefresh(boolean state) {
+        editor.putBoolean("need_refresh", state);
+        editor.commit();
+    }
+
+    public Boolean getNeedRefresh() {
+        return pref.getBoolean("need_refresh",false);
+    }
+
+
     public void setLatitude(String latitude) {
         editor.putString("latitude", latitude);
         editor.commit();

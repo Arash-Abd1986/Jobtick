@@ -82,7 +82,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         switch (viewType) {
             case VIEW_TYPE_NORMAL:
                 return new ViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_offers, parent, false));
+                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_offers_v2, parent, false));
             case VIEW_TYPE_LOADING:
                 return new ProgressHolder(
                         LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false));
@@ -204,6 +204,9 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.linearAcceptDeleteOffer)
         LinearLayout linearAcceptDeleteOffer;
+        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.lin_message)
+        LinearLayout linOfferMessage;
 
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.linear_more_reply)
@@ -298,7 +301,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }
 
 
-            txtBudget.setText("$ " + item.getOfferPrice());
+            txtBudget.setText("$" + item.getOfferPrice());
             txtName.setText(item.getWorker().getName());
             if (item.getWorker() != null && item.getWorker().getWorkerRatings() != null && item.getWorker().getWorkerRatings().getAvgRating() != null) {
                 txtRatingValue.setText(String.format(java.util.Locale.US,"%.1f", item.getWorker().getWorkerRatings().getAvgRating())+" (" + item.getWorker().getWorkerRatings().getReceivedReviews() + ")");
@@ -420,6 +423,12 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             txtMoreReply.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemOfferClick(v, item, getAdapterPosition(), "reply");
+                }
+            });
+
+            linOfferMessage.setOnClickListener(v -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemOfferClick(v, item, getAdapterPosition(), "message");
                 }
             });
 

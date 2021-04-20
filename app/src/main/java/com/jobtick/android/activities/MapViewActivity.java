@@ -289,7 +289,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         }
         if (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_ALL)) {
             queryParameter = queryParameter + "&task_type=" + Constant.FILTER_ALL_QUERY;
-            queryParameter = queryParameter + "&distance=" + filterModel.getDistance() + "km";
+            queryParameter = queryParameter + "&distance=" + filterModel.getDistance() ;
             String[] price = filterModel.getPrice().replace("$", "").replace(",", "").split("-");
             queryParameter = queryParameter + "&min_price=" + price[0].trim() + "&max_price=" + price[1].trim();
             queryParameter = queryParameter + "&current_lat=" + filterModel.getLatitude();
@@ -306,7 +306,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
             }
         } else if (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_IN_PERSON)) {
             queryParameter = queryParameter + "&task_type=" + Constant.FILTER_IN_PERSON_QUERY;
-            queryParameter = queryParameter + "&distance=" + filterModel.getDistance() + "km";
+            queryParameter = queryParameter + "&distance=" + filterModel.getDistance() ;
             String[] price = filterModel.getPrice().replace("$", "").replace(",", "").split("-");
             queryParameter = queryParameter + "&min_price=" + price[0].trim() + "&max_price=" + price[1].trim();
             queryParameter = queryParameter + "&current_lat=" + filterModel.getLatitude();

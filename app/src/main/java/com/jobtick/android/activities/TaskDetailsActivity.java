@@ -76,6 +76,7 @@ import com.jobtick.android.interfaces.OnWidthDrawListener;
 import com.jobtick.android.models.AttachmentModel;
 import com.jobtick.android.models.BankAccountModel;
 import com.jobtick.android.models.BillingAdreessModel;
+import com.jobtick.android.models.ChatModel;
 import com.jobtick.android.models.ConversationModel;
 import com.jobtick.android.models.DueTimeModel;
 import com.jobtick.android.models.MustHaveModel;
@@ -84,6 +85,10 @@ import com.jobtick.android.models.OfferModel;
 import com.jobtick.android.models.QuestionModel;
 import com.jobtick.android.models.TaskModel;
 import com.jobtick.android.models.UserAccountModel;
+import com.jobtick.android.models.response.conversationinfo.Data;
+import com.jobtick.android.models.response.conversationinfo.GetConversationInfoResponse;
+import com.jobtick.android.models.response.conversationinfo.User;
+import com.jobtick.android.models.response.myjobs.MyJobsResponse;
 import com.jobtick.android.models.review.ReviewModel;
 import com.jobtick.android.retrofit.ApiClient;
 import com.jobtick.android.utils.CameraUtils;
@@ -129,6 +134,7 @@ import static com.jobtick.android.fragments.TickerRequirementsBottomSheet.Requir
 import static com.jobtick.android.utils.Constant.ADD_ACCOUNT_DETAILS;
 import static com.jobtick.android.utils.Constant.ADD_BILLING;
 import static com.jobtick.android.utils.Constant.BASE_URL;
+import static com.jobtick.android.utils.Constant.BASE_URL_v2;
 import static com.jobtick.android.utils.Constant.TASK_CANCELLED;
 import static com.jobtick.android.utils.Constant.TASK_CLOSED;
 import static com.jobtick.android.utils.Constant.TASK_DRAFT;
@@ -765,7 +771,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 removeBookmark();
                                 new Handler().postDelayed(() -> {
                                     isFav = true;
-                                },3000);
+                                }, 3000);
                             }
 
                         } catch (Exception e) {
@@ -778,7 +784,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 addToBookmark();
                                 new Handler().postDelayed(() -> {
                                     isFav = true;
-                                },3000);
+                                }, 3000);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -2470,6 +2476,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
             intent.putExtras(bundle);
             startActivity(intent);
+        } else if (action.equalsIgnoreCase("message")) {
+            getConversationId(taskModel.getSlug(), obj.getWorker().getId().toString());
         }
     }
 
@@ -3184,6 +3192,134 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         } else if (alertType == AlertType.CONFIRM_RELEASE) {
             showCustomDialogReleaseMoney();
         }
+    }
+
+    private void getConversationId(String slug, String targetId) {
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, BASE_URL_v2 + "jobs/" + slug + "/start_chat/" + targetId,
+                response -> {
+                    Timber.e(response);
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Gson gson = new Gson();
+                        ChatModel chatModel = new ChatModel();
+                        UserAccountModel sender = new UserAccountModel();
+                        UserAccountModel reciver = new UserAccountModel();
+                        AttachmentModel senderA = new AttachmentModel();
+                        AttachmentModel reciverA = new AttachmentModel();
+                        AttachmentModel attachment = new  AttachmentModel();
+
+                        GetConversationInfoResponse myJobsResponse = gson.fromJson(jsonObject.toString(), GetConversationInfoResponse.class);
+                        if (myJobsResponse.getSuccess()) {
+                            Data data = myJobsResponse.getData();
+
+
+                            chatModel.setId(data.getLast_message().getId());
+                            chatModel.setConversationId(data.getLast_message().getConversation_id());
+                            chatModel.setCreatedAt(data.getLast_message().getCreated_at());
+                            chatModel.setMessage(data.getLast_message().getMessage());
+                            chatModel.setSenderId(data.getLast_message().getSender_id());
+                            chatModel.setIsSeen(data.getLast_message().is_seen());
+                            if (data.getLast_message().getAttachment() != null){
+                                attachment.setUrl(data.getLast_message().getAttachment().getUrl());
+                                attachment.setId(data.getLast_message().getAttachment().getId());
+                                attachment.setThumbUrl(data.getLast_message().getAttachment().getThumb_url());
+                                attachment.setName(data.getLast_message().getAttachment().getName());
+                                attachment.setModalUrl(data.getLast_message().getAttachment().getModal_url());
+                                attachment.setMime(data.getLast_message().getAttachment().getMime());
+                                attachment.setCreatedAt(data.getLast_message().getAttachment().getCreated_at());
+                                chatModel.setAttachment(attachment);
+                            }
+
+
+                            if (data.getUsers().size() == 2) {
+                                int senderId = 0;
+                                int reciverId = 0;
+                                for (int i = 0; i < 2; i++) {
+                                    if (data.getUsers().get(i).getId() == sessionManager.getUserAccount().getId()) {
+                                        senderId = i;
+                                        if (senderId == 0) {
+                                            reciverId = 1;
+                                        }
+
+                                    }
+                                }
+
+                                senderA.setCreatedAt(data.getUsers().get(senderId).getAvatar().getCreated_at());
+                                senderA.setFileName(data.getUsers().get(senderId).getAvatar().getFile_name());
+                                senderA.setId(data.getUsers().get(senderId).getAvatar().getId());
+                                senderA.setMime(data.getUsers().get(senderId).getAvatar().getMime());
+                                senderA.setModalUrl(data.getUsers().get(senderId).getAvatar().getModal_url());
+                                senderA.setName(data.getUsers().get(senderId).getAvatar().getName());
+                                senderA.setThumbUrl(data.getUsers().get(senderId).getAvatar().getThumb_url());
+                                senderA.setUrl(data.getUsers().get(senderId).getAvatar().getUrl());
+                                sender.setAvatar(senderA);
+                                sender.setLatitude(data.getUsers().get(senderId).getPosition().getLatitude());
+                                sender.setLongitude(data.getUsers().get(senderId).getPosition().getLongitude());
+                                sender.setLastOnline(data.getUsers().get(senderId).getLast_online());
+                                sender.setName(data.getUsers().get(senderId).getName());
+                                sender.setId(data.getUsers().get(senderId).getId());
+
+                                reciverA.setCreatedAt(data.getUsers().get(reciverId).getAvatar().getCreated_at());
+                                reciverA.setFileName(data.getUsers().get(reciverId).getAvatar().getFile_name());
+                                reciverA.setId(data.getUsers().get(reciverId).getAvatar().getId());
+                                reciverA.setMime(data.getUsers().get(reciverId).getAvatar().getMime());
+                                reciverA.setModalUrl(data.getUsers().get(reciverId).getAvatar().getModal_url());
+                                reciverA.setName(data.getUsers().get(reciverId).getAvatar().getName());
+                                reciverA.setThumbUrl(data.getUsers().get(reciverId).getAvatar().getThumb_url());
+                                reciverA.setUrl(data.getUsers().get(reciverId).getAvatar().getUrl());
+                                reciver.setAvatar(reciverA);
+                                reciver.setLatitude(data.getUsers().get(reciverId).getPosition().getLatitude());
+                                reciver.setLongitude(data.getUsers().get(reciverId).getPosition().getLongitude());
+                                reciver.setLastOnline(data.getUsers().get(reciverId).getLast_online());
+                                reciver.setName(data.getUsers().get(reciverId).getName());
+                                reciver.setId(data.getUsers().get(reciverId).getId());
+
+
+                            }
+
+                            ConversationModel conversationModel = new ConversationModel(data.getId(), data.getName(), data.getTask().getId(),
+                                    chatModel,
+                                    data.getUnseen_count(), data.getCreated_at(),
+                                    sender,
+                                    reciver,
+                                    data.getTask().getSlug(), data.getTask().getStatus(), data.getChat_closed());
+                            Intent intent = new Intent(TaskDetailsActivity.this, ChatActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable(ConstantKey.CONVERSATION, conversationModel);
+                            intent.putExtras(bundle);
+                            startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT);
+                        }else {
+                            showToast("Something Went Wrong", this);
+                        }
+
+                    } catch (Exception e) {
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
+                    }
+                    isGetBankAccountLoaded = true;
+                    onLoadingFinished();
+                },
+                error -> {
+                    showToast("Something Went Wrong", this);
+                    Timber.e(error.toString());
+                    hideProgressDialog();
+                    onLoadingFinished();
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
+                map1.put("Content-Type", "application/x-www-form-urlencoded");
+                map1.put("X-Requested-With", "XMLHttpRequest");
+                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
+                return map1;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
     @Override

@@ -33,36 +33,24 @@
                     android:padding="@dimen/empty_pages_padding"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/linear_rounded_white_fill_without_border"
                     android:visibility="gone">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                    <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/lottieAnimationView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:visibility="visible"
-                    app:srcCompat="@drawable/no_result"/>
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/materialText_500_18"
-                        android:text="@string/no_result_found"
-                        android:layout_marginTop="16dp"
-                        android:gravity="center_horizontal"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorNavyBlue"/>
+                        android:scaleType="centerCrop"
+                        android:visibility="visible"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/no_post"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/materialText_500_16"
-                        android:text="@string/sorry_we_couldn_t_find_any_matches_for_you_please_check_spelling_or_try_another_keyword"
+                        android:text="No job here"
                         android:layout_marginTop="16dp"
                         android:gravity="center_horizontal"
                         android:textColor="@color/colorNavyBlue"/>
@@ -74,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:overScrollMode="never"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     tools:listitem="@layout/item_task_view"/>
 
             </FrameLayout>

@@ -255,12 +255,10 @@ public class TaskListAdapterV2 extends RecyclerView.Adapter<BaseViewHolder> {
             txtTitle.setText(item.getTitle());
             txtDueDate.setText(TimeHelper.convertToWeekDateFormat(item.getDue_date()));
 
-            if (item.getLocation() != null && item.getStatus() != null && item.getStatus().equals("physical")) {
+            if (item.getLocation() != null) {
                 txtLocation.setText(item.getLocation());
-            } else if (item.getStatus() != null && item.getStatus().equals("remote")) {
-                txtLocation.setText("Remote job");
             } else {
-                txtLocation.setText("No location set");
+                txtLocation.setText("Remote job");
             }
             if (item.getBudget() != null) {
                 txtBudget.setText("$" + item.getBudget());

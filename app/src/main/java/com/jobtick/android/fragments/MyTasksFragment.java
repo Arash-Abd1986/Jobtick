@@ -174,6 +174,10 @@ public class MyTasksFragment extends Fragment implements TaskListAdapterV2.OnIte
     public void onResume() {
         super.onResume();
         linFilter.setVisibility(View.VISIBLE);
+        if (sessionManager.getNeedRefresh()){
+            sessionManager.setNeedRefresh(false);
+            getStatusList();
+        }
     }
 
     private void setPopUpWindow() {

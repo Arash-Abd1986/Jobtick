@@ -731,6 +731,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
 
                             if (jsonObject.getBoolean("success")) {
                                 showToast("Job has been deleted successfully", this);
+                                sessionManager.setNeedRefresh(true);
                                 onBackPressed();
                             } else {
                                 showToast("Something went Wrong", this);

@@ -122,6 +122,9 @@ public class SearchTaskActivity extends ActivityBase implements TextView.OnEdito
 
         setPreviewAdapter();
         searchWithVoice();
+        if(getIntent().hasExtra("IsVoice")){
+            btnVoice.performClick();
+        }
     }
 
     @SuppressLint("NonConstantResourceId")

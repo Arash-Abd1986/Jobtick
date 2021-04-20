@@ -107,14 +107,14 @@ public class FiltersActivity extends AppCompatActivity implements FilterInPerson
                 all = (false);
             } else {
                 viewPager.setCurrentItem(2);
-                rbRemotely.setChecked(false);
-                rbInPerson.setChecked(false);
+                rbRemotely.setChecked(true);
+                rbInPerson.setChecked(true);
                 all = (true);
             }
         } else {
             viewPager.setCurrentItem(2);
-            rbRemotely.setChecked(false);
-            rbInPerson.setChecked(false);
+            rbRemotely.setChecked(true);
+            rbInPerson.setChecked(true);
             all = (true);
         }
 

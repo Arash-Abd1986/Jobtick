@@ -102,8 +102,11 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @BindView(R.id.btnVoice)
     ImageView btnVoice;
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.iv_search)
+    ImageView ivSearch;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.appbar)
-    AppBarLayout appbar;
+    RelativeLayout appbar;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ivMapView)
     FloatingActionButton ivMapView;
@@ -192,20 +195,24 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         initBrowse();
         doApiCall();
         setCTAListener();
-        setAnimationFab();
     }
 
     private void setCTAListener() {
-        linSearch.setOnClickListener(v -> {
+//        linSearch.setOnClickListener(v -> {
+//            Intent creating_task = new Intent(requireActivity(), SearchTaskActivity.class);
+//            startActivity(creating_task);
+//        });
+        edtSearch.setOnClickListener(v -> {
             Intent creating_task = new Intent(requireActivity(), SearchTaskActivity.class);
             startActivity(creating_task);
         });
-        edtSearch.setOnClickListener(v -> {
+        ivSearch.setOnClickListener(v -> {
             Intent creating_task = new Intent(requireActivity(), SearchTaskActivity.class);
             startActivity(creating_task);
         });
         btnVoice.setOnClickListener(v -> {
             Intent creating_task = new Intent(requireActivity(), SearchTaskActivity.class);
+            creating_task.putExtra("IsVoice", true);
             startActivity(creating_task);
         });
 
@@ -264,26 +271,6 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
             filterModel = sessionManager.getFilter();
         }
         setFilterData();
-    }
-
-    private void setAnimationFab() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            recyclerViewBrowse.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-                if (scrollX < oldScrollX) {
-                    animateFab(false);
-                }
-                if (scrollX > oldScrollX) {
-                    animateFab(true);
-                }
-            });
-        }
-    }
-
-    private void animateFab(final boolean hide) {
-        if (isFabHide && hide || !isFabHide && !hide) return;
-        isFabHide = hide;
-        int moveX = hide ? (2 * appbar.getWidth()) : 0;
-        appbar.animate().translationY(-moveX).setStartDelay(100).setDuration(300).start();
     }
 
     private void setFilterData() {
@@ -347,7 +334,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         }
         if (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_ALL)) {
             queryParameter = queryParameter + "&task_type=" + Constant.FILTER_ALL_QUERY;
-            queryParameter = queryParameter + "&distance=" + filterModel.getDistance() + "km";
+            queryParameter = queryParameter + "&distance=" + filterModel.getDistance() ;
             String[] price = filterModel.getPrice().replace("$", "").replace(",", "").split("-");
             queryParameter = queryParameter + "&min_price=" + price[0].trim() + "&max_price=" + price[1].trim();
             queryParameter = queryParameter + "&current_lat=" + filterModel.getLatitude();
@@ -364,7 +351,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
             }
         } else if (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_IN_PERSON)) {
             queryParameter = queryParameter + "&task_type=" + Constant.FILTER_IN_PERSON_QUERY;
-            queryParameter = queryParameter + "&distance=" + filterModel.getDistance() + "km";
+            queryParameter = queryParameter + "&distance=" + filterModel.getDistance();
             String[] price = filterModel.getPrice().replace("$", "").replace(",", "").split("-");
             queryParameter = queryParameter + "&min_price=" + price[0].trim() + "&max_price=" + price[1].trim();
             queryParameter = queryParameter + "&current_lat=" + filterModel.getLatitude();

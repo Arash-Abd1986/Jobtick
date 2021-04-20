@@ -85,6 +85,7 @@ public class Constant {
     public static final String CHECK_UPDATE = "init-info";
     public static final String ADD_BILLING = "account/billingaddress";
     public static final String ADD_ACCOUNT_DETAILS = "account/bankaccount";
+    public static final String GET_CHAT_INFO_V2 = "account/bankaccount";
 
     public static final String URL_USER_PROFILE_INFO = BASE_URL + "profile/info";
     public static final String PROFILE_INFO = "profile/info";

@@ -87,6 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:weightSum="10"
                 android:orientation="vertical"
                 tools:ignore="UselessParent">
 
@@ -95,8 +96,10 @@
                     android:id="@+id/lottieAnimationView"
                     android:layout_width="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:adjustViewBounds="true"
+                    android:maxHeight="260dp"
+                    android:layout_weight="5"
                     android:visibility="visible"
                     app:srcCompat="@drawable/no_result"/>
 

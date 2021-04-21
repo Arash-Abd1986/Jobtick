@@ -6,6 +6,7 @@ import android.os.Parcelable
 data class Data(
         val assigned_worker: List<AssignedWorker>?,
         val budget: Int?,
+        val amount: Int?,
         val category_id: Int?,
         val created_at: String?,
         val poster_id: Int?,
@@ -24,6 +25,7 @@ data class Data(
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.createTypedArrayList(AssignedWorker),
+            parcel.readValue(Int::class.java.classLoader) as? Int,
             parcel.readValue(Int::class.java.classLoader) as? Int,
             parcel.readValue(Int::class.java.classLoader) as? Int,
             parcel.readString(),

@@ -110,7 +110,7 @@ public class TaskListAdapterV2 extends RecyclerView.Adapter<BaseViewHolder> {
         if (isLoaderVisible) return;
         isLoaderVisible = true;
         int position = mItems.size() - 1;
-        this.mItems.add(new Data(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,null, null));
+        this.mItems.add(new Data(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,null, null,null));
         notifyItemInserted(position);
     }
 
@@ -261,7 +261,7 @@ public class TaskListAdapterV2 extends RecyclerView.Adapter<BaseViewHolder> {
                 txtLocation.setText("Remote job");
             }
             if (item.getBudget() != null) {
-                txtBudget.setText("$" + item.getBudget());
+                txtBudget.setText("$" + item.getAmount());
             } else
                 txtBudget.setText("$");
 

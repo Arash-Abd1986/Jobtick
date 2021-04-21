@@ -171,8 +171,9 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     private boolean isLastPosition = false;
     LinearLayoutManager layoutManager;
     Handler handler = new Handler();
+    private boolean needRefresh = true;
     Runnable runnable;
-    int delay = 5000;
+    int delay = 1000 ;
     ArrayList<ChatModel> items = new ArrayList<>();
 
 
@@ -188,9 +189,11 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     @Override
     protected void onResume() {
         super.onResume();
+        needRefresh = true;
         handler.postDelayed(runnable = () -> {
             handler.postDelayed(runnable, delay);
-            getLastMessages();
+            if (needRefresh)
+                getLastMessages();
         }, delay);
     }
 
@@ -717,12 +720,13 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
     private void getLastMessages() {
         ArrayList<ChatModel> itemsNew = new ArrayList<>();
-
+        needRefresh = false;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_CHAT + "/" + conversationModel.getId() + "/messages" + "?page=1",
                 response -> {
                     Timber.e(response);
                     // categoryArrayList.clear();
                     try {
+                        needRefresh = true;
                         JSONObject jsonObject = new JSONObject(response);
                         if (!jsonObject.has("data")) {
                             showToast("SomeThing to wrong", ChatActivity.this);
@@ -737,7 +741,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
                         int lastItemId = -1000;
                         if (!items.isEmpty())
-                           lastItemId = items.get(items.size() - 1).getId();
+                            lastItemId = items.get(items.size() - 1).getId();
 
                         boolean start = false;
                         for (int i = itemsNew.size() - 1; i >= 0; i--) {
@@ -759,10 +763,11 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
 
 
                     } catch (Exception e) {
-
+                        needRefresh = true;
                     }
                 },
                 error -> {
+                    needRefresh = true;
                 }) {
             @Override
             public Map<String, String> getHeaders() {

@@ -250,7 +250,7 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 System.out.println("State changed to " + change.getCurrentState() +
                         " from " + change.getPreviousState());
                 if (change.getCurrentState() == ConnectionState.CONNECTED) {
-                    subscribeToChannel(); //run kro ok
+                    //subscribeToChannel(); //run kro ok
                     subscribeToPresenceChannel();
                 }
             }

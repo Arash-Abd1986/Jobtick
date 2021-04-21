@@ -200,7 +200,7 @@
                         android:textColor="@color/colorPrimary" />
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_reply"
-                        style="@style/materialText_400_16"
+                        style="@style/materialText_400_15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"

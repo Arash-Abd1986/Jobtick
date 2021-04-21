@@ -300,26 +300,33 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             txtBudget2.setText("$" + item.getOfferPrice());
             if (item.getWorker().getId().equals(sessionManager.getUserAccount().getId())) {
                 cardDeleteOffer.setVisibility(View.VISIBLE);
-                txtBudget.setVisibility(View.VISIBLE);
-                linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
-                linOfferMessage.setVisibility(View.GONE);
-                txtBudget.setVisibility(View.GONE);
-                txtReply.setVisibility(View.VISIBLE);
-                linBudget.setVisibility(View.VISIBLE);
-                imgReply.setVisibility(View.VISIBLE);
-                txtBudget2.setText("$" + item.getOfferPrice());
                 ivFlag.setVisibility(View.GONE);
             } else {
+                cardDeleteOffer.setVisibility(View.GONE);
+                ivFlag.setVisibility(View.VISIBLE);
+            }
+
+
+            if(isMyTask){
                 txtReply.setVisibility(View.GONE);
                 txtBudget.setVisibility(View.VISIBLE);
                 linOfferMessage.setVisibility(View.VISIBLE);
+                linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
                 linBudget.setVisibility(View.GONE);
                 imgReply.setVisibility(View.GONE);
-                cardDeleteOffer.setVisibility(View.GONE);
-                ivFlag.setVisibility(View.VISIBLE);
-
+            }else{
+                linOfferMessage.setVisibility(View.GONE);
+                txtReply.setVisibility(View.VISIBLE);
+                txtBudget.setVisibility(View.GONE);
+                linBudget.setVisibility(View.VISIBLE);
+                imgReply.setVisibility(View.VISIBLE);
+                linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
+                if (item.getWorker().getId().equals(sessionManager.getUserAccount().getId())) {
+                    linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
+                }else{
+                    linearAcceptDeleteOffer.setVisibility(View.GONE);
+                }
             }
-
 
             txtName.setText(item.getWorker().getName());
             if (item.getWorker() != null && item.getWorker().getWorkerRatings() != null && item.getWorker().getWorkerRatings().getAvgRating() != null) {

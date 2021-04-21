@@ -734,10 +734,14 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                             ChatModel chatModel = new ChatModel().getJsonToModel(jsonObject_chat);
                             itemsNew.add(chatModel);
                         }
-                        int lastItemId = items.get(items.size() - 1).getId();
+
+                        int lastItemId = -1000;
+                        if (!items.isEmpty())
+                           lastItemId = items.get(items.size() - 1).getId();
+
                         boolean start = false;
-                        for (int i = itemsNew.size() -1; i >=0; i--) {
-                            if (start) {
+                        for (int i = itemsNew.size() - 1; i >= 0; i--) {
+                            if (start || items.isEmpty()) {
                                 adapter.addItems(itemsNew.get(i));
                                 items.add(itemsNew.get(i));
                                 if (isLastPosition) {

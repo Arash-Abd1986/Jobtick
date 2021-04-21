@@ -129,7 +129,7 @@ class NewSplashActivity : AppCompatActivity() {
                                 }
                             }
                         }
-                    } catch (e: JSONException) {
+                    } catch (e: Exception) {
                         e.printStackTrace()
                         login()
                     }

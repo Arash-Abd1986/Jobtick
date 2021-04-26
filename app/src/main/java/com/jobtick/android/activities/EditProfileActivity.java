@@ -35,8 +35,11 @@ import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import com.jobtick.android.adapers.AttachmentAdapter;
 import com.jobtick.android.adapers.AttachmentAdapterEditProfile;
+import com.jobtick.android.adapers.SuburbSearchAdapter;
+import com.jobtick.android.fragments.SearchSuburbBottomSheet;
 import com.jobtick.android.models.AttachmentModel;
 import com.jobtick.android.models.UserAccountModel;
+import com.jobtick.android.models.response.searchsuburb.Feature;
 import com.jobtick.android.retrofit.ApiClient;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.ConstantKey;
@@ -80,7 +83,7 @@ import static com.jobtick.android.utils.Constant.MIN_AGE_FOR_USE_APP;
 import static com.jobtick.android.utils.Constant.URL_REMOVE_AVTAR;
 
 public class
-EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile.OnItemClickListener, com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener {
+EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile.OnItemClickListener, com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener, SuburbSearchAdapter.SubClickListener {
 
     private final int PLACE_SELECTION_REQUEST_CODE = 1;
     private static final int GALLERY_PICKUP_VIDEO_REQUEST_CODE = 300;
@@ -402,8 +405,8 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         initDatePicker();
 
         txtSuburb.setExtendedViewOnClickListener(() -> {
-            Intent intent = new SuburbAutoComplete(this).getIntent();
-            startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
+            SearchSuburbBottomSheet infoBottomSheet = new SearchSuburbBottomSheet(this);
+            infoBottomSheet.show(getSupportFragmentManager(), null);
         });
     }
 
@@ -1164,5 +1167,12 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         this.month = monthOfYear;
         this.day = dayOfMonth;
         txtBirthDate.setText(dob.getDisplayName(Calendar.MONTH,Calendar.LONG, Locale.getDefault()) + " "+ dayOfMonth+", " +year);
+    }
+
+    @Override
+    public void clickOnSearchedLoc(@NotNull Feature location) {
+        txtSuburb.setText(location.getPlace_name_en());
+        str_latitude = String.valueOf(location.getGeometry().getCoordinates().get(1));
+        str_longitude =String.valueOf(location.getGeometry().getCoordinates().get(0));
     }
 }

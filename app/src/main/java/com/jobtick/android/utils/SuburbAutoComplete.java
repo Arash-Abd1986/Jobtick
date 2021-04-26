@@ -26,8 +26,9 @@ public class SuburbAutoComplete {
                         .backgroundColor(activity.getResources().getColor(R.color.backgroundLightGrey))
                         .limit(10)
                         .hint("Suburb")
-                        .geocodingTypes("postcode", "locality", "district", "neighborhood", "address")
+                        .geocodingTypes("locality", "place")
                         .country("AU")
+                        .language("en")
                         .build(PlaceOptions.MODE_CARDS))
                 .build(activity);
     }
@@ -72,7 +73,7 @@ public class SuburbAutoComplete {
         // 3- suburb name (village name), state name
 
         CarmenContext postCodeOfCity = Objects.requireNonNull(carmenFeature.context().get(0));
-        if(isInteger(postCodeOfCity.text())){
+        if (isInteger(postCodeOfCity.text())) {
             postCode = postCodeOfCity.text();
         }
 
@@ -85,7 +86,7 @@ public class SuburbAutoComplete {
             CarmenContext stateOfCountry = Objects.requireNonNull(carmenFeature.context().get(length - 2));
             state = stateOfCountry.shortCode().substring(3);
             suburb.append(state);
-        }else if(length < 2){
+        } else if (length < 2) {
             throw new IllegalStateException("context of suburb must have at least two part!");
         }
 

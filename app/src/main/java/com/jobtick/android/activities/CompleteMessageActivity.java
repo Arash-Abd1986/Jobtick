@@ -14,7 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
+import com.jobtick.android.fragments.CategoryListBottomSheet;
 import com.jobtick.android.utils.ConstantKey;
+import com.jobtick.android.utils.SessionManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,6 +70,7 @@ public class CompleteMessageActivity extends AppCompatActivity {
 
     public int from = 0;
     public String taskSlug = null;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,8 @@ public class CompleteMessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_complete_message);
         ButterKnife.bind(this);
         initToolbar();
+        sessionManager = new SessionManager(this);
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             if (bundle.getString(ConstantKey.COMPLETES_MESSAGE_TITLE) != null) {
@@ -159,11 +164,8 @@ public class CompleteMessageActivity extends AppCompatActivity {
                 break;
             case R.id.lyt_btn_new_job:
 
-                Intent creating_task = new Intent(CompleteMessageActivity.this, CategoryListActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("category", "");
-                creating_task.putExtras(bundle);
-                startActivity(creating_task);
+                CategoryListBottomSheet infoBottomSheet = new CategoryListBottomSheet(sessionManager);
+                infoBottomSheet.show(getSupportFragmentManager(), null);
                 finish();
                 break;
 

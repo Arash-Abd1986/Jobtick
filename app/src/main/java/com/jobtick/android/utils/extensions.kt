@@ -75,6 +75,56 @@ fun String.normalPhoneNumber(): String {
 
 }
 
+fun String.getState(): String {
+    when {
+        this.toUpperCase().contains(", NSW") -> {
+            return  "NSW"
+        }
+        this.toUpperCase().contains(", QLD") -> {
+            return "QLD"
+        }
+        this.toUpperCase().contains(", SA") -> {
+            return "SA"
+        }
+        this.toUpperCase().contains(", TAS") -> {
+            return "TAS"
+        }
+        this.toUpperCase().contains(", VIC") -> {
+            return "VIC"
+        }
+        this.toUpperCase()
+                .contains(", WA") -> {
+            return "WA"
+        }
+        else -> return ""
+    }
+}
+fun String.getShortAddress(): String {
+    when {
+        this.contains("New South Wales") -> {
+            return this.replace("New South Wales", "NSW").replace( ", Australia", "")
+        }
+        this.contains("Queensland") -> {
+            return this.replace("Queensland", "QLD").replace(", Australia", "")
+        }
+        this.contains("South Australia") -> {
+            return this.replace("South Australia", "SA").replace(", Australia", "")
+        }
+        this.contains("Tasmania") -> {
+            return this.replace("Tasmania", "TAS").replace(", Australia", "")
+        }
+        this.contains("Victoria") -> {
+            return this.replace("Victoria", "VIC").replace(", Australia", "")
+        }
+        this.contains("Western Australia") -> {
+            return this.replace("Western Australia", "WA").replace(", Australia", "")
+        }
+        else -> return this.replace(", Australia", "")
+    }
+
+
+}
+
 fun Double.appendMBT(): String {
     return when {
         this < MILLION -> this.roundToInt().toString().insertComma()

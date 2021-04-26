@@ -52,9 +52,11 @@ import com.jobtick.android.activities.UploadableImage;
 import com.jobtick.android.activities.TaskCreateActivity;
 import com.jobtick.android.adapers.AddTagAdapter;
 import com.jobtick.android.adapers.AttachmentAdapter1;
+import com.jobtick.android.adapers.SuburbSearchAdapter;
 import com.jobtick.android.models.AttachmentModel;
 import com.jobtick.android.models.PositionModel;
 import com.jobtick.android.models.TaskModel;
+import com.jobtick.android.models.response.searchsuburb.Feature;
 import com.jobtick.android.models.task.AttachmentModels;
 import com.jobtick.android.retrofit.ApiClient;
 import com.jobtick.android.text_view.TextViewMedium;
@@ -84,7 +86,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.OnItemClickListener, TextWatcher {
+public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.OnItemClickListener, TextWatcher, SuburbSearchAdapter.SubClickListener {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_btn_details)
@@ -279,8 +281,10 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         txtSuburb.setOnClickListener(v -> {
             edtDescription.clearFocus();
             edtTitle.clearFocus();
-            Intent intent = new SuburbAutoComplete(requireActivity()).getIntent();
-            startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
+//            Intent intent = new SuburbAutoComplete(requireActivity()).getIntent();
+//            startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
+            SearchSuburbBottomSheet infoBottomSheet = new SearchSuburbBottomSheet(this);
+            infoBottomSheet.show(getParentFragmentManager(), null);
         });
 
         setComponent();
@@ -497,6 +501,16 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         } else {
             btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_deactive));
         }
+    }
+
+    @Override
+    public void clickOnSearchedLoc(@NotNull Feature location) {
+        txtSuburb.setText(location.getPlace_name_en());
+        PositionModel positionModel = new PositionModel();
+        positionModel.setLongitude(location.getGeometry().getCoordinates().get(0));
+        positionModel.setLatitude(location.getGeometry().getCoordinates().get(1));
+        task.setLocation(location.getPlace_name_en());
+        task.setPosition(positionModel);
     }
 
     public interface OperationsListener {

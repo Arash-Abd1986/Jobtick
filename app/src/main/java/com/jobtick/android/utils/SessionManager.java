@@ -175,7 +175,6 @@ public class SessionManager {
         editor.apply();
     }
 
-
   /*  public void setAdmin(AdminObject admin) {
 
         Gson gson = new Gson();

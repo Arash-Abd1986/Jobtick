@@ -47,6 +47,7 @@ data class Data(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeTypedList(assigned_worker)
         parcel.writeValue(budget)
+        parcel.writeValue(amount)
         parcel.writeValue(category_id)
         parcel.writeString(created_at)
         parcel.writeValue(poster_id)

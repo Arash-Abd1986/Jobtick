@@ -11,7 +11,10 @@ import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
 
+import com.jobtick.android.adapers.SuburbSearchAdapter;
+import com.jobtick.android.fragments.SearchSuburbBottomSheet;
 import com.jobtick.android.models.BillingAdreessModel;
+import com.jobtick.android.models.response.searchsuburb.Feature;
 import com.jobtick.android.payment.AddBillingAddress;
 import com.jobtick.android.payment.AddBillingAddressImpl;
 import com.jobtick.android.utils.Constant;
@@ -19,11 +22,13 @@ import com.jobtick.android.utils.Helper;
 import com.jobtick.android.utils.SuburbAutoComplete;
 import com.jobtick.android.widget.ExtendedEntryText;
 
+import org.jetbrains.annotations.NotNull;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BillingAddressActivity extends ActivityBase {
+public class BillingAddressActivity extends ActivityBase implements SuburbSearchAdapter.SubClickListener {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
@@ -94,8 +99,8 @@ public class BillingAddressActivity extends ActivityBase {
         };
 
         edtSuburs.setExtendedViewOnClickListener(() -> {
-            Intent intent = new SuburbAutoComplete(this).getIntent();
-            startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
+            SearchSuburbBottomSheet infoBottomSheet = new SearchSuburbBottomSheet(this);
+            infoBottomSheet.show(getSupportFragmentManager(), null);
         });
     }
 
@@ -198,5 +203,13 @@ public class BillingAddressActivity extends ActivityBase {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void clickOnSearchedLoc(@NotNull Feature location) {
+        Helper.closeKeyboard(this);
+        edtSuburs.setText(location.getPlace_name_en().substring(0,location.getPlace_name_en().indexOf(",")));
+        edtState.setText(location.getState());
+        edtCountry.setText(getString(R.string.australia));
     }
 }

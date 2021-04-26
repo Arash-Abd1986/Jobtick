@@ -18,13 +18,17 @@ import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
 import com.jobtick.android.activities.ActivityBase;
 import com.jobtick.android.activities.TaskDetailsActivity;
+import com.jobtick.android.adapers.SuburbSearchAdapter;
 import com.jobtick.android.models.BillingAdreessModel;
+import com.jobtick.android.models.response.searchsuburb.Feature;
 import com.jobtick.android.payment.AddBillingAddress;
 import com.jobtick.android.payment.AddBillingAddressImpl;
 import com.jobtick.android.utils.Helper;
 import com.jobtick.android.utils.SessionManager;
 import com.jobtick.android.utils.SuburbAutoComplete;
 import com.jobtick.android.widget.ExtendedEntryText;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -33,7 +37,7 @@ import butterknife.OnClick;
 import static android.app.Activity.RESULT_OK;
 
 
-public class AddBillingReqFragment extends Fragment implements TextWatcher {
+public class AddBillingReqFragment extends Fragment implements TextWatcher, SuburbSearchAdapter.SubClickListener {
 
     MaterialButton btnNext;
     ExtendedEntryText edtAddressLine1;
@@ -116,8 +120,8 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher {
         }
 
         edtSuburs.setExtendedViewOnClickListener(() -> {
-            Intent intent = new SuburbAutoComplete(requireActivity()).getIntent();
-            startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
+            SearchSuburbBottomSheet infoBottomSheet = new SearchSuburbBottomSheet(this);
+            infoBottomSheet.show(getParentFragmentManager(), null);
         });
     }
 
@@ -210,5 +214,13 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher {
                 edtState.getText().length() > 0;
 
         btnNext.setEnabled(enabled);
+    }
+
+    @Override
+    public void clickOnSearchedLoc(@NotNull Feature location) {
+        Helper.closeKeyboard(requireActivity());
+        edtSuburs.setText(location.getPlace_name_en());
+        edtState.setText(location.getState());
+        edtCountry.setText(getString(R.string.australia));
     }
 }

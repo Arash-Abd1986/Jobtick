@@ -20,7 +20,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.BuildConfig;
+import com.jobtick.android.adapers.SuburbSearchAdapter;
+import com.jobtick.android.fragments.SearchSuburbBottomSheet;
 import com.jobtick.android.fragments.SelectRoleBottomSheet;
+import com.jobtick.android.models.response.searchsuburb.Feature;
 import com.jobtick.android.utils.SuburbAutoComplete;
 import com.jobtick.android.widget.ExtendedEntryText;
 import com.jobtick.android.R;
@@ -31,6 +34,7 @@ import com.jobtick.android.models.UserAccountModel;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.Helper;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,7 +46,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class CompleteRegistrationActivity extends ActivityBase implements SelectRoleBottomSheet.NoticeListener {
+public class CompleteRegistrationActivity extends ActivityBase implements SelectRoleBottomSheet.NoticeListener, SuburbSearchAdapter.SubClickListener {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
@@ -83,8 +87,8 @@ public class CompleteRegistrationActivity extends ActivityBase implements Select
         context = CompleteRegistrationActivity.this;
         initToolbar();
         suburb.setExtendedViewOnClickListener(() -> {
-            Intent intent = new SuburbAutoComplete(this).getIntent();
-            startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
+            SearchSuburbBottomSheet infoBottomSheet = new SearchSuburbBottomSheet(this);
+            infoBottomSheet.show(getSupportFragmentManager(), null);
         });
 
 
@@ -269,5 +273,14 @@ public class CompleteRegistrationActivity extends ActivityBase implements Select
     @Override
     public void onGetStartedClick(String role) {
         profileUpdate(str_fname, str_lname, str_suburb, role);
+    }
+
+    @Override
+    public void clickOnSearchedLoc(@NotNull Feature location) {
+        Helper.closeKeyboard(this);
+
+        suburb.setText(location.getPlace_name_en());
+        str_latitude = String.valueOf(location.getGeometry().getCoordinates().get(1));
+        str_longitude = String.valueOf(location.getGeometry().getCoordinates().get(0));
     }
 }

@@ -63,6 +63,7 @@ public class Constant {
     public static final String BASE_URL_DEBUG_V2 = "https://api-dev.jobtick.com/api/v2/";
     public static final String BASE_URL = (BuildConfig.DEBUG) ? BASE_URL_DEBUG : BASE_URL_PRODUCT;
     public static final String BASE_URL_v2 = (BuildConfig.DEBUG) ? BASE_URL_DEBUG_V2 : BASE_URL_PRODUCT_V2;
+    public static final String MAP_BOX_BASE_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
     public static final String PROD = "";
     public static final String DEV = "dev.";
     public static final String SHARE_APPEND_TXT = (BuildConfig.DEBUG) ? DEV : PROD;

@@ -339,14 +339,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         attachmentAdapter.setOnItemClickListener(this);
 
         if (task.getAttachments() != null && !task.getAttachments().isEmpty()) {
-            for (AttachmentModel model : task.getAttachments()) {
-                if (model.getId() != null) {
-                    if (attachmentArrayList.size() != 0) {
-                        attachmentArrayList.add(attachmentArrayList.size() - 1, model);
-                    }
-                    attachmentAdapter.notifyItemInserted(attachmentArrayList.size() - 1);
-                }
-            }
+            attachmentAdapter.addItems(task.getAttachments());
+
         }
     }
 
@@ -445,6 +439,16 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             }
         } else if (action.equalsIgnoreCase("show")) {
             showBottomSheetDialogViewFullImage(obj.getModalUrl(), position);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getValidationCode() == 0) {
+            btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_active));
+        } else {
+            btnNext.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_deactive));
         }
     }
 

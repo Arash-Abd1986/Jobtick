@@ -174,5 +174,6 @@ dependencies {
 
     //image cropper
     implementation 'com.github.yalantis:ucrop:2.2.6'
+    implementation 'gun0912.ted:tedpermission:2.2.3'
 
 }

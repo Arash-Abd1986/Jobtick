@@ -166,7 +166,6 @@ public class CompleteMessageActivity extends AppCompatActivity {
 
                 CategoryListBottomSheet infoBottomSheet = new CategoryListBottomSheet(sessionManager);
                 infoBottomSheet.show(getSupportFragmentManager(), null);
-                finish();
                 break;
 
             case R.id.btn_explore_jobs:

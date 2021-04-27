@@ -185,6 +185,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
     public void onResume() {
         super.onResume();
         linFilterExplore.setVisibility(View.VISIBLE);
+        doApiCall();
     }
 
     @Override
@@ -193,7 +194,6 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
         initFilter();
         initBrowse();
-        doApiCall();
         setCTAListener();
     }
 

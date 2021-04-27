@@ -110,7 +110,7 @@ public class TaskListAdapterV2 extends RecyclerView.Adapter<BaseViewHolder> {
         if (isLoaderVisible) return;
         isLoaderVisible = true;
         int position = mItems.size() - 1;
-        this.mItems.add(new Data(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,null, null,null));
+        this.mItems.add(new Data(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
         notifyItemInserted(position);
     }
 
@@ -146,6 +146,9 @@ public class TaskListAdapterV2 extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_avatar1)
         CircularImageView imgAvatar1;
+        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.img_avatar0)
+        CircularImageView imgAvatar0;
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_offer_count)
         TextView txtOfferCount;
@@ -191,27 +194,56 @@ public class TaskListAdapterV2 extends RecyclerView.Adapter<BaseViewHolder> {
             Data item = mItems.get(position);
             if (item.getOffers() != null)
                 if (item.getOffers().size() > 0) {
+
                     txtOfferCount.setTextColor(ContextCompat.getColor(context, R.color.N900));
-                    if (item.getOffers().size() >= 3) {
+                    if (item.getOffers().size() >= 4) {
                         imgAvatar3.setVisibility(View.VISIBLE);
                         imgAvatar2.setVisibility(View.VISIBLE);
                         imgAvatar1.setVisibility(View.VISIBLE);
+                        imgAvatar0.setVisibility(View.VISIBLE);
 
-                        if (item.getOffers().get(2).getAvatar() != null)
-                            ImageUtil.displayImage(imgAvatar3, item.getOffers().get(2).getAvatar(), null);
+                        if (item.getOffers().get(3).getAvatar() != null)
+                            ImageUtil.displayImage(imgAvatar3, item.getOffers().get(3).getAvatar(), null);
                         else
                             imgAvatar3.setImageResource(R.drawable.pic);
+
+                        if (item.getOffers().get(2).getAvatar() != null)
+                            ImageUtil.displayImage(imgAvatar2, item.getOffers().get(2).getAvatar(), null);
+                        else
+                            imgAvatar2.setImageResource(R.drawable.pic);
+
+                        if (item.getOffers().get(1).getAvatar() != null)
+                            ImageUtil.displayImage(imgAvatar1, item.getOffers().get(1).getAvatar(), null);
+                        else
+                            imgAvatar1.setImageResource(R.drawable.pic);
+
+                        if (item.getOffers().get(0).getAvatar() != null)
+                            ImageUtil.displayImage(imgAvatar0, item.getOffers().get(0).getAvatar(), null);
+                        else
+                            imgAvatar0.setImageResource(R.drawable.pic);
+
+                    } else if (item.getOffers().size() == 3) {
+                        imgAvatar0.setVisibility(View.GONE);
+                        imgAvatar1.setVisibility(View.VISIBLE);
+                        imgAvatar2.setVisibility(View.VISIBLE);
+                        imgAvatar3.setVisibility(View.VISIBLE);
+
+                        if (item.getOffers().get(2).getAvatar() != null)
+                            ImageUtil.displayImage(imgAvatar1, item.getOffers().get(2).getAvatar(), null);
+                        else
+                            imgAvatar1.setImageResource(R.drawable.pic);
+
                         if (item.getOffers().get(1).getAvatar() != null)
                             ImageUtil.displayImage(imgAvatar2, item.getOffers().get(1).getAvatar(), null);
                         else
                             imgAvatar2.setImageResource(R.drawable.pic);
 
                         if (item.getOffers().get(0).getAvatar() != null)
-                            ImageUtil.displayImage(imgAvatar1, item.getOffers().get(0).getAvatar(), null);
+                            ImageUtil.displayImage(imgAvatar3, item.getOffers().get(0).getAvatar(), null);
                         else
-                            imgAvatar1.setImageResource(R.drawable.pic);
-
+                            imgAvatar3.setImageResource(R.drawable.pic);
                     } else if (item.getOffers().size() == 2) {
+                        imgAvatar0.setVisibility(View.GONE);
                         imgAvatar1.setVisibility(View.GONE);
                         imgAvatar2.setVisibility(View.VISIBLE);
                         imgAvatar3.setVisibility(View.VISIBLE);
@@ -226,6 +258,7 @@ public class TaskListAdapterV2 extends RecyclerView.Adapter<BaseViewHolder> {
                         else
                             imgAvatar3.setImageResource(R.drawable.pic);
                     } else if (item.getOffers().size() == 1) {
+                        imgAvatar0.setVisibility(View.GONE);
                         imgAvatar1.setVisibility(View.GONE);
                         imgAvatar2.setVisibility(View.GONE);
                         imgAvatar3.setVisibility(View.VISIBLE);
@@ -239,6 +272,7 @@ public class TaskListAdapterV2 extends RecyclerView.Adapter<BaseViewHolder> {
                     imgAvatar3.setVisibility(View.GONE);
                     imgAvatar2.setVisibility(View.GONE);
                     imgAvatar1.setVisibility(View.GONE);
+                    imgAvatar0.setVisibility(View.GONE);
                     //imgAvatar3.setImageResource(R.drawable.pic);
                     txtOfferCount.setText("No offer yet");
                 }
@@ -246,6 +280,7 @@ public class TaskListAdapterV2 extends RecyclerView.Adapter<BaseViewHolder> {
                 imgAvatar3.setVisibility(View.GONE);
                 imgAvatar2.setVisibility(View.GONE);
                 imgAvatar1.setVisibility(View.GONE);
+                imgAvatar0.setVisibility(View.GONE);
                 txtOfferCount.setText("No offer yet");
                 txtOfferCount.setTextColor(ContextCompat.getColor(context, R.color.N300));
                 //imgAvatar3.setImageResource(R.drawable.pic);
@@ -253,7 +288,7 @@ public class TaskListAdapterV2 extends RecyclerView.Adapter<BaseViewHolder> {
 
 
             txtTitle.setText(item.getTitle());
-            txtDueDate.setText(TimeHelper.convertToWeekDateFormat(item.getDue_date()));
+            txtDueDate.setText(TimeHelper.convertToWeekDateFormatV2(item.getDue_date()));
 
             if (item.getLocation() != null) {
                 txtLocation.setText(item.getLocation());
@@ -268,7 +303,10 @@ public class TaskListAdapterV2 extends RecyclerView.Adapter<BaseViewHolder> {
             if (item.getOffers() != null) {
                 int count = item.getOffers().size();
                 if (count >= 1) {
-                    txtOfferCount.setVisibility(View.VISIBLE);
+                    if (item.getOffers().size() < 5)
+                        txtOfferCount.setVisibility(View.GONE);
+                    else
+                        txtOfferCount.setVisibility(View.VISIBLE);
                     txtOfferCount.setText(count + "");
                     if (count > 1000) {
                         txtOfferCount.setText("+" + count / 1000 + "K");
@@ -356,8 +394,7 @@ public class TaskListAdapterV2 extends RecyclerView.Adapter<BaseViewHolder> {
 
             if (userId != null && userId.equals(item.getPoster_id()) && item.getStatus().equals("open")) {
                 txtStatus.setText("Posted");
-            }
-            else if (userId != null && item.getStatus().equals("open")) {
+            } else if (userId != null && item.getStatus().equals("open")) {
                 txtStatus.setText("Open");
             } else if (item.getStatus().equalsIgnoreCase("Offered")) {
                 txtStatus.setText("Offered");

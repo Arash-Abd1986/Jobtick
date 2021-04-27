@@ -71,6 +71,23 @@ public class TimeHelper {
         }
         return sdf.format(date);
     }
+    public static String convertToWeekDateFormatV2(String time){
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
+        SimpleDateFormat sdf
+                = new SimpleDateFormat("EEEE, dd MMM", Locale.UK);
+
+        Date date = null;
+        try {
+            date = format.parse(time);
+        } catch (ParseException e) {
+            return "-1";
+        } catch (NullPointerException e){
+            return "No date set";
+        }
+        return sdf.format(date);
+    }
 
     //Format: T separator of date and time, output format: 13/03/2020
     public static String convertToJustDateFormat(String dateTime){

@@ -137,7 +137,7 @@
                 android:textColor="@color/N300" />
 
             <RelativeLayout
-                android:layout_width="60dp"
+                android:layout_width="75dp"
                 android:layout_height="25dp">
 
                 <com.mikhaellopez.circularimageview.CircularImageView
@@ -169,6 +169,16 @@
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="center"
                     android:layout_marginEnd="25dp"
+                    android:src="@drawable/pic"
+                    card_view:civ_border="false" />
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/img_avatar0"
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="40dp"
                     android:src="@drawable/pic"
                     card_view:civ_border="false" />
             </RelativeLayout>

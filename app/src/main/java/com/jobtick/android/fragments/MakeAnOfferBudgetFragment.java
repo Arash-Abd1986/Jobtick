@@ -226,7 +226,8 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable editable) {
-
+        if (edtBudget.getText().length() > 0)
+            calculate(edtBudget.getText());
         if (!validation(false)) {
             txtServiceFee.setText(R.string.dollar_00);
             txtFinalBudget.setText(R.string.dollar_00);
@@ -236,7 +237,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
             return;
         }
         is4Digits = edtBudget.getText().length() == 4;
-        calculate(edtBudget.getText().toString());
+
     }
 
     private boolean validation(boolean showToast) {

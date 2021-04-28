@@ -26,10 +26,15 @@ import com.jobtick.android.R;
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.activities.FiltersActivity;
+import com.jobtick.android.adapers.SuburbSearchAdapter;
 import com.jobtick.android.models.FilterModel;
+import com.jobtick.android.models.response.searchsuburb.Feature;
 import com.jobtick.android.utils.Constant;
+import com.jobtick.android.utils.Helper;
 import com.jobtick.android.utils.SuburbAutoComplete;
 import com.jobtick.android.widget.ExtendedEntryText;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
@@ -42,7 +47,7 @@ import static com.jobtick.android.utils.Constant.MAX_FILTER_DISTANCE_IN_KILOMETE
 /**
  * In person filter and all filter is similar, so we use abstract for it
  */
-public abstract class AbstractFilterFragment extends Fragment {
+public abstract class AbstractFilterFragment extends Fragment implements SuburbSearchAdapter.SubClickListener {
 
 
     @SuppressLint("NonConstantResourceId")
@@ -100,8 +105,17 @@ public abstract class AbstractFilterFragment extends Fragment {
     }
 
     public void startFindLocation() {
-        Intent intent = new SuburbAutoComplete(requireActivity()).getIntent();
-        startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
+        SearchSuburbBottomSheet infoBottomSheet = new SearchSuburbBottomSheet(this);
+        infoBottomSheet.show(getParentFragmentManager(), null);
+    }
+
+    @Override
+    public void clickOnSearchedLoc(@NotNull Feature location) {
+        Helper.closeKeyboard(requireActivity());
+        txtSuburb.setText(location.getPlace_name_en());
+        filtersActivity.setSuburb(location.getPlace_name_en());
+        filterModel.setLatitude(String.valueOf(location.getGeometry().getCoordinates().get(1)));
+        filterModel.setLogitude(String.valueOf(location.getGeometry().getCoordinates().get(0)));
     }
 
     @Override

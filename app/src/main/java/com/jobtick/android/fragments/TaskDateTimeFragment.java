@@ -281,8 +281,11 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
                 showSpinner();
             }
         });
-
-        confDate();
+        try {
+            confDate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @OnClick({R.id.txt_title_morning, R.id.txt_subtitle_morning,

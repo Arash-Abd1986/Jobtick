@@ -257,6 +257,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         });
     }
 
+    @SuppressLint("SetTextI18n")
     private void initFilter() {
         recyclerViewFilters.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -266,13 +267,15 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         filterAdapter = new FilterAdapter(filters);
         filterAdapter.setmOnFilterDeleteListener(filters::clear);
         recyclerViewFilters.setAdapter(filterAdapter);
-        txtFilter.setText(filters.size() + " Filter");
+
+        txtFilter.setText(filters.size() + " Filter" + ((filters.size() > 1) ? "s" : ""));
         if (sessionManager.getFilter() != null) {
             filterModel = sessionManager.getFilter();
         }
         setFilterData();
     }
 
+    @SuppressLint("SetTextI18n")
     private void setFilterData() {
         filters.clear();
         if (filterModel.getSection() != null) {
@@ -299,7 +302,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         if (filters.size() != 0) {
             filterAdapter.notifyDataSetChanged();
         }
-        txtFilter.setText(filters.size() + " Filter");
+        txtFilter.setText(filters.size() + " Filter" + ((filters.size() > 1) ? "s" : ""));
     }
 
 //    @OnClick({R.id.lyt_search_new})
@@ -334,7 +337,7 @@ public class BrowseFragment extends Fragment implements SwipeRefreshLayout.OnRef
         }
         if (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_ALL)) {
             queryParameter = queryParameter + "&task_type=" + Constant.FILTER_ALL_QUERY;
-            queryParameter = queryParameter + "&distance=" + filterModel.getDistance() ;
+            queryParameter = queryParameter + "&distance=" + filterModel.getDistance();
             String[] price = filterModel.getPrice().replace("$", "").replace(",", "").split("-");
             queryParameter = queryParameter + "&min_price=" + price[0].trim() + "&max_price=" + price[1].trim();
             queryParameter = queryParameter + "&current_lat=" + filterModel.getLatitude();

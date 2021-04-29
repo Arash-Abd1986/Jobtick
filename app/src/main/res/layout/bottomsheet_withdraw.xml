@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_b_s"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:background="@drawable/bg_white_top_c"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp">
+
+        <View
+            android:layout_width="48dp"
+            android:layout_height="4dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/top_bottom_sheet_line" />
+    </RelativeLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/materialText_500_16"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="Withdraw"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/N900" />
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/materialText_500_14"
+        android:layout_width="match_parent"
+        android:gravity="start"
+        android:layout_height="wrap_content"
+        android:text="Do you want to withdraw your offer for this job?"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/N900" />
+    <LinearLayout
+        android:layout_marginTop="40dp"
+        android:id="@+id/lyt_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="24dp"
+
+        android:weightSum="10">
+
+        <RelativeLayout
+            android:id="@+id/rl_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_8dp"
+            android:layout_weight="5"
+            android:padding="@dimen/spacing_large"
+            android:background="@drawable/rectangle_card_round_corners_outlined_primary_4_blue"
+            >
+
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_500_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:gravity="center"
+                android:textColor="@color/P300" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/withdraw"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:layout_weight="5"
+            android:layout_marginStart="@dimen/_8dp"
+            android:padding="@dimen/spacing_large"
+            android:background="@drawable/rectangle_card_round_corners_outlined_primary_blue"
+            >
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_500_14"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Withdraw"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

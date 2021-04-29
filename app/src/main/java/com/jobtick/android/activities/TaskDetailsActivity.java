@@ -70,7 +70,9 @@ import com.jobtick.android.fragments.IncreaseBudgetBottomSheet;
 import com.jobtick.android.fragments.IncreaseBudgetDeclineBottomSheet;
 import com.jobtick.android.fragments.IncreaseBudgetNoticeBottomSheet;
 import com.jobtick.android.fragments.RescheduleNoticeBottomSheetState;
+import com.jobtick.android.fragments.SearchSuburbBottomSheet;
 import com.jobtick.android.fragments.TickerRequirementsBottomSheet;
+import com.jobtick.android.fragments.WithdrawBottomSheet;
 import com.jobtick.android.interfaces.OnRequestAcceptListener;
 import com.jobtick.android.interfaces.OnWidthDrawListener;
 import com.jobtick.android.models.AttachmentModel;
@@ -143,7 +145,7 @@ import static com.jobtick.android.utils.Constant.TASK_OVERDUE;
 import static com.jobtick.android.utils.Constant.TASK_PENDING;
 import static com.jobtick.android.utils.Constant.URL_TASKS;
 
-public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener,
+public class TaskDetailsActivity extends ActivityBase implements OfferListAdapter.OnItemClickListener, WithdrawBottomSheet.Withdraw,
         QuestionListAdapter.OnItemClickListener, QuestionAttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, ExtendedAlertBox.OnExtendedAlertButtonClickListener,
         RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener,
         IncreaseBudgetNoticeBottomSheet.NoticeListener, IncreaseBudgetDeclineBottomSheet.NoticeListener,
@@ -242,7 +244,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     LinearLayout lytBtnViewAllOffers;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_view_all_offers)
-    CardView cardViewAllOffers;
+    RelativeLayout
+            cardViewAllOffers;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_offer_layout)
     CardView cardOfferLayout;
@@ -291,7 +294,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     LinearLayout lytBtnViewAllQuestions;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lyt_view_all_questions)
-    LinearLayout lytViewAllQuestions;
+    RelativeLayout lytViewAllQuestions;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_questions_layout)
     LinearLayout cardQuestionsLayout;
@@ -357,6 +360,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     public static OnRequestAcceptListener requestAcceptListener;
     public static OnWidthDrawListener widthDrawListener;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
+    private ArrayList<OfferModel> offerListS = new ArrayList<>();
+    private ArrayList<OfferModel> offerListF = new ArrayList<>();
 
 
     public UserAccountModel userAccountModel;
@@ -585,7 +590,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     recyclerViewOffers.setVisibility(View.VISIBLE);
                     if (offerListAdapter != null)
                         offerListAdapter.clear();
-                    offerListAdapter.addItems(taskModel.getOffers());
+
+                    if (taskModel.getOffers().size() > 5) {
+                        offerListS = new ArrayList<>();
+                        offerListF = new ArrayList<>();
+                        offerListF.addAll(taskModel.getOffers());
+                        offerListS.addAll(taskModel.getOffers().subList(0, 2));
+                        offerListAdapter.addItems(offerListS);
+                    } else {
+                        offerListAdapter.addItems(taskModel.getOffers());
+                    }
                     for (int i = 0; i < taskModel.getOffers().size(); i++) {
                         if (taskModel.getOffers().get(i).getId() == pushOfferID) {
                             onItemOfferClick(null, taskModel.getOffers().get(i), i, "reply");
@@ -920,7 +934,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     LinearLayout content;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llLoading)
-    LinearLayout llLoading;
+    RelativeLayout llLoading;
 
     private void onLoadingFinished() {
         if (isGetBankAccountLoaded && isInitPageLoaded && isGetBillingAddressLoaded && isUserProfileLoaded) {
@@ -1178,7 +1192,20 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 initQuestion();
                                 setChatButton(taskModel.getStatus().toLowerCase(), jsonObject_data);
                                 setPosterChatButton(taskModel.getStatus().toLowerCase(), jsonObject_data);
+                                if (jsonObject_data.has("conversations") && !jsonObject_data.isNull("conversations")) {
+                                    for (int i = 0; i < jsonObject_data.getJSONArray("conversations").length(); ++i) {
+                                        int first = jsonObject_data.getJSONArray("conversations").getJSONObject(i).getJSONArray("users").getJSONObject(0).getInt("id");
+                                        int sec = jsonObject_data.getJSONArray("conversations").getJSONObject(i).getJSONArray("users").getJSONObject(1).getInt("id");
+                                        if (first == sessionManager.getUserAccount().getId() || sec == sessionManager.getUserAccount().getId()) {
+                                            lytBtnMessage.setBackgroundResource(R.drawable.shape_rounded_back_button_active);
+                                            lytBtnMessage.setOnClickListener(v->{
+                                                getConversationId(taskModel.getSlug(), taskModel.getPoster().getId().toString());
 
+                                            });
+                                        }
+                                    }
+
+                                }
 
                                 if (taskModel.getTaskType().equals("physical")) {
                                     llLocation.setOnClickListener(v -> {
@@ -1821,11 +1848,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         }
 
         //TODO taskModel.getOfferCount() > 5
-//        if (offerCount > 5) {
-//            cardViewAllOffers.setVisibility(View.VISIBLE);
-//        } else {
-//            cardViewAllOffers.setVisibility(View.GONE);
-//        }
+        if (offerCount > 5) {
+            cardViewAllOffers.setVisibility(View.VISIBLE);
+        } else {
+            cardViewAllOffers.setVisibility(View.GONE);
+        }
+        cardViewAllOffers.setOnClickListener(v -> {
+            offerListAdapter.clear();
+            offerListAdapter.addItems(offerListF);
+            cardViewAllOffers.setVisibility(View.GONE);
+        });
     }
 
     private void addBottomDots(LinearLayout layout_dots, int size, int current) {
@@ -2249,24 +2281,19 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     }
 
     @Override
-    public void onWidthdraw(int id) {
-
-        new MaterialAlertDialogBuilder(this)
-                .setCancelable(false)
-                .setTitle(getResources().getString(R.string.title_withdraw))
-                .setNegativeButton(getResources().getString(R.string.no), (dialog, which) -> dialog.dismiss())
-                .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        doApiCall(Constant.URL_OFFERS + "/" + id);
-                    }
-                }).show();
+    public void onWithdraw(int id) {
+        WithdrawBottomSheet infoBottomSheet = new WithdrawBottomSheet(this, id);
+        infoBottomSheet.show(getSupportFragmentManager(), null);
     }
 
     @Override
     public void onStripeRequirementFilled() {
         initialStage();
+    }
+
+    @Override
+    public void startWithdraw(int id) {
+        doApiCall(Constant.URL_OFFERS + "/" + id);
     }
 
 
@@ -3206,7 +3233,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         UserAccountModel reciver = new UserAccountModel();
                         AttachmentModel senderA = new AttachmentModel();
                         AttachmentModel reciverA = new AttachmentModel();
-                        AttachmentModel attachment = new  AttachmentModel();
+                        AttachmentModel attachment = new AttachmentModel();
 
                         GetConversationInfoResponse myJobsResponse = gson.fromJson(jsonObject.toString(), GetConversationInfoResponse.class);
                         if (myJobsResponse.getSuccess()) {
@@ -3289,7 +3316,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                             bundle.putParcelable(ConstantKey.CONVERSATION, conversationModel);
                             intent.putExtras(bundle);
                             startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT);
-                        }else {
+                        } else {
                             showToast("Something Went Wrong", this);
                         }
 

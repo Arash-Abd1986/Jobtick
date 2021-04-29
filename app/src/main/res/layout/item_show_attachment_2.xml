@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="55dp"
-    android:layout_height="@dimen/_55dp"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/content"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,12 +17,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.rishabhharit.roundedimageview.RoundedImageView
+            <ImageView
                 app:cornerRadius="10dp"
                 android:id="@+id/img_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
+                android:src="@drawable/attech"
                 android:visibility="visible" />
 
             <ImageView

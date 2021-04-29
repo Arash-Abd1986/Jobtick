@@ -130,7 +130,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return mItems.get(position);
     }
 
-    public class ViewHolder extends BaseViewHolder implements PublicChatListAdapter.OnItemClickListener, AttachmentAdapter.OnItemClickListener {
+    public class ViewHolder extends BaseViewHolder implements PublicChatListAdapter.OnItemClickListener, AttachmentAdapter2.OnItemClickListener {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.img_avatar)
         CircularImageView imgAvatar;
@@ -217,7 +217,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             txtMessage.setText(item.getQuestionText());
             if (item.getAttachments().size() != 0) {
                 recyclerViewQuestion.setVisibility(View.VISIBLE);
-                AttachmentAdapter attachmentAdapter = new AttachmentAdapter(item.getAttachments(), false,context);
+                AttachmentAdapter2 attachmentAdapter = new AttachmentAdapter2(item.getAttachments(), false,context);
                 recyclerViewQuestion.setHasFixedSize(true);
                 recyclerViewQuestion.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                 recyclerViewQuestion.setAdapter(attachmentAdapter);
@@ -227,22 +227,20 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 recyclerViewQuestion.setVisibility(View.GONE);
             }
 
-            txtMessage.post(new Runnable() {
-                @Override
-                public void run() {
-                    int lineCount = txtMessage.getLineCount();
-                    Timber.tag("COUNT").e(String.valueOf(lineCount));
-                    if (lineCount > Constant.MAX_LINE_TEXTVIEW_MORE_4) {
-                        // view.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE);
-                        lytBtnMore.setVisibility(View.VISIBLE);
-                        txtMoreLess.setText(item.getStrMore());
-                        mItems.get(getAdapterPosition()).setIsUserPrefrenceToMore(true);
-                        if (item.getIsUserPrefrenceToMore()) {
-                            txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
-                        }
-                    } else {
-                        lytBtnMore.setVisibility(View.GONE);
+            txtMessage.post(() -> {
+
+                int lineCount = txtMessage.getLineCount();
+                Timber.tag("COUNT").e(String.valueOf(lineCount));
+                if (lineCount > Constant.MAX_LINE_TEXTVIEW_MORE_4) {
+                    // view.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE);
+                    lytBtnMore.setVisibility(View.VISIBLE);
+                    txtMoreLess.setText(item.getStrMore());
+                    mItems.get(getAdapterPosition()).setIsUserPrefrenceToMore(true);
+                    if (item.getIsUserPrefrenceToMore()) {
+                        txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
                     }
+                } else {
+                    lytBtnMore.setVisibility(View.GONE);
                 }
             });
 /*

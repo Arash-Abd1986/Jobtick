@@ -2,7 +2,11 @@ package com.jobtick.android.adapers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +55,8 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private final boolean isMyTask;
     SessionManager sessionManager;
-
+    Spannable spanS;
+    Spannable spanF;
     private final Context context;
     private OnItemClickListener mOnItemClickListener;
 
@@ -160,6 +165,9 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_budget)
         TextView txtBudget;
+        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.my_offer)
+        TextView myOffer;
         @BindView(R.id.txt_budget2)
         TextView txtBudget2;
         @BindView(R.id.txt_reply)
@@ -179,6 +187,9 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_created_date)
         TextView txtCreatedDate;
+        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.txt_created_date2)
+        TextView txtCreatedDate2;
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_message)
         TextView txtMessage;
@@ -235,7 +246,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.card_deleteOffer)
-        CardView cardDeleteOffer;
+        LinearLayout cardDeleteOffer;
 
 
         @SuppressLint("NonConstantResourceId")
@@ -297,36 +308,14 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }
 
             txtBudget.setText("$" + item.getOfferPrice());
+            myOffer.setText("$" + item.getOfferPrice());
             txtBudget2.setText("$" + item.getOfferPrice());
             if (item.getWorker().getId().equals(sessionManager.getUserAccount().getId())) {
                 cardDeleteOffer.setVisibility(View.VISIBLE);
-                ivFlag.setVisibility(View.GONE);
             } else {
                 cardDeleteOffer.setVisibility(View.GONE);
-                ivFlag.setVisibility(View.VISIBLE);
             }
 
-
-            if(isMyTask){
-                txtReply.setVisibility(View.GONE);
-                txtBudget.setVisibility(View.VISIBLE);
-                linOfferMessage.setVisibility(View.VISIBLE);
-                linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
-                linBudget.setVisibility(View.GONE);
-                imgReply.setVisibility(View.GONE);
-            }else{
-                linOfferMessage.setVisibility(View.GONE);
-                txtReply.setVisibility(View.VISIBLE);
-                txtBudget.setVisibility(View.GONE);
-                linBudget.setVisibility(View.VISIBLE);
-                imgReply.setVisibility(View.VISIBLE);
-                linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
-                if (item.getWorker().getId().equals(sessionManager.getUserAccount().getId())) {
-                    linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
-                }else{
-                    linearAcceptDeleteOffer.setVisibility(View.GONE);
-                }
-            }
 
             txtName.setText(item.getWorker().getName());
             if (item.getWorker() != null && item.getWorker().getWorkerRatings() != null && item.getWorker().getWorkerRatings().getAvgRating() != null) {
@@ -341,12 +330,12 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             assert item.getWorker() != null;
             txtCompletionRate.setText(item.getWorker().getWorkTaskStatistics().getCompletionRate() + "%");
             txtCreatedDate.setText(item.getCreatedAt());
+            txtCreatedDate2.setText(item.getCreatedAt());
             if (item.getAttachments() != null && item.getAttachments().size() != 0) {
                 cardLiveVideo.setVisibility(View.VISIBLE);
                 txtMessage.setVisibility(View.GONE);
                 //txtType.setText("Video Offer");
                 ImageUtil.displayImage(imgOfferOnTask, item.getAttachments().get(0).getModalUrl(), null);
-                lytBtnMore.setVisibility(View.GONE);
             } else {
                 cardLiveVideo.setVisibility(View.GONE);
                 txtMessage.setVisibility(View.VISIBLE);
@@ -372,18 +361,25 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 });
 
 */
+                spanS = null;
+                spanF = null;
                 txtMessage.post(() -> {
                     int lineCount = txtMessage.getLineCount();
                     if (lineCount > Constant.MAX_LINE_TEXTVIEW_MORE_4) {
                         // view.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE);
-                        lytBtnMore.setVisibility(View.VISIBLE);
-                        txtMoreLess.setText(item.getStrMore());
+                        spanF = new SpannableString(txtMessage.getText().toString() + "  Less");
+                        spanF.setSpan(new ForegroundColorSpan(Color.BLUE), txtMessage.getText().toString().length(), txtMessage.getText().toString().length() + 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+                        int end = txtMessage.getLayout().getLineStart(4);
+                        spanS = new SpannableString(txtMessage.getText().toString().substring(0, end - 1) + "  More");
+                        spanS.setSpan(new ForegroundColorSpan(Color.BLUE), txtMessage.getText().toString().substring(0, end).length(), txtMessage.getText().toString().substring(0, end - 1).length() + 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                        txtMessage.setText(spanS);
                         mItems.get(getAdapterPosition()).setIsUserPrefrenceToMore(true);
                         if (item.getIsUserPrefrenceToMore()) {
                             txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
                         }
-                    } else {
-                        lytBtnMore.setVisibility(View.GONE);
                     }
                 });
 
@@ -411,34 +407,32 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             cardDeleteOffer.setOnClickListener(v -> {
 
                 if (widthDrawListener != null) {
-                    widthDrawListener.onWidthdraw(item.getId());
+                    widthDrawListener.onWithdraw(item.getId());
                 }
 
 
             });
-            lytBtnMore.setOnClickListener(v -> {
+            txtMessage.setOnClickListener(v -> {
                 if (item.getStrMore().equalsIgnoreCase("More")) {
-                    txtMessage.setMaxLines(Integer.MAX_VALUE);
-                    lytBtnMore.setVisibility(View.VISIBLE);
-                    txtMoreLess.setText("Less");
-                    imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_up_blue));
-                    mItems.get(getAdapterPosition()).setStrMore("Less");
-                    item.setStrMore("Less");
+                    if (spanF != null) {
+                        txtMessage.setMaxLines(Integer.MAX_VALUE);
+                        txtMessage.setText(spanF);
+                        item.setStrMore("Less");
+                    }
                 } else {
-                    txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
-                    lytBtnMore.setVisibility(View.VISIBLE);
-                    txtMoreLess.setText("More");
-                    imgMoreLessArrow.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_arrow_down_blue));
-                    mItems.get(getAdapterPosition()).setStrMore("More");
-                    item.setStrMore("More");
+                    if (spanS != null) {
+                        txtMessage.setText(spanS);
+                        txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
+                        item.setStrMore("More");
+                    }
                 }
             });
 
-            lytBtnReply.setOnClickListener(v -> {
-                if (mOnItemClickListener != null) {
-                    mOnItemClickListener.onItemOfferClick(v, item, getAdapterPosition(), "reply");
-                }
-            });
+//            lytBtnReply.setOnClickListener(v -> {
+//                if (mOnItemClickListener != null) {
+//                    mOnItemClickListener.onItemOfferClick(v, item, getAdapterPosition(), "reply");
+//                }
+//            });
 
             txtBtnAccept.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) {
@@ -492,6 +486,43 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             });
 
+            if (isMyTask) {
+                txtReply.setVisibility(View.GONE);
+                txtBudget.setVisibility(View.VISIBLE);
+                linOfferMessage.setVisibility(View.VISIBLE);
+                linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
+                linBudget.setVisibility(View.GONE);
+                myOffer.setVisibility(View.GONE);
+                imgReply.setVisibility(View.GONE);
+                ivFlag.setVisibility(View.VISIBLE);
+                txtCreatedDate.setVisibility(View.VISIBLE);
+                txtCreatedDate2.setVisibility(View.GONE);
+                cardDeleteOffer.setVisibility(View.GONE);
+            } else {
+                ivFlag.setVisibility(View.GONE);
+                linOfferMessage.setVisibility(View.GONE);
+                txtReply.setVisibility(View.GONE);
+                txtBudget.setVisibility(View.GONE);
+                linBudget.setVisibility(View.VISIBLE);
+                imgReply.setVisibility(View.GONE);
+                linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
+                if (item.getWorker().getId().equals(sessionManager.getUserAccount().getId())) {
+                    linearAcceptDeleteOffer.setVisibility(View.GONE);
+                    cardDeleteOffer.setVisibility(View.VISIBLE);
+                    myOffer.setVisibility(View.VISIBLE);
+                    txtMessage.setVisibility(View.VISIBLE);
+                    txtCreatedDate.setVisibility(View.VISIBLE);
+                    txtCreatedDate2.setVisibility(View.GONE);
+
+                } else {
+                    txtCreatedDate.setVisibility(View.GONE);
+                    txtCreatedDate2.setVisibility(View.VISIBLE);
+                    myOffer.setVisibility(View.GONE);
+                    txtMessage.setVisibility(View.GONE);
+                    linearAcceptDeleteOffer.setVisibility(View.GONE);
+                    cardDeleteOffer.setVisibility(View.GONE);
+                }
+            }
 
             PublicChatListAdapter publicChatListAdapter = new PublicChatListAdapter(context, new ArrayList<>());
             recyclerViewOfferChat.setHasFixedSize(true);

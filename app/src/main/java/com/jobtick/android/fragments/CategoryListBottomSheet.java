@@ -111,7 +111,7 @@ public class CategoryListBottomSheet extends BottomSheetDialogFragment implement
     public List<TaskCategory> getTaskCategoryData() {
         List<TaskCategory> items = new ArrayList<>();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.BASE_URL + Constant.TASK_CATEGORY_V2 + "?query=" + query,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,  Constant.TASK_CATEGORY_V2 + "?query=" + query,
                 response -> {
                     try {
                         JSONObject jsonObject = new JSONObject(response);

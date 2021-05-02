@@ -30,6 +30,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.jobtick.android.AppController;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 
@@ -77,6 +78,8 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -173,11 +176,11 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     Handler handler = new Handler();
     private boolean needRefresh = true;
     Runnable runnable;
-    int delay = 1000 ;
+    int delay = 1000;
     ArrayList<ChatModel> items = new ArrayList<>();
-
-
+    private Socket mSocket;
     private UploadableImage uploadableImage;
+    private static final String TAG = "Chat Activity";
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -189,6 +192,18 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
     @Override
     protected void onResume() {
         super.onResume();
+        AppController app = (AppController) this.getApplication();
+        mSocket = app.getSocket();
+        mSocket.on(Socket.EVENT_CONNECT, onConnect);
+        mSocket.on(Socket.EVENT_DISCONNECT, onDisconnect);
+        mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
+        mSocket.on("auth", onAutResponse);
+        mSocket.on("newpm", onNewMessage);
+        mSocket.on("userstatus", userStatus);
+        mSocket.on("whoareyou", whoAreYou);
+        mSocket.connect();
+
+
         needRefresh = true;
         handler.postDelayed(runnable = () -> {
             handler.postDelayed(runnable, delay);
@@ -196,6 +211,75 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
                 getLastMessages();
         }, delay);
     }
+
+    private Emitter.Listener onDisconnect = args -> this.runOnUiThread(() -> {
+        Log.i(TAG, "diconnected");
+
+    });
+    private Emitter.Listener onConnect = args -> runOnUiThread((Runnable) () -> {
+        Log.e(TAG, "Success connecting");
+        mSocket.emit("auth", sessionManager.getAccessToken());
+    });
+    private Emitter.Listener onConnectError = args -> runOnUiThread(() -> {
+        Log.e(TAG, "Error connecting");
+
+    });
+
+    private Emitter.Listener onNewMessage = args -> runOnUiThread(() -> {
+
+        try {
+            Log.e(TAG, "message response");
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            return;
+        }
+
+    });
+    private Emitter.Listener userStatus = args -> runOnUiThread(() -> {
+
+        try {
+            Log.e(TAG, "status response");
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            return;
+        }
+
+    });
+
+    private Emitter.Listener whoAreYou = args -> runOnUiThread(() -> {
+
+        try {
+            Log.e(TAG, "status response");
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            return;
+        }
+
+    });
+
+
+    private Emitter.Listener onAutResponse = args -> runOnUiThread(() -> {
+
+        try {
+            if ((Boolean) args[0]) {
+                Log.e(TAG, "Success autResponse");
+                //id k mikham check konam
+                mSocket.emit("subscribe", "userstatus-" + conversationModel.getSender().getId().toString());
+                mSocket.emit("isonline",  conversationModel.getSender().getId().toString());
+
+            }
+
+            //
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            return;
+        }
+
+    });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -798,6 +882,11 @@ public class ChatActivity extends ActivityBase implements SwipeRefreshLayout.OnR
         super.onDestroy();
         // Disconnect from the service
         pusher.disconnect();
+
+        mSocket.disconnect();
+        mSocket.off(Socket.EVENT_CONNECT, onConnect);
+        mSocket.off(Socket.EVENT_DISCONNECT, onDisconnect);
+        mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
     }
 
     @SuppressLint("NonConstantResourceId")

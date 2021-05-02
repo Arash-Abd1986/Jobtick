@@ -94,8 +94,8 @@
                     app:haloColor="@color/grey_E2E2E2"
                     app:labelBehavior="gone"
                     app:thumbColor="@color/colorPrimary"
-                    app:tickColor="@color/grey_E2E2E2"
                     app:tickColorActive="@color/colorPrimary"
+                    app:tickColorInactive="@color/grey_E2E2E2"
                     app:trackColorActive="@color/colorPrimary"
                     app:trackColorInactive="@color/grey_E2E2E2" />
             </LinearLayout>

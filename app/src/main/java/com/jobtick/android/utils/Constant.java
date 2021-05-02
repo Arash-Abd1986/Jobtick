@@ -82,7 +82,7 @@ public class Constant {
     public static final String TASK_PAYMENT_TYPE_FIXED = "fixed";
     public static final String TASK_PAYMENT_TYPE_HOURLY = "hourly";
     public static final String TASK_CATEGORY = "category";
-    public static final String TASK_CATEGORY_V2 = "category/v2";
+    public static final String TASK_CATEGORY_V2 =  BASE_URL_v2 + "category";
     public static final String CHECK_UPDATE = "init-info";
     public static final String ADD_BILLING = "account/billingaddress";
     public static final String ADD_ACCOUNT_DETAILS = "account/bankaccount";

@@ -1192,13 +1192,20 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 initQuestion();
                                 setChatButton(taskModel.getStatus().toLowerCase(), jsonObject_data);
                                 setPosterChatButton(taskModel.getStatus().toLowerCase(), jsonObject_data);
+                                if (taskModel.getPoster().getId().toString().equals(sessionManager.getUserAccount().getId().toString())) {
+                                    txtStatusOpen.setText("Posted");
+                                } else {
+                                    if (taskModel.getOfferSent())
+                                        txtStatusOpen.setText("Offered");
+
+                                }
                                 if (jsonObject_data.has("conversations") && !jsonObject_data.isNull("conversations")) {
                                     for (int i = 0; i < jsonObject_data.getJSONArray("conversations").length(); ++i) {
                                         int first = jsonObject_data.getJSONArray("conversations").getJSONObject(i).getJSONArray("users").getJSONObject(0).getInt("id");
                                         int sec = jsonObject_data.getJSONArray("conversations").getJSONObject(i).getJSONArray("users").getJSONObject(1).getInt("id");
                                         if (first == sessionManager.getUserAccount().getId() || sec == sessionManager.getUserAccount().getId()) {
                                             lytBtnMessage.setBackgroundResource(R.drawable.shape_rounded_back_button_active);
-                                            lytBtnMessage.setOnClickListener(v->{
+                                            lytBtnMessage.setOnClickListener(v -> {
                                                 getConversationId(taskModel.getSlug(), taskModel.getPoster().getId().toString());
 
                                             });
@@ -1214,7 +1221,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                     });
                                 }
                                 questionListAdapter.clear();
-                                questionListAdapter.addItems(taskModel.getQuestions());
+
+                                if (taskModel.getQuestions().size() > 5)
+                                    questionListAdapter.addItems(taskModel.getQuestions().subList(0, 5));
+                                else
+                                    questionListAdapter.addItems(taskModel.getQuestions());
 
                                 for (int i = 0; i < taskModel.getQuestions().size(); i++) {
                                     if (taskModel.getQuestions().get(i).getId() == pushQuestionID) {
@@ -1302,7 +1313,10 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                     });
                                 }
                                 questionListAdapter.clear();
-                                questionListAdapter.addItems(taskModel.getQuestions());
+                                if (taskModel.getQuestions().size() > 5)
+                                    questionListAdapter.addItems(taskModel.getQuestions().subList(0, 5));
+                                else
+                                    questionListAdapter.addItems(taskModel.getQuestions());
 
                                 for (int i = 0; i < taskModel.getQuestions().size(); i++) {
                                     if (taskModel.getQuestions().get(i).getId() == pushQuestionID) {
@@ -2000,7 +2014,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         requirementState.put(Requirement.BirthDate, false);
         requirementState.put(Requirement.PhoneNumber, false);
 
-        if (userAccountModel != null && userAccountModel.getAvatar() != null &&
+        if (userAccountModel != null && userAccountModel.getAvatar() != null && userAccountModel.getAvatar().getUrl() != null &&
                 !userAccountModel.getAvatar().getUrl().equals("")) {
             requirementState.put(Requirement.Profile, true);
         }

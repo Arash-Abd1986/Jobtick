@@ -319,8 +319,8 @@
                         android:gravity="center">
 
                         <ImageView
-                            android:layout_width="@dimen/_30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:layout_gravity="center"
                             android:layout_marginEnd="@dimen/_8dp"
                             android:contentDescription="@string/todo"
@@ -328,7 +328,7 @@
                             android:src="@drawable/ic_message_blue" />
 
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/materialText_500_18"
+                            style="@style/materialText_500_14"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -380,7 +380,7 @@
 
                                 <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_btn_accept"
-                                    style="@style/materialText_500_18"
+                                    style="@style/materialText_500_14"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_gravity="center"

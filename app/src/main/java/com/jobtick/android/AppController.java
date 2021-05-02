@@ -13,7 +13,13 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.jobtick.android.utils.Constant;
 import com.onesignal.OneSignal;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.engineio.client.transports.WebSocket;
 
 
 public class AppController extends Application {
@@ -22,6 +28,7 @@ public class AppController extends Application {
     public FirebaseCrashlytics mCrashlytics;
     private boolean isDebug;
     private static final String AF_DEV_KEY = "CQ6XaLaFHQacQ54uQK4G36";
+    private Socket mSocket;
 
     @Override
     public void onCreate() {
@@ -40,6 +47,15 @@ public class AppController extends Application {
                 .unsubscribeWhenNotificationsAreDisabled(true)
                 .init();
 
+        OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
+            @Override
+            public void idsAvailable(String userId, String registrationId) {
+               // Log.d("debug", "User:" + userId);
+                //if (registrationId != null)
+                    //Log.d("debug", "registrationId:" + registrationId);
+
+            }
+        });
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         // Operations on FirebaseCrashlytics.
@@ -47,7 +63,8 @@ public class AppController extends Application {
         mCrashlytics.setCrashlyticsCollectionEnabled(!isDebug);
         AppsFlyerConversionListener conversionListener = new AppsFlyerConversionListener() {
             @Override
-            public void onConversionDataSuccess(Map<String, Object> conversionData) { }
+            public void onConversionDataSuccess(Map<String, Object> conversionData) {
+            }
 
             @Override
             public void onConversionDataFail(String errorMessage) {
@@ -65,8 +82,21 @@ public class AppController extends Application {
 
         AppsFlyerLib.getInstance().init(AF_DEV_KEY, conversionListener, this);
         AppsFlyerLib.getInstance().start(this);
+
     }
 
+    public Socket getSocket() {
+        if (mSocket == null) {
+            try {
+                IO.Options opts = new IO.Options();
+                opts.transports = new String[] { WebSocket.NAME };
+                mSocket = IO.socket(URI.create("http://99.79.103.117:3003"), opts);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return mSocket;
+    }
 
     public boolean isDebug() {
         return isDebug;

@@ -452,7 +452,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         } catch (Exception e) {
             e.printStackTrace();
         }
-        edtComment.setHint(String.format("Ask %s a question", simpleName));
+        edtComment.setHint(String.format("Reply to %s", simpleName));
         recyclerViewQuestions.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(TaskDetailsActivity.this);
         recyclerViewQuestions.setLayoutManager(layoutManager);

@@ -41,7 +41,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TaskBudgetFragment extends Fragment implements TextWatcher {
+public class TaskBudgetFragment extends Fragment {
 
 
     TaskCreateActivity taskCreateActivity;
@@ -232,6 +232,7 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
 
             @Override
             public void afterTextChanged(Editable s) {
+
             }
 
             @Override
@@ -256,6 +257,7 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
 
             @Override
             public void afterTextChanged(Editable s) {
+
             }
 
             @Override
@@ -266,6 +268,7 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
+
                 if (getValidationCode(false)) {
                     ((TaskCreateActivity) getActivity()).setBudgetComplete(true);
                     cardPost.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_rounded_back_button_active));
@@ -278,9 +281,60 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
     }
 
     private void edtText() {
-        edtBudgetH.addTextChangedListener(this);
-        edtHours.addTextChangedListener(this);
-        edtBudgetT.addTextChangedListener(this);
+        edtBudgetH.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                showEstimatedBudget();
+                if (s.toString().equals("0"))
+                    edtBudgetH.setText("");
+            }
+        });
+        edtHours.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                showEstimatedBudget();
+                if (s.toString().equals("0"))
+                    edtHours.setText("");
+            }
+        });
+        edtBudgetT.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                showEstimatedBudget();
+                if (s.toString().equals("0"))
+                    edtBudgetT.setText("");
+            }
+        });
     }
 
     private void radioBtnClick() {
@@ -385,21 +439,6 @@ public class TaskBudgetFragment extends Fragment implements TextWatcher {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-        showEstimatedBudget();
     }
 
     public interface OperationsListener {

@@ -6,5 +6,5 @@
         android:left="@dimen/spacing_xsmall"
         android:right="@dimen/spacing_xsmall"
         android:top="@dimen/spacing_xsmall" />
-    <solid android:color="@color/colorTaskCompleted" />
+    <solid android:color="@color/N800hf" />
 </shape>

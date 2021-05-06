@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-    <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">dev.jobtick.com</domain>
-        <domain includeSubdomains="true">99.79.103.117</domain>
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="false">dev.jobtick.com</domain>
     </domain-config>
 </network-security-config>

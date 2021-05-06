@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundLightGrey"
     android:orientation="vertical"
     tools:context=".activities.ChatActivity">
 
@@ -14,155 +13,172 @@
         android:background="@color/backgroundLightGrey"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentTop="true"
-            app:contentInsetStartWithNavigation="0dp"
-            app:menu="@menu/menu_chat"
-            app:navigationIcon="@drawable/ic_back"
-            app:subtitle="Offline"
-            app:subtitleTextColor="@color/colorPrimary">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <com.mikhaellopez.circularimageview.CircularImageView
-                    android:id="@+id/img_avatar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="2dp"
-                    app:civ_border_width="0dp"
-                    tools:src="@drawable/pic" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/txt_title"
-                        style="@style/materialText_600_12"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:textColor="@color/textColor"
-                        tools:text="Username" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/txt_subtitle"
-                        style="@style/materialText_400_12"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="normal"
-                        tools:text="Online" />
-                </LinearLayout>
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-
         <LinearLayout
-            android:id="@+id/holder"
+            android:id="@+id/lin_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:background="@color/white"
             android:orientation="vertical">
-            <ImageView
-                android:background="#11000000"
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                app:contentInsetStartWithNavigation="0dp"
+                app:menu="@menu/menu_chat"
+                app:navigationIcon="@drawable/ic_back"
+                app:subtitle="Offline"
+                app:subtitleTextColor="@color/colorPrimary">
+                <ImageView
+                    android:id="@+id/icSetting"
+                    android:layout_width="@dimen/_40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end"
+                    android:layout_marginRight="5dp"
+                    android:contentDescription="@string/todo"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_more"
+                    android:visibility="visible" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/img_avatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        app:civ_border_width="0dp"
+                        android:layout_marginBottom="5dp"
+
+                        tools:src="@drawable/pic" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_large"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_title"
+                            style="@style/materialText_600_12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:textColor="@color/textColor"
+                            tools:text="Username" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_subtitle"
+                            style="@style/materialText_400_12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="normal"
+                            tools:text="Online" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                 />
-            <LinearLayout
+                android:background="@color/N040" />
 
-                android:id="@+id/lyt_task_details"
+            <RelativeLayout
+                android:id="@+id/holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:background="@color/white"
                 android:gravity="center"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_job_title"
-                    style="@style/materialText_600_12"
-                    android:layout_width="180dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:background="@color/transparent"
+                    android:id="@+id/lyt_task_details"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/textColor"
-                    tools:text="Clean my two bedroom apartment" />
-
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:ignore="UselessLeaf" />
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/card_status"
-                    android:layout_width="@dimen/_70dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="@dimen/spacing_line"
-                    app:cardBackgroundColor="@color/colorTaskAssigned"
-                    android:elevation="0dp"
-                    android:padding="8dp"
-                    app:cardCornerRadius="3dp">
+                    android:layout_gravity="center"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/txt_status"
-                        style="@style/materialText_600_10"
-                        android:layout_width="match_parent"
+                        android:id="@+id/txt_job_title"
+                        style="@style/materialText_600_12"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/textColor"
+                        tools:text="Clean my two bedroom apartment" />
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        tools:ignore="UselessLeaf" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_status"
+                        android:layout_width="@dimen/_70dp"
                         android:layout_height="30dp"
-                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/spacing_line"
+                        android:elevation="0dp"
+                        android:padding="8dp"
+                        app:cardBackgroundColor="@color/colorTaskAssigned"
+                        app:cardCornerRadius="3dp">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_status"
+                            style="@style/materialText_600_10"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:gravity="center"
+                            android:text="@string/assigned"
+                            android:textColor="@color/white" />
+                    </androidx.cardview.widget.CardView>
+
+                    <ImageView
+                        android:id="@+id/img_btn_task_action"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="4dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:gravity="center"
-                        android:text="@string/assigned"
-                        android:textColor="@color/white" />
-                </androidx.cardview.widget.CardView>
+                        android:background="@drawable/shape_tab_primary"
+                        android:contentDescription="@string/todo"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_arrow_right" />
+                </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/img_btn_task_action"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:background="@drawable/shape_tab_primary"
-                    android:contentDescription="@string/todo"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_forward" />
-            </LinearLayout
-                >
-            <ImageView
-                android:background="#11000000"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                 />
+            </RelativeLayout>
         </LinearLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_below="@+id/holder"
+            android:layout_below="@+id/lin_holder"
             android:layout_alignParentBottom="true"
+            android:background="@color/N020"
             android:orientation="vertical">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -174,10 +190,12 @@
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="100dp"
+                    android:background="@color/N020"
                     android:clipToPadding="false"
+                    android:paddingHorizontal="7dp"
                     android:orientation="horizontal"
-                    tools:listitem="@layout/list_chat_left"/>
+                    android:paddingBottom="100dp"
+                    tools:listitem="@layout/list_chat_left" />
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <LinearLayout
@@ -193,9 +211,9 @@
                 android:visibility="gone">
 
                 <RelativeLayout
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     tools:ignore="UselessParent">
 
                     <ImageView
@@ -203,11 +221,11 @@
                         android:layout_height="30dp"
                         android:layout_below="@+id/txtCount"
                         android:layout_gravity="center"
-                        android:visibility="gone"
                         android:background="@drawable/round_shape_primary_white"
                         android:contentDescription="@string/todo"
                         android:padding="@dimen/_10sp"
-                        android:src="@drawable/ic_down_arrow" />
+                        android:src="@drawable/ic_down_arrow"
+                        android:visibility="gone" />
 
                     <com.jobtick.android.text_view.TextViewMedium
                         android:id="@+id/txtCount"
@@ -225,16 +243,20 @@
             </LinearLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+
+
+
+
         <RelativeLayout
+            android:visibility="visible"
             android:id="@+id/rlt_layout_action_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:minHeight="?attr/actionBarSize">
 
-            <androidx.cardview.widget.CardView
+            <RelativeLayout
                 android:id="@+id/cvAction"
-                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -243,87 +265,268 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="18dp"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                app:cardCornerRadius="4dp"
+                android:background="@drawable/bg_gray_border_chat"
+                android:visibility="visible"
                 tools:ignore="UselessParent">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:elevation="5dp"
-                    android:padding="2dp"
-                    android:layout_height="wrap_content">
                 <RelativeLayout
-                    android:padding="5dp"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    >
+                    android:layout_height="wrap_content"
+                    android:padding="2dp">
 
-                    <ImageView
-                        android:id="@+id/img_btn_image_select"
-                        android:layout_width="35dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/spacing_small"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/todo"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_attachment_new" />
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edt_comment_message"
-                        style="@style/materialText_400_14"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/spacing_middle"
-                        android:layout_toEndOf="@+id/img_btn_image_select"
-                        android:background="@null"
-                        android:layout_marginEnd="45dp"
-                        android:hint="@string/message"
-                        android:inputType="textMultiLine"
-                        android:maxLines="5"
-                        tools:ignore="RelativeOverlap" />
+                        android:layout_height="55dp"
+                        android:paddingHorizontal="5dp">
 
-                    <FrameLayout
-                        android:layout_width="40dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_height="40dp">
-                    <ImageView
-                        android:id="@+id/img_btn_send"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="@dimen/spacing_small"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_send_primary"
-                        tools:ignore="ContentDescription" />
-                        <ProgressBar
-                            android:id="@+id/pbLoading"
-                            android:layout_gravity="center"
-                            android:layout_width="15dp"
-                            android:visibility="gone"
-                            android:layout_height="15dp"/>
-                    </FrameLayout>
+                        <RelativeLayout
+                            android:id="@+id/rl_image"
+                            android:layout_width="@dimen/_40dp"
+                            android:layout_height="@dimen/_40dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:visibility="gone">
+
+                            <com.rishabhharit.roundedimageview.RoundedImageView
+                                android:id="@+id/img_attachment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/shape_tab_gray10"
+                                android:visibility="visible"
+                                app:cornerRadius="4dp" />
+
+                            <ImageView
+                                android:id="@+id/img_btn_delete"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_margin="@dimen/spacing_medium"
+                                android:background="@drawable/ic_close_portfollio"
+                                android:clickable="true"
+                                android:padding="@dimen/spacing_medium"
+                                android:src="@drawable/ic_cancel"
+                                android:visibility="visible"
+                                app:tint="@color/strokeRed"
+                                tools:ignore="ContentDescription" />
+                        </RelativeLayout>
+
+                        <ImageView
+                            android:id="@+id/img_btn_image_select"
+                            android:layout_width="35dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/spacing_small"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/todo"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_paperclip" />
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_comment_message"
+                            style="@style/materialText_400_14"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/spacing_middle"
+                            android:layout_marginEnd="45dp"
+                            android:layout_toEndOf="@+id/img_btn_image_select"
+                            android:background="@null"
+                            android:hint="Write a message..."
+                            android:inputType="textMultiLine"
+                            android:maxLines="5"
+                            tools:ignore="RelativeOverlap" />
+
+                        <FrameLayout
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true">
+
+                            <ImageView
+                                android:id="@+id/img_btn_send"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_margin="@dimen/spacing_small"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:padding="8dp"
+                                android:src="@drawable/ic_send_primary"
+                                tools:ignore="ContentDescription" />
+
+                            <ProgressBar
+                                android:id="@+id/pbLoading"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_gravity="center"
+                                android:visibility="gone" />
+                        </FrameLayout>
+
+                    </RelativeLayout>
 
                 </RelativeLayout>
 
-                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
 
-            </androidx.cardview.widget.CardView>
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnUnblock"
+                style="@style/materialText_400_14"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_margin="15dp"
-                android:visibility="gone"
                 android:text="@string/unblock"
                 android:textAllCaps="false"
-                style="@style/materialText_400_14"
                 android:textColor="@color/white"
-                app:backgroundTint="#FF5630"
-                />
+                android:visibility="gone"
+                app:backgroundTint="#FF5630" />
         </RelativeLayout>
+
+
+
+
+
+
+
+
+        <RelativeLayout
+            android:id="@+id/rlt_layout_action_data_deactive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:minHeight="?attr/actionBarSize">
+
+            <RelativeLayout
+                android:id="@+id/cvActionDeactive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:background="@drawable/bg_gray_border_chat_deactive"
+                android:visibility="visible"
+                tools:ignore="UselessParent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:paddingHorizontal="5dp">
+
+                        <RelativeLayout
+                            android:id="@+id/rl_image_deactive"
+                            android:layout_width="@dimen/_40dp"
+                            android:layout_height="@dimen/_40dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:visibility="gone">
+
+                            <com.rishabhharit.roundedimageview.RoundedImageView
+                                android:id="@+id/img_attachment_deactive"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/shape_tab_gray10"
+                                android:visibility="visible"
+                                app:cornerRadius="4dp" />
+
+                            <ImageView
+                                android:id="@+id/img_btn_delete_deactive"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_margin="@dimen/spacing_medium"
+                                android:background="@drawable/ic_close_portfollio"
+                                android:clickable="true"
+                                android:padding="@dimen/spacing_medium"
+                                android:src="@drawable/ic_cancel"
+                                android:visibility="visible"
+                                app:tint="@color/strokeRed"
+                                tools:ignore="ContentDescription" />
+                        </RelativeLayout>
+
+                        <ImageView
+                            android:id="@+id/img_btn_image_select_deactive"
+                            android:layout_width="35dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/spacing_small"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/todo"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_paperclip_deactive" />
+
+                        <com.jobtick.android.text_view.TextViewMedium
+                            android:id="@+id/edt_comment_message_deactive"
+                            style="@style/materialText_400_14"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/spacing_middle"
+                            android:layout_marginEnd="45dp"
+                            android:layout_toEndOf="@+id/img_btn_image_select_deactive"
+                            android:background="@null"
+                            android:gravity="center|left"
+                            android:hint="Write a message..."
+                            android:inputType="textMultiLine"
+                            android:maxLines="5"
+                            android:textColorHint="@color/N100"
+                            tools:ignore="RelativeOverlap" />
+
+                        <FrameLayout
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true">
+
+                            <ImageView
+                                android:id="@+id/img_btn_send_deactive"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_margin="@dimen/spacing_small"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:padding="8dp"
+                                android:src="@drawable/ic_send_primary_deactive"
+                                tools:ignore="ContentDescription" />
+
+                            <ProgressBar
+                                android:id="@+id/pbLoading_deactive"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_gravity="center"
+                                android:visibility="gone" />
+                        </FrameLayout>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnUnblockDeactive"
+                style="@style/materialText_400_14"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_margin="15dp"
+                android:text="@string/unblock"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:backgroundTint="#FF5630" />
+        </RelativeLayout>
+
+
 
     </RelativeLayout>
 

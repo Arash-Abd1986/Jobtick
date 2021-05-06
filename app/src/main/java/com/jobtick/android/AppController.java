@@ -90,7 +90,7 @@ public class AppController extends Application {
             try {
                 IO.Options opts = new IO.Options();
                 opts.transports = new String[] { WebSocket.NAME };
-                mSocket = IO.socket(URI.create("http://99.79.103.117:3003"), opts);
+                mSocket = IO.socket(URI.create("https://api-dev.jobtick.com:2096"), opts);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:paddingEnd="11dp"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:elevation="5dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp">
+
+        <LinearLayout
+            android:layout_width="161dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_rounded_back_white_button_active_r8"
+            android:orientation="horizontal"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="13dp"
+            tools:context=".activities.ChatActivity">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_baseline_block" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="start"
+                android:text="Block user"
+                android:textAppearance="@style/materialText_400_14"
+                android:textColor="@color/N900" />
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

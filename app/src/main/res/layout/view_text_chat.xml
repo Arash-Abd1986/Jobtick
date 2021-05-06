@@ -18,7 +18,7 @@
         android:paddingEnd="12dp"
         android:textSize="13sp"
         android:paddingTop="4dp"
-        android:textColor="@color/white" />
+        android:textColor="@color/N900" />
 
     <LinearLayout
         android:id="@+id/view_text_chat_lyt"
@@ -37,7 +37,7 @@
             android:gravity="end"
             android:textSize="13sp"
             android:layout_gravity="center_vertical"
-            android:textColor="@color/white"
+            android:textColor="@color/N900"
             tools:text="11:40" />
 
         <ImageView

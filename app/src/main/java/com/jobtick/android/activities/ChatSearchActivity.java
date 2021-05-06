@@ -75,12 +75,9 @@ public class ChatSearchActivity extends ActivityBase implements InboxListAdapter
         chatList.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
         etSearch.setOnEditorActionListener(this);
-        etSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus)
-                    noMessages.setVisibility(View.GONE);
-            }
+        etSearch.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus)
+                noMessages.setVisibility(View.GONE);
         });
         iv_back.setOnClickListener(v -> {
            super.onBackPressed();

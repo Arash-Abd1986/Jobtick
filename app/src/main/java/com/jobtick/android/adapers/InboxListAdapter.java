@@ -247,6 +247,8 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_unseen_count)
         TextView txtUnseenCount;
+        @BindView(R.id.rl_unseen_count)
+        RelativeLayout rlUnseenCount;
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_time_status)
         TextView txtTimeStatus;
@@ -289,7 +291,7 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (item.getLastMessage() != null) {
                 rltLastMessage.setVisibility(View.VISIBLE);
                 try {
-                    txtTimeStatus.setText(TimeAgo.setTimeAgo(Tools.dateToMillis(item.getLastMessage().getCreatedAt())));
+                    txtTimeStatus.setText(TimeAgo.setTimeAgo(Tools.chatDateToMillis(item.getLastMessage().getCreatedAt())));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -308,10 +310,15 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             if (item.getUnseenCount() != 0) {
                 txtUnseenCount.setVisibility(View.VISIBLE);
-                txtUnseenCount.setText(item.getUnseenCount()+" new messages");
-                txtLastMessage.setVisibility(View.GONE);
+                rlUnseenCount.setVisibility(View.VISIBLE);
+                if (item.getUnseenCount()>9){
+                    txtUnseenCount.setText("+9");
+                }else{
+                    txtUnseenCount.setText(item.getUnseenCount()+"");
+                }
 
             } else {
+                rlUnseenCount.setVisibility(View.GONE);
                 txtUnseenCount.setVisibility(View.GONE);
                 txtLastMessage.setVisibility(View.VISIBLE);
             }

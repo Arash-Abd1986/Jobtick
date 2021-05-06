@@ -41,7 +41,7 @@
         app:cardMaxElevation="0dp"
         app:cardUseCompatPadding="true"
         app:cardPreventCornerOverlap="false"
-        app:cardBackgroundColor="@color/colorTaskCompleted"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="8dp">
 
 
@@ -49,14 +49,14 @@
             android:id="@+id/view_text_chat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            android:layout_margin="8dp"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp"
             app:cardUseCompatPadding="true"
             app:cardPreventCornerOverlap="false"
             android:maxHeight="76dp"
             android:visibility="visible"
-            app:cardBackgroundColor="@color/colorTaskCompleted"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="10dp">
 
             <include layout="@layout/view_text_chat" />
@@ -65,13 +65,12 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/view_file_chat"
             android:layout_width="match_parent"
-            android:layout_height="76dp"
-            android:layout_margin="3dp"
-            android:maxHeight="76dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp"
             android:visibility="gone"
-            app:cardBackgroundColor="@color/colorTaskCompleted"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="8dp">
 
             <include layout="@layout/view_file_chat" />

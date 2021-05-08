@@ -21,6 +21,7 @@ import com.jobtick.android.models.AttachmentModel;
 import com.jobtick.android.utils.ConstantKey;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.models.CommentModel;
@@ -59,6 +60,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
     private OfferModel offerModel;
     private QuestionModel questionModel;
     private boolean isOfferModel = true;
+    private String status;
 
 
     public void addExtraItems(OfferModel item, boolean isOfferModel) {
@@ -87,16 +89,19 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
     private boolean isLoaderVisible = false;
     private final List<CommentModel> mItems;
 
-    public PublicChatListAdapter(Context context, List<CommentModel> mItems,Boolean isInPublicChat) {
+    public PublicChatListAdapter(Context context, List<CommentModel> mItems, Boolean isInPublicChat) {
         this.mItems = mItems;
         this.context = context;
-        this.isInPublicChat=isInPublicChat;
+        this.isInPublicChat = isInPublicChat;
     }
-    public PublicChatListAdapter(Context context, List<CommentModel> mItems) {
+
+    public PublicChatListAdapter(Context context, List<CommentModel> mItems, String status) {
         this.mItems = mItems;
         this.context = context;
-        this.isInPublicChat=false;
+        this.isInPublicChat = false;
+        this.status = status;
     }
+
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
@@ -272,7 +277,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
                     size() != 0) {
                 cardImgFile.setVisibility(View.VISIBLE);
                 ImageUtil.displayImage(imgFile, item.getAttachments().get(0).getModalUrl(), null);
-                if(context!=null) {
+                if (context != null) {
                     imgFile.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -289,12 +294,17 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             } else {
                 cardImgFile.setVisibility(View.GONE);
             }
-            if(isInPublicChat){
+            if (isInPublicChat) {
                 lytBtnReply.setVisibility(View.GONE);
-            }else {
+            } else {
                 lytBtnReply.setVisibility(View.VISIBLE);
             }
-
+            if (status != null)
+                if (!status.equals(""))
+                    if (status.equals(Constant.TASK_OPEN))
+                        lytBtnReply.setVisibility(View.VISIBLE);
+                    else
+                        lytBtnReply.setVisibility(View.GONE);
             ivFlag.setOnClickListener(view -> {
 
                /* //creating a popup menutextViewOptions
@@ -334,7 +344,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
 
             imgAvatar.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ProfileActivity.class);
-                intent.putExtra("id",item.getUser().getId());
+                intent.putExtra("id", item.getUser().getId());
                 context.startActivity(intent);
             });
 
@@ -368,8 +378,8 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         } else {
             ViewAnimation.collapse(lyt_expand);
         }*/
-  //      return show;
-  //  }
+    //      return show;
+    //  }
 
 
     public void toggleArrow(String show, View view) {

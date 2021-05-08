@@ -17,9 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jobtick.android.activities.ProfileActivity;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import timber.log.Timber;
+
 import com.jobtick.android.models.AttachmentModel;
 import com.jobtick.android.models.CommentModel;
 import com.jobtick.android.models.OfferModel;
@@ -39,6 +41,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int VIEW_TYPE_NORMAL = 1;
 
     private final Context context;
+    private String status;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
@@ -54,9 +57,10 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private boolean isLoaderVisible = false;
     private final List<QuestionModel> mItems;
 
-    public QuestionListAdapter(Context context, List<QuestionModel> mItems) {
+    public QuestionListAdapter(Context context, List<QuestionModel> mItems, String status) {
         this.mItems = mItems;
         this.context = context;
+        this.status = status;
     }
 
     @NonNull
@@ -176,8 +180,8 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.linear_user_profile)
         LinearLayout linearUserProfile;
 
-       // @BindView(R.id.textViewOptions)
-     //   TextView textViewOptions;
+        // @BindView(R.id.textViewOptions)
+        //   TextView textViewOptions;
 
 
         ViewHolder(View itemView) {
@@ -195,7 +199,10 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (item.getUser().getAvatar() != null) {
                 ImageUtil.displayImage(imgAvatar, item.getUser().getAvatar().getThumbUrl(), null);
             }
-            lytBtnReply.setVisibility(View.VISIBLE);
+            if (status.equals(Constant.TASK_OPEN))
+                lytBtnReply.setVisibility(View.VISIBLE);
+            else
+                lytBtnReply.setVisibility(View.GONE);
 
             if (item.getCommentsCount() > 3) {
                 int remaining_number = item.getCommentsCount() - 3;
@@ -217,7 +224,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             txtMessage.setText(item.getQuestionText());
             if (item.getAttachments().size() != 0) {
                 recyclerViewQuestion.setVisibility(View.VISIBLE);
-                AttachmentAdapter2 attachmentAdapter = new AttachmentAdapter2(item.getAttachments(), false,context);
+                AttachmentAdapter2 attachmentAdapter = new AttachmentAdapter2(item.getAttachments(), false, context);
                 recyclerViewQuestion.setHasFixedSize(true);
                 recyclerViewQuestion.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                 recyclerViewQuestion.setAdapter(attachmentAdapter);
@@ -312,12 +319,12 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             linearUserProfile.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ProfileActivity.class);
-                intent.putExtra("id",item.getUser().getId());
+                intent.putExtra("id", item.getUser().getId());
                 context.startActivity(intent);
             });
             imgAvatar.setOnClickListener(v -> linearUserProfile.performClick());
             txtName.setOnClickListener(v -> linearUserProfile.performClick());
-            PublicChatListAdapter publicChatListAdapter = new PublicChatListAdapter(context, new ArrayList<>());
+            PublicChatListAdapter publicChatListAdapter = new PublicChatListAdapter(context, new ArrayList<>(),status);
             recyclerViewQuestionsChat.setHasFixedSize(true);
             recyclerViewQuestionsChat.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             recyclerViewQuestionsChat.setAdapter(publicChatListAdapter);

@@ -270,7 +270,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_assignee_layout)
-    CardView cardAssigneeLayout;
+    RelativeLayout cardAssigneeLayout;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_avtar_poster)
     CircularImageView imgAvtarPoster;
@@ -456,7 +456,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         recyclerViewQuestions.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(TaskDetailsActivity.this);
         recyclerViewQuestions.setLayoutManager(layoutManager);
-        questionListAdapter = new QuestionListAdapter(TaskDetailsActivity.this, new ArrayList<>());
+        questionListAdapter = new QuestionListAdapter(TaskDetailsActivity.this, new ArrayList<>(),taskModel.getStatus().toLowerCase());
         recyclerViewQuestions.setAdapter(questionListAdapter);
         questionListAdapter.setOnItemClickListener(this);
     }
@@ -474,6 +474,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
     @SuppressLint({"SetTextI18n", "NonConstantResourceId"})
     private void initStatusTask(String status) {
+        setQuestionView(taskModel.getQuestionCount());
         switch (status) {
             case Constant.TASK_ASSIGNED:
                 txtStatusOpen.setSelected(false);
@@ -531,11 +532,14 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 cardOfferLayout.setVisibility(View.GONE);
 //                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.setVisibility(View.VISIBLE);
-                if (taskModel.getQuestions() != null && taskModel.getQuestions().size() != 0) {
-                    //   rltQuestionAdd.setVisibility(View.GONE);
-                } else {
-                    cardQuestionsLayout.setVisibility(View.GONE);
-                }
+                rltQuestionAdd.setVisibility(View.GONE);
+                cardQuestionsLayout.setVisibility(View.VISIBLE);
+//                if (taskModel.getQuestions() != null && taskModel.getQuestions().size() != 0) {
+//                    rltQuestionAdd.setVisibility(View.VISIBLE);
+//                    cardQuestionsLayout.setVisibility(View.VISIBLE);
+//                } else {
+//                    cardQuestionsLayout.setVisibility(View.GONE);
+//                }
                 setPrice();
                 break;
             case Constant.TASK_OPEN:
@@ -705,7 +709,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 cardAssigneeLayout.setVisibility(View.VISIBLE);
 //                cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.setVisibility(View.GONE);
-                cardQuestionsLayout.setVisibility(View.GONE);
+                rltQuestionAdd.setVisibility(View.GONE);
+                cardQuestionsLayout.setVisibility(View.VISIBLE);
                 setPrice();
                 break;
             case Constant.TASK_DRAFT:
@@ -1739,7 +1744,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
     @SuppressLint("SetTextI18n")
     private void initComponent() {
         setOfferView(taskModel.getOfferCount());
-        setQuestionView(taskModel.getQuestionCount());
         initIncreaseBudget();
         setPrice();
         setAttachmentAndSlider();
@@ -1947,6 +1951,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 intent = new Intent(TaskDetailsActivity.this, ViewAllQuestionsActivity.class);
                 bundle = new Bundle();
                 bundle.putString(ConstantKey.SLUG, taskModel.getSlug());
+                bundle.putString(ConstantKey.TASK_STATUS, taskModel.getStatus().toLowerCase());
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 121);
                 break;

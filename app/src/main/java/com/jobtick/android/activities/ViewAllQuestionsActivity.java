@@ -60,6 +60,7 @@ public class ViewAllQuestionsActivity extends ActivityBase implements SwipeRefre
     private boolean isLoading = false;
     private QuestionListAdapter questionListAdapter;
     private String str_slug;
+    private String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,9 @@ public class ViewAllQuestionsActivity extends ActivityBase implements SwipeRefre
         Bundle bundle = getIntent().getExtras();
         if (bundle != null && bundle.getString(ConstantKey.SLUG) != null) {
             str_slug = bundle.getString(ConstantKey.SLUG);
+        }
+        if (bundle != null && bundle.getString(ConstantKey.TASK_STATUS) != null) {
+            status = bundle.getString(ConstantKey.TASK_STATUS);
         }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +88,7 @@ public class ViewAllQuestionsActivity extends ActivityBase implements SwipeRefre
         recyclerViewAllQuestions.setLayoutManager(new LinearLayoutManager(ViewAllQuestionsActivity.this, LinearLayoutManager.VERTICAL, false));
         recyclerViewAllQuestions.setHasFixedSize(true);
         sessionManager = new SessionManager(ViewAllQuestionsActivity.this);
-        questionListAdapter = new QuestionListAdapter(ViewAllQuestionsActivity.this, new ArrayList<>());
+        questionListAdapter = new QuestionListAdapter(ViewAllQuestionsActivity.this, new ArrayList<>(), status);
         recyclerViewAllQuestions.setAdapter(questionListAdapter);
         swipeRefresh.setOnRefreshListener(this);
 

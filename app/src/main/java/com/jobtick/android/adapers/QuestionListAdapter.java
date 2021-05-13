@@ -42,6 +42,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private final Context context;
     private String status;
+    private int posterID;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
@@ -57,10 +58,11 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private boolean isLoaderVisible = false;
     private final List<QuestionModel> mItems;
 
-    public QuestionListAdapter(Context context, List<QuestionModel> mItems, String status) {
+    public QuestionListAdapter(Context context, List<QuestionModel> mItems, String status, int posterID) {
         this.mItems = mItems;
         this.context = context;
         this.status = status;
+        this.posterID = posterID;
     }
 
     @NonNull
@@ -193,6 +195,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
 
 
+        @SuppressLint("SetTextI18n")
         public void onBind(int position) {
             super.onBind(position);
             QuestionModel item = mItems.get(position);
@@ -209,7 +212,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 if (remaining_number == 1) {
                     txtMoreReplyQuestion.setText(R.string.one_more_reply);
                 } else {
-                    txtMoreReplyQuestion.setText(String.format(Locale.ENGLISH, "%d %d", remaining_number, R.string.more_replies));
+                    txtMoreReplyQuestion.setText( remaining_number + " more replies");
                 }
                 txtMoreReplyQuestion.setVisibility(View.VISIBLE);
             } else {
@@ -324,7 +327,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             });
             imgAvatar.setOnClickListener(v -> linearUserProfile.performClick());
             txtName.setOnClickListener(v -> linearUserProfile.performClick());
-            PublicChatListAdapter publicChatListAdapter = new PublicChatListAdapter(context, new ArrayList<>(),status);
+            PublicChatListAdapter publicChatListAdapter = new PublicChatListAdapter(context, new ArrayList<>(), status, posterID);
             recyclerViewQuestionsChat.setHasFixedSize(true);
             recyclerViewQuestionsChat.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             recyclerViewQuestionsChat.setAdapter(publicChatListAdapter);

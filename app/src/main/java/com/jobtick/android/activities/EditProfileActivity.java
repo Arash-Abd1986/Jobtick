@@ -3,8 +3,6 @@ package com.jobtick.android.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -15,9 +13,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,6 +36,7 @@ import com.jobtick.android.R;
 import com.jobtick.android.adapers.AttachmentAdapter;
 import com.jobtick.android.adapers.AttachmentAdapterEditProfile;
 import com.jobtick.android.adapers.SuburbSearchAdapter;
+import com.jobtick.android.fragments.DatePickerBottomSheet;
 import com.jobtick.android.fragments.SearchSuburbBottomSheet;
 import com.jobtick.android.models.AttachmentModel;
 import com.jobtick.android.models.UserAccountModel;
@@ -60,6 +61,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -83,12 +86,10 @@ import static com.jobtick.android.utils.Constant.MIN_AGE_FOR_USE_APP;
 import static com.jobtick.android.utils.Constant.URL_REMOVE_AVTAR;
 
 public class
-EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile.OnItemClickListener, com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener, SuburbSearchAdapter.SubClickListener {
+EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile.OnItemClickListener,
+        SuburbSearchAdapter.SubClickListener, DatePickerBottomSheet.DateChange {
 
     private final int PLACE_SELECTION_REQUEST_CODE = 1;
-    private static final int GALLERY_PICKUP_VIDEO_REQUEST_CODE = 300;
-    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 5200;
-    private static final int GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400;
     public static final int PHONE_VERIFICATION_REQUEST_CODE = 500;
 
     @SuppressLint("NonConstantResourceId")
@@ -176,6 +177,42 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     ImageView imgExperienceBack;
 
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_general_info)
+    TextView txtGeneralInfo;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_private_info)
+    TextView txtPrivateInfo;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.txt_portfolio_skills)
+    TextView txtPortfolioSkills;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.llGeneral)
+    LinearLayout llGeneral;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.llPinfo)
+    LinearLayout llPinfo;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.llPS)
+    LinearLayout llPS;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.under_tab3)
+    View underTab3;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.under_tab2)
+    View underTab2;
+
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.under_tab1)
+    View underTab1;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rlt_btn_experience)
     RelativeLayout rltBtnExperience;
 
@@ -208,6 +245,10 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     ImageView ivBack;
 
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.small_plus)
+    FrameLayout smallPlus;
+
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_user_avatar)
     CircularImageView imgAvatar;
 
@@ -216,22 +257,12 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private String str_latitude = null;
     private String str_longitude = null;
     private BottomSheetBehavior mBehavior;
-    private BottomSheetDialog mBottomSheetDialog;
     private String str_DOB_MODEL = "";
-    private static String imageStoragePath;
-    private boolean isUploadPortfolio = false;
-    private boolean isFabHide = false;
     private AttachmentAdapterEditProfile adapter;
-    private int cyear, cmonth, cday;
-    private String str_due_date = null;
-
     private UploadableImage uploadableImage;
     private boolean isImageProfile;
-
     private int year, month, day;
-    private String str_DOB = null;
-//    private DatePickerDialog.OnDateSetListener mDateSetListener;
-//    private DatePickerDialog datePickerDialog;
+
 
 
     @Override
@@ -374,6 +405,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     }
 
     private void init() {
+        initTabs();
         recyclerView.setLayoutManager(new GridLayoutManager(EditProfileActivity.this, 4));
         recyclerView.addItemDecoration(new SpacingItemDecoration(4, Tools.dpToPx(EditProfileActivity.this, 8), true));
         recyclerView.setHasFixedSize(true);
@@ -383,37 +415,74 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         adapter.setOnItemClickListener(this);
 
         txtBirthDate.setExtendedViewOnClickListener(() -> {
-//            datePickerDialog.show();
-            DatePickerDialog dpd = DatePickerDialog.newInstance(
-                    EditProfileActivity.this,
-                    year, // Initial year selection
-                    month, // Initial month selection
-                   day // Inital day selection
-            );
-// If you're calling this from a support Fragment
-            dpd.show(getSupportFragmentManager(), "Datepickerdialog");
-        });
 
-        //TODO
-//        mDateSetListener = (view1, year, month, dayOfMonth) -> {
-//            month = month + 1;
-//            str_DOB_MODEL = year + "-" + month + "-" + dayOfMonth;
-//            System.out.println("datepicker: " + str_DOB_MODEL);
-//            str_DOB = Tools.getDayMonthDateTimeFormat(str_DOB_MODEL);
-//            txtBirthDate.setText(str_DOB);
-//        };
+            SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date old_date = new Date();
+            try {
+                old_date = utcFormat.parse(userAccountModel.getDob());
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            DatePickerBottomSheet datePickerBottomSheet = new DatePickerBottomSheet(new Date(String.valueOf(old_date)).getTime());
+            datePickerBottomSheet.setDchange(this);
+            datePickerBottomSheet.show(this.getSupportFragmentManager(),"");
+        });
         initDatePicker();
 
         txtSuburb.setExtendedViewOnClickListener(() -> {
             SearchSuburbBottomSheet infoBottomSheet = new SearchSuburbBottomSheet(this);
             infoBottomSheet.show(getSupportFragmentManager(), null);
         });
+        smallPlus.setOnClickListener(v->{
+            isImageProfile = false;
+            uploadableImage.showAttachmentImageBottomSheet(false);
+        });
     }
 
-    private void initDatePicker(){
+    private void initTabs() {
+        llGeneral.setVisibility(View.VISIBLE);
+        llPinfo.setVisibility(View.GONE);
+        llPS.setVisibility(View.GONE);
+        txtGeneralInfo.setOnClickListener(it -> {
+            llGeneral.setVisibility(View.VISIBLE);
+            llPinfo.setVisibility(View.GONE);
+            llPS.setVisibility(View.GONE);
+            txtGeneralInfo.setTextColor(getColor(R.color.colorAccent));
+            txtPrivateInfo.setTextColor(getColor(R.color.N100));
+            txtPortfolioSkills.setTextColor(getColor(R.color.N100));
+            underTab1.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line_selected));
+            underTab2.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line));
+            underTab3.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line));
+        });
+        txtPrivateInfo.setOnClickListener(it -> {
+            llGeneral.setVisibility(View.GONE);
+            llPinfo.setVisibility(View.VISIBLE);
+            llPS.setVisibility(View.GONE);
+            txtGeneralInfo.setTextColor(getColor(R.color.N100));
+            txtPrivateInfo.setTextColor(getColor(R.color.colorAccent));
+            txtPortfolioSkills.setTextColor(getColor(R.color.N100));
+            underTab1.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line));
+            underTab2.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line_selected));
+            underTab3.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line));
+        });
+        txtPortfolioSkills.setOnClickListener(it -> {
+            llGeneral.setVisibility(View.GONE);
+            llPinfo.setVisibility(View.GONE);
+            llPS.setVisibility(View.VISIBLE);
+            txtGeneralInfo.setTextColor(getColor(R.color.N100));
+            txtPrivateInfo.setTextColor(getColor(R.color.N100));
+            txtPortfolioSkills.setTextColor(getColor(R.color.colorAccent));
+            underTab1.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line));
+            underTab2.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line));
+            underTab3.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line_selected));
+        });
+    }
+
+    private void initDatePicker() {
         userAccountModel = sessionManager.getUserAccount();
         Calendar calendar = Calendar.getInstance();
-        if(userAccountModel.getDob() != null) {
+        if (userAccountModel.getDob() != null) {
             calendar.set(TimeHelper.getYear(userAccountModel.getDob()),
                     TimeHelper.getMonth(userAccountModel.getDob()),
                     TimeHelper.getDay(userAccountModel.getDob()));
@@ -422,7 +491,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             month = calendar.get(Calendar.MONTH);
             day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        }else{
+        } else {
             calendar = Calendar.getInstance();
             calendar.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
             calendar.add(Calendar.DAY_OF_MONTH, -1);
@@ -464,9 +533,9 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                              * */
                             setUpAllEditFields(userAccountModel);
                             attachmentArrayList = userAccountModel.getPortfolio();
-                            attachmentArrayList.add(new AttachmentModel());
+                           // attachmentArrayList.add(new AttachmentModel());
                             Timber.e("%s", attachmentArrayList.size());
-                            if (attachmentArrayList.size() != 0) {
+                            if (attachmentArrayList.size() >= 0) {
                                 recyclerView.setVisibility(View.VISIBLE);
                                 adapter.addItems(attachmentArrayList);
                             }
@@ -515,14 +584,14 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         edtFirstName.seteContent(userAccountModel.getFname());
         edtLastName.seteContent(userAccountModel.getLname());
         edtLastName.seteContent(userAccountModel.getLname());
-        if(userAccountModel.getMobile() != null) {
+        if (userAccountModel.getMobile() != null) {
             if (userAccountModel.getMobile().length() > 3)
                 edtPhoneNumber.setText("0" + userAccountModel.getMobile().substring(3));
-        }else{
+        } else {
             edtPhoneNumber.seteVerifyVisible(true);
         }
 
-        if(userAccountModel.getMobileVerifiedAt()==null){
+        if (userAccountModel.getMobileVerifiedAt() == null) {
             edtPhoneNumber.seteVerifyVisible(true);
         }
         edtPhoneNumber.addTextChangedListener(new TextWatcher() {
@@ -969,7 +1038,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         }
     }
 
-    private void uploadMedia(File imageFile){
+    private void uploadMedia(File imageFile) {
         Uri uri = Uri.fromFile(imageFile);
         Bitmap bitmap = null;
         try {
@@ -1149,30 +1218,31 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
         Timber.e(stringRequest.getUrl());
     }
 
-    @Override
-    public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        Date temp = new Date(System.currentTimeMillis());
-        Calendar today = Calendar.getInstance();
-        today.setTime(temp);
-        int currentYear = today.get(Calendar.YEAR);
-        if(currentYear-13<year) {
-            showToast("Your age must be over 13", this);
-            return;
-        }
-        Calendar dob = Calendar.getInstance();
-
-        dob.set(year,monthOfYear,dayOfMonth);
-        str_DOB_MODEL = year + "-" + (monthOfYear+1) + "-" + dayOfMonth;
-        this.year = year;
-        this.month = monthOfYear;
-        this.day = dayOfMonth;
-        txtBirthDate.setText(dob.getDisplayName(Calendar.MONTH,Calendar.LONG, Locale.getDefault()) + " "+ dayOfMonth+", " +year);
-    }
 
     @Override
     public void clickOnSearchedLoc(@NotNull Feature location) {
         txtSuburb.setText(location.getPlace_name_en());
         str_latitude = String.valueOf(location.getGeometry().getCoordinates().get(1));
-        str_longitude =String.valueOf(location.getGeometry().getCoordinates().get(0));
+        str_longitude = String.valueOf(location.getGeometry().getCoordinates().get(0));
+    }
+
+    @Override
+    public void onDateChange(int year, int monthOfYear, int dayOfMonth) {
+        Date temp = new Date(System.currentTimeMillis());
+        Calendar today = Calendar.getInstance();
+        today.setTime(temp);
+        int currentYear = today.get(Calendar.YEAR);
+        if (currentYear - 13 < year) {
+            showToast("Your age must be over 13", this);
+            return;
+        }
+        Calendar dob = Calendar.getInstance();
+
+        dob.set(year, monthOfYear, dayOfMonth);
+        str_DOB_MODEL = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+        this.year = year;
+        this.month = monthOfYear;
+        this.day = dayOfMonth;
+        txtBirthDate.setText(dob.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + " " + dayOfMonth + ", " + year);
     }
 }

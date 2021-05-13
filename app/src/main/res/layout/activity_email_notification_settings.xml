@@ -40,6 +40,7 @@
                         android:checked="true"
                         android:background="@drawable/radio_button_square_selector"
                         android:button="@null"
+                        android:clickable="false"
                         android:gravity="center" />
 
 
@@ -57,7 +58,7 @@
                             android:gravity="center_vertical"
                             android:text="@string/transactions"
                             android:textColor="@color/textColor"
-                            android:textAppearance="@style/materialText_400_14" />
+                            android:textAppearance="@style/materialText_400_16_reg" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/transectional_desc"
@@ -75,6 +76,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:background="#F0F0F0" />
 
                 <include layout="@layout/view_notification_common_settings"/>

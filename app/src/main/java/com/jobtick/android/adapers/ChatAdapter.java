@@ -247,12 +247,14 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
 
                 if (item.getSender_id().equals(sender_id)) {
+
                     if (item.is_seen() == 1) {
                         doubleTickF.setVisibility(View.GONE);
                     } else {
                         doubleTickF.setVisibility(View.GONE);
                     }
                 } else {
+
                     doubleTickF.setVisibility(View.GONE);
                 }
 
@@ -283,11 +285,10 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
                 if (item.getSender_id().equals(sender_id)) {
                     if (item.is_seen() == 1) {
-                        doubleTick.setVisibility(View.VISIBLE);
+                        doubleTick.setVisibility(View.GONE);
                     } else {
                         doubleTick.setVisibility(View.GONE);
                     }
-
                     txtShowMessage.setOnLongClickListener(v -> {
                         copyToClipboard(txtShowMessage);
                         return false;

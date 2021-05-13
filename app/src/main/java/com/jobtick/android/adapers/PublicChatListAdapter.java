@@ -56,6 +56,7 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
 
     private final Context context;
     private Boolean isInPublicChat;
+    private String posterID;
     private OnItemClickListener mOnItemClickListener;
     private OfferModel offerModel;
     private QuestionModel questionModel;
@@ -89,17 +90,20 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
     private boolean isLoaderVisible = false;
     private final List<CommentModel> mItems;
 
-    public PublicChatListAdapter(Context context, List<CommentModel> mItems, Boolean isInPublicChat) {
+    public PublicChatListAdapter(Context context, List<CommentModel> mItems, Boolean isInPublicChat, String posterID) {
         this.mItems = mItems;
         this.context = context;
         this.isInPublicChat = isInPublicChat;
+        this.posterID = posterID;
     }
 
-    public PublicChatListAdapter(Context context, List<CommentModel> mItems, String status) {
+    public PublicChatListAdapter(Context context, List<CommentModel> mItems, String status,int posterID) {
         this.mItems = mItems;
         this.context = context;
         this.isInPublicChat = false;
         this.status = status;
+        this.posterID = posterID+"";
+
     }
 
     @NonNull
@@ -202,6 +206,10 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         @BindView(R.id.card_img_file)
         CardView cardImgFile;
 
+        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.txt_poster)
+        TextView txtPoster;
+
 
 /*        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.textViewOptions)
@@ -299,12 +307,19 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             } else {
                 lytBtnReply.setVisibility(View.VISIBLE);
             }
+            if (posterID != null)
+                if (posterID.equals(item.getId().toString())) {
+                    txtPoster.setVisibility(View.VISIBLE);
+                } else {
+                    txtPoster.setVisibility(View.GONE);
+                }
             if (status != null)
                 if (!status.equals(""))
                     if (status.equals(Constant.TASK_OPEN))
                         lytBtnReply.setVisibility(View.VISIBLE);
                     else
                         lytBtnReply.setVisibility(View.GONE);
+
             ivFlag.setOnClickListener(view -> {
 
                /* //creating a popup menutextViewOptions

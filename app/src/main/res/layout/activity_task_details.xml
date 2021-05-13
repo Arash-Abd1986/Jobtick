@@ -277,7 +277,7 @@
                                 android:gravity="center"
                                 android:singleLine="true"
                                 android:text="@string/cancelled"
-                                android:textColor="@color/white_black_selected"
+                                android:textColor="@color/R200"
                                 android:visibility="gone" />
 
                             <com.google.android.material.textview.MaterialTextView

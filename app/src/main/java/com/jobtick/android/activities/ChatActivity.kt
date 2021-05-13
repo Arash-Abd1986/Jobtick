@@ -476,21 +476,25 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
 
         when (conversationModel.status) {
             Constant.TASK_CANCELLED -> {
-                cardStatus.setCardBackgroundColor(getColor(R.color.colorTaskCancelled))
+                cardStatus.setCardBackgroundColor(getColor(R.color.R050))
+                txtStatus.setTextColor(ContextCompat.getColor(this, R.color.myJobsColorTaskCancelledTrans))
             }
             Constant.TASK_CLOSED -> {
                 cardStatus.setCardBackgroundColor(getColor(R.color.N030))
                 txtStatus.setTextColor(ContextCompat.getColor(this, R.color.N080))
             }
-            Constant.TASK_OPEN -> {
+            Constant.TASK_COMPLETE,"completed" -> {
+                cardStatus.setCardBackgroundColor(getColor(R.color.G050))
+                txtStatus.setTextColor(ContextCompat.getColor(this, R.color.G400))
+            }
+            (Constant.TASK_OPEN), "posted", "offered" -> {
                 cardStatus.setCardBackgroundColor(getColor(R.color.P050))
                 txtStatus.setTextColor(ContextCompat.getColor(this, R.color.P300))
             }
-            Constant.TASK_ASSIGNED -> {
+            Constant.TASK_ASSIGNED ,"overdue"-> {
                 cardStatus.setCardBackgroundColor(getColor(R.color.Y050))
                 txtStatus.setTextColor(ContextCompat.getColor(this, R.color.Y400))
             }
-
             else -> {
                 cardStatus.setCardBackgroundColor(getColor(R.color.colorTaskCompleted))
             }

@@ -102,7 +102,7 @@
                 style="@style/materialButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/Y300"
+                android:backgroundTint="@color/colorAccent"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
                 android:gravity="center"

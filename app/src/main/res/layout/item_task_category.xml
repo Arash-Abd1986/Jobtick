@@ -11,30 +11,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp">
 
-
-        <ImageView
-            android:id="@+id/img_view"
-            android:layout_width="@dimen/_55dp"
-            android:layout_height="@dimen/_55dp"
+        <RelativeLayout
+            android:id="@+id/rl_image"
+            android:background="@drawable/circle_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
-            android:scaleType="fitCenter" />
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/img_view"
+                android:layout_width="@dimen/_55dp"
+                android:layout_height="@dimen/_55dp"
+                android:scaleType="fitCenter" />
+        </RelativeLayout>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_name"
             android:layout_width="100dp"
             android:layout_height="35dp"
-            android:layout_below="@+id/img_view"
+            android:layout_below="@+id/rl_image"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="16dp"
             android:gravity="center|top"

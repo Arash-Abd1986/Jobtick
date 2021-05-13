@@ -57,7 +57,7 @@
             app:cardBackgroundColor="@color/P050"
             app:cardCornerRadius="8dp">
 
-            <include layout="@layout/view_text_chat" />
+            <include layout="@layout/view_text_chat_right" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -71,7 +71,7 @@
             app:cardBackgroundColor="@color/P050"
             app:cardCornerRadius="8dp">
 
-            <include layout="@layout/view_file_chat" />
+            <include layout="@layout/view_file_chat_right" />
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

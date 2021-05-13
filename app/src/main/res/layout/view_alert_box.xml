@@ -25,6 +25,7 @@
             android:lineHeight="21dp"
             android:layout_marginEnd="16dp"
             android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
             android:text="You have requested to cancel this job on 9th Dec. 2020 9:45 PM"
             android:textAppearance="@style/materialText_400_14"
             android:textColor="@color/textColor"
@@ -38,8 +39,10 @@
             style="@style/materialButton.outlined"
             android:layout_below="@id/alert_image"
             app:strokeColor="@color/strokeRed"
+            app:cornerRadius="5dp"
             android:textColor="@color/strokeRed"
             android:text="button text"
+            android:backgroundTint="@color/R050"
             android:layout_margin="12dp"/>
 
     </RelativeLayout>

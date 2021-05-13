@@ -719,7 +719,7 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize">
 
-            <androidx.cardview.widget.CardView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -727,8 +727,8 @@
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="18dp"
+                android:background="@drawable/shape_border"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                app:cardCornerRadius="4dp"
                 tools:ignore="UselessParent">
 
                 <RelativeLayout
@@ -773,7 +773,7 @@
                         android:src="@drawable/ic_send_primary"
                         tools:ignore="ContentDescription" />
                 </RelativeLayout>
-            </androidx.cardview.widget.CardView>
+            </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

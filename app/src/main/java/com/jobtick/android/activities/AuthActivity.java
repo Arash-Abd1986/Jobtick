@@ -1093,8 +1093,8 @@ public class AuthActivity extends ActivityBase {
                             Map<String, String> map1 = new HashMap<String, String>();
 
                             //TODO: We ignore this and set it to no name due to getting these data in complete profile
-                            map1.put("fname", "no first name");
-                            map1.put("lname", "no last name");
+                            map1.put("fname", "Jobtick");
+                            map1.put("lname", "User");
                             map1.put("email", str_email);
                             map1.put("device_token", str_device_id);
                             map1.put("device_type", str_device);
@@ -1142,77 +1142,70 @@ public class AuthActivity extends ActivityBase {
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_SIGNUP,
-                new Response.Listener<String>() {
+                response -> {
+                    Timber.tag("responce_url").e(response);
 
-                    @Override
-                    public void onResponse(String response) {
-                        Timber.tag("responce_url").e(response);
+                    hideProgressDialog();
+                    //  showToast("Check your inbox", AuthActivity.this);
+                    fireBaseEvent.sendEvent(FireBaseEvent.Event.SIGN_UP,
+                            FireBaseEvent.EventType.API_RESPOND_SUCCESS, SIGN_UP_NORMAL);
 
-                        hideProgressDialog();
-                        //  showToast("Check your inbox", AuthActivity.this);
-                        fireBaseEvent.sendEvent(FireBaseEvent.Event.SIGN_UP,
-                                FireBaseEvent.EventType.API_RESPOND_SUCCESS, SIGN_UP_NORMAL);
+                    Bundle bundle = new Bundle();
+                    Fragment fragment = new VerifyAccountFragment();
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.auth_layout, fragment).addToBackStack(fragment.toString());
+                    bundle.putString("email", str_email);
+                    bundle.putString("password", str_password);
+                    fragment.setArguments(bundle);
+                    ft.commit();
 
-                        Bundle bundle = new Bundle();
-                        Fragment fragment = new VerifyAccountFragment();
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.auth_layout, fragment).addToBackStack(fragment.toString());
-                        bundle.putString("email", str_email);
-                        bundle.putString("password", str_password);
-                        fragment.setArguments(bundle);
-                        ft.commit();
-
-                    }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        NetworkResponse networkResponse = error.networkResponse;
-                        if (networkResponse != null && networkResponse.data != null) {
-                            String jsonError = new String(networkResponse.data);
-                            // Print Error!
-                            Timber.tag("intent22").e(jsonError);
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
+                        Timber.tag("intent22").e(jsonError);
 
-                            try {
-                                JSONObject jsonObject = new JSONObject(jsonError);
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
 
-                                JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
-                                if (jsonObject_error.has("errors")) {
-                                    JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                                    String error_email = "", error_password = "";
-                                    if (jsonObject_errors.has("email")) {
-                                        JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
-                                        error_email = jsonArray_mobile.getString(0);
-                                        showToast(error_email, AuthActivity.this);
-                                        editTextError.onEmailError(error_email);
-                                    } else if (jsonObject_errors.has("password")) {
-                                        JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("password");
-                                        error_password = jsonArray_mobile.getString(0);
-                                        showToast(error_password, AuthActivity.this);
-                                        editTextError.onPasswordError(error_password);
-                                    }
-                                    // signUpFragment.error(error_email,error_password);
-
-                                } else if (jsonObject_error.has("message")) {
-                                    showToast(jsonObject_error.getString("message"), AuthActivity.this);
+                            if (jsonObject_error.has("errors")) {
+                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                                String error_email = "", error_password = "";
+                                if (jsonObject_errors.has("email")) {
+                                    JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("email");
+                                    error_email = jsonArray_mobile.getString(0);
+                                    showToast(error_email, AuthActivity.this);
+                                    editTextError.onEmailError(error_email);
+                                } else if (jsonObject_errors.has("password")) {
+                                    JSONArray jsonArray_mobile = jsonObject_errors.getJSONArray("password");
+                                    error_password = jsonArray_mobile.getString(0);
+                                    showToast(error_password, AuthActivity.this);
+                                    editTextError.onPasswordError(error_password);
                                 }
+                                // signUpFragment.error(error_email,error_password);
 
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            } else if (jsonObject_error.has("message")) {
+                                showToast(jsonObject_error.getString("message"), AuthActivity.this);
                             }
-                        } else {
-                            showToast("Something Went Wrong", AuthActivity.this);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        Timber.tag("error").e(error.toString());
-                        hideProgressDialog();
+                    } else {
+                        showToast("Something Went Wrong", AuthActivity.this);
                     }
+                    Timber.tag("error").e(error.toString());
+                    hideProgressDialog();
                 }) {
 
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<String, String>();
 
 
@@ -1226,7 +1219,6 @@ public class AuthActivity extends ActivityBase {
             protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<String, String>();
 
-
                 map1.put("email", str_email);
                 map1.put("password", str_password);
                 map1.put("device_token", str_device_id);
@@ -1234,8 +1226,8 @@ public class AuthActivity extends ActivityBase {
                 map1.put("fcm_token", str_fcm_token);
                 map1.put("latitude", sessionManager.getLatitude());
                 map1.put("longitude", sessionManager.getLongitude());
-
-                map1.put("fname", "no name");
+                map1.put("fname", "Jobtick");
+                map1.put("lname", "User");
                 map1.put("location", "no location");
 
                 return map1;

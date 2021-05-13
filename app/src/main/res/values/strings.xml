@@ -219,7 +219,7 @@
     <string name="aaron_brooks">Aaron Brooks</string>
     <string name="surfers_paradise_australia">Surfers Paradise, Australia</string>
     <string name="active_13_min_ago">Active 13 min. ago</string>
-    <string name="chat">Chat</string>
+    <string name="chat">Chats</string>
     <string name="private_chat">Private Chat</string>
     <string name="offer">Offers</string>
     <string name="offerWithNumber">OFFER(%1$s)</string>
@@ -561,7 +561,7 @@
     <string name="skip">Skip</string>
     <string name="morning_before_12_00_pm">Morning (Before 12:00 pm)</string>
     <string name="afternoon_between_12_00_pm_to_6_00_pm">Afternoon (Between 12:00 pm to 6:00 pm)</string>
-    <string name="evening_after_6_00_pm">Evening (After 6:00 pm )</string>
+    <string name="evening_after_6_00_pm">Evening (After 6:00 pm)</string>
     <string name="anytime_you_and_the_ticker_agree_on">Anytime (You and the ticker agree on)</string>
     <string name="morning_s">Morning</string>
     <string name="afternoon_s">Afternoon</string>

@@ -229,6 +229,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     private QuestionAttachmentAdapter adapter;
 
     boolean isPoster = false;
+    private String posterID = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -247,6 +248,11 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         layoutQuestion.setVisibility(View.GONE);
         Bundle bundle = getIntent().getExtras();
         isPoster = bundle.getBoolean("isPoster",false);
+        try {
+            posterID = bundle.getString("posterID");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         offerModel = new OfferModel();
         questionModel = new QuestionModel();
 
@@ -275,7 +281,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(PublicChatActivity.this);
         recyclerViewOfferChat.setLayoutManager(layoutManager);
-        publicChatListAdapter = new PublicChatListAdapter(PublicChatActivity.this, new ArrayList<>(),true);
+        publicChatListAdapter = new PublicChatListAdapter(PublicChatActivity.this, new ArrayList<>(),true,posterID);
         recyclerViewOfferChat.setAdapter(publicChatListAdapter);
         // publicChatListAdapter.setOnItemClickListener(this);
         initQuestion();
@@ -298,6 +304,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         adapter.setOnItemClickListener(this);
 
     }
+    @SuppressLint("SetTextI18n")
     private void initLayout() {
         if (offerModel.getTaskId() != null) {
             if(isPoster){
@@ -587,50 +594,44 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         ArrayList<CommentModel> items = new ArrayList<>();
         Helper.closeKeyboard(PublicChatActivity.this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + "/comments",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Timber.e(response);
-                        // categoryArrayList.clear();
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            Timber.e(jsonObject.toString());
-                            JSONArray jsonArray_data = jsonObject.getJSONArray("data");
-                            for (int i = 0; jsonArray_data.length() > i; i++) {
-                                JSONObject jsonObject_offer_chat = jsonArray_data.getJSONObject(i);
-                                CommentModel commentModel = new CommentModel().getJsonToModel(jsonObject_offer_chat);
+                response -> {
+                    Timber.e(response);
+                    // categoryArrayList.clear();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Timber.e(jsonObject.toString());
+                        JSONArray jsonArray_data = jsonObject.getJSONArray("data");
+                        for (int i = 0; jsonArray_data.length() > i; i++) {
+                            JSONObject jsonObject_offer_chat = jsonArray_data.getJSONObject(i);
+                            CommentModel commentModel = new CommentModel().getJsonToModel(jsonObject_offer_chat);
 //                                edtCommentMessage.setHint("reply to " + commentModel.getUser().getFname());
-                                items.add(commentModel);
-                            }
-
-                            Collections.reverse(items);
-                            publicChatListAdapter.clear();
-                            publicChatListAdapter.addItems(items);
-
-                            if(isOffer) {
-                                recyclerViewOfferChat.scrollToPosition(items.size() - 1);
-                            }else{
-                                LinearLayoutManager layoutManager = new LinearLayoutManager(PublicChatActivity.this);
-                                recyclerViewQuestion.setVisibility(View.VISIBLE);
-                                recyclerViewQuestion.setLayoutManager(layoutManager);
-                                recyclerViewQuestion.setAdapter(publicChatListAdapter);
-                                recyclerViewQuestion.scrollToPosition(items.size() - 1);
-                            }
-                            recyclerViewQuestion.scrollToPosition(items.size() - 1);
-
-                        } catch (JSONException e) {
-                            hideProgressDialog();
-                            Timber.e(String.valueOf(e));
-                            e.printStackTrace();
+                            items.add(commentModel);
                         }
+
+                        //Collections.reverse(items);
+                        publicChatListAdapter.clear();
+                        publicChatListAdapter.addItems(items);
+
+                        if(isOffer) {
+                            recyclerViewOfferChat.scrollToPosition(items.size() - 1);
+                        }else{
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(PublicChatActivity.this);
+                            recyclerViewQuestion.setVisibility(View.VISIBLE);
+                            recyclerViewQuestion.setLayoutManager(layoutManager);
+                            recyclerViewQuestion.setAdapter(publicChatListAdapter);
+                            recyclerViewQuestion.scrollToPosition(items.size() - 1);
+                        }
+                        recyclerViewQuestion.scrollToPosition(items.size() - 1);
+
+                    } catch (JSONException e) {
+                        hideProgressDialog();
+                        Timber.e(String.valueOf(e));
+                        e.printStackTrace();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //  swipeRefresh.setRefreshing(false);
-                        errorHandle1(error.networkResponse);
-                    }
+                error -> {
+                    //  swipeRefresh.setRefreshing(false);
+                    errorHandle1(error.networkResponse);
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {

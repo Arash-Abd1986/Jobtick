@@ -34,6 +34,7 @@
                     android:orientation="horizontal">
 
                     <CheckBox
+                        android:id="@+id/chb_transactions"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
@@ -49,10 +50,12 @@
                             android:gravity="center_vertical"
                             android:text="@string/transactions"
                             android:textColor="@color/textColor"
-                            android:textAppearance="@style/materialText_400_16" />
+                            android:textAppearance="@style/materialText_400_16_reg" />
 
                 </LinearLayout>
                 <View
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#F0F0F0" />

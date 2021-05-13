@@ -88,7 +88,7 @@ public class ViewAllQuestionsActivity extends ActivityBase implements SwipeRefre
         recyclerViewAllQuestions.setLayoutManager(new LinearLayoutManager(ViewAllQuestionsActivity.this, LinearLayoutManager.VERTICAL, false));
         recyclerViewAllQuestions.setHasFixedSize(true);
         sessionManager = new SessionManager(ViewAllQuestionsActivity.this);
-        questionListAdapter = new QuestionListAdapter(ViewAllQuestionsActivity.this, new ArrayList<>(), status);
+        questionListAdapter = new QuestionListAdapter(ViewAllQuestionsActivity.this, new ArrayList<>(), status,0);
         recyclerViewAllQuestions.setAdapter(questionListAdapter);
         swipeRefresh.setOnRefreshListener(this);
 

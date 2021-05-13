@@ -524,7 +524,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
             }
 
-            PublicChatListAdapter publicChatListAdapter = new PublicChatListAdapter(context, new ArrayList<>(),"");
+            PublicChatListAdapter publicChatListAdapter = new PublicChatListAdapter(context, new ArrayList<>(),"",0);
             recyclerViewOfferChat.setHasFixedSize(true);
             recyclerViewOfferChat.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             recyclerViewOfferChat.setAdapter(publicChatListAdapter);

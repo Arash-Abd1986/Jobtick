@@ -452,11 +452,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         } catch (Exception e) {
             e.printStackTrace();
         }
-        edtComment.setHint(String.format("Reply to %s", simpleName));
+        edtComment.setHint(String.format("Ask %s a question", simpleName));
         recyclerViewQuestions.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(TaskDetailsActivity.this);
         recyclerViewQuestions.setLayoutManager(layoutManager);
-        questionListAdapter = new QuestionListAdapter(TaskDetailsActivity.this, new ArrayList<>(),taskModel.getStatus().toLowerCase());
+        questionListAdapter = new QuestionListAdapter(TaskDetailsActivity.this, new ArrayList<>(),taskModel.getStatus().toLowerCase(),taskModel.getPoster().getId());
         recyclerViewQuestions.setAdapter(questionListAdapter);
         questionListAdapter.setOnItemClickListener(this);
     }
@@ -576,10 +576,11 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_delete, false);
                     toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, true);
 
-                    cardMakeAnOffer.setVisibility(View.VISIBLE);
                     if (taskModel.getOfferSent()) {
+                        cardMakeAnOffer.setVisibility(View.GONE);
                         txtBtnText.setText(ConstantKey.BTN_OFFER_PENDING);
                     } else {
+                        cardMakeAnOffer.setVisibility(View.VISIBLE);
                         txtBtnText.setText(ConstantKey.BTN_MAKE_AN_OFFER);
                     }
                 }
@@ -651,7 +652,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_increase_budget, false);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_reschedule, false);
                 toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, false);
-
+                cardAssigneeLayout.setVisibility(View.VISIBLE);
+                rltQuestionAdd.setVisibility(View.GONE);
+                cardQuestionsLayout.setVisibility(View.VISIBLE);
                 setPrice();
                 break;
             case Constant.TASK_OVERDUE:
@@ -711,6 +714,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                 cardOfferLayout.setVisibility(View.GONE);
                 rltQuestionAdd.setVisibility(View.GONE);
                 cardQuestionsLayout.setVisibility(View.VISIBLE);
+
                 setPrice();
                 break;
             case Constant.TASK_DRAFT:
@@ -759,6 +763,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 //                cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.setVisibility(View.GONE);
                 cardQuestionsLayout.setVisibility(View.GONE);
+                cardAssigneeLayout.setVisibility(View.VISIBLE);
+                rltQuestionAdd.setVisibility(View.GONE);
+                cardQuestionsLayout.setVisibility(View.VISIBLE);
                 setPrice();
                 break;
         }
@@ -2504,6 +2511,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             offerModel = obj;
             isOfferQuestion = "offer";
             bundle.putBoolean("isPoster", isUserThePoster);
+            bundle.putString("posterID", taskModel.getPoster().getId().toString());
             intent.putExtras(bundle);
             startActivityForResult(intent, 20);
         } else if (action.equalsIgnoreCase("accept")) {

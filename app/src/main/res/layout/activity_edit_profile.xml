@@ -19,28 +19,116 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:background="@color/white"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/ivBack"
-                    android:layout_width="@dimen/_32sp"
-                    android:layout_height="@dimen/_32sp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_10sp"
-                    android:contentDescription="@string/todo"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_back" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:orientation="horizontal">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/toolbar_title"
-                    style="@style/materialText_500_18"
-                    android:layout_width="wrap_content"
+                    <ImageView
+                        android:id="@+id/ivBack"
+                        android:layout_width="@dimen/_32sp"
+                        android:layout_height="@dimen/_32sp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_10sp"
+                        android:contentDescription="@string/todo"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_back" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/toolbar_title"
+                        style="@style/materialText_500_18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_5sp"
+                        android:text="@string/edit_profile"
+                        android:textColor="@color/textColor" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_5sp"
-                    android:text="@string/edit_profile"
-                    android:textColor="@color/textColor" />
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="9">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_general_info"
+                            style="@style/materialText_500_14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/_8dp"
+                            android:text="General Info"
+                            android:textColor="@color/colorAccent" />
+
+                        <View
+                            android:id="@+id/under_tab1"
+                            android:layout_width="@dimen/_40dp"
+                            android:layout_height="2dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/tab_line_selected" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_private_info"
+                            style="@style/materialText_500_14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/_8dp"
+                            android:text="Private Info"
+                            android:textColor="@color/N100" />
+
+                        <View
+                            android:id="@+id/under_tab2"
+                            android:layout_width="@dimen/_40dp"
+                            android:layout_height="2dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/tab_line" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_portfolio_skills"
+                            style="@style/materialText_500_14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/_8dp"
+                            android:text="Portfolio &amp; Skills"
+                            android:textColor="@color/N100" />
+
+                        <View
+                            android:id="@+id/under_tab3"
+                            android:layout_width="@dimen/_40dp"
+                            android:layout_height="2dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/tab_line" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <androidx.core.widget.NestedScrollView
@@ -56,28 +144,20 @@
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/_100dp">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_500_14"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_large"
-                        android:layout_marginTop="@dimen/_15sp"
-                        android:text="@string/general_information"
-                        android:textColor="@color/textColor" />
 
                     <LinearLayout
-                        android:id="@+id/llSave"
+                        android:id="@+id/llGeneral"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:focusableInTouchMode="true"
                         android:orientation="vertical"
-                        android:visibility="visible"
-                        android:focusableInTouchMode="true">
+                        android:visibility="visible">
 
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/spacing_large"
+                            android:layout_marginBottom="@dimen/spacing_large"
                             android:visibility="visible">
 
                             <RelativeLayout
@@ -90,8 +170,8 @@
                                     android:id="@+id/img_user_avatar"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:src="@drawable/ic_circle_logo"
                                     android:scaleType="centerCrop"
+                                    android:src="@drawable/ic_circle_logo"
                                     app:civ_border="false" />
 
                                 <RelativeLayout
@@ -182,34 +262,30 @@
                             app:eInputType="text"
                             app:eMaxCharSize="500"
                             app:eTitle="@string/about" />
+                    </LinearLayout>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_5sp" />
+                    <LinearLayout
+                        android:id="@+id/llPinfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:focusableInTouchMode="true"
+                        android:orientation="vertical"
+                        android:visibility="visible">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            style="@style/materialText_400_14"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/spacing_large"
-                            android:layout_marginTop="@dimen/_10sp"
-                            android:layout_marginBottom="@dimen/_5sp"
-                            android:text="@string/private_information"
-                            android:textColor="@color/textColor" />
 
                         <com.jobtick.android.widget.ExtendedEntryText
+                            android:id="@+id/edt_phone_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:eTitle="@string/phone_number"
-                            app:eInputType="verify"
-                            app:eVerifyVisible="false"
-                            app:eMaxCharNumber="10"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
                             android:layout_marginBottom="@dimen/spacing_middle"
-                            android:id="@+id/edt_phone_number"
-                            />
+                            app:eInputType="verify"
+                            app:eMaxCharNumber="10"
+                            app:eTitle="@string/phone_number"
+                            app:eVerifyVisible="false" />
 
                         <com.jobtick.android.widget.ExtendedEntryText
                             android:id="@+id/edt_email_address"
@@ -217,12 +293,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_medium"
-                            android:focusable="false"
-                            android:clickable="false"
-                            android:focusableInTouchMode="false"
-                            android:saveEnabled="false"
                             android:layout_marginEnd="@dimen/spacing_large"
                             android:layout_marginBottom="@dimen/spacing_middle"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:saveEnabled="false"
                             app:eInputType="email"
                             app:eTitle="@string/email" />
 
@@ -235,8 +311,8 @@
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
                             android:layout_marginBottom="@dimen/spacing_middle"
-                            app:eInputType="calendar"
                             app:eImeOptions="actionNext"
+                            app:eInputType="calendar"
                             app:eTitle="@string/date_of_birth" />
 
 
@@ -251,51 +327,83 @@
                             app:eInputType="phone"
                             app:eTitle="@string/abn" />
 
-                        <View
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llPS"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:focusableInTouchMode="true"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:minHeight="90dp"
+                            android:weightSum="10"
+                            android:background="@drawable/shape_rounded_white"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/spacing_medium" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            style="@style/materialText_500_14"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/spacing_large"
-                            android:layout_marginTop="@dimen/_10sp"
-                            android:layout_marginBottom="@dimen/_5sp"
-                            android:text="@string/portfolio_amp_skills"
-                            android:textColor="@color/textColor" />
-
+                            android:layout_marginTop="@dimen/spacing_medium"
+                            android:layout_marginEnd="@dimen/spacing_large"
+                            android:layout_marginBottom="@dimen/spacing_medium"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
                             <LinearLayout
-                                android:layout_width="match_parent"
+                                android:layout_width="0dp"
+                                android:layout_weight="8"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_large"
-                                android:layout_marginTop="@dimen/spacing_medium"
-                                android:layout_marginEnd="@dimen/spacing_large"
-                                android:layout_marginBottom="@dimen/spacing_medium"
-                                android:background="@drawable/shape_rounded_white"
+
                                 android:orientation="vertical">
 
                                 <com.google.android.material.textview.MaterialTextView
                                     style="@style/materialText_600_12"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginBottom="16dp"
                                     android:layout_marginStart="16dp"
+                                    android:layout_marginTop="16dp"
+                                    android:layout_marginBottom="8dp"
                                     android:text="@string/portfolio"
-                                    android:textColor="@color/colorPrimary" />
+                                    android:textColor="@color/N500" />
 
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/recycler_view"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/_5sp"
-                                    android:padding="3dp"
-                                    android:overScrollMode="never" />
+                                    android:overScrollMode="never"
+                                    android:layout_marginStart="5dp"
+                                    android:padding="3dp" />
                             </LinearLayout>
 
-                    </LinearLayout>
+                            <RelativeLayout
+                                android:id="@+id/add_job"
+                                android:layout_width="0dp"
+                                android:layout_gravity="bottom"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:orientation="vertical">
+
+                                <FrameLayout
+                                    android:id="@+id/small_plus"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_marginRight="16dp"
+                                    android:layout_marginBottom="12dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_marginTop="8dp"
+                                    android:background="@drawable/add_blue_c">
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_btn_plus" />
+                                </FrameLayout>
+                            </RelativeLayout>
+                        </LinearLayout>
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -329,7 +437,7 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:text="@string/education"
-                                        android:textColor="@color/colorPrimary" />
+                                        android:textColor="@color/N500" />
 
                                     <com.google.android.material.textview.MaterialTextView
                                         android:id="@+id/txt_education"
@@ -388,7 +496,7 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:text="@string/certificates"
-                                        android:textColor="@color/colorPrimary" />
+                                        android:textColor="@color/N500" />
 
                                     <com.google.android.material.textview.MaterialTextView
                                         android:id="@+id/txt_specialities"
@@ -447,7 +555,7 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:text="@string/occupation"
-                                        android:textColor="@color/colorPrimary" />
+                                        android:textColor="@color/N500" />
 
                                     <com.google.android.material.textview.MaterialTextView
                                         android:id="@+id/txt_experience"
@@ -506,7 +614,7 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:text="@string/languages"
-                                        android:textColor="@color/colorPrimary" />
+                                        android:textColor="@color/N500" />
 
                                     <com.google.android.material.textview.MaterialTextView
                                         android:id="@+id/txt_languages"
@@ -565,7 +673,7 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:text="@string/transportation"
-                                        android:textColor="@color/colorPrimary" />
+                                        android:textColor="@color/N500" />
 
                                     <LinearLayout
                                         android:layout_width="wrap_content"
@@ -605,21 +713,21 @@
                                 </LinearLayout>
 
                             </RelativeLayout>
-
                         </LinearLayout>
+
+                    </LinearLayout>
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/card_save_profile"
+                        style="@style/materialButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
-                        style="@style/materialButton"
-                        android:text="@string/save"
                         android:layout_marginTop="10dp"
-                        />
+                        android:text="@string/save" />
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </LinearLayout>
-
 
 
     </RelativeLayout>

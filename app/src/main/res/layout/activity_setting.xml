@@ -13,8 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="160dp"
-        android:gravity="bottom"
+        android:gravity="top"
         android:orientation="vertical">
 
         <com.jobtick.android.widget.ExtendedSettingItem

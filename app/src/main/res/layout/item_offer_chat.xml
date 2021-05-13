@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <LinearLayout
@@ -20,16 +20,36 @@
             android:src="@drawable/pic"
             app:civ_border="false" />
 
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/materialText_700_12"
-            android:id="@+id/txt_name"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="@dimen/_30dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:text="@string/nathan_fox"
-            android:textColor="@color/textColor"/>
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_name"
+                style="@style/materialText_700_12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                android:singleLine="true"
+                android:text="@string/nathan_fox"
+                android:textColor="@color/textColor" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_poster"
+                style="@style/materialText_500_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                android:paddingHorizontal="@dimen/_3dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/linear_rounded_n50_fill"
+                android:singleLine="true"
+                android:text="Poster"
+                android:visibility="gone"
+                android:textColor="@color/white" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ivFlag"
@@ -46,9 +66,9 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
+                android:contentDescription="@string/todo"
                 android:padding="@dimen/spacing_small"
-                android:src="@drawable/ic_red_flag"
-                android:contentDescription="@string/todo" />
+                android:src="@drawable/ic_red_flag" />
         </LinearLayout>
 
         <LinearLayout
@@ -65,9 +85,9 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_gravity="center"
+                android:contentDescription="@string/todo"
                 android:padding="@dimen/spacing_small"
-                android:src="@drawable/ic_corner_blue"
-                android:contentDescription="@string/todo" />
+                android:src="@drawable/ic_corner_blue" />
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/materialText_500_10"
@@ -77,7 +97,7 @@
                 android:layout_marginStart="1dp"
                 android:gravity="center_vertical"
                 android:text="@string/reply"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
     </LinearLayout>
 
@@ -93,13 +113,13 @@
         android:visibility="gone" />
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/materialText_500_12"
         android:id="@+id/txt_message"
+        style="@style/materialText_500_12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        tools:text="adipisicing adipisicing commodo Lorem enim si adipis adipisicing commodo Lorem enim si..."
-        android:textColor="@color/textColor" />
+        android:textColor="@color/textColor"
+        tools:text="adipisicing adipisicing commodo Lorem enim si adipis adipisicing commodo Lorem enim si..." />
 
 
     <androidx.cardview.widget.CardView
@@ -117,9 +137,9 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:adjustViewBounds="true"
             android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/todo"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_gallery"
-            android:contentDescription="@string/todo" />
+            android:src="@drawable/ic_gallery" />
     </androidx.cardview.widget.CardView>
 
     <RelativeLayout
@@ -129,8 +149,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="4dp">
+            android:layout_marginTop="4dp"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/lyt_btn_more"
                 android:layout_width="wrap_content"
@@ -142,27 +163,26 @@
                 tools:ignore="RelativeOverlap,RtlHardcoded">
 
 
-
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_500_10"
                     android:id="@+id/txt_more_less"
+                    style="@style/materialText_500_10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/spacing_middle"
                     android:gravity="center_vertical"
                     android:text="More >"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary" />
             </LinearLayout>
+
             <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_500_10"
                 android:id="@+id/txt_created_date"
+                style="@style/materialText_500_10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="21 min. ago"
                 android:textColor="@color/grey_40"
                 tools:ignore="HardcodedText" />
-
 
 
         </LinearLayout>

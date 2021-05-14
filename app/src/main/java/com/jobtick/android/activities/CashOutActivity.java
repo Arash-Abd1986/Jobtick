@@ -8,10 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.jobtick.android.R;
-import com.jobtick.android.models.CreditCardModel;
+import com.jobtick.android.models.response.getbalance.CreditCardModel;
 import com.jobtick.android.utils.Constant;
-
-import java.util.Locale;
 
 public class CashOutActivity extends ActivityBase {
 

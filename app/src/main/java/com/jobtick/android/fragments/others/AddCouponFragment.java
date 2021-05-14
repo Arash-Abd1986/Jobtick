@@ -2,12 +2,6 @@ package com.jobtick.android.fragments.others;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -20,6 +14,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
@@ -27,28 +25,18 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.rpc.Help;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
-import com.jobtick.android.activities.PaymentOverviewActivity;
 import com.jobtick.android.fragments.AbstractStateExpandedBottomSheet;
-import com.jobtick.android.fragments.CashOutBottomSheet;
-import com.jobtick.android.fragments.PosterRequirementsBottomSheet;
-import com.jobtick.android.models.CreditCardModel;
-import com.jobtick.android.models.calculation.PayingCalculationModel;
 import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.Helper;
-import com.jobtick.android.utils.KeyboardUtil;
 import com.jobtick.android.utils.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class AddCouponFragment extends AbstractStateExpandedBottomSheet {

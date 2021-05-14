@@ -30,7 +30,7 @@ import android.annotation.SuppressLint;
 
 import com.jobtick.android.models.BankAccountModel;
 import com.jobtick.android.models.BillingAdreessModel;
-import com.jobtick.android.models.CreditCardModel;
+import com.jobtick.android.models.response.getbalance.CreditCardModel;
 import com.jobtick.android.utils.CardTypes;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.ConstantKey;

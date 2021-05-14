@@ -45,7 +45,6 @@ import com.jobtick.android.activities.SearchTaskActivity;
 import com.jobtick.android.activities.TaskCreateActivity;
 import com.jobtick.android.activities.TaskDetailsActivity;
 import com.jobtick.android.adapers.TaskListAdapterV2;
-import com.jobtick.android.models.CreditCardModel;
 import com.jobtick.android.models.TaskModel;
 import com.jobtick.android.models.response.myjobs.Data;
 import com.jobtick.android.models.response.myjobs.MyJobsResponse;

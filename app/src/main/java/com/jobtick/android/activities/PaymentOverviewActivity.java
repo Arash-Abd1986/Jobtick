@@ -27,11 +27,11 @@ import android.widget.Toast;
 
 import com.jobtick.android.fragments.PosterRequirementsBottomSheet;
 import com.jobtick.android.fragments.others.AddCouponFragment;
-import com.jobtick.android.models.CreditCardModel;
 import com.jobtick.android.models.OfferModel;
 import com.jobtick.android.models.TaskModel;
 import com.jobtick.android.models.UserAccountModel;
 import com.jobtick.android.models.calculation.PayingCalculationModel;
+import com.jobtick.android.models.response.getbalance.CreditCardModel;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.ConstantKey;
 import com.jobtick.android.utils.FireBaseEvent;
@@ -130,7 +130,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
     private Gson gson;
 
     private final HashMap<PosterRequirementsBottomSheet.Requirement, Boolean> stateRequirement = new HashMap<>();
-    float wallet;
+    double wallet;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_view_user)
@@ -292,7 +292,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
             txtWallet.setVisibility(View.VISIBLE);
             txtWalletTitle.setVisibility(View.VISIBLE);
             txtWalletTitle.setText("Wallet Balance");
-            wallet = creditCardModel.getData().get(1).getWallet().getBalance();
+            wallet = Double.parseDouble(creditCardModel.getData().get(1).getWallet().getBalance());
             txtWallet.setText(String.format(Locale.ENGLISH, "$ %.1f", wallet));
         } else {
             throw new IllegalStateException("There is no wallet value in api using provided format of object.");

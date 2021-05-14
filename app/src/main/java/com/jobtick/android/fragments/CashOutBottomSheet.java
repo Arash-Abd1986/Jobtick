@@ -15,8 +15,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.jobtick.android.R;
 import com.jobtick.android.activities.ActivityBase;
-import com.jobtick.android.activities.CashOutActivity;
-import com.jobtick.android.models.CreditCardModel;
+import com.jobtick.android.models.response.getbalance.CreditCardModel;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.SessionManager;
 
@@ -89,7 +88,7 @@ public class CashOutBottomSheet extends AbstractStateExpandedBottomSheet {
     }
 
     private boolean validation(){
-        if(creditCardModel.getData().get(1).getWallet().getBalance() == 0){
+        if(Double.parseDouble(creditCardModel.getData().get(1).getWallet().getBalance()) == 0){
             ((ActivityBase)requireActivity()).showToast("Nothing to cashout!", getContext());
             return false;
         }

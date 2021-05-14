@@ -194,8 +194,6 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
             try {
                 if (args[0] as Boolean) {
                     Log.e(TAG, "Success autResponse")
-                    //id k mikham check konam
-
                     mSocket!!.emit("subscribe", "userstatus-" + conversationModel!!.receiver.id.toString())
                     mSocket!!.emit("subscribe", "conversation-" + conversationModel!!.id)
                     mSocket!!.emit("isonline", conversationModel!!.receiver.id.toString())
@@ -570,7 +568,6 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
 
 
     override fun onDestroy() {
-        super.onDestroy()
         // Disconnect from the service
         mSocket!!.disconnect()
         mSocket!!.off(Socket.EVENT_CONNECT, onConnect)
@@ -580,6 +577,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         mSocket!!.off("whoareyou", whoAreYou)
         mSocket!!.off("newpm", onNewMessage)
         mSocket!!.off("userstatus", userStatus)
+        super.onDestroy()
     }
 
     private fun addCommentIntoServer(pictureFile: File?, str_message: String) {

@@ -171,7 +171,9 @@ dependencies {
 
     //Video Compression - this library is according to telegram video compression
     implementation 'com.github.AbedElazizShe:LightCompressor:0.7.7'
-
+    // LiveData Scope
+    def lifecycle_version = "2.3.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     //image cropper
     implementation 'com.github.yalantis:ucrop:2.2.6'
     implementation 'gun0912.ted:tedpermission:2.2.3'

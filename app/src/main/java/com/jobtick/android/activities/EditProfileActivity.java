@@ -333,10 +333,12 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                             if (onProfileupdatelistener != null) {
                                 onProfileupdatelistener.updateProfile();
                             }
+                            onBackPressed();
                         }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        showToast("Something Went Wrong", EditProfileActivity.this);
                     }
                 },
                 error -> {

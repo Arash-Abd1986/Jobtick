@@ -6,6 +6,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.os.Parcelable
 import android.view.MenuItem
 import android.view.View
@@ -41,7 +42,6 @@ import com.jobtick.android.models.response.AccountResponse
 import com.jobtick.android.models.response.getbalance.CreditCardModel
 import com.jobtick.android.utils.*
 import com.onesignal.OneSignal
-import com.onesignal.OneSignal.OSExternalUserIdUpdateCompletionHandler
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
@@ -68,6 +68,7 @@ class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelecte
     var navI4: AppCompatImageView? = null
     var navI5: AppCompatImageView? = null
     var llWalletBalance: LinearLayout? = null
+    private var linFilterExplore: LinearLayout? = null
     var home: LinearLayout? = null
     var search: LinearLayout? = null
     var chat: LinearLayout? = null
@@ -94,6 +95,7 @@ class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelecte
         btnCashOut = headerView.findViewById(R.id.btn_cashout)
         myBalance = headerView.findViewById(R.id.my_balance)
         llWalletBalance = headerView.findViewById(R.id.llWalletBalance)
+        linFilterExplore = findViewById(R.id.lin_filter_explore)
         home = findViewById(R.id.home)
         search = findViewById(R.id.search)
         chat = findViewById(R.id.chat)
@@ -109,27 +111,13 @@ class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelecte
         smallPlus = findViewById(R.id.small_plus)
         setHeaderLayout()
         navigationView.setNavigationItemSelectedListener(this)
+        drawerLayout = findViewById(R.id.drawer_layout)
 
-
-        /* OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
-            @Override
-            public void idsAvailable(String userId, String registrationId) {
-                Log.d("debug", "User:" + userId);
-                if (registrationId != null)
-
-
-                    Log.d("debug", "registrationId:" + registrationId);
-
-            }
-        });*/drawerLayout = findViewById(R.id.drawer_layout)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration.Builder(
                 R.id.navigation_new_task, R.id.navigation_my_tasks, R.id.navigation_browse, R.id.navigation_inbox, R.id.navigation_profile)
                 .setDrawerLayout(drawerLayout)
                 .build()
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-        //    NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(toolbar!!, navController!!, appBarConfiguration!!)
         val toggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             override fun onDrawerOpened(drawerView: View) {
@@ -183,31 +171,24 @@ class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelecte
         onNavClick()
     }
 
-    private var lastId = -1
     private fun setNavClick() {
         home!!.setOnClickListener { v: View? ->
-            if (lastId != R.id.navigation_new_task) {
-                navController!!.navigate(R.id.navigation_new_task)
-                lastId = R.id.navigation_new_task
-            }
+            linFilterExplore!!.visibility = View.GONE
+            navController!!.navigate(R.id.navigation_new_task)
         }
         search!!.setOnClickListener { v: View? ->
-            if (lastId != R.id.navigation_browse) {
-                navController!!.navigate(R.id.navigation_browse)
-                lastId = R.id.navigation_browse
-            }
+            Handler().postDelayed({
+                linFilterExplore!!.visibility = View.VISIBLE
+            },1500)
+            navController!!.navigate(R.id.navigation_browse)
         }
         chat!!.setOnClickListener { v: View? ->
-            if (lastId != R.id.navigation_inbox) {
-                navController!!.navigate(R.id.navigation_inbox)
-                lastId = R.id.navigation_inbox
-            }
+            linFilterExplore!!.visibility = View.GONE
+            navController!!.navigate(R.id.navigation_inbox)
         }
         profile!!.setOnClickListener { v: View? ->
-            if (lastId != R.id.navigation_profile) {
-                navController!!.navigate(R.id.navigation_profile)
-                lastId = R.id.navigation_profile
-            }
+            linFilterExplore!!.visibility = View.GONE
+            navController!!.navigate(R.id.navigation_profile)
         }
     }
 
@@ -262,11 +243,6 @@ class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelecte
     private fun startCategoryList() {
         val infoBottomSheet = CategoryListBottomSheet(sessionManager1)
         infoBottomSheet.show(supportFragmentManager, null)
-        //        Intent creating_task = new Intent(this, CategoryListActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putString("category", "");
-//        creating_task.putExtras(bundle);
-//        startActivity(creating_task);
     }
 
     fun setMenuItemIcon(item: AppCompatImageView?, itemId: Int, status: String) {
@@ -330,19 +306,23 @@ class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelecte
         } else {
             //default image
         }
-        OneSignal.setExternalUserId(sessionManager1!!.userAccount.id.toString(), OSExternalUserIdUpdateCompletionHandler { results: JSONObject? -> })
+        OneSignal.setExternalUserId(sessionManager1!!.userAccount.id.toString(), { results: JSONObject? -> })
         if (sessionManager1!!.userAccount.isVerifiedAccount == 1) {
             imgVerifiedAccount!!.visibility = View.VISIBLE
         } else {
             imgVerifiedAccount!!.visibility = View.GONE
         }
         if (sessionManager1!!.userAccount.posterTier != null) {
-            if (sessionManager1!!.userAccount.posterTier.id == 1) {
-                txtAccountLevel!!.setText(R.string.level_1)
-            } else if (sessionManager1!!.userAccount.posterTier.id == 2) {
-                txtAccountLevel!!.setText(R.string.level_2)
-            } else if (sessionManager1!!.userAccount.posterTier.id == 3) {
-                txtAccountLevel!!.setText(R.string.level_3)
+            when (sessionManager1!!.userAccount.posterTier.id) {
+                1 -> {
+                    txtAccountLevel!!.setText(R.string.level_1)
+                }
+                2 -> {
+                    txtAccountLevel!!.setText(R.string.level_2)
+                }
+                3 -> {
+                    txtAccountLevel!!.setText(R.string.level_3)
+                }
             }
         } else {
             txtAccountLevel!!.setText(R.string.level_0)
@@ -461,8 +441,8 @@ Team ${resources.getString(R.string.app_name)}""")
                 return true
             }
             R.id.nav_task_alerts -> {
-                val task_alerts = Intent(this@DashboardActivity, TaskAlertsActivity::class.java)
-                startActivity(task_alerts)
+                val taskAlerts = Intent(this@DashboardActivity, TaskAlertsActivity::class.java)
+                startActivity(taskAlerts)
                 return true
             }
             R.id.nav_refer_a_friend -> {
@@ -475,8 +455,8 @@ Team ${resources.getString(R.string.app_name)}""")
                 return true
             }
             R.id.nav_help_topics -> {
-                val help_topics = Intent(this@DashboardActivity, HelpActivity::class.java)
-                startActivity(help_topics)
+                val helpTopics = Intent(this@DashboardActivity, HelpActivity::class.java)
+                startActivity(helpTopics)
                 return true
             }
             R.id.nav_logout -> {
@@ -574,11 +554,7 @@ Team ${resources.getString(R.string.app_name)}""")
         }
 
     override fun updatedSuccesfully(path: String) {
-        if (path != null) {
-            ImageUtil.displayImage(imgUserAvatar, path, null)
-        } else {
-            //default image
-        }
+        ImageUtil.displayImage(imgUserAvatar, path, null)
     }
 
     override fun updateProfile() {}

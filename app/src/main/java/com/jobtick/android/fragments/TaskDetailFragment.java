@@ -477,7 +477,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
-                ((AppController) getContext()).mCrashlytics.recordException(t);
+               // ((AppController) getContext()).mCrashlytics.recordException(t);
             }
         });
     }
@@ -733,7 +733,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
-                ((AppController) getContext()).mCrashlytics.recordException(t);
+                //((AppController) getContext()).mCrashlytics.recordException(t);
+                taskCreateActivity.showToast("Something went wrong", taskCreateActivity);
                 t.printStackTrace();
                 taskCreateActivity.hideProgressDialog();
             }
@@ -777,7 +778,8 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
-                ((AppController) getContext()).mCrashlytics.recordException(t);
+               // ((AppController) getContext()).mCrashlytics.recordException(t);
+                taskCreateActivity.showToast("Something went wrong", taskCreateActivity);
                 t.printStackTrace();
                 taskCreateActivity.hideProgressDialog();
             }

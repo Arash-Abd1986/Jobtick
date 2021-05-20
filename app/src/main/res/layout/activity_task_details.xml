@@ -127,7 +127,7 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_budgets"
-                        style="@style/materialText_700_18"
+                        style="@style/materialText_500_18"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:background="@drawable/shape_tab_primary"
@@ -552,15 +552,15 @@
                                         android:paddingBottom="8dp">
 
                                         <ImageView
-                                            android:layout_width="18dp"
-                                            android:layout_height="18dp"
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
                                             android:layout_gravity="center"
                                             android:layout_margin="@dimen/spacing_small"
                                             android:contentDescription="@string/todo"
                                             android:src="@drawable/ic_message" />
 
                                         <com.google.android.material.textview.MaterialTextView
-                                            style="@style/materialText_600_14"
+                                            style="@style/materialText_500_16"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
@@ -584,15 +584,15 @@
                                         android:visibility="visible">
 
                                         <ImageView
-                                            android:layout_width="18dp"
-                                            android:layout_height="18dp"
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
                                             android:layout_gravity="center"
                                             android:layout_margin="@dimen/spacing_small"
                                             android:contentDescription="@string/todo"
                                             android:src="@drawable/ic_message_active" />
 
                                         <com.google.android.material.textview.MaterialTextView
-                                            style="@style/materialText_600_14"
+                                            style="@style/materialText_500_16"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
@@ -618,14 +618,14 @@
                                     android:layout_marginStart="@dimen/spacing_smlarge"
                                     android:layout_marginTop="@dimen/spacing_smlarge"
                                     android:text="@string/posted_by"
-                                    android:textColor="@color/colorPrimary" />
+                                    android:textColor="@color/N900" />
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/txtPostedBy"
                                     android:layout_marginStart="@dimen/spacing_smlarge"
-                                    android:layout_marginTop="@dimen/spacing_middle"
+                                    android:layout_marginTop="12dp"
                                     android:layout_marginEnd="@dimen/spacing_smlarge"
                                     android:layout_marginBottom="@dimen/spacing_middle"
                                     android:baselineAligned="false"
@@ -672,7 +672,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="match_parent"
                                         android:layout_gravity="center_vertical"
-                                        android:layout_marginStart="@dimen/spacing_middle"
+                                        android:layout_marginStart="12dp"
                                         android:layout_weight="1"
                                         android:gravity="center_vertical"
                                         android:orientation="vertical">
@@ -825,7 +825,7 @@
                             android:layout_marginBottom="@dimen/spacing_middle"
                             android:singleLine="true"
                             android:text="@string/assignee"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/N900" />
                         <LinearLayout
                             android:layout_below="@+id/assigned_title"
                             android:layout_width="match_parent"
@@ -961,7 +961,7 @@
                             android:layout_marginEnd="18dp"
                             android:singleLine="true"
                             android:text="@string/offer"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/N900" />
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/card_offer_layout"
@@ -1133,7 +1133,7 @@
                             android:layout_marginEnd="18dp"
                             android:singleLine="true"
                             android:text="@string/question"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/N900" />
 
                         <RelativeLayout
                             android:id="@+id/rlt_layout_action_data"
@@ -1299,7 +1299,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ProgressBar
             android:layout_width="@dimen/_46dp"

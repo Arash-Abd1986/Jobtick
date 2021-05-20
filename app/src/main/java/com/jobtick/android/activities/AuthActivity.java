@@ -101,83 +101,6 @@ public class AuthActivity extends ActivityBase {
         this.editTextError = editTextError;
     }
 
-//    public void forgotPasswordverification(String email, String otp) {
-//        showProgressDialog();
-//        String str_email = email;
-//        String str_otp = otp;
-//        Helper.closeKeyboard(this);
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_VERIFY_OTP,
-//                response -> {
-//                    hideProgressDialog();
-//                    try {
-//                        JSONObject jsonObject = new JSONObject(response);
-//                        Bundle bundle = new Bundle();
-//                        Fragment fragment = new ForgotPassword3Fragment();
-//                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//                        ft.replace(R.id.auth_layout, fragment);
-//                        bundle.putString("email", str_email);
-//                        bundle.putString("otp", otp);
-//                        fragment.setArguments(bundle);
-//                        ft.commit();
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                },
-//                error -> {
-//                    NetworkResponse networkResponse = error.networkResponse;
-//                    if (networkResponse != null && networkResponse.data != null) {
-//                        String jsonError = new String(networkResponse.data);
-//                        // Print Error!
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(jsonError);
-//                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-//                            String message = jsonObject_error.getString("message");
-//                            if (message.equalsIgnoreCase("unauthorized")) {
-//                                Fragment fragment = new SignInFragment();
-//                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//                                ft.replace(R.id.container, fragment);
-//                                ft.commit();
-//                            }
-//                            if (jsonObject_error.has("errors")) {
-//                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-//                            }
-//                            showToast(message, AuthActivity.this);
-//
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    } else {
-//                        showToast("Something Went Wrong", AuthActivity.this);
-//                    }
-//                    hideProgressDialog();
-//                }) {
-//
-//
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> map1 = new HashMap<String, String>();
-//                map1.put("Content-Type", "application/x-www-form-urlencoded");
-//                map1.put("X-Requested-With", "XMLHttpRequest");
-//                return map1;
-//            }
-//
-//            @Override
-//            protected Map<String, String> getParams() {
-//                Map<String, String> map1 = new HashMap<String, String>();
-//                map1.put("email", str_email);
-//                map1.put("otp", str_otp);
-//
-//                return map1;
-//            }
-//        };
-//
-//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-//        RequestQueue requestQueue = Volley.newRequestQueue(this);
-//        requestQueue.add(stringRequest);
-//
-//    }
 
     public void forgotPasswordSpecialVerification(String email, String otp) {
         showProgressDialog();
@@ -374,14 +297,7 @@ public class AuthActivity extends ActivityBase {
             Toast.makeText(this, "Press back button again to exit",
                     Toast.LENGTH_SHORT).show();
 
-            new Handler().postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-
-                    doubleBackToExitPressedOnce = false;
-                }
-            }, 3000);
+            new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 3000);
         }
     }
 
@@ -592,8 +508,8 @@ public class AuthActivity extends ActivityBase {
 
 
                 //TODO: due we direct user to complete profile page, we ignore str_fname and str_lname
-                map1.put("fname", "no first name");
-                map1.put("lname", "no last name");
+                map1.put("fname", "Jobtick");
+                map1.put("lname", "User");
                 map1.put("email", str_email);
                 map1.put("device_token", str_device_id);
                 map1.put("device_type", str_device);
@@ -833,88 +749,6 @@ public class AuthActivity extends ActivityBase {
     }
 
 
-    private void resendOtp(String email, String password) {
-
-        Helper.closeKeyboard(this);
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_RESEND_OTP,
-                response -> {
-                    Timber.e(response);
-
-                    hideProgressDialog();
-                    // showToast("Check your inbox",AuthActivity.this);
-                    Bundle bundle = new Bundle();
-                    Fragment fragment = new VerifyAccountFragment();
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.auth_layout, fragment).addToBackStack(fragment.toString());
-                    bundle.putString("email", email);
-                    bundle.putString("password", password);
-                    fragment.setArguments(bundle);
-                    ft.commit();
-
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                            String message = jsonObject_error.getString("message");
-
-                            showToast(message, AuthActivity.this);
-
-
-                            if (jsonObject_error.has("errors")) {
-
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        showToast("Something Went Wrong", AuthActivity.this);
-                    }
-                    Timber.e(error.toString());
-                    hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                return map1;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("email", email);
-
-                return map1;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-
-
-    }
-
 
     private void proceedToCorrectActivity(UserAccountModel userAccountModel) {
         Intent intent;
@@ -977,23 +811,7 @@ public class AuthActivity extends ActivityBase {
         try {
             showProgressDialog();
 
-            //TODO: for now, we can ignore this, because we get fname and lname in complete registration
-//            if (account.getDisplayName() != null) {
-//                String[] displayName = account.getDisplayName().split(" ");
-//                int size_of_displayName = displayName.length;
-//                str_lname = displayName[size_of_displayName - 1];
-//                int count = 0;
-//                StringBuilder stringBuilder = new StringBuilder();
-//                while (size_of_displayName - 1 > count) {
-//                    stringBuilder.append(displayName[count]);
-//                    count++;
-//                }
-//                str_fname = stringBuilder.toString();
-//            }
-
-            // String str_lname = edtLname.getText().toString().trim();
             String str_email = account.getEmail();
-            // String str_password = edtPassword.getText().toString().trim();
             String str_fcm_token = getToken();
             String str_device_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
             String str_device = "Android";
@@ -1006,9 +824,7 @@ public class AuthActivity extends ActivityBase {
                     Helper.closeKeyboard(this);
 
 
-                    //TODO: We ignore this and set it to no name due to getting these data in complete profile
-//                    String finalStr_fname = str_fname;
-//                    String finalStr_lname = str_lname;
+
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_SIGNIN_GOOGLE,
                             response -> {
@@ -1224,10 +1040,10 @@ public class AuthActivity extends ActivityBase {
                 map1.put("device_token", str_device_id);
                 map1.put("device_type", str_device);
                 map1.put("fcm_token", str_fcm_token);
-                map1.put("latitude", sessionManager.getLatitude());
-                map1.put("longitude", sessionManager.getLongitude());
+                map1.put("latitude", "0");
+                map1.put("longitude", "0");
                 map1.put("fname", "Jobtick");
-                map1.put("lname", "User");
+                //map1.put("lname", "User");
                 map1.put("location", "no location");
 
                 return map1;
@@ -1343,21 +1159,14 @@ public class AuthActivity extends ActivityBase {
                     Timber.e(response);
                     hideProgressDialog();
                     try {
-
                         JSONObject jsonObject = new JSONObject(response);
-
                         Timber.e(jsonObject.toString());
-
-
                         JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-
                         sessionManager.setAccessToken(jsonObject_data.getString("access_token"));
                         sessionManager.setTokenType(jsonObject_data.getString("token_type"));
-
                         JSONObject jsonObject_user = jsonObject_data.getJSONObject("user");
                         UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
                         sessionManager.setUserAccount(userAccountModel);
-
                         proceedToCorrectActivity(userAccountModel);
 
                     } catch (JSONException e) {

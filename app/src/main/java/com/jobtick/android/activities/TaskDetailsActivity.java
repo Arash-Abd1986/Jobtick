@@ -595,7 +595,16 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     recyclerViewOffers.setVisibility(View.VISIBLE);
                     if (offerListAdapter != null)
                         offerListAdapter.clear();
-
+                    if (taskModel.getOffers().size()>0){
+                        for (int i = 0; i < taskModel.getOffers().size(); i++) {
+                            if (taskModel.getOffers().get(i).getWorker().getId().equals(sessionManager.getUserAccount().getId())){
+                                OfferModel item = taskModel.getOffers().get(i);
+                                taskModel.getOffers().remove(i);
+                                taskModel.getOffers().add(0, item);
+                                break;
+                            }
+                        }
+                    }
                     if (taskModel.getOffers().size() > 5) {
                         offerListS = new ArrayList<>();
                         offerListF = new ArrayList<>();

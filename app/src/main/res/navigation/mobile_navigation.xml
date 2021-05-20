@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/navigation_new_task"
-        android:name="com.jobtick.android.fragments.NewTaskFragment"
-        tools:layout="@layout/fragment_new_task_rev2" />
+        android:name="com.jobtick.android.fragments.HomeFragment"
+        tools:layout="@layout/fragment_home" />
 
 
     <fragment

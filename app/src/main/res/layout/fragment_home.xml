@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundLightGrey"
+    android:orientation="vertical"
+    tools:context=".fragments.HomeFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:id="@+id/lin_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_toLeftOf="@+id/update_profile">
+
+                    <ImageView
+                        android:id="@+id/hand"
+                        android:layout_width="24dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignTop="@id/hi"
+                        android:layout_alignBottom="@id/hi"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/wave_hand4" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/hi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@id/hand"
+                        android:text="Hi"
+                        android:textAppearance="@style/materialText_400_16"
+                        android:textColor="@color/textColor" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignTop="@id/hand"
+                        android:layout_marginStart="8dp"
+                        android:layout_toLeftOf="@+id/update_profile"
+                        android:layout_toEndOf="@id/hi"
+                        android:ellipsize="end"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text=""
+                        android:textAppearance="@style/materialText_400_16"
+                        android:textColor="@color/colorPrimaryDark" />
+                </LinearLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/update_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/rectangle_card_round_corners_outlined_blue"
+                    android:padding="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Update Profile"
+                    android:textAppearance="@style/materialText_400_15"
+                    android:textColor="@color/colorPrimary"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/lin_my_jobs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/rectangle_card_round_corners_outlined_blue">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="12dp"
+                        app:srcCompat="@drawable/ic_my_jobs" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/my_jobs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="5dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="8dp"
+                        android:text="My jobs"
+                        android:textAppearance="@style/materialText_400_15"
+                        android:textColor="@color/colorPrimary"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <include
+                android:visibility="gone"
+                android:id="@+id/rl_banner"
+                layout="@layout/home_banner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp" />
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rl_posted_jobs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/shape_rounded_back_card_white"
+                android:padding="12dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/posted_job_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="Posted jobs"
+                    android:textAppearance="@style/materialText_400_16"
+                    android:textColor="@color/textColor" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/see_all_posted_jobs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="8dp"
+                    android:text="See all"
+                    android:textAppearance="@style/materialText_400_15"
+                    android:textColor="@color/P300" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_posted_jobs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/posted_job_title"
+                    android:layout_marginTop="12dp"
+                    android:overScrollMode="never" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rl_offered_jobs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/shape_rounded_back_card_white"
+                android:padding="12dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/offered_jobs_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="Offered jobs"
+                    android:textAppearance="@style/materialText_400_16"
+                    android:textColor="@color/textColor" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/see_all_offered_jobs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="8dp"
+                    android:text="See all"
+                    android:textAppearance="@style/materialText_400_15"
+                    android:textColor="@color/P300" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_offered_jobs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/offered_jobs_title"
+                    android:layout_marginTop="12dp"
+                    android:overScrollMode="never" />
+            </RelativeLayout>
+
+
+            <include
+                android:visibility="gone"
+                android:id="@+id/rl_payment"
+                layout="@layout/home_payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+                />
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rl_recent_jobs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/shape_rounded_back_card_white"
+                android:padding="12dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/recent_jobs_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="Recent jobs in Jobtick"
+                    android:textAppearance="@style/materialText_400_16"
+                    android:textColor="@color/textColor" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/see_all_recent_jobs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="8dp"
+                    android:text="See all"
+                    android:textAppearance="@style/materialText_400_15"
+                    android:textColor="@color/P300" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_recent_jobs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/recent_jobs_title"
+                    android:layout_marginTop="12dp"
+                    android:overScrollMode="never" />
+            </RelativeLayout>
+
+            <Space
+                android:id="@+id/space"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_100dp"
+
+                />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

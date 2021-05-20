@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:orientation="horizontal"
+    android:weightSum="9">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:weightSum="10">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_72dp"
+            android:background="@drawable/shape_rounded_back_card_white">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp">
+
+                <RelativeLayout
+                    android:id="@+id/rl_arrow_down"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_8dp"
+                    android:background="@drawable/circle_light_blue"
+                    android:padding="5dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/img_view"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_arrow_down_blue" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/rl_arrow_down"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:maxLines="2"
+                        android:text="Income"
+                        android:textAppearance="@style/materialText_400_14"
+                        android:textColor="@color/N100"
+                        android:textSize="10dp" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_income_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:maxLines="2"
+                        android:textAppearance="@style/materialText_400_14"
+                        android:textColor="@color/N900"
+                        tools:text="$300" />
+                </LinearLayout>
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_72dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/shape_rounded_back_card_white">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp">
+
+                <RelativeLayout
+                    android:id="@+id/rl_arrow_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_8dp"
+                    android:background="@drawable/circle_light_blue"
+                    android:padding="5dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_arrow_up_blue" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/rl_arrow_up"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:maxLines="2"
+                        android:text="Outcome"
+                        android:textAppearance="@style/materialText_400_14"
+                        android:textColor="@color/N100"
+                        android:textSize="10dp" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_outcome_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:maxLines="2"
+                        android:textAppearance="@style/materialText_400_14"
+                        android:textColor="@color/N900"
+                        tools:text="$300" />
+                </LinearLayout>
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/_8dp"
+        android:layout_weight="6"
+        android:background="@drawable/shape_rounded_back_card_white"
+        android:orientation="vertical"
+        android:paddingHorizontal="12dp"
+        android:paddingTop="18dp"
+        android:paddingBottom="12dp"
+        android:weightSum="10">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:text="Last transaction"
+            android:textAppearance="@style/materialText_400_14"
+            android:textColor="@color/N100"
+            android:textSize="12dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_last_transaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:textAppearance="@style/materialText_400_14"
+            android:textColor="@color/N900"
+            tools:text="$300" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_target_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:text="Last transaction"
+            android:textAppearance="@style/materialText_400_14"
+            android:textColor="@color/N100"
+            android:textSize="12dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_last_transaction_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:textAppearance="@style/materialText_400_14"
+                    android:textColor="@color/N900"
+                    tools:text="$300" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_last_transaction_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:text="Income"
+                    android:textAppearance="@style/materialText_400_14"
+                    android:textColor="@color/N100"
+                    android:textSize="12dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lin_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/rectangle_card_round_corners_outlined_blue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_explore"
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="12dp"
+                    app:srcCompat="@drawable/ic_search_blue" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_payments_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="12dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="8dp"
+                    android:text="My jobs"
+                    android:textAppearance="@style/materialText_400_15"
+                    android:textColor="@color/colorPrimary"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</LinearLayout>

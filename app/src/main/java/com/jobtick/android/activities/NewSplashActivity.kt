@@ -59,7 +59,7 @@ class NewSplashActivity : AppCompatActivity() {
     }
 
     private val accountDetails: Unit
-        private get() {
+        get() {
             val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_GET_ACCOUNT,
                     Response.Listener { response: String? ->
                         try {
@@ -134,7 +134,10 @@ class NewSplashActivity : AppCompatActivity() {
                         login()
                     }
                 },
-                Response.ErrorListener { error: VolleyError ->  login() } /*errorHandle1(error.networkResponse)*/) {
+                Response.ErrorListener {
+                    error: VolleyError ->
+                    login()
+                } /*errorHandle1(error.networkResponse)*/) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] = sessionManager!!.tokenType + " " + sessionManager!!.accessToken

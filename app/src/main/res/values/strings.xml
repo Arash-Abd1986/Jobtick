@@ -251,7 +251,7 @@
     <string name="email_verification_code">Email verification code</string>
     <string name="email_confirmation_code">Confirmation code</string>
     <string name="verification_sent">\"Enter verification code sent to "</string>
-    <string name="enter_verification_code">Enter the verification code sent to</string>
+    <string name="enter_verification_code">Enter the confirmation code sent to</string>
 
     <!-- onboarding descriptions -->
     <string name="poster_page1">Post whatever you need to get done!</string>
@@ -515,7 +515,7 @@
     <string name="paid_details">Paid Details</string>
     <string name="questions">Questions</string>
     <string name="withdrawal_the_request">Withdraw the request</string>
-    <string name="job_success_text">Job success</string>
+    <string name="job_success_text">Job Success</string>
     <string name="change_filter">Set a new Filter</string>
     <string name="post_the_job_you_need_done_select_the_best_ticker_for_your_job">Post whatever you need to get done! Select a Ticker to get it done!</string>
     <string name="explore_jobs_that_interest_you_make_an_offer_that_will_get_you_the_job">Explore jobs which suit you, Make your best offer to get the job!</string>

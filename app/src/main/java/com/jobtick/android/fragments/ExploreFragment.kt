@@ -123,13 +123,13 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
         txtFilter = dashboardActivity!!.findViewById(R.id.txt_filter)
         ivNotification.visibility = View.GONE
         linFilterExplore!!.visibility = View.VISIBLE
-        linFilterExplore!!.setOnClickListener(View.OnClickListener { v: View? ->
+        linFilterExplore!!.setOnClickListener { v: View? ->
             val bundle = Bundle()
             val intent = Intent(dashboardActivity, FiltersActivity::class.java)
             bundle.putParcelable(Constant.FILTER, filterModel)
             intent.putExtras(bundle)
             startActivityForResult(intent, 101)
-        })
+        }
         val toolbarTitle = dashboardActivity!!.findViewById<TextView>(R.id.toolbar_title)
         toolbarTitle.visibility = View.VISIBLE
         toolbarTitle.setText(R.string.explore)
@@ -142,14 +142,12 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
         setHasOptionsMenu(true)
     }
 
-    override fun onStop() {
-        super.onStop()
-        linFilterExplore!!.visibility = View.GONE
+    override fun onPause() {
+        super.onPause()
     }
 
     override fun onResume() {
         super.onResume()
-        linFilterExplore!!.visibility = View.VISIBLE
         doApiCall()
 
         val app = requireActivity().application as AppController
@@ -182,48 +180,53 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
 
     @SuppressLint("LogNotTimber")
     private val onConnectError = Emitter.Listener { args: Array<Any?>? -> requireActivity().runOnUiThread { Log.e(TAG, "Error connecting " + args) } }
+
     @SuppressLint("LogNotTimber")
     private val whoAreYou = Emitter.Listener { args: Array<Any?>? ->
-        requireActivity().runOnUiThread {
-            try {
-                mSocket!!.emit("auth", sessionManager!!.accessToken)
-                Log.e(TAG, "who are you response")
-            } catch (e: Exception) {
-                Log.e(TAG, e.message!!)
-                return@runOnUiThread
+        if (isAdded)
+            requireActivity().runOnUiThread {
+                try {
+                    mSocket!!.emit("auth", sessionManager!!.accessToken)
+                    Log.e(TAG, "who are you response")
+                } catch (e: Exception) {
+                    Log.e(TAG, e.message!!)
+                    return@runOnUiThread
+                }
             }
-        }
     }
+
     @SuppressLint("LogNotTimber")
     private val onAutResponse = Emitter.Listener { args: Array<Any> ->
-        requireActivity().runOnUiThread {
-            try {
-                Log.e(TAG, "Aut Response")
-                if (args[0] as Boolean) {
-                    Log.e(TAG, "Success autResponse")
-                    mSocket!!.emit("subscribe", "explore")
-                }
+        if (isAdded)
+            requireActivity().runOnUiThread {
+                try {
+                    Log.e(TAG, "Aut Response")
+                    if (args[0] as Boolean) {
+                        Log.e(TAG, "Success autResponse")
+                        mSocket!!.emit("subscribe", "explore")
+                    }
 
-                //
-            } catch (e: Exception) {
-                Log.e(TAG, e.message!!)
-                return@runOnUiThread
+                    //
+                } catch (e: Exception) {
+                    Log.e(TAG, e.message!!)
+                    return@runOnUiThread
+                }
             }
-        }
     }
 
     @SuppressLint("LogNotTimber")
     private val newJob = Emitter.Listener { args: Array<Any?>? ->
-        requireActivity().runOnUiThread {
-            try {
-                linNewMessage!!.visibility = View.VISIBLE
-                newJobCount +=1
-                txtNewJob!!.text = getString(R.string.new_job_count,newJobCount.toString())
-            } catch (e: Exception) {
-                Log.e(TAG, e.message!!)
-                return@runOnUiThread
+        if (isAdded)
+            requireActivity().runOnUiThread {
+                try {
+                    linNewMessage!!.visibility = View.VISIBLE
+                    newJobCount += 1
+                    txtNewJob!!.text = getString(R.string.new_job_count, newJobCount.toString())
+                } catch (e: Exception) {
+                    Log.e(TAG, e.message!!)
+                    return@runOnUiThread
+                }
             }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -425,6 +428,7 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
                 },
                 Response.ErrorListener { error: VolleyError ->
                     swipeRefresh!!.isRefreshing = false
+                    dashboardActivity!!.hideProgressDialog()
                     dashboardActivity!!.errorHandle1(error.networkResponse)
                 }) {
             override fun getHeaders(): Map<String, String> {

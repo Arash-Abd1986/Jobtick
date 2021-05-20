@@ -46,6 +46,10 @@ class DatePickerBottomSheet(private val time: Long) : BottomSheetDialogFragment(
 
         btnAccept!!.setOnClickListener {
             dchange!!.onDateChange(year, month, day)
+            dismiss()
+        }
+        btnCancel!!.setOnClickListener {
+            dismiss()
         }
     }
 

@@ -67,7 +67,7 @@
                 <item
                     android:id="@+id/action_copy"
                     android:icon="@drawable/ic_copy"
-                    android:title="Copy the Job"
+                    android:title="Copy"
                     app:showAsAction="withText" />
             </group>
             <group android:id="@+id/grp_reschedule">

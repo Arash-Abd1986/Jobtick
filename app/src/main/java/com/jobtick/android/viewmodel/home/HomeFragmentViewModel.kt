@@ -20,6 +20,7 @@ class HomeFragmentViewModel : ViewModel() {
 
     private val notifReponse = MutableLiveData<JSONObject>()
     private val error = MutableLiveData<String>()
+    private val error2 = MutableLiveData<String>()
     fun getNotifResponse(): LiveData<JSONObject> {
         return this.notifReponse
     }
@@ -33,6 +34,9 @@ class HomeFragmentViewModel : ViewModel() {
     fun getError(): LiveData<String> {
         return this.error
     }
+    fun getError2(): LiveData<String> {
+        return this.error2
+    }
 
     fun notificationList(token: String, requestQueue: RequestQueue) {
         val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_NOTIFICATION_UNREAD,
@@ -43,11 +47,11 @@ class HomeFragmentViewModel : ViewModel() {
                         Timber.e(jsonObject.toString())
                         notifReponse.postValue(jsonObject)
                     } else {
-                        //error.postValue("")
+                        error2.postValue("")
                     }
                 },
                 Response.ErrorListener { error: VolleyError? ->
-                    //this.error.postValue(error)
+                    this.error2.postValue("error")
                 }
         ) {
             override fun getHeaders(): Map<String, String> {

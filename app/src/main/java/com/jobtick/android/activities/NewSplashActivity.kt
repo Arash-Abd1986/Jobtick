@@ -65,6 +65,7 @@ class NewSplashActivity : AppCompatActivity() {
                         try {
                             val jsonObject = JSONObject(response)
                             val jsonObject_data = jsonObject.getJSONObject("data")
+                            sessionManager!!.role =  jsonObject.getJSONObject("data").getString("role")
                             val userAccountModel = UserAccountModel().getJsonToModel(jsonObject_data)
                             sessionManager!!.userAccount = userAccountModel
                             if (sessionManager!!.userAccount.account_status.isBasic_info) {

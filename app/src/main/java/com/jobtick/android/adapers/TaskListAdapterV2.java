@@ -274,14 +274,14 @@ public class TaskListAdapterV2 extends RecyclerView.Adapter<BaseViewHolder> {
                     imgAvatar1.setVisibility(View.GONE);
                     imgAvatar0.setVisibility(View.GONE);
                     //imgAvatar3.setImageResource(R.drawable.pic);
-                    txtOfferCount.setText("No offer yet");
+                    txtOfferCount.setText("");
                 }
             else {
                 imgAvatar3.setVisibility(View.GONE);
                 imgAvatar2.setVisibility(View.GONE);
                 imgAvatar1.setVisibility(View.GONE);
                 imgAvatar0.setVisibility(View.GONE);
-                txtOfferCount.setText("No offer yet");
+                txtOfferCount.setText("");
                 txtOfferCount.setTextColor(ContextCompat.getColor(context, R.color.N300));
                 //imgAvatar3.setImageResource(R.drawable.pic);
             }

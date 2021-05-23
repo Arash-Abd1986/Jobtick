@@ -42,12 +42,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:paddingVertical="10dp"
                         android:weightSum="2">
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/filter"
                             android:layout_width="0dp"
-                            android:layout_height="48dp"
+                            android:layout_height="@dimen/_50dp"
                             android:layout_marginEnd="6dp"
                             android:layout_weight="1"
                             android:background="@drawable/rectangle_just_border_grey_round_corners_4dp"
@@ -62,7 +63,7 @@
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/download"
                             android:layout_width="0dp"
-                            android:layout_height="48dp"
+                            android:layout_height="50dp"
                             android:layout_marginStart="6dp"
                             android:layout_weight="1"
                             android:background="@drawable/rectangle_just_border_primary_round_corners_4dp"
@@ -70,7 +71,7 @@
                             android:paddingStart="6dp"
                             android:paddingEnd="6dp"
                             android:text="Download CSV"
-                            android:textAppearance="@style/materialText_600_14"
+                            android:textAppearance="@style/materialText_400_14"
                             android:textColor="@color/colorPrimary" />
 
                     </LinearLayout>
@@ -79,7 +80,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="2dp"
                         android:background="@drawable/rectangle_card_round_corners_dark_grey"
                         android:orientation="horizontal"
                         android:paddingStart="12dp"

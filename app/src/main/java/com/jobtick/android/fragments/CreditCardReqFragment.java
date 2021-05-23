@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import com.jobtick.android.activities.ActivityBase;
 import com.jobtick.android.payment.AddCreditCard;
 import com.jobtick.android.payment.AddCreditCardImpl;
+import com.jobtick.android.utils.NumberTextWatcherForSlash;
 import com.jobtick.android.utils.SessionManager;
 import com.jobtick.android.utils.StringUtils;
 import com.jobtick.android.utils.Tools;
@@ -80,7 +81,7 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
             if(validation()){
                 setExpiryDate(edtExpiryDate.getText());
                 ((ActivityBase) requireActivity()).showProgressDialog();
-                addCreditCard.getToken(edtCardNumber.getText(),
+                addCreditCard.getToken(edtCardNumber.getText().trim(),
                         expMonth, expYear,
                         edtSecurityNumber.getText(),
                         edtFullName.getText());
@@ -111,6 +112,8 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
         });
+        edtExpiryDate.addTextChangedListener(new NumberTextWatcherForSlash(edtExpiryDate));
+
         mDateSetListener = (view1, year, month, dayOfMonth) -> {
             month = month + 1;
             String formattedMonth = String.format(Locale.US,"%02d", month);
@@ -177,7 +180,7 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
 
     private void setExpiryDate(String expiryDate){
         expMonth = Integer.parseInt(expiryDate.substring(0, 2));
-        expYear = Integer.parseInt(expiryDate.substring(3));
+        expYear = 2000 + Integer.parseInt(expiryDate.substring(3));
     }
 
     private boolean validation(){
@@ -189,12 +192,12 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
             edtCardNumber.setError("The card number must be filled.");
             return false;
         }
-        else if(edtExpiryDate.getText().toString() == null || edtExpiryDate.getText().isEmpty()
-                || edtExpiryDate.getText().length() != 7){
+        else if(edtExpiryDate.getText() == null || edtExpiryDate.getText().isEmpty()
+                || edtExpiryDate.getText().length() != 5){
             edtExpiryDate.setError("The card expiry date must be filled.");
             return false;
         }
-        else if(!StringUtils.checkCreditCardExpiryFormat(edtExpiryDate.getText().toString())){
+        else if(!StringUtils.checkCreditCardExpiryFormatSimple(edtExpiryDate.getText().toString())){
             edtExpiryDate.setError("The card expiry date is not correct.");
             return false;
         }
@@ -210,11 +213,40 @@ public class CreditCardReqFragment extends Fragment implements TextWatcher {
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+        lenB[0] = charSequence.length();
     }
-
+    final int[] keyDel = {0};
+    final int[] lenB = {0};
+    final int[] lenA = {0};
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        lenA[0] = charSequence.length();
+        boolean is465 = false;
+        boolean is4444 = false;
+        if (lenB[0] >= lenA[0])
+            keyDel[0] = 1;
+        edtCardNumber.setFilter(19);
+        if (edtCardNumber.getText().startsWith("34") || edtCardNumber.getText().startsWith("37")) {
+            is465 = true;
+            edtCardNumber.setFilter(17);
+        } else if (edtCardNumber.getText().startsWith("5")) {
+            is4444 = true;
+        } else if (edtCardNumber.getText().startsWith("4")) {
+            is4444 = true;
+        }
+
+
+        if (keyDel[0] == 0) {
+            int len = edtCardNumber.getText().length();
+            Boolean needs465Spacing = (is465 && (len == 4 || len == 11));
+            Boolean needs4444Spacing = (is4444 && (len == 4 || len == 9 || len == 14));
+            if (needs465Spacing || needs4444Spacing) {
+                edtCardNumber.setText(edtCardNumber.getText() + " ");
+                edtCardNumber.setSelection(edtCardNumber.getText().length());
+            }
+        } else {
+            keyDel[0] = 0;
+        }
 
     }
 

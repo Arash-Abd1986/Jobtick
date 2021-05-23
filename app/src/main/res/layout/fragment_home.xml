@@ -204,7 +204,7 @@
 
 
             <include
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/rl_payment"
                 layout="@layout/home_payment"
                 android:layout_width="match_parent"

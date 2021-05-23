@@ -25,8 +25,8 @@
             <group android:id="@+id/grp_delete">
                 <item
                     android:id="@+id/action_delete"
-                    android:icon="@drawable/ic_trash"
-                    android:title="@string/delete"
+                    android:icon="@drawable/ic_x"
+                    android:title="Cancel Job"
                     app:showAsAction="withText" />
             </group>
 
@@ -59,7 +59,7 @@
                 <item
                     android:id="@+id/action_cancellation"
                     android:icon="@drawable/ic_x"
-                    android:title="Cancel the Job"
+                    android:title="Cancel Job"
                     app:showAsAction="withText" />
             </group>
 

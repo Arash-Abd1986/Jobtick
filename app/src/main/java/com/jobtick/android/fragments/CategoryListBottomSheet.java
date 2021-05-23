@@ -150,7 +150,10 @@ public class CategoryListBottomSheet extends BottomSheetDialogFragment implement
                         e.printStackTrace();
                     }
                 },
-                error -> Log.d("error", error.networkResponse.toString()) /*errorHandle1(error.networkResponse)*/) {
+                error ->
+                        showToast("some went to wrong", getActivity())
+
+        /*errorHandle1(error.networkResponse)*/) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<String, String>();

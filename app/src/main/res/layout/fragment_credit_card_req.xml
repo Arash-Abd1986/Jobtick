@@ -51,7 +51,7 @@
                     android:id="@+id/edt_card_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:eMaxCharNumber="16"
+                    app:eMaxCharNumber="19"
                     app:eImeOptions="actionNext"
                     app:eInputType="integer"
                     app:eTitle="@string/card_number" />
@@ -71,10 +71,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:eHint="09/2023"
-                app:eMaxCharNumber="7"
+                app:eHint="MM/YY"
+                app:eMaxCharNumber="5"
                 app:eTitle="@string/expiry_date"
-                app:eInputType="calendar"
+                app:eInputType="calendarKeyboard"
                 app:eImeOptions="normal"
                 app:eBoxSize="small"/>
 

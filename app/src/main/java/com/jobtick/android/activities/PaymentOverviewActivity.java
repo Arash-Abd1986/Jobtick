@@ -379,6 +379,7 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
                             Timber.e(String.valueOf(e));
                             e.printStackTrace();
                             hideProgressDialog();
+                            PaymentOverviewActivity.this.showToast("Something went wrong", PaymentOverviewActivity.this);
                         }
 
 
@@ -386,6 +387,22 @@ public class PaymentOverviewActivity extends ActivityBase implements PosterRequi
                 },
                 error -> {
                     hideProgressDialog();
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            String message = jsonObject_error.getString("message");
+                            PaymentOverviewActivity.this.showToast(message, PaymentOverviewActivity.this);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            PaymentOverviewActivity.this.showToast("Something went wrong", PaymentOverviewActivity.this);
+                        }
+                    } else {
+                        PaymentOverviewActivity.this.showToast("Something went wrong", PaymentOverviewActivity.this);
+                    }
                 }) {
 
 

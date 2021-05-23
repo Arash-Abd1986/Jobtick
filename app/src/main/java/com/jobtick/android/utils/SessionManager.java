@@ -117,6 +117,15 @@ public class SessionManager {
         return pref.getString("latitude", "0");
     }
 
+    public void setRole(String role) {
+        editor.putString("role", role);
+        editor.commit();
+    }
+
+    public String getRole() {
+        return pref.getString("role", "worker");
+    }
+
     public void setQuickOffer(String offer, int id) {
         editor.putString("quickOfferPref" + id, offer);
         editor.commit();

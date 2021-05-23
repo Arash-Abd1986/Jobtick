@@ -9,6 +9,7 @@ import android.view.*
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.widget.AutoSizeableTextView
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -27,6 +28,7 @@ import com.jobtick.android.models.response.home.Banner
 import com.jobtick.android.models.response.home.OfferedJob
 import com.jobtick.android.models.response.home.Payment
 import com.jobtick.android.models.response.home.PostedJob
+import com.jobtick.android.utils.AutoResizeTextView
 import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.Navigator
 import com.jobtick.android.utils.SessionManager
@@ -34,16 +36,19 @@ import com.jobtick.android.viewmodel.home.HomeFragmentViewModel
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
+import java.lang.Math.abs
+import java.lang.Math.round
+import kotlin.math.roundToInt
 
 class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJobsAdapter.OnItemClickListener {
     private var link = "https://www.jobtick.com/?auth=invite&referrer="
     private var name: TextView? = null
     private var bannerTXT: TextView? = null
-    private var txtIncomeAmount: TextView? = null
-    private var txtOutcomeAmount: TextView? = null
+    private var txtIncomeAmount: AutoResizeTextView? = null
+    private var txtOutcomeAmount: AutoResizeTextView? = null
     private var txtPaymentsAction: TextView? = null
     private var txtLastTransaction: TextView? = null
-    private var txtLastTransactionAmount: TextView? = null
+    private var txtLastTransactionAmount: AutoResizeTextView? = null
     private var txtLastTransactionDate: TextView? = null
     private var txtTargetName: TextView? = null
     private var txtAction: TextView? = null
@@ -170,12 +175,16 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                 linMain!!.addView(space)
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                dashboardActivity.showProgressDialog()
+                dashboardActivity.showToast("Something went wrong", dashboardActivity)
             }
         })
         viewModel.getError().observe(viewLifecycleOwner, androidx.lifecycle.Observer { jsonObject ->
-            ivNotification!!.setImageResource(R.drawable.ic_notification_bel_24_28dp)
             dashboardActivity.showToast("Something went wrong", dashboardActivity)
-
+            dashboardActivity.hideProgressDialog()
+        })
+        viewModel.getError2().observe(viewLifecycleOwner, androidx.lifecycle.Observer { jsonObject ->
+            ivNotification!!.setImageResource(R.drawable.ic_notification_bel_24_28dp)
         })
 
         viewModel.notificationList(sessionManager!!.accessToken, Volley.newRequestQueue(requireContext()))
@@ -195,7 +204,6 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                 }
             }
             item.getString("type") == "payment" -> {
-                if(false)
                 setPayment(Gson().fromJson(item.getJSONObject("data").toString(), Payment::class.java))
                 hasPayment = true
                 try {
@@ -253,39 +261,34 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
 
     }
 
+    override fun onPause() {
+        super.onPause()
+        (requireActivity() as DashboardActivity).hideProgressDialog()
+    }
+
     @SuppressLint("SetTextI18n")
     private fun setPayment(payment: Payment?) {
         if (payment!!.income != null)
-            txtIncomeAmount!!.text = "$" + payment.income
+            txtIncomeAmount!!.text = "$" + payment.income!!.toFloat().roundToInt()
         else
             txtIncomeAmount!!.text = "$0"
         if (payment.outcome != null)
-            txtOutcomeAmount!!.text = "$" + payment.outcome
+            txtOutcomeAmount!!.text = "$" + payment.outcome.toFloat().roundToInt()
         else
             txtOutcomeAmount!!.text = "$0"
 
         if (payment.last_trx == null) {
-            txtLastTransaction!!.text = "You haven’t made any transaction yet, Explore jobs and make an offer to get your first income."
-            txtPaymentsAction!!.text = "Explore"
-            imgExplore!!.visibility = View.VISIBLE
-            txtTargetName!!.visibility = View.GONE
-            txtLastTransactionDate!!.visibility = View.GONE
-            linAction!!.setOnClickListener {
-                (requireActivity() as DashboardActivity).goToFragment(DashboardActivity.Fragment.EXPLORE)
-            }
-        } else {
-            try {
-                txtLastTransaction!!.text = payment.last_trx.title
-                txtPaymentsAction!!.text = "Payment history"
+            if (sessionManager!!.role != "worker") {
+                txtLastTransaction!!.text = "You haven’t made any transaction yet, post a job now."
+                txtPaymentsAction!!.text = "Post a job"
                 imgExplore!!.visibility = View.GONE
-                txtTargetName!!.text = payment.last_trx.username
-                txtLastTransactionDate!!.text = payment.last_trx.created_at
-                txtLastTransactionAmount!!.text = "$" + payment.last_trx.amount
+                txtTargetName!!.visibility = View.GONE
+                txtLastTransactionDate!!.visibility = View.GONE
                 linAction!!.setOnClickListener {
-                    startActivity(Intent(requireContext(), PaymentHistoryActivity::class.java))
+                    startCategoryList()
                 }
-            } catch (e: java.lang.Exception) {
-                txtLastTransaction!!.text = "You haven’t made any transaction yet, Explore jobs and make an offer to get your first income."
+            } else {
+                txtLastTransaction!!.text = "You haven’t made any transaction yet, explore jobs and make an offer to complete your first job."
                 txtPaymentsAction!!.text = "Explore"
                 imgExplore!!.visibility = View.VISIBLE
                 txtTargetName!!.visibility = View.GONE
@@ -294,9 +297,35 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                     (requireActivity() as DashboardActivity).goToFragment(DashboardActivity.Fragment.EXPLORE)
                 }
             }
+        } else {
+            try {
+                txtLastTransaction!!.text = payment.last_trx.title
+                txtPaymentsAction!!.text = "Payment history"
+                imgExplore!!.visibility = View.GONE
+                txtTargetName!!.text = payment.last_trx.username
+                txtLastTransactionDate!!.text = payment.last_trx.created_at
+                txtLastTransactionAmount!!.text = "$9999" + payment.last_trx.amount!!.toFloat().roundToInt()
+                linAction!!.setOnClickListener {
+                    startActivity(Intent(requireContext(), PaymentHistoryActivity::class.java))
+                }
+            } catch (e: java.lang.Exception) {
+                txtLastTransaction!!.text = "You haven’t made any transaction yet, post a job now."
+                txtPaymentsAction!!.text = "Post a job"
+                imgExplore!!.visibility = View.VISIBLE
+                txtTargetName!!.visibility = View.GONE
+                txtLastTransactionDate!!.visibility = View.GONE
+                linAction!!.setOnClickListener {
+                    startCategoryList()
+                }
+            }
         }
 
 
+    }
+
+    private fun startCategoryList() {
+        val infoBottomSheet = CategoryListBottomSheet(sessionManager)
+        infoBottomSheet.show(requireActivity().supportFragmentManager, null)
     }
 
     private fun setPostedJobs(postedJobs: List<PostedJob>?) {
@@ -357,10 +386,11 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
             rlAction!!.layoutDirection = View.LAYOUT_DIRECTION_LTR
             Glide.with(imgEndBanner!!).load(banner.rightImage).into(imgEndBanner!!)
         } else {
+            rlAction!!.layoutDirection = View.LAYOUT_DIRECTION_RTL
             val layoutParams: ViewGroup.LayoutParams = imgEndBanner!!.layoutParams
             layoutParams.width = 0
-            imgStartBanner!!.layoutParams = layoutParams
-            imgEndBanner!!.visibility = View.INVISIBLE
+            imgEndBanner!!.layoutParams = layoutParams
+            imgStartBanner!!.visibility = View.INVISIBLE
         }
 
         bannerTXT!!.text = Html.fromHtml(banner.description)
@@ -445,7 +475,7 @@ $link""")
         val params = Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT)
         params.gravity = Gravity.CENTER
         toolbarTitle.layoutParams = params
-        ivNotification!!.setVisibility(View.VISIBLE)
+        ivNotification!!.visibility = View.VISIBLE
     }
 
     private fun initVars() {

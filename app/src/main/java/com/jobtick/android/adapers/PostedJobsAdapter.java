@@ -276,7 +276,7 @@ public class PostedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     imgAvatar0.setVisibility(View.GONE);
                     //imgAvatar3.setImageResource(R.drawable.pic);
                     rlImages.setVisibility(View.GONE);
-                    txtOfferCount.setText("No offer yet");
+                    txtOfferCount.setText("");
                 }
             else {
                 imgAvatar3.setVisibility(View.GONE);
@@ -284,7 +284,7 @@ public class PostedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 imgAvatar1.setVisibility(View.GONE);
                 imgAvatar0.setVisibility(View.GONE);
                 rlImages.setVisibility(View.GONE);
-                txtOfferCount.setText("No offer yet");
+                txtOfferCount.setText("");
                 txtOfferCount.setTextColor(ContextCompat.getColor(context, R.color.N300));
                 //imgAvatar3.setImageResource(R.drawable.pic);
             }

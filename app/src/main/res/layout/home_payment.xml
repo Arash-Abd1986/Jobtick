@@ -38,8 +38,8 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/img_view"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/ic_arrow_down_blue" />
                 </RelativeLayout>
@@ -65,15 +65,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="5dp" />
 
-                    <com.google.android.material.textview.MaterialTextView
+                    <com.jobtick.android.utils.AutoResizeTextView
                         android:id="@+id/txt_income_amount"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:maxLines="2"
-                        android:textAppearance="@style/materialText_400_14"
+                        android:maxLines="1"
+                        android:ellipsize="none"
+                        android:textAppearance="@style/materialText_400_13"
                         android:textColor="@color/N900"
-                        tools:text="$300" />
+                        tools:text="$1000" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -101,8 +102,8 @@
                     android:padding="5dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/ic_arrow_up_blue" />
                 </RelativeLayout>
@@ -127,16 +128,16 @@
                     <Space
                         android:layout_width="match_parent"
                         android:layout_height="5dp" />
-
-                    <com.google.android.material.textview.MaterialTextView
+                    <com.jobtick.android.utils.AutoResizeTextView
                         android:id="@+id/txt_outcome_amount"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:maxLines="2"
-                        android:textAppearance="@style/materialText_400_14"
+                        android:maxLines="1"
+                        android:ellipsize="none"
+                        android:textAppearance="@style/materialText_400_13"
                         android:textColor="@color/N900"
-                        tools:text="$300" />
+                        tools:text="$1000" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -161,7 +162,7 @@
             android:gravity="center_vertical"
             android:maxLines="2"
             android:text="Last transaction"
-            android:textAppearance="@style/materialText_400_14"
+            android:textAppearance="@style/materialText_400_13"
             android:textColor="@color/N100"
             android:textSize="12dp" />
 
@@ -171,8 +172,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8dp"
             android:gravity="center_vertical"
-            android:maxLines="2"
-            android:textAppearance="@style/materialText_400_14"
+            android:textAppearance="@style/materialText_400_13"
             android:textColor="@color/N900"
             tools:text="$300" />
 
@@ -184,7 +184,7 @@
             android:gravity="center_vertical"
             android:maxLines="2"
             android:text="Last transaction"
-            android:textAppearance="@style/materialText_400_14"
+            android:textAppearance="@style/materialText_400_13"
             android:textColor="@color/N100"
             android:textSize="12dp" />
 
@@ -198,18 +198,20 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/lin_action"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <com.google.android.material.textview.MaterialTextView
+
+                <com.jobtick.android.utils.AutoResizeTextView
                     android:id="@+id/txt_last_transaction_amount"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/_70dp"
                     android:layout_height="wrap_content"
+                    android:ellipsize="none"
                     android:gravity="center_vertical"
-                    android:maxLines="2"
-                    android:textAppearance="@style/materialText_400_14"
+                    android:maxLines="1"
+                    android:textAppearance="@style/materialText_400_13"
                     android:textColor="@color/N900"
-                    tools:text="$300" />
+                    tools:text="$1000" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -222,7 +224,7 @@
                     android:gravity="center_vertical"
                     android:maxLines="2"
                     android:text="Income"
-                    android:textAppearance="@style/materialText_400_14"
+                    android:textAppearance="@style/materialText_400_13"
                     android:textColor="@color/N100"
                     android:textSize="12dp" />
 
@@ -255,7 +257,8 @@
                     android:paddingEnd="12dp"
                     android:paddingBottom="8dp"
                     android:text="My jobs"
-                    android:textAppearance="@style/materialText_400_15"
+
+                    android:textAppearance="@style/materialText_400_12"
                     android:textColor="@color/colorPrimary"
                     android:visibility="visible" />
 

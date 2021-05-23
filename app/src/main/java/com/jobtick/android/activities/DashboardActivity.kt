@@ -179,7 +179,7 @@ class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelecte
         search!!.setOnClickListener { v: View? ->
             Handler().postDelayed({
                 linFilterExplore!!.visibility = View.VISIBLE
-            },1500)
+            },50)
             navController!!.navigate(R.id.navigation_browse)
         }
         chat!!.setOnClickListener { v: View? ->
@@ -408,13 +408,18 @@ Team ${resources.getString(R.string.app_name)}""")
 
 
     override fun onBackPressed() {
+        linFilterExplore!!.visibility = View.GONE
         val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START)
-        } else if (drawer.isDrawerOpen(GravityCompat.END)) {
-            drawer.closeDrawer(GravityCompat.END)
-        } else {
-            super.onBackPressed()
+        when {
+            drawer.isDrawerOpen(GravityCompat.START) -> {
+                drawer.closeDrawer(GravityCompat.START)
+            }
+            drawer.isDrawerOpen(GravityCompat.END) -> {
+                drawer.closeDrawer(GravityCompat.END)
+            }
+            else -> {
+                super.onBackPressed()
+            }
         }
     }
 

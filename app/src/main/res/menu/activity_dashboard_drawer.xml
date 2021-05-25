@@ -27,10 +27,10 @@
             android:title="@string/notifications"
             app:showAsAction="always" />
 
-        <item
-            android:id="@+id/nav_task_alerts"
-            android:icon="@drawable/ic_bell"
-            android:title="Job Alerts" />
+<!--        <item-->
+<!--            android:id="@+id/nav_task_alerts"-->
+<!--            android:icon="@drawable/ic_bell"-->
+<!--            android:title="Job Alerts" />-->
 
         <item
             android:id="@+id/nav_refer_a_friend"

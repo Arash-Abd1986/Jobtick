@@ -72,7 +72,7 @@
                     android:layout_height="12dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/ic_map_pin" />
+                    android:src="@drawable/ic_map_pin_dark" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_location"

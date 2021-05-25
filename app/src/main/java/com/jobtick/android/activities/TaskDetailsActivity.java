@@ -64,6 +64,7 @@ import com.jobtick.android.cancellations.PPCancellationSummaryActivity;
 import com.jobtick.android.cancellations.PTCancellationSummaryActivity;
 import com.jobtick.android.cancellations.TPCancellationSummaryActivity;
 import com.jobtick.android.cancellations.TTCancellationSummaryActivity;
+import com.jobtick.android.fragments.CategoryListBottomSheet;
 import com.jobtick.android.fragments.ConfirmAskToReleaseBottomSheet;
 import com.jobtick.android.fragments.ConfirmReleaseBottomSheet;
 import com.jobtick.android.fragments.IncreaseBudgetBottomSheet;
@@ -3250,8 +3251,8 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
             intent.putExtras(bundle);
             startActivityForResult(intent, ConstantKey.RESULTCODE_WRITE_REVIEW);
         } else if (alertType == AlertType.CANCELLED) {
-            Intent intent = new Intent(this, CategoryListActivity.class);
-            startActivity(intent);
+            CategoryListBottomSheet infoBottomSheet = new CategoryListBottomSheet(sessionManager);
+            infoBottomSheet.show(getSupportFragmentManager(), null);
         } else if (alertType == AlertType.CONFIRM_RELEASE) {
             showCustomDialogReleaseMoney();
         }

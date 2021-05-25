@@ -127,58 +127,51 @@ public class CompleteRegistrationActivity extends ActivityBase implements Select
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_USER_PROFILE_INFO,
-                new Response.Listener<String>() {
+                response -> {
 
-                    @Override
-                    public void onResponse(String response) {
+                    hideProgressDialog();
+                    try {
 
-                        hideProgressDialog();
+                        JSONObject jsonObject = new JSONObject(response);
+                        JSONObject jsonObject_user = jsonObject.getJSONObject("data");
+
+                        UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
+                        sessionManager.setUserAccount(userAccountModel);
+
+                        sessionManager.setLogin(true);
+                        sessionManager.setLatitude(str_latitude);
+                        sessionManager.setLongitude(str_longitude);
+                        Intent intent = new Intent(CompleteRegistrationActivity.this, OnboardActivity.class);
+                        intent.putExtra("as", role);
+                        startActivity(intent);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+
+                    }
+
+
+                },
+                error -> {
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        // Print Error!
                         try {
+                            JSONObject jsonObject = new JSONObject(jsonError);
+                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
+                            String message = jsonObject_error.getString("message");
 
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONObject jsonObject_user = jsonObject.getJSONObject("data");
-
-                            UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
-                            sessionManager.setUserAccount(userAccountModel);
-
-                            sessionManager.setLogin(true);
-                            sessionManager.setLatitude(str_latitude);
-                            sessionManager.setLongitude(str_longitude);
-                            Intent intent = new Intent(CompleteRegistrationActivity.this, OnboardActivity.class);
-                            intent.putExtra("as", role);
-                            startActivity(intent);
+                            showToast(message, context);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-
                         }
-
-
+                    } else {
+                        showToast("Something Went Wrong", context);
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        NetworkResponse networkResponse = error.networkResponse;
-                        if (networkResponse != null && networkResponse.data != null) {
-                            String jsonError = new String(networkResponse.data);
-                            // Print Error!
-                            try {
-                                JSONObject jsonObject = new JSONObject(jsonError);
-                                JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                                String message = jsonObject_error.getString("message");
-
-                                showToast(message, context);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            showToast("Something Went Wrong", context);
-                        }
-                        Timber.e(error.toString());
-                        hideProgressDialog();
-                    }
+                    Timber.e(error.toString());
+                    hideProgressDialog();
                 }) {
 
 

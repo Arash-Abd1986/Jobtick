@@ -137,6 +137,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
         })
 
         viewModel.getHomeResponse().observe(viewLifecycleOwner, Observer {
+            dashboardActivity.hideProgressDialog()
             val jsonArray = it.getJSONArray("data")
             (requireActivity() as DashboardActivity).hideProgressDialog()
             for (i in 0 until jsonArray.length()) {
@@ -175,7 +176,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                 linMain!!.addView(space)
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
-                dashboardActivity.showProgressDialog()
+                dashboardActivity.hideProgressDialog()
                 dashboardActivity.showToast("Something went wrong", dashboardActivity)
             }
         })
@@ -390,7 +391,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
             val layoutParams: ViewGroup.LayoutParams = imgEndBanner!!.layoutParams
             layoutParams.width = 0
             imgEndBanner!!.layoutParams = layoutParams
-            imgStartBanner!!.visibility = View.INVISIBLE
+            imgEndBanner!!.visibility = View.INVISIBLE
         }
 
         bannerTXT!!.text = Html.fromHtml(banner.description)

@@ -445,11 +445,11 @@ Team ${resources.getString(R.string.app_name)}""")
                 startActivity(intent)
                 return true
             }
-            R.id.nav_task_alerts -> {
+          /*  R.id.nav_task_alerts -> {
                 val taskAlerts = Intent(this@DashboardActivity, TaskAlertsActivity::class.java)
                 startActivity(taskAlerts)
                 return true
-            }
+            }*/
             R.id.nav_refer_a_friend -> {
                 startActivity(Intent(this, ReferAFriendActivity::class.java))
                 return true

@@ -297,7 +297,7 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
         filterAdapter = FilterAdapter(filters)
         filterAdapter!!.setmOnFilterDeleteListener { filters.clear() }
         recyclerViewFilters!!.adapter = filterAdapter
-        txtFilter!!.text = filters.size.toString() + " Filter" + if (filters.size > 1) "s" else ""
+        txtFilter!!.text = (filters.size + if (filters.contains("Remote & In person")) 1 else 0).toString() + " Filter" + if (filters.size > 1) "s" else ""
         if (sessionManager!!.filter != null) {
             filterModel = sessionManager!!.filter
         }
@@ -330,7 +330,7 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
         if (filters.size != 0) {
             filterAdapter!!.notifyDataSetChanged()
         }
-        txtFilter!!.text = filters.size.toString() + " Filter" + if (filters.size > 1) "s" else ""
+        txtFilter!!.text = (filters.size + if (filters.contains(Constant.FILTER_ALL)) 1 else 0).toString() + " Filter" + if (filters.size > 1) "s" else ""
     }
 
     //    @OnClick({R.id.lyt_search_new})

@@ -41,7 +41,7 @@ class SuburbSearchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         override fun clear() {}
         override fun onBind(position: Int) {
             super.onBind(position)
-            txtName.text = items[position].place_name_en
+            txtName.text = items[position].place_name_en!!.getShortAddress()
             lytOuter.setOnClickListener { v: View? ->
                 val item = items[position]
                 item.place_name_en = item.place_name_en!!.getShortAddress()

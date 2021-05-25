@@ -34,22 +34,20 @@
                     android:layout_marginStart="16dp"
                     android:layout_toLeftOf="@+id/update_profile">
 
-                    <ImageView
+                <!--    <ImageView
                         android:id="@+id/hand"
                         android:layout_width="24dp"
                         android:layout_height="match_parent"
                         android:layout_alignTop="@id/hi"
                         android:layout_alignBottom="@id/hi"
                         android:layout_alignParentStart="true"
-                        android:src="@drawable/wave_hand4" />
+                        android:src="@drawable/wave_hand4" />-->
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/hi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_marginStart="8dp"
-                        android:layout_toEndOf="@id/hand"
                         android:text="Hi"
                         android:textAppearance="@style/materialText_400_16"
                         android:textColor="@color/textColor" />
@@ -58,7 +56,6 @@
                         android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_alignTop="@id/hand"
                         android:layout_marginStart="8dp"
                         android:layout_toLeftOf="@+id/update_profile"
                         android:layout_toEndOf="@id/hi"
@@ -204,7 +201,7 @@
 
 
             <include
-                android:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/rl_payment"
                 layout="@layout/home_payment"
                 android:layout_width="match_parent"

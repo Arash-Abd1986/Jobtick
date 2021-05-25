@@ -189,7 +189,7 @@ public class OfferedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (item.getLocation() != null) {
                 txtLocation.setText(item.getLocation());
             } else {
-                txtLocation.setText("Remote job");
+                txtLocation.setText("Remote");
             }
             if (item.getBudget() != null) {
                 txtBudget.setText("$" + item.getBudget());

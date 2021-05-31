@@ -107,7 +107,8 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
 
     override fun onResume() {
         super.onResume()
-
+        pbLoading.visibility = View.VISIBLE
+        imgBtnSend.visibility = View.GONE
         val app = this.application as AppController
         if (mSocket == null)
             mSocket = app.socket
@@ -127,6 +128,9 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
             mSocket!!.on("newpm", onNewMessage)
             mSocket!!.on("userstatus", userStatus)
             mSocket!!.connect()
+        }else{
+            pbLoading.visibility = View.GONE
+            imgBtnSend.visibility = View.VISIBLE
         }
 
 //        needRefresh = true
@@ -197,6 +201,8 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                     mSocket!!.emit("subscribe", "userstatus-" + conversationModel!!.receiver.id.toString())
                     mSocket!!.emit("subscribe", "conversation-" + conversationModel!!.id)
                     mSocket!!.emit("isonline", conversationModel!!.receiver.id.toString())
+                    pbLoading.visibility = View.GONE
+                    imgBtnSend.visibility = View.VISIBLE
                 }
 
                 //

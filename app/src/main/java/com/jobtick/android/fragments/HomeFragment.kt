@@ -41,7 +41,6 @@ import java.lang.Math.round
 import kotlin.math.roundToInt
 
 class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJobsAdapter.OnItemClickListener {
-    private var link = "https://www.jobtick.com/?auth=invite&referrer="
     private var name: TextView? = null
     private var bannerTXT: TextView? = null
     private var txtIncomeAmount: AutoResizeTextView? = null
@@ -177,7 +176,6 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
                 dashboardActivity.hideProgressDialog()
-                dashboardActivity.showToast("Something went wrong", dashboardActivity)
             }
         })
         viewModel.getError().observe(viewLifecycleOwner, androidx.lifecycle.Observer { jsonObject ->
@@ -399,7 +397,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
 
         rlAction!!.setOnClickListener {
             if (banner.action.type == "invite") {
-                shareLink()
+                (requireActivity() as DashboardActivity).goToFragment(DashboardActivity.Fragment.INVITE)
             } else {
 
             }
@@ -444,21 +442,6 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
         txtTargetName = requireView().findViewById(R.id.txt_target_name)
         imgExplore = requireView().findViewById(R.id.img_explore)
         linAction = requireView().findViewById(R.id.lin_action)
-    }
-
-    private fun shareLink() {
-        try {
-            val sendIntent = Intent()
-            sendIntent.action = Intent.ACTION_SEND
-            sendIntent.putExtra(Intent.EXTRA_TEXT,
-                    """Say yes to ${ReferAFriendActivity.capitalize(sessionManager!!.userAccount.fname, true)} ${ReferAFriendActivity.capitalize(sessionManager!!.userAccount.lname, false)} VIP Invitation and receive $10 towards your first job completion. 
-Sign-up using the link to join our professional and welcoming community and start your journey on JOBTICK. 
-
-$link""")
-            sendIntent.type = "text/plain"
-            startActivity(sendIntent)
-        } catch (e: Exception) {
-        }
     }
 
     private fun initToolbar() {

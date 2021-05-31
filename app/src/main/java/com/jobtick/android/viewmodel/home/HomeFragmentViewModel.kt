@@ -14,6 +14,7 @@ import com.jobtick.android.models.response.home.HomeResponse
 import com.jobtick.android.utils.Constant
 import org.json.JSONObject
 import timber.log.Timber
+import java.lang.Exception
 import java.util.*
 
 class HomeFragmentViewModel : ViewModel() {
@@ -72,16 +73,20 @@ class HomeFragmentViewModel : ViewModel() {
         val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.HOME,
                 Response.Listener { response: String? ->
                     Timber.e(response)
-                    if (response != null) {
-                        val jsonObject = JSONObject(response)
-                        Timber.e(jsonObject.toString())
-                        val homeResponseTemp = Gson().fromJson(jsonObject.toString(), HomeResponse::class.java)
-                        if (homeResponseTemp.success!!)
-                            homeResponse.postValue(jsonObject)
-                        else{
+                    try {
+                        if (response != null) {
+                            val jsonObject = JSONObject(response)
+                            Timber.e(jsonObject.toString())
+                            val homeResponseTemp = Gson().fromJson(jsonObject.toString(), HomeResponse::class.java)
+                            if (homeResponseTemp.success!!)
+                                homeResponse.postValue(jsonObject)
+                            else {
+                                error.postValue("Something went wrong")
+                            }
+                        } else {
                             error.postValue("Something went wrong")
                         }
-                    } else {
+                    }catch (e: Exception){
                         error.postValue("Something went wrong")
                     }
                 },

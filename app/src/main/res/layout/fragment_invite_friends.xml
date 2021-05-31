@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="812">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_marginTop="25dp"
+                app:srcCompat="@drawable/invite" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/bg_rounded_invite_back"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="35dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Invite a friend"
+                    android:textAppearance="@style/materialText_400_16"
+                    android:textColor="@color/N900" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_banner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="left"
+                    android:text="And you can both save $10"
+                    android:textAppearance="@style/materialText_400_14"
+                    android:textColor="@color/N900"
+                    android:visibility="visible" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="How it works"
+                    android:textAppearance="@style/materialText_400_16"
+                    android:textColor="@color/N900" />
+
+                <RelativeLayout
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="262dp"
+                    android:layout_marginTop="10dp">
+
+                    <View
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="90dp"
+                        android:background="@drawable/line" />
+
+                    <RelativeLayout
+                        android:id="@+id/step_one"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/number_one"
+                            android:layout_width="@dimen/_40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/cirlce_white"
+                            android:gravity="center"
+                            android:src="@drawable/pic"
+                            android:text="1"
+                            android:textAppearance="@style/materialText_400_13"
+                            android:textColor="@color/P300" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_50dp"
+                            android:layout_toEndOf="@+id/number_one"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="25dp"
+                                android:gravity="left|center"
+                                android:text="Invite your friends"
+                                android:textAppearance="@style/materialText_400_14"
+                                android:textColor="@color/P300"
+                                android:visibility="visible" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="25dp"
+                                android:gravity="left|center"
+                                android:text="Just share your link"
+                                android:textAppearance="@style/materialText_400_14"
+                                android:textColor="@color/N900"
+                                android:visibility="visible" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/step_three"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/step_two"
+                        android:layout_marginTop="15dp">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/number_three"
+                            android:layout_width="@dimen/_40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/cirlce_white"
+                            android:gravity="center"
+                            android:src="@drawable/pic"
+                            android:text="3"
+                            android:textAppearance="@style/materialText_400_13"
+                            android:textColor="@color/P300" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_50dp"
+                            android:layout_toEndOf="@+id/number_three"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="25dp"
+                                android:gravity="left|center"
+                                android:text="You receive 10$"
+                                android:textAppearance="@style/materialText_400_14"
+                                android:textColor="@color/P300"
+                                android:visibility="visible" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="25dp"
+                                android:gravity="left|center"
+                                android:text="Find it in your wallet"
+                                android:textAppearance="@style/materialText_400_14"
+                                android:textColor="@color/N900"
+                                android:visibility="visible" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/step_two"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/step_one"
+                        android:layout_marginTop="15dp">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/number_two"
+                            android:layout_width="@dimen/_40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/cirlce_white"
+                            android:gravity="center"
+                            android:src="@drawable/pic"
+                            android:text="2"
+                            android:textAppearance="@style/materialText_400_13"
+                            android:textColor="@color/P300" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_50dp"
+                            android:layout_toEndOf="@+id/number_two"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="25dp"
+                                android:gravity="left|center"
+                                android:text="They complete first job"
+                                android:textAppearance="@style/materialText_400_14"
+                                android:textColor="@color/P300"
+                                android:visibility="visible" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="25dp"
+                                android:gravity="left|center"
+                                android:text="And save $10"
+                                android:textAppearance="@style/materialText_400_14"
+                                android:textColor="@color/N900"
+                                android:visibility="visible" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/relCopy"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_below="@+id/step_three"
+                        android:layout_marginTop="27dp"
+                        android:background="@drawable/bg_rounded_invite_back_2"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_invite_link"
+                            style="@style/materialText_500_12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:layout_toStartOf="@+id/copy"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textColor="@color/colorPrimary" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/copy"
+                            style="@style/materialText_700_14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:text="@string/copy"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorPrimary" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rl_invite"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_rounded_back_button_active_r8"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+     >
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/materialText_700_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Invite now"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+</RelativeLayout>

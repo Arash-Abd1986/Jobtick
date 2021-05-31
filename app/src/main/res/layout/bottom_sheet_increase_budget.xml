@@ -37,8 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="start|center_vertical"
-            android:text="@string/old_price"
-            android:textAppearance="@style/materialText_500_14"
+            android:text="Current price"
+            android:textAppearance="@style/materialText_500_17"
             android:textColor="@color/textColor" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -53,7 +53,7 @@
     </LinearLayout>
 
     <com.jobtick.android.widget.ExtendedEntryText
-        android:id="@+id/new_price"
+        android:id="@+id/add_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -61,7 +61,7 @@
         android:layout_marginEnd="16dp"
         app:eImeOptions="actionNext"
         app:eInputType="budget"
-        app:eTitle="New price" />
+        app:eTitle="Add price" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -77,18 +77,44 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:layout_toStartOf="@id/new_price"
+            android:gravity="start|center_vertical"
+            android:text="New price"
+            android:textAppearance="@style/materialText_500_14"
+            android:textColor="@color/N500" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/new_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="end|center_vertical"
+            android:text="$ 0.0"
+            android:textAppearance="@style/materialText_600_18"
+            android:textColor="@color/textColor" />
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/new_price"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_toStartOf="@id/service_fee"
             android:gravity="start|center_vertical"
-            android:text="Service fee"
+            android:text="Fee"
             android:textAppearance="@style/materialText_500_14"
-            android:textColor="@color/textColor" />
+            android:textColor="@color/N500" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/service_fee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:layout_below="@+id/new_price"
+
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:gravity="end|center_vertical"
@@ -106,8 +132,8 @@
             android:layout_toStartOf="@id/receive_money"
             android:gravity="start|center_vertical"
             android:text="You’ll receive"
-            android:textAppearance="@style/materialText_500_14"
-            android:textColor="@color/textColor" />
+            android:textAppearance="@style/materialText_500_17"
+            android:textColor="@color/N900" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/receive_money"

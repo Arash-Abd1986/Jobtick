@@ -179,7 +179,7 @@ class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelecte
         search!!.setOnClickListener { v: View? ->
             Handler().postDelayed({
                 linFilterExplore!!.visibility = View.VISIBLE
-            },50)
+            }, 50)
             navController!!.navigate(R.id.navigation_browse)
         }
         chat!!.setOnClickListener { v: View? ->
@@ -296,7 +296,14 @@ class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelecte
     }
 
     fun goToFragment(fragment: Fragment) {
-        if (fragment == Fragment.MY_JOBS) navController!!.navigate(R.id.navigation_my_tasks) else if (fragment == Fragment.HOME) navController!!.navigate(R.id.navigation_new_task) else if (fragment == Fragment.EXPLORE) navController!!.navigate(R.id.navigation_browse) else if (fragment == Fragment.CHAT) navController!!.navigate(R.id.navigation_inbox) else if (fragment == Fragment.PROFILE) navController!!.navigate(R.id.navigation_profile)
+        when (fragment) {
+            Fragment.MY_JOBS -> navController!!.navigate(R.id.navigation_my_tasks)
+            Fragment.HOME -> navController!!.navigate(R.id.navigation_new_task)
+            Fragment.EXPLORE -> navController!!.navigate(R.id.navigation_browse)
+            Fragment.CHAT -> navController!!.navigate(R.id.navigation_inbox)
+            Fragment.PROFILE -> navController!!.navigate(R.id.navigation_profile)
+            Fragment.INVITE -> startActivity(Intent(this, ReferAFriendActivity::class.java))
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -445,11 +452,11 @@ Team ${resources.getString(R.string.app_name)}""")
                 startActivity(intent)
                 return true
             }
-          /*  R.id.nav_task_alerts -> {
-                val taskAlerts = Intent(this@DashboardActivity, TaskAlertsActivity::class.java)
-                startActivity(taskAlerts)
-                return true
-            }*/
+            /*  R.id.nav_task_alerts -> {
+                  val taskAlerts = Intent(this@DashboardActivity, TaskAlertsActivity::class.java)
+                  startActivity(taskAlerts)
+                  return true
+              }*/
             R.id.nav_refer_a_friend -> {
                 startActivity(Intent(this, ReferAFriendActivity::class.java))
                 return true
@@ -568,7 +575,7 @@ Team ${resources.getString(R.string.app_name)}""")
     }
 
     enum class Fragment {
-        HOME, MY_JOBS, EXPLORE, CHAT, PROFILE
+        HOME, MY_JOBS, EXPLORE, CHAT, PROFILE, INVITE
     }
 
     //TODO
@@ -588,7 +595,7 @@ Team ${resources.getString(R.string.app_name)}""")
     }
 
     private val accountDetails: Unit
-        private get() {
+        get() {
             val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_GET_ACCOUNT,
                     Response.Listener { response: String? ->
                         try {
@@ -596,22 +603,34 @@ Team ${resources.getString(R.string.app_name)}""")
                             val jsonObject_data = jsonObject.getJSONObject("data")
                             val userAccountModel = UserAccountModel().getJsonToModel(jsonObject_data)
                             sessionManager1!!.userAccount = userAccountModel
+                            if (sessionManager1!!.filter == null) {
+                                val gson = Gson()
+                                val filterModel = FilterModel()
+                                val data = gson.fromJson(response, AccountResponse::class.java)
+                                filterModel.distance = data.data!!.browsejobs_default_filters!!.distance
+                                filterModel.latitude = data.data.position!!.latitude.toString()
+                                filterModel.logitude = data.data.position.longitude.toString()
+                                filterModel.location = data.data.location
+                                filterModel.price = (data.data.browsejobs_default_filters!!.min_price
+                                        + "$-" + data.data.browsejobs_default_filters.max_price + "$")
+                                filterModel.section = Constant.FILTER_ALL
+                                sessionManager1!!.filter = filterModel
+                            } else if (!sessionManager1!!.filter.location.contains(",")) {
+                                val gson = Gson()
+                                val filterModel = FilterModel()
+                                val data = gson.fromJson(response, AccountResponse::class.java)
+                                filterModel.distance = data.data!!.browsejobs_default_filters!!.distance
+                                filterModel.latitude = data.data.position!!.latitude.toString()
+                                filterModel.logitude = data.data.position.longitude.toString()
+                                filterModel.location = data.data.location
+                                filterModel.price = (data.data.browsejobs_default_filters!!.min_price
+                                        + "$-" + data.data.browsejobs_default_filters.max_price + "$")
+                                filterModel.section = Constant.FILTER_ALL
+                                sessionManager1!!.filter = filterModel
+                            }
                             if (sessionManager1!!.userAccount.account_status.isBasic_info) {
-                                if (sessionManager1!!.filter == null) {
-                                    val gson = Gson()
-                                    val filterModel = FilterModel()
-                                    val data = gson.fromJson(response, AccountResponse::class.java)
-                                    filterModel.distance = data.data!!.browsejobs_default_filters!!.distance
-                                    filterModel.latitude = data.data.position!!.latitude.toString()
-                                    filterModel.logitude = data.data.position.longitude.toString()
-                                    filterModel.location = data.data.location
-                                    filterModel.price = (data.data.browsejobs_default_filters!!.min_price
-                                            + "$-" + data.data.browsejobs_default_filters.max_price + "$")
-                                    filterModel.section = Constant.FILTER_ALL
-                                    sessionManager1!!.filter = filterModel
-                                }
-                                sessionManager1!!.latitude = java.lang.Double.toString(userAccountModel.latitude)
-                                sessionManager1!!.longitude = java.lang.Double.toString(userAccountModel.longitude)
+                                sessionManager1!!.latitude = userAccountModel.latitude.toString()
+                                sessionManager1!!.longitude = userAccountModel.longitude.toString()
                             }
                         } catch (e: JSONException) {
                             e.printStackTrace()

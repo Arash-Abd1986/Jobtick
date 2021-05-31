@@ -52,7 +52,8 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
     private TextView oldPrice;
     private TextView serviceFee;
     private TextView receiveMoney;
-    private ExtendedEntryText newPrice;
+    private ExtendedEntryText addPrice;
+    private TextView newPrice;
     private ExtendedCommentText reason;
     private Button submit;
 
@@ -92,22 +93,24 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
         taskModel = TaskDetailsActivity.taskModel;
 
         oldPrice = view.findViewById(R.id.old_price);
+        newPrice = view.findViewById(R.id.new_price);
         serviceFee = view.findViewById(R.id.service_fee);
         receiveMoney = view.findViewById(R.id.receive_money);
-        newPrice = view.findViewById(R.id.new_price);
+        addPrice = view.findViewById(R.id.add_price);
         reason = view.findViewById(R.id.reason);
         submit = view.findViewById(R.id.submit);
 
 
         submit.setOnClickListener(v -> {
             if(!validation()) return;
+
             //TODO: API is giving increased price, but it should get all new price, so
             //we calculate new increased price, after API updating, we bring back it.
-            int increasedPrice = Integer.parseInt(newPrice.getText()) - Integer.parseInt(oldPrice.getText().toString());
+            int increasedPrice = Integer.parseInt(addPrice.getText());
             submitIncreaseBudget(Integer.toString(increasedPrice), reason.getText().trim());
         });
 
-        newPrice.addTextChangedListener(new TextWatcher() {
+        addPrice.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void afterTextChanged(Editable s) { }
@@ -119,7 +122,7 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 if (s.length() != 0) {
-                    setupBudget(Integer.parseInt(s.toString()));
+                    setupBudget(Integer.parseInt(s.toString()) +taskModel.getAmount());
                 }
             }
         });
@@ -138,6 +141,7 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
         float worker_service_fee = taskModel.getWorker().getWorkerTier().getServiceFee();
         float service_fee = ((budget * worker_service_fee) / 100);
         serviceFee.setText(String.format("$ %s", service_fee));
+        newPrice.setText(String.format("$ %s", budget));
         total_budget = (int) (budget - ((budget * worker_service_fee) / 100));
         receiveMoney.setText(String.format(Locale.ENGLISH, "$ %d", total_budget));
     }
@@ -204,11 +208,7 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
                         }
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
-
-
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
                                 if (jsonObject_errors.has("amount") && !jsonObject_errors.isNull("amount")) {
@@ -223,8 +223,6 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
                                     ((ActivityBase)requireActivity()).showToast(jsonObject_error.getString("message"), requireContext());
                                 }
                             }
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -268,20 +266,16 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
 
 
     private boolean validation(){
-        if(newPrice.getText().length() == 0){
-            newPrice.setError("Please enter new price");
+        if(addPrice.getText().length() == 0){
+            addPrice.setError("Please enter new price");
             return false;
         }
-        if(Integer.parseInt(newPrice.getText()) < 5 || Integer.parseInt(newPrice.getText()) > 9999){
-            newPrice.setError("Between 5 and 9999");
+        if(Integer.parseInt(addPrice.getText()) < 5 || Integer.parseInt(addPrice.getText()) > 500){
+            addPrice.setError("Between 5 and 500");
             return false;
         }
-        if(Integer.parseInt(newPrice.getText()) <= Integer.parseInt(oldPrice.getText().toString())) {
-            newPrice.setError("Please increase price");
-            return false;
-        }
-        if(Integer.parseInt(newPrice.getText()) > (Integer.parseInt(oldPrice.getText().toString()) + 500)) {
-            newPrice.setError("No more than $ 500!");
+        if(Integer.parseInt(addPrice.getText()) >  500) {
+            addPrice.setError("No more than $ 500!");
             return false;
         }
         else if(reason.getText().length() < reason.geteMinSize()){

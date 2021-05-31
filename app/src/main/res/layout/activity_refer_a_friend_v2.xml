@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <fragment
+        android:id="@+id/titles"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_invite_friends"
+        class="com.jobtick.android.fragments.InviteFriendsFragment" />
+
+    <LinearLayout
+        android:id="@+id/llBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_gravity="center"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_back_black" />
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/materialText_400_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="17dp"
+            android:text="Invite friends"
+            android:textColor="@color/N900" />
+    </LinearLayout>
+</FrameLayout>

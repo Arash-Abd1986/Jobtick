@@ -142,13 +142,13 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
         setHasOptionsMenu(true)
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
 
     override fun onResume() {
         super.onResume()
-        doApiCall()
+        if (!swipeRefresh!!.isRefreshing) {
+            refresh()
+            swipeRefresh!!.isRefreshing = true
+        }
 
         val app = requireActivity().application as AppController
         if (mSocket == null)
@@ -170,6 +170,14 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
 
             mSocket!!.connect()
         }
+    }
+
+    private fun refresh() {
+        swipeRefresh!!.isRefreshing = true
+        currentPage = PaginationListener.PAGE_START
+        isLastPageItems = false
+        taskListAdapter!!.clear()
+        doApiCall()
     }
 
     @SuppressLint("LogNotTimber")
@@ -272,7 +280,6 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
         taskListAdapter = TaskListAdapterV2(taskArrayList, null)
         recyclerViewBrowse!!.adapter = taskListAdapter
         taskListAdapter!!.setOnItemClickListener(this)
-        swipeRefresh!!.isRefreshing = true
         recyclerViewBrowse!!.addOnScrollListener(object : PaginationListener(layoutManager) {
             override fun loadMoreItems() {
                 isLoadingItems = true
@@ -447,11 +454,13 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
     }
 
     override fun onRefresh() {
-        swipeRefresh!!.isRefreshing = true
-        currentPage = PaginationListener.PAGE_START
-        isLastPageItems = false
-        taskListAdapter!!.clear()
-        doApiCall()
+        if (!swipeRefresh!!.isRefreshing) {
+            swipeRefresh!!.isRefreshing = true
+            currentPage = PaginationListener.PAGE_START
+            isLastPageItems = false
+            taskListAdapter!!.clear()
+            doApiCall()
+        }
     }
 
     override fun onItemClick(view: View, obj: Data, position: Int, action: String) {

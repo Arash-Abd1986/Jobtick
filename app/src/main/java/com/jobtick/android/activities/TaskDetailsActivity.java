@@ -1434,24 +1434,21 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
 
         tvPrivateChatLastOnline.setText("Active " + taskModel.getWorker().getLastOnline());
 
-        llBtnPrivateMessageEnable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    JSONObject conversation = jsonObject.getJSONObject("conversation");
-                    ConversationModel conversationModel = new ConversationModel(TaskDetailsActivity.this).getJsonToModel(conversation,
-                            TaskDetailsActivity.this);
-                    Intent intent = new Intent(TaskDetailsActivity.this, ChatActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(ConstantKey.CONVERSATION, conversationModel);
-                    intent.putExtras(bundle);
-                    startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
+        llBtnPrivateMessageEnable.setOnClickListener(v -> {
+            try {
+                JSONObject conversation = jsonObject.getJSONObject("conversation");
+                ConversationModel conversationModel = new ConversationModel(TaskDetailsActivity.this).getJsonToModel(conversation,
+                        TaskDetailsActivity.this);
+                Intent intent = new Intent(TaskDetailsActivity.this, ChatActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(ConstantKey.CONVERSATION, conversationModel);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
+
         });
         switch (state) {
             case TASK_DRAFT:

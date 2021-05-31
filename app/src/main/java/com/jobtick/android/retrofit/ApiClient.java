@@ -35,6 +35,26 @@ public class ApiClient {
         return retrofit.create(ApiInterface.class);
     }
 
+    public static ApiInterface getClientV2() {
+
+        if (retrofit == null) {
+
+            retrofit = new retrofit2.Retrofit.Builder()
+                    .baseUrl(Constant.BASE_URL_v2)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(new OkHttpClient().newBuilder()
+                            .readTimeout(15, TimeUnit.SECONDS)
+                            .callTimeout(15, TimeUnit.SECONDS)
+                            .connectTimeout(15, TimeUnit.SECONDS)
+                            .writeTimeout(15, TimeUnit.SECONDS)
+                            .build())
+                    .build();
+
+        }
+        return retrofit.create(ApiInterface.class);
+    }
+
 
     //we don't need this object in the whole of the app, so we avoid to use it as singleton
     public ApiInterface buildAndGetClientForVideoUpload() {

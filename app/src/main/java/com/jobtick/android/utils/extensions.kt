@@ -22,7 +22,17 @@ const val TRILLION = 1000000000000L
 
 fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 fun Int.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
-
+fun Double.round(): String {
+    return if (this % 1.0 != 0.0)
+        String.format("%s", this);
+    else
+        String.format("%.0f", this);
+}
+fun Double.round(decimals: Int): Double {
+    var multiplier = 1.0
+    repeat(decimals) { multiplier *= 10 }
+    return kotlin.math.round(this * multiplier) / multiplier
+}
 fun Activity.hideKeyboard() {
     val imm: InputMethodManager =
         getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager

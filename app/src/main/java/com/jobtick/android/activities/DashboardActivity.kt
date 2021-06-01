@@ -601,6 +601,7 @@ Team ${resources.getString(R.string.app_name)}""")
                         try {
                             val jsonObject = JSONObject(response)
                             val jsonObject_data = jsonObject.getJSONObject("data")
+                            sessionManager!!.role = jsonObject_data.getString("role")
                             val userAccountModel = UserAccountModel().getJsonToModel(jsonObject_data)
                             sessionManager1!!.userAccount = userAccountModel
                             if (sessionManager1!!.filter == null) {

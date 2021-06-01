@@ -28,10 +28,7 @@ import com.jobtick.android.models.response.home.Banner
 import com.jobtick.android.models.response.home.OfferedJob
 import com.jobtick.android.models.response.home.Payment
 import com.jobtick.android.models.response.home.PostedJob
-import com.jobtick.android.utils.AutoResizeTextView
-import com.jobtick.android.utils.ConstantKey
-import com.jobtick.android.utils.Navigator
-import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.*
 import com.jobtick.android.viewmodel.home.HomeFragmentViewModel
 import org.json.JSONException
 import org.json.JSONObject
@@ -268,11 +265,11 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
     @SuppressLint("SetTextI18n")
     private fun setPayment(payment: Payment?) {
         if (payment!!.income != null)
-            txtIncomeAmount!!.text = "$" + payment.income!!.toFloat().roundToInt()
+            txtIncomeAmount!!.text = "$" + payment.income!!.toDouble().round(2).round()
         else
             txtIncomeAmount!!.text = "$0"
         if (payment.outcome != null)
-            txtOutcomeAmount!!.text = "$" + payment.outcome.toFloat().roundToInt()
+            txtOutcomeAmount!!.text = "$" + payment.outcome.toDouble().round(2).round()
         else
             txtOutcomeAmount!!.text = "$0"
 
@@ -303,7 +300,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                 imgExplore!!.visibility = View.GONE
                 txtTargetName!!.text = payment.last_trx.username
                 txtLastTransactionDate!!.text = payment.last_trx.created_at
-                txtLastTransactionAmount!!.text = "$" + payment.last_trx.amount!!.toFloat().roundToInt()
+                txtLastTransactionAmount!!.text = "$" + payment.last_trx.amount!!.toDouble().round(2).round()
                 linAction!!.setOnClickListener {
                     startActivity(Intent(requireContext(), PaymentHistoryActivity::class.java))
                 }

@@ -251,11 +251,10 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_payments_action"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
                     android:paddingStart="12dp"
-                    android:paddingTop="8dp"
                     android:paddingEnd="12dp"
-                    android:paddingBottom="8dp"
                     android:text="My jobs"
 
                     android:textAppearance="@style/materialText_400_12"

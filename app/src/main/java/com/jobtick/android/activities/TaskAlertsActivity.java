@@ -161,7 +161,7 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
         //{{baseurl}}/taskalerts/:taskalert_id
 
         showProgressDialog();
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, Constant.URL_TASK_ALERT + "/" + taskAlertId,
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, Constant.URL_TASK_ALERT_V2 + "/" + taskAlertId,
                 response -> {
                     Timber.e(response);
                     hideProgressDialog();
@@ -231,7 +231,7 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
     public void getListOfTaskAlert() {
         taskAlertArrayList.clear();
         showProgressDialog();
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, Constant.URL_TASK_ALERT,
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, Constant.URL_TASK_ALERT_V2,
                 response -> {
                     Timber.e(response);
                     hideProgressDialog();

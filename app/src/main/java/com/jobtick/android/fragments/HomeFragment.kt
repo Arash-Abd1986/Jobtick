@@ -303,7 +303,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                 imgExplore!!.visibility = View.GONE
                 txtTargetName!!.text = payment.last_trx.username
                 txtLastTransactionDate!!.text = payment.last_trx.created_at
-                txtLastTransactionAmount!!.text = "$9999" + payment.last_trx.amount!!.toFloat().roundToInt()
+                txtLastTransactionAmount!!.text = "$" + payment.last_trx.amount!!.toFloat().roundToInt()
                 linAction!!.setOnClickListener {
                     startActivity(Intent(requireContext(), PaymentHistoryActivity::class.java))
                 }

@@ -69,9 +69,9 @@
                         android:id="@+id/txt_income_amount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="none"
                         android:gravity="center_vertical"
                         android:maxLines="1"
-                        android:ellipsize="none"
                         android:textAppearance="@style/materialText_400_13"
                         android:textColor="@color/N900"
                         tools:text="$1000" />
@@ -128,13 +128,14 @@
                     <Space
                         android:layout_width="match_parent"
                         android:layout_height="5dp" />
+
                     <com.jobtick.android.utils.AutoResizeTextView
                         android:id="@+id/txt_outcome_amount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="none"
                         android:gravity="center_vertical"
                         android:maxLines="1"
-                        android:ellipsize="none"
                         android:textAppearance="@style/materialText_400_13"
                         android:textColor="@color/N900"
                         tools:text="$1000" />
@@ -251,13 +252,11 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_payments_action"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:paddingStart="12dp"
-                    android:paddingTop="8dp"
                     android:paddingEnd="12dp"
-                    android:paddingBottom="8dp"
                     android:text="My jobs"
-
                     android:textAppearance="@style/materialText_400_12"
                     android:textColor="@color/colorPrimary"
                     android:visibility="visible" />

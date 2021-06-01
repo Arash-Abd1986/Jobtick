@@ -191,7 +191,7 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
     private void addTaskAlert(TaskAlert taskAlert) {
         //{{baseurl}}/taskalerts
         showProgressDialog();
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, Constant.URL_TASK_ALERT,
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, Constant.URL_TASK_ALERT_V2,
                 response -> {
                     Timber.e(response);
                     hideProgressDialog();

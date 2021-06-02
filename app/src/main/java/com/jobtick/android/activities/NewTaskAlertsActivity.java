@@ -3,9 +3,8 @@ package com.jobtick.android.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.AuthFailureError;
@@ -17,15 +16,21 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.adapers.SectionsPagerAdapter;
+import com.jobtick.android.adapers.SuburbSearchAdapter;
 import com.jobtick.android.fragments.NewTaskAlertsInPersonFragment;
 import com.jobtick.android.fragments.NewTaskAlertsRemoteFragment;
+import com.jobtick.android.fragments.SearchSuburbBottomSheet;
+import com.jobtick.android.models.response.searchsuburb.Feature;
 import com.jobtick.android.models.task.TaskAlert;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.HttpStatus;
+import com.jobtick.android.widget.ExtendedEntryText;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,23 +41,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlertsInPersonFragment.OperationInPersonListener, NewTaskAlertsRemoteFragment.OperationRemoteListener {
+public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlertsInPersonFragment.OperationInPersonListener,
+        NewTaskAlertsRemoteFragment.OperationRemoteListener {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     MaterialToolbar toolbar;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rb_in_person)
-    RadioButton rbInPerson;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rb_remote)
-    RadioButton rbRemote;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rg_inPerson_remote)
-    RadioGroup rgInPersonRemote;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
 
     TaskAlert taskAlert;
     int position = -1;
@@ -69,40 +63,16 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
             position = getIntent().getExtras().getInt("POSITION");
         }
         initToolbar();
-        initComponent();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.fragment_container_view, NewTaskAlertsInPersonFragment.newInstance(taskAlert, position, this), "New Job Alert")
+                    .commit();
+        }
+
     }
 
-    private void initComponent() {
-        setupViewPager(viewPager);
-        viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
-        if (taskAlert.isValid()) {
-            if (taskAlert.getAlert_type().equalsIgnoreCase("remote")) {
-                viewPager.setCurrentItem(1);
-                rbInPerson.setChecked(false);
-                rbRemote.setChecked(true);
-            } else {
-                viewPager.setCurrentItem(0);
-                rbInPerson.setChecked(true);
-                rbRemote.setChecked(false);
-            }
-        } else {
-            viewPager.setCurrentItem(0);
-        }
-        viewPager.setOffscreenPageLimit(2);
-        rgInPersonRemote.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (group.findViewById(checkedId).getId()) {
-                    case R.id.rb_in_person:
-                        viewPager.setCurrentItem(0);
-                        break;
-                    case R.id.rb_remote:
-                        viewPager.setCurrentItem(1);
-                        break;
-                }
-            }
-        });
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -127,14 +97,6 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
         super.onBackPressed();
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(NewTaskAlertsInPersonFragment.newInstance(taskAlert, position, this), "New Job Alert");
-        adapter.addFragment(NewTaskAlertsRemoteFragment.newInstance(taskAlert, position, this), "New Job Alert");
-        viewPager.setAdapter(adapter);
-    }
-
-
     private void initToolbar() {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
@@ -142,40 +104,21 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
         getSupportActionBar().setTitle("New Job Alert");
     }
 
-    //  viewpager change listener
-    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-
-        @Override
-        public void onPageSelected(final int position) {
-            switch (position) {
-                case 0:
-                    rbInPerson.setChecked(true);
-                    rbRemote.setChecked(false);
-                    break;
-                case 1:
-                    rbInPerson.setChecked(false);
-                    rbRemote.setChecked(true);
-                    break;
-            }
-
-        }
-
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int arg0) {
-
-        }
-    };
 
 
     @Override
     public void onInPersonSave(int position, TaskAlert taskAlert) {
         this.taskAlert = taskAlert;
         this.position = position;
+        if (taskAlert.getAlert_type().equals("physical")) {
+            taskAlert.setLattitude(taskAlert.getLattitude());
+            taskAlert.setLongitude(taskAlert.getLongitude());
+            taskAlert.setSuburb(taskAlert.getSuburb());
+        }else{
+            taskAlert.setLattitude(null);
+            taskAlert.setLongitude(null);
+            taskAlert.setSuburb(null);
+        }
         addTaskAlert(this.taskAlert);
     }
 
@@ -256,14 +199,17 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("text_phrase", taskAlert.getKetword());
-                map1.put("task_type", taskAlert.getAlert_type());
+                map1.put("keyword", taskAlert.getKetword());
+                map1.put("type", taskAlert.getAlert_type());
+                map1.put("minprice", "0");
+                map1.put("maxprice", "55");
                 if (taskAlert.getAlert_type().equals("physical")) {
                     map1.put("location", taskAlert.getSuburb());
                     map1.put("latitude", taskAlert.getLattitude().toString());
                     map1.put("longitude", taskAlert.getLongitude().toString());
                     map1.put("distance", String.valueOf(taskAlert.getDistance()));
                 }
+
                 return map1;
             }
         };
@@ -274,6 +220,8 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
         requestQueue.add(stringRequest);
         Timber.e(stringRequest.getUrl());
     }
+
+
 }
 
 

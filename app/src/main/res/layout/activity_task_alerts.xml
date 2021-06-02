@@ -40,7 +40,7 @@
                         android:layout_height="wrap_content"
                         android:text="Turn on job alerts to receive notification about any jobs meeting your skills."
                         android:textAppearance="@style/materialText_500_14"
-                        android:textColor="@color/textColor" />
+                        android:textColor="@color/N500" />
 
 
                         <com.google.android.material.checkbox.MaterialCheckBox
@@ -89,7 +89,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Set Custom Job Alerts"
-                                android:textAppearance="@style/materialText_600_14"
+                                android:textAppearance="@style/materialText_400_16"
                                 android:textColor="@color/N300" />
 
                             <View
@@ -111,7 +111,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
                             android:background="?attr/selectableItemBackground"
-                            android:drawableStart="@drawable/ic_add_primary"
+                            android:drawableStart="@drawable/ic_add_8"
                             android:drawablePadding="@dimen/spacing_middle"
                             android:gravity="center_vertical"
                             android:inputType="textMultiLine"

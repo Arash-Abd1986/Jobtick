@@ -132,28 +132,6 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             getListOfTaskAlert();
-
-            if (data != null) {
-/*                Bundle bundle = data.getExtras();
-                int position = bundle.getInt("POSITION");
-                if (position != -1) {
-                    taskAlertArrayList.remove(position);
-                    taskAlertArrayList.add(position, (TaskAlert) bundle.getParcelable("TASK_ALERT"));
-                } else {
-                    taskAlertArrayList.add((TaskAlert) bundle.getParcelable("TASK_ALERT"));
-                }
-               *//* if (taskAlertArrayList.size() != 0) {
-                    if (recyclerView.getVisibility() != View.VISIBLE) {
-                        recyclerView.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    if (recyclerView.getVisibility() == View.VISIBLE) {
-                        recyclerView.setVisibility(View.GONE);
-                    }
-                }*//*
-                adapter.notifyDataSetChanged();*/
-
-            }
         }
     }
 

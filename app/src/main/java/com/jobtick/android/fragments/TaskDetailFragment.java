@@ -770,7 +770,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
                     }
                     attachmentAdapter.notifyItemInserted(attachmentArrayList.size() - 1);
 
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     taskCreateActivity.showToast("Something went wrong", taskCreateActivity);
                     e.printStackTrace();
                 }
@@ -779,9 +779,14 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
                // ((AppController) getContext()).mCrashlytics.recordException(t);
-                taskCreateActivity.showToast("Something went wrong", taskCreateActivity);
-                t.printStackTrace();
-                taskCreateActivity.hideProgressDialog();
+                try {
+                    taskCreateActivity.showToast("Something went wrong", taskCreateActivity);
+                    t.printStackTrace();
+                    taskCreateActivity.hideProgressDialog();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
             }
         });
     }

@@ -2,6 +2,7 @@ package com.jobtick.android.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -13,6 +14,7 @@ import com.jobtick.android.R;
 public class ExtendedSettingItem extends FrameLayout {
 
     private final String eTitle;
+    private final int eColor;
     private final TextView title;
 
     public ExtendedSettingItem(Context context) {
@@ -33,6 +35,7 @@ public class ExtendedSettingItem extends FrameLayout {
 
         try {
             eTitle = sharedAttribute.getString(R.styleable.ExtendedSettingItem_eSettingTitle);
+            eColor = sharedAttribute.getColor(R.styleable.ExtendedSettingItem_colorText, this.getContext().getColor(R.color.P300));
         } finally {
             sharedAttribute.recycle();
         }
@@ -41,15 +44,15 @@ public class ExtendedSettingItem extends FrameLayout {
         LayoutInflater.from(context).inflate(R.layout.view_setting_item, this);
 
         title = (TextView) findViewById(R.id.title);
-
+        title.setTextColor(eColor);
         title.setText(eTitle);
     }
 
-    public void setTitle(String title){
+    public void setTitle(String title) {
         this.title.setText(title);
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return title.getText().toString();
     }
 }

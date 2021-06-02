@@ -48,16 +48,11 @@ import timber.log.Timber
 import java.util.*
 import kotlin.math.abs
 
-class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelectedListener, onProfileUpdateListener, Navigator {
+class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     var drawerLayout: DrawerLayout? = null
     var toolbar: Toolbar? = null
     var appBarConfiguration: AppBarConfiguration? = null
     var sessionManager1: SessionManager? = null
-    var imgUserAvatar: ImageView? = null
-    var imgVerifiedAccount: ImageView? = null
-    var txtUserName: TextView? = null
-    var txtAccountLevel: TextView? = null
-    var btnCashOut: CardView? = null
     var myBalance: TextView? = null
     var navT1: TextView? = null
     var navT2: TextView? = null
@@ -67,7 +62,6 @@ class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelecte
     var navI2: AppCompatImageView? = null
     var navI4: AppCompatImageView? = null
     var navI5: AppCompatImageView? = null
-    var llWalletBalance: LinearLayout? = null
     private var linFilterExplore: LinearLayout? = null
     var home: LinearLayout? = null
     var search: LinearLayout? = null
@@ -84,17 +78,10 @@ class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelecte
         toolbar = findViewById(R.id.toolbar)
         // Tools.clearSystemBarLight(this);
         toolbar!!.elevation = 0f
+        toolbar!!.setNavigationIcon(R.drawable.ic_setting)
+
         sessionManager1 = SessionManager(this)
         onProfileupdatelistenerSideMenu = this
-        val navigationView = findViewById<View>(R.id.navigation_view) as NavigationView
-        val headerView = navigationView.getHeaderView(0)
-        imgUserAvatar = headerView.findViewById(R.id.img_user_avatar)
-        imgVerifiedAccount = headerView.findViewById(R.id.img_verified_account)
-        txtUserName = headerView.findViewById(R.id.txt_user_name)
-        txtAccountLevel = headerView.findViewById(R.id.txt_account_level)
-        btnCashOut = headerView.findViewById(R.id.btn_cashout)
-        myBalance = headerView.findViewById(R.id.my_balance)
-        llWalletBalance = headerView.findViewById(R.id.llWalletBalance)
         linFilterExplore = findViewById(R.id.lin_filter_explore)
         home = findViewById(R.id.home)
         search = findViewById(R.id.search)
@@ -110,7 +97,6 @@ class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelecte
         navI5 = findViewById(R.id.nav_i5)
         smallPlus = findViewById(R.id.small_plus)
         setHeaderLayout()
-        navigationView.setNavigationItemSelectedListener(this)
         drawerLayout = findViewById(R.id.drawer_layout)
 
         appBarConfiguration = AppBarConfiguration.Builder(
@@ -119,14 +105,6 @@ class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelecte
                 .build()
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         NavigationUI.setupWithNavController(toolbar!!, navController!!, appBarConfiguration!!)
-        val toggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
-            override fun onDrawerOpened(drawerView: View) {
-                updateCounter(navigationView)
-                super.onDrawerOpened(drawerView)
-            }
-        }
-        drawerLayout!!.setDrawerListener(toggle)
-        toggle.syncState()
         val bundle = intent.extras
         if (bundle != null) {
             if (bundle.getParcelable<Parcelable?>(ConstantKey.PUSH_NOTIFICATION_MODEL) != null) {
@@ -167,7 +145,7 @@ class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelecte
         setNavClick()
         accountDetails
         goToFragment()
-        balance
+        //balance
         onNavClick()
     }
 
@@ -189,6 +167,12 @@ class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelecte
         profile!!.setOnClickListener { v: View? ->
             linFilterExplore!!.visibility = View.GONE
             navController!!.navigate(R.id.navigation_profile)
+        }
+        toolbar!!.setNavigationIcon(R.drawable.ic_setting)
+        toolbar!!.setNavigationOnClickListener {
+            linFilterExplore!!.visibility = View.GONE
+            val settings = Intent(this@DashboardActivity, SettingActivity::class.java)
+            startActivity(settings)
         }
     }
 
@@ -308,46 +292,9 @@ class DashboardActivity : ActivityBase(), NavigationView.OnNavigationItemSelecte
 
     @SuppressLint("SetTextI18n")
     private fun setHeaderLayout() {
-        if (sessionManager1!!.userAccount.avatar != null && sessionManager1!!.userAccount.avatar.thumbUrl != null) {
-            ImageUtil.displayImage(imgUserAvatar, sessionManager1!!.userAccount.avatar.thumbUrl, null)
-        } else {
-            //default image
-        }
         OneSignal.setExternalUserId(sessionManager1!!.userAccount.id.toString(), { results: JSONObject? -> })
-        if (sessionManager1!!.userAccount.isVerifiedAccount == 1) {
-            imgVerifiedAccount!!.visibility = View.VISIBLE
-        } else {
-            imgVerifiedAccount!!.visibility = View.GONE
-        }
-        if (sessionManager1!!.userAccount.posterTier != null) {
-            when (sessionManager1!!.userAccount.posterTier.id) {
-                1 -> {
-                    txtAccountLevel!!.setText(R.string.level_1)
-                }
-                2 -> {
-                    txtAccountLevel!!.setText(R.string.level_2)
-                }
-                3 -> {
-                    txtAccountLevel!!.setText(R.string.level_3)
-                }
-            }
-        } else {
-            txtAccountLevel!!.setText(R.string.level_0)
-        }
-        if (sessionManager1!!.userAccount.name != null) {
-            txtUserName!!.text = sessionManager1!!.userAccount.name
-        } else {
-            txtUserName!!.text = "Profile not updated"
-        }
     }
 
-    private fun updateCounter(navigationView: NavigationView) {
-        val m = navigationView.menu
-        val menuItem = m.findItem(R.id.nav_dashboard)
-        val linearLayout = menuItem.actionView as LinearLayout
-        val TextView = linearLayout.findViewById<View>(R.id.txt_bedge) as TextView
-        TextView.visibility = View.VISIBLE
-    }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
@@ -430,55 +377,6 @@ Team ${resources.getString(R.string.app_name)}""")
         }
     }
 
-    override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        drawerLayout!!.closeDrawer(GravityCompat.START)
-        when (menuItem.itemId) {
-            R.id.nav_dashboard -> {
-                val dashboard = Intent(this@DashboardActivity, Dashboard2Activity::class.java)
-                startActivity(dashboard)
-                return true
-            }
-            R.id.nav_payment -> {
-                startActivity(Intent(this@DashboardActivity, PaymentHistoryActivity::class.java))
-                return true
-            }
-            R.id.nav_saved_tasks -> {
-                val savedTask = Intent(this@DashboardActivity, SavedTaskActivity::class.java)
-                startActivity(savedTask)
-                return true
-            }
-            R.id.nav_notifications -> {
-                val intent = Intent(this@DashboardActivity, NotificationActivity::class.java)
-                startActivity(intent)
-                return true
-            }
-              R.id.nav_task_alerts -> {
-                  val taskAlerts = Intent(this@DashboardActivity, TaskAlertsActivity::class.java)
-                  startActivity(taskAlerts)
-                  return true
-              }
-            R.id.nav_refer_a_friend -> {
-                startActivity(Intent(this, ReferAFriendActivity::class.java))
-                return true
-            }
-            R.id.nav_settings -> {
-                val settings = Intent(this@DashboardActivity, SettingActivity::class.java)
-                startActivity(settings)
-                return true
-            }
-            R.id.nav_help_topics -> {
-                val helpTopics = Intent(this@DashboardActivity, HelpActivity::class.java)
-                startActivity(helpTopics)
-                return true
-            }
-            R.id.nav_logout -> {
-                showLogoutBottomSheet()
-                return true
-            }
-        }
-        return false
-    }// map1.put("X-Requested-With", "XMLHttpRequest");// Print Error!
-
     //http request
     private val balance: Unit
         private get() {
@@ -499,21 +397,21 @@ Team ${resources.getString(R.string.app_name)}""")
                                             when {
                                                 creditCardModel!!.data!![1].wallet!!.balance!!.toDouble() > 0 -> {
                                                     myBalance!!.text = creditCardModel!!.data!![1].wallet!!.balance
-                                                    btnCashOut!!.visibility = View.VISIBLE
-                                                    btnCashOut!!.setOnClickListener { v: View? ->
-                                                        drawerLayout!!.close()
-                                                        val cashOutBottomSheet = CashOutBottomSheet.newInstance(creditCardModel)
-                                                        cashOutBottomSheet.show(supportFragmentManager, "")
-                                                    }
-                                                    llWalletBalance!!.setBackgroundColor(resources.getColor(R.color.colorPrimary, null))
+//                                                    btnCashOut!!.visibility = View.VISIBLE
+//                                                    btnCashOut!!.setOnClickListener { v: View? ->
+//                                                        drawerLayout!!.close()
+//                                                        val cashOutBottomSheet = CashOutBottomSheet.newInstance(creditCardModel)
+//                                                        cashOutBottomSheet.show(supportFragmentManager, "")
+//                                                    }
+//                                                    llWalletBalance!!.setBackgroundColor(resources.getColor(R.color.colorPrimary, null))
                                                 }
                                                 creditCardModel!!.data!![1].wallet!!.balance!!.toDouble() < 0 -> {
                                                     myBalance!!.text = abs(creditCardModel!!.data!![1].wallet!!.balance!!.toDouble()).toString()
-                                                    btnCashOut!!.visibility = View.VISIBLE
-                                                    llWalletBalance!!.setBackgroundColor(resources.getColor(R.color.colorRedBalance, null))
+//                                                    btnCashOut!!.visibility = View.VISIBLE
+//                                                    llWalletBalance!!.setBackgroundColor(resources.getColor(R.color.colorRedBalance, null))
                                                 }
                                                 else -> {
-                                                    btnCashOut!!.visibility = View.GONE
+                                                    //btnCashOut!!.visibility = View.GONE
                                                 }
                                             }
                                         }
@@ -566,7 +464,7 @@ Team ${resources.getString(R.string.app_name)}""")
         }
 
     override fun updatedSuccesfully(path: String) {
-        ImageUtil.displayImage(imgUserAvatar, path, null)
+        //ImageUtil.displayImage(imgUserAvatar, path, null)
     }
 
     override fun updateProfile() {}

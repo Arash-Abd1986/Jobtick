@@ -140,6 +140,8 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
         params.gravity = Gravity.START
         toolbarTitle.layoutParams = params
         setHasOptionsMenu(true)
+        toolbar!!.setNavigationIcon(R.drawable.ic_setting)
+
     }
 
 

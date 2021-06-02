@@ -315,6 +315,7 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
                 creating_task.putExtras(bundle);
                 requireContext().startActivity(creating_task);
             });
+            toolbar.setNavigationIcon(R.drawable.ic_setting);
         }
     }
 

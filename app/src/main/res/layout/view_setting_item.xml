@@ -24,8 +24,8 @@
                 android:drawableEnd="@drawable/ic_chevron_right_grey"
                 android:gravity="start"
                 android:text="@string/edit_account"
-                android:textAppearance="@style/materialText_600_14"
-                android:textColor="@color/colorPrimary" />
+                android:textAppearance="@style/materialText_400_15"
+                android:textColor="@color/P300" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

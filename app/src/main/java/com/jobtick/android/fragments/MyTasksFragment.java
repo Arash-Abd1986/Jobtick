@@ -161,6 +161,8 @@ public class MyTasksFragment extends Fragment implements TaskListAdapterV2.OnIte
         androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.START;
         toolbar_title.setLayoutParams(params);
+        toolbar.setNavigationIcon(R.drawable.ic_setting);
+
     }
 
     @Override

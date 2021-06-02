@@ -17,7 +17,7 @@
         android:gravity="center"
         android:theme="@style/ThemeOverlay_Toolbar"
         app:contentInsetStartWithNavigation="0dp"
-        app:navigationIcon="@drawable/ic_menu"
+        app:navigationIcon="@drawable/ic_setting"
         app:titleMargin="0dp"
         app:titleMarginBottom="0dp">
 

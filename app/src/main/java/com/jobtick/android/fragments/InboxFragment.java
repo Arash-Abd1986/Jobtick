@@ -220,6 +220,8 @@ public class InboxFragment extends Fragment implements InboxListAdapter.OnItemCl
                 Toolbar.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.START;
         toolbar_title.setLayoutParams(params);
+        toolbar.setNavigationIcon(R.drawable.ic_setting);
+
     }
 
     private void subscribeToPresence() {

@@ -8,50 +8,101 @@
     android:orientation="vertical"
     tools:context=".activities.SettingActivity">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="top"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <com.jobtick.android.widget.ExtendedSettingItem
-            android:id="@+id/edit_account"
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="@dimen/spacing_large"
-            app:eSettingTitle="@string/edit_account"/>
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:orientation="vertical">
 
-        <com.jobtick.android.widget.ExtendedSettingItem
-            android:id="@+id/payment_settings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="@dimen/spacing_large"
-            app:eSettingTitle="@string/payment_settings"/>
+            <com.jobtick.android.widget.ExtendedSettingItem
+                android:id="@+id/edit_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/spacing_large"
+                app:colorText="@color/P300"
+                app:eSettingTitle="@string/edit_account" />
 
-        <com.jobtick.android.widget.ExtendedSettingItem
-            android:id="@+id/notification_settings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="@dimen/spacing_large"
-            app:eSettingTitle="@string/notification_settings"/>
+            <com.jobtick.android.widget.ExtendedSettingItem
+                android:id="@+id/payment_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/spacing_large"
+                app:colorText="@color/P300"
+                app:eSettingTitle="@string/payment_settings" />
 
-        <com.jobtick.android.widget.ExtendedSettingItem
-            android:id="@+id/change_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="@dimen/spacing_large"
-            app:eSettingTitle="@string/change_password"/>
+            <com.jobtick.android.widget.ExtendedSettingItem
+                android:id="@+id/notification_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/spacing_large"
+                app:colorText="@color/P300"
+                app:eSettingTitle="@string/notification_settings" />
 
-    </LinearLayout>
+            <com.jobtick.android.widget.ExtendedSettingItem
+                android:id="@+id/job_alert_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:visibility="gone"
+                app:colorText="@color/P300"
+                app:eSettingTitle="Job alert Setting" />
 
+            <com.jobtick.android.widget.ExtendedSettingItem
+                android:id="@+id/change_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/spacing_large"
+                app:colorText="@color/P300"
+                app:eSettingTitle="@string/change_password" />
+
+            <com.jobtick.android.widget.ExtendedSettingItem
+                android:id="@+id/help_topics_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="@dimen/spacing_large"
+                app:colorText="@color/P300"
+                app:eSettingTitle="Help Topics" />
+
+            <com.jobtick.android.widget.ExtendedSettingItem
+                android:id="@+id/acknowledgment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                android:layout_marginEnd="@dimen/spacing_large"
+                app:colorText="@color/P300"
+                app:eSettingTitle="Acknowledgment" />
+
+            <com.jobtick.android.widget.ExtendedSettingItem
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/spacing_large"
+                app:colorText="@color/N900"
+                app:eSettingTitle="Log out" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

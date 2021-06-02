@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import java.util.regex.Pattern
 import kotlin.math.floor
+import kotlin.math.round
 import kotlin.math.roundToInt
 
 const val MILLION = 1000000L
@@ -31,7 +32,7 @@ fun Double.round(): String {
 fun Double.round(decimals: Int): Double {
     var multiplier = 1.0
     repeat(decimals) { multiplier *= 10 }
-    return kotlin.math.round(this * multiplier) / multiplier
+    return round(this * multiplier) / multiplier
 }
 fun Activity.hideKeyboard() {
     val imm: InputMethodManager =

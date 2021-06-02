@@ -423,7 +423,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             try {
                 old_date = utcFormat.parse(userAccountModel.getDob());
 
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             DatePickerBottomSheet datePickerBottomSheet = new DatePickerBottomSheet(new Date(String.valueOf(old_date)).getTime());

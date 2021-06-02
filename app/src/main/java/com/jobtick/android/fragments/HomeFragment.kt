@@ -9,7 +9,6 @@ import android.view.*
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.core.widget.AutoSizeableTextView
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -21,7 +20,6 @@ import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.jobtick.android.R
 import com.jobtick.android.activities.*
-import com.jobtick.android.activities.others.ReferAFriendActivity
 import com.jobtick.android.adapers.OfferedJobsAdapter
 import com.jobtick.android.adapers.PostedJobsAdapter
 import com.jobtick.android.models.response.home.Banner
@@ -33,9 +31,6 @@ import com.jobtick.android.viewmodel.home.HomeFragmentViewModel
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.lang.Math.abs
-import java.lang.Math.round
-import kotlin.math.roundToInt
 
 class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJobsAdapter.OnItemClickListener {
     private var name: TextView? = null
@@ -457,6 +452,8 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
         params.gravity = Gravity.CENTER
         toolbarTitle.layoutParams = params
         ivNotification!!.visibility = View.VISIBLE
+        toolbar!!.setNavigationIcon(R.drawable.ic_setting)
+
     }
 
     private fun initVars() {

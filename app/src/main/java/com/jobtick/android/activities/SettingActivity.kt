@@ -1,94 +1,157 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
+import android.content.Intent
+import android.os.Bundle
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.appbar.MaterialToolbar
+import com.jobtick.android.R
+import com.jobtick.android.activities.others.ReferAFriendActivity
+import com.jobtick.android.fragments.LogOutBottomSheet
+import com.jobtick.android.widget.ExtendedSettingItem
 
-import androidx.appcompat.app.AppCompatActivity;
+class SettingActivity : AppCompatActivity() {
 
-import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.android.R;
-import android.annotation.SuppressLint;
-
-import com.jobtick.android.widget.ExtendedSettingItem;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-public class SettingActivity extends AppCompatActivity {
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edit_account)
-    ExtendedSettingItem btnEditAccount;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.payment_settings)
-    ExtendedSettingItem btnPaymentSettings;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.notification_settings)
-    ExtendedSettingItem btnNotificationSettings;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.change_password)
-    ExtendedSettingItem btnChangePassword;
+    var toolbar: MaterialToolbar? = null
+    var btnEditAccount: ExtendedSettingItem? = null
+    var btnPaymentSettings: ExtendedSettingItem? = null
+    var btnNotificationSettings: ExtendedSettingItem? = null
+    var btnChangePassword: ExtendedSettingItem? = null
+    var editAccount: ExtendedSettingItem? = null
+    var paymentSettings: ExtendedSettingItem? = null
+    var notificationSettings: ExtendedSettingItem? = null
+    var changePassword: ExtendedSettingItem? = null
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
-        ButterKnife.bind(this);
+    var jobAlertSettings: ExtendedSettingItem? = null
+    var helpTopicsSetting: ExtendedSettingItem? = null
+    var acknowledgment: ExtendedSettingItem? = null
+    var logout: ExtendedSettingItem? = null
 
-        initToolbar();
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_setting)
+        initIDs()
+        initToolbar()
     }
 
-    private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Settings");
+    private fun initIDs() {
+        toolbar = findViewById(R.id.toolbar)
+        btnEditAccount = findViewById(R.id.edit_account)
+        btnPaymentSettings = findViewById(R.id.payment_settings)
+        btnNotificationSettings = findViewById(R.id.notification_settings)
+        btnChangePassword = findViewById(R.id.change_password)
+        editAccount = findViewById(R.id.edit_account)
+        paymentSettings = findViewById(R.id.payment_settings)
+        notificationSettings = findViewById(R.id.notification_settings)
+        changePassword = findViewById(R.id.change_password)
+
+
+
+        jobAlertSettings = findViewById(R.id.job_alert_settings)
+        helpTopicsSetting = findViewById(R.id.help_topics_setting)
+        acknowledgment = findViewById(R.id.acknowledgment)
+        logout = findViewById(R.id.logout)
+
+        setClick()
     }
 
+    private fun initToolbar() {
+        toolbar!!.setNavigationIcon(R.drawable.ic_back)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.title = "Settings"
+    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
+            R.id.nav_dashboard -> {
+                val dashboard = Intent(this@SettingActivity, Dashboard2Activity::class.java)
+                startActivity(dashboard)
+                return true
+            }
+            R.id.nav_payment -> {
+                startActivity(Intent(this@SettingActivity, PaymentHistoryActivity::class.java))
+                return true
+            }
+            R.id.nav_saved_tasks -> {
+                val savedTask = Intent(this@SettingActivity, SavedTaskActivity::class.java)
+                startActivity(savedTask)
+                return true
+            }
+            R.id.nav_notifications -> {
+                val intent = Intent(this@SettingActivity, NotificationActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            /*  R.id.nav_task_alerts -> {
+                  val taskAlerts = Intent(this@DashboardActivity, TaskAlertsActivity::class.java)
+                  startActivity(taskAlerts)
+                  return true
+              }*/
+            R.id.nav_refer_a_friend -> {
+                startActivity(Intent(this, ReferAFriendActivity::class.java))
+                return true
+            }
+            R.id.nav_settings -> {
+                val settings = Intent(this@SettingActivity, SettingActivity::class.java)
+                startActivity(settings)
+                return true
+            }
+            R.id.nav_help_topics -> {
+                val helpTopics = Intent(this@SettingActivity, HelpActivity::class.java)
+                startActivity(helpTopics)
+                return true
+            }
+            R.id.nav_logout -> {
+                showLogoutBottomSheet()
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun showLogoutBottomSheet() {
+        val logOutBottomSheet = LogOutBottomSheet.newInstance()
+        logOutBottomSheet.show(supportFragmentManager, "")
+    }
+
+    private fun setClick() {
+        jobAlertSettings!!.setOnClickListener {
+//            val taskAlerts = Intent(this@SettingActivity, TaskAlertsActivity::class.java)
+//            startActivity(taskAlerts)
         }
 
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @OnClick({R.id.edit_account, R.id.payment_settings, R.id.notification_settings, R.id.change_password})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.edit_account:
-                startActivity(new Intent(SettingActivity.this, EditProfileActivity.class));
-
-                break;
-            case R.id.payment_settings:
-                Intent payment_settings = new Intent(SettingActivity.this, PaymentSettingsActivity.class);
-                startActivity(payment_settings);
-                break;
-            case R.id.notification_settings:
-                Intent notificaiton = new Intent(SettingActivity.this, NotificationSettings.class);
-                startActivity(notificaiton);
-
-                break;
-            case R.id.change_password:
-                Intent change_password = new Intent(SettingActivity.this, ChangePasswordActivity.class);
-                startActivity(change_password);
-                break;
+        helpTopicsSetting!!.setOnClickListener {
+            val helpTopics = Intent(this@SettingActivity, HelpActivity::class.java)
+            startActivity(helpTopics)
         }
+        logout!!.setOnClickListener {
+            showLogoutBottomSheet()
+        }
+        editAccount!!.setOnClickListener {
+            startActivity(Intent(this@SettingActivity, EditProfileActivity::class.java))
+        }
+        paymentSettings!!.setOnClickListener {
+            val payment_settings = Intent(this@SettingActivity, PaymentSettingsActivity::class.java)
+            startActivity(payment_settings)
+        }
+        notificationSettings!!.setOnClickListener {
+            val notificaiton = Intent(this@SettingActivity, NotificationSettings::class.java)
+            startActivity(notificaiton)
+        }
+        changePassword!!.setOnClickListener {
+            val change_password = Intent(this@SettingActivity, ChangePasswordActivity::class.java)
+            startActivity(change_password)
+        }
+
     }
 }

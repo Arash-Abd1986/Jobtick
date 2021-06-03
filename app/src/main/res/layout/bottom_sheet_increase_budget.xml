@@ -61,6 +61,7 @@
         android:layout_marginEnd="16dp"
         app:eImeOptions="actionNext"
         app:eInputType="budget"
+        app:eMaxCharNumber="4"
         app:eTitle="Add price" />
 
     <RelativeLayout

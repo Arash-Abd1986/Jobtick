@@ -133,6 +133,7 @@
                 android:layout_weight="1"
                 android:gravity="start|center_vertical"
                 android:text="@string/new_price"
+                android:maxLength="4"
                 android:textAppearance="@style/materialText_500_14"
                 android:textColor="@color/textColor" />
 

@@ -337,10 +337,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
         val layoutManager = LinearLayoutManager(context)
         recyclerRecentJobs!!.layoutManager = layoutManager
         postedJobsAdapter = if (recentJobs!!.size > 2)
-            if (hasPostedJob || hasOfferedJob)
-                PostedJobsAdapter(recentJobs.subList(0, 2), null)
-            else
-                PostedJobsAdapter(recentJobs.subList(0, 3), null)
+            PostedJobsAdapter(recentJobs.subList(0, 3), null)
         else
             PostedJobsAdapter(recentJobs, null)
         recyclerRecentJobs!!.adapter = postedJobsAdapter

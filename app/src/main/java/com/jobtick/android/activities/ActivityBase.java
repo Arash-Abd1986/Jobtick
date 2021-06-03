@@ -231,7 +231,14 @@ public class ActivityBase extends AppCompatActivity {
                     }
                     break;
                 case 500:
-                    showToast("Something Went Wrong", ActivityBase.this);
+                case 501:
+                case 502:
+                case 503:
+                case 504:
+                case 505:
+                    Intent intent = new Intent(this, ServerUnderMaintenance.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                     break;
                 default:
                     showToast("Something Went Wrong", ActivityBase.this);

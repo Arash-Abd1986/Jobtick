@@ -264,7 +264,6 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
     private int year, month, day;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -428,7 +427,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             }
             DatePickerBottomSheet datePickerBottomSheet = new DatePickerBottomSheet(new Date(String.valueOf(old_date)).getTime());
             datePickerBottomSheet.setDchange(this);
-            datePickerBottomSheet.show(this.getSupportFragmentManager(),"");
+            datePickerBottomSheet.show(this.getSupportFragmentManager(), "");
         });
         initDatePicker();
 
@@ -436,7 +435,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             SearchSuburbBottomSheet infoBottomSheet = new SearchSuburbBottomSheet(this);
             infoBottomSheet.show(getSupportFragmentManager(), null);
         });
-        smallPlus.setOnClickListener(v->{
+        smallPlus.setOnClickListener(v -> {
             isImageProfile = false;
             uploadableImage.showAttachmentImageBottomSheet(false);
         });
@@ -453,9 +452,9 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             txtGeneralInfo.setTextColor(getColor(R.color.colorAccent));
             txtPrivateInfo.setTextColor(getColor(R.color.N100));
             txtPortfolioSkills.setTextColor(getColor(R.color.N100));
-            underTab1.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line_selected));
-            underTab2.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line));
-            underTab3.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line));
+            underTab1.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line_selected));
+            underTab2.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line));
+            underTab3.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line));
         });
         txtPrivateInfo.setOnClickListener(it -> {
             llGeneral.setVisibility(View.GONE);
@@ -464,9 +463,9 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             txtGeneralInfo.setTextColor(getColor(R.color.N100));
             txtPrivateInfo.setTextColor(getColor(R.color.colorAccent));
             txtPortfolioSkills.setTextColor(getColor(R.color.N100));
-            underTab1.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line));
-            underTab2.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line_selected));
-            underTab3.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line));
+            underTab1.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line));
+            underTab2.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line_selected));
+            underTab3.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line));
         });
         txtPortfolioSkills.setOnClickListener(it -> {
             llGeneral.setVisibility(View.GONE);
@@ -475,9 +474,9 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
             txtGeneralInfo.setTextColor(getColor(R.color.N100));
             txtPrivateInfo.setTextColor(getColor(R.color.N100));
             txtPortfolioSkills.setTextColor(getColor(R.color.colorAccent));
-            underTab1.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line));
-            underTab2.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line));
-            underTab3.setBackground(ContextCompat.getDrawable(this,R.drawable.tab_line_selected));
+            underTab1.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line));
+            underTab2.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line));
+            underTab3.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line_selected));
         });
     }
 
@@ -535,7 +534,7 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
                              * */
                             setUpAllEditFields(userAccountModel);
                             attachmentArrayList = userAccountModel.getPortfolio();
-                           // attachmentArrayList.add(new AttachmentModel());
+                            // attachmentArrayList.add(new AttachmentModel());
                             Timber.e("%s", attachmentArrayList.size());
                             if (attachmentArrayList.size() >= 0) {
                                 recyclerView.setVisibility(View.VISIBLE);
@@ -604,12 +603,14 @@ EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                if (s.length() > 0)
+                    edtPhoneNumber.seteVerifyVisible(true);
+                else
+                    edtPhoneNumber.seteVerifyVisible(false);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                edtPhoneNumber.seteVerifyVisible(true);
             }
         });
         //edtPaymentId.setText(userAccountModel.get());

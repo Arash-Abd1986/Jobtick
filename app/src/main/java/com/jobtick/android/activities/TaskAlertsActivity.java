@@ -18,11 +18,14 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.gson.Gson;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.adapers.TaskAlertAdapter;
+import com.jobtick.android.models.response.jobalerts.Data;
+import com.jobtick.android.models.response.jobalerts.JobAlertsResponse;
 import com.jobtick.android.models.task.TaskAlert;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.HttpStatus;
@@ -59,7 +62,7 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
 
 
     TaskAlertAdapter adapter;
-    ArrayList<TaskAlert> taskAlertArrayList;
+    ArrayList<Data> taskAlertArrayList;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.no_alerts_container)
@@ -118,7 +121,7 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
     }
 
     @Override
-    public void onItemClick(View view, TaskAlert obj, int position, String action) {
+    public void onItemClick(View view, Data obj, int position, String action) {
         if (action.equalsIgnoreCase("delete")) {
             adapter.removeItems(position);
             removeTaskAlert(obj.getId());
@@ -216,25 +219,24 @@ public class TaskAlertsActivity extends ActivityBase implements TaskAlertAdapter
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                    JSONArray jsonArray_data = jsonObject.getJSONArray("data");
-                                    for (int i = 0; jsonArray_data.length() > i; i++) {
-                                        JSONObject jsonObject_taskModel_list = jsonArray_data.getJSONObject(i);
-                                        TaskAlert taskModel = new TaskAlert().getJsonToModel(jsonObject_taskModel_list, TaskAlertsActivity.this);
-                                        taskAlertArrayList.add(taskModel);
-                                    }
+                        Gson gson = new Gson();
+                        JobAlertsResponse jobAlertsResponse = gson.fromJson(jsonObject.toString(),JobAlertsResponse.class);
+                        if (jobAlertsResponse.getSuccess() != null ) {
+                            if (jobAlertsResponse.getSuccess()) {
+                                if (jobAlertsResponse.getData()!= null) {
+                                    taskAlertArrayList.addAll(jobAlertsResponse.getData());
                                 }
                                 adapter.addItems(taskAlertArrayList);
                             } else {
                                 showToast("Something went Wrong", TaskAlertsActivity.this);
                             }
                         }
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         Timber.e(String.valueOf(e));
                         e.printStackTrace();
+                        showToast("Something went Wrong", TaskAlertsActivity.this);
                     }
+                    checkList();
                     checkList();
                 },
                 error -> {

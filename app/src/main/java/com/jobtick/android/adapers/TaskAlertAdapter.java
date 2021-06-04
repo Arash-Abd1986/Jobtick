@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jobtick.android.R;
 import android.annotation.SuppressLint;
 
+import com.jobtick.android.models.response.jobalerts.Data;
 import com.jobtick.android.models.task.TaskAlert;
 
 import java.util.ArrayList;
@@ -25,21 +26,21 @@ import butterknife.ButterKnife;
 public class TaskAlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private List<TaskAlert> items = new ArrayList<>();
+    private List<Data> items = new ArrayList<>();
     private OnLoadMoreListener onLoadMoreListener;
 
     private final Context ctx;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(View view, TaskAlert obj, int position, String action);
+        void onItemClick(View view, Data obj, int position, String action);
     }
 
     public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
         this.mOnItemClickListener = mItemClickListener;
     }
 
-    public TaskAlertAdapter(Context context, List<TaskAlert> items) {
+    public TaskAlertAdapter(Context context, List<Data> items) {
         this.items = items;
         ctx = context;
 
@@ -78,14 +79,14 @@ public class TaskAlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof OriginalViewHolder) {
             OriginalViewHolder view = (OriginalViewHolder) holder;
-            TaskAlert taskAlert = items.get(position);
+            Data taskAlert = items.get(position);
 
-            view.txtKeyword.setText(taskAlert.getKetword());
+            view.txtKeyword.setText(taskAlert.getKeyword());
 
-            if (taskAlert.getAlert_type().equalsIgnoreCase("remote")) {
+            if (taskAlert.getType().equalsIgnoreCase("remote")) {
                 view.txtTypeDetail.setText(R.string.remote_task);
             } else {
-                view.txtTypeDetail.setText(String.format(Locale.ENGLISH, "%s, %d KM Radius", taskAlert.getSuburb(), taskAlert.getDistance()));
+                view.txtTypeDetail.setText(String.format(Locale.ENGLISH, "%s, %dKM Radius", taskAlert.getLocation(), taskAlert.getDistance()));
             }
 
             view.imgMinus.setOnClickListener(v -> {
@@ -109,7 +110,7 @@ public class TaskAlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-    public void addItems(List<TaskAlert> mItems) {
+    public void addItems(List<Data> mItems) {
         this.items.clear();
         this.items.addAll(mItems);
         notifyDataSetChanged();

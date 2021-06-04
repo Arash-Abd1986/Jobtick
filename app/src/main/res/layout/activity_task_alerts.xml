@@ -31,6 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_medium"
+                    android:visibility="gone"
                     android:layout_marginEnd="@dimen/spacing_large"
                     android:layout_marginBottom="@dimen/spacing_large"
                     android:orientation="vertical">
@@ -38,6 +39,7 @@
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:text="Turn on job alerts to receive notification about any jobs meeting your skills."
                         android:textAppearance="@style/materialText_500_14"
                         android:textColor="@color/N500" />

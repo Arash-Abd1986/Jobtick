@@ -41,8 +41,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlertsInPersonFragment.OperationInPersonListener,
-        NewTaskAlertsRemoteFragment.OperationRemoteListener {
+public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlertsInPersonFragment.OperationInPersonListener{
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
@@ -107,7 +106,7 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
 
 
     @Override
-    public void onInPersonSave(int position, TaskAlert taskAlert) {
+    public void onInPersonSave(int position, TaskAlert taskAlert, String minPrice, String maxPrice) {
         this.taskAlert = taskAlert;
         this.position = position;
         if (taskAlert.getAlert_type().equals("physical")) {
@@ -119,19 +118,11 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
             taskAlert.setLongitude(null);
             taskAlert.setSuburb(null);
         }
-        addTaskAlert(this.taskAlert);
-    }
-
-    @Override
-    public void onRemoteSave(int position, TaskAlert taskAlert) {
-        this.taskAlert = taskAlert;
-        this.position = position;
-        addTaskAlert(this.taskAlert);
-
+        addTaskAlert(this.taskAlert,minPrice, maxPrice);
     }
 
 
-    private void addTaskAlert(TaskAlert taskAlert) {
+    private void addTaskAlert(TaskAlert taskAlert, String minPrice,String maxPrice) {
         //{{baseurl}}/taskalerts
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, Constant.URL_TASK_ALERT_V2,
@@ -201,8 +192,8 @@ public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlerts
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("keyword", taskAlert.getKetword());
                 map1.put("type", taskAlert.getAlert_type());
-                map1.put("minprice", "0");
-                map1.put("maxprice", "55");
+                map1.put("minprice", minPrice);
+                map1.put("maxprice", maxPrice);
                 if (taskAlert.getAlert_type().equals("physical")) {
                     map1.put("location", taskAlert.getSuburb());
                     map1.put("latitude", taskAlert.getLattitude().toString());

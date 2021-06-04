@@ -126,8 +126,8 @@ class SettingActivity : AppCompatActivity() {
 
     private fun setClick() {
         jobAlertSettings!!.setOnClickListener {
-//            val taskAlerts = Intent(this@SettingActivity, TaskAlertsActivity::class.java)
-//            startActivity(taskAlerts)
+            val taskAlerts = Intent(this@SettingActivity, TaskAlertsActivity::class.java)
+            startActivity(taskAlerts)
         }
 
         helpTopicsSetting!!.setOnClickListener {

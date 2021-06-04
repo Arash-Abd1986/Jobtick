@@ -12,8 +12,8 @@ import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import butterknife.OnClick
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import com.jobtick.android.R
 import com.jobtick.android.activities.NewTaskAlertsActivity
@@ -38,9 +38,13 @@ class NewTaskAlertsInPersonFragment : Fragment(), SubClickListener {
     var rbRemote: SwitchCompat? = null
     var txtDistanceKm: TextView? = null
     var skDistance: Slider? = null
+    var skPrice: RangeSlider? = null
 
-    private var db_latitude: Double? = null
-    private var db_longitude: Double? = null
+    private var dbLatitude: Double? = null
+    private var dbLongitude: Double? = null
+    private var minPrice: String = "5"
+    private var maxPrice: String = "9999"
+
     var taskAlert: TaskAlert? = null
     var position = 0
     private var operationInPersonListener: OperationInPersonListener? = null
@@ -132,6 +136,7 @@ class NewTaskAlertsInPersonFragment : Fragment(), SubClickListener {
         rbRemote = requireView().findViewById(R.id.rb_remote)
         txtDistanceKm = requireView().findViewById(R.id.txt_distance_km)
         skDistance = requireView().findViewById(R.id.sk_distance)
+        skPrice = requireView().findViewById(R.id.sk_price)
         btnUpdate!!.setOnClickListener {
             onUpdateClicked()
         }
@@ -144,6 +149,10 @@ class NewTaskAlertsInPersonFragment : Fragment(), SubClickListener {
             } else {
                 txtDistanceKm!!.setText(R.string.plus_100_km)
             }
+        })
+        skPrice!!.addOnChangeListener(RangeSlider.OnChangeListener { slider: RangeSlider, value: Float, fromUser: Boolean ->
+            minPrice = ((slider.values[0] as Float).toInt()).toString()
+            maxPrice = ((slider.values[1] as Float).toInt()).toString()
         })
     }
 
@@ -159,19 +168,26 @@ class NewTaskAlertsInPersonFragment : Fragment(), SubClickListener {
 
     fun onUpdateClicked() {
         when (validationCode) {
-                0 -> {
+            0 -> {
+                if (rbInPerson!!.isChecked) {
                     taskAlert!!.alert_type = "physical"
                     if (skDistance!!.value != 101f) taskAlert!!.distance = skDistance!!.value.toInt() else {
                         taskAlert!!.distance = Constant.MAX_FILTER_DISTANCE_IN_KILOMETERS
                     }
                     taskAlert!!.ketword = edtKeyword!!.text.trim { it <= ' ' }
                     taskAlert!!.suburb = txtSuburb!!.text.trim { it <= ' ' }
-                    taskAlert!!.lattitude  = db_latitude
-                    taskAlert!!.longitude  = db_longitude
-                    operationInPersonListener!!.onInPersonSave(position, taskAlert)
+                    taskAlert!!.lattitude = dbLatitude
+                    taskAlert!!.longitude = dbLongitude
+                    operationInPersonListener!!.onInPersonSave(position, taskAlert, minPrice, maxPrice)
                 }
-                2 ->  txtSuburb!!.setError("Select suburb");
-                1 -> edtKeyword!!.setError("Please enter keyword")
+                if (rbRemote!!.isChecked) {
+                    taskAlert!!.alert_type = "remote"
+                    taskAlert!!.ketword = edtKeyword!!.text.trim { it <= ' ' }
+                    operationInPersonListener!!.onInPersonSave(position, taskAlert, minPrice, maxPrice)
+                }
+            }
+            2 -> txtSuburb!!.setError("Select suburb");
+            1 -> edtKeyword!!.setError("Please enter keyword")
 
         }
     }
@@ -181,7 +197,7 @@ class NewTaskAlertsInPersonFragment : Fragment(), SubClickListener {
             TextUtils.isEmpty(edtKeyword!!.text.trim { it <= ' ' }) -> {
                 1
             }
-            TextUtils.isEmpty(txtSuburb!!.text.trim { it <= ' ' }) -> {
+            TextUtils.isEmpty(txtSuburb!!.text.trim { it <= ' ' }) and (rbInPerson!!.isChecked) -> {
                 2
             }
             else -> 0
@@ -189,12 +205,12 @@ class NewTaskAlertsInPersonFragment : Fragment(), SubClickListener {
 
     override fun clickOnSearchedLoc(location: Feature) {
         txtSuburb!!.text = location.place_name_en
-        db_latitude = location.geometry!!.coordinates!![1]
-        db_longitude = location.geometry.coordinates!![0]
+        dbLatitude = location.geometry!!.coordinates!![1]
+        dbLongitude = location.geometry.coordinates!![0]
     }
 
     interface OperationInPersonListener {
-        fun onInPersonSave(position: Int, taskAlert: TaskAlert?)
+        fun onInPersonSave(position: Int, taskAlert: TaskAlert?, minPrice: String, maxPrice: String)
     }
 
     companion object {

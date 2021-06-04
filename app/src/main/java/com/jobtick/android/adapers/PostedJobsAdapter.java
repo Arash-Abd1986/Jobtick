@@ -2,9 +2,11 @@ package com.jobtick.android.adapers;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,9 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.android.R;
 import com.jobtick.android.models.response.home.PostedJob;
-import com.jobtick.android.models.response.myjobs.Data;
 import com.jobtick.android.utils.ImageUtil;
-import com.jobtick.android.utils.TimeHelper;
 import com.jobtick.android.utils.Tools;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -164,6 +164,9 @@ public class PostedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.txt_budget)
         TextView txtBudget;
         @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.txt_location)
+        TextView txtLocation;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_status)
         TextView txtStatus;
         @SuppressLint("NonConstantResourceId")
@@ -175,6 +178,9 @@ public class PostedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.content)
         View content;
+        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.location_container)
+        LinearLayout locationContainer;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -188,13 +194,14 @@ public class PostedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         public void onBind(int position) {
             super.onBind(position);
             PostedJob item = mItems.get(position);
-            if (position == mItems.size() -1){
+            if (position == mItems.size() - 1) {
                 sepLine.setVisibility(View.GONE);
-            }else{
+            } else {
                 sepLine.setVisibility(View.VISIBLE);
             }
             if (item.getOffers() != null)
                 if (item.getOffers().size() > 0) {
+                    locationContainer.setVisibility(View.GONE);
                     rlImages.setVisibility(View.VISIBLE);
                     txtOfferCount.setTextColor(ContextCompat.getColor(context, R.color.N900));
                     if (item.getOffers().size() >= 4) {
@@ -277,6 +284,7 @@ public class PostedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     //imgAvatar3.setImageResource(R.drawable.pic);
                     rlImages.setVisibility(View.GONE);
                     txtOfferCount.setText("");
+                    locationContainer.setVisibility(View.VISIBLE);
                 }
             else {
                 imgAvatar3.setVisibility(View.GONE);
@@ -285,11 +293,14 @@ public class PostedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 imgAvatar0.setVisibility(View.GONE);
                 rlImages.setVisibility(View.GONE);
                 txtOfferCount.setText("");
+                locationContainer.setVisibility(View.VISIBLE);
                 txtOfferCount.setTextColor(ContextCompat.getColor(context, R.color.N300));
                 //imgAvatar3.setImageResource(R.drawable.pic);
             }
-
-
+            if (item.getLocation() != null)
+                txtLocation.setText(item.getLocation());
+            else
+                txtLocation.setText("Remote");
             txtTitle.setText(item.getTitle());
 
             if (item.getAmount() != null) {

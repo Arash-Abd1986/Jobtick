@@ -22,6 +22,7 @@ import com.jobtick.android.R
 import com.jobtick.android.activities.*
 import com.jobtick.android.adapers.OfferedJobsAdapter
 import com.jobtick.android.adapers.PostedJobsAdapter
+import com.jobtick.android.adapers.RecommendedJobsAdapter
 import com.jobtick.android.models.response.home.Banner
 import com.jobtick.android.models.response.home.OfferedJob
 import com.jobtick.android.models.response.home.Payment
@@ -32,7 +33,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
 
-class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJobsAdapter.OnItemClickListener {
+class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJobsAdapter.OnItemClickListener, RecommendedJobsAdapter.OnItemClickListener {
     private var name: TextView? = null
     private var bannerTXT: TextView? = null
     private var txtIncomeAmount: AutoResizeTextView? = null
@@ -55,8 +56,10 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
     private var space: Space? = null
     private var rlRecentJobs: RelativeLayout? = null
     private var rlOfferedJobs: RelativeLayout? = null
+    private var rlRecommendedJobs: RelativeLayout? = null
     private var updateProfile: TextView? = null
     private var seeAllPostedJobs: TextView? = null
+    private var seeAllRecommendedJobs: TextView? = null
     private var seeAllOfferedJobs: TextView? = null
     private var seeAllRecentJobs: TextView? = null
     private var myJobs: TextView? = null
@@ -64,6 +67,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
     private var recyclerPostedJobs: RecyclerView? = null
     private var recyclerRecentJobs: RecyclerView? = null
     private var recyclerOfferedJobs: RecyclerView? = null
+    private var recyclerRecommendedJobs: RecyclerView? = null
     private var linAction: LinearLayout? = null
 
     @SuppressLint("NonConstantResourceId")
@@ -74,8 +78,10 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
     private var navigator: Navigator? = null
     private lateinit var viewModel: HomeFragmentViewModel
     private lateinit var postedJobsAdapter: PostedJobsAdapter
+    private lateinit var recommendedJobsAdapter: RecommendedJobsAdapter
     private lateinit var offeredJobsAdapter: OfferedJobsAdapter
     private var hasPostedJob = false
+    private var hasRecommendedJobs = false
     private var hasOfferedJob = false
     private var hasRecentJobs = false
     private var hasBanner = false
@@ -83,6 +89,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
     private val recentJobs: ArrayList<PostedJob> = ArrayList()
     private val offeredJobs: ArrayList<OfferedJob> = ArrayList()
     private val postedJobs: ArrayList<PostedJob> = ArrayList()
+    private val recommendedJobs: ArrayList<PostedJob> = ArrayList()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -153,6 +160,11 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                 rlPostedJobs!!.visibility = View.VISIBLE
             } else
                 rlPostedJobs!!.visibility = View.GONE
+            if (hasRecommendedJobs) {
+                setRecommendedJobs(postedJobs)
+                rlRecommendedJobs!!.visibility = View.VISIBLE
+            } else
+                rlRecommendedJobs!!.visibility = View.GONE
 
             if (hasBanner)
                 rlBanner!!.visibility = View.VISIBLE
@@ -168,6 +180,12 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
                 dashboardActivity.hideProgressDialog()
+            }
+
+            if ((sessionManager!!.role == "worker") && hasRecommendedJobs) {
+                rlRecentJobs!!.visibility = View.GONE
+            }else{
+                rlRecommendedJobs!!.visibility = View.GONE
             }
         })
         viewModel.getError().observe(viewLifecycleOwner, androidx.lifecycle.Observer { jsonObject ->
@@ -213,6 +231,21 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                     hasPostedJob = true
                     try {
                         linMain!!.addView(rlPostedJobs)
+                    } catch (e: java.lang.Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+            item.getString("type") == "recommended-jobs" -> {
+                val jsonArrayData = item.getJSONArray("data")
+                for (j in 0 until jsonArrayData.length()) {
+                    val itemData = jsonArrayData.getJSONObject(j)
+                    recommendedJobs.add(Gson().fromJson(itemData.toString(), PostedJob::class.java))
+                }
+                if (recommendedJobs.isNotEmpty()) {
+                    hasRecommendedJobs = true
+                    try {
+                        linMain!!.addView(rlRecommendedJobs)
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()
                     }
@@ -333,6 +366,17 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
         postedJobsAdapter.setOnItemClickListener(this)
     }
 
+    private fun setRecommendedJobs(recommendedJobs: List<PostedJob>?) {
+        val layoutManager = LinearLayoutManager(context)
+        recyclerRecommendedJobs!!.layoutManager = layoutManager
+        recommendedJobsAdapter = if (recommendedJobs!!.size > 2)
+            RecommendedJobsAdapter(recommendedJobs.subList(0, 3), null)
+        else
+            RecommendedJobsAdapter(recommendedJobs, null)
+        recyclerRecommendedJobs!!.adapter = recommendedJobsAdapter
+        recommendedJobsAdapter.setOnItemClickListener(this)
+    }
+
     private fun setRecentJobs(recentJobs: List<PostedJob>?) {
         val layoutManager = LinearLayoutManager(context)
         recyclerRecentJobs!!.layoutManager = layoutManager
@@ -412,10 +456,13 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
         rlAction = requireView().findViewById(R.id.rl_action)
         rlRecentJobs = requireView().findViewById(R.id.rl_recent_jobs)
         rlOfferedJobs = requireView().findViewById(R.id.rl_offered_jobs)
+        rlRecommendedJobs = requireView().findViewById(R.id.rl_recommended_jobs)
         recyclerRecentJobs = requireView().findViewById(R.id.recycler_recent_jobs)
         recyclerPostedJobs = requireView().findViewById(R.id.recycler_posted_jobs)
         recyclerOfferedJobs = requireView().findViewById(R.id.recycler_offered_jobs)
+        recyclerRecommendedJobs = requireView().findViewById(R.id.recycler_recommended_jobs)
         seeAllPostedJobs = requireView().findViewById(R.id.see_all_posted_jobs)
+        seeAllRecommendedJobs = requireView().findViewById(R.id.see_all_recommended_jobs)
         seeAllOfferedJobs = requireView().findViewById(R.id.see_all_offered_jobs)
         seeAllRecentJobs = requireView().findViewById(R.id.see_all_recent_jobs)
         rlTop = requireView().findViewById(R.id.rl_top)

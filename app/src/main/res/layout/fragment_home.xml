@@ -247,7 +247,45 @@
                     android:layout_marginTop="12dp"
                     android:overScrollMode="never" />
             </RelativeLayout>
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rl_recommended_jobs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/shape_rounded_back_card_white"
+                android:padding="12dp">
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/recommended_job_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="Recommended jobs"
+                    android:textAppearance="@style/materialText_400_16"
+                    android:textColor="@color/textColor" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/see_all_recommended_jobs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="8dp"
+                    android:visibility="invisible"
+                    android:text="See all"
+                    android:textAppearance="@style/materialText_400_15"
+                    android:textColor="@color/P300" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_recommended_jobs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/recommended_job_title"
+                    android:layout_marginTop="12dp"
+                    android:overScrollMode="never" />
+            </RelativeLayout>
             <Space
                 android:id="@+id/space"
                 android:layout_width="0dp"

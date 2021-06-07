@@ -1,6 +1,7 @@
 package com.jobtick.android.retrofit
 
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -31,19 +32,24 @@ interface ApiInterface {
                              @Header("authorization") auth: String?,
                              @Part file: MultipartBody.Part?): Call<String?>?
 
+    @POST("profile/update")
+    fun uploadProfile(@Header("X-Requested-With") XMLHttpRequest: String?,
+                      @Header("authorization") auth: String?,
+                      @Body body: RequestBody): Call<String?>?
+
     @Multipart
     @POST("chat/send")
     fun sendMessageWithImage(@Header("X-Requested-With") XMLHttpRequest: String,
-                           @Header("authorization") auth: String,
-                           @Part file: MultipartBody.Part?,
-                           @Query("conversation_id") conversation_id: String,
-                           @Query("message") message: String): Call<String>
+                             @Header("authorization") auth: String,
+                             @Part file: MultipartBody.Part?,
+                             @Query("conversation_id") conversation_id: String,
+                             @Query("message") message: String): Call<String>
 
     @POST("chat/send")
     fun sendMessage(@Header("X-Requested-With") XMLHttpRequest: String,
-                           @Header("authorization") auth: String,
-                           @Query("conversation_id") conversation_id: String,
-                           @Query("message") message: String): Call<String>
+                    @Header("authorization") auth: String,
+                    @Query("conversation_id") conversation_id: String,
+                    @Query("message") message: String): Call<String>
 
     //when you want to delete attachment from edit job
     @DELETE("tasks/{task-slug}/attachment")

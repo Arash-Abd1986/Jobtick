@@ -1,1251 +1,1253 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.annotation.SuppressLint
+import android.content.DialogInterface
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Bundle
+import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
+import android.util.Log
+import android.view.View
+import android.widget.*
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import butterknife.BindView
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.jobtick.android.BuildConfig
+import com.jobtick.android.R
+import com.jobtick.android.adapers.AttachmentAdapter
+import com.jobtick.android.adapers.AttachmentAdapterEditProfile
+import com.jobtick.android.adapers.SuburbSearchAdapter.SubClickListener
+import com.jobtick.android.fragments.DatePickerBottomSheet
+import com.jobtick.android.fragments.DatePickerBottomSheet.DateChange
+import com.jobtick.android.fragments.ProfileFragment
+import com.jobtick.android.fragments.SearchSuburbBottomSheet
+import com.jobtick.android.models.AttachmentModel
+import com.jobtick.android.models.UserAccountModel
+import com.jobtick.android.models.response.searchsuburb.Feature
+import com.jobtick.android.retrofit.ApiClient
+import com.jobtick.android.utils.*
+import com.jobtick.android.widget.ExtendedCommentText
+import com.jobtick.android.widget.ExtendedEntryText
+import com.jobtick.android.widget.SpacingItemDecoration
+import com.mikhaellopez.circularimageview.CircularImageView
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import org.json.JSONException
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import timber.log.Timber
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemClickListener, SubClickListener, DateChange {
+    private val PLACE_SELECTION_REQUEST_CODE = 1
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.jobtick.android.BuildConfig;
-import com.jobtick.android.R;
-import com.jobtick.android.adapers.AttachmentAdapter;
-import com.jobtick.android.adapers.AttachmentAdapterEditProfile;
-import com.jobtick.android.adapers.SuburbSearchAdapter;
-import com.jobtick.android.fragments.DatePickerBottomSheet;
-import com.jobtick.android.fragments.SearchSuburbBottomSheet;
-import com.jobtick.android.models.AttachmentModel;
-import com.jobtick.android.models.UserAccountModel;
-import com.jobtick.android.models.response.searchsuburb.Feature;
-import com.jobtick.android.retrofit.ApiClient;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.ConstantKey;
-import com.jobtick.android.utils.Helper;
-import com.jobtick.android.utils.HttpStatus;
-import com.jobtick.android.utils.SuburbAutoComplete;
-import com.jobtick.android.utils.TimeHelper;
-import com.jobtick.android.utils.Tools;
-import com.jobtick.android.widget.ExtendedCommentText;
-import com.jobtick.android.widget.ExtendedEntryText;
-import com.jobtick.android.widget.SpacingItemDecoration;
-import com.mikhaellopez.circularimageview.CircularImageView;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import timber.log.Timber;
-
-import static com.jobtick.android.activities.DashboardActivity.onProfileupdatelistenerSideMenu;
-import static com.jobtick.android.fragments.ProfileFragment.onProfileupdatelistener;
-import static com.jobtick.android.utils.Constant.MIN_AGE_FOR_USE_APP;
-import static com.jobtick.android.utils.Constant.URL_REMOVE_AVTAR;
-
-public class
-EditProfileActivity extends ActivityBase implements AttachmentAdapterEditProfile.OnItemClickListener,
-        SuburbSearchAdapter.SubClickListener, DatePickerBottomSheet.DateChange {
-
-    private final int PLACE_SELECTION_REQUEST_CODE = 1;
-    public static final int PHONE_VERIFICATION_REQUEST_CODE = 500;
-
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_first_name)
-    ExtendedEntryText edtFirstName;
+    var edtFirstName: ExtendedEntryText? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_last_name)
-    ExtendedEntryText edtLastName;
+    var edtLastName: ExtendedEntryText? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_suburb)
-    ExtendedEntryText txtSuburb;
+    var txtSuburb: ExtendedEntryText? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_tagline)
-    ExtendedEntryText edtTagline;
+    var edtTagline: ExtendedEntryText? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_phone_number)
-    ExtendedEntryText edtPhoneNumber;
+    var edtPhoneNumber: ExtendedEntryText? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_about_me)
-    ExtendedCommentText edtAboutMe;
+    var edtAboutMe: ExtendedCommentText? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_email_address)
-    ExtendedEntryText edtEmailAddress;
+    var edtEmailAddress: ExtendedEntryText? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_birth_date)
-    ExtendedEntryText txtBirthDate;
+    var txtBirthDate: ExtendedEntryText? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.edt_business_number)
-    ExtendedEntryText edtBusinessNumber;
+    var edtBusinessNumber: ExtendedEntryText? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_transportation_back)
-    ImageView imgTransportationBack;
+    var imgTransportationBack: ImageView? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+    var recyclerView: RecyclerView? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_transportation)
-    TextView txtTransportation;
+    var txtTransportation: TextView? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rlt_btn_transportation)
-    RelativeLayout rltBtnTransportation;
+    var rltBtnTransportation: RelativeLayout? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_languages)
-    TextView txtLanguages;
+    var txtLanguages: TextView? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_languages_back)
-    ImageView imgLanguagesBack;
+    var imgLanguagesBack: ImageView? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rlt_btn_languages)
-    RelativeLayout rltBtnLanguages;
+    var rltBtnLanguages: RelativeLayout? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_education)
-    TextView txtEducation;
+    var txtEducation: TextView? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_education_back)
-    ImageView imgEducationBack;
+    var imgEducationBack: ImageView? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rlt_btn_education)
-    RelativeLayout rltBtnEducation;
+    var rltBtnEducation: RelativeLayout? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_experience)
-    TextView txtExperience;
+    var txtExperience: TextView? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_experience_back)
-    ImageView imgExperienceBack;
+    var imgExperienceBack: ImageView? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_general_info)
-    TextView txtGeneralInfo;
+    var txtGeneralInfo: TextView? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_private_info)
-    TextView txtPrivateInfo;
+    var txtPrivateInfo: TextView? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_portfolio_skills)
-    TextView txtPortfolioSkills;
+    var txtPortfolioSkills: TextView? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llGeneral)
-    LinearLayout llGeneral;
+    var llGeneral: LinearLayout? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llPinfo)
-    LinearLayout llPinfo;
+    var llPinfo: LinearLayout? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.llPS)
-    LinearLayout llPS;
+    var llPS: LinearLayout? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.under_tab3)
-    View underTab3;
+    var underTab3: View? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.under_tab2)
-    View underTab2;
+    var underTab2: View? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.under_tab1)
-    View underTab1;
+    var underTab1: View? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rlt_btn_experience)
-    RelativeLayout rltBtnExperience;
+    var rltBtnExperience: RelativeLayout? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_specialities)
-    TextView txtSpecialities;
+    var txtSpecialities: TextView? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_specialities_back)
-    ImageView imgSpecialitiesBack;
+    var imgSpecialitiesBack: ImageView? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rlt_btn_specialities)
-    RelativeLayout rltBtnSpecialities;
+    var rltBtnSpecialities: RelativeLayout? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bottom_sheet)
-    FrameLayout bottomSheet;
+    var bottomSheet: FrameLayout? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lytDeletePicture)
-    RelativeLayout lytDeletePicture;
+    var lytDeletePicture: RelativeLayout? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.card_save_profile)
-    Button card_save_profile;
+    var cardSaveProfile: Button? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ivBack)
-    ImageView ivBack;
+    var ivBack: ImageView? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.small_plus)
-    FrameLayout smallPlus;
+    var smallPlus: FrameLayout? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.img_user_avatar)
-    CircularImageView imgAvatar;
-
-    private ArrayList<AttachmentModel> attachmentArrayList;
-    private UserAccountModel userAccountModel;
-    private String str_latitude = null;
-    private String str_longitude = null;
-    private BottomSheetBehavior mBehavior;
-    private String str_DOB_MODEL = "";
-    private AttachmentAdapterEditProfile adapter;
-    private UploadableImage uploadableImage;
-    private boolean isImageProfile;
-    private int year, month, day;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
-
-        ButterKnife.bind(this);
-
-        attachmentArrayList = new ArrayList<>();
-        mBehavior = BottomSheetBehavior.from(bottomSheet);
-        edtPhoneNumber.setExtendedViewOnClickListener(this::verifyPhone);
-        ivBack.setOnClickListener(v -> onBackPressed());
-
-        init();
-        getAllUserProfileDetails();
-
-        uploadableImage = new AbstractUploadableImageImpl(this) {
-            @Override
-            public void onImageReady(File imageFile) {
-                uploadMedia(imageFile);
+    var imgAvatar: CircularImageView? = null
+    private var attachmentArrayList: ArrayList<AttachmentModel>? = null
+    private var attachmentIDs: ArrayList<String>? = null
+    private var userAccountModel: UserAccountModel? = null
+    private var str_latitude: String? = null
+    private var str_longitude: String? = null
+    private var mBehavior: BottomSheetBehavior<*>? = null
+    private var str_DOB_MODEL = ""
+    private var adapter: AttachmentAdapterEditProfile? = null
+    private var uploadableImage: UploadableImage? = null
+    private var isImageProfile = false
+    private var year = 0
+    private var month = 0
+    private var day = 0
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_edit_profile)
+        initIDs()
+        onViewClick()
+        attachmentArrayList = ArrayList()
+        mBehavior = BottomSheetBehavior.from<FrameLayout?>(bottomSheet!!)
+        edtPhoneNumber!!.setExtendedViewOnClickListener { verifyPhone() }
+        ivBack!!.setOnClickListener { v: View? -> onBackPressed() }
+        init()
+        allUserProfileDetails
+        uploadableImage = object : AbstractUploadableImageImpl(this) {
+            override fun onImageReady(imageFile: File) {
+                uploadMedia(imageFile)
             }
-        };
-    }
-
-
-    private boolean validation() {
-        if (TextUtils.isEmpty(edtFirstName.getText().trim())) {
-            edtFirstName.setError("Enter first name");
-            showToast("Please fill inputs", this);
-            return false;
-        } else if (TextUtils.isEmpty(edtLastName.getText().trim())) {
-            edtLastName.setError("Enter last name");
-            showToast("Please fill inputs", this);
-            return false;
-        } else if (TextUtils.isEmpty(txtSuburb.getText().trim())) {
-            showToast("Please fill inputs", this);
-            txtSuburb.setError("Select your location");
-            return false;
         }
-        return true;
     }
 
-    private void submitProfile() {
-        showProgressDialog();
-        Helper.closeKeyboard(this);
-        String str_fname = edtFirstName.getText().trim();
-        String str_lname = edtLastName.getText().trim();
-        String str_suburb = txtSuburb.getText().trim();
-        String str_tag = edtTagline.getText().trim();
-        String str_about_me = edtAboutMe.getText().trim();
-        String str_business_number = edtBusinessNumber.getText().trim();
+    private fun initIDs() {
+        edtFirstName = findViewById(R.id.edt_first_name)
+        edtLastName = findViewById(R.id.edt_last_name)
+        txtSuburb = findViewById(R.id.txt_suburb)
+        edtTagline = findViewById(R.id.edt_tagline)
+        edtPhoneNumber = findViewById(R.id.edt_phone_number)
+        edtAboutMe = findViewById(R.id.edt_about_me)
+        edtEmailAddress = findViewById(R.id.edt_email_address)
+        txtBirthDate = findViewById(R.id.txt_birth_date)
+        edtBusinessNumber = findViewById(R.id.edt_business_number)
+        imgTransportationBack = findViewById(R.id.img_transportation_back)
+        recyclerView = findViewById(R.id.recycler_view)
+        txtTransportation = findViewById(R.id.txt_transportation)
+        rltBtnTransportation = findViewById(R.id.rlt_btn_transportation)
+        txtLanguages = findViewById(R.id.txt_languages)
+        imgLanguagesBack = findViewById(R.id.img_languages_back)
+        rltBtnLanguages = findViewById(R.id.rlt_btn_languages)
+        txtEducation = findViewById(R.id.txt_education)
+        imgEducationBack = findViewById(R.id.img_education_back)
+        rltBtnEducation = findViewById(R.id.rlt_btn_education)
+        txtExperience = findViewById(R.id.txt_experience)
+        imgExperienceBack = findViewById(R.id.img_experience_back)
+        imgExperienceBack = findViewById(R.id.img_experience_back)
+        txtGeneralInfo = findViewById(R.id.txt_general_info)
+        txtPrivateInfo = findViewById(R.id.txt_private_info)
+        txtPortfolioSkills = findViewById(R.id.txt_portfolio_skills)
+        llGeneral = findViewById(R.id.llGeneral)
+        llPinfo = findViewById(R.id.llPinfo)
+        llPS = findViewById(R.id.llPS)
+        underTab3 = findViewById(R.id.under_tab3)
+        underTab2 = findViewById(R.id.under_tab2)
+        underTab1 = findViewById(R.id.under_tab1)
+        rltBtnExperience = findViewById(R.id.rlt_btn_experience)
+        txtSpecialities = findViewById(R.id.txt_specialities)
+        imgSpecialitiesBack = findViewById(R.id.img_specialities_back)
+        rltBtnSpecialities = findViewById(R.id.rlt_btn_specialities)
+        bottomSheet = findViewById(R.id.bottom_sheet)
+        lytDeletePicture = findViewById(R.id.lytDeletePicture)
+        cardSaveProfile = findViewById(R.id.card_save_profile)
+        ivBack = findViewById(R.id.ivBack)
+        smallPlus = findViewById(R.id.small_plus)
+        imgAvatar = findViewById(R.id.img_user_avatar)
+    }
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_USER_PROFILE_INFO,
-                response -> {
-                    hideProgressDialog();
+    private fun validation(): Boolean {
+        when {
+            TextUtils.isEmpty(edtFirstName!!.text.trim { it <= ' ' }) -> {
+                edtFirstName!!.setError("Enter first name")
+                showToast("Please fill inputs", this)
+                return false
+            }
+            TextUtils.isEmpty(edtLastName!!.text.trim { it <= ' ' }) -> {
+                edtLastName!!.setError("Enter last name")
+                showToast("Please fill inputs", this)
+                return false
+            }
+            TextUtils.isEmpty(txtSuburb!!.text.trim { it <= ' ' }) -> {
+                showToast("Please fill inputs", this)
+                txtSuburb!!.setError("Select your location")
+                return false
+            }
+            else -> return true
+        }
+    }
+    private fun getStringArray(arr: ArrayList<String?>): Array<String?>? {
+
+        // Convert ArrayList to object array
+        val objArr = arr.toArray()
+
+        // convert Object array to String array
+        return Arrays
+                .copyOf(objArr, objArr.size,
+                        Array<String>::class.java)
+    }
+    private fun updateProfile() {
+        showProgressDialog()
+        val call: Call<String?>?
+        showProgressDialog()
+        Helper.closeKeyboard(this)
+        attachmentIDs = ArrayList()
+        attachmentArrayList!!.forEach {
+            attachmentIDs!!.add(it.id.toString())
+        }
+        val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM).apply {
+            addFormDataPart("fname", edtFirstName!!.text.trim { it <= ' ' })
+            addFormDataPart("lname", edtLastName!!.text.trim { it <= ' ' })
+            addFormDataPart("location", txtSuburb!!.text.trim { it <= ' ' })
+            addFormDataPart("tagline", edtTagline!!.text.trim { it <= ' ' })
+            addFormDataPart("about", edtAboutMe!!.text.trim { it <= ' ' })
+            addFormDataPart("business_number", edtBusinessNumber!!.text.trim { it <= ' ' })
+            addFormDataPart("role_as", sessionManager.role)
+            if (str_DOB_MODEL != "")
+                addFormDataPart("dob", str_DOB_MODEL)
+            addFormDataPart("portfolio", attachmentIDs!!.toString())
+//            addFormDataPart("latitude", "")
+//            addFormDataPart("longitude", "")
+//            addFormDataPart("specialities[]", "[]]")
+//            addFormDataPart("transportation[]", "[]")
+//            addFormDataPart("language[]", "[]")
+//            addFormDataPart("experience[]", "")
+//            addFormDataPart("avatar", "")
+//            addFormDataPart("cover", "")
+        }.build()
+
+        call = ApiClient.getClientV2().uploadProfile("XMLHttpRequest", sessionManager.tokenType + " " + sessionManager.accessToken, requestBody)
+        call!!.enqueue(object : Callback<String?> {
+            override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                hideProgressDialog()
+                try {
+                    if (response != null) {
+                        Log.d("EditProfile", "onResponse: "+response.toString())
+                        val jsonObject = JSONObject(response.body())
+                        val jsonObject_user = jsonObject.getJSONObject("data")
+                        val userAccountModel = UserAccountModel().getJsonToModel(jsonObject_user)
+                        sessionManager.userAccount = userAccountModel
+                        sessionManager.latitude = str_latitude
+                        sessionManager.longitude = str_longitude
+                        initDatePicker()
+                        showSuccessToast(jsonObject.getString("message"), this@EditProfileActivity)
+                        if (ProfileFragment.onProfileupdatelistener != null) {
+                            ProfileFragment.onProfileupdatelistener.updateProfile()
+                        }
+                        onBackPressed()
+                    }
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                    showToast("Something Went Wrong", this@EditProfileActivity)
+                }
+            }
+
+            override fun onFailure(call: Call<String?>, t: Throwable) {
+                hideProgressDialog()
+                Timber.e(call.toString())
+            }
+        })
+    }
+
+    private fun submitProfile() {
+        showProgressDialog()
+        Helper.closeKeyboard(this)
+        val str_fname = edtFirstName!!.text.trim { it <= ' ' }
+        val str_lname = edtLastName!!.text.trim { it <= ' ' }
+        val str_suburb = txtSuburb!!.text.trim { it <= ' ' }
+        val str_tag = edtTagline!!.text.trim { it <= ' ' }
+        val str_about_me = edtAboutMe!!.text.trim { it <= ' ' }
+        val str_business_number = edtBusinessNumber!!.text.trim { it <= ' ' }
+        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_USER_PROFILE_INFO,
+                com.android.volley.Response.Listener { response: String? ->
+                    hideProgressDialog()
                     try {
                         if (response != null) {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONObject jsonObject_user = jsonObject.getJSONObject("data");
-
-                            UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
-                            sessionManager.setUserAccount(userAccountModel);
-                            sessionManager.setLatitude(str_latitude);
-                            sessionManager.setLongitude(str_longitude);
-                            initDatePicker();
-                            showSuccessToast(jsonObject.getString("message"), EditProfileActivity.this);
-                            if (onProfileupdatelistener != null) {
-                                onProfileupdatelistener.updateProfile();
+                            val jsonObject = JSONObject(response)
+                            val jsonObject_user = jsonObject.getJSONObject("data")
+                            val userAccountModel = UserAccountModel().getJsonToModel(jsonObject_user)
+                            sessionManager.userAccount = userAccountModel
+                            sessionManager.latitude = str_latitude
+                            sessionManager.longitude = str_longitude
+                            initDatePicker()
+                            showSuccessToast(jsonObject.getString("message"), this@EditProfileActivity)
+                            if (ProfileFragment.onProfileupdatelistener != null) {
+                                ProfileFragment.onProfileupdatelistener.updateProfile()
                             }
-                            onBackPressed();
+                            onBackPressed()
                         }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        showToast("Something Went Wrong", EditProfileActivity.this);
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                        showToast("Something Went Wrong", this@EditProfileActivity)
                     }
                 },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
+                com.android.volley.Response.ErrorListener { error: VolleyError ->
+                    val networkResponse = error.networkResponse
                     if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
+                        val jsonError = String(networkResponse.data)
                         // Print Error!
-
                         try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                            String message = jsonObject_error.getString("message");
-
-                            showToast(message, EditProfileActivity.this);
-
-
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObject_error = jsonObject.getJSONObject("error")
+                            val message = jsonObject_error.getString("message")
+                            showToast(message, this@EditProfileActivity)
                             if (jsonObject_error.has("errors")) {
-
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                                val jsonObject_errors = jsonObject_error.getJSONObject("errors")
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
                         }
                     } else {
-                        showToast("Something Went Wrong", EditProfileActivity.this);
+                        showToast("Something Went Wrong", this@EditProfileActivity)
                     }
-                    hideProgressDialog();
+                    hideProgressDialog()
                 }) {
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-
-                return map1;
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["X-Requested-With"] = "XMLHttpRequest"
+                map1["Authorization"] = "Bearer " + sessionManager.accessToken
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                return map1
             }
 
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("fname", str_fname);
-                map1.put("lname", str_lname);
-                map1.put("location", str_suburb);
-                map1.put("latitude", str_latitude);
-                map1.put("longitude", str_longitude);
-                map1.put("tagline", str_tag);
-                map1.put("business_number", str_business_number);
-                map1.put("about", str_about_me);
-                if (!str_DOB_MODEL.equals("")) {
-                    map1.put("dob", str_DOB_MODEL);
+            override fun getParams(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["fname"] = str_fname
+                map1["lname"] = str_lname
+                map1["location"] = str_suburb
+                map1["latitude"] = str_latitude!!
+                map1["longitude"] = str_longitude!!
+                map1["tagline"] = str_tag
+                map1["business_number"] = str_business_number
+                map1["about"] = str_about_me
+                if (str_DOB_MODEL != "") {
+                    map1["dob"] = str_DOB_MODEL
                 }
-                return map1;
+                return map1
             }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        val requestQueue = Volley.newRequestQueue(this)
+        requestQueue.add(stringRequest)
     }
 
-    private void init() {
-        initTabs();
-        recyclerView.setLayoutManager(new GridLayoutManager(EditProfileActivity.this, 4));
-        recyclerView.addItemDecoration(new SpacingItemDecoration(4, Tools.dpToPx(EditProfileActivity.this, 8), true));
-        recyclerView.setHasFixedSize(true);
+    private fun init() {
+        initTabs()
+        recyclerView!!.layoutManager = GridLayoutManager(this@EditProfileActivity, 4)
+        recyclerView!!.addItemDecoration(SpacingItemDecoration(4, Tools.dpToPx(this@EditProfileActivity, 8), true))
+        recyclerView!!.setHasFixedSize(true)
         //set data and list adapter
-        adapter = new AttachmentAdapterEditProfile(EditProfileActivity.this, attachmentArrayList, true);
-        recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
-
-        txtBirthDate.setExtendedViewOnClickListener(() -> {
-
-            SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date old_date = new Date();
+        adapter = AttachmentAdapterEditProfile(this@EditProfileActivity, attachmentArrayList, true)
+        recyclerView!!.adapter = adapter
+        adapter!!.setOnItemClickListener(this)
+        txtBirthDate!!.setExtendedViewOnClickListener {
+            val utcFormat = SimpleDateFormat("yyyy-MM-dd")
+            var old_date = Date()
             try {
-                old_date = utcFormat.parse(userAccountModel.getDob());
-
-            } catch (Exception e) {
-                e.printStackTrace();
+                old_date = utcFormat.parse(userAccountModel!!.dob)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-            DatePickerBottomSheet datePickerBottomSheet = new DatePickerBottomSheet(new Date(String.valueOf(old_date)).getTime());
-            datePickerBottomSheet.setDchange(this);
-            datePickerBottomSheet.show(this.getSupportFragmentManager(), "");
-        });
-        initDatePicker();
-
-        txtSuburb.setExtendedViewOnClickListener(() -> {
-            SearchSuburbBottomSheet infoBottomSheet = new SearchSuburbBottomSheet(this);
-            infoBottomSheet.show(getSupportFragmentManager(), null);
-        });
-        smallPlus.setOnClickListener(v -> {
-            isImageProfile = false;
-            uploadableImage.showAttachmentImageBottomSheet(false);
-        });
+            val datePickerBottomSheet = DatePickerBottomSheet(Date(old_date.toString()).time)
+            datePickerBottomSheet.dchange = this
+            datePickerBottomSheet.show(this.supportFragmentManager, "")
+        }
+        initDatePicker()
+        txtSuburb!!.setExtendedViewOnClickListener {
+            val infoBottomSheet = SearchSuburbBottomSheet(this)
+            infoBottomSheet.show(supportFragmentManager, null)
+        }
+        smallPlus!!.setOnClickListener { v: View? ->
+            isImageProfile = false
+            uploadableImage!!.showAttachmentImageBottomSheet(false)
+        }
     }
 
-    private void initTabs() {
-        llGeneral.setVisibility(View.VISIBLE);
-        llPinfo.setVisibility(View.GONE);
-        llPS.setVisibility(View.GONE);
-        txtGeneralInfo.setOnClickListener(it -> {
-            llGeneral.setVisibility(View.VISIBLE);
-            llPinfo.setVisibility(View.GONE);
-            llPS.setVisibility(View.GONE);
-            txtGeneralInfo.setTextColor(getColor(R.color.colorAccent));
-            txtPrivateInfo.setTextColor(getColor(R.color.N100));
-            txtPortfolioSkills.setTextColor(getColor(R.color.N100));
-            underTab1.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line_selected));
-            underTab2.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line));
-            underTab3.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line));
-        });
-        txtPrivateInfo.setOnClickListener(it -> {
-            llGeneral.setVisibility(View.GONE);
-            llPinfo.setVisibility(View.VISIBLE);
-            llPS.setVisibility(View.GONE);
-            txtGeneralInfo.setTextColor(getColor(R.color.N100));
-            txtPrivateInfo.setTextColor(getColor(R.color.colorAccent));
-            txtPortfolioSkills.setTextColor(getColor(R.color.N100));
-            underTab1.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line));
-            underTab2.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line_selected));
-            underTab3.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line));
-        });
-        txtPortfolioSkills.setOnClickListener(it -> {
-            llGeneral.setVisibility(View.GONE);
-            llPinfo.setVisibility(View.GONE);
-            llPS.setVisibility(View.VISIBLE);
-            txtGeneralInfo.setTextColor(getColor(R.color.N100));
-            txtPrivateInfo.setTextColor(getColor(R.color.N100));
-            txtPortfolioSkills.setTextColor(getColor(R.color.colorAccent));
-            underTab1.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line));
-            underTab2.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line));
-            underTab3.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_line_selected));
-        });
+    private fun initTabs() {
+        llGeneral!!.visibility = View.VISIBLE
+        llPinfo!!.visibility = View.GONE
+        llPS!!.visibility = View.GONE
+        txtGeneralInfo!!.setOnClickListener { it: View? ->
+            llGeneral!!.visibility = View.VISIBLE
+            llPinfo!!.visibility = View.GONE
+            llPS!!.visibility = View.GONE
+            txtGeneralInfo!!.setTextColor(getColor(R.color.colorAccent))
+            txtPrivateInfo!!.setTextColor(getColor(R.color.N100))
+            txtPortfolioSkills!!.setTextColor(getColor(R.color.N100))
+            underTab1!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line_selected)
+            underTab2!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
+            underTab3!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
+        }
+        txtPrivateInfo!!.setOnClickListener { it: View? ->
+            llGeneral!!.visibility = View.GONE
+            llPinfo!!.visibility = View.VISIBLE
+            llPS!!.visibility = View.GONE
+            txtGeneralInfo!!.setTextColor(getColor(R.color.N100))
+            txtPrivateInfo!!.setTextColor(getColor(R.color.colorAccent))
+            txtPortfolioSkills!!.setTextColor(getColor(R.color.N100))
+            underTab1!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
+            underTab2!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line_selected)
+            underTab3!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
+        }
+        txtPortfolioSkills!!.setOnClickListener { it: View? ->
+            llGeneral!!.visibility = View.GONE
+            llPinfo!!.visibility = View.GONE
+            llPS!!.visibility = View.VISIBLE
+            txtGeneralInfo!!.setTextColor(getColor(R.color.N100))
+            txtPrivateInfo!!.setTextColor(getColor(R.color.N100))
+            txtPortfolioSkills!!.setTextColor(getColor(R.color.colorAccent))
+            underTab1!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
+            underTab2!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
+            underTab3!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line_selected)
+        }
     }
 
-    private void initDatePicker() {
-        userAccountModel = sessionManager.getUserAccount();
-        Calendar calendar = Calendar.getInstance();
-        if (userAccountModel.getDob() != null) {
-            calendar.set(TimeHelper.getYear(userAccountModel.getDob()),
-                    TimeHelper.getMonth(userAccountModel.getDob()),
-                    TimeHelper.getDay(userAccountModel.getDob()));
-
-            year = calendar.get(Calendar.YEAR);
-            month = calendar.get(Calendar.MONTH);
-            day = calendar.get(Calendar.DAY_OF_MONTH);
-
+    private fun initDatePicker() {
+        userAccountModel = sessionManager.userAccount
+        var calendar = Calendar.getInstance()
+        if (userAccountModel!!.getDob() != null) {
+            calendar[TimeHelper.getYear(userAccountModel!!.getDob()), TimeHelper.getMonth(userAccountModel!!.getDob())] = TimeHelper.getDay(userAccountModel!!.getDob())
+            year = calendar[Calendar.YEAR]
+            month = calendar[Calendar.MONTH]
+            day = calendar[Calendar.DAY_OF_MONTH]
         } else {
-            calendar = Calendar.getInstance();
-            calendar.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
-            calendar.add(Calendar.DAY_OF_MONTH, -1);
-            year = calendar.get(Calendar.YEAR);
-            month = calendar.get(Calendar.MONTH);
-            day = calendar.get(Calendar.DAY_OF_MONTH);
+            calendar = Calendar.getInstance()
+            calendar.add(Calendar.YEAR, -Constant.MIN_AGE_FOR_USE_APP)
+            calendar.add(Calendar.DAY_OF_MONTH, -1)
+            year = calendar[Calendar.YEAR]
+            month = calendar[Calendar.MONTH]
+            day = calendar[Calendar.DAY_OF_MONTH]
         }
         //TODO
 //        datePickerDialog = new DatePickerDialog(this,
 //                android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
 //                mDateSetListener,
 //                year, month, day);
-
-        calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, -(MIN_AGE_FOR_USE_APP));
-        calendar.add(Calendar.DAY_OF_MONTH, -1);
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+        calendar = Calendar.getInstance()
+        calendar.add(Calendar.YEAR, -Constant.MIN_AGE_FOR_USE_APP)
+        calendar.add(Calendar.DAY_OF_MONTH, -1)
+        year = calendar[Calendar.YEAR]
+        month = calendar[Calendar.MONTH]
+        day = calendar[Calendar.DAY_OF_MONTH]
 
         //TODO
 //        datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
 //        datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-    }
+    }// map1.put("X-Requested-With", "XMLHttpRequest");
 
-    private void getAllUserProfileDetails() {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-
-                            userAccountModel = new UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"));
-                            /*
-                             * Add Button for empty attachment
-                             * */
-                            setUpAllEditFields(userAccountModel);
-                            attachmentArrayList = userAccountModel.getPortfolio();
-                            // attachmentArrayList.add(new AttachmentModel());
-                            Timber.e("%s", attachmentArrayList.size());
-                            if (attachmentArrayList.size() >= 0) {
-                                recyclerView.setVisibility(View.VISIBLE);
-                                adapter.addItems(attachmentArrayList);
+    /*
+                                * Add Button for empty attachment
+                                * */
+    // attachmentArrayList.add(new AttachmentModel());
+    private val allUserProfileDetails: Unit
+        get() {
+            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_PROFILE + "/" + sessionManager.userAccount.id,
+                    com.android.volley.Response.Listener { response: String? ->
+                        Timber.e(response)
+                        hideProgressDialog()
+                        try {
+                            val jsonObject = JSONObject(response)
+                            Timber.e(jsonObject.toString())
+                            if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                                userAccountModel = UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
+                                /*
+                    * Add Button for empty attachment
+                    * */setUpAllEditFields(userAccountModel)
+                                attachmentArrayList = userAccountModel!!.getPortfolio()
+                                // attachmentArrayList.add(new AttachmentModel());
+                                Timber.e("%s", attachmentArrayList!!.size)
+                                if (attachmentArrayList!!.size >= 0) {
+                                    recyclerView!!.visibility = View.VISIBLE
+                                    adapter!!.addItems(attachmentArrayList)
+                                }
+                            } else {
+                                showToast("Something went wrong", this@EditProfileActivity)
                             }
-                        } else {
-                            showToast("Something went wrong", EditProfileActivity.this);
+                        } catch (e: JSONException) {
+                            showToast("JSONException", this@EditProfileActivity)
+                            Timber.e(e.toString())
+                            e.printStackTrace()
                         }
-
-                    } catch (JSONException e) {
-                        showToast("JSONException", EditProfileActivity.this);
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    errorHandle1(error.networkResponse);
-                    hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                // map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
+                    },
+                    com.android.volley.Response.ErrorListener { error: VolleyError ->
+                        errorHandle1(error.networkResponse)
+                        hideProgressDialog()
+                    }) {
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    // map1.put("X-Requested-With", "XMLHttpRequest");
+                    return map1
+                }
             }
+            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            val requestQueue = Volley.newRequestQueue(this@EditProfileActivity)
+            requestQueue.add(stringRequest)
+            Timber.e(stringRequest.url)
+        }
 
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(EditProfileActivity.this);
-        requestQueue.add(stringRequest);
-        Timber.e(stringRequest.getUrl());
-    }
-
-    private void setUpAllEditFields(UserAccountModel userAccountModel) {
-        transportationSetUp(userAccountModel);
-        languagesSetUp(userAccountModel);
-        educationSetUp(userAccountModel);
-        experienceSetUp(userAccountModel);
-        specialitiesSetUp(userAccountModel);
-
-        edtFirstName.seteContent(userAccountModel.getFname());
-        edtLastName.seteContent(userAccountModel.getLname());
-        edtLastName.seteContent(userAccountModel.getLname());
-        if (userAccountModel.getMobile() != null) {
-            if (userAccountModel.getMobile().length() > 3)
-                edtPhoneNumber.setText("0" + userAccountModel.getMobile().substring(3));
+    private fun setUpAllEditFields(userAccountModel: UserAccountModel?) {
+        transportationSetUp(userAccountModel)
+        languagesSetUp(userAccountModel)
+        educationSetUp(userAccountModel)
+        experienceSetUp(userAccountModel)
+        specialitiesSetUp(userAccountModel)
+        edtFirstName!!.seteContent(userAccountModel!!.fname)
+        edtLastName!!.seteContent(userAccountModel.lname)
+        edtLastName!!.seteContent(userAccountModel.lname)
+        if (userAccountModel.mobile != null) {
+            if (userAccountModel.mobile.length > 3) edtPhoneNumber!!.text = "0" + userAccountModel.mobile.substring(3)
         } else {
-            edtPhoneNumber.seteVerifyVisible(true);
+            edtPhoneNumber!!.seteVerifyVisible(true)
         }
-
-        if (userAccountModel.getMobileVerifiedAt() == null) {
-            edtPhoneNumber.seteVerifyVisible(true);
+        if (userAccountModel.mobileVerifiedAt == null) {
+            edtPhoneNumber!!.seteVerifyVisible(true)
         }
-        edtPhoneNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+        edtPhoneNumber!!.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (s.length > 0) edtPhoneNumber!!.seteVerifyVisible(true) else edtPhoneNumber!!.seteVerifyVisible(false)
             }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0)
-                    edtPhoneNumber.seteVerifyVisible(true);
-                else
-                    edtPhoneNumber.seteVerifyVisible(false);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+            override fun afterTextChanged(s: Editable) {}
+        })
         //edtPaymentId.setText(userAccountModel.get());
-        if (userAccountModel.getLocation() != null) {
-            txtSuburb.seteContent(userAccountModel.getLocation());
-            str_latitude = String.valueOf(userAccountModel.getLatitude());
-            str_longitude = String.valueOf(userAccountModel.getLongitude());
+        if (userAccountModel.location != null) {
+            txtSuburb!!.seteContent(userAccountModel.location)
+            str_latitude = userAccountModel.latitude.toString()
+            str_longitude = userAccountModel.longitude.toString()
         }
-        edtTagline.seteContent(userAccountModel.getTagline());
-        edtAboutMe.seteContent(userAccountModel.getAbout());
-        edtBusinessNumber.seteContent(userAccountModel.getBusiness_number());
-        edtEmailAddress.seteContent(userAccountModel.getEmail());
-        txtBirthDate.setText(Tools.getDayMonthDateTimeFormat(userAccountModel.getDob()));
-
-        if (userAccountModel.getAvatar() != null) {
-            Glide.with(imgAvatar).load(userAccountModel.getAvatar().getThumbUrl()).into(imgAvatar);
-            lytDeletePicture.setVisibility(View.VISIBLE);
+        edtTagline!!.seteContent(userAccountModel.tagline)
+        edtAboutMe!!.seteContent(userAccountModel.about)
+        edtBusinessNumber!!.seteContent(userAccountModel.business_number)
+        edtEmailAddress!!.seteContent(userAccountModel.email)
+        txtBirthDate!!.text = Tools.getDayMonthDateTimeFormat(userAccountModel.dob)
+        if (userAccountModel.avatar != null) {
+            Glide.with(imgAvatar!!).load(userAccountModel.avatar.thumbUrl).into(imgAvatar!!)
+            //lytDeletePicture.setVisibility(View.VISIBLE);
         } else {
-            lytDeletePicture.setVisibility(View.GONE);
-        }
-
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void specialitiesSetUp(UserAccountModel userAccountModel) {
-        if (userAccountModel.getSkills().getSpecialities() != null && userAccountModel.getSkills().getSpecialities().size() != 0) {
-            String str_tag = convertArrayToString(userAccountModel.getSkills().getSpecialities());
-            txtSpecialities.setText("" + userAccountModel.getSkills().getSpecialities().size());
-            txtSpecialities.setVisibility(View.VISIBLE);
-        } else {
-            txtSpecialities.setVisibility(View.VISIBLE);
-            txtSpecialities.setText("0");
+            //lytDeletePicture.setVisibility(View.GONE);
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private void experienceSetUp(UserAccountModel userAccountModel) {
-        if (userAccountModel.getSkills().getExperience() != null && userAccountModel.getSkills().getExperience().size() != 0) {
-            String str_tag = convertArrayToString(userAccountModel.getSkills().getExperience());
-            txtExperience.setText("" + userAccountModel.getSkills().getExperience().size());
-            txtExperience.setVisibility(View.VISIBLE);
+    private fun specialitiesSetUp(userAccountModel: UserAccountModel?) {
+        if (userAccountModel!!.skills.specialities != null && userAccountModel.skills.specialities.size != 0) {
+            val str_tag = convertArrayToString(userAccountModel.skills.specialities)
+            txtSpecialities!!.text = "" + userAccountModel.skills.specialities.size
+            txtSpecialities!!.visibility = View.VISIBLE
         } else {
-            txtExperience.setVisibility(View.VISIBLE);
-            txtExperience.setText("0");
+            txtSpecialities!!.visibility = View.VISIBLE
+            txtSpecialities!!.text = "0"
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private void educationSetUp(UserAccountModel userAccountModel) {
-        if (userAccountModel.getSkills().getEducation() != null && userAccountModel.getSkills().getEducation().size() != 0) {
-            String str_tag = convertArrayToString(userAccountModel.getSkills().getEducation());
-            txtEducation.setText("" + userAccountModel.getSkills().getEducation().size());
-            txtEducation.setVisibility(View.VISIBLE);
+    private fun experienceSetUp(userAccountModel: UserAccountModel?) {
+        if (userAccountModel!!.skills.experience != null && userAccountModel.skills.experience.size != 0) {
+            val str_tag = convertArrayToString(userAccountModel.skills.experience)
+            txtExperience!!.text = "" + userAccountModel.skills.experience.size
+            txtExperience!!.visibility = View.VISIBLE
         } else {
-            txtEducation.setVisibility(View.VISIBLE);
-            txtEducation.setText("0");
+            txtExperience!!.visibility = View.VISIBLE
+            txtExperience!!.text = "0"
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private void languagesSetUp(UserAccountModel userAccountModel) {
-        if (userAccountModel.getSkills().getLanguage() != null && userAccountModel.getSkills().getLanguage().size() != 0) {
-            String str_tag = convertArrayToString(userAccountModel.getSkills().getLanguage());
-            txtLanguages.setText("" + userAccountModel.getSkills().getLanguage().size());
-            txtLanguages.setVisibility(View.VISIBLE);
+    private fun educationSetUp(userAccountModel: UserAccountModel?) {
+        if (userAccountModel!!.skills.education != null && userAccountModel.skills.education.size != 0) {
+            val str_tag = convertArrayToString(userAccountModel.skills.education)
+            txtEducation!!.text = "" + userAccountModel.skills.education.size
+            txtEducation!!.visibility = View.VISIBLE
         } else {
-            txtLanguages.setVisibility(View.VISIBLE);
-            txtLanguages.setText("0");
+            txtEducation!!.visibility = View.VISIBLE
+            txtEducation!!.text = "0"
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private void transportationSetUp(UserAccountModel userAccountModel) {
-        if (userAccountModel.getSkills().getTransportation() != null && userAccountModel.getSkills().getTransportation().size() != 0) {
-            String str_tag = convertArrayToString(userAccountModel.getSkills().getTransportation());
-            txtTransportation.setText("" + userAccountModel.getSkills().getTransportation().size());
-            txtTransportation.setVisibility(View.VISIBLE);
-
+    private fun languagesSetUp(userAccountModel: UserAccountModel?) {
+        if (userAccountModel!!.skills.language != null && userAccountModel.skills.language.size != 0) {
+            val str_tag = convertArrayToString(userAccountModel.skills.language)
+            txtLanguages!!.text = "" + userAccountModel.skills.language.size
+            txtLanguages!!.visibility = View.VISIBLE
         } else {
-            txtTransportation.setVisibility(View.generateViewId());
-            txtTransportation.setText("0");
+            txtLanguages!!.visibility = View.VISIBLE
+            txtLanguages!!.text = "0"
         }
-
     }
 
-    private String convertArrayToString(ArrayList<String> tag) {
-        String str_tag = "";
-        for (String s : tag) {
-            if (str_tag.equals("")) {
-                str_tag = s;
+    @SuppressLint("SetTextI18n")
+    private fun transportationSetUp(userAccountModel: UserAccountModel?) {
+        if (userAccountModel!!.skills.transportation != null && userAccountModel.skills.transportation.size != 0) {
+            val str_tag = convertArrayToString(userAccountModel.skills.transportation)
+            txtTransportation!!.text = "" + userAccountModel.skills.transportation.size
+            txtTransportation!!.visibility = View.VISIBLE
+        } else {
+            txtTransportation!!.visibility = View.generateViewId()
+            txtTransportation!!.text = "0"
+        }
+    }
+
+    private fun convertArrayToString(tag: ArrayList<String>): String {
+        var str_tag = ""
+        for (s in tag) {
+            str_tag = if (str_tag == "") {
+                s
             } else {
-                str_tag = String.format("%s, %s", str_tag, s);
+                String.format("%s, %s", str_tag, s)
             }
         }
-        return str_tag;
+        return str_tag
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 
-    @Override
-    public void onItemClick(View view, AttachmentModel obj, int position, String action) {
-        if (action.equalsIgnoreCase("add")) {
-
-            isImageProfile = false;
-            uploadableImage.showAttachmentImageBottomSheet(false);
-
-        } else if (action.equalsIgnoreCase("delete")) {
-            deleteMediaInAttachment(position);
+    override fun onItemClick(view: View, obj: AttachmentModel, position: Int, action: String) {
+        if (action.equals("add", ignoreCase = true)) {
+            isImageProfile = false
+            uploadableImage!!.showAttachmentImageBottomSheet(false)
+        } else if (action.equals("delete", ignoreCase = true)) {
+            deleteMediaInAttachment(position)
         }
     }
 
-    private void deleteMediaInAttachment(int position) {
-        showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_PROFILE + "/portfolio/" + attachmentArrayList.get(position).getId(),
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
+    private fun deleteMediaInAttachment(position: Int) {
+        showProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(Method.DELETE, Constant.URL_PROFILE + "/portfolio/" + attachmentArrayList!![position].id,
+                com.android.volley.Response.Listener { response: String? ->
+                    Timber.e(response)
+                    hideProgressDialog()
                     try {
-
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
+                        val jsonObject = JSONObject(response)
+                        Timber.e(jsonObject.toString())
 
 
                         /*attachmentArrayList.remove(position);
                         adapter.notifyItemRemoved(position);
-                        adapter.notifyItemRangeRemoved(position, attachmentArrayList.size());*/
-
-                        attachmentArrayList.remove(position);
-                        adapter.DeleteItem(position);
-
-                        showToast("Portfolio Deleted", EditProfileActivity.this);
-
-
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
+                        adapter.notifyItemRangeRemoved(position, attachmentArrayList.size());*/attachmentArrayList!!.removeAt(position)
+                        adapter!!.DeleteItem(position)
+                        showToast("Portfolio Deleted", this@EditProfileActivity)
+                    } catch (e: JSONException) {
+                        Timber.e(e.toString())
+                        e.printStackTrace()
                     }
                 },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser();
-                            hideProgressDialog();
-                            return;
-                        }
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                            if (jsonObject_error.has("message")) {
-                                showToast(jsonObject_error.getString("message"), this);
-                            }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        showToast("Something Went Wrong", EditProfileActivity.this);
-                    }
-                    Timber.e(error.toString());
-                    hideProgressDialog();
-                }) {
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                // map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(EditProfileActivity.this);
-        requestQueue.add(stringRequest);
-        Timber.e(stringRequest.getUrl());
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @OnClick({R.id.rlt_btn_transportation, R.id.rlt_btn_languages,
-            R.id.rlt_btn_education, R.id.rlt_btn_experience, R.id.rlt_btn_specialities, R.id.img_user_avatar, R.id.lytDeletePicture,
-            R.id.card_save_profile})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.card_save_profile:
-                if (validation())
-                    submitProfile();
-
-                break;
-            case R.id.rlt_btn_transportation:
-                Intent intent = new Intent(EditProfileActivity.this, SkillsTagActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel.getSkills().getTransportation());
-                bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.TRANSPORTATION);
-                bundle.putString(ConstantKey.TITLE, "Add your transportation");
-                intent.putExtras(bundle);
-                startActivityForResult(intent, 1);
-                break;
-            case R.id.rlt_btn_languages:
-                intent = new Intent(EditProfileActivity.this, SkillsTagActivity.class);
-                bundle = new Bundle();
-                bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel.getSkills().getLanguage());
-                bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.LANGUAGE);
-                bundle.putString(ConstantKey.TITLE, "Add your language");
-                intent.putExtras(bundle);
-                startActivityForResult(intent, 2);
-                break;
-            case R.id.rlt_btn_education:
-                intent = new Intent(EditProfileActivity.this, SkillsTagActivity.class);
-                bundle = new Bundle();
-                bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel.getSkills().getEducation());
-                bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.EDUCATION);
-                bundle.putString(ConstantKey.TITLE, "Add your education");
-                intent.putExtras(bundle);
-                startActivityForResult(intent, 3);
-                break;
-            case R.id.rlt_btn_experience:
-                intent = new Intent(EditProfileActivity.this, SkillsTagActivity.class);
-                bundle = new Bundle();
-                bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel.getSkills().getExperience());
-                bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.EXPERIENCE);
-                bundle.putString(ConstantKey.TITLE, "Add your occupation");
-                intent.putExtras(bundle);
-                startActivityForResult(intent, 4);
-                break;
-            case R.id.rlt_btn_specialities:
-                intent = new Intent(EditProfileActivity.this, SkillsTagActivity.class);
-                bundle = new Bundle();
-                bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel.getSkills().getSpecialities());
-                bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.SPECIALITIES);
-                bundle.putString(ConstantKey.TITLE, "Add your certificate");
-                intent.putExtras(bundle);
-                startActivityForResult(intent, 5);
-                break;
-            case R.id.img_user_avatar:
-                isImageProfile = true;
-                uploadableImage.showAttachmentImageBottomSheet(true);
-                break;
-            case R.id.lytDeletePicture:
-
-                new MaterialAlertDialogBuilder(EditProfileActivity.this)
-                        .setTitle("")
-                        .setMessage("Remove profile photo?")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes", (dialog1, id) -> {
-                            dialog1.dismiss();
-                            removeProfilePicture();
-                        })
-                        .setNegativeButton("No", (dialog12, id) -> {
-                            //  Action for 'NO' Button
-                            dialog12.cancel();
-
-                        }).show();
-
-                break;
-
-        }
-    }
-
-    private void verifyPhone() {
-        //it should work with Australian Numbers, format: +0* **** ****
-        if (edtPhoneNumber.getText().length() != 10) {
-            showToast("Please enter correct mobile number", EditProfileActivity.this);
-            return;
-        }
-        if (edtPhoneNumber.getText().toString().equals(userAccountModel.getMobile())) {
-            showToast("This mobile number is already registered.", EditProfileActivity.this);
-            return;
-        }
-
-        Intent intent = new Intent(this, MobileVerificationActivity.class);
-        intent.putExtra("phone_number", edtPhoneNumber.getText().toString());
-        startActivityForResult(intent, PHONE_VERIFICATION_REQUEST_CODE);
-    }
-
-    private void uploadDataInPortfolioMediaApi(File pictureFile) {
-        showProgressDialog();
-        Call<String> call;
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
-        MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
-        call = ApiClient.getClient().getPortfolioMediaUpload("XMLHttpRequest",
-                sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
-
-
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(@NotNull Call<String> call, retrofit2.@NotNull Response<String> response) {
-                hideProgressDialog();
-                Timber.e(response.toString());
-                if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
-                    showToast(response.message(), EditProfileActivity.this);
-                    return;
+        com.android.volley.Response.ErrorListener { error: VolleyError ->
+            val networkResponse = error.networkResponse
+            if (networkResponse != null && networkResponse.data != null) {
+                val jsonError = String(networkResponse.data)
+                // Print Error!
+                Timber.e(jsonError)
+                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                    unauthorizedUser()
+                    hideProgressDialog()
+                    return@ErrorListener
                 }
                 try {
-                    String strResponse = response.body();
+                    val jsonObject = JSONObject(jsonError)
+                    val jsonObject_error = jsonObject.getJSONObject("error")
+                    if (jsonObject_error.has("message")) {
+                        showToast(jsonObject_error.getString("message"), this)
+                    }
+                    if (jsonObject_error.has("errors")) {
+                        val jsonObject_errors = jsonObject_error.getJSONObject("errors")
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            } else {
+                showToast("Something Went Wrong", this@EditProfileActivity)
+            }
+            Timber.e(error.toString())
+            hideProgressDialog()
+        }) {
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                // map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1
+            }
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        val requestQueue = Volley.newRequestQueue(this@EditProfileActivity)
+        requestQueue.add(stringRequest)
+        Timber.e(stringRequest.url)
+    }
+
+    private fun onViewClick() {
+        var bundle = Bundle()
+
+        rltBtnTransportation!!.setOnClickListener {
+            val intent = Intent(this@EditProfileActivity, SkillsTagActivity::class.java)
+            bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel!!.skills.transportation)
+            bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.TRANSPORTATION)
+            bundle.putString(ConstantKey.TITLE, "Add your transportation")
+            intent.putExtras(bundle)
+            startActivityForResult(intent, 1)
+        }
+        rltBtnLanguages!!.setOnClickListener {
+            intent = Intent(this@EditProfileActivity, SkillsTagActivity::class.java)
+            bundle = Bundle()
+            bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel!!.skills.language)
+            bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.LANGUAGE)
+            bundle.putString(ConstantKey.TITLE, "Add your language")
+            intent.putExtras(bundle)
+            startActivityForResult(intent, 2)
+        }
+        rltBtnEducation!!.setOnClickListener {
+            intent = Intent(this@EditProfileActivity, SkillsTagActivity::class.java)
+            bundle = Bundle()
+            bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel!!.skills.education)
+            bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.EDUCATION)
+            bundle.putString(ConstantKey.TITLE, "Add your education")
+            intent.putExtras(bundle)
+            startActivityForResult(intent, 3)
+        }
+        rltBtnExperience!!.setOnClickListener {
+            intent = Intent(this@EditProfileActivity, SkillsTagActivity::class.java)
+            bundle = Bundle()
+            bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel!!.skills.experience)
+            bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.EXPERIENCE)
+            bundle.putString(ConstantKey.TITLE, "Add your occupation")
+            intent.putExtras(bundle)
+            startActivityForResult(intent, 4)
+        }
+        rltBtnSpecialities!!.setOnClickListener {
+            intent = Intent(this@EditProfileActivity, SkillsTagActivity::class.java)
+            bundle = Bundle()
+            bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel!!.skills.specialities)
+            bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.SPECIALITIES)
+            bundle.putString(ConstantKey.TITLE, "Add your certificate")
+            intent.putExtras(bundle)
+            startActivityForResult(intent, 5)
+        }
+        imgAvatar!!.setOnClickListener {
+            isImageProfile = true
+            uploadableImage!!.showAttachmentImageBottomSheet(true)
+        }
+        lytDeletePicture!!.setOnClickListener {
+            MaterialAlertDialogBuilder(this@EditProfileActivity)
+                    .setTitle("")
+                    .setMessage("Remove profile photo?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes") { dialog1: DialogInterface, id: Int ->
+                        dialog1.dismiss()
+                        removeProfilePicture()
+                    }
+                    .setNegativeButton("No") { dialog12: DialogInterface, id: Int ->
+                        //  Action for 'NO' Button
+                        dialog12.cancel()
+                    }.show()
+        }
+        cardSaveProfile!!.setOnClickListener {
+            if (validation()) updateProfile()
+        }
+    }
+
+    private fun verifyPhone() {
+        //it should work with Australian Numbers, format: +0* **** ****
+        if (edtPhoneNumber!!.text.length != 10) {
+            showToast("Please enter correct mobile number", this@EditProfileActivity)
+            return
+        }
+        if (edtPhoneNumber!!.text.toString() == userAccountModel!!.mobile) {
+            showToast("This mobile number is already registered.", this@EditProfileActivity)
+            return
+        }
+        val intent = Intent(this, MobileVerificationActivity::class.java)
+        intent.putExtra("phone_number", edtPhoneNumber!!.text.toString())
+        startActivityForResult(intent, PHONE_VERIFICATION_REQUEST_CODE)
+    }
+
+    private fun uploadDataInPortfolioMediaApi(pictureFile: File) {
+        showProgressDialog()
+        val call: Call<String?>?
+        val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
+        val imageFile = MultipartBody.Part.createFormData("media", pictureFile.name, requestFile)
+        call = ApiClient.getClient().getTaskTempAttachmentMediaData("XMLHttpRequest",
+                sessionManager.tokenType + " " + sessionManager.accessToken, imageFile)
+        call!!.enqueue(object : Callback<String?> {
+            override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                hideProgressDialog()
+                Timber.e(response.toString())
+                if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
+                    showToast(response.message(), this@EditProfileActivity)
+                    return
+                }
+                try {
+                    val strResponse = response.body()
                     if (response.code() == HttpStatus.NOT_FOUND) {
-                        showToast("not found", EditProfileActivity.this);
-                        return;
+                        showToast("not found", this@EditProfileActivity)
+                        return
                     }
                     if (response.code() == HttpStatus.AUTH_FAILED) {
-                        unauthorizedUser();
-                        return;
+                        unauthorizedUser()
+                        return
                     }
                     if (response.code() == HttpStatus.SUCCESS) {
-                        Timber.e(strResponse);
-                        JSONObject jsonObject = new JSONObject(strResponse);
-                        Timber.e(jsonObject.toString());
+                        Timber.e(strResponse)
+                        val jsonObject = JSONObject(strResponse)
+                        Timber.e(jsonObject.toString())
                         if (jsonObject.has("data")) {
-                            AttachmentModel attachment = new AttachmentModel();
-                            JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                            if (jsonObject_data.has("id") && !jsonObject_data.isNull("id"))
-                                attachment.setId(jsonObject_data.getInt("id"));
-                            if (jsonObject_data.has("name") && !jsonObject_data.isNull("name"))
-                                attachment.setName(jsonObject_data.getString("name"));
-                            if (jsonObject_data.has("file_name") && !jsonObject_data.isNull("file_name"))
-                                attachment.setFileName(jsonObject_data.getString("file_name"));
-                            if (jsonObject_data.has("mime") && !jsonObject_data.isNull("mime"))
-                                attachment.setMime(jsonObject_data.getString("mime"));
-                            if (jsonObject_data.has("url") && !jsonObject_data.isNull("url"))
-                                attachment.setUrl(jsonObject_data.getString("url"));
-                            if (jsonObject_data.has("thumb_url") && !jsonObject_data.isNull("thumb_url"))
-                                attachment.setThumbUrl(jsonObject_data.getString("thumb_url"));
-                            if (jsonObject_data.has("modal_url") && !jsonObject_data.isNull("modal_url"))
-                                attachment.setModalUrl(jsonObject_data.getString("modal_url"));
-                            if (jsonObject_data.has("created_at") && !jsonObject_data.isNull("created_at"))
-                                attachment.setCreatedAt(jsonObject_data.getString("created_at"));
-                            attachment.setType(AttachmentAdapter.VIEW_TYPE_IMAGE);
-
-                            if (attachmentArrayList.size() != 0) {
-
-                                attachmentArrayList.add(attachmentArrayList.size() - 1, attachment);
-
+                            val attachment = AttachmentModel()
+                            val jsonObject_data = jsonObject.getJSONObject("data")
+                            if (jsonObject_data.has("id") && !jsonObject_data.isNull("id")) attachment.id = jsonObject_data.getInt("id")
+                            if (jsonObject_data.has("name") && !jsonObject_data.isNull("name")) attachment.name = jsonObject_data.getString("name")
+                            if (jsonObject_data.has("file_name") && !jsonObject_data.isNull("file_name")) attachment.fileName = jsonObject_data.getString("file_name")
+                            if (jsonObject_data.has("mime") && !jsonObject_data.isNull("mime")) attachment.mime = jsonObject_data.getString("mime")
+                            if (jsonObject_data.has("url") && !jsonObject_data.isNull("url")) attachment.url = jsonObject_data.getString("url")
+                            if (jsonObject_data.has("thumb_url") && !jsonObject_data.isNull("thumb_url")) attachment.thumbUrl = jsonObject_data.getString("thumb_url")
+                            if (jsonObject_data.has("modal_url") && !jsonObject_data.isNull("modal_url")) attachment.modalUrl = jsonObject_data.getString("modal_url")
+                            if (jsonObject_data.has("created_at") && !jsonObject_data.isNull("created_at")) attachment.createdAt = jsonObject_data.getString("created_at")
+                            attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
+                            if (attachmentArrayList!!.size != 0) {
+                                attachmentArrayList!!.add(attachmentArrayList!!.size - 1, attachment)
                             }
                         }
-
-
-                        ArrayList<AttachmentModel> updateAttachment = new ArrayList<>(attachmentArrayList);
-
-                        attachmentArrayList.clear();
-                        attachmentArrayList.addAll(updateAttachment);
-                        adapter.clearAll();
-
-                        adapter.addItems(attachmentArrayList);
-
-                        updateAttachment.clear();
+                        val updateAttachment = ArrayList(attachmentArrayList)
+                        attachmentArrayList!!.clear()
+                        attachmentArrayList!!.addAll(updateAttachment)
+                        adapter!!.clearAll()
+                        adapter!!.addItems(attachmentArrayList)
+                        updateAttachment.clear()
                         //adapter.notifyDataSetChanged();
 
 
                         //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
                         // showToast("attachment added", AttachmentActivity.this);
                     } else {
-                        showToast("Something went wrong", EditProfileActivity.this);
+                        showToast("Something went wrong", this@EditProfileActivity)
                     }
-                } catch (JSONException e) {
-                    showToast("Something went wrong", EditProfileActivity.this);
-                    e.printStackTrace();
+                } catch (e: JSONException) {
+                    showToast("Something went wrong", this@EditProfileActivity)
+                    e.printStackTrace()
                 }
             }
 
-            @Override
-            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
-                hideProgressDialog();
-                Timber.e(call.toString());
+            override fun onFailure(call: Call<String?>, t: Throwable) {
+                hideProgressDialog()
+                Timber.e(call.toString())
             }
-        });
+        })
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        uploadableImage.onActivityResult(requestCode, resultCode, data);
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        uploadableImage!!.onActivityResult(requestCode, resultCode, data)
         if (data != null) {
             if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == RESULT_OK) {
-
-                txtSuburb.setText(SuburbAutoComplete.getSuburbName(data));
-                str_latitude = SuburbAutoComplete.getLatitude(data);
-                str_longitude = SuburbAutoComplete.getLongitude(data);
+                txtSuburb!!.text = SuburbAutoComplete.getSuburbName(data)
+                str_latitude = SuburbAutoComplete.getLatitude(data)
+                str_longitude = SuburbAutoComplete.getLongitude(data)
             }
-
             if (requestCode == PHONE_VERIFICATION_REQUEST_CODE && resultCode == RESULT_OK) {
-                getAllUserProfileDetails();
+                allUserProfileDetails
             }
-
-
-            Bundle bundle = data.getExtras();
+            val bundle = data.extras
             if (bundle != null) {
-                if (requestCode == 1) {
-                    userAccountModel.getSkills().setTransportation(bundle.getStringArrayList(ConstantKey.SKILLS));
-                    transportationSetUp(userAccountModel);
-                } else if (requestCode == 2) {
-                    userAccountModel.getSkills().setLanguage(bundle.getStringArrayList(ConstantKey.SKILLS));
-                    languagesSetUp(userAccountModel);
-                } else if (requestCode == 3) {
-                    userAccountModel.getSkills().setEducation(bundle.getStringArrayList(ConstantKey.SKILLS));
-                    educationSetUp(userAccountModel);
-                } else if (requestCode == 4) {
-                    userAccountModel.getSkills().setExperience(bundle.getStringArrayList(ConstantKey.SKILLS));
-                    experienceSetUp(userAccountModel);
-                } else if (requestCode == 5) {
-                    userAccountModel.getSkills().setSpecialities(bundle.getStringArrayList(ConstantKey.SKILLS));
-                    specialitiesSetUp(userAccountModel);
-                } else if (requestCode == 234) {
-                    userAccountModel.setPortfolio(bundle.getParcelableArrayList(ConstantKey.ATTACHMENT));
-                    adapter.clearAll();
-                    attachmentArrayList.clear();
-                    attachmentArrayList = userAccountModel.getPortfolio();
-                    /*
-                     * include add button */
-                    adapter.addItems(attachmentArrayList);
+                when (requestCode) {
+                    1 -> {
+                        userAccountModel!!.skills.transportation = bundle.getStringArrayList(ConstantKey.SKILLS)
+                        transportationSetUp(userAccountModel)
+                    }
+                    2 -> {
+                        userAccountModel!!.skills.language = bundle.getStringArrayList(ConstantKey.SKILLS)
+                        languagesSetUp(userAccountModel)
+                    }
+                    3 -> {
+                        userAccountModel!!.skills.education = bundle.getStringArrayList(ConstantKey.SKILLS)
+                        educationSetUp(userAccountModel)
+                    }
+                    4 -> {
+                        userAccountModel!!.skills.experience = bundle.getStringArrayList(ConstantKey.SKILLS)
+                        experienceSetUp(userAccountModel)
+                    }
+                    5 -> {
+                        userAccountModel!!.skills.specialities = bundle.getStringArrayList(ConstantKey.SKILLS)
+                        specialitiesSetUp(userAccountModel)
+                    }
+                    234 -> {
+                        userAccountModel!!.portfolio = bundle.getParcelableArrayList(ConstantKey.ATTACHMENT)
+                        adapter!!.clearAll()
+                        attachmentArrayList!!.clear()
+                        attachmentArrayList = userAccountModel!!.portfolio
+                        /*
+                             * include add button */adapter!!.addItems(attachmentArrayList)
+                    }
                 }
             }
         }
     }
 
-    private void uploadMedia(File imageFile) {
-        Uri uri = Uri.fromFile(imageFile);
-        Bitmap bitmap = null;
+    private fun uploadMedia(imageFile: File) {
+        val uri = Uri.fromFile(imageFile)
+        var bitmap: Bitmap? = null
         try {
-            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-        } catch (IOException e) {
-            e.printStackTrace();
+            bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
-
-        imgAvatar.setImageBitmap(bitmap);
-
+        imgAvatar!!.setImageBitmap(bitmap)
         if (!isImageProfile) {
-            uploadDataInPortfolioMediaApi(imageFile);
-
+            uploadDataInPortfolioMediaApi(imageFile)
         } else {
-            uploadProfileAvtar(imageFile);
+            uploadProfileAvtar(imageFile)
         }
     }
 
-
-    private void uploadProfileAvtar(File pictureFile) {
-        showProgressDialog();
-        Call<String> call;
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
-        MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
-        call = ApiClient.getClient().uploadProfilePicture("XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
-
-        call.enqueue(new Callback<String>() {
-
-            @Override
-            public void onResponse(@NotNull Call<String> call, retrofit2.@NotNull Response<String> response) {
-                hideProgressDialog();
-                Timber.e(response.toString());
+    private fun uploadProfileAvtar(pictureFile: File) {
+        showProgressDialog()
+        val call: Call<String?>?
+        val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
+        val imageFile = MultipartBody.Part.createFormData("media", pictureFile.name, requestFile)
+        call = ApiClient.getClientV2().uploadProfilePicture("XMLHttpRequest", sessionManager.tokenType + " " + sessionManager.accessToken, imageFile)
+        call!!.enqueue(object : Callback<String?> {
+            override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                hideProgressDialog()
+                Timber.e(response.toString())
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
-                    showToast(response.message(), EditProfileActivity.this);
-                    return;
+                    showToast(response.message(), this@EditProfileActivity)
+                    return
                 }
                 try {
-                    String strResponse = response.body();
+                    val strResponse = response.body()
                     if (response.code() == HttpStatus.NOT_FOUND) {
-                        showToast("not found", EditProfileActivity.this);
-                        return;
+                        showToast("not found", this@EditProfileActivity)
+                        return
                     }
                     if (response.code() == HttpStatus.AUTH_FAILED) {
-                        unauthorizedUser();
-                        return;
+                        unauthorizedUser()
+                        return
                     }
                     if (response.code() == HttpStatus.SUCCESS) {
-                        Timber.e(strResponse);
-                        JSONObject jsonObject = new JSONObject(strResponse);
-                        Timber.e(jsonObject.toString());
+                        Timber.e(strResponse)
+                        val jsonObject = JSONObject(strResponse)
+                        Timber.e(jsonObject.toString())
                         if (jsonObject.has("data")) {
-                            AttachmentModel attachment = new AttachmentModel();
-                            JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                            if (jsonObject_data.has("id") && !jsonObject_data.isNull("id"))
-                                attachment.setId(jsonObject_data.getInt("id"));
-                            if (jsonObject_data.has("name") && !jsonObject_data.isNull("name"))
-                                attachment.setName(jsonObject_data.getString("name"));
-                            if (jsonObject_data.has("file_name") && !jsonObject_data.isNull("file_name"))
-                                attachment.setFileName(jsonObject_data.getString("file_name"));
-                            if (jsonObject_data.has("mime") && !jsonObject_data.isNull("mime"))
-                                attachment.setMime(jsonObject_data.getString("mime"));
-                            if (jsonObject_data.has("url") && !jsonObject_data.isNull("url"))
-                                attachment.setUrl(jsonObject_data.getString("url"));
-                            if (jsonObject_data.has("thumb_url") && !jsonObject_data.isNull("thumb_url"))
-                                attachment.setThumbUrl(jsonObject_data.getString("thumb_url"));
-                            if (jsonObject_data.has("modal_url") && !jsonObject_data.isNull("modal_url"))
-                                attachment.setModalUrl(jsonObject_data.getString("modal_url"));
-                            if (jsonObject_data.has("created_at") && !jsonObject_data.isNull("created_at"))
-                                attachment.setCreatedAt(jsonObject_data.getString("created_at"));
-                            attachment.setType(AttachmentAdapter.VIEW_TYPE_IMAGE);
-
-                            sessionManager.getUserAccount().setAvatar(attachment);
-                            lytDeletePicture.setVisibility(View.VISIBLE);
-                            if (onProfileupdatelistener != null) {
-                                onProfileupdatelistener.updatedSuccesfully(attachment.getThumbUrl());
+                            val attachment = AttachmentModel()
+                            val jsonObject_data = jsonObject.getJSONObject("data")
+                            if (jsonObject_data.has("id") && !jsonObject_data.isNull("id")) attachment.id = jsonObject_data.getInt("id")
+                            if (jsonObject_data.has("name") && !jsonObject_data.isNull("name")) attachment.name = jsonObject_data.getString("name")
+                            if (jsonObject_data.has("file_name") && !jsonObject_data.isNull("file_name")) attachment.fileName = jsonObject_data.getString("file_name")
+                            if (jsonObject_data.has("mime") && !jsonObject_data.isNull("mime")) attachment.mime = jsonObject_data.getString("mime")
+                            if (jsonObject_data.has("url") && !jsonObject_data.isNull("url")) attachment.url = jsonObject_data.getString("url")
+                            if (jsonObject_data.has("thumb_url") && !jsonObject_data.isNull("thumb_url")) attachment.thumbUrl = jsonObject_data.getString("thumb_url")
+                            if (jsonObject_data.has("modal_url") && !jsonObject_data.isNull("modal_url")) attachment.modalUrl = jsonObject_data.getString("modal_url")
+                            if (jsonObject_data.has("created_at") && !jsonObject_data.isNull("created_at")) attachment.createdAt = jsonObject_data.getString("created_at")
+                            attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
+                            sessionManager.userAccount.avatar = attachment
+                            lytDeletePicture!!.visibility = View.VISIBLE
+                            if (ProfileFragment.onProfileupdatelistener != null) {
+                                ProfileFragment.onProfileupdatelistener.updatedSuccesfully(attachment.thumbUrl)
                             }
-                            if (onProfileupdatelistenerSideMenu != null) {
-                                onProfileupdatelistenerSideMenu.updatedSuccesfully(attachment.getThumbUrl());
+                            if (DashboardActivity.onProfileupdatelistenerSideMenu != null) {
+                                DashboardActivity.onProfileupdatelistenerSideMenu!!.updatedSuccesfully(attachment.thumbUrl)
                             }
                         }
                         //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
                         // showToast("attachment added", AttachmentActivity.this);
                     } else {
-                        showToast("Something went wrong", EditProfileActivity.this);
+                        showToast("Something went wrong", this@EditProfileActivity)
                     }
-                } catch (JSONException e) {
-                    showToast("Something went wrong", EditProfileActivity.this);
-                    e.printStackTrace();
+                } catch (e: JSONException) {
+                    showToast("Something went wrong", this@EditProfileActivity)
+                    e.printStackTrace()
                 }
             }
 
-            @Override
-            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
-                hideProgressDialog();
-                Timber.e(call.toString());
+            override fun onFailure(call: Call<String?>, t: Throwable) {
+                hideProgressDialog()
+                Timber.e(call.toString())
             }
-        });
-
+        })
     }
 
-    private void removeProfilePicture() {
-        showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constant.URL_PROFILE + URL_REMOVE_AVTAR,
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
+    private fun removeProfilePicture() {
+        showProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(Method.DELETE, Constant.URL_PROFILE + Constant.URL_REMOVE_AVTAR,
+                com.android.volley.Response.Listener { response: String? ->
+                    Timber.e(response)
+                    hideProgressDialog()
                     try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
+                        val jsonObject = JSONObject(response)
+                        Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                showSuccessToast("Profile Picture has been  Deleted", EditProfileActivity.this);
-                                imgAvatar.setImageResource(R.drawable.ic_circle_logo);
-                                lytDeletePicture.setVisibility(View.GONE);
-                                if (onProfileupdatelistener != null) {
-                                    onProfileupdatelistener.updatedSuccesfully("");
+                                showSuccessToast("Profile Picture has been  Deleted", this@EditProfileActivity)
+                                imgAvatar!!.setImageResource(R.drawable.ic_circle_logo)
+                                lytDeletePicture!!.visibility = View.GONE
+                                if (ProfileFragment.onProfileupdatelistener != null) {
+                                    ProfileFragment.onProfileupdatelistener.updatedSuccesfully("")
                                 }
-                                if (onProfileupdatelistenerSideMenu != null) {
-                                    onProfileupdatelistenerSideMenu.updatedSuccesfully("");
+                                if (DashboardActivity.onProfileupdatelistenerSideMenu != null) {
+                                    DashboardActivity.onProfileupdatelistenerSideMenu!!.updatedSuccesfully("")
                                 }
                             } else {
-                                showToast("Something went Wrong", EditProfileActivity.this);
+                                showToast("Something went Wrong", this@EditProfileActivity)
                             }
                         }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
+                    } catch (e: JSONException) {
+                        Timber.e(e.toString())
+                        e.printStackTrace()
                     }
                 },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser();
-                            hideProgressDialog();
-                            return;
-                        }
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                            if (jsonObject_error.has("message")) {
-                                showToast(jsonObject_error.getString("message"), this);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        showToast("Something Went Wrong", EditProfileActivity.this);
+        com.android.volley.Response.ErrorListener { error: VolleyError ->
+            val networkResponse = error.networkResponse
+            if (networkResponse != null && networkResponse.data != null) {
+                val jsonError = String(networkResponse.data)
+                // Print Error!
+                Timber.e(jsonError)
+                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                    unauthorizedUser()
+                    hideProgressDialog()
+                    return@ErrorListener
+                }
+                try {
+                    val jsonObject = JSONObject(jsonError)
+                    val jsonObject_error = jsonObject.getJSONObject("error")
+                    if (jsonObject_error.has("message")) {
+                        showToast(jsonObject_error.getString("message"), this)
                     }
-                    Timber.e(error.toString());
-                    hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                // map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            } else {
+                showToast("Something Went Wrong", this@EditProfileActivity)
             }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(EditProfileActivity.this);
-        requestQueue.add(stringRequest);
-        Timber.e(stringRequest.getUrl());
-    }
-
-
-    @Override
-    public void clickOnSearchedLoc(@NotNull Feature location) {
-        txtSuburb.setText(location.getPlace_name_en());
-        str_latitude = String.valueOf(location.getGeometry().getCoordinates().get(1));
-        str_longitude = String.valueOf(location.getGeometry().getCoordinates().get(0));
-    }
-
-    @Override
-    public void onDateChange(int year, int monthOfYear, int dayOfMonth) {
-        Date temp = new Date(System.currentTimeMillis());
-        Calendar today = Calendar.getInstance();
-        today.setTime(temp);
-        int currentYear = today.get(Calendar.YEAR);
-        if (currentYear - 13 < year) {
-            showToast("Your age must be over 13", this);
-            return;
+            Timber.e(error.toString())
+            hideProgressDialog()
+        }) {
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                // map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1
+            }
         }
-        Calendar dob = Calendar.getInstance();
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        val requestQueue = Volley.newRequestQueue(this@EditProfileActivity)
+        requestQueue.add(stringRequest)
+        Timber.e(stringRequest.url)
+    }
 
-        dob.set(year, monthOfYear, dayOfMonth);
-        str_DOB_MODEL = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-        this.year = year;
-        this.month = monthOfYear;
-        this.day = dayOfMonth;
-        txtBirthDate.setText(dob.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + " " + dayOfMonth + ", " + year);
+    override fun clickOnSearchedLoc(location: Feature) {
+        txtSuburb!!.text = location.place_name_en
+        str_latitude = location.geometry!!.coordinates!![1].toString()
+        str_longitude = location.geometry.coordinates!![0].toString()
+    }
+
+    override fun onDateChange(year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        val temp = Date(System.currentTimeMillis())
+        val today = Calendar.getInstance()
+        today.time = temp
+        val currentYear = today[Calendar.YEAR]
+        if (currentYear - 13 < year) {
+            showToast("Your age must be over 13", this)
+            return
+        }
+        val dob = Calendar.getInstance()
+        dob[year, monthOfYear] = dayOfMonth
+        str_DOB_MODEL = year.toString() + "-" + (monthOfYear + 1) + "-" + dayOfMonth
+        this.year = year
+        month = monthOfYear
+        day = dayOfMonth
+        txtBirthDate!!.text = dob.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + " " + dayOfMonth + ", " + year
+    }
+
+    companion object {
+        const val PHONE_VERIFICATION_REQUEST_CODE = 500
     }
 }

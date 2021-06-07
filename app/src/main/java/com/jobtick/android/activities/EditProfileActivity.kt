@@ -57,6 +57,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+private const val TAG = "EditProfile"
+
 class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemClickListener, SubClickListener, DateChange {
     private val PLACE_SELECTION_REQUEST_CODE = 1
 
@@ -354,6 +356,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
             else -> return true
         }
     }
+
     private fun getStringArray(arr: ArrayList<String?>): Array<String?>? {
 
         // Convert ArrayList to object array
@@ -364,6 +367,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                 .copyOf(objArr, objArr.size,
                         Array<String>::class.java)
     }
+
     private fun updateProfile() {
         showProgressDialog()
         val call: Call<String?>?
@@ -383,24 +387,45 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
             addFormDataPart("role_as", sessionManager.role)
             if (str_DOB_MODEL != "")
                 addFormDataPart("dob", str_DOB_MODEL)
-            addFormDataPart("portfolio", attachmentIDs!!.toString())
-//            addFormDataPart("latitude", "")
-//            addFormDataPart("longitude", "")
-//            addFormDataPart("specialities[]", "[]]")
-//            addFormDataPart("transportation[]", "[]")
-//            addFormDataPart("language[]", "[]")
-//            addFormDataPart("experience[]", "")
-//            addFormDataPart("avatar", "")
-//            addFormDataPart("cover", "")
-        }.build()
+            if (attachmentIDs!!.size > 0)
+                attachmentIDs!!.forEach {
+                    addFormDataPart("portfolio[]", it)  }
 
+            if (userAccountModel!!.skills.specialities!!.size > 0)
+                userAccountModel!!.skills.specialities.forEach {
+                    addFormDataPart("specialities[]", it)
+                }
+            if (userAccountModel!!.skills.transportation!!.size > 0)
+                userAccountModel!!.skills.transportation!!.forEach {
+                    addFormDataPart("transportation[]", it)
+                }
+
+            if (userAccountModel!!.skills.language!!.size > 0)
+                userAccountModel!!.skills.language!!.forEach {
+                    addFormDataPart("language[]", it) }
+
+            if (userAccountModel!!.skills.education!!.size > 0)
+                userAccountModel!!.skills.education!!.forEach {
+                    addFormDataPart("education[]", it)
+                }
+            if (userAccountModel!!.skills.experience!!.size > 0)
+                userAccountModel!!.skills.experience!!.forEach {
+                    addFormDataPart("experience[]", it)
+                }
+
+            //addFormDataPart("latitude", null)
+            //addFormDataPart("longitude", null)
+            //addFormDataPart("avatar", null)
+            //addFormDataPart("cover", null)
+        }.build()
+        Log.d(TAG, "updateProfile: " + requestBody)
         call = ApiClient.getClientV2().uploadProfile("XMLHttpRequest", sessionManager.tokenType + " " + sessionManager.accessToken, requestBody)
         call!!.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 hideProgressDialog()
                 try {
                     if (response != null) {
-                        Log.d("EditProfile", "onResponse: "+response.toString())
+                        Log.d("EditProfile", "onResponse: " + response.toString())
                         val jsonObject = JSONObject(response.body())
                         val jsonObject_user = jsonObject.getJSONObject("data")
                         val userAccountModel = UserAccountModel().getJsonToModel(jsonObject_user)
@@ -819,35 +844,35 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                         e.printStackTrace()
                     }
                 },
-        com.android.volley.Response.ErrorListener { error: VolleyError ->
-            val networkResponse = error.networkResponse
-            if (networkResponse != null && networkResponse.data != null) {
-                val jsonError = String(networkResponse.data)
-                // Print Error!
-                Timber.e(jsonError)
-                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                    unauthorizedUser()
+                com.android.volley.Response.ErrorListener { error: VolleyError ->
+                    val networkResponse = error.networkResponse
+                    if (networkResponse != null && networkResponse.data != null) {
+                        val jsonError = String(networkResponse.data)
+                        // Print Error!
+                        Timber.e(jsonError)
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser()
+                            hideProgressDialog()
+                            return@ErrorListener
+                        }
+                        try {
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObject_error = jsonObject.getJSONObject("error")
+                            if (jsonObject_error.has("message")) {
+                                showToast(jsonObject_error.getString("message"), this)
+                            }
+                            if (jsonObject_error.has("errors")) {
+                                val jsonObject_errors = jsonObject_error.getJSONObject("errors")
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        showToast("Something Went Wrong", this@EditProfileActivity)
+                    }
+                    Timber.e(error.toString())
                     hideProgressDialog()
-                    return@ErrorListener
-                }
-                try {
-                    val jsonObject = JSONObject(jsonError)
-                    val jsonObject_error = jsonObject.getJSONObject("error")
-                    if (jsonObject_error.has("message")) {
-                        showToast(jsonObject_error.getString("message"), this)
-                    }
-                    if (jsonObject_error.has("errors")) {
-                        val jsonObject_errors = jsonObject_error.getJSONObject("errors")
-                    }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            } else {
-                showToast("Something Went Wrong", this@EditProfileActivity)
-            }
-            Timber.e(error.toString())
-            hideProgressDialog()
-        }) {
+                }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
@@ -990,9 +1015,8 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                             if (jsonObject_data.has("modal_url") && !jsonObject_data.isNull("modal_url")) attachment.modalUrl = jsonObject_data.getString("modal_url")
                             if (jsonObject_data.has("created_at") && !jsonObject_data.isNull("created_at")) attachment.createdAt = jsonObject_data.getString("created_at")
                             attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
-                            if (attachmentArrayList!!.size != 0) {
-                                attachmentArrayList!!.add(attachmentArrayList!!.size - 1, attachment)
-                            }
+                            attachmentArrayList!!.add( attachment)
+
                         }
                         val updateAttachment = ArrayList(attachmentArrayList)
                         attachmentArrayList!!.clear()
@@ -1016,6 +1040,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
 
             override fun onFailure(call: Call<String?>, t: Throwable) {
                 hideProgressDialog()
+                showToast("Something went wrong", this@EditProfileActivity)
                 Timber.e(call.toString())
             }
         })
@@ -1181,32 +1206,32 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                         e.printStackTrace()
                     }
                 },
-        com.android.volley.Response.ErrorListener { error: VolleyError ->
-            val networkResponse = error.networkResponse
-            if (networkResponse != null && networkResponse.data != null) {
-                val jsonError = String(networkResponse.data)
-                // Print Error!
-                Timber.e(jsonError)
-                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                    unauthorizedUser()
-                    hideProgressDialog()
-                    return@ErrorListener
-                }
-                try {
-                    val jsonObject = JSONObject(jsonError)
-                    val jsonObject_error = jsonObject.getJSONObject("error")
-                    if (jsonObject_error.has("message")) {
-                        showToast(jsonObject_error.getString("message"), this)
+                com.android.volley.Response.ErrorListener { error: VolleyError ->
+                    val networkResponse = error.networkResponse
+                    if (networkResponse != null && networkResponse.data != null) {
+                        val jsonError = String(networkResponse.data)
+                        // Print Error!
+                        Timber.e(jsonError)
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser()
+                            hideProgressDialog()
+                            return@ErrorListener
+                        }
+                        try {
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObject_error = jsonObject.getJSONObject("error")
+                            if (jsonObject_error.has("message")) {
+                                showToast(jsonObject_error.getString("message"), this)
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        showToast("Something Went Wrong", this@EditProfileActivity)
                     }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            } else {
-                showToast("Something Went Wrong", this@EditProfileActivity)
-            }
-            Timber.e(error.toString())
-            hideProgressDialog()
-        }) {
+                    Timber.e(error.toString())
+                    hideProgressDialog()
+                }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken

@@ -107,93 +107,19 @@ public class SkillsTagActivity extends ActivityBase {
     }
 
     private void updateSkillsTag() {
-        showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_PROFILE + "/skills",
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        Intent intent = new Intent();
-                        intent.putExtra(ConstantKey.SKILLS, addTagList);
-                        if (action_bat_title.equalsIgnoreCase(ConstantKey.TRANSPORTATION))
-                            setResult(1, intent);
-                        if (action_bat_title.equalsIgnoreCase(ConstantKey.LANGUAGE))
-                            setResult(2, intent);
-                        if (action_bat_title.equalsIgnoreCase(ConstantKey.EDUCATION))
-                            setResult(3, intent);
-                        if (action_bat_title.equalsIgnoreCase(ConstantKey.EXPERIENCE))
-                            setResult(4, intent);
-                        if (action_bat_title.equalsIgnoreCase(ConstantKey.SPECIALITIES))
-                            setResult(5, intent);
-                        SkillsTagActivity.super.onBackPressed();
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser();
-                            hideProgressDialog();
-                            return;
-                        }
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                            if (jsonObject_error.has("message")) {
-                                showToast(jsonObject_error.getString("message"), this);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        showToast("Something Went Wrong", SkillsTagActivity.this);
-                    }
-                    Timber.e(error.toString());
-                    hideProgressDialog();
-                }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                return map1;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<>();
-                if (addTagList != null && addTagList.size() != 0) {
-                    Log.d("TagChecker",action_bat_title.toLowerCase());
-                    for (int i = 0; addTagList.size() > i; i++) {
-                        map1.put(action_bat_title.toLowerCase() + "[" + i + "]", addTagList.get(i));
-                    }
-                } else {
-                    map1.put(action_bat_title.toLowerCase() + "[]", "");
-                }
-                Timber.e(String.valueOf(map1.size()));
-                Timber.e(map1.toString());
-                return map1;
-
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(SkillsTagActivity.this);
-        requestQueue.add(stringRequest);
-        Timber.e(stringRequest.getUrl());
+        Intent intent = new Intent();
+        intent.putExtra(ConstantKey.SKILLS, addTagList);
+        if (action_bat_title.equalsIgnoreCase(ConstantKey.TRANSPORTATION))
+            setResult(1, intent);
+        if (action_bat_title.equalsIgnoreCase(ConstantKey.LANGUAGE))
+            setResult(2, intent);
+        if (action_bat_title.equalsIgnoreCase(ConstantKey.EDUCATION))
+            setResult(3, intent);
+        if (action_bat_title.equalsIgnoreCase(ConstantKey.EXPERIENCE))
+            setResult(4, intent);
+        if (action_bat_title.equalsIgnoreCase(ConstantKey.SPECIALITIES))
+            setResult(5, intent);
+        SkillsTagActivity.super.onBackPressed();
     }
 
 

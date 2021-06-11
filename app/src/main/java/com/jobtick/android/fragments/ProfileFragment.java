@@ -450,6 +450,8 @@ public class ProfileFragment extends Fragment implements onProfileUpdateListener
     }
 
     private void getAllProfileData() {
+        pbLoading.setVisibility(View.VISIBLE);
+        content.setVisibility(View.GONE);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
                 response -> {
                     Timber.e(response);

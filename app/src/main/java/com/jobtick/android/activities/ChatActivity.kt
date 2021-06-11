@@ -635,7 +635,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
             }
 
             override fun onFailure(call: Call<String?>, t: Throwable) {
-                imageFileTemp = null
+                //imageFileTemp = null
                 pbLoading.visibility = View.GONE
                 imgBtnSend.visibility = View.VISIBLE
                 showToast("Something went wrong", this@ChatActivity)
@@ -647,7 +647,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         if (TextUtils.isEmpty(Objects.requireNonNull(edtCommentMessage.text).toString().trim { it <= ' ' })) {
             if (imageFileTemp != null)
                 return true
-            edtCommentMessage.error = "?"
+            //edtCommentMessage.error = "?"
             return false
         }
         return true

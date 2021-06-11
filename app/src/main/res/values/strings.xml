@@ -165,7 +165,7 @@
     <string name="reason_worker_2">Poster requested additional work which wasn’t in the scope of the orginal order</string>
     <string name="reason_worker_3">Poster isn’t interested to have the job completed anymore</string>
     <string name="reason_worker_4">I am not able to do the job</string>
-    <string name="increase_budget">Increase Budget</string>
+    <string name="increase_budget">Increase Price</string>
 
     <string-array name="array_name">
         <item>All Time</item>
@@ -251,7 +251,7 @@
     <string name="email_verification_code">Email verification code</string>
     <string name="email_confirmation_code">Confirmation code</string>
     <string name="verification_sent">\"Enter verification code sent to "</string>
-    <string name="enter_verification_code">Enter the confirmation code sent to</string>
+    <string name="enter_verification_code">Enter the confirmation code we sent to</string>
 
     <!-- onboarding descriptions -->
     <string name="poster_page1">Post whatever you need to get done!</string>

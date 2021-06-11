@@ -588,7 +588,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                     //https://images.wallpaperscraft.com/image/road_asphalt_marking_130996_1280x720.jpg
 
                     //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     makeAnOfferActivity.showToast("Something went wrong", makeAnOfferActivity);
 
                     e.printStackTrace();
@@ -597,8 +597,13 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
-                makeAnOfferActivity.hideProgressDialog();
-                Timber.tag("Response").e(call.toString());
+                try {
+
+                    makeAnOfferActivity.hideProgressDialog();
+                    Timber.tag("Response").e(call.toString());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 

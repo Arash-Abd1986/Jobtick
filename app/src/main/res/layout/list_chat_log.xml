@@ -33,17 +33,17 @@
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layoutDate"
         android:layout_alignParentEnd="true"
-        app:cardBackgroundColor="@color/P050"
+        app:cardBackgroundColor="@color/N030"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
+        android:layout_marginHorizontal="64dp"
         app:cardMaxElevation="0dp"
         app:cardUseCompatPadding="true"
         app:cardPreventCornerOverlap="false"
-        android:layout_marginStart="74dp"
         >
 
         <androidx.cardview.widget.CardView
@@ -54,24 +54,21 @@
             android:visibility="visible"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp"
-            app:cardBackgroundColor="@color/P050"
+            app:cardBackgroundColor="@color/N030"
             app:cardCornerRadius="8dp">
 
-            <include layout="@layout/view_text_chat_right" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/view_file_chat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:visibility="gone"
-            app:cardElevation="0dp"
-            app:cardMaxElevation="0dp"
-            app:cardBackgroundColor="@color/P050"
-            app:cardCornerRadius="8dp">
-
-            <include layout="@layout/view_file_chat_right" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/view_text_chat_text"
+                style="@style/materialText_500_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:gravity="start"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="13sp"
+                android:paddingTop="4dp"
+                android:textColor="@color/N900" />
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

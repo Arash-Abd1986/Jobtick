@@ -37,6 +37,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int VIEW_TYPE_LOADING = 0;
     private static final int MSG_TYPE_RIGHT = 1;
     private static final int MSG_TYPE_LEFT = 2;
+    private static final int MSG_TYPE_LOG = 3;
 
     private final Context context;
     private final Integer sender_id;
@@ -61,6 +62,9 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public BaseViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         switch (viewType) {
+            case MSG_TYPE_LOG:
+                return new MsgRightViewHolder(
+                        LayoutInflater.from(parent.getContext()).inflate(R.layout.list_chat_log, parent, false));
             case MSG_TYPE_RIGHT:
                 return new MsgRightViewHolder(
                         LayoutInflater.from(parent.getContext()).inflate(R.layout.list_chat_right, parent, false));
@@ -92,6 +96,9 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
             }
         } else {
+//            if ((mItems.get(position)) != null && (mItems.get(position).is_log() == 1))
+//                return MSG_TYPE_LOG;
+//            else
             if (mItems.get(position) != null && mItems.get(position).getSender_id().equals(sender_id)) {
                 return MSG_TYPE_RIGHT;
             } else {
@@ -143,7 +150,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public void addLoading() {
         isLoaderVisible = true;
-        this.mItems.add(new MessageItem(null, null, null, null, null, null, null));
+        this.mItems.add(new MessageItem(null, null, null, null, null, null, null,null));
         notifyItemInserted(this.mItems.size() - 1);
     }
 
@@ -228,7 +235,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 view_file_chat.setVisibility(View.VISIBLE);
                 txtShowMessageF.setText(item.getAttachment().getFile_name());
                 if ((item.getAttachment().getFile_size() / 1024) > 1024)
-                    txtSize.setText(Math.round((item.getAttachment().getFile_size() / 1024 * 1024)) + " MB");
+                    txtSize.setText(Math.round((item.getAttachment().getFile_size() / (1024 * 1024))) + " MB");
                 else
                     txtSize.setText(Math.round((item.getAttachment().getFile_size() / 1024)) + " KB");
 

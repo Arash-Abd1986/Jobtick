@@ -13,6 +13,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class ApiClient {
 
     private static retrofit2.Retrofit retrofit = null;
+    private static retrofit2.Retrofit retrofit2 = null;
     private retrofit2.Retrofit retrofitVideoUpload;
 
     public static ApiInterface getClient() {
@@ -37,9 +38,9 @@ public class ApiClient {
 
     public static ApiInterface getClientV2() {
 
-        if (retrofit == null) {
+        if (retrofit2 == null) {
 
-            retrofit = new retrofit2.Retrofit.Builder()
+            retrofit2 = new retrofit2.Retrofit.Builder()
                     .baseUrl(Constant.BASE_URL_v2)
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
@@ -52,7 +53,7 @@ public class ApiClient {
                     .build();
 
         }
-        return retrofit.create(ApiInterface.class);
+        return retrofit2.create(ApiInterface.class);
     }
 
 

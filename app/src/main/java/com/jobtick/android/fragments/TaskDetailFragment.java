@@ -477,7 +477,7 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
-               // ((AppController) getContext()).mCrashlytics.recordException(t);
+                // ((AppController) getContext()).mCrashlytics.recordException(t);
             }
         });
     }
@@ -690,55 +690,59 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
         call = ApiClient.getClient().getTaskTempAttachmentMediaData(/*"application/x-www-form-urlencoded",*/ "XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
-
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
-                taskCreateActivity.hideProgressDialog();
-                if (response.code() == 422) {
-                    taskCreateActivity.showToast(response.message(), taskCreateActivity);
-                    return;
-                }
-
-                try {
-                    String strResponse = response.body();
-                    JSONObject jsonObject = new JSONObject(strResponse);
-                    if (jsonObject.has("data")) {
-                        JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                        AttachmentModel attachment = new AttachmentModel().getJsonToModel(jsonObject_data);
-                        if (attachmentArrayList.size() == 0) {
-                            attachmentArrayList.add(attachment);
-                        } else {
-                            attachmentArrayList.size();
-                            attachmentArrayList.add(attachmentArrayList.size(), attachment);
-                        }
-                        if (attachmentArrayList.size() > 0) {
-                            addAttach.setVisibility(View.GONE);
-                            tvAttachTitle.setTextColor(getResources().getColor(R.color.P300));
-                            addAttachSmall.setVisibility(View.VISIBLE);
-                        } else {
-                            tvAttachTitle.setTextColor(getResources().getColor(R.color.N100));
-                            addAttach.setVisibility(View.VISIBLE);
-                            addAttachSmall.setVisibility(View.GONE);
-                        }
-
+        if (call != null)
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                    taskCreateActivity.hideProgressDialog();
+                    if (response.code() == 422) {
+                        taskCreateActivity.showToast(response.message(), taskCreateActivity);
+                        return;
                     }
-                    attachmentAdapter.notifyItemInserted(attachmentArrayList.size() - 1);
 
-                } catch (JSONException e) {
-                    taskCreateActivity.showToast("Something went wrong", taskCreateActivity);
-                    e.printStackTrace();
+                    try {
+                        String strResponse = response.body();
+                        JSONObject jsonObject = new JSONObject(strResponse);
+                        if (jsonObject.has("data")) {
+                            JSONObject jsonObject_data = jsonObject.getJSONObject("data");
+                            AttachmentModel attachment = new AttachmentModel().getJsonToModel(jsonObject_data);
+                            if (attachmentArrayList.size() == 0) {
+                                attachmentArrayList.add(attachment);
+                            } else {
+                                attachmentArrayList.size();
+                                attachmentArrayList.add(attachmentArrayList.size(), attachment);
+                            }
+                            if (attachmentArrayList.size() > 0) {
+                                addAttach.setVisibility(View.GONE);
+                                tvAttachTitle.setTextColor(getResources().getColor(R.color.P300));
+                                addAttachSmall.setVisibility(View.VISIBLE);
+                            } else {
+                                tvAttachTitle.setTextColor(getResources().getColor(R.color.N100));
+                                addAttach.setVisibility(View.VISIBLE);
+                                addAttachSmall.setVisibility(View.GONE);
+                            }
+
+                        }
+                        attachmentAdapter.notifyItemInserted(attachmentArrayList.size() - 1);
+
+                    } catch (Exception e) {
+                        taskCreateActivity.showToast("Something went wrong", taskCreateActivity);
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
-                //((AppController) getContext()).mCrashlytics.recordException(t);
-                taskCreateActivity.showToast("Something went wrong", taskCreateActivity);
-                t.printStackTrace();
-                taskCreateActivity.hideProgressDialog();
-            }
-        });
+                @Override
+                public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                    //((AppController) getContext()).mCrashlytics.recordException(t);
+                    try {
+                        taskCreateActivity.showToast("Something went wrong", taskCreateActivity);
+                        t.printStackTrace();
+                        taskCreateActivity.hideProgressDialog();
+                    } catch (Exception e) {
+                        t.printStackTrace();
+                    }
+                }
+            });
     }
 
     private void uploadDataForEditTask(File pictureFile) {
@@ -778,12 +782,12 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
 
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
-               // ((AppController) getContext()).mCrashlytics.recordException(t);
+                // ((AppController) getContext()).mCrashlytics.recordException(t);
                 try {
                     taskCreateActivity.showToast("Something went wrong", taskCreateActivity);
                     t.printStackTrace();
                     taskCreateActivity.hideProgressDialog();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 

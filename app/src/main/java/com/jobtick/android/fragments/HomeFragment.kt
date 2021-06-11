@@ -86,10 +86,10 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
     private var hasRecentJobs = false
     private var hasBanner = false
     private var hasPayment = false
-    private val recentJobs: ArrayList<PostedJob> = ArrayList()
-    private val offeredJobs: ArrayList<OfferedJob> = ArrayList()
-    private val postedJobs: ArrayList<PostedJob> = ArrayList()
-    private val recommendedJobs: ArrayList<PostedJob> = ArrayList()
+    private var recentJobs: ArrayList<PostedJob> = ArrayList()
+    private var offeredJobs: ArrayList<OfferedJob> = ArrayList()
+    private var postedJobs: ArrayList<PostedJob> = ArrayList()
+    private var recommendedJobs: ArrayList<PostedJob> = ArrayList()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -136,6 +136,10 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
 
         viewModel.getHomeResponse().observe(viewLifecycleOwner, Observer {
             dashboardActivity.hideProgressDialog()
+            recentJobs = ArrayList()
+            offeredJobs = ArrayList()
+            postedJobs = ArrayList()
+            recommendedJobs = ArrayList()
             val jsonArray = it.getJSONArray("data")
             (requireActivity() as DashboardActivity).hideProgressDialog()
             for (i in 0 until jsonArray.length()) {
@@ -184,7 +188,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
 
             if ((sessionManager!!.role == "worker") && hasRecommendedJobs) {
                 rlRecentJobs!!.visibility = View.GONE
-            }else{
+            } else {
                 rlRecommendedJobs!!.visibility = View.GONE
             }
         })

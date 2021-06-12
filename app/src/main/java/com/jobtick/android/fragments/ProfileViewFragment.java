@@ -636,20 +636,20 @@ public class ProfileViewFragment extends Fragment implements onProfileUpdateList
         tagTransportation.setTagTypeface(poppins_medium);
         if (userAccountModel.getAvatar() != null) {
             ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getThumbUrl(), null);
-            imgAvatar.setOnClickListener(v -> {
-                ArrayList<AttachmentModel> items = new ArrayList<>();
-                AttachmentModel attchment = new AttachmentModel();
-                attchment.setId(0);
-                attchment.setModalUrl(userAccountModel.getAvatar().getModalUrl());
-                attchment.setThumbUrl(userAccountModel.getAvatar().getThumbUrl());
-                attchment.setUrl(userAccountModel.getAvatar().getUrl());
-                items.add(attchment);
-                Intent intent = new Intent(getActivity(), ZoomImageActivity.class);
-                intent.putExtra("url", items);
-                intent.putExtra("title", "");
-                intent.putExtra("pos", 0);
-                startActivity(intent);
-            });
+//            imgAvatar.setOnClickListener(v -> {
+//                ArrayList<AttachmentModel> items = new ArrayList<>();
+//                AttachmentModel attchment = new AttachmentModel();
+//                attchment.setId(0);
+//                attchment.setModalUrl(userAccountModel.getAvatar().getModalUrl());
+//                attchment.setThumbUrl(userAccountModel.getAvatar().getThumbUrl());
+//                attchment.setUrl(userAccountModel.getAvatar().getUrl());
+//                items.add(attchment);
+//                Intent intent = new Intent(getActivity(), ZoomImageActivity.class);
+//                intent.putExtra("url", items);
+//                intent.putExtra("title", "");
+//                intent.putExtra("pos", 0);
+//                startActivity(intent);
+//            });
         }
         txtFullName.setText(userAccountModel.getName());
         txtSuburb.setText(userAccountModel.getLocation());

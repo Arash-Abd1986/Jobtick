@@ -324,13 +324,16 @@ public class TaskDetailFragment extends Fragment implements AttachmentAdapter1.O
             addTagList.remove(data);
             tagAdapter.updateItem(addTagList);
             tagAdapterBottomSheet.updateItem(addTagList);
-            if (addTagList.size() == 0) {
-                relReqSmall.setVisibility(View.GONE);
-                tvRequireTitle.setTextColor(getResources().getColor(R.color.N100));
-                rltAddMustHave.setVisibility(View.VISIBLE);
-            }
         });
-
+        if (addTagList.size() == 0) {
+            relReqSmall.setVisibility(View.GONE);
+            tvRequireTitle.setTextColor(getResources().getColor(R.color.N100));
+            rltAddMustHave.setVisibility(View.VISIBLE);
+        } else if (addTagList.size() < 4) {
+            tvRequireTitle.setTextColor(getResources().getColor(R.color.P300));
+            relReqSmall.setVisibility(View.VISIBLE);
+            rltAddMustHave.setVisibility(View.GONE);
+        }
         recyclerAddMustHave.setAdapter(tagAdapter);
         rcAttachment.setLayoutManager(new GridLayoutManager(taskCreateActivity, 4));
         rcAttachment.setHasFixedSize(true);

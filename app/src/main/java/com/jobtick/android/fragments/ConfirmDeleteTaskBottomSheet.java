@@ -6,7 +6,7 @@ import android.content.Context;
 import com.jobtick.android.R;
 
 
-public class ConfirmDeleteTaskBottomSheet extends AbstractConfirmBottomSheet{
+public class ConfirmDeleteTaskBottomSheet extends AbstractConfirmBottomSheet {
 
     private NoticeListener listener;
 
@@ -26,7 +26,8 @@ public class ConfirmDeleteTaskBottomSheet extends AbstractConfirmBottomSheet{
 
     @Override
     void onRedButtonClick() {
-        if(listener == null) throw new IllegalStateException("NoticeListener interface must be set.");
+        if (listener == null)
+            throw new IllegalStateException("NoticeListener interface must be set.");
         listener.onDeleteConfirmClick();
         dismiss();
     }

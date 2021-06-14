@@ -95,7 +95,7 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher, Subu
             @Override
             public void onError(Exception e) {
                 ((ActivityBase) getActivity()).hideProgressDialog();
-                if(Objects.equals(e.getMessage(), "Billing address already exist."))
+                if (Objects.equals(e.getMessage(), "Billing address already exist."))
                     goNext();
                 ((ActivityBase) getActivity()).showToast(e.getMessage(), requireContext());
             }
@@ -138,14 +138,14 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher, Subu
         addBillingAddress();
     }
 
-    private void goNext(){
+    private void goNext() {
         ((TickerRequirementsBottomSheet) getParentFragment()).changeFragment(3);
     }
 
     private void addBillingAddress() {
         ((ActivityBase) getActivity()).showProgressDialog();
 
-        addBillingAddress.add(edtAddressLine1.getText(),"",
+        addBillingAddress.add(edtAddressLine1.getText(), "",
                 edtSuburs.getText(),
                 edtState.getText(),
                 edtPostcode.getText(),

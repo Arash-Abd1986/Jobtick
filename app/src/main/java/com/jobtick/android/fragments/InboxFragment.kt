@@ -1,472 +1,398 @@
-package com.jobtick.android.fragments;
+package com.jobtick.android.fragments
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.os.Bundle
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.jobtick.android.BuildConfig
+import com.jobtick.android.R
+import com.jobtick.android.activities.ChatActivity
+import com.jobtick.android.activities.ChatSearchActivity
+import com.jobtick.android.activities.DashboardActivity
+import com.jobtick.android.adapers.InboxListAdapter
+import com.jobtick.android.models.ConversationModel
+import com.jobtick.android.pagination.PaginationListener
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.Helper
+import com.jobtick.android.utils.SessionManager
+import com.pusher.client.Pusher
+import com.pusher.client.PusherOptions
+import com.pusher.client.channel.*
+import com.pusher.client.connection.ConnectionEventListener
+import com.pusher.client.connection.ConnectionState
+import com.pusher.client.connection.ConnectionStateChange
+import com.pusher.client.util.HttpAuthorizer
+import org.json.JSONException
+import org.json.JSONObject
+import timber.log.Timber
+import java.util.*
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.jobtick.android.BuildConfig;
-import com.jobtick.android.R;
-import android.annotation.SuppressLint;
-
-import com.jobtick.android.activities.ChatActivity;
-import com.jobtick.android.activities.ChatSearchActivity;
-import com.jobtick.android.activities.DashboardActivity;
-import com.jobtick.android.adapers.InboxListAdapter;
-import com.jobtick.android.models.ConversationModel;
-import com.jobtick.android.pagination.PaginationListener;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.ConstantKey;
-import com.jobtick.android.utils.Helper;
-import com.jobtick.android.utils.SessionManager;
-import com.pusher.client.Pusher;
-import com.pusher.client.PusherOptions;
-import com.pusher.client.channel.PresenceChannel;
-import com.pusher.client.channel.PresenceChannelEventListener;
-import com.pusher.client.channel.PrivateChannel;
-import com.pusher.client.channel.PrivateChannelEventListener;
-import com.pusher.client.channel.PusherEvent;
-import com.pusher.client.channel.User;
-import com.pusher.client.connection.Connection;
-import com.pusher.client.connection.ConnectionEventListener;
-import com.pusher.client.connection.ConnectionState;
-import com.pusher.client.connection.ConnectionStateChange;
-import com.pusher.client.util.HttpAuthorizer;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import timber.log.Timber;
-
-import static com.jobtick.android.pagination.PaginationListener.PAGE_START;
-import static com.jobtick.android.utils.ConstantKey.PUSH_CONVERSATION_ID;
-
-public class InboxFragment extends Fragment implements InboxListAdapter.OnItemClickListener,
-        SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener, SearchView.OnCloseListener {
-
-    private DashboardActivity dashboardActivity;
-    private RecyclerView chatList;
-    private SwipeRefreshLayout swipeRefresh;
-    private SessionManager sessionManager;
-    private InboxListAdapter adapter;
-    private int currentPage = PAGE_START;
-    private boolean isLastPage = false;
-    private int totalPage = 10;
-    private boolean isLoading = false;
-    private Toolbar toolbar;
-    private SearchView searchView;
-    private String queryParameter = "";
-
-    public InboxFragment() {
-        // Required empty public constructor
-    }
-
-    private Pusher pusher;
-    private int conversationId;
-
-    private ImageView ivNotification;
-    private TextView toolbar_title;
-    private LinearLayout noMessages;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefreshListener, SearchView.OnQueryTextListener, SearchView.OnCloseListener {
+    private var dashboardActivity: DashboardActivity? = null
+    private var chatList: RecyclerView? = null
+    private var swipeRefresh: SwipeRefreshLayout? = null
+    private var sessionManager: SessionManager? = null
+    private var adapter: InboxListAdapter? = null
+    private var currentPage = PaginationListener.PAGE_START
+    private var isLastPageItems = false
+    private var totalPage = 10
+    private var isLoadingItems = false
+    private var toolbar: Toolbar? = null
+    private var queryParameter = ""
+    private var pusher: Pusher? = null
+    private var conversationId = 0
+    private var ivNotification: ImageView? = null
+    private var toolbarTitle: TextView? = null
+    private var noMessages: LinearLayout? = null
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_inbox, container, false);
-        noMessages = view.findViewById(R.id.no_messages_container);
-        chatList = view.findViewById(R.id.recycler_view);
-        swipeRefresh = view.findViewById(R.id.swipeRefresh);
-        getExtras();
-        return view;
+        val view = inflater.inflate(R.layout.fragment_inbox, container, false)
+        noMessages = view.findViewById(R.id.no_messages_container)
+        chatList = view.findViewById(R.id.recycler_view)
+        swipeRefresh = view.findViewById(R.id.swipeRefresh)
+        extras
+        return view
     }
 
-    private void getExtras() {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            conversationId = bundle.getInt(PUSH_CONVERSATION_ID);
+    private val extras: Unit
+        get() {
+            val bundle = arguments
+            if (bundle != null) {
+                conversationId = bundle.getInt(ConstantKey.PUSH_CONVERSATION_ID)
+            }
         }
+
+    @SuppressLint("SetTextI18n", "RtlHardcoded")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        sessionManager = SessionManager(context)
+        initToolbar()
+        initPusher()
+        initComponents()
+        fetchData()
     }
 
-    @SuppressLint({"SetTextI18n", "RtlHardcoded"})
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        sessionManager = new SessionManager(getContext());
+    private fun initComponents() {
+        swipeRefresh!!.setOnRefreshListener(this)
+        chatList!!.setHasFixedSize(true)
+        val layoutManager = LinearLayoutManager(context)
+        chatList!!.layoutManager = layoutManager
+        adapter = InboxListAdapter(dashboardActivity, ArrayList())
+        chatList!!.adapter = adapter
+        adapter!!.setOnItemClickListener(this)
+        swipeRefresh!!.isRefreshing = true
+        chatList!!.addOnScrollListener(object : PaginationListener(layoutManager) {
+            override fun loadMoreItems() {
+                isLoadingItems = true
+                currentPage++
+                fetchData()
+            }
 
-        initToolbar();
-        initPusher();
-        initComponents();
-        fetchData();
+            override fun isLastPage(): Boolean {
+                return isLastPageItems
+            }
+
+            override fun isLoading(): Boolean {
+                return isLoadingItems
+            }
+        })
     }
 
-    private void initComponents() {
-        swipeRefresh.setOnRefreshListener(this);
-        chatList.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        chatList.setLayoutManager(layoutManager);
-        adapter = new InboxListAdapter(dashboardActivity, new ArrayList<>());
-        chatList.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
-        swipeRefresh.setRefreshing(true);
-        chatList.addOnScrollListener(new PaginationListener(layoutManager) {
-            @Override
-            protected void loadMoreItems() {
-                isLoading = true;
-                currentPage++;
-                fetchData();
-            }
-
-            @Override
-            public boolean isLastPage() {
-                return isLastPage;
-            }
-
-            @Override
-            public boolean isLoading() {
-                return isLoading;
-            }
-        });
-    }
-
-    private void initPusher() {
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("Authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-        headers.put("Content-Type", "application/x-www-form-urlencoded");
-        headers.put("X-REQUESTED-WITH", "xmlhttprequest");
-        headers.put("Accept", "application/json");
-        HttpAuthorizer authorizer = new HttpAuthorizer(Constant.BASE_URL + "broadcasting/auth");
-
-        authorizer.setHeaders(headers);
-        PusherOptions options = new PusherOptions()
-                //.setEncrypted(true)
+    private fun initPusher() {
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+        headers["Content-Type"] = "application/x-www-form-urlencoded"
+        headers["X-REQUESTED-WITH"] = "xmlhttprequest"
+        headers["Accept"] = "application/json"
+        val authorizer = HttpAuthorizer(Constant.BASE_URL + "broadcasting/auth")
+        authorizer.setHeaders(headers)
+        val options = PusherOptions() //.setEncrypted(true)
                 .setCluster("us2")
-                .setAuthorizer(authorizer);
-
-        pusher = new Pusher(getString(R.string.pusher_api_key), options);
-
-        pusher.connect(new ConnectionEventListener() {
-            @Override
-            public void onConnectionStateChange(ConnectionStateChange change) {
-                Timber.e("%s", change.getCurrentState());
-                System.out.println("State changed to " + change.getCurrentState() +
-                        " from " + change.getPreviousState());
-                if (change.getCurrentState() == ConnectionState.CONNECTED) {
-                    subscribeToChannel(); //run kro ok
-                    subscribeToPresence();
+                .setAuthorizer(authorizer)
+        pusher = Pusher(getString(R.string.pusher_api_key), options)
+        pusher!!.connect(object : ConnectionEventListener {
+            override fun onConnectionStateChange(change: ConnectionStateChange) {
+                Timber.e("%s", change.currentState)
+                println("State changed to " + change.currentState +
+                        " from " + change.previousState)
+                if (change.currentState == ConnectionState.CONNECTED) {
+                    subscribeToChannel() //run kro ok
+                    subscribeToPresence()
                 }
             }
 
-            @Override
-            public void onError(String message, String code, Exception e) {
+            override fun onError(message: String?, code: String?, e: Exception?) {
                 //  System.out.println("There was a problem connecting!");
             }
-        }, ConnectionState.ALL);
+        }, ConnectionState.ALL)
     }
 
-    private void initToolbar() {
-        dashboardActivity = (DashboardActivity) requireActivity();
-        if (dashboardActivity == null) return;
-        toolbar = dashboardActivity.findViewById(R.id.toolbar);
-        toolbar.getMenu().clear();
-        toolbar.inflateMenu(R.menu.menu_new_task);
-        toolbar.getMenu().findItem(R.id.action_search).setVisible(false);
-        toolbar.getMenu().findItem(R.id.action_search_chat).setVisible(true);
-        toolbar.getMenu().findItem(R.id.action_search_chat).setOnMenuItemClickListener(null);
-        toolbar.getMenu().findItem(R.id.action_search_chat).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(getContext(), ChatSearchActivity.class);
-                startActivity(intent);
-                return false;
-            }
-        });
-        ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
-        ivNotification.setVisibility(View.GONE);
-        toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
-        toolbar_title.setVisibility(View.VISIBLE);
-        toolbar_title.setText(R.string.chat);
-        toolbar_title.setTextSize(20f);
-        toolbar_title.setTypeface(ResourcesCompat.getFont(requireActivity(), R.font.roboto_semi_bold));
-        toolbar.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.backgroundLightGrey));
-        androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT,
-                Toolbar.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.START;
-        toolbar_title.setLayoutParams(params);
-        toolbar.setNavigationIcon(R.drawable.ic_setting);
-
+    private fun initToolbar() {
+        dashboardActivity = requireActivity() as DashboardActivity
+        if (dashboardActivity == null) return
+        toolbar = dashboardActivity!!.findViewById(R.id.toolbar)
+        toolbar!!.menu.clear()
+        toolbar!!.inflateMenu(R.menu.menu_new_task)
+        toolbar!!.menu.findItem(R.id.action_search).isVisible = false
+        toolbar!!.menu.findItem(R.id.action_search_chat).isVisible = true
+        toolbar!!.menu.findItem(R.id.action_search_chat).setOnMenuItemClickListener(null)
+        toolbar!!.menu.findItem(R.id.action_search_chat).setOnMenuItemClickListener {
+            val intent = Intent(context, ChatSearchActivity::class.java)
+            startActivity(intent)
+            false
+        }
+        ivNotification = dashboardActivity!!.findViewById(R.id.ivNotification)
+        ivNotification!!.visibility = View.GONE
+        toolbarTitle = dashboardActivity!!.findViewById(R.id.toolbar_title)
+        toolbarTitle!!.visibility = View.VISIBLE
+        toolbarTitle!!.setText(R.string.chat)
+        toolbarTitle!!.textSize = 20f
+        toolbarTitle!!.typeface = ResourcesCompat.getFont(requireActivity(), R.font.roboto_semi_bold)
+        toolbar!!.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.backgroundLightGrey))
+        val params = Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT,
+                Toolbar.LayoutParams.WRAP_CONTENT)
+        params.gravity = Gravity.START
+        toolbarTitle!!.layoutParams = params
+        toolbar!!.setNavigationIcon(R.drawable.ic_setting)
     }
 
-    private void subscribeToPresence() {
+    private fun subscribeToPresence() {
         try {
-            PresenceChannel presenceChannel = pusher.subscribePresence("presence-userStatus",
-                    new PresenceChannelEventListener() {
-                        @Override
-                        public void onUsersInformationReceived(String channelName, Set<User> users) {
-                            ArrayList<Integer> integerArrayList = new ArrayList<>();
-                            for (User user : users) {
-                                integerArrayList.add(Integer.parseInt(user.getId()));
+            pusher!!.subscribePresence("presence-userStatus",
+                    object : PresenceChannelEventListener {
+                        override fun onUsersInformationReceived(channelName: String, users: Set<User>) {
+                            val integerArrayList = ArrayList<Int>()
+                            for (user in users) {
+                                integerArrayList.add(user.id.toInt())
                             }
-                            adapter.setOnlineStatus(integerArrayList);
-                            Timber.e("%s", integerArrayList.size());
+                            adapter!!.setOnlineStatus(integerArrayList)
+                            Timber.e("%s", integerArrayList.size)
                         }
 
-                        @Override
-                        public void userSubscribed(String channelName, User user) {
-                            adapter.addNewSubscribe(Integer.parseInt(user.getId()));
-                            Timber.e(user.toString());
+                        override fun userSubscribed(channelName: String, user: User) {
+                            adapter!!.addNewSubscribe(user.id.toInt())
+                            Timber.e(user.toString())
                         }
 
-                        @Override
-                        public void userUnsubscribed(String channelName, User user) {
-                            adapter.addNewUnSubscribe(Integer.parseInt(user.getId()));
-                            Timber.e(user.toString());
+                        override fun userUnsubscribed(channelName: String, user: User) {
+                            adapter!!.addNewUnSubscribe(user.id.toInt())
+                            Timber.e(user.toString())
                         }
 
-                        @Override
-                        public void onAuthenticationFailure(String message, Exception e) {
-                            Timber.e(message);
+                        override fun onAuthenticationFailure(message: String?, e: Exception) {
+                            Timber.e(message)
                         }
 
-                        @Override
-                        public void onSubscriptionSucceeded(String channelName) {
-                            Timber.e(channelName);
+                        override fun onSubscriptionSucceeded(channelName: String) {
+                            Timber.e(channelName)
                         }
 
-                        @Override
-                        public void onEvent(PusherEvent event) {
-                            Timber.e(event.toString());
+                        override fun onEvent(event: PusherEvent?) {
+                            Timber.e(event.toString())
                         }
-                    });
-
-        } catch (Exception ignored) {
-
+                    })
+        } catch (ignored: Exception) {
         }
     }
 
-    protected void subscribeToChannel() {
-
+    private fun subscribeToChannel() {
         try {
             //its json response not string
-            PrivateChannel channel = pusher.subscribePrivate("private-user." + sessionManager.getUserAccount().getId(),
-                    new PrivateChannelEventListener() {
-                        @Override
-                        public void onAuthenticationFailure(String message, Exception e) {
-                            Connection cpm = pusher.getConnection();
-                            Timber.e(message);
-                            Timber.e(e.toString());
-                            Timber.e(cpm.getSocketId());
+            pusher!!.subscribePrivate("private-user." + sessionManager!!.userAccount.id,
+                    object : PrivateChannelEventListener {
+                        override fun onAuthenticationFailure(message: String?, e: Exception) {
+                            val cpm = pusher!!.connection
+                            Timber.e(message)
+                            Timber.e(e.toString())
+                            Timber.e(cpm.socketId)
                         }
 
-                        @Override
-                        public void onSubscriptionSucceeded(String channelName) {
-                            Timber.e(channelName); //its json response not string
+                        override fun onSubscriptionSucceeded(channelName: String?) {
+                            Timber.e(channelName) //its json response not string
                         }
 
-                        @Override
-                        public void onEvent(PusherEvent event) {
-                            Timber.e(event.toString());
+                        override fun onEvent(event: PusherEvent?) {
+                            Timber.e(event.toString())
                             try {
-                                JSONObject jsonObject = new JSONObject(event.getData());
-                                ConversationModel conversationModel = new ConversationModel(dashboardActivity).getJsonToModel(jsonObject,
-                                        dashboardActivity);
-                                adapter.getEventCall(conversationModel);
-                                Timber.e(jsonObject.toString());
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                val jsonObject = JSONObject(event!!.data)
+                                val conversationModel = ConversationModel(dashboardActivity).getJsonToModel(jsonObject,
+                                        dashboardActivity)
+                                adapter!!.getEventCall(conversationModel)
+                                Timber.e(jsonObject.toString())
+                            } catch (e: Exception) {
+                                e.printStackTrace()
                             }
-                            System.out.println("Received event with data: " + event.toString());
+                            println("Received event with data: $event")
                         }
-                    }, "message.sent");
-        } catch (Exception ignored) {
-
+                    }, "message.sent")
+        } catch (ignored: Exception) {
         }
     }
 
-    private void fetchData() {
-
-        ArrayList<ConversationModel> items = new ArrayList<>();
-        Helper.closeKeyboard(dashboardActivity);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_CHAT +
+    private fun fetchData() {
+        val items = ArrayList<ConversationModel>()
+        Helper.closeKeyboard(dashboardActivity)
+        val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_CHAT +
                 "/conversations" + "?page=" + currentPage + "&query=" + queryParameter,
-                response -> {
-                    Timber.e(response);
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (!jsonObject.has("data")) {
-                            dashboardActivity.showToast("some went to wrong", dashboardActivity);
-                            return;
-                        }
-                        JSONArray jsonArray_data = jsonObject.getJSONArray("data");
-                        for (int i = 0; jsonArray_data.length() > i; i++) {
-                            JSONObject jsonObject_conversation = jsonArray_data.getJSONObject(i);
-                            ConversationModel conversationModel = new ConversationModel(dashboardActivity).getJsonToModel(jsonObject_conversation,
-                                    dashboardActivity);
-                            items.add(conversationModel);
-                        }
-
-                        if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
-                            JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
-                            totalPage = jsonObject_meta.getInt("last_page");
-                            Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
-                        }
-
-                        /*
-                         *manage progress view
-                         */
-                        if (currentPage != PAGE_START)
-
-                            adapter.removeLoading();
-                        if (items.size() <= 0) {
-                            noMessages.setVisibility(View.VISIBLE);
-                            chatList.setVisibility(View.GONE);
-                        } else {
-                            noMessages.setVisibility(View.GONE);
-                            chatList.setVisibility(View.VISIBLE);
-
-                        }
-
-                        adapter.addItems(items);
-
-                        for (int i = 0; i < items.size(); i++) {
-                            if (items.get(i).getId() == conversationId) {
-                                onItemClick(null
-                                        , items.get(i), i, "parent_layout");
-                                conversationId = 0;
-                                break;
-                            }
-                        }
-                        swipeRefresh.setRefreshing(false);
-                        // check weather is last page or not
-                        if (currentPage < totalPage) {
-                            adapter.addLoading();
-                        } else {
-                            isLastPage = true;
-                        }
-                        isLoading = false;
-                    } catch (JSONException e) {
-                        dashboardActivity.hideProgressDialog();
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
+        Response.Listener { response: String? ->
+            Timber.e(response)
+            try {
+                val jsonObject = JSONObject(response!!)
+                Timber.e(jsonObject.toString())
+                if (!jsonObject.has("data")) {
+                    dashboardActivity!!.showToast("some went to wrong", dashboardActivity)
+                    return@Listener
+                }
+                val jsonArrayData = jsonObject.getJSONArray("data")
+                run {
+                    var i = 0
+                    while (jsonArrayData.length() > i) {
+                        val jsonObjectConversation = jsonArrayData.getJSONObject(i)
+                        val conversationModel = ConversationModel(dashboardActivity).getJsonToModel(jsonObjectConversation,
+                                dashboardActivity)
+                        items.add(conversationModel)
+                        i++
                     }
-                },
-                error -> {
-                    swipeRefresh.setRefreshing(false);
-                    dashboardActivity.errorHandle1(error.networkResponse);
+                }
+                if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
+                    val jsonObjectMeta = jsonObject.getJSONObject("meta")
+                    totalPage = jsonObjectMeta.getInt("last_page")
+                    Constant.PAGE_SIZE = jsonObjectMeta.getInt("per_page")
+                }
+
+                /*
+                         *manage progress view
+                         */if (currentPage != PaginationListener.PAGE_START) adapter!!.removeLoading()
+                if (items.size <= 0) {
+                    noMessages!!.visibility = View.VISIBLE
+                    chatList!!.visibility = View.GONE
+                } else {
+                    noMessages!!.visibility = View.GONE
+                    chatList!!.visibility = View.VISIBLE
+                }
+                adapter!!.addItems(items)
+                var i = 0
+                while (i < items.size) {
+                    if (items[i].id == conversationId) {
+                        onItemClick(requireView(), items[i], i, "parent_layout")
+                        conversationId = 0
+                        break
+                    }
+                    i++
+                }
+                swipeRefresh!!.isRefreshing = false
+                // check weather is last page or not
+                if (currentPage < totalPage) {
+                    adapter!!.addLoading()
+                } else {
+                    isLastPageItems = true
+                }
+                isLoadingItems = false
+            } catch (e: JSONException) {
+                dashboardActivity!!.hideProgressDialog()
+                Timber.e(e.toString())
+                e.printStackTrace()
+            }
+        },
+                Response.ErrorListener { error: VolleyError ->
+                    swipeRefresh!!.isRefreshing = false
+                    dashboardActivity!!.errorHandle1(error.networkResponse)
                 }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                return map1;
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["Authorization"] = "Bearer " + sessionManager!!.accessToken
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                return map1
             }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(dashboardActivity);
-        requestQueue.add(stringRequest);
-        Timber.e(stringRequest.getUrl());
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        val requestQueue = Volley.newRequestQueue(dashboardActivity)
+        requestQueue.add(stringRequest)
+        Timber.e(stringRequest.url)
     }
 
-    @Override
-    public void onRefresh() {
-        swipeRefresh.setRefreshing(true);
-        currentPage = PAGE_START;
-        isLastPage = false;
-        adapter.clear();
-        fetchData();
+    override fun onRefresh() {
+        swipeRefresh!!.isRefreshing = true
+        currentPage = PaginationListener.PAGE_START
+        isLastPageItems = false
+        adapter!!.clear()
+        fetchData()
     }
 
-
-    @Override
-    public void onItemClick(View view, ConversationModel obj, int position, String action) {
-        if (action.equalsIgnoreCase("parent_layout")) {
-            if (obj.getUnseenCount() != 0) {
-                adapter.setUnSeenCountZero(position);
+    override fun onItemClick(view: View, obj: ConversationModel, position: Int, action: String) {
+        if (action.equals("parent_layout", ignoreCase = true)) {
+            if (obj.unseenCount != 0) {
+                adapter!!.setUnSeenCountZero(position)
             }
-            Intent intent = new Intent(dashboardActivity, ChatActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(ConstantKey.CONVERSATION, obj);
-            intent.putExtras(bundle);
-            startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT);
+            val intent = Intent(dashboardActivity, ChatActivity::class.java)
+            val bundle = Bundle()
+            bundle.putParcelable(ConstantKey.CONVERSATION, obj)
+            intent.putExtras(bundle)
+            startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT)
         }
     }
 
-    @Override
-    public void onResume() {
-        pusher.connect();
-        super.onResume();
+    override fun onResume() {
+        pusher!!.connect()
+        super.onResume()
     }
 
-    @Override
-    public void onDestroy() {
-        pusher.disconnect();
-        super.onDestroy();
+    override fun onDestroy() {
+        pusher!!.disconnect()
+        super.onDestroy()
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ConstantKey.RESULTCODE_PRIVATE_CHAT) {
             if (data != null) {
-                Bundle bundle = data.getExtras();
+                val bundle = data.extras
                 if (bundle != null) {
                     if (bundle.getBoolean(ConstantKey.PRIVATE_CHAT)) {
-                        onRefresh();
-
+                        onRefresh()
                     }
                 }
             }
         }
     }
 
-    @Override
-    public boolean onClose() {
-        queryParameter = "";
-        onRefresh();
-        return true;
+    override fun onClose(): Boolean {
+        queryParameter = ""
+        onRefresh()
+        return true
     }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        queryParameter = query;
-        onRefresh();
-        return false;
+    override fun onQueryTextSubmit(query: String): Boolean {
+        queryParameter = query
+        onRefresh()
+        return false
     }
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
+    override fun onQueryTextChange(newText: String): Boolean {
+        return false
     }
 }

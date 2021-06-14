@@ -81,7 +81,7 @@ public class AddBankAccountReqFragment extends Fragment implements TextWatcher {
             @Override
             public void onError(Exception e) {
                 ((ActivityBase) requireActivity()).hideProgressDialog();
-                if(Objects.equals(e.getMessage(), "Bank account already exist."))
+                if (Objects.equals(e.getMessage(), "Bank account already exist."))
                     goNext();
                 else
                     ((ActivityBase) requireActivity()).showToast(getString(R.string.add_bank_account_error), requireContext());
@@ -112,7 +112,7 @@ public class AddBankAccountReqFragment extends Fragment implements TextWatcher {
                 edtAccountNumber.getText());
     }
 
-    private void goNext(){
+    private void goNext() {
         ((TickerRequirementsBottomSheet) getParentFragment()).changeFragment(2);
     }
 

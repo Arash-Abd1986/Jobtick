@@ -457,7 +457,7 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
         recyclerViewQuestions.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(TaskDetailsActivity.this);
         recyclerViewQuestions.setLayoutManager(layoutManager);
-        questionListAdapter = new QuestionListAdapter(TaskDetailsActivity.this, new ArrayList<>(),taskModel.getStatus().toLowerCase(),taskModel.getPoster().getId());
+        questionListAdapter = new QuestionListAdapter(TaskDetailsActivity.this, new ArrayList<>(), taskModel.getStatus().toLowerCase(), taskModel.getPoster().getId());
         recyclerViewQuestions.setAdapter(questionListAdapter);
         questionListAdapter.setOnItemClickListener(this);
     }
@@ -596,9 +596,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     recyclerViewOffers.setVisibility(View.VISIBLE);
                     if (offerListAdapter != null)
                         offerListAdapter.clear();
-                    if (taskModel.getOffers().size()>0){
+                    if (taskModel.getOffers().size() > 0) {
                         for (int i = 0; i < taskModel.getOffers().size(); i++) {
-                            if (taskModel.getOffers().get(i).getWorker().getId().equals(sessionManager.getUserAccount().getId())){
+                            if (taskModel.getOffers().get(i).getWorker().getId().equals(sessionManager.getUserAccount().getId())) {
                                 OfferModel item = taskModel.getOffers().get(i);
                                 taskModel.getOffers().remove(i);
                                 taskModel.getOffers().add(0, item);
@@ -1714,9 +1714,9 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 getData();
-                                showSuccessToast("Task Deleted Successfully", TaskDetailsActivity.this);
+                                showSuccessToast("Job Cancelled Successfully", TaskDetailsActivity.this);
                             } else {
-                                showToast("Task not deleted", TaskDetailsActivity.this);
+                                showToast("Job not cancelled", TaskDetailsActivity.this);
                             }
                         } else {
                             showToast(getString(R.string.server_went_wrong), TaskDetailsActivity.this);
@@ -2001,8 +2001,6 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                     case ConstantKey.BTN_OFFER_PENDING:
                         break;
                     case ConstantKey.BTN_CANCELLATION_REQUEST_RECEIVED:
-                        //TODO: this button should not be viewed in this stage
-                        break;
                     case ConstantKey.BTN_CANCELLATION_REQUEST_SENT:
                         //TODO: this button should not be viewed in this stage
                         break;

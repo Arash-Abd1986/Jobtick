@@ -7,7 +7,7 @@ import android.content.Context;
 import com.jobtick.android.R;
 
 
-public class ConfirmAskToReleaseBottomSheet extends AbstractConfirmBottomSheet{
+public class ConfirmAskToReleaseBottomSheet extends AbstractConfirmBottomSheet {
 
 
     private NoticeListener listener;

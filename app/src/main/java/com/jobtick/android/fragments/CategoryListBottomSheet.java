@@ -111,7 +111,7 @@ public class CategoryListBottomSheet extends BottomSheetDialogFragment implement
     public List<TaskCategory> getTaskCategoryData() {
         List<TaskCategory> items = new ArrayList<>();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,  Constant.TASK_CATEGORY_V2 + "?query=" + query,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.TASK_CATEGORY_V2 + "?query=" + query,
                 response -> {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
@@ -153,7 +153,7 @@ public class CategoryListBottomSheet extends BottomSheetDialogFragment implement
                 error ->
                         showToast("some went to wrong", getActivity())
 
-        /*errorHandle1(error.networkResponse)*/) {
+                /*errorHandle1(error.networkResponse)*/) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<String, String>();

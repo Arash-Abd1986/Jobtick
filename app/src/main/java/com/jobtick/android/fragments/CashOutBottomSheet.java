@@ -31,7 +31,7 @@ public class CashOutBottomSheet extends AbstractStateExpandedBottomSheet {
     private CreditCardModel creditCardModel;
 
 
-    public CashOutBottomSheet(){
+    public CashOutBottomSheet() {
 
     }
 
@@ -48,10 +48,11 @@ public class CashOutBottomSheet extends AbstractStateExpandedBottomSheet {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.ThemeOverlay_BottomSheetDialog);
 
-        if(getArguments() != null)
+        if (getArguments() != null)
             creditCardModel = getArguments().getParcelable(Constant.CASH_OUT);
 
     }
+
     SessionManager sessionManager;
 
     @Override
@@ -70,7 +71,7 @@ public class CashOutBottomSheet extends AbstractStateExpandedBottomSheet {
     }
 
     private void cashOut() {
-        String link = "https://www.jobtick.com/contact?email="+sessionManager.getUserAccount().getEmail()+"&type=cashout";
+        String link = "https://www.jobtick.com/contact?email=" + sessionManager.getUserAccount().getEmail() + "&type=cashout";
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
         startActivity(browserIntent);
     }
@@ -81,15 +82,15 @@ public class CashOutBottomSheet extends AbstractStateExpandedBottomSheet {
         init();
     }
 
-    private void init(){
+    private void init() {
         if (creditCardModel != null && creditCardModel.getData() != null && creditCardModel.getData().get(1).getWallet() != null) {
             myBalance.setText(String.format(Locale.ENGLISH, "$%d", creditCardModel.getData().get(1).getWallet().getBalance()));
         }
     }
 
-    private boolean validation(){
-        if(Double.parseDouble(creditCardModel.getData().get(1).getWallet().getBalance()) == 0){
-            ((ActivityBase)requireActivity()).showToast("Nothing to cashout!", getContext());
+    private boolean validation() {
+        if (Double.parseDouble(creditCardModel.getData().get(1).getWallet().getBalance()) == 0) {
+            ((ActivityBase) requireActivity()).showToast("Nothing to cashout!", getContext());
             return false;
         }
         return true;

@@ -504,8 +504,6 @@ public class AuthActivity extends ActivityBase {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<String, String>();
-
-
                 //TODO: due we direct user to complete profile page, we ignore str_fname and str_lname
                 map1.put("fname", "Jobtick");
                 map1.put("lname", "User");

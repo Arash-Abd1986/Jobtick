@@ -61,7 +61,7 @@ import timber.log.Timber;
 
 
 public class TaskCreateActivity extends ActivityBase implements TaskDetailFragment.OperationsListener,
-        TaskDateTimeFragment.OperationsListener, TaskBudgetFragment.OperationsListener,ConfirmDeleteTaskBottomSheet.NoticeListener {
+        TaskDateTimeFragment.OperationsListener, TaskBudgetFragment.OperationsListener, ConfirmDeleteTaskBottomSheet.NoticeListener {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.creating_task_layout)
@@ -220,15 +220,14 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
             toolbar.setNavigationIcon(R.drawable.ic_back_black);
             ivDelete.setVisibility(View.VISIBLE);
             title = ("Edit draft");
-        }
-        else
+        } else
             toolbar.setNavigationIcon(R.drawable.ic_cancel);
-            ivDelete.setOnClickListener(v -> {
-                ConfirmDeleteTaskBottomSheet confirmBottomSheet = new ConfirmDeleteTaskBottomSheet(this);
-                confirmBottomSheet.setListener(this);
-                confirmBottomSheet.show(this.getSupportFragmentManager(), "");
-            });
-            setSupportActionBar(toolbar);
+        ivDelete.setOnClickListener(v -> {
+            ConfirmDeleteTaskBottomSheet confirmBottomSheet = new ConfirmDeleteTaskBottomSheet(this);
+            confirmBottomSheet.setListener(this);
+            confirmBottomSheet.show(this.getSupportFragmentManager(), "");
+        });
+        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(title);
@@ -757,7 +756,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
 
                             if (jsonObject_error.has("message")) {
-                                showToast(jsonObject_error.getString("message"),this);
+                                showToast(jsonObject_error.getString("message"), this);
                             }
                             if (jsonObject_error.has("errors")) {
                                 JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
@@ -791,6 +790,7 @@ public class TaskCreateActivity extends ActivityBase implements TaskDetailFragme
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
+
     public interface ActionDraftTaskDetails {
         void callDraftTaskDetails(TaskModel taskModel);
     }

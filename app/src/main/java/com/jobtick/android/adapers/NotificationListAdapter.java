@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.models.notification.NotifDatum;
@@ -147,7 +148,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<BaseViewHolder
             super.onBind(position);
             NotifDatum item = mItems.get(position);
 
-            if(item.getUserAccountModel() != null && item.getUserAccountModel().getAvatar() != null && item.getUserAccountModel().getAvatar().getUrl() != null)
+            if (item.getUserAccountModel() != null && item.getUserAccountModel().getAvatar() != null && item.getUserAccountModel().getAvatar().getUrl() != null)
                 Glide.with(profileAvatar).load(item.getUserAccountModel().getAvatar().getUrl()).into(profileAvatar);
 
             notificationTitle.setText(Html.fromHtml(item.getData().getTitle()));

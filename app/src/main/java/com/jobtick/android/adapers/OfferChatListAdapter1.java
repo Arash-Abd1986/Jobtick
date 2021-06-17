@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 import android.widget.TextView;
 

@@ -1,87 +1,60 @@
-package com.jobtick.android.fragments;
+package com.jobtick.android.fragments
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.content.Intent
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.button.MaterialButton
+import com.jobtick.android.R
+import com.jobtick.android.activities.AuthActivity
+import com.jobtick.android.utils.SessionManager
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.button.MaterialButton;
-import com.jobtick.android.R;
-import com.jobtick.android.activities.AuthActivity;
-import com.jobtick.android.utils.SessionManager;
-
-
-public class LogOutBottomSheet extends BottomSheetDialogFragment {
-
-    private SessionManager sessionManager;
-
-    MaterialButton logout;
-    MaterialButton cancel;
-
-
-    public LogOutBottomSheet(){
-
+class LogOutBottomSheet : BottomSheetDialogFragment() {
+    private var sessionManager: SessionManager? = null
+    var logout: MaterialButton? = null
+    var cancel: MaterialButton? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.TransparentDialog)
     }
 
-    public static LogOutBottomSheet newInstance() {
-        return new LogOutBottomSheet();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.TransparentDialog);
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        sessionManager = new SessionManager(getContext());
-        View view = inflater.inflate(R.layout.fragment_logout_bottom_sheet, container, false);
-
-        logout = view.findViewById(R.id.logout);
-        cancel = view.findViewById(R.id.cancel);
-
-
-        logout.setOnClickListener(v -> {
-            dismiss();
-            sessionManager.setUserAccount(null);
-            sessionManager.setLogin(false);
-            sessionManager.setTokenType(null);
-            sessionManager.setAccessToken(null);
-            Intent intent = new Intent(getContext(), AuthActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            requireActivity().finish();
-        });
-
-        cancel.setOnClickListener(v -> {
-            dismiss();
-        });
-
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (getActivity() == null) {
-            return;
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        sessionManager = SessionManager(context)
+        val view = inflater.inflate(R.layout.fragment_logout_bottom_sheet, container, false)
+        logout = view.findViewById(R.id.logout)
+        cancel = view.findViewById(R.id.cancel)
+        logout!!.setOnClickListener {
+            dismiss()
+            sessionManager!!.userAccount = null
+            sessionManager!!.login = false
+            sessionManager!!.tokenType = null
+            sessionManager!!.accessToken = null
+            val intent = Intent(context, AuthActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            requireActivity().finish()
         }
-
-
-        initUi();
+        cancel!!.setOnClickListener { dismiss() }
+        return view
     }
 
-    private void initUi(){
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (activity == null) {
+            return
+        }
+        initUi()
+    }
 
+    private fun initUi() {}
 
+    companion object {
+        fun newInstance(): LogOutBottomSheet {
+            return LogOutBottomSheet()
+        }
     }
 }

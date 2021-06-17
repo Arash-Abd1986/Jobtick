@@ -2,15 +2,18 @@ package com.jobtick.android.activities;
 
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.potyvideo.library.AndExoPlayerView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

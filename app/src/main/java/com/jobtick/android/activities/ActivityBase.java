@@ -33,6 +33,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 import timber.log.Timber;
+
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
 
@@ -50,7 +51,7 @@ public class ActivityBase extends AppCompatActivity {
         getExtras();
         initProgressDialog();
 
-        Analytics.Builder builder = new Analytics.Builder(this , SEGMENT_WRITE_KEY)
+        Analytics.Builder builder = new Analytics.Builder(this, SEGMENT_WRITE_KEY)
                 .use(AppsflyerIntegration.FACTORY);
         sessionManager = new SessionManager(this);
 
@@ -125,25 +126,25 @@ public class ActivityBase extends AppCompatActivity {
 
     public void showToast(String content, Context context) {
         Alerter.create(this)
-            .setTitle("")
-            .setText(content)
-            .setBackgroundResource(R.color.colorRedError)
+                .setTitle("")
+                .setText(content)
+                .setBackgroundResource(R.color.colorRedError)
                 .show();
     }
 
     public void showSuccessToast(String content, Context context) {
         Alerter.create(this)
-            .setTitle("")
-            .setText(content)
-            .setBackgroundResource(R.color.colorOk)
+                .setTitle("")
+                .setText(content)
+                .setBackgroundResource(R.color.colorOk)
                 .show();
     }
 
     public void initProgressDialog() {
-            pDialog = new ProgressDialog(this);
-            pDialog.setTitle(getString(R.string.processing));
-            pDialog.setMessage(getString(R.string.please_wait));
-            pDialog.setCancelable(false);
+        pDialog = new ProgressDialog(this);
+        pDialog.setTitle(getString(R.string.processing));
+        pDialog.setMessage(getString(R.string.please_wait));
+        pDialog.setCancelable(false);
     }
 
 

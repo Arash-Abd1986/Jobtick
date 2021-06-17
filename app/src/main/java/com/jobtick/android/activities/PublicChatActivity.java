@@ -45,6 +45,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.adapers.AttachmentAdapter;
@@ -230,6 +231,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
 
     boolean isPoster = false;
     private String posterID = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -247,10 +249,10 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         layoutOffer.setVisibility(View.GONE);
         layoutQuestion.setVisibility(View.GONE);
         Bundle bundle = getIntent().getExtras();
-        isPoster = bundle.getBoolean("isPoster",false);
+        isPoster = bundle.getBoolean("isPoster", false);
         try {
             posterID = bundle.getString("posterID");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         offerModel = new OfferModel();
@@ -281,16 +283,17 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(PublicChatActivity.this);
         recyclerViewOfferChat.setLayoutManager(layoutManager);
-        publicChatListAdapter = new PublicChatListAdapter(PublicChatActivity.this, new ArrayList<>(),true,posterID);
+        publicChatListAdapter = new PublicChatListAdapter(PublicChatActivity.this, new ArrayList<>(), true, posterID);
         recyclerViewOfferChat.setAdapter(publicChatListAdapter);
         // publicChatListAdapter.setOnItemClickListener(this);
         initQuestion();
         if (offerModel.getTaskId() != null) {
-            doApiCall(Constant.URL_OFFERS + "/" + offerModel.getId(),true);
+            doApiCall(Constant.URL_OFFERS + "/" + offerModel.getId(), true);
         } else {
-            doApiCall(Constant.URL_QUESTIONS + "/" + questionModel.getId(),false);
+            doApiCall(Constant.URL_QUESTIONS + "/" + questionModel.getId(), false);
         }
     }
+
     private void initQuestion() {
         attachmentArrayList_question.clear();
         attachmentArrayList_question.add(new AttachmentModel());
@@ -304,19 +307,20 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         adapter.setOnItemClickListener(this);
 
     }
+
     @SuppressLint("SetTextI18n")
     private void initLayout() {
         if (offerModel.getTaskId() != null) {
-            if(isPoster){
-               linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
-               btnAccept.setOnClickListener(v -> {
-                   Intent intent = new Intent(PublicChatActivity.this, PaymentOverviewActivity.class);
-                   Bundle bundle = new Bundle();
-                   //    bundle.putParcelable(ConstantKey.TASK, taskModel);
-                   //     bundle.putParcelable(ConstantKey.OFFER_LIST_MODEL, obj);
-                   intent.putExtras(bundle);
-                   startActivityForResult(intent, ConstantKey.RESULTCODE_PAYMENTOVERVIEW);
-               });
+            if (isPoster) {
+                linearAcceptDeleteOffer.setVisibility(View.VISIBLE);
+                btnAccept.setOnClickListener(v -> {
+                    Intent intent = new Intent(PublicChatActivity.this, PaymentOverviewActivity.class);
+                    Bundle bundle = new Bundle();
+                    //    bundle.putParcelable(ConstantKey.TASK, taskModel);
+                    //     bundle.putParcelable(ConstantKey.OFFER_LIST_MODEL, obj);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, ConstantKey.RESULTCODE_PAYMENTOVERVIEW);
+                });
             }
             ivReport.setOnClickListener(v -> {
                 Intent intent = new Intent(PublicChatActivity.this, ReportActivity.class);
@@ -334,9 +338,9 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                 ImageUtil.displayImage(imgAvatar, offerModel.getWorker().getAvatar().getThumbUrl(), null);
             txtName.setText(offerModel.getWorker().getName());
             if (offerModel.getWorker() != null && offerModel.getWorker().getWorkerRatings() != null && offerModel.getWorker().getWorkerRatings().getAvgRating() != null) {
-                txtRatingValue.setText(String.format(java.util.Locale.US,"%.1f", offerModel.getWorker().getWorkerRatings().getAvgRating())+" (" + offerModel.getWorker().getWorkerRatings().getReceivedReviews() + ")");
+                txtRatingValue.setText(String.format(java.util.Locale.US, "%.1f", offerModel.getWorker().getWorkerRatings().getAvgRating()) + " (" + offerModel.getWorker().getWorkerRatings().getReceivedReviews() + ")");
 //                ratingbarWorker.setProgress(Math.round(offerModel.getWorker().getWorkerRatings().getAvgRating()));
-            }else{
+            } else {
                 starRatingBar.setVisibility(View.GONE);
             }
             if (offerModel.getWorker().getIsVerifiedAccount() == 1) {
@@ -462,6 +466,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
         // start the image capture Intent
         startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
     }
+
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
 
     public boolean checkPermissionREAD_EXTERNAL_STORAGE(final Context context) {
@@ -476,6 +481,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
             return true;
         }
     }
+
     private void addCommentIntoServer(String str_message, Integer id, String url) {
         showProgressDialog();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/comments",
@@ -496,14 +502,14 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                                     CommentModel commentModel = new CommentModel().getJsonToModel(jsonObject_offer_chat);
 //                                    edtCommentMessage.setHint("Question");
                                     publicChatListAdapter.addItem(commentModel);
-                                    if(recyclerViewQuestion!=null)
-                                    recyclerViewQuestion.setAdapter(publicChatListAdapter);
+                                    if (recyclerViewQuestion != null)
+                                        recyclerViewQuestion.setAdapter(publicChatListAdapter);
 
 
                                 } else {
                                     showToast("Something went Wrong", PublicChatActivity.this);
                                 }
-                                if(adapter!=null){
+                                if (adapter != null) {
                                     adapter.notifyDataSetChanged();
                                 }
                             }
@@ -590,7 +596,7 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
     }
 
 
-    private void doApiCall(String url,boolean isOffer) {
+    private void doApiCall(String url, boolean isOffer) {
         ArrayList<CommentModel> items = new ArrayList<>();
         Helper.closeKeyboard(PublicChatActivity.this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + "/comments",
@@ -612,9 +618,9 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
                         publicChatListAdapter.clear();
                         publicChatListAdapter.addItems(items);
 
-                        if(isOffer) {
+                        if (isOffer) {
                             recyclerViewOfferChat.scrollToPosition(items.size() - 1);
-                        }else{
+                        } else {
                             LinearLayoutManager layoutManager = new LinearLayoutManager(PublicChatActivity.this);
                             recyclerViewQuestion.setVisibility(View.VISIBLE);
                             recyclerViewQuestion.setLayoutManager(layoutManager);
@@ -756,9 +762,10 @@ public class PublicChatActivity extends ActivityBase implements View.OnClickList
             }
         }
     }
+
     @Override
     public void onItemClick(View view, AttachmentModel obj, int position, String action) {
-        if(checkPermissionREAD_EXTERNAL_STORAGE(this)) {
+        if (checkPermissionREAD_EXTERNAL_STORAGE(this)) {
             if (action.equalsIgnoreCase("add")) {
                 Intent intent = new Intent();
                 intent.setType("image/*");

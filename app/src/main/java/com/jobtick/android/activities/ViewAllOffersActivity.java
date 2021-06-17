@@ -19,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.adapers.OfferListAdapter;

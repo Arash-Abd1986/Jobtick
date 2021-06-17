@@ -33,31 +33,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:eImeOptions="actionNext"
-                app:eStartFocus="true"
                 app:eInputType="text"
+                app:eStartFocus="true"
                 app:eTitle="@string/full_name" />
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_height="wrap_content">
-
-            <com.jobtick.android.widget.ExtendedEntryText
-                android:id="@+id/edt_card_number"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:eMaxCharNumber="19"
-                app:eImeOptions="actionNext"
-                app:eInputType="integer"
-                app:eTitle="@string/card_number" />
+                android:layout_marginTop="8dp">
+
+                <com.jobtick.android.widget.ExtendedEntryText
+                    android:id="@+id/edt_card_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:eImeOptions="actionNext"
+                    app:eInputType="integer"
+                    app:eMaxCharNumber="19"
+                    app:eTitle="@string/card_number" />
+
                 <ImageView
                     android:id="@+id/ivCardType"
-                    android:visibility="gone"
+                    android:layout_width="@dimen/_70dp"
+                    android:layout_height="@dimen/_70dp"
                     android:layout_gravity="center_vertical|end"
                     android:layout_marginEnd="10dp"
                     android:padding="10dp"
-                    android:layout_width="@dimen/_70dp"
-                    android:layout_height="@dimen/_70dp"/>
+                    android:visibility="gone" />
             </FrameLayout>
 
             <com.jobtick.android.widget.ExtendedEntryText
@@ -65,9 +66,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                app:eHint="MM/YY"
                 app:eImeOptions="normal"
                 app:eInputType="calendarKeyboard"
-                app:eHint="MM/YY"
                 app:eMaxCharNumber="5"
                 app:eTitle="@string/expiry_date" />
 
@@ -75,10 +76,10 @@
                 android:id="@+id/edt_security_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:eMaxCharNumber="4"
                 android:layout_marginTop="8dp"
                 app:eImeOptions="actionDone"
                 app:eInputType="integer"
+                app:eMaxCharNumber="4"
                 app:eTitle="@string/cvc" />
 
         </LinearLayout>

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/grey_100"
     android:orientation="vertical"
     tools:context=".activities.AddBankAccountActivity">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/lyt_btn_add_bank_account"
         android:layout_below="@+id/toolbar"
-        android:scrollbars="none"
-        android:layout_marginTop="@dimen/payment_page_margin_top">
+        android:layout_marginTop="@dimen/payment_page_margin_top"
+        android:scrollbars="none">
 
 
         <LinearLayout
@@ -31,30 +31,30 @@
                 android:id="@+id/edt_account_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:eStartFocus="true"
-                app:eTitle="@string/account_name"
+                app:eImeOptions="actionNext"
                 app:eInputType="text"
-                app:eImeOptions="actionNext"/>
+                app:eStartFocus="true"
+                app:eTitle="@string/account_name" />
 
             <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_bsb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:eTitle="@string/bsb"
+                android:layout_marginTop="8dp"
+                app:eImeOptions="actionNext"
                 app:eInputType="integer"
                 app:eMaxCharNumber="6"
-                android:layout_marginTop="8dp"
-                app:eImeOptions="actionNext"/>
+                app:eTitle="@string/bsb" />
 
             <com.jobtick.android.widget.ExtendedEntryText
                 android:id="@+id/edt_account_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:eTitle="@string/account_number"
-                app:eMaxCharNumber="16"
-                app:eInputType="integer"
                 android:layout_marginTop="8dp"
-                app:eImeOptions="actionDone"/>
+                app:eImeOptions="actionDone"
+                app:eInputType="integer"
+                app:eMaxCharNumber="16"
+                app:eTitle="@string/account_number" />
 
         </LinearLayout>
 

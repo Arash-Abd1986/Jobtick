@@ -42,15 +42,17 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/materialText_500_16"
-                    android:text="No notifications here"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:textColor="@color/colorNavyBlue"
-                    android:layout_marginTop="16dp"/>
+                    android:text="No notifications here"
+                    android:textAppearance="@style/materialText_500_16"
+                    android:textColor="@color/colorNavyBlue" />
 
             </LinearLayout>
 
-            <include layout="@layout/view_notification_list" android:visibility="visible" />
+            <include
+                layout="@layout/view_notification_list"
+                android:visibility="visible" />
 
         </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -8,18 +8,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
+        android:background="@drawable/shape_tab_gray10"
         android:backgroundTint="@color/green_gray_open"
-        android:padding="@dimen/spacing_medium"
-        android:background="@drawable/shape_tab_gray10">
+        android:padding="@dimen/spacing_medium">
 
         <ImageView
             android:id="@+id/img_btn_add"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_plus"
-            android:contentDescription="@string/todo" />
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/ic_plus" />
     </RelativeLayout>
 </RelativeLayout>

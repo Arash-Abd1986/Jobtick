@@ -178,11 +178,11 @@
                                     android:id="@+id/lytDeletePicture"
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
-                                    android:visibility="gone"
                                     android:layout_alignParentBottom="true"
                                     android:layout_marginBottom="@dimen/_9sp"
                                     android:background="@drawable/bg_rounded_play"
-                                    android:gravity="center">
+                                    android:gravity="center"
+                                    android:visibility="gone">
 
                                     <ImageView
                                         android:layout_width="@dimen/_25sp"
@@ -340,21 +340,21 @@
                         android:visibility="visible">
 
                         <LinearLayout
-                            android:minHeight="90dp"
-                            android:weightSum="10"
-                            android:background="@drawable/shape_rounded_white"
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_large"
                             android:layout_marginBottom="@dimen/spacing_medium"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:background="@drawable/shape_rounded_white"
+                            android:minHeight="90dp"
+                            android:orientation="horizontal"
+                            android:weightSum="10">
 
                             <LinearLayout
                                 android:layout_width="0dp"
-                                android:layout_weight="8"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="8"
 
                                 android:orientation="vertical">
 
@@ -372,16 +372,16 @@
                                     android:id="@+id/recycler_view"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:overScrollMode="never"
                                     android:layout_marginStart="5dp"
+                                    android:overScrollMode="never"
                                     android:padding="3dp" />
                             </LinearLayout>
 
                             <RelativeLayout
                                 android:id="@+id/add_job"
                                 android:layout_width="0dp"
-                                android:layout_gravity="bottom"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
                                 android:layout_weight="2"
                                 android:orientation="vertical">
 
@@ -389,11 +389,11 @@
                                     android:id="@+id/small_plus"
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
-                                    android:layout_marginRight="16dp"
-                                    android:layout_marginBottom="12dp"
                                     android:layout_alignParentTop="true"
                                     android:layout_centerHorizontal="true"
                                     android:layout_marginTop="8dp"
+                                    android:layout_marginRight="16dp"
+                                    android:layout_marginBottom="12dp"
                                     android:background="@drawable/add_blue_c">
 
                                     <androidx.appcompat.widget.AppCompatImageView
@@ -728,8 +728,8 @@
             android:id="@+id/card_save_profile"
             style="@style/materialButton"
             android:layout_width="match_parent"
-            android:layout_alignParentBottom="true"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="31dp"

@@ -1,218 +1,168 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
+import android.content.Intent
+import android.os.Bundle
+import android.os.Parcelable
+import android.view.MenuItem
+import com.android.volley.*
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.google.android.material.appbar.MaterialToolbar
+import com.jobtick.android.BuildConfig
+import com.jobtick.android.R
+import com.jobtick.android.fragments.NewTaskAlertsInPersonFragment.Companion.newInstance
+import com.jobtick.android.fragments.NewTaskAlertsInPersonFragment.OperationInPersonListener
+import com.jobtick.android.models.task.TaskAlert
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.HttpStatus
+import org.json.JSONException
+import org.json.JSONObject
+import timber.log.Timber
+import java.util.*
 
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.viewpager.widget.ViewPager;
+class NewTaskAlertsActivity : ActivityBase(), OperationInPersonListener {
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.android.BuildConfig;
-import com.jobtick.android.R;
+    var toolbar: MaterialToolbar? = null
 
-import android.annotation.SuppressLint;
-
-import com.jobtick.android.adapers.SectionsPagerAdapter;
-import com.jobtick.android.adapers.SuburbSearchAdapter;
-import com.jobtick.android.fragments.NewTaskAlertsInPersonFragment;
-import com.jobtick.android.fragments.NewTaskAlertsRemoteFragment;
-import com.jobtick.android.fragments.SearchSuburbBottomSheet;
-import com.jobtick.android.models.response.searchsuburb.Feature;
-import com.jobtick.android.models.task.TaskAlert;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.HttpStatus;
-import com.jobtick.android.widget.ExtendedEntryText;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import timber.log.Timber;
-
-public class NewTaskAlertsActivity extends ActivityBase implements NewTaskAlertsInPersonFragment.OperationInPersonListener{
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
-
-    TaskAlert taskAlert;
-    int position = -1;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_task_alerts);
-        ButterKnife.bind(this);
-        taskAlert = new TaskAlert();
-        if (getIntent().getExtras() != null) {
-            taskAlert = (TaskAlert) getIntent().getExtras().getParcelable("TASK_ALERT");
-            position = getIntent().getExtras().getInt("POSITION");
+    var taskAlert: TaskAlert? = null
+    var position = -1
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_new_task_alerts)
+        toolbar = findViewById(R.id.toolbar)
+        taskAlert = TaskAlert()
+        if (intent.extras != null) {
+            taskAlert = intent.extras!!.getParcelable<Parcelable>("TASK_ALERT") as TaskAlert?
+            position = intent.extras!!.getInt("POSITION")
         }
-        initToolbar();
+        initToolbar()
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
+            supportFragmentManager.beginTransaction()
                     .setReorderingAllowed(true)
-                    .add(R.id.fragment_container_view, NewTaskAlertsInPersonFragment.newInstance(taskAlert, position, this), "New Job Alert")
-                    .commit();
+                    .add(R.id.fragment_container_view, newInstance(taskAlert, position, this), "New Job Alert")
+                    .commit()
         }
-
     }
 
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
-    @Override
-    public void onBackPressed() {
-        if (taskAlert.isValid()) {
-            Intent intent = new Intent();
-            Bundle bundle = new Bundle();
-            bundle.putInt("POSITION", position);
-            bundle.putParcelable("TASK_ALERT", taskAlert);
-            intent.putExtras(bundle);
-            setResult(1, intent);
+    override fun onBackPressed() {
+        if (taskAlert!!.isValid) {
+            val intent = Intent()
+            val bundle = Bundle()
+            bundle.putInt("POSITION", position)
+            bundle.putParcelable("TASK_ALERT", taskAlert)
+            intent.putExtras(bundle)
+            setResult(1, intent)
         }
-        super.onBackPressed();
+        super.onBackPressed()
     }
 
-    private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("New Job Alert");
+    private fun initToolbar() {
+        toolbar!!.setNavigationIcon(R.drawable.ic_back)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.title = "New Job Alert"
     }
 
-
-
-    @Override
-    public void onInPersonSave(int position, TaskAlert taskAlert, String minPrice, String maxPrice) {
-        this.taskAlert = taskAlert;
-        this.position = position;
-        if (taskAlert.getAlert_type().equals("physical")) {
-            taskAlert.setLattitude(taskAlert.getLattitude());
-            taskAlert.setLongitude(taskAlert.getLongitude());
-            taskAlert.setSuburb(taskAlert.getSuburb());
-        }else{
-            taskAlert.setLattitude(null);
-            taskAlert.setLongitude(null);
-            taskAlert.setSuburb(null);
+    override fun onInPersonSave(position: Int, taskAlert: TaskAlert?, minPrice: String, maxPrice: String) {
+        this.taskAlert = taskAlert
+        this.position = position
+        if (taskAlert!!.alert_type == "physical") {
+            taskAlert.lattitude = taskAlert.lattitude
+            taskAlert.longitude = taskAlert.longitude
+            taskAlert.suburb = taskAlert.suburb
+        } else {
+            taskAlert.lattitude = null
+            taskAlert.longitude = null
+            taskAlert.suburb = null
         }
-        addTaskAlert(this.taskAlert,minPrice, maxPrice);
+        addTaskAlert(this.taskAlert, minPrice, maxPrice)
     }
 
-
-    private void addTaskAlert(TaskAlert taskAlert, String minPrice,String maxPrice) {
+    private fun addTaskAlert(taskAlert: TaskAlert?, minPrice: String, maxPrice: String) {
         //{{baseurl}}/taskalerts
-        showProgressDialog();
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, Constant.URL_TASK_ALERT_V2,
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
+        showProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_TASK_ALERT_V2,
+                Response.Listener { response: String? ->
+                    Timber.e(response)
+                    hideProgressDialog()
                     try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
+                        val jsonObject = JSONObject(response)
+                        Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                    finish();
+                                    finish()
                                 }
                             } else {
-                                showToast("Something went Wrong", NewTaskAlertsActivity.this);
+                                showToast("Something went Wrong", this@NewTaskAlertsActivity)
                             }
                         }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-
+                    } catch (e: JSONException) {
+                        Timber.e(e.toString())
+                        e.printStackTrace()
                     }
-
-
                 },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
+                Response.ErrorListener { error: VolleyError ->
+                    val networkResponse = error.networkResponse
                     if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
+                        val jsonError = String(networkResponse.data)
                         // Print Error!
-                        Timber.e(jsonError);
+                        Timber.e(jsonError)
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser();
-                            hideProgressDialog();
-                            return;
+                            unauthorizedUser()
+                            hideProgressDialog()
+                            return@ErrorListener
                         }
                         try {
-                            hideProgressDialog();
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            showToast(jsonObject_error.getString("message"), this);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            hideProgressDialog()
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObject_error = jsonObject.getJSONObject("error")
+                            showToast(jsonObject_error.getString("message"), this)
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
                         }
                     } else {
-                        showToast("Something Went Wrong", NewTaskAlertsActivity.this);
+                        showToast("Something Went Wrong", this@NewTaskAlertsActivity)
                     }
-                    Timber.e(error.toString());
-                    hideProgressDialog();
+                    Timber.e(error.toString())
+                    hideProgressDialog()
                 }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                return map1;
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["X-Requested-With"] = "XMLHttpRequest"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                return map1
             }
 
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("keyword", taskAlert.getKetword());
-                map1.put("type", taskAlert.getAlert_type());
-                map1.put("minprice", minPrice);
-                map1.put("maxprice", maxPrice);
-                if (taskAlert.getAlert_type().equals("physical")) {
-                    map1.put("location", taskAlert.getSuburb());
-                    map1.put("latitude", taskAlert.getLattitude().toString());
-                    map1.put("longitude", taskAlert.getLongitude().toString());
-                    map1.put("distance", String.valueOf(taskAlert.getDistance()));
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["keyword"] = taskAlert!!.ketword
+                map1["type"] = taskAlert.alert_type
+                map1["minprice"] = minPrice
+                map1["maxprice"] = maxPrice
+                if (taskAlert.alert_type == "physical") {
+                    map1["location"] = taskAlert.suburb
+                    map1["latitude"] = taskAlert.lattitude.toString()
+                    map1["longitude"] = taskAlert.longitude.toString()
+                    map1["distance"] = taskAlert.distance.toString()
                 }
-
-                return map1;
+                return map1
             }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(NewTaskAlertsActivity.this);
-        requestQueue.add(stringRequest);
-        Timber.e(stringRequest.getUrl());
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        val requestQueue = Volley.newRequestQueue(this@NewTaskAlertsActivity)
+        requestQueue.add(stringRequest)
+        Timber.e(stringRequest.url)
     }
-
-
 }
-
-

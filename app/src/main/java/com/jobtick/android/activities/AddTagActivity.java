@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.android.edit_text.EditTextRegular;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 import android.widget.TextView;
 

@@ -1,83 +1,67 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
+import android.os.Bundle
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.appbar.MaterialToolbar
+import com.jobtick.android.R
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ExternalIntentHelper
+import com.jobtick.android.widget.ExtendedSettingItem
 
-import androidx.appcompat.app.AppCompatActivity;
+class HelpActivity : AppCompatActivity() {
+    private var toolbar: MaterialToolbar? = null
+    private var btnSupport: ExtendedSettingItem? = null
+    private var btnTerms: ExtendedSettingItem? = null
+    private var btnPrivacy: ExtendedSettingItem? = null
+    private var btnGuidelinesPoster: ExtendedSettingItem? = null
+    private var btnGuidelinesTicker: ExtendedSettingItem? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_help)
+        toolbar = findViewById(R.id.toolbar)
+        btnSupport = findViewById(R.id.btn_support)
+        btnTerms = findViewById(R.id.btn_terms)
+        btnPrivacy = findViewById(R.id.btn_privacy)
+        btnGuidelinesPoster = findViewById(R.id.btn_guidelines_poster)
+        btnGuidelinesTicker = findViewById(R.id.btn_guidelines_ticker)
 
-import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.android.R;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.ExternalIntentHelper;
-
-import android.annotation.SuppressLint;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-import static com.jobtick.android.utils.Constant.URL_how_it_works_poster;
-import static com.jobtick.android.utils.Constant.URL_how_it_works_ticker;
-import static com.jobtick.android.utils.Constant.URL_privacy_policy;
-
-public class HelpActivity extends AppCompatActivity {
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_help);
-        ButterKnife.bind(this);
-        initToolbar();
+        initToolbar()
+        onClick()
     }
 
-
-    private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Help");
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+    private fun onClick() {
+        btnSupport!!.setOnClickListener {
+            ExternalIntentHelper.openLink(this, Constant.URL_support)
         }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @OnClick({R.id.btn_support, R.id.btn_terms, R.id.btn_privacy, R.id.btn_guidelines_poster, R.id.btn_guidelines_ticker})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_support:
-                ExternalIntentHelper.openLink(this, Constant.URL_support);
-                break;
-            case R.id.btn_terms:
-                ExternalIntentHelper.openLink(this, Constant.URL_terms);
-                break;
-            case R.id.btn_privacy:
-                ExternalIntentHelper.openLink(this, URL_privacy_policy);
-                break;
-            case R.id.btn_guidelines_poster:
-                ExternalIntentHelper.openLink(this, URL_how_it_works_poster);
-                break;
-            case R.id.btn_guidelines_ticker:
-                ExternalIntentHelper.openLink(this, URL_how_it_works_ticker);
-                break;
+        btnTerms!!.setOnClickListener {
+            ExternalIntentHelper.openLink(this, Constant.URL_terms)
+        }
+        btnPrivacy!!.setOnClickListener {
+            ExternalIntentHelper.openLink(this, Constant.URL_privacy_policy)
+        }
+        btnGuidelinesPoster!!.setOnClickListener {
+            ExternalIntentHelper.openLink(this, Constant.URL_how_it_works_poster)
+        }
+        btnGuidelinesTicker!!.setOnClickListener {
+            ExternalIntentHelper.openLink(this, Constant.URL_how_it_works_ticker)
         }
     }
+
+    private fun initToolbar() {
+        toolbar!!.setNavigationIcon(R.drawable.ic_back)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.title = "Help"
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
+
 }

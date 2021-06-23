@@ -40,6 +40,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.adapers.AttachmentAdapter;
@@ -179,7 +180,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
         recyclerView.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(AttachmentActivity.this, 5), true));
         recyclerView.setHasFixedSize(true);
         //set data and list adapter
-        adapter = new AttachmentAdapter(attachmentArrayList,true);
+        adapter = new AttachmentAdapter(attachmentArrayList, true);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         adapter.setOnItemClickListener(this);
@@ -432,7 +433,7 @@ public class AttachmentActivity extends ActivityBase implements AttachmentAdapte
                             uploadDataInTaskMediaApi(file);
                         }
                     } else {
-                       showToast("Try Again", this);
+                        showToast("Try Again", this);
                     }
 
                 }

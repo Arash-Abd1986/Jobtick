@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.utils.Constant;
@@ -130,8 +131,8 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
 
         }
         edtSubject.setExtendedViewOnClickListener(this);
-        root.setOnClickListener(v ->{
-            if(spinnerVisible)
+        root.setOnClickListener(v -> {
+            if (spinnerVisible)
                 hideSpinner();
         });
     }
@@ -144,7 +145,7 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
 
-    @OnClick({R.id.submit, R.id.spinner_spam, R.id.spinner_fraud, R.id.spinner_offensive, R.id.spinner_others })
+    @OnClick({R.id.submit, R.id.spinner_spam, R.id.spinner_fraud, R.id.spinner_offensive, R.id.spinner_others})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.submit:
@@ -175,7 +176,7 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
         }
     }
 
-    private void selectSpinnerItem(String title){
+    private void selectSpinnerItem(String title) {
         edtSubject.setText(title);
         hideSpinner();
     }
@@ -463,9 +464,11 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
     public void onClick() {
         showSpinner();
     }
+
     private boolean spinnerVisible = false;
-    private void showSpinner(){
-        if(spinnerVisible) return;
+
+    private void showSpinner() {
+        if (spinnerVisible) return;
         spinnerVisible = true;
         spinnerContainer.setVisibility(View.VISIBLE);
         edtDescription.setClickable(false);
@@ -474,8 +477,8 @@ public class ReportActivity extends ActivityBase implements ExtendedEntryText.Ex
         spinnerContainer.animate().alpha(1f).setDuration(250).start();
     }
 
-    private void hideSpinner(){
-        if(!spinnerVisible) return;
+    private void hideSpinner() {
+        if (!spinnerVisible) return;
         spinnerVisible = false;
         edtDescription.setClickable(true);
         edtDescription.setFocusable(true);

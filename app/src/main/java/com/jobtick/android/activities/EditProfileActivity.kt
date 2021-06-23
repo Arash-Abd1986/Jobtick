@@ -61,205 +61,45 @@ private const val TAG = "EditProfile"
 
 class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemClickListener, SubClickListener, DateChange {
     private val PLACE_SELECTION_REQUEST_CODE = 1
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_first_name)
     var edtFirstName: ExtendedEntryText? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_last_name)
     var edtLastName: ExtendedEntryText? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_suburb)
     var txtSuburb: ExtendedEntryText? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_tagline)
     var edtTagline: ExtendedEntryText? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_phone_number)
     var edtPhoneNumber: ExtendedEntryText? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_about_me)
     var edtAboutMe: ExtendedCommentText? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_email_address)
     var edtEmailAddress: ExtendedEntryText? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_birth_date)
     var txtBirthDate: ExtendedEntryText? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_business_number)
     var edtBusinessNumber: ExtendedEntryText? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.img_transportation_back)
     var imgTransportationBack: ImageView? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.recycler_view)
     var recyclerView: RecyclerView? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_transportation)
     var txtTransportation: TextView? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rlt_btn_transportation)
     var rltBtnTransportation: RelativeLayout? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_languages)
     var txtLanguages: TextView? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.img_languages_back)
     var imgLanguagesBack: ImageView? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rlt_btn_languages)
     var rltBtnLanguages: RelativeLayout? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_education)
     var txtEducation: TextView? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.img_education_back)
     var imgEducationBack: ImageView? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rlt_btn_education)
     var rltBtnEducation: RelativeLayout? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_experience)
     var txtExperience: TextView? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.img_experience_back)
     var imgExperienceBack: ImageView? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_general_info)
     var txtGeneralInfo: TextView? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_private_info)
     var txtPrivateInfo: TextView? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_portfolio_skills)
     var txtPortfolioSkills: TextView? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.llGeneral)
     var llGeneral: LinearLayout? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.llPinfo)
     var llPinfo: LinearLayout? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.llPS)
     var llPS: LinearLayout? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.under_tab3)
     var underTab3: View? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.under_tab2)
     var underTab2: View? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.under_tab1)
     var underTab1: View? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rlt_btn_experience)
     var rltBtnExperience: RelativeLayout? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_specialities)
     var txtSpecialities: TextView? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.img_specialities_back)
     var imgSpecialitiesBack: ImageView? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rlt_btn_specialities)
     var rltBtnSpecialities: RelativeLayout? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.bottom_sheet)
     var bottomSheet: FrameLayout? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lytDeletePicture)
     var lytDeletePicture: RelativeLayout? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.card_save_profile)
     var cardSaveProfile: Button? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.ivBack)
     var ivBack: ImageView? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.small_plus)
     var smallPlus: FrameLayout? = null
-
-    @JvmField
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.img_user_avatar)
     var imgAvatar: CircularImageView? = null
     private var attachmentArrayList: ArrayList<AttachmentModel>? = null
     private var attachmentIDs: ArrayList<String>? = null
@@ -357,16 +197,6 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         }
     }
 
-    private fun getStringArray(arr: ArrayList<String?>): Array<String?>? {
-
-        // Convert ArrayList to object array
-        val objArr = arr.toArray()
-
-        // convert Object array to String array
-        return Arrays
-                .copyOf(objArr, objArr.size,
-                        Array<String>::class.java)
-    }
 
     private fun updateProfile() {
         showProgressDialog()
@@ -389,7 +219,8 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                 addFormDataPart("dob", str_DOB_MODEL)
             if (attachmentIDs!!.size > 0)
                 attachmentIDs!!.forEach {
-                    addFormDataPart("portfolio[]", it)  }
+                    addFormDataPart("portfolio[]", it)
+                }
 
             if (userAccountModel!!.skills.specialities!!.size > 0)
                 userAccountModel!!.skills.specialities.forEach {
@@ -402,7 +233,8 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
 
             if (userAccountModel!!.skills.language!!.size > 0)
                 userAccountModel!!.skills.language!!.forEach {
-                    addFormDataPart("language[]", it) }
+                    addFormDataPart("language[]", it)
+                }
 
             if (userAccountModel!!.skills.education!!.size > 0)
                 userAccountModel!!.skills.education!!.forEach {
@@ -415,7 +247,9 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
 
             //addFormDataPart("latitude", null)
             //addFormDataPart("longitude", null)
-            //addFormDataPart("avatar", null)
+            if (sessionManager.userAccount.avatar != null)
+                if (sessionManager.userAccount.avatar.id != null)
+                    addFormDataPart("avatar", sessionManager.userAccount.avatar.id.toString())
             //addFormDataPart("cover", null)
         }.build()
         Log.d(TAG, "updateProfile: " + requestBody)
@@ -424,21 +258,18 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 hideProgressDialog()
                 try {
-                    if (response != null) {
-                        Log.d("EditProfile", "onResponse: " + response.toString())
-                        val jsonObject = JSONObject(response.body())
-                        val jsonObject_user = jsonObject.getJSONObject("data")
-                        val userAccountModel = UserAccountModel().getJsonToModel(jsonObject_user)
-                        sessionManager.userAccount = userAccountModel
-                        sessionManager.latitude = str_latitude
-                        sessionManager.longitude = str_longitude
-                        initDatePicker()
-                        showSuccessToast(jsonObject.getString("message"), this@EditProfileActivity)
-                        if (ProfileFragment.onProfileupdatelistener != null) {
-                            ProfileFragment.onProfileupdatelistener.updateProfile()
-                        }
-                        onBackPressed()
+                    val jsonObject = JSONObject(response.body())
+                    val jsonObject_user = jsonObject.getJSONObject("data")
+                    val userAccountModel = UserAccountModel().getJsonToModel(jsonObject_user)
+                    sessionManager.userAccount = userAccountModel
+                    sessionManager.latitude = str_latitude
+                    sessionManager.longitude = str_longitude
+                    initDatePicker()
+                    showSuccessToast(jsonObject.getString("message"), this@EditProfileActivity)
+                    if (ProfileFragment.onProfileupdatelistener != null) {
+                        ProfileFragment.onProfileupdatelistener.updateProfile()
                     }
+                    onBackPressed()
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
                     showToast("Something Went Wrong", this@EditProfileActivity)
@@ -450,90 +281,6 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                 Timber.e(call.toString())
             }
         })
-    }
-
-    private fun submitProfile() {
-        showProgressDialog()
-        Helper.closeKeyboard(this)
-        val str_fname = edtFirstName!!.text.trim { it <= ' ' }
-        val str_lname = edtLastName!!.text.trim { it <= ' ' }
-        val str_suburb = txtSuburb!!.text.trim { it <= ' ' }
-        val str_tag = edtTagline!!.text.trim { it <= ' ' }
-        val str_about_me = edtAboutMe!!.text.trim { it <= ' ' }
-        val str_business_number = edtBusinessNumber!!.text.trim { it <= ' ' }
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_USER_PROFILE_INFO,
-                com.android.volley.Response.Listener { response: String? ->
-                    hideProgressDialog()
-                    try {
-                        if (response != null) {
-                            val jsonObject = JSONObject(response)
-                            val jsonObject_user = jsonObject.getJSONObject("data")
-                            val userAccountModel = UserAccountModel().getJsonToModel(jsonObject_user)
-                            sessionManager.userAccount = userAccountModel
-                            sessionManager.latitude = str_latitude
-                            sessionManager.longitude = str_longitude
-                            initDatePicker()
-                            showSuccessToast(jsonObject.getString("message"), this@EditProfileActivity)
-                            if (ProfileFragment.onProfileupdatelistener != null) {
-                                ProfileFragment.onProfileupdatelistener.updateProfile()
-                            }
-                            onBackPressed()
-                        }
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                        showToast("Something Went Wrong", this@EditProfileActivity)
-                    }
-                },
-                com.android.volley.Response.ErrorListener { error: VolleyError ->
-                    val networkResponse = error.networkResponse
-                    if (networkResponse != null && networkResponse.data != null) {
-                        val jsonError = String(networkResponse.data)
-                        // Print Error!
-                        try {
-                            val jsonObject = JSONObject(jsonError)
-                            val jsonObject_error = jsonObject.getJSONObject("error")
-                            val message = jsonObject_error.getString("message")
-                            showToast(message, this@EditProfileActivity)
-                            if (jsonObject_error.has("errors")) {
-                                val jsonObject_errors = jsonObject_error.getJSONObject("errors")
-                            }
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
-                        }
-                    } else {
-                        showToast("Something Went Wrong", this@EditProfileActivity)
-                    }
-                    hideProgressDialog()
-                }) {
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["X-Requested-With"] = "XMLHttpRequest"
-                map1["Authorization"] = "Bearer " + sessionManager.accessToken
-                map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                return map1
-            }
-
-            override fun getParams(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["fname"] = str_fname
-                map1["lname"] = str_lname
-                map1["location"] = str_suburb
-                map1["latitude"] = str_latitude!!
-                map1["longitude"] = str_longitude!!
-                map1["tagline"] = str_tag
-                map1["business_number"] = str_business_number
-                map1["about"] = str_about_me
-                if (str_DOB_MODEL != "") {
-                    map1["dob"] = str_DOB_MODEL
-                }
-                return map1
-            }
-        }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-        val requestQueue = Volley.newRequestQueue(this)
-        requestQueue.add(stringRequest)
     }
 
     private fun init() {
@@ -623,11 +370,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
             month = calendar[Calendar.MONTH]
             day = calendar[Calendar.DAY_OF_MONTH]
         }
-        //TODO
-//        datePickerDialog = new DatePickerDialog(this,
-//                android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-//                mDateSetListener,
-//                year, month, day);
+
         calendar = Calendar.getInstance()
         calendar.add(Calendar.YEAR, -Constant.MIN_AGE_FOR_USE_APP)
         calendar.add(Calendar.DAY_OF_MONTH, -1)
@@ -635,15 +378,9 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         month = calendar[Calendar.MONTH]
         day = calendar[Calendar.DAY_OF_MONTH]
 
-        //TODO
-//        datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
-//        datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-    }// map1.put("X-Requested-With", "XMLHttpRequest");
 
-    /*
-                                * Add Button for empty attachment
-                                * */
-    // attachmentArrayList.add(new AttachmentModel());
+    }
+
     private val allUserProfileDetails: Unit
         get() {
             val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_PROFILE + "/" + sessionManager.userAccount.id,
@@ -810,9 +547,6 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         return str_tag
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-    }
 
     override fun onItemClick(view: View, obj: AttachmentModel, position: Int, action: String) {
         if (action.equals("add", ignoreCase = true)) {
@@ -832,11 +566,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                     try {
                         val jsonObject = JSONObject(response)
                         Timber.e(jsonObject.toString())
-
-
-                        /*attachmentArrayList.remove(position);
-                        adapter.notifyItemRemoved(position);
-                        adapter.notifyItemRangeRemoved(position, attachmentArrayList.size());*/attachmentArrayList!!.removeAt(position)
+                        attachmentArrayList!!.removeAt(position)
                         adapter!!.DeleteItem(position)
                         showToast("Portfolio Deleted", this@EditProfileActivity)
                     } catch (e: JSONException) {
@@ -860,9 +590,6 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                             val jsonObject_error = jsonObject.getJSONObject("error")
                             if (jsonObject_error.has("message")) {
                                 showToast(jsonObject_error.getString("message"), this)
-                            }
-                            if (jsonObject_error.has("errors")) {
-                                val jsonObject_errors = jsonObject_error.getJSONObject("errors")
                             }
                         } catch (e: JSONException) {
                             e.printStackTrace()
@@ -1015,7 +742,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                             if (jsonObject_data.has("modal_url") && !jsonObject_data.isNull("modal_url")) attachment.modalUrl = jsonObject_data.getString("modal_url")
                             if (jsonObject_data.has("created_at") && !jsonObject_data.isNull("created_at")) attachment.createdAt = jsonObject_data.getString("created_at")
                             attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
-                            attachmentArrayList!!.add( attachment)
+                            attachmentArrayList!!.add(attachment)
 
                         }
                         val updateAttachment = ArrayList(attachmentArrayList)

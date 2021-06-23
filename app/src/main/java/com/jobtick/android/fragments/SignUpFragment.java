@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 import android.widget.TextView;
 
@@ -64,7 +66,7 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if(fragmentView != null){
+        if (fragmentView != null) {
             return fragmentView;
         }
 
@@ -84,11 +86,10 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
         if (TextUtils.isEmpty(edtEmailAddress.getText().trim())) {
             edtEmailAddress.setError("Check your email address");
             return false;
-        }
-        else if (TextUtils.isEmpty(edtPassword.getText().trim())) {
+        } else if (TextUtils.isEmpty(edtPassword.getText().trim())) {
             edtPassword.setError("Enter your password");
             return false;
-        }else if(edtPassword.getText().trim().length() < 8){
+        } else if (edtPassword.getText().trim().length() < 8) {
             edtPassword.setError("Password must be atleast 8 characters.");
             return false;
         } else if (!edtPassword.getText().trim().equals(edtRepeatPassword.getText().trim())) {
@@ -132,6 +133,7 @@ public class SignUpFragment extends Fragment implements AuthActivity.EditTextErr
     public void onEmailError(String emailError) {
         edtEmailAddress.setError(emailError);
     }
+
     @Override
     public void onPasswordError(String passwordError) {
         edtPassword.setError(passwordError);

@@ -42,14 +42,14 @@
                 android:layout_marginBottom="14dp"
                 android:background="@android:color/transparent"
                 android:clickable="true"
+                android:contentDescription="@string/todo"
                 android:focusable="true"
                 android:tint="@color/grey_70"
-                app:srcCompat="@drawable/ic_search"
-                android:contentDescription="@string/todo" />
+                app:srcCompat="@drawable/ic_search" />
 
             <com.jobtick.android.text_view.TextViewRegular
-                style="@style/materialText_400_14"
                 android:id="@+id/edt_search_categories"
+                style="@style/materialText_400_14"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -64,7 +64,7 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@color/grey_70"
-                android:textColorHint="@color/grey_70"/>
+                android:textColorHint="@color/grey_70" />
         </LinearLayout>
     </LinearLayout>
 
@@ -94,7 +94,7 @@
         android:layout_marginEnd="@dimen/spacing_large"
         android:layout_marginBottom="@dimen/spacing_large"
         android:text="@string/post_a_job"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white" />
 
     <include
         android:id="@+id/gifImageView"

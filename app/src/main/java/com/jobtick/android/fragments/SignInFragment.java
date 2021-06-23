@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.activities.AuthActivity;
@@ -98,7 +99,7 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
     }
 
     @OnClick({R.id.txt_forgot_password, R.id.lyt_btn_sign_in, R.id.lyt_btn_google, R.id.lyt_btn_facebook, R.id.txt_btn_sign_up,
-    R.id.email, R.id.password})
+            R.id.email, R.id.password})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.txt_forgot_password:
@@ -137,11 +138,10 @@ public class SignInFragment extends Fragment implements AuthActivity.EditTextErr
         if (TextUtils.isEmpty(edtEmailAddress.getText().trim())) {
             edtEmailAddress.setError("Check your email address");
             return false;
-        }
-        else if (TextUtils.isEmpty(edtPassword.getText().trim())) {
+        } else if (TextUtils.isEmpty(edtPassword.getText().trim())) {
             edtPassword.setError("Enter your password");
             return false;
-        }else if(edtPassword.getText().trim().length() < 8){
+        } else if (edtPassword.getText().trim().length() < 8) {
             edtPassword.setError("Password must be atleast 8 characters.");
             return false;
         }

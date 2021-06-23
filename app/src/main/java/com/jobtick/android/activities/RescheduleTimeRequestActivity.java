@@ -20,6 +20,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.models.TaskModel;
@@ -45,7 +46,7 @@ import static com.jobtick.android.utils.Constant.MAX_RESCHEDULE_DAY;
 import static com.jobtick.android.utils.Constant.URL_CREATE_RESCHEDULE;
 import static com.jobtick.android.utils.Constant.URL_TASKS;
 
-public class RescheduleTimeRequestActivity extends ActivityBase implements ExtendedEntryText.ExtendedViewOnClickListener{
+public class RescheduleTimeRequestActivity extends ActivityBase implements ExtendedEntryText.ExtendedViewOnClickListener {
 
 
     @SuppressLint("NonConstantResourceId")
@@ -95,7 +96,7 @@ public class RescheduleTimeRequestActivity extends ActivityBase implements Exten
         taskModel = new TaskModel();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-        //    taskModel = bundle.getParcelable(ConstantKey.TASK);
+            //    taskModel = bundle.getParcelable(ConstantKey.TASK);
             taskModel = TaskDetailsActivity.taskModel;
         }
 
@@ -103,13 +104,13 @@ public class RescheduleTimeRequestActivity extends ActivityBase implements Exten
             //format 2021-01-07
             txtPreviousDate.setText(taskModel.getDueDate());
             dueDate = TimeHelper.convertDateToLong(taskModel.getDueDate());
-            if(taskModel.getDueTime().getAfternoon())
+            if (taskModel.getDueTime().getAfternoon())
                 getTxtPreviousTime.setText(R.string.afternoon);
-            if(taskModel.getDueTime().getEvening())
+            if (taskModel.getDueTime().getEvening())
                 getTxtPreviousTime.setText(R.string.evening);
-            if(taskModel.getDueTime().getMorning())
+            if (taskModel.getDueTime().getMorning())
                 getTxtPreviousTime.setText(R.string.morning);
-            if(taskModel.getDueTime().getAnytime())
+            if (taskModel.getDueTime().getAnytime())
                 getTxtPreviousTime.setText(R.string.anyTime);
         }
         mDateSetListener = (view, year, month, dayOfMonth) -> {
@@ -148,7 +149,7 @@ public class RescheduleTimeRequestActivity extends ActivityBase implements Exten
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.lyt_btn_verify:
-                if(validation())
+                if (validation())
                     CreateRequest();
                 break;
             case R.id.lyt_btn_decline:
@@ -157,12 +158,12 @@ public class RescheduleTimeRequestActivity extends ActivityBase implements Exten
         }
     }
 
-    private boolean validation(){
-        if(txtDate.getText().length() == 0){
+    private boolean validation() {
+        if (txtDate.getText().length() == 0) {
             txtDate.setError("Please enter new date.");
             return false;
         }
-        if(edtNote.getText().length() < edtNote.geteMinSize()){
+        if (edtNote.getText().length() < edtNote.geteMinSize()) {
             edtNote.setError("");
             return false;
         }

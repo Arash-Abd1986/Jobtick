@@ -32,8 +32,11 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
+
 import timber.log.Timber;
+
 import com.jobtick.android.adapers.FilterAdapter;
 import com.jobtick.android.adapers.TaskListAdapter;
 import com.jobtick.android.adapers.TaskListAdapterV2;
@@ -146,7 +149,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerViewTask.setLayoutManager(layoutManager);
-        taskListAdapter = new TaskListAdapterV2( new ArrayList<>(), null);
+        taskListAdapter = new TaskListAdapterV2(new ArrayList<>(), null);
         recyclerViewTask.setAdapter(taskListAdapter);
         taskListAdapter.setOnItemClickListener(this);
 
@@ -259,14 +262,14 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
     public void onMapReady(GoogleMap googleMap) {
         CameraPosition cameraPosition =
                 new CameraPosition.Builder()
-                        .target(new LatLng( Double.parseDouble(sessionManager.getLatitude()),  Double.parseDouble(sessionManager.getLongitude())))
+                        .target(new LatLng(Double.parseDouble(sessionManager.getLatitude()), Double.parseDouble(sessionManager.getLongitude())))
                         .zoom(12)
                         .build();
         this.googleMap = googleMap;
         this.googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         new Handler().postDelayed(() -> {
             mapView.setVisibility(View.VISIBLE);
-        },200);
+        }, 200);
         this.googleMap.setOnMarkerClickListener(this);
 
 
@@ -276,7 +279,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
     public boolean onMarkerClick(Marker marker) {
         if (marker.getTag() != null) {
             int position = (int) marker.getTag();
-            if(position != -1)
+            if (position != -1)
                 recyclerViewTask.smoothScrollToPosition(position);
         }
         return false;
@@ -289,7 +292,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         }
         if (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_ALL)) {
             queryParameter = queryParameter + "&task_type=" + Constant.FILTER_ALL_QUERY;
-            queryParameter = queryParameter + "&distance=" + filterModel.getDistance() ;
+            queryParameter = queryParameter + "&distance=" + filterModel.getDistance();
             String[] price = filterModel.getPrice().replace("$", "").replace(",", "").split("-");
             queryParameter = queryParameter + "&min_price=" + price[0].trim() + "&max_price=" + price[1].trim();
             queryParameter = queryParameter + "&current_lat=" + filterModel.getLatitude();
@@ -306,7 +309,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
             }
         } else if (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_IN_PERSON)) {
             queryParameter = queryParameter + "&task_type=" + Constant.FILTER_IN_PERSON_QUERY;
-            queryParameter = queryParameter + "&distance=" + filterModel.getDistance() ;
+            queryParameter = queryParameter + "&distance=" + filterModel.getDistance();
             String[] price = filterModel.getPrice().replace("$", "").replace(",", "").split("-");
             queryParameter = queryParameter + "&min_price=" + price[0].trim() + "&max_price=" + price[1].trim();
             queryParameter = queryParameter + "&current_lat=" + filterModel.getLatitude();
@@ -339,7 +342,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
                                 Double longitude = Double.valueOf(myJobsResponse.getData().get(i).getLongitude());
 
                                 addMarker(latitude, longitude, myJobsResponse.getData().get(i).getTitle(), i);
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
@@ -382,12 +385,12 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         Intent intent = new Intent(MapViewActivity.this, TaskDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString(ConstantKey.SLUG, obj.getSlug());
-    //    bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
+        //    bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
         intent.putExtras(bundle);
         startActivity(intent);
     }
 
-    private void goToLocation(double latitude, double longitude){
+    private void goToLocation(double latitude, double longitude) {
 
         CameraPosition cameraPosition =
                 new CameraPosition.Builder()
@@ -397,7 +400,7 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
-    private void addMarker(double latitude, double longitude, String title, int tag){
+    private void addMarker(double latitude, double longitude, String title, int tag) {
 
         LatLng destination = new LatLng(latitude, longitude);
         MarkerOptions markerOptions = new MarkerOptions().position(destination)
@@ -408,17 +411,17 @@ public class MapViewActivity extends ActivityBase implements OnMapReadyCallback,
         marker.setTitle(title);
     }
 
-    private void removeAllMarkers(){
-        if(googleMap != null)
+    private void removeAllMarkers() {
+        if (googleMap != null)
             googleMap.clear();
     }
 
-    private void findCurrentLocation(){
-        if(filterModel != null && filterModel.getLatitude() != null && filterModel.getLogitude() != null){
+    private void findCurrentLocation() {
+        if (filterModel != null && filterModel.getLatitude() != null && filterModel.getLogitude() != null) {
             myLatitude = Double.parseDouble(filterModel.getLatitude());
             myLongitude = Double.parseDouble(filterModel.getLogitude());
             mySuburb = Tools.getStringFromRes(MapViewActivity.this, R.string.selected_suburb);
-        }else{
+        } else {
             myLatitude = Double.parseDouble(sessionManager.getLatitude());
             myLongitude = Double.parseDouble(sessionManager.getLongitude());
             mySuburb = Tools.getStringFromRes(MapViewActivity.this, R.string.current_location);

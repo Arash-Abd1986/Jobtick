@@ -25,6 +25,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.adapers.ReviewAdapter;
@@ -176,7 +177,7 @@ public class ReviewsActivity extends ActivityBase {
             WhoIs = "poster";
 
         }
-        if (userAccountModel==null) {
+        if (userAccountModel == null) {
             userAccountModel = sessionManager.getUserAccount();
         }
         initProgressDialog();
@@ -260,7 +261,7 @@ public class ReviewsActivity extends ActivityBase {
             img_verified_account.setVisibility(View.GONE);
         }
 
-        switch (userAccountModel.getPosterTier().getId()){
+        switch (userAccountModel.getPosterTier().getId()) {
             case 1:
                 ivMedal.setImageResource(R.drawable.ic_boronz_selected);
                 break;
@@ -284,7 +285,7 @@ public class ReviewsActivity extends ActivityBase {
         //worker
         if (userAccountModel.getWorkerRatings() != null) {
             ratingBar.setRating(userAccountModel.getWorkerRatings().getAvgRating());
-            txtRatingValue.setText(String.format(java.util.Locale.US,"%.1f", userAccountModel.getWorkerRatings().getAvgRating()));
+            txtRatingValue.setText(String.format(java.util.Locale.US, "%.1f", userAccountModel.getWorkerRatings().getAvgRating()));
             txtReviewCounts.setText(userAccountModel.getWorkerRatings().getReceivedReviews().toString() + " Review");
             if (userAccountModel.getWorkerRatings() != null && userAccountModel.getWorkerRatings().getBreakdownModel().get1() != null) {
                 progress_bar_1_star.setProgress(userAccountModel.getWorkerRatings().getBreakdownModel().get1());
@@ -332,7 +333,7 @@ public class ReviewsActivity extends ActivityBase {
         //poster
         if (userAccountModel.getPosterRatings() != null) {
             ratingbar.setRating(userAccountModel.getPosterRatings().getAvgRating());
-            txtRatingValueP.setText(String.format(java.util.Locale.US,"%.1f", userAccountModel.getPosterRatings().getAvgRating()));
+            txtRatingValueP.setText(String.format(java.util.Locale.US, "%.1f", userAccountModel.getPosterRatings().getAvgRating()));
             txtReviewCountsP.setText(userAccountModel.getPosterRatings().getReceivedReviews().toString() + " Review");
             if (userAccountModel.getPosterRatings() != null && userAccountModel.getPosterRatings().getBreakdownModel().get1() != null) {
                 progress_bar_1_starP.setProgress(userAccountModel.getPosterRatings().getBreakdownModel().get1());

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
@@ -29,11 +29,11 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="135dp"
+        android:layout_margin="8dp"
         android:elevation="0dp"
         android:visibility="visible"
         app:cardCornerRadius="16dp"
-        app:cardElevation="0dp"
-        android:layout_margin="8dp">
+        app:cardElevation="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -115,12 +115,12 @@
                 android:textSize="14dp" />
 
             <com.jobtick.android.text_view.TextViewSemiBold
+                android:id="@+id/tv_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_amount"
-                tools:text="xxx"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14dp"/>
+                android:textSize="14dp"
+                tools:text="xxx" />
         </LinearLayout>
 
 
@@ -164,13 +164,14 @@
                 android:textSize="14dp" />
 
             <com.jobtick.android.text_view.TextViewMedium
+                android:id="@+id/tv_gst"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_gst"
                 android:text="xxx"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14dp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -187,13 +188,14 @@
                 android:textSize="14dp" />
 
             <com.jobtick.android.text_view.TextViewMedium
+                android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_date"
-                tools:text="xxx"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                tools:text="xxx" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -210,13 +212,14 @@
                 android:textSize="14dp" />
 
             <com.jobtick.android.text_view.TextViewMedium
+                android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_time"
                 android:text="xxx"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14dp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -233,9 +236,9 @@
                 android:textSize="14dp" />
 
             <com.jobtick.android.text_view.TextViewMedium
+                android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_status"
                 android:text="xxx"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14dp" />

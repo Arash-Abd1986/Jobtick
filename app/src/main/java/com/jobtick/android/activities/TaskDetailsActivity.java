@@ -3328,8 +3328,12 @@ public class TaskDetailsActivity extends ActivityBase implements OfferListAdapte
                                 reciverA.setThumbUrl(data.getUsers().get(reciverId).getAvatar().getThumb_url());
                                 reciverA.setUrl(data.getUsers().get(reciverId).getAvatar().getUrl());
                                 reciver.setAvatar(reciverA);
-                                reciver.setLatitude(data.getUsers().get(reciverId).getPosition().getLatitude());
-                                reciver.setLongitude(data.getUsers().get(reciverId).getPosition().getLongitude());
+                                if (data.getUsers().get(reciverId).getPosition() != null) {
+                                    if (data.getUsers().get(reciverId).getPosition().getLongitude() != null)
+                                        reciver.setLongitude(data.getUsers().get(reciverId).getPosition().getLongitude());
+                                    if (data.getUsers().get(reciverId).getPosition().getLatitude() != null)
+                                        reciver.setLatitude(data.getUsers().get(reciverId).getPosition().getLatitude());
+                                }
                                 reciver.setLastOnline(data.getUsers().get(reciverId).getLast_online());
                                 reciver.setName(data.getUsers().get(reciverId).getName());
                                 reciver.setId(data.getUsers().get(reciverId).getId());

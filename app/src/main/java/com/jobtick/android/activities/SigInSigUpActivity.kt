@@ -16,12 +16,7 @@ import com.jobtick.android.utils.IntroVideoView
 
 class SigInSigUpActivity : ActivityBase() {
     var lytBtnSignup: MaterialButton? = null
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_sign_in)
     var lytBtnSingin: MaterialButton? = null
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.videoView)
     var videoView: IntroVideoView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

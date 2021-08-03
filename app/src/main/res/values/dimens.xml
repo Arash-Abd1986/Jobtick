@@ -89,7 +89,7 @@
 
     <!-- new dimensions for new material design styles -->
     <!-- corners -->
-    <dimen name="buttonCorners">4dp</dimen>
+    <dimen name="buttonCorners">8dp</dimen>
     <dimen name="cardCorners">8dp</dimen>
 
     <!-- outline -->

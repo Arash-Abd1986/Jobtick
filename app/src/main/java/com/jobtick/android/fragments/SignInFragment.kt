@@ -1,160 +1,135 @@
-package com.jobtick.android.fragments;
+package com.jobtick.android.fragments
 
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
-
-import com.google.android.material.button.MaterialButton;
-import com.jobtick.android.R;
-
-import android.annotation.SuppressLint;
-
-import com.jobtick.android.activities.AuthActivity;
-
-import com.jobtick.android.utils.Helper;
-import com.jobtick.android.widget.ExtendedEntryText;
-import com.jobtick.android.widget.ExtendedEntryTextDiffId;
-
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import com.jobtick.android.activities.AuthActivity.EditTextError
+import com.jobtick.android.activities.AuthActivity
+import com.jobtick.android.R
+import com.jobtick.android.widget.ExtendedEntryTextDiffId
+import com.jobtick.android.widget.ExtendedEntryText
+import android.widget.TextView
+import com.google.android.material.button.MaterialButton
+import android.widget.LinearLayout
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import android.text.TextUtils
+import android.view.View
+import androidx.fragment.app.Fragment
+import com.jobtick.android.utils.Helper
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple [Fragment] subclass.
  */
-public class SignInFragment extends Fragment implements AuthActivity.EditTextError {
+class SignInFragment : Fragment(), EditTextError {
+    private var authActivity: AuthActivity? = null
 
-    private AuthActivity authActivity;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.email)
-    ExtendedEntryTextDiffId edtEmailAddress;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.password)
-    ExtendedEntryText edtPassword;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_forgot_password)
-    TextView txtForgotPassword;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_sign_in)
-    MaterialButton lytBtnSignIn;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_btn_sign_up)
-    TextView txtBtnSignUp;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.socialBox)
-    View socialBox;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_google)
-    LinearLayout lytBtnGoogle;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_facebook)
-    LinearLayout lytBtnFacebook;
+    var edtEmailAddress: ExtendedEntryTextDiffId? = null
+    var edtPassword: ExtendedEntryText? = null
+    var txtForgotPassword: TextView? = null
+    var lytBtnSignIn: MaterialButton? = null
+    var txtBtnSignUp: TextView? = null
+    var socialBox: View? = null
+    var lytBtnGoogle: LinearLayout? = null
+    var lytBtnFacebook: LinearLayout? = null
 
 
-    public SignInFragment() {
-        // Required empty public constructor
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
-        ButterKnife.bind(this, view);
-        setSocialBox();
-        authActivity = (AuthActivity) requireActivity();
+        return inflater.inflate(R.layout.fragment_sign_in, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setIDS()
+        onViewClick()
+        setSocialBox()
+        authActivity = requireActivity() as AuthActivity
         if (authActivity != null) {
-            authActivity.setEditTextError(this);
-        }
-        return view;
-    }
-
-    private void setSocialBox() {
-        TextView tvGoogle = socialBox.findViewById(R.id.tvGoogle);
-        TextView tvFB = socialBox.findViewById(R.id.tvFB);
-        TextView other = socialBox.findViewById(R.id.other);
-        tvGoogle.setText(getString(R.string.log_in_google_text));
-        tvFB.setText(getString(R.string.log_in_facebook_text));
-        other.setText(getString(R.string.other_login));
-    }
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @OnClick({R.id.txt_forgot_password, R.id.lyt_btn_sign_in, R.id.lyt_btn_google, R.id.lyt_btn_facebook, R.id.txt_btn_sign_up,
-            R.id.email, R.id.password})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.txt_forgot_password:
-                Helper.closeKeyboard(authActivity);
-                Fragment fragment = new ForgotPassword1Fragment();
-                FragmentTransaction ft = authActivity.getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.auth_layout, fragment).addToBackStack(ForgotPassword1Fragment.class.getName());
-                ft.addToBackStack(null);
-                ft.commit();
-                break;
-            case R.id.lyt_btn_sign_in:
-                if (validation()) {
-                    authActivity.login(edtEmailAddress.getText().trim(), edtPassword.getText().trim());
-                }
-                break;
-            case R.id.lyt_btn_google:
-                authActivity.signInWithGoogle(false);
-                break;
-            case R.id.lyt_btn_facebook:
-                authActivity.facebookLogin(false);
-                break;
-
-            case R.id.txt_btn_sign_up:
-                Helper.closeKeyboard(authActivity);
-                fragment = new SignUpFragment();
-                ft = authActivity.getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.auth_layout, fragment).addToBackStack(SignUpFragment.class.getName());
-                ft.commit();
-                // authActivity.switchContent(new SignUpFragment());
-                break;
-
+            authActivity!!.setEditTextError(this)
         }
     }
 
-    private boolean validation() {
-        if (TextUtils.isEmpty(edtEmailAddress.getText().trim())) {
-            edtEmailAddress.setError("Check your email address");
-            return false;
-        } else if (TextUtils.isEmpty(edtPassword.getText().trim())) {
-            edtPassword.setError("Enter your password");
-            return false;
-        } else if (edtPassword.getText().trim().length() < 8) {
-            edtPassword.setError("Password must be atleast 8 characters.");
-            return false;
+
+    private fun setIDS() {
+        edtEmailAddress = requireView().findViewById(R.id.email)
+        edtPassword = requireView().findViewById(R.id.password)
+        txtForgotPassword = requireView().findViewById(R.id.txt_forgot_password)
+        lytBtnSignIn = requireView().findViewById(R.id.lyt_btn_sign_in)
+        txtBtnSignUp = requireView().findViewById(R.id.txt_btn_sign_up)
+        socialBox = requireView().findViewById(R.id.socialBox)
+        lytBtnGoogle = requireView().findViewById(R.id.lyt_btn_google)
+        lytBtnFacebook = requireView().findViewById(R.id.lyt_btn_facebook)
+    }
+
+    private fun setSocialBox() {
+        val tvGoogle = socialBox!!.findViewById<TextView>(R.id.tvGoogle)
+        val tvFB = socialBox!!.findViewById<TextView>(R.id.tvFB)
+        val other = socialBox!!.findViewById<TextView>(R.id.other)
+        tvGoogle.text = getString(R.string.log_in_google_text)
+        tvFB.text = getString(R.string.log_in_facebook_text)
+        other.text = getString(R.string.other_login)
+    }
+
+
+    private  fun onViewClick() {
+        txtForgotPassword!!.setOnClickListener {
+            Helper.closeKeyboard(authActivity)
+            val fragment: Fragment = ForgotPassword1Fragment()
+            val ft = authActivity!!.supportFragmentManager.beginTransaction()
+            ft.replace(R.id.auth_layout, fragment)
+                .addToBackStack(ForgotPassword1Fragment::class.java.name)
+            ft.addToBackStack(null)
+            ft.commit()
         }
-        return true;
+
+        lytBtnSignIn!!.setOnClickListener {
+            if (validation()) {
+                authActivity!!.login(
+                    edtEmailAddress!!.text.trim { it <= ' ' },
+                    edtPassword!!.text.trim { it <= ' ' })
+            }
+        }
+
+        lytBtnGoogle!!.setOnClickListener {
+            authActivity!!.signInWithGoogle(false)
+        }
+        lytBtnFacebook!!.setOnClickListener {
+            authActivity!!.facebookLogin(false)
+        }
+        txtBtnSignUp!!.setOnClickListener {
+            var fragment: Fragment = ForgotPassword1Fragment()
+            var ft = authActivity!!.supportFragmentManager.beginTransaction()
+            Helper.closeKeyboard(authActivity)
+            fragment = SignUpFragment()
+            ft = authActivity!!.supportFragmentManager.beginTransaction()
+            ft.replace(R.id.auth_layout, fragment)
+                .addToBackStack(SignUpFragment::class.java.name)
+            ft.commit()
+        }
+
     }
 
-    @Override
-    public void onEmailError(String emailError) {
-        edtEmailAddress.setError(emailError);
+    private fun validation(): Boolean {
+        if (TextUtils.isEmpty(edtEmailAddress!!.text.trim { it <= ' ' })) {
+            edtEmailAddress!!.setError("Check your email address")
+            return false
+        } else if (TextUtils.isEmpty(edtPassword!!.text.trim { it <= ' ' })) {
+            edtPassword!!.setError("Enter your password")
+            return false
+        } else if (edtPassword!!.text.trim { it <= ' ' }.length < 8) {
+            edtPassword!!.setError("Password must be atleast 8 characters.")
+            return false
+        }
+        return true
     }
 
-    @Override
-    public void onPasswordError(String passwordError) {
-        edtPassword.setError(passwordError);
+    override fun onEmailError(emailError: String) {
+        edtEmailAddress!!.setError(emailError)
+    }
+
+    override fun onPasswordError(passwordError: String) {
+        edtPassword!!.setError(passwordError)
     }
 }

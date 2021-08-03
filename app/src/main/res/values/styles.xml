@@ -603,6 +603,11 @@
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">28sp</item>
     </style>
+    <style name="materialText_500_28_medium" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">28sp</item>
+    </style>
 
     <style name="materialText_500_18" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="fontFamily">@font/roboto_regular</item>

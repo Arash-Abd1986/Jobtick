@@ -5,21 +5,22 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:gravity="center"
+    android:layout_marginHorizontal="@dimen/spacing_mlarge"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <View
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="16dp"
             android:layout_width="0dp"
-            android:background="@color/N050"
+            android:layout_height="1dp"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/other"
             android:layout_centerVertical="true"
-            android:layout_height="1dp"/>
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/other"
+            android:background="@color/N050" />
         <com.jobtick.android.text_view.TextViewRegular
             android:id="@+id/other"
             android:layout_width="wrap_content"
@@ -30,23 +31,21 @@
             android:text="@string/or_sign_up_with"
             android:textColor="#7A869A"
             android:textSize="@dimen/_12sp" />
+
         <View
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="16dp"
             android:layout_width="0dp"
-            android:background="@color/N050"
+            android:layout_height="1dp"
             android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/other"
             android:layout_centerVertical="true"
-            android:layout_height="1dp"/>
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/other"
+            android:background="@color/N050" />
     </RelativeLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView

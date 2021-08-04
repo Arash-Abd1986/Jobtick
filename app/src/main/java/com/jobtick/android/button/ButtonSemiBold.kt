@@ -1,33 +1,32 @@
-package com.jobtick.android.button;
+package com.jobtick.android.button
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Typeface;
-import android.util.AttributeSet;
+import android.content.Context
+import android.graphics.Canvas
+import androidx.appcompat.widget.AppCompatButton
+import android.graphics.Typeface
+import android.util.AttributeSet
 
-
-public class ButtonSemiBold extends androidx.appcompat.widget.AppCompatButton {
-    public ButtonSemiBold(Context context) {
-        super(context);
-        Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_SemiBold.otf");
-        this.setTypeface(face);
+class ButtonSemiBold : AppCompatButton {
+    constructor(context: Context) : super(context) {
+        val face = Typeface.createFromAsset(context.assets, "fonts/poppins_SemiBold.otf")
+        this.typeface = face
     }
 
-    public ButtonSemiBold(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_SemiBold.otf");
-        this.setTypeface(face);
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        val face = Typeface.createFromAsset(context.assets, "fonts/poppins_SemiBold.otf")
+        this.typeface = face
     }
 
-    public ButtonSemiBold(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        Typeface face=Typeface.createFromAsset(context.getAssets(), "fonts/poppins_SemiBold.otf");
-        this.setTypeface(face);
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
+        context,
+        attrs,
+        defStyle
+    ) {
+        val face = Typeface.createFromAsset(context.assets, "fonts/poppins_SemiBold.otf")
+        this.typeface = face
     }
 
-    protected void onDraw (Canvas canvas) {
-        super.onDraw(canvas);
-
-
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
     }
 }

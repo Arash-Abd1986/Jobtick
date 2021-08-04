@@ -1,6 +1,5 @@
 package com.jobtick.android.activities
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
@@ -9,7 +8,6 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowManager
 import android.widget.RelativeLayout
-import butterknife.BindView
 import com.google.android.material.button.MaterialButton
 import com.jobtick.android.R
 import com.jobtick.android.utils.IntroVideoView

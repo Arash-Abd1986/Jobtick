@@ -1,37 +1,34 @@
-package com.jobtick.android.button;
+package com.jobtick.android.button
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Typeface;
-import android.util.AttributeSet;
+import android.content.Context
+import android.graphics.Canvas
+import androidx.appcompat.widget.AppCompatButton
+import android.graphics.Typeface
+import android.util.AttributeSet
+import androidx.core.content.res.ResourcesCompat
+import com.jobtick.android.R
 
-import androidx.core.content.res.ResourcesCompat;
-
-import com.jobtick.android.R;
-
-
-public class ButtonRegular extends androidx.appcompat.widget.AppCompatButton {
-    public ButtonRegular(Context context) {
-        super(context);
-        Typeface face= ResourcesCompat.getFont(context, R.font.roboto_regular);
-        this.setTypeface(face);
+class ButtonRegular : AppCompatButton {
+    constructor(context: Context?) : super(context!!) {
+        val face = ResourcesCompat.getFont(context, R.font.roboto_regular)
+        this.typeface = face
     }
 
-    public ButtonRegular(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        Typeface face=ResourcesCompat.getFont(context, R.font.roboto_regular);
-        this.setTypeface(face);
+    constructor(context: Context?, attrs: AttributeSet?) : super(
+        context!!, attrs
+    ) {
+        val face = ResourcesCompat.getFont(context, R.font.roboto_regular)
+        this.typeface = face
     }
 
-    public ButtonRegular(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        Typeface face=ResourcesCompat.getFont(context, R.font.roboto_regular);
-        this.setTypeface(face);
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(
+        context!!, attrs, defStyle
+    ) {
+        val face = ResourcesCompat.getFont(context, R.font.roboto_regular)
+        this.typeface = face
     }
 
-    protected void onDraw (Canvas canvas) {
-        super.onDraw(canvas);
-
-
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
     }
 }

@@ -1,62 +1,42 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import com.jobtick.android.R
+import com.jobtick.android.models.response.getbalance.CreditCardModel
+import com.jobtick.android.utils.Constant
 
-import androidx.annotation.Nullable;
-
-import com.jobtick.android.R;
-import com.jobtick.android.models.response.getbalance.CreditCardModel;
-import com.jobtick.android.utils.Constant;
-
-public class CashOutActivity extends ActivityBase {
-
-    private TextView availableBalance;
-    private Button cashout;
-    private EditText requestedCashout;
-
-    private CreditCardModel creditCardModel;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.cashout_activity);
-
-        availableBalance = findViewById(R.id.available_balance);
-        cashout = findViewById(R.id.cashout);
-        requestedCashout = findViewById(R.id.requested_cashout);
-
-        creditCardModel = (CreditCardModel) getIntent().getExtras().get(Constant.CASH_OUT);
-
-
-        cashout.setOnClickListener(v ->{
-            if(!validation()) return;
-
-            requestCashout();
-        });
-
-        init();
-    }
-
-    private void init(){
-    }
-
-    private void requestCashout() {
-
-        //TODO: after api created, do request cashout here
-
-
-    }
-
-    private boolean validation(){
-        if(requestedCashout.getText().length() == 0){
-            showToast("Please enter your requested amount.", this);
-            return false;
+class CashOutActivity : ActivityBase() {
+    private var availableBalance: TextView? = null
+    private var cashout: Button? = null
+    private var requestedCashout: EditText? = null
+    private var creditCardModel: CreditCardModel? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.cashout_activity)
+        availableBalance = findViewById(R.id.available_balance)
+        cashout = findViewById(R.id.cashout)
+        requestedCashout = findViewById(R.id.requested_cashout)
+        creditCardModel = intent.extras!![Constant.CASH_OUT] as CreditCardModel?
+        cashout!!.setOnClickListener { v: View? ->
+            if (validation())
+                requestCashout()
         }
-            return true;
+        init()
     }
 
+    private fun init() {}
+    private fun requestCashout() {
+    }
 
+    private fun validation(): Boolean {
+        if (requestedCashout!!.text.isEmpty()) {
+            showToast("Please enter your requested amount.", this)
+            return false
+        }
+        return true
+    }
 }

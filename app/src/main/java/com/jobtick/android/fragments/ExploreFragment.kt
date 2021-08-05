@@ -465,14 +465,6 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
         }
     }
 
-    override fun onItemClick(view: View, obj: Data, position: Int, action: String) {
-        val intent = Intent(dashboardActivity, TaskDetailsActivity::class.java)
-        val bundle = Bundle()
-        bundle.putString(ConstantKey.SLUG, obj.slug)
-        //    bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
-        intent.putExtras(bundle)
-        startActivityForResult(intent, 202)
-    }
 
     override fun onQueryTextSubmit(query: String): Boolean {
         filterModel!!.query = query
@@ -499,5 +491,13 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
         mSocket!!.off("auth", onAutResponse)
         mSocket!!.off("newjob", newJob)
         super.onDestroy()
+    }
+
+    override fun onItemClick(view: View?, obj: Data?, position: Int, action: String?) {
+        val intent = Intent(dashboardActivity, TaskDetailsActivity::class.java)
+        val bundle = Bundle()
+        bundle.putString(ConstantKey.SLUG, obj!!.slug)
+        intent.putExtras(bundle)
+        startActivityForResult(intent, 202)
     }
 }

@@ -171,6 +171,7 @@
                     android:layout_marginEnd="25dp"
                     android:src="@drawable/pic"
                     card_view:civ_border="false" />
+
                 <com.mikhaellopez.circularimageview.CircularImageView
                     android:id="@+id/img_avatar0"
                     android:layout_width="25dp"

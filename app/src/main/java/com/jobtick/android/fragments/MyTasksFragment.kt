@@ -1,689 +1,678 @@
-package com.jobtick.android.fragments;
+package com.jobtick.android.fragments
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.gson.Gson;
-import com.jobtick.android.BuildConfig;
-import com.jobtick.android.R;
-import com.jobtick.android.activities.ActivityBase;
-import com.jobtick.android.activities.DashboardActivity;
-import com.jobtick.android.activities.SearchTaskActivity;
-import com.jobtick.android.activities.TaskCreateActivity;
-import com.jobtick.android.activities.TaskDetailsActivity;
-import com.jobtick.android.adapers.TaskListAdapterV2;
-import com.jobtick.android.models.TaskModel;
-import com.jobtick.android.models.response.myjobs.Data;
-import com.jobtick.android.models.response.myjobs.MyJobsResponse;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.ConstantKey;
-import com.jobtick.android.utils.Helper;
-import com.jobtick.android.utils.HttpStatus;
-import com.jobtick.android.utils.SessionManager;
-import com.jobtick.android.widget.EndlessRecyclerViewOnScrollListener;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import timber.log.Timber;
-
-import static com.jobtick.android.utils.Constant.TASK_ASSIGNED_CASE_RELATED_JOB_VALUE;
-import static com.jobtick.android.utils.Constant.TASK_ASSIGNED_CASE_UPPER_FIRST;
-import static com.jobtick.android.utils.Constant.TASK_DRAFT_CASE_ALL_JOB_KEY;
-import static com.jobtick.android.utils.Constant.TASK_DRAFT_CASE_ALL_JOB_VALUE;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import android.content.Context
+import com.jobtick.android.R
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.jobtick.android.activities.DashboardActivity
+import com.jobtick.android.widget.EndlessRecyclerViewOnScrollListener
+import com.jobtick.android.adapers.TaskListAdapterV2
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import android.os.Bundle
+import butterknife.ButterKnife
+import androidx.core.content.res.ResourcesCompat
+import android.graphics.drawable.ColorDrawable
+import androidx.recyclerview.widget.LinearLayoutManager
+import android.content.Intent
+import android.graphics.Color
+import android.view.*
+import android.widget.*
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import com.android.volley.*
+import com.jobtick.android.activities.SearchTaskActivity
+import com.android.volley.toolbox.StringRequest
+import timber.log.Timber
+import com.google.gson.Gson
+import com.jobtick.android.models.response.myjobs.MyJobsResponse
+import org.json.JSONException
+import com.android.volley.toolbox.Volley
+import com.jobtick.android.BuildConfig
+import com.jobtick.android.activities.TaskDetailsActivity
+import com.jobtick.android.models.TaskModel
+import com.jobtick.android.activities.TaskCreateActivity
+import com.jobtick.android.activities.ActivityBase
+import com.jobtick.android.models.response.myjobs.Data
+import com.jobtick.android.utils.*
+import org.json.JSONObject
+import java.util.ArrayList
+import java.util.HashMap
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple [Fragment] subclass.
  */
-public class MyTasksFragment extends Fragment implements TaskListAdapterV2.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener,
-        TaskListAdapterV2.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListener {
+class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRefreshListener,
+    TaskListAdapterV2.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListener {
 
+    private var recyclerViewStatus: RecyclerView? = null
+    private var swipeRefresh: SwipeRefreshLayout? = null
 
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.recycler_view_status)
-    RecyclerView recyclerViewStatus;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.swipeRefresh)
-    SwipeRefreshLayout swipeRefresh;
-    private DashboardActivity dashboardActivity;
-    private SessionManager sessionManager;
-    private EndlessRecyclerViewOnScrollListener onScrollListener;
-
-
-    private TaskListAdapterV2 taskListAdapter;
-    private int currentPage = 1;
-    private boolean isLastPage = false;
-    private int totalItem = 10;
-    ImageView ivNotification;
-    TextView toolbar_title;
-    private TextView filterText;
-    private ImageView filterIcon;
-    private LinearLayout linFilter;
-    private BottomSheetBehavior mBehavior;
-    private BottomSheetDialog mBottomSheetDialog;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.bottom_sheet)
-    FrameLayout bottomSheet;
-
-
-    private String single_choice_selected = null;
-    private String temp_single_choice_selected = null;
-    private String str_search = null;
-    private final String temp_str_search = null;
-    private Toolbar toolbar;
-    private LinearLayout noJobs;
-    PopupWindow mypopupWindow;
-
-    public MyTasksFragment() {
-        // Required empty public constructor
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    private var dashboardActivity: DashboardActivity? = null
+    private var sessionManager: SessionManager? = null
+    private var onScrollListener: EndlessRecyclerViewOnScrollListener? = null
+    private var taskListAdapter: TaskListAdapterV2? = null
+    private var currentPage = 1
+    private var isLastPage = false
+    private var totalItem = 10
+    private lateinit var ivNotification: ImageView
+    private lateinit var toolbarTitle: TextView
+    private lateinit var filterText: TextView
+    private lateinit var filterIcon: ImageView
+    private lateinit var linFilter: LinearLayout
+    private var mBehavior: BottomSheetBehavior<*>? = null
+    private val mBottomSheetDialog: BottomSheetDialog? = null
+    var bottomSheet: FrameLayout? = null
+    private var single_choice_selected: String? = null
+    private var temp_single_choice_selected: String? = null
+    private var str_search: String? = null
+    private val temp_str_search: String? = null
+    private lateinit var toolbar: Toolbar
+    private var noJobs: LinearLayout? = null
+    var mypopupWindow: PopupWindow? = null
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_my_tasks, container, false);
-        ButterKnife.bind(this, view);
-        noJobs = view.findViewById(R.id.no_jobs_container);
-        swipeRefresh.setOnRefreshListener(this);
-        initToolbar();
-        setHasOptionsMenu(true);
-        mBehavior = BottomSheetBehavior.from(bottomSheet);
-
-        return view;
+        val view = inflater.inflate(R.layout.fragment_my_tasks, container, false)
+        ButterKnife.bind(this, view)
+        noJobs = view.findViewById(R.id.no_jobs_container)
+        swipeRefresh!!.setOnRefreshListener(this)
+        initToolbar()
+        setHasOptionsMenu(true)
+        initIDS()
+        mBehavior = BottomSheetBehavior.from<FrameLayout?>(bottomSheet!!)
+        return view
     }
 
-    private void initToolbar() {
-        dashboardActivity = (DashboardActivity) requireActivity();
-        if (dashboardActivity == null) return;
-        toolbar = dashboardActivity.findViewById(R.id.toolbar);
-        toolbar.getMenu().clear();
+    private fun initIDS() {
+        recyclerViewStatus = requireView().findViewById(R.id.recycler_view_status)
+        bottomSheet = requireView().findViewById(R.id.bottom_sheet)
+        swipeRefresh = requireView().findViewById(R.id.swipeRefresh)
+    }
+
+    private fun initToolbar() {
+        dashboardActivity = requireActivity() as DashboardActivity
+        if (dashboardActivity == null) return
+        toolbar = dashboardActivity!!.findViewById(R.id.toolbar)
+        toolbar.menu.clear()
         //toolbar.inflateMenu(R.menu.menu_my_task_black);
-        toolbar.setVisibility(View.VISIBLE);
-        ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
-        ivNotification.setVisibility(View.GONE);
-        toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
-        linFilter = dashboardActivity.findViewById(R.id.lin_filter);
-        filterText = dashboardActivity.findViewById(R.id.filter_text);
-        filterIcon = dashboardActivity.findViewById(R.id.filter_icon);
-        linFilter.setOnClickListener(v -> {
-            filterText.setTextColor(ContextCompat.getColor(getActivity(), R.color.P300));
-            filterIcon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_sort_arrow_up));
-            mypopupWindow.showAsDropDown(toolbar.findViewById(R.id.lin_filter), 0, 0);
-        });
-        toolbar_title.setVisibility(View.VISIBLE);
-        linFilter.setVisibility(View.VISIBLE);
-        toolbar_title.setText(R.string.my_jobs);
-
-        toolbar_title.setTypeface(ResourcesCompat.getFont(getContext(), R.font.roboto_semi_bold));
-        androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.START;
-        toolbar_title.setLayoutParams(params);
-        toolbar.setNavigationIcon(R.drawable.ic_setting);
-
+        toolbar.visibility = View.VISIBLE
+        ivNotification = dashboardActivity!!.findViewById(R.id.ivNotification)
+        ivNotification.setVisibility(View.GONE)
+        toolbarTitle = dashboardActivity!!.findViewById(R.id.toolbar_title)
+        linFilter = dashboardActivity!!.findViewById(R.id.lin_filter)
+        filterText = dashboardActivity!!.findViewById(R.id.filter_text)
+        filterIcon = dashboardActivity!!.findViewById(R.id.filter_icon)
+        linFilter.setOnClickListener(View.OnClickListener { v: View? ->
+            filterText.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(), R.color.P300
+                )
+            )
+            filterIcon.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_sort_arrow_up
+                )
+            )
+            mypopupWindow!!.showAsDropDown(toolbar.findViewById(R.id.lin_filter), 0, 0)
+        })
+        toolbarTitle.visibility = View.VISIBLE
+        linFilter.visibility = View.VISIBLE
+        toolbarTitle.setText(R.string.my_jobs)
+        toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_semi_bold)
+        val params = Toolbar.LayoutParams(
+            Toolbar.LayoutParams.WRAP_CONTENT,
+            Toolbar.LayoutParams.WRAP_CONTENT
+        )
+        params.gravity = Gravity.START
+        toolbarTitle.layoutParams = params
+        toolbar.setNavigationIcon(R.drawable.ic_setting)
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        linFilter.setVisibility(View.GONE);
+    override fun onStop() {
+        super.onStop()
+        linFilter!!.visibility = View.GONE
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        linFilter.setVisibility(View.VISIBLE);
-        sessionManager.setNeedRefresh(false);
-        getStatusList();
+    override fun onResume() {
+        super.onResume()
+        linFilter!!.visibility = View.VISIBLE
+        sessionManager!!.needRefresh = false
+        statusList
     }
 
-    private void setPopUpWindow() {
-        LayoutInflater inflater = (LayoutInflater)
-                getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.my_jobs_menu, null);
-
-        mypopupWindow = new PopupWindow(view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
-        mypopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        TextView allJobs = (TextView) view.findViewById(R.id.all_jobs);
-        TextView assigned = (TextView) view.findViewById(R.id.assigned);
-        TextView posted = (TextView) view.findViewById(R.id.posted);
-        TextView offered = (TextView) view.findViewById(R.id.offered);
-        TextView draft = (TextView) view.findViewById(R.id.draft);
-        TextView completed = (TextView) view.findViewById(R.id.completed);
-        TextView overdue = (TextView) view.findViewById(R.id.overdue);
-        TextView closed = (TextView) view.findViewById(R.id.closed);
-        TextView cancelled = (TextView) view.findViewById(R.id.cancelled);
-        mypopupWindow.setOnDismissListener(() -> {
-            filterText.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
-            filterIcon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_sort_arrow_down));
-        });
-        allJobs.setOnClickListener(v -> {
-            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
-            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            refreshSort("All Jobs");
-            mypopupWindow.dismiss();
-            filterText.setText("All jobs");
-        });
-        assigned.setOnClickListener(v -> {
-            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
-            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            refreshSort("Assigned");
-            mypopupWindow.dismiss();
-            filterText.setText("Assigned");
-        });
-        posted.setOnClickListener(v -> {
-            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
-            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            refreshSort("Open");
-            mypopupWindow.dismiss();
-            filterText.setText("Posted");
-
-        });
-        offered.setOnClickListener(v -> {
-            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
-            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            refreshSort("Offered");
-            mypopupWindow.dismiss();
-            filterText.setText("Offered");
-        });
-        draft.setOnClickListener(v -> {
-            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
-            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            refreshSort("Draft");
-            mypopupWindow.dismiss();
-            filterText.setText("Draft");
-        });
-        completed.setOnClickListener(v -> {
-            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
-            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            refreshSort("Completed");
-            mypopupWindow.dismiss();
-            filterText.setText("Completed");
-        });
-        overdue.setOnClickListener(v -> {
-            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
-            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            refreshSort("Overdue");
-            mypopupWindow.dismiss();
-            filterText.setText("Overdue");
-        });
-        closed.setOnClickListener(v -> {
-            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
-            refreshSort("Closed");
-            mypopupWindow.dismiss();
-            filterText.setText("Closed");
-        });
-        cancelled.setOnClickListener(v -> {
-            allJobs.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            assigned.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            posted.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            offered.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            draft.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            completed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            overdue.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            closed.setTextColor(ContextCompat.getColor(getActivity(), R.color.N300));
-            cancelled.setTextColor(ContextCompat.getColor(getActivity(), R.color.N900));
-            refreshSort("Cancelled");
-            mypopupWindow.dismiss();
-            filterText.setText("Cancelled");
-        });
+    private fun setPopUpWindow() {
+        val inflater =
+            requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.my_jobs_menu, null)
+        mypopupWindow = PopupWindow(
+            view,
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            true
+        )
+        mypopupWindow!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val allJobs = view.findViewById<View>(R.id.all_jobs) as TextView
+        val assigned = view.findViewById<View>(R.id.assigned) as TextView
+        val posted = view.findViewById<View>(R.id.posted) as TextView
+        val offered = view.findViewById<View>(R.id.offered) as TextView
+        val draft = view.findViewById<View>(R.id.draft) as TextView
+        val completed = view.findViewById<View>(R.id.completed) as TextView
+        val overdue = view.findViewById<View>(R.id.overdue) as TextView
+        val closed = view.findViewById<View>(R.id.closed) as TextView
+        val cancelled = view.findViewById<View>(R.id.cancelled) as TextView
+        mypopupWindow!!.setOnDismissListener {
+            filterText!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+            filterIcon!!.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_sort_arrow_down
+                )
+            )
+        }
+        allJobs.setOnClickListener { v: View? ->
+            allJobs.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(), R.color.N900
+                )
+            )
+            assigned.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            posted.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            offered.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            draft.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            completed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            overdue.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            closed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            cancelled.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            refreshSort("All Jobs")
+            mypopupWindow!!.dismiss()
+            filterText!!.text = "All jobs"
+        }
+        assigned.setOnClickListener { v: View? ->
+            allJobs.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(), R.color.N300
+                )
+            )
+            assigned.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+            posted.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            offered.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            draft.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            completed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            overdue.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            closed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            cancelled.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            refreshSort("Assigned")
+            mypopupWindow!!.dismiss()
+            filterText!!.text = "Assigned"
+        }
+        posted.setOnClickListener { v: View? ->
+            allJobs.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(), R.color.N300
+                )
+            )
+            assigned.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            posted.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+            offered.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            draft.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            completed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            overdue.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            closed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            cancelled.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            refreshSort("Open")
+            mypopupWindow!!.dismiss()
+            filterText!!.text = "Posted"
+        }
+        offered.setOnClickListener { v: View? ->
+            allJobs.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(), R.color.N300
+                )
+            )
+            assigned.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            posted.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            offered.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+            draft.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            completed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            overdue.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            closed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            cancelled.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            refreshSort("Offered")
+            mypopupWindow!!.dismiss()
+            filterText!!.text = "Offered"
+        }
+        draft.setOnClickListener { v: View? ->
+            allJobs.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(), R.color.N300
+                )
+            )
+            assigned.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            posted.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            offered.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            draft.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+            completed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            overdue.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            closed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            cancelled.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            refreshSort("Draft")
+            mypopupWindow!!.dismiss()
+            filterText!!.text = "Draft"
+        }
+        completed.setOnClickListener { v: View? ->
+            allJobs.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(), R.color.N300
+                )
+            )
+            assigned.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            posted.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            offered.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            draft.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            completed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+            overdue.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            closed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            cancelled.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            refreshSort("Completed")
+            mypopupWindow!!.dismiss()
+            filterText!!.text = "Completed"
+        }
+        overdue.setOnClickListener { v: View? ->
+            allJobs.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(), R.color.N300
+                )
+            )
+            assigned.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            posted.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            offered.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            draft.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            completed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            overdue.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+            closed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            cancelled.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            refreshSort("Overdue")
+            mypopupWindow!!.dismiss()
+            filterText!!.text = "Overdue"
+        }
+        closed.setOnClickListener { v: View? ->
+            allJobs.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(), R.color.N300
+                )
+            )
+            assigned.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            posted.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            offered.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            draft.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            completed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            overdue.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            cancelled.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            closed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+            refreshSort("Closed")
+            mypopupWindow!!.dismiss()
+            filterText.text = "Closed"
+        }
+        cancelled.setOnClickListener { v: View? ->
+            allJobs.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(), R.color.N300
+                )
+            )
+            assigned.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            posted.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            offered.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            draft.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            completed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            overdue.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            closed.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
+            cancelled.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+            refreshSort("Cancelled")
+            mypopupWindow!!.dismiss()
+            filterText.text = "Cancelled"
+        }
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        sessionManager = new SessionManager(dashboardActivity);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        sessionManager = SessionManager(dashboardActivity)
 
         // use a linear layout manager
-        LinearLayoutManager layoutManager = new LinearLayoutManager(dashboardActivity);
-        recyclerViewStatus.setLayoutManager(layoutManager);
-        resetTaskListAdapter();
-        recyclerViewStatus.setAdapter(taskListAdapter);
-        swipeRefresh.setRefreshing(true);
-        single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
-        getStatusList();
-        onScrollListener = new EndlessRecyclerViewOnScrollListener() {
-            @Override
-            public void onLoadMore(int currentPage) {
-                MyTasksFragment.this.currentPage = currentPage;
-                getStatusList();
+        val layoutManager = LinearLayoutManager(dashboardActivity)
+        recyclerViewStatus!!.layoutManager = layoutManager
+        resetTaskListAdapter()
+        recyclerViewStatus!!.adapter = taskListAdapter
+        swipeRefresh!!.isRefreshing = true
+        single_choice_selected = Constant.TASK_DRAFT_CASE_ALL_JOB_VALUE
+        statusList
+        onScrollListener = object : EndlessRecyclerViewOnScrollListener() {
+            override fun onLoadMore(currentPage: Int) {
+                this@MyTasksFragment.currentPage = currentPage
+                statusList
             }
 
-            @Override
-            public int getTotalItem() {
-                return totalItem;
+            override fun getTotalItem(): Int {
+                return totalItem
             }
-        };
-
-        recyclerViewStatus.addOnScrollListener(onScrollListener);
-        setPopUpWindow();
-
-        toolbar.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.action_search:
-
-                    Intent intent = new Intent(dashboardActivity, SearchTaskActivity.class);
-                    intent.putExtra(ConstantKey.FROM_MY_JOBS_WITH_LOVE, true);
-                    dashboardActivity.startActivity(intent);
-
-                    break;
-            }
-            return false;
-        });
-
-    }
-
-    private void getStatusList() {
-        String query_parameter = "";
-        if (str_search != null) {
-            query_parameter += "&search_query=" + str_search;
         }
+        recyclerViewStatus!!.addOnScrollListener(onScrollListener as EndlessRecyclerViewOnScrollListener)
+        setPopUpWindow()
+        toolbar.setOnMenuItemClickListener { item: MenuItem ->
+            when (item.itemId) {
+                R.id.action_search -> {
+                    val intent = Intent(dashboardActivity, SearchTaskActivity::class.java)
+                    intent.putExtra(ConstantKey.FROM_MY_JOBS_WITH_LOVE, true)
+                    dashboardActivity!!.startActivity(intent)
+                }
+            }
+            false
+        }
+    }//  swipeRefresh.setRefreshing(false);
 
-        if (single_choice_selected.equalsIgnoreCase(TASK_DRAFT_CASE_ALL_JOB_VALUE))
-            query_parameter += "";
-        else
-            query_parameter += "&status=" + single_choice_selected.toLowerCase();
-
-        if (currentPage == 1)
-            swipeRefresh.setRefreshing(true);
-
-        Helper.closeKeyboard(dashboardActivity);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_MY_JOBS + "?page=" + currentPage + query_parameter,
-                response -> {
-                    Timber.e(response);
+    // categoryArrayList.clear();
+    private val statusList: Unit
+        private get() {
+            var query_parameter = ""
+            if (str_search != null) {
+                query_parameter += "&search_query=$str_search"
+            }
+            query_parameter += if (single_choice_selected.equals(
+                    Constant.TASK_DRAFT_CASE_ALL_JOB_VALUE,
+                    ignoreCase = true
+                )
+            ) "" else "&status=" + single_choice_selected!!.toLowerCase()
+            if (currentPage == 1) swipeRefresh!!.isRefreshing = true
+            Helper.closeKeyboard(dashboardActivity)
+            val stringRequest: StringRequest = object : StringRequest(
+                Method.GET, Constant.URL_MY_JOBS + "?page=" + currentPage + query_parameter,
+                Response.Listener { response: String? ->
+                    Timber.e(response)
                     // categoryArrayList.clear();
                     try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        Gson gson = new Gson();
-                        MyJobsResponse myJobsResponse = gson.fromJson(jsonObject.toString(), MyJobsResponse.class);
-
-                        if (myJobsResponse.getData() == null) {
-                            dashboardActivity.showToast("some went to wrong", dashboardActivity);
-                            return;
+                        val jsonObject = JSONObject(response)
+                        Timber.e(jsonObject.toString())
+                        val gson = Gson()
+                        val (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(
+                            jsonObject.toString(),
+                            MyJobsResponse::class.java
+                        )
+                        if (data == null) {
+                            dashboardActivity!!.showToast("some went to wrong", dashboardActivity)
+                            return@Listener
                         }
-
-                        totalItem = myJobsResponse.getTotal();
-                        Constant.PAGE_SIZE = myJobsResponse.getPer_page();
-
+                        totalItem = total!!
+                        Constant.PAGE_SIZE = per_page!!
                         if (currentPage == 1) {
-                            resetTaskListAdapter();
+                            resetTaskListAdapter()
                         }
-                        taskListAdapter.addItems(myJobsResponse.getData(), totalItem);
-                        isLastPage = taskListAdapter.getItemCount() == totalItem;
-
-                        if (myJobsResponse.getData().size() <= 0) {
-                            noJobs.setVisibility(View.VISIBLE);
-                            recyclerViewStatus.setVisibility(View.GONE);
+                        taskListAdapter!!.addItems(data, totalItem)
+                        isLastPage = taskListAdapter!!.itemCount == totalItem
+                        if (data.size <= 0) {
+                            noJobs!!.visibility = View.VISIBLE
+                            recyclerViewStatus!!.visibility = View.GONE
                         } else {
-                            noJobs.setVisibility(View.GONE);
-                            recyclerViewStatus.setVisibility(View.VISIBLE);
-
+                            noJobs!!.visibility = View.GONE
+                            recyclerViewStatus!!.visibility = View.VISIBLE
                         }
-
-                        swipeRefresh.setRefreshing(false);
-                        str_search = null;
-                    } catch (JSONException e) {
-                        str_search = null;
-                        dashboardActivity.hideProgressDialog();
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
+                        swipeRefresh!!.isRefreshing = false
+                        str_search = null
+                    } catch (e: JSONException) {
+                        str_search = null
+                        dashboardActivity!!.hideProgressDialog()
+                        Timber.e(e.toString())
+                        e.printStackTrace()
                     }
                 },
-                error -> {
+                Response.ErrorListener { error: VolleyError ->
                     //  swipeRefresh.setRefreshing(false);
-                    str_search = null;
-                    swipeRefresh.setRefreshing(false);
-                    dashboardActivity.errorHandle1(error.networkResponse);
+                    str_search = null
+                    swipeRefresh!!.isRefreshing = false
+                    dashboardActivity!!.errorHandle1(error.networkResponse)
                 }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                return map1;
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["Authorization"] = "Bearer " + sessionManager!!.accessToken
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    return map1
+                }
             }
-        };
+            stringRequest.retryPolicy = DefaultRetryPolicy(
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
+            val requestQueue = Volley.newRequestQueue(dashboardActivity)
+            requestQueue.add(stringRequest)
+            Timber.e(stringRequest.url)
+        }
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(dashboardActivity);
-        requestQueue.add(stringRequest);
-        Timber.e(stringRequest.getUrl());
-
+    private fun resetTaskListAdapter() {
+        taskListAdapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount.id)
+        taskListAdapter!!.setOnItemClickListener(this)
+        taskListAdapter!!.onDraftDeleteListener = this
+        recyclerViewStatus!!.adapter = taskListAdapter
     }
 
-    private void resetTaskListAdapter() {
-        taskListAdapter = new TaskListAdapterV2(new ArrayList<>(), sessionManager.getUserAccount().getId());
-        taskListAdapter.setOnItemClickListener(this);
-        taskListAdapter.setOnDraftDeleteListener(this);
-        recyclerViewStatus.setAdapter(taskListAdapter);
-    }
-
-
-    @Override
-    public void onItemClick(View view, Data obj, int position, String action) {
-        if (obj.getStatus().toLowerCase().equalsIgnoreCase(Constant.TASK_DRAFT.toLowerCase())) {
-            getDataFromServer(obj.getSlug());
+    override fun onItemClick(view: View?, obj: Data?, position: Int, action: String?) {
+        if (obj!!.status!!.toLowerCase()
+                .equals(Constant.TASK_DRAFT.toLowerCase(), ignoreCase = true)
+        ) {
+            getDataFromServer(obj.slug)
         } else {
-            Intent intent = new Intent(dashboardActivity, TaskDetailsActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString(ConstantKey.SLUG, obj.getSlug());
+            val intent = Intent(dashboardActivity, TaskDetailsActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString(ConstantKey.SLUG, obj.slug)
             //   bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
-            intent.putExtras(bundle);
-            startActivityForResult(intent, ConstantKey.RESULTCODE_MY_JOBS);
-            Timber.i("MyTasksFragment Starting Task with slug: %s", obj.getSlug());
+            intent.putExtras(bundle)
+            startActivityForResult(intent, ConstantKey.RESULTCODE_MY_JOBS)
+            Timber.i("MyTasksFragment Starting Task with slug: %s", obj.slug)
         }
     }
 
-    private void getDataFromServer(String slug) {
-        dashboardActivity.showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_TASKS + "/" + slug,
-                response -> {
-                    Timber.e(response);
-                    dashboardActivity.hideProgressDialog();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-
-                                if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                    JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                                    TaskModel taskModel = new TaskModel().getJsonToModel(jsonObject_data, dashboardActivity);
-                                    EditTask(taskModel);
-                                }
-
-                            } else {
-                                dashboardActivity.showToast("Something went wrong", dashboardActivity);
+    private fun getDataFromServer(slug: String?) {
+        dashboardActivity!!.showProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(
+            Method.GET, Constant.URL_TASKS + "/" + slug,
+            Response.Listener { response: String? ->
+                Timber.e(response)
+                dashboardActivity!!.hideProgressDialog()
+                try {
+                    val jsonObject = JSONObject(response)
+                    Timber.e(jsonObject.toString())
+                    if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                        if (jsonObject.getBoolean("success")) {
+                            if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                                val jsonObject_data = jsonObject.getJSONObject("data")
+                                val taskModel =
+                                    TaskModel().getJsonToModel(jsonObject_data, dashboardActivity)
+                                EditTask(taskModel)
                             }
                         } else {
-                            dashboardActivity.showToast("Something went wrong", dashboardActivity);
+                            dashboardActivity!!.showToast("Something went wrong", dashboardActivity)
                         }
-                    } catch (JSONException e) {
-                        dashboardActivity.showToast("JSONException", dashboardActivity);
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
+                    } else {
+                        dashboardActivity!!.showToast("Something went wrong", dashboardActivity)
                     }
-                },
-                error -> {
-                    dashboardActivity.errorHandle1(error.networkResponse);
-                    dashboardActivity.hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<String, String>();
-
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
+                } catch (e: JSONException) {
+                    dashboardActivity!!.showToast("JSONException", dashboardActivity)
+                    Timber.e(e.toString())
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error: VolleyError ->
+                dashboardActivity!!.errorHandle1(error.networkResponse)
+                dashboardActivity!!.hideProgressDialog()
+            }) {
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] =
+                    sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
                 // map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
+                return map1
             }
-
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(dashboardActivity);
-        requestQueue.add(stringRequest);
-    }
-
-
-    private void EditTask(TaskModel taskModel) {
-
-        Intent update_task = new Intent(dashboardActivity, TaskCreateActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(ConstantKey.TASK, taskModel);
-        bundle.putString(ConstantKey.TITLE, ConstantKey.CREATE_TASK);
-        bundle.putString(ConstantKey.SLUG, taskModel.getSlug());
-        bundle.putBoolean(ConstantKey.DRAFT_JOB, true);
-        update_task.putExtras(bundle);
-        startActivityForResult(update_task, ConstantKey.RESULTCODE_UPDATE_TASK);
-    }
-
-
-    public void refreshSort(String rbText) {
-        temp_single_choice_selected = rbText.toLowerCase();
-        if (temp_single_choice_selected.equalsIgnoreCase(TASK_DRAFT_CASE_ALL_JOB_KEY)) {
-            temp_single_choice_selected = TASK_DRAFT_CASE_ALL_JOB_VALUE;
         }
-        if (temp_single_choice_selected.equalsIgnoreCase(TASK_ASSIGNED_CASE_UPPER_FIRST)) {
-            temp_single_choice_selected = TASK_ASSIGNED_CASE_RELATED_JOB_VALUE;
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        val requestQueue = Volley.newRequestQueue(dashboardActivity)
+        requestQueue.add(stringRequest)
+    }
+
+    private fun EditTask(taskModel: TaskModel) {
+        val update_task = Intent(dashboardActivity, TaskCreateActivity::class.java)
+        val bundle = Bundle()
+        bundle.putParcelable(ConstantKey.TASK, taskModel)
+        bundle.putString(ConstantKey.TITLE, ConstantKey.CREATE_TASK)
+        bundle.putString(ConstantKey.SLUG, taskModel.slug)
+        bundle.putBoolean(ConstantKey.DRAFT_JOB, true)
+        update_task.putExtras(bundle)
+        startActivityForResult(update_task, ConstantKey.RESULTCODE_UPDATE_TASK)
+    }
+
+    fun refreshSort(rbText: String) {
+        temp_single_choice_selected = rbText.toLowerCase()
+        if (temp_single_choice_selected.equals(
+                Constant.TASK_DRAFT_CASE_ALL_JOB_KEY,
+                ignoreCase = true
+            )
+        ) {
+            temp_single_choice_selected = Constant.TASK_DRAFT_CASE_ALL_JOB_VALUE
         }
-
-        single_choice_selected = temp_single_choice_selected;
-        temp_single_choice_selected = null;
-        onScrollListener.reset();
-        totalItem = 0;
-        currentPage = 1;
-        taskListAdapter.clear();
-        getStatusList();
-
+        if (temp_single_choice_selected.equals(
+                Constant.TASK_ASSIGNED_CASE_UPPER_FIRST,
+                ignoreCase = true
+            )
+        ) {
+            temp_single_choice_selected = Constant.TASK_ASSIGNED_CASE_RELATED_JOB_VALUE
+        }
+        single_choice_selected = temp_single_choice_selected
+        temp_single_choice_selected = null
+        onScrollListener!!.reset()
+        totalItem = 0
+        currentPage = 1
+        taskListAdapter!!.clear()
+        statusList
     }
 
-
-    @Override
-    public void onRefresh() {
-        swipeRefresh.setRefreshing(true);
-        onScrollListener.reset();
-        totalItem = 0;
-        currentPage = 1;
-        taskListAdapter.clear();
-        getStatusList();
+    override fun onRefresh() {
+        swipeRefresh!!.isRefreshing = true
+        onScrollListener!!.reset()
+        totalItem = 0
+        currentPage = 1
+        taskListAdapter!!.clear()
+        statusList
     }
 
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ConstantKey.RESULTCODE_UPDATE_TASK) {
             if (data != null) {
-                Bundle bundle = data.getExtras();
+                val bundle = data.extras
                 if (bundle != null) {
                     if (bundle.getBoolean(ConstantKey.UPDATE_TASK)) {
-                        onRefresh();
+                        onRefresh()
                     }
                 }
             }
         }
         if (requestCode == ConstantKey.RESULTCODE_MY_JOBS) {
-            onRefresh();
+            onRefresh()
         }
     }
 
-    protected void deleteTask(Data taskModel) {
-        swipeRefresh.setRefreshing(true);
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, Constant.URL_TASKS + "/" + taskModel.getSlug(),
-                response -> {
-                    Timber.e(response);
+    protected fun deleteTask(taskModel: Data?) {
+        swipeRefresh!!.isRefreshing = true
+        val stringRequest: StringRequest = object :
+            StringRequest(Method.DELETE, Constant.URL_TASKS + "/" + taskModel!!.slug,
+                Response.Listener { response: String? ->
+                    Timber.e(response)
                     try {
-
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
+                        val jsonObject = JSONObject(response)
+                        Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-
                             if (jsonObject.getBoolean("success")) {
-                                onRefresh();
-
+                                onRefresh()
                             } else {
-                                ((ActivityBase) requireActivity()).showToast("Something went Wrong", requireContext());
+                                (requireActivity() as ActivityBase).showToast(
+                                    "Something went Wrong",
+                                    requireContext()
+                                )
                             }
                         }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
+                    } catch (e: JSONException) {
+                        Timber.e(e.toString())
+                        e.printStackTrace()
                     }
                 },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
+                Response.ErrorListener { error: VolleyError ->
+                    val networkResponse = error.networkResponse
                     if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
+                        val jsonError = String(networkResponse.data)
                         // Print Error!
-                        Timber.e(jsonError);
+                        Timber.e(jsonError)
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            ((ActivityBase) requireActivity()).unauthorizedUser();
-                            return;
+                            (requireActivity() as ActivityBase).unauthorizedUser()
+                            return@ErrorListener
                         }
                         try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObject_error = jsonObject.getJSONObject("error")
                             if (jsonObject_error.has("message")) {
-                                ((ActivityBase) requireActivity()).showToast(jsonObject_error.getString("message"), requireContext());
+                                (requireActivity() as ActivityBase).showToast(
+                                    jsonObject_error.getString(
+                                        "message"
+                                    ), requireContext()
+                                )
                             }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                            //  ((CredentialActivity)requireActivity()).showToast(message,requireActivity());
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
                         }
                     } else {
-                        ((ActivityBase) requireActivity()).showToast("Something Went Wrong", requireContext());
+                        (requireActivity() as ActivityBase).showToast(
+                            "Something Went Wrong",
+                            requireContext()
+                        )
                     }
-                    Timber.e(error.toString());
+                    Timber.e(error.toString())
                 }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<String, String>();
-
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                return map1;
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] =
+                    sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["X-Requested-With"] = "XMLHttpRequest"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                return map1
             }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
-        requestQueue.add(stringRequest);
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
     }
 
-    private Data taskModel;
-
-    private int position = 0;
-
-    @Override
-    public void onDraftDeleteButtonClick(View view, Data taskModel, int position) {
-        this.taskModel = taskModel;
-        this.position = position;
-        ConfirmDeleteTaskBottomSheet confirmBottomSheet = new ConfirmDeleteTaskBottomSheet(requireContext());
-        confirmBottomSheet.setListener(this);
-        confirmBottomSheet.show(requireActivity().getSupportFragmentManager(), "");
+    private var taskModel: Data? = null
+    private var position = 0
+    override fun onDraftDeleteButtonClick(view: View?, taskModel: Data?, position: Int) {
+        this.taskModel = taskModel
+        this.position = position
+        val confirmBottomSheet = ConfirmDeleteTaskBottomSheet(requireContext())
+        confirmBottomSheet.listener = this
+        confirmBottomSheet.show(requireActivity().supportFragmentManager, "")
     }
 
-    @Override
-    public void onDeleteConfirmClick() {
-        deleteTask(taskModel);
+    override fun onDeleteConfirmClick() {
+        deleteTask(taskModel)
     }
 }

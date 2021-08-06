@@ -66,16 +66,15 @@
     </RelativeLayout>
 
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        tools:orientation="horizontal"
+        android:layout_marginBottom="24dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_task_view"
-        android:layout_marginBottom="24dp" />
+        tools:orientation="horizontal" />
 
 </RelativeLayout>

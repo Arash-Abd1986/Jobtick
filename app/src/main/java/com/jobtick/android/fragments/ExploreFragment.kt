@@ -288,14 +288,11 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
                 currentPage++
                 doApiCall()
             }
+            override val isLastPage: Boolean
+                get() = isLastPageItems
+            override val isLoading: Boolean
+                get() = isLoadingItems
 
-            override fun isLastPage(): Boolean {
-                return isLastPageItems
-            }
-
-            override fun isLoading(): Boolean {
-                return isLoadingItems
-            }
         })
     }
 

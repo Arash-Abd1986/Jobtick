@@ -56,7 +56,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
     private var taskListAdapter: TaskListAdapterV2? = null
     private var currentPage = 1
     private var isLastPage = false
-    private var totalItem = 10
+    private var totalItemT = 10
     private lateinit var ivNotification: ImageView
     private lateinit var toolbarTitle: TextView
     private lateinit var filterText: TextView
@@ -78,13 +78,6 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_my_tasks, container, false)
-        ButterKnife.bind(this, view)
-        noJobs = view.findViewById(R.id.no_jobs_container)
-        swipeRefresh!!.setOnRefreshListener(this)
-        initToolbar()
-        setHasOptionsMenu(true)
-        initIDS()
-        mBehavior = BottomSheetBehavior.from<FrameLayout?>(bottomSheet!!)
         return view
     }
 
@@ -341,6 +334,12 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initIDS()
+        noJobs = view.findViewById(R.id.no_jobs_container)
+        swipeRefresh!!.setOnRefreshListener(this)
+        initToolbar()
+        setHasOptionsMenu(true)
+        mBehavior = BottomSheetBehavior.from<FrameLayout?>(bottomSheet!!)
         sessionManager = SessionManager(dashboardActivity)
 
         // use a linear layout manager
@@ -358,7 +357,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
             }
 
             override fun getTotalItem(): Int {
-                return totalItem
+                return totalItemT
             }
         }
         recyclerViewStatus!!.addOnScrollListener(onScrollListener as EndlessRecyclerViewOnScrollListener)
@@ -406,13 +405,13 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
                             dashboardActivity!!.showToast("some went to wrong", dashboardActivity)
                             return@Listener
                         }
-                        totalItem = total!!
+                        totalItemT = total!!
                         Constant.PAGE_SIZE = per_page!!
                         if (currentPage == 1) {
                             resetTaskListAdapter()
                         }
-                        taskListAdapter!!.addItems(data, totalItem)
-                        isLastPage = taskListAdapter!!.itemCount == totalItem
+                        taskListAdapter!!.addItems(data, totalItemT)
+                        isLastPage = taskListAdapter!!.itemCount == totalItemT
                         if (data.size <= 0) {
                             noJobs!!.visibility = View.VISIBLE
                             recyclerViewStatus!!.visibility = View.GONE
@@ -557,7 +556,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
         single_choice_selected = temp_single_choice_selected
         temp_single_choice_selected = null
         onScrollListener!!.reset()
-        totalItem = 0
+        totalItemT = 0
         currentPage = 1
         taskListAdapter!!.clear()
         statusList
@@ -566,7 +565,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
     override fun onRefresh() {
         swipeRefresh!!.isRefreshing = true
         onScrollListener!!.reset()
-        totalItem = 0
+        totalItemT = 0
         currentPage = 1
         taskListAdapter!!.clear()
         statusList

@@ -110,13 +110,10 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
                 fetchData()
             }
 
-            override fun isLastPage(): Boolean {
-                return isLastPageItems
-            }
-
-            override fun isLoading(): Boolean {
-                return isLoadingItems
-            }
+            override val isLastPage: Boolean
+                get() = isLastPageItems
+            override val isLoading: Boolean
+                get() = isLoadingItems
         })
     }
 

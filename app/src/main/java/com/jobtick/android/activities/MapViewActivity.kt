@@ -99,13 +99,11 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
                 doApiCall()
             }
 
-            override fun isLastPage(): Boolean {
-                return isLastPageItem
-            }
+           override val isLastPage: Boolean
+               get() = isLastPageItem
+           override val isLoading: Boolean
+               get() = isLoadingItem
 
-            override fun isLoading(): Boolean {
-                return isLoadingItem
-            }
         })
     }
 

@@ -1,397 +1,267 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.speech.RecognitionListener;
-import android.speech.RecognizerIntent;
-import android.speech.SpeechRecognizer;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Bundle
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
+import android.view.KeyEvent
+import android.view.View
+import android.view.animation.AnimationUtils
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
+import android.widget.TextView.OnEditorActionListener
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import butterknife.BindView
+import butterknife.OnClick
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.google.gson.Gson
+import com.jobtick.android.BuildConfig
+import com.jobtick.android.R
+import com.jobtick.android.activities.SearchTaskActivity
+import com.jobtick.android.adapers.PreviewTaskAdapter
+import com.jobtick.android.adapers.TaskListAdapterV2
+import com.jobtick.android.models.PreviewTaskModel
+import com.jobtick.android.models.PreviewTaskSetModel
+import com.jobtick.android.models.response.myjobs.Data
+import com.jobtick.android.models.response.myjobs.MyJobsResponse
+import com.jobtick.android.pagination.PaginationListener
+import com.jobtick.android.utils.*
+import org.json.JSONException
+import org.json.JSONObject
+import timber.log.Timber
+import java.util.*
 
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+class SearchTaskActivity : ActivityBase(), OnEditorActionListener, TaskListAdapterV2.OnItemClickListener, PreviewTaskAdapter.OnItemClickListener<PreviewTaskModel?> {
+    var ivBack: ImageView? = null
+    var recyclerView: RecyclerView? = null
+    var emptySearch: RelativeLayout? = null
+    var edtSearch: EditText? = null
+    //voice search
+    private val MY_PERMISSIONS_RECORD_AUDIO = 123
+    var btnVoice: ImageView? = null
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.button.MaterialButton;
-import com.google.gson.Gson;
-import com.jobtick.android.BuildConfig;
-import com.jobtick.android.R;
-import android.annotation.SuppressLint;
-import android.widget.Toast;
-
-import com.jobtick.android.adapers.PreviewTaskAdapter;
-import com.jobtick.android.adapers.TaskListAdapter;
-import com.jobtick.android.adapers.TaskListAdapterV2;
-import com.jobtick.android.models.PreviewTaskModel;
-import com.jobtick.android.models.PreviewTaskSetModel;
-import com.jobtick.android.models.TaskModel;
-import com.jobtick.android.models.response.myjobs.Data;
-import com.jobtick.android.models.response.myjobs.MyJobsResponse;
-import com.jobtick.android.pagination.PaginationListener;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.ConstantKey;
-import com.jobtick.android.utils.Helper;
-import com.jobtick.android.utils.SessionManager;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import timber.log.Timber;
-
-import static com.jobtick.android.pagination.PaginationListener.PAGE_START;
-
-public class SearchTaskActivity extends ActivityBase implements TextView.OnEditorActionListener,
-        TaskListAdapterV2.OnItemClickListener, PreviewTaskAdapter.OnItemClickListener<PreviewTaskModel> {
-
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.iv_back)
-    ImageView ivBack;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.list)
-    RecyclerView recyclerView;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.empty_search)
-    RelativeLayout emptySearch;
-
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_search_categoreis)
-    EditText edtSearch;
-
-    private SessionManager sessionManager;
-    private TaskListAdapterV2 adapter;
-    private PreviewTaskSetModel previewTaskSetModel;
-    private PreviewTaskAdapter previewTaskAdapter;
-
-    private int currentPage = PAGE_START;
-    private boolean isLastPage = false;
-    private int totalPage = 10;
-    private int totalItem = 10;
-    private boolean isLoading = false;
-
-    private boolean isFromMyJobs = false;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_all);
-        ButterKnife.bind(this);
-        isFromMyJobs = getIntent().getBooleanExtra(ConstantKey.FROM_MY_JOBS_WITH_LOVE, false);
+    private lateinit var sessionManagerT: SessionManager
+    private var adapter: TaskListAdapterV2? = null
+    private var previewTaskSetModel: PreviewTaskSetModel? = null
+    private var previewTaskAdapter: PreviewTaskAdapter? = null
+    private var currentPage = PaginationListener.PAGE_START
+    private val isLastPageItem = false
+    private var totalPage = 10
+    private var totalItem = 10
+    private var isLoadingItem = false
+    private var isFromMyJobs = false
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_search_all)
+initIDS()
+        isFromMyJobs = intent.getBooleanExtra(ConstantKey.FROM_MY_JOBS_WITH_LOVE, false)
         //  RelativeLayout emptySearch = findViewById(R.id.empty_search);
-        sessionManager = new SessionManager(this);
-        if(isFromMyJobs){
-            edtSearch.setHint(R.string.search_your_jobs);
+        sessionManagerT = SessionManager(this)
+        if (isFromMyJobs) {
+            edtSearch!!.setHint(R.string.search_your_jobs)
+        } else {
+            edtSearch!!.setHint(R.string.search_jobs)
         }
-        else{
-            edtSearch.setHint(R.string.search_jobs);
-        }
-        edtSearch.requestFocus();
-        edtSearch.performClick();
-        edtSearch.setOnEditorActionListener(this);
-
-        setPreviewAdapter();
-        searchWithVoice();
-        if(getIntent().hasExtra("IsVoice")){
-            btnVoice.performClick();
+        edtSearch!!.requestFocus()
+        edtSearch!!.performClick()
+        edtSearch!!.setOnEditorActionListener(this)
+        setPreviewAdapter()
+        searchWithVoice()
+        if (intent.hasExtra("IsVoice")) {
+            btnVoice!!.performClick()
         }
     }
 
-    @SuppressLint("NonConstantResourceId")
-    @OnClick({ R.id.iv_back})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-
-            case R.id.iv_back:
-                onBackPressed();
-                break;
+    private fun initIDS() {
+        ivBack = findViewById(R.id.iv_back)
+        recyclerView = findViewById(R.id.list)
+        emptySearch = findViewById(R.id.empty_search)
+        edtSearch = findViewById(R.id.edt_search_categoreis)
+        btnVoice = findViewById(R.id.btnVoice)
+        ivBack!!.setOnClickListener {
+            onBackPressed()
         }
-
     }
 
-    @Override
-    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+
+
+    override fun onEditorAction(textView: TextView, actionId: Int, keyEvent: KeyEvent): Boolean {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
             //set adapter to online mode (previewMode will be false)
-            setOnlineAdapter();
-            setLoadMoreListener();
-            doApiCall();
-            return true;
+            setOnlineAdapter()
+            setLoadMoreListener()
+            doApiCall()
+            return true
         }
-        return false;
+        return false
     }
 
-
-    private void doApiCall() {
-        String queryParameter = "";
-
-        queryParameter = edtSearch.getText().toString();
-
-        Helper.closeKeyboard(this);
-        String url = Constant.URL_TASKS_v2 + "?search_query=" +  queryParameter + "&page=" + currentPage;
-        if(isFromMyJobs)
-            url = Constant.URL_TASKS_v2 + "&search_query=" +  queryParameter + "&page=" + currentPage;
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                response -> {
-                    Timber.e(response);
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        Gson gson = new Gson();
-                        MyJobsResponse myJobsResponse = gson.fromJson(jsonObject.toString(), MyJobsResponse.class);
-
-                        if (myJobsResponse.getData() == null) {
-                            this.showToast("some went to wrong", this);
-                            return;
-                        }
-                        totalItem = myJobsResponse.getTotal();
-                        Constant.PAGE_SIZE = myJobsResponse.getPer_page();
-                        totalPage = myJobsResponse.getTotal();
-
-                        if (myJobsResponse.getData().size()  <= 0) {
-                            emptySearch.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.GONE);
-                        } else {
-                            recyclerView.setVisibility(View.VISIBLE);
-                            emptySearch.setVisibility(View.GONE);
-                        }
-                        adapter.addItems(myJobsResponse.getData(), totalItem);
-
-                    } catch (JSONException e) {
-                        hideProgressDialog();
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    errorHandle1(error.networkResponse);
-                }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                return map1;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-        Timber.e(stringRequest.getUrl());
-    }
-
-
-    private void setPreviewAdapter() {
-        previewTaskSetModel = sessionManager.getPreviewTaskModel(SearchTaskActivity.class, isFromMyJobs);
-        if (previewTaskSetModel == null)
-            previewTaskSetModel = new PreviewTaskSetModel();
-
-        previewTaskAdapter = new PreviewTaskAdapter(new ArrayList<>(previewTaskSetModel.getPreviewSet()));
-        recyclerView.setAdapter(previewTaskAdapter);
-
-        recyclerView.setHasFixedSize(true);
-        previewTaskAdapter.setOnItemClickListener(this);
-    }
-
-    private void setOnlineAdapter(){
-        adapter = new TaskListAdapterV2(new ArrayList<>(), null);
-        recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
-    }
-
-    private boolean previewMode = true;
-    private void setLoadMoreListener() {
-        if (!previewMode) return;
-        recyclerView.addOnScrollListener(new PaginationListener((LinearLayoutManager) recyclerView.getLayoutManager()) {
-            @Override
-            protected void loadMoreItems() {
-                isLoading = true;
-                currentPage++;
-                doApiCall();
-            }
-
-            @Override
-            public boolean isLastPage() {
-                return isLastPage;
-            }
-
-            @Override
-            public boolean isLoading() {
-                return isLoading;
-            }
-        });
-        previewMode = false;
-    }
-
-    private void showKeyboard(EditText editText) {
-        editText.post(() -> {
-            InputMethodManager imm = (InputMethodManager) getBaseContext()
-                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(editText, 0);
-        });
-    }
-
-    @Override
-    public void onItemClick(View view, Data obj, int position, String action) {
-        PreviewTaskModel previewTaskModel = new PreviewTaskModel(obj.getId(),obj.getTitle(),sessionManager.getUserAccount().getId(),obj.getSlug());
-        onItemClick(view, previewTaskModel, position);
-    }
-
-    @Override
-    public void onItemClick(View view, PreviewTaskModel obj, int position) {
-        previewTaskSetModel.addItem(obj);
-        Intent intent = new Intent(this, TaskDetailsActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString(ConstantKey.SLUG, obj.getSlug());
-     //   bundle.putInt(ConstantKey.USER_ID, obj.getUserId());
-        intent.putExtras(bundle);
-        startActivity(intent);
-        sessionManager.setPreviewTaskModel(previewTaskSetModel, SearchTaskActivity.class, isFromMyJobs);
-    }
-
-    //voice search
-    private int MY_PERMISSIONS_RECORD_AUDIO=123;
-
-    @BindView(R.id.btnVoice)
-    ImageView btnVoice;
-
-    private void searchWithVoice() {
-        btnVoice.setOnClickListener(
-                view -> {
-                    if (ContextCompat.checkSelfPermission(SearchTaskActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(SearchTaskActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_RECORD_AUDIO);
-                    }
-                    else {
-                        speechToText();
-                    }
-
-                });
-    }
-
-    private void speechToText() {
-        btnVoice.startAnimation(AnimationUtils.loadAnimation(SearchTaskActivity.this, R.anim.video_icon_animate));
-
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
-                "com.domain.app");
-
-        SpeechRecognizer recognizer = SpeechRecognizer
-                .createSpeechRecognizer(SearchTaskActivity.this.getApplicationContext());
-        RecognitionListener listener = new RecognitionListener() {
-            @Override
-            public void onResults(Bundle results) {
-                ArrayList<String> voiceResults = results
-                        .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-                if (voiceResults == null) {
-                    btnVoice.clearAnimation();
-                    System.out.println("No voice results");
+    private fun doApiCall() {
+        var queryParameter = ""
+        queryParameter = edtSearch!!.text.toString()
+        Helper.closeKeyboard(this)
+        var url = Constant.URL_TASKS_v2 + "?search_query=" + queryParameter + "&page=" + currentPage
+        if (isFromMyJobs) url = Constant.URL_TASKS_v2 + "&search_query=" + queryParameter + "&page=" + currentPage
+        val stringRequest: StringRequest = object : StringRequest(Method.GET, url,
+        Response.Listener { response: String? ->
+            Timber.e(response)
+            try {
+                val jsonObject = JSONObject(response)
+                Timber.e(jsonObject.toString())
+                val gson = Gson()
+                val (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(jsonObject.toString(), MyJobsResponse::class.java)
+                if (data == null) {
+                    showToast("some went to wrong", this)
+                    return@Listener
+                }
+                totalItem = total!!
+                Constant.PAGE_SIZE = per_page!!
+                totalPage = total
+                if (data.size <= 0) {
+                    emptySearch!!.visibility = View.VISIBLE
+                    recyclerView!!.visibility = View.GONE
                 } else {
-                    edtSearch.setText(voiceResults.get(0));
-                    setOnlineAdapter();
-                    setLoadMoreListener();
-                    doApiCall();
-                    btnVoice.clearAnimation();
+                    recyclerView!!.visibility = View.VISIBLE
+                    emptySearch!!.visibility = View.GONE
+                }
+                adapter!!.addItems(data, totalItem)
+            } catch (e: JSONException) {
+                hideProgressDialog()
+                Timber.e(e.toString())
+                e.printStackTrace()
+            }
+        },
+                Response.ErrorListener { error: VolleyError -> errorHandle1(error.networkResponse) }) {
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["Authorization"] = "Bearer " + sessionManagerT.getAccessToken()
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                return map1
+            }
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        val requestQueue = Volley.newRequestQueue(this)
+        requestQueue.add(stringRequest)
+        Timber.e(stringRequest.url)
+    }
+
+    private fun setPreviewAdapter() {
+        previewTaskSetModel = sessionManagerT.getPreviewTaskModel(SearchTaskActivity::class.java, isFromMyJobs)
+        if (previewTaskSetModel == null) previewTaskSetModel = PreviewTaskSetModel()
+        previewTaskAdapter = PreviewTaskAdapter(ArrayList(previewTaskSetModel!!.previewSet))
+        recyclerView!!.adapter = previewTaskAdapter
+        recyclerView!!.setHasFixedSize(true)
+        previewTaskAdapter!!.setOnItemClickListener(this)
+    }
+
+    private fun setOnlineAdapter() {
+        adapter = TaskListAdapterV2(ArrayList(), null)
+        recyclerView!!.adapter = adapter
+        adapter!!.setOnItemClickListener(this)
+    }
+
+    private var previewMode = true
+    private fun setLoadMoreListener() {
+        if (!previewMode) return
+        recyclerView!!.addOnScrollListener(object : PaginationListener((recyclerView!!.layoutManager as LinearLayoutManager?)!!) {
+            override fun loadMoreItems() {
+                isLoadingItem = true
+                currentPage++
+                doApiCall()
+            }
+
+            override val isLastPage: Boolean
+                get() = isLastPageItem
+            override val isLoading: Boolean
+                get() = isLoadingItem
+        })
+        previewMode = false
+    }
+
+    private fun showKeyboard(editText: EditText) {
+        editText.post {
+            val imm = baseContext
+                    .getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(editText, 0)
+        }
+    }
+
+    override fun onItemClick(view: View?, obj: Data?, position: Int, action: String?) {
+        val previewTaskModel = PreviewTaskModel(obj!!.id!!, obj.title, sessionManagerT.getUserAccount().getId(), obj.slug)
+        onItemClick(view, previewTaskModel, position)
+    }
+
+    override fun onItemClick(view: View?, obj: PreviewTaskModel?, position: Int) {
+        previewTaskSetModel!!.addItem(obj)
+        val intent = Intent(this, TaskDetailsActivity::class.java)
+        val bundle = Bundle()
+        bundle.putString(ConstantKey.SLUG, obj!!.slug)
+        //   bundle.putInt(ConstantKey.USER_ID, obj.getUserId());
+        intent.putExtras(bundle)
+        startActivity(intent)
+        sessionManagerT.setPreviewTaskModel(previewTaskSetModel, SearchTaskActivity::class.java, isFromMyJobs)
+    }
+
+
+    private fun searchWithVoice() {
+        btnVoice!!.setOnClickListener { view: View? ->
+            if (ContextCompat.checkSelfPermission(this@SearchTaskActivity, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this@SearchTaskActivity, arrayOf(Manifest.permission.RECORD_AUDIO), MY_PERMISSIONS_RECORD_AUDIO)
+            } else {
+                speechToText()
+            }
+        }
+    }
+
+    private fun speechToText() {
+        btnVoice!!.startAnimation(AnimationUtils.loadAnimation(this@SearchTaskActivity, R.anim.video_icon_animate))
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                "com.domain.app")
+        val recognizer = SpeechRecognizer
+                .createSpeechRecognizer(this@SearchTaskActivity.applicationContext)
+        val listener = object : MyRecognitionListener() {
+            override fun onResults(results: Bundle?) {
+                val voiceResults = results!!.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                if (voiceResults == null) {
+                    btnVoice!!.clearAnimation()
+                    println("No voice results")
+                } else {
+                    edtSearch!!.setText(voiceResults[0])
+                    setOnlineAdapter()
+                    setLoadMoreListener()
+                    doApiCall()
+                    btnVoice!!.clearAnimation()
                 }
             }
 
-            @Override
-            public void onReadyForSpeech(Bundle params) {
-                System.out.println("Ready for speech");
+            override fun onError(error: Int) {
+                btnVoice!!.clearAnimation()
+                System.err.println("Error listening for speech: $error")
             }
 
-            /**
-             *  ERROR_NETWORK_TIMEOUT = 1;
-             *  ERROR_NETWORK = 2;
-             *  ERROR_AUDIO = 3;
-             *  ERROR_SERVER = 4;
-             *  ERROR_CLIENT = 5;
-             *  ERROR_SPEECH_TIMEOUT = 6;
-             *  ERROR_NO_MATCH = 7;
-             *  ERROR_RECOGNIZER_BUSY = 8;
-             *  ERROR_INSUFFICIENT_PERMISSIONS = 9;
-             *
-             * @param error code is defined in SpeechRecognizer
-             */
-            @Override
-            public void onError(int error) {
-                btnVoice.clearAnimation();
-                System.err.println("Error listening for speech: " + error);
-            }
 
-            @Override
-            public void onBeginningOfSpeech() {
-                System.out.println("Speech starting");
-            }
-
-            @Override
-            public void onBufferReceived(byte[] buffer) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onEndOfSpeech() {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onEvent(int eventType, Bundle params) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onPartialResults(Bundle partialResults) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onRmsChanged(float rmsdB) {
-                // TODO Auto-generated method stub
-
-            }
-        };
-        recognizer.setRecognitionListener(listener);
-        recognizer.startListening(intent);
+        }
+        recognizer.setRecognitionListener(listener)
+        recognizer.startListening(intent)
     }
-
 }
-

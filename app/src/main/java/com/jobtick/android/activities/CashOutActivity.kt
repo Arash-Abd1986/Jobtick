@@ -21,7 +21,7 @@ class CashOutActivity : ActivityBase() {
         cashout = findViewById(R.id.cashout)
         requestedCashout = findViewById(R.id.requested_cashout)
         creditCardModel = intent.extras!![Constant.CASH_OUT] as CreditCardModel?
-        cashout!!.setOnClickListener { v: View? ->
+        cashout!!.setOnClickListener {
             if (validation())
                 requestCashout()
         }

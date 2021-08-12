@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_top_c"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/_60dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:gravity="center"
+                android:text="Job location"
+                android:textAppearance="@style/materialText_500_18"
+                android:textColor="@color/N900" />
+
+            <com.jobtick.android.utils.voicerecorder.RippleView
+                android:id="@+id/rv_mic"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                app:rv_color="@color/P100"
+                android:layout_marginTop="20dp"
+                app:rv_radius="20dp"
+                app:rv_scale="1.9"
+                app:rv_type="stroke">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/mic_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    app:srcCompat="@drawable/ic_mic_blue" />
+            </com.jobtick.android.utils.voicerecorder.RippleView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_help"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:text="Tap microphone to try again"
+                android:textAppearance="@style/materialText_500_12"
+                android:textColor="@color/N900" />
+        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/close"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginBottom="18dp"
+            app:srcCompat="@drawable/ic_close_circle" />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

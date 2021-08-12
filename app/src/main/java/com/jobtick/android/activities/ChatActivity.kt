@@ -140,8 +140,8 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
 //        }.also { runnable = it }, delay.toLong())
     }
 
-    private val onDisconnect = Emitter.Listener { args: Array<Any?>? -> runOnUiThread { Log.i(TAG, "diconnected") } }
-    private val onConnect = Emitter.Listener { args: Array<Any?>? -> runOnUiThread({ Log.e(TAG, "Success connecting") }) }
+    private val onDisconnect = Emitter.Listener { _: Array<Any?>? -> runOnUiThread { Log.i(TAG, "diconnected") } }
+    private val onConnect = Emitter.Listener { _: Array<Any?>? -> runOnUiThread({ Log.e(TAG, "Success connecting") }) }
     private val onConnectError = Emitter.Listener { args: Array<Any?>? ->
         runOnUiThread {
             Log.e(TAG, "Error connecting " + args)
@@ -151,7 +151,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         runOnUiThread {
             try {
                 Log.e(TAG, "message response" + args?.get(0)!!)
-                val jsonObject = JSONObject(args?.get(0).toString())
+                val jsonObject = JSONObject(args.get(0).toString())
 
                 val gson = Gson()
                 val message = gson.fromJson(jsonObject.toString(), MessageItem::class.java)
@@ -182,7 +182,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
             }
         }
     }
-    private val whoAreYou = Emitter.Listener { args: Array<Any?>? ->
+    private val whoAreYou = Emitter.Listener { _: Array<Any?>? ->
         runOnUiThread {
             try {
                 mSocket!!.emit("auth", sessionManager.accessToken)
@@ -228,7 +228,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
     }
 
     private fun setOnclick() {
-        lytScrollDown.setOnClickListener { v: View? ->
+        lytScrollDown.setOnClickListener {
             animateFab(true)
             unreadCount = 0
             txtCount.text = unreadCount.toString()
@@ -308,7 +308,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
     private fun initToolbar() {
         setSupportActionBar(toolbar)
         toolbar.subtitle = "Offline"
-        toolbar.setNavigationOnClickListener { view: View? -> onBackPressed() }
+        toolbar.setNavigationOnClickListener { onBackPressed() }
         toolbar.menu.clear()
     }
 
@@ -348,7 +348,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         icSetting.setOnClickListener {
             mypopupWindow!!.showAsDropDown(icSetting, 0, Tools.px2dip(this, -20f))
         }
-        btnUnblock.setOnClickListener { v: View? -> setUserBlockState(false) }
+        btnUnblock.setOnClickListener { setUserBlockState(false) }
         if (conversationModel != null) {
             if (conversationModel!!.blocked_by != null) {
                 if (sessionManager.userAccount.id == conversationModel!!.blocked_by) {
@@ -367,7 +367,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         mypopupWindow!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val block = view.findViewById<View>(R.id.block) as TextView
 
-        block.setOnClickListener { v: View? ->
+        block.setOnClickListener {
             mypopupWindow!!.dismiss()
             val confirmBottomSheet = ConfirmBlockTaskBottomSheet(this, conversationModel!!.receiver.name)
             confirmBottomSheet.listener = this
@@ -379,7 +379,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         Log.d("ConversationId", conversationModel!!.id.toString())
         showProgressDialog()
         val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_BLOCK_CHAT,
-                Response.Listener { response: String? ->
+                Response.Listener {
                     if (state) {
                         btnUnblock.visibility = View.VISIBLE
                         cvAction.visibility = View.GONE
@@ -389,7 +389,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                     }
                     hideProgressDialog()
                 },
-                Response.ErrorListener { error: VolleyError? -> hideProgressDialog() }) {
+                Response.ErrorListener { hideProgressDialog() }) {
             override fun getParams(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["conversation_id"] = conversationModel!!.id.toString()

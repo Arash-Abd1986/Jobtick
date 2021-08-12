@@ -579,5 +579,7 @@
     <string name="no_result_found">No result found :(</string>
     <string name="sorry_we_couldn_t_find_any_matches_for_you_please_check_spelling_or_try_another_keyword">Sorry we couldn’t find any matches for you. Please check spelling or try another keyword</string>
     <string name="new_job_count">%1$s new job</string>
+    <string name="didnt_get_you">Didn’t get you!</string>
+    <string name="listening">Listening ...</string>
 
 </resources>

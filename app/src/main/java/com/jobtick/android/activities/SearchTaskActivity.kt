@@ -1,16 +1,11 @@
 package com.jobtick.android.activities
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.speech.RecognitionListener
-import android.speech.RecognizerIntent
-import android.speech.SpeechRecognizer
 import android.view.KeyEvent
 import android.view.View
-import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -22,8 +17,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.OnClick
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.VolleyError
@@ -32,28 +25,30 @@ import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
-import com.jobtick.android.activities.SearchTaskActivity
 import com.jobtick.android.adapers.PreviewTaskAdapter
 import com.jobtick.android.adapers.TaskListAdapterV2
+import com.jobtick.android.fragments.VoiceSearchBottomSheet
 import com.jobtick.android.models.PreviewTaskModel
 import com.jobtick.android.models.PreviewTaskSetModel
 import com.jobtick.android.models.response.myjobs.Data
 import com.jobtick.android.models.response.myjobs.MyJobsResponse
 import com.jobtick.android.pagination.PaginationListener
 import com.jobtick.android.utils.*
+import com.jobtick.android.utils.voicerecorder.RippleView
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
 import java.util.*
 
-class SearchTaskActivity : ActivityBase(), OnEditorActionListener, TaskListAdapterV2.OnItemClickListener, PreviewTaskAdapter.OnItemClickListener<PreviewTaskModel?> {
+class SearchTaskActivity : ActivityBase(), OnEditorActionListener,VoiceSearchBottomSheet.VoiceRecorderInterface, TaskListAdapterV2.OnItemClickListener, PreviewTaskAdapter.OnItemClickListener<PreviewTaskModel?> {
     var ivBack: ImageView? = null
     var recyclerView: RecyclerView? = null
     var emptySearch: RelativeLayout? = null
     var edtSearch: EditText? = null
-    //voice search
+    var rvMic: RippleView? = null
     private val MY_PERMISSIONS_RECORD_AUDIO = 123
     var btnVoice: ImageView? = null
+    val voiceSearchBottomSheet = VoiceSearchBottomSheet()
 
     private lateinit var sessionManagerT: SessionManager
     private var adapter: TaskListAdapterV2? = null
@@ -68,7 +63,8 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener, TaskListAdapt
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_all)
-initIDS()
+        initIDS()
+        voiceSearchBottomSheet.voiceRecorderInterface = this
         isFromMyJobs = intent.getBooleanExtra(ConstantKey.FROM_MY_JOBS_WITH_LOVE, false)
         //  RelativeLayout emptySearch = findViewById(R.id.empty_search);
         sessionManagerT = SessionManager(this)
@@ -93,11 +89,11 @@ initIDS()
         emptySearch = findViewById(R.id.empty_search)
         edtSearch = findViewById(R.id.edt_search_categoreis)
         btnVoice = findViewById(R.id.btnVoice)
+        rvMic = findViewById(R.id.rv_mic)
         ivBack!!.setOnClickListener {
             onBackPressed()
         }
     }
-
 
 
     override fun onEditorAction(textView: TextView, actionId: Int, keyEvent: KeyEvent): Boolean {
@@ -118,34 +114,34 @@ initIDS()
         var url = Constant.URL_TASKS_v2 + "?search_query=" + queryParameter + "&page=" + currentPage
         if (isFromMyJobs) url = Constant.URL_TASKS_v2 + "&search_query=" + queryParameter + "&page=" + currentPage
         val stringRequest: StringRequest = object : StringRequest(Method.GET, url,
-        Response.Listener { response: String? ->
-            Timber.e(response)
-            try {
-                val jsonObject = JSONObject(response)
-                Timber.e(jsonObject.toString())
-                val gson = Gson()
-                val (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(jsonObject.toString(), MyJobsResponse::class.java)
-                if (data == null) {
-                    showToast("some went to wrong", this)
-                    return@Listener
-                }
-                totalItem = total!!
-                Constant.PAGE_SIZE = per_page!!
-                totalPage = total
-                if (data.size <= 0) {
-                    emptySearch!!.visibility = View.VISIBLE
-                    recyclerView!!.visibility = View.GONE
-                } else {
-                    recyclerView!!.visibility = View.VISIBLE
-                    emptySearch!!.visibility = View.GONE
-                }
-                adapter!!.addItems(data, totalItem)
-            } catch (e: JSONException) {
-                hideProgressDialog()
-                Timber.e(e.toString())
-                e.printStackTrace()
-            }
-        },
+                Response.Listener { response: String? ->
+                    Timber.e(response)
+                    try {
+                        val jsonObject = JSONObject(response)
+                        Timber.e(jsonObject.toString())
+                        val gson = Gson()
+                        val (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(jsonObject.toString(), MyJobsResponse::class.java)
+                        if (data == null) {
+                            showToast("some went to wrong", this)
+                            return@Listener
+                        }
+                        totalItem = total!!
+                        Constant.PAGE_SIZE = per_page!!
+                        totalPage = total
+                        if (data.size <= 0) {
+                            emptySearch!!.visibility = View.VISIBLE
+                            recyclerView!!.visibility = View.GONE
+                        } else {
+                            recyclerView!!.visibility = View.VISIBLE
+                            emptySearch!!.visibility = View.GONE
+                        }
+                        adapter!!.addItems(data, totalItem)
+                    } catch (e: JSONException) {
+                        hideProgressDialog()
+                        Timber.e(e.toString())
+                        e.printStackTrace()
+                    }
+                },
                 Response.ErrorListener { error: VolleyError -> errorHandle1(error.networkResponse) }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
@@ -231,37 +227,21 @@ initIDS()
     }
 
     private fun speechToText() {
-        btnVoice!!.startAnimation(AnimationUtils.loadAnimation(this@SearchTaskActivity, R.anim.video_icon_animate))
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
-                "com.domain.app")
-        val recognizer = SpeechRecognizer
-                .createSpeechRecognizer(this@SearchTaskActivity.applicationContext)
-        val listener = object : MyRecognitionListener() {
-            override fun onResults(results: Bundle?) {
-                val voiceResults = results!!.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                if (voiceResults == null) {
-                    btnVoice!!.clearAnimation()
-                    println("No voice results")
-                } else {
-                    edtSearch!!.setText(voiceResults[0])
-                    setOnlineAdapter()
-                    setLoadMoreListener()
-                    doApiCall()
-                    btnVoice!!.clearAnimation()
-                }
-            }
+        voiceSearchBottomSheet.show(supportFragmentManager, null)
+        //        btnVoice!!.startAnimation(AnimationUtils.loadAnimation(this@SearchTaskActivity, R.anim.video_icon_animate))
+    }
 
-            override fun onError(error: Int) {
-                btnVoice!!.clearAnimation()
-                System.err.println("Error listening for speech: $error")
-            }
+    override fun onVoiceRecordResult(status: Boolean, result: String) {
+    if (status){
+        edtSearch!!.setText(result)
+        setOnlineAdapter()
+        setLoadMoreListener()
+        doApiCall()
+        btnVoice!!.clearAnimation()
+    }else{
+        btnVoice!!.clearAnimation()
 
+    }
 
-        }
-        recognizer.setRecognitionListener(listener)
-        recognizer.startListening(intent)
     }
 }

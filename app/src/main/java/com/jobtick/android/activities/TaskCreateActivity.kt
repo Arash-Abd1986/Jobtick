@@ -290,9 +290,7 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
             selectBudgetBtn()
         }
     }
-
-    override fun onNextClick(title: String, description: String, musthave: ArrayList<String>, task_type: String,
-                             location: String, positionModel: PositionModel?, attachmentArrayList: ArrayList<AttachmentModel>) {
+    override fun onNextClick(title: String?, description: String?, musthave: ArrayList<String>?, task_type: String?, location: String?, positionModel: PositionModel?, attachmentArrayList: ArrayList<AttachmentModel>?) {
         taskModel.title = title
         taskModel.description = description
         taskModel.musthave = musthave
@@ -301,8 +299,9 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
         taskModel.taskType = task_type
         taskModel.attachments = attachmentArrayList
         viewPager.currentItem = 1
-        selectDateTimeBtn()
-    }
+        selectDateTimeBtn()    }
+
+
 
     override fun onNextClickDateTime(due_date: String, dueTimeModel: DueTimeModel) {
         taskModel.dueDate = due_date
@@ -330,17 +329,18 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
         lytBtnDetails.isSelected = true
     }
 
+
     override fun onValidDataFilled() {
         lytBntDateTime.isSelected = true
         lytBtnBudget.isEnabled = false
         lytBtnDetails.isEnabled = true
     }
 
-    override fun draftTaskDetails(taskModel: TaskModel, moveForeword: Boolean) {
+    override fun draftTaskDetails(taskModel: TaskModel?, moveForeword: Boolean) {
         if (moveForeword) {
             actionDraftDateTime!!.callDraftTaskDateTime(this.taskModel)
         } else {
-            this.taskModel = taskModel
+            this.taskModel = taskModel!!
             if (taskModel.title != null && taskModel.title.trim { it <= ' ' }.length >= 10) {
                 uploadDataToServer(true)
             } else {

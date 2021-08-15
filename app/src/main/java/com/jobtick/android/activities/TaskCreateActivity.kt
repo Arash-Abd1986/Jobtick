@@ -1,805 +1,680 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import com.jobtick.android.fragments.TaskDetailFragment
+import com.jobtick.android.fragments.TaskDateTimeFragment
+import com.jobtick.android.fragments.TaskBudgetFragment
+import com.jobtick.android.fragments.ConfirmDeleteTaskBottomSheet
+import android.annotation.SuppressLint
+import com.jobtick.android.R
+import com.google.android.material.appbar.MaterialToolbar
+import androidx.cardview.widget.CardView
+import androidx.viewpager.widget.ViewPager
+import com.jobtick.android.models.TaskModel
+import android.os.Bundle
+import com.jobtick.android.models.task.AttachmentModels
+import android.content.Intent
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import androidx.appcompat.content.res.AppCompatResources
+import android.view.ContextMenu.ContextMenuInfo
+import com.jobtick.android.models.PositionModel
+import com.jobtick.android.models.AttachmentModel
+import com.jobtick.android.models.DueTimeModel
+import com.android.volley.toolbox.StringRequest
+import timber.log.Timber
+import org.json.JSONException
+import com.android.volley.toolbox.Volley
+import android.os.Parcelable
+import android.util.Log
+import android.view.*
+import android.widget.*
+import com.android.volley.*
+import com.jobtick.android.BuildConfig
+import com.jobtick.android.adapers.SectionsPagerAdapter
+import com.jobtick.android.utils.*
+import org.json.JSONObject
+import java.lang.Exception
+import java.util.ArrayList
+import java.util.HashMap
 
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
+class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener, TaskDateTimeFragment.OperationsListener, TaskBudgetFragment.OperationsListener, ConfirmDeleteTaskBottomSheet.NoticeListener {
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.android.BuildConfig;
-import com.jobtick.android.R;
-import com.jobtick.android.adapers.SectionsPagerAdapter;
-import com.jobtick.android.fragments.ConfirmDeleteTaskBottomSheet;
-import com.jobtick.android.fragments.TaskBudgetFragment;
-import com.jobtick.android.fragments.TaskDateTimeFragment;
-import com.jobtick.android.fragments.TaskDetailFragment;
-import com.jobtick.android.models.AttachmentModel;
-import com.jobtick.android.models.DueTimeModel;
-import com.jobtick.android.models.PositionModel;
-import com.jobtick.android.models.TaskModel;
-import com.jobtick.android.models.response.myjobs.Data;
-import com.jobtick.android.models.task.AttachmentModels;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.ConstantKey;
-import com.jobtick.android.utils.FireBaseEvent;
-import com.jobtick.android.utils.HttpStatus;
-import com.jobtick.android.utils.Tools;
+    private lateinit var creatingTaskLayout: FrameLayout
+    private lateinit var toolbar: MaterialToolbar
+    private lateinit var lytBtnDetails: LinearLayout
+    private lateinit var lytBntDateTime: LinearLayout
+    private lateinit var lytBtnBudget: LinearLayout
+    private lateinit var cardSelectionView: CardView
+    private lateinit var viewPager: ViewPager
+    private lateinit var imgDetails: ImageView
+    private lateinit var ivDelete: ImageView
+    private lateinit var txtDetails: TextView
+    private lateinit var imgDateTime: ImageView
+    private lateinit var txtDateTime: TextView
+    private lateinit var imgBudget: ImageView
+    private lateinit var txtBudget: TextView
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import timber.log.Timber;
+    private lateinit var taskModel: TaskModel
+    private var title: String? = null
+    private var actionDraftDateTime: ActionDraftDateTime? = null
+    private var actionDraftTaskDetails: ActionDraftTaskDetails? = null
+    private var actionDraftTaskBudget: ActionDraftTaskBudget? = null
+    private var isDraftWorkDone = false
+    private var isEditTask = false
+    private var isJobDraftedYet = false
+    var isBudgetComplete = false
+    var isDateTimeComplete = false
+    private var slug: String? = ""
+    private val adapter = SectionsPagerAdapter(supportFragmentManager)
 
 
-public class TaskCreateActivity extends ActivityBase implements TaskDetailFragment.OperationsListener,
-        TaskDateTimeFragment.OperationsListener, TaskBudgetFragment.OperationsListener, ConfirmDeleteTaskBottomSheet.NoticeListener {
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.creating_task_layout)
-    FrameLayout creatingTaskLayout;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_details)
-    LinearLayout lytBtnDetails;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_bnt_date_time)
-    LinearLayout lytBntDateTime;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_budget)
-    LinearLayout lytBtnBudget;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.card_selection_view)
-    CardView cardSelectionView;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.img_details)
-    ImageView imgDetails;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.iv_delete)
-    ImageView ivDelete;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_details)
-    TextView txtDetails;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.img_date_time)
-    ImageView imgDateTime;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_date_time)
-    TextView txtDateTime;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.img_budget)
-    ImageView imgBudget;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_budget)
-    TextView txtBudget;
-
-    TaskModel taskModel;
-    private String title;
-    private ActionDraftDateTime actionDraftDateTime;
-    private ActionDraftTaskDetails actionDraftTaskDetails;
-    private ActionDraftTaskBudget actionDraftTaskBudget;
-    private boolean isDraftWorkDone = false;
-    private boolean isEditTask = false;
-    private boolean isJobDraftedYet = false;
-    private boolean isBudgetComplete = false;
-    private boolean isDateTimeComplete = false;
-    private String slug = "";
-    private SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-    public boolean isDateTimeComplete() {
-        return isDateTimeComplete;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_task_create)
+        initIDS()
+        onViewClick()
+        initVars()
+        initToolbar(title)
+        initComponent()
     }
 
-    public void setDateTimeComplete(boolean dateTimeComplete) {
-        isDateTimeComplete = dateTimeComplete;
-    }
-
-    public boolean isBudgetComplete() {
-        return isBudgetComplete;
-    }
-
-    public void setBudgetComplete(boolean budgetComplete) {
-        isBudgetComplete = budgetComplete;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task_create);
-        ButterKnife.bind(this);
-
-        Bundle bundle = getIntent().getExtras();
-        taskModel = new TaskModel();
+    private fun initVars() {
+        val bundle = intent.extras
+        taskModel = TaskModel()
         if (bundle != null && bundle.containsKey(ConstantKey.TASK)) {
-            taskModel = bundle.getParcelable(ConstantKey.TASK);
+            taskModel = bundle.getParcelable(ConstantKey.TASK)!!
         }
         if (bundle != null && bundle.containsKey(ConstantKey.CATEGORY_ID)) {
-            taskModel.setCategory_id(bundle.getInt(ConstantKey.CATEGORY_ID, 1));
+            taskModel.category_id = bundle.getInt(ConstantKey.CATEGORY_ID, 1)
         }
-
         if (bundle != null && bundle.getBoolean(ConstantKey.COPY, false)) {
-            taskModel = TaskDetailsActivity.taskModel;
-
-            if (taskModel.getPoster() != null &&
-                    !taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
-                TaskModel taskModelTemp = new TaskModel();
-                taskModelTemp.setPoster(sessionManager.getUserAccount());
-                taskModelTemp.setCategory_id(taskModel.getCategory_id());
-                taskModelTemp.setTitle(taskModel.getTitle());
-                taskModelTemp.setDescription(taskModel.getDescription());
-                taskModel = taskModelTemp;
-            } else if (taskModel.getPoster() != null &&
-                    taskModel.getPoster().getId().equals(sessionManager.getUserAccount().getId())) {
-                taskModel.setSlug(null);
-                taskModel.setId(null);
+            taskModel = TaskDetailsActivity.taskModel
+            if (taskModel.poster != null &&
+                    taskModel.poster.id != sessionManager.userAccount.id) {
+                val taskModelTemp = TaskModel()
+                taskModelTemp.poster = sessionManager.userAccount
+                taskModelTemp.category_id = taskModel.category_id
+                taskModelTemp.title = taskModel.title
+                taskModelTemp.description = taskModel.description
+                taskModel = taskModelTemp
+            } else if (taskModel.poster != null && taskModel.poster.id == sessionManager.userAccount.id) {
+                taskModel.slug = null
+                taskModel.id = null
             }
         }
-
-        title = ConstantKey.CREATE_A_JOB;
-        if (bundle != null && bundle.getString(ConstantKey.TITLE) != null) {
-            title = bundle.getString(ConstantKey.TITLE);
+        title = ConstantKey.CREATE_A_JOB
+        if (bundle?.getString(ConstantKey.TITLE) != null) {
+            title = bundle.getString(ConstantKey.TITLE)
         }
         if (bundle != null && bundle.getBoolean(ConstantKey.EDIT, false)) {
-            taskModel = TaskDetailsActivity.taskModel;
-            isEditTask = true;
+            taskModel = TaskDetailsActivity.taskModel
+            isEditTask = true
         }
         if (bundle != null && bundle.getBoolean(ConstantKey.DRAFT_JOB, false)) {
-            slug = bundle.getString(ConstantKey.SLUG);
-            isJobDraftedYet = true;
+            slug = bundle.getString(ConstantKey.SLUG)
+            isJobDraftedYet = true
         }
-        initToolbar(title);
-        initComponent();
     }
 
-
-    public void setActionDraftTaskDetails(ActionDraftTaskDetails actionDraftTaskDetails) {
-        this.actionDraftTaskDetails = actionDraftTaskDetails;
+    private fun initIDS() {
+        creatingTaskLayout = findViewById(R.id.creating_task_layout)
+        toolbar = findViewById(R.id.toolbar)
+        lytBtnDetails = findViewById(R.id.lyt_btn_details)
+        lytBntDateTime = findViewById(R.id.lyt_bnt_date_time)
+        lytBtnBudget = findViewById(R.id.lyt_btn_budget)
+        cardSelectionView = findViewById(R.id.card_selection_view)
+        viewPager = findViewById(R.id.view_pager)
+        imgDetails = findViewById(R.id.img_details)
+        ivDelete = findViewById(R.id.iv_delete)
+        txtDetails = findViewById(R.id.txt_details)
+        imgDateTime = findViewById(R.id.img_date_time)
+        txtDateTime = findViewById(R.id.txt_date_time)
+        imgBudget = findViewById(R.id.img_budget)
+        txtBudget = findViewById(R.id.txt_budget)
     }
 
-    public void setActionDraftDateTime(ActionDraftDateTime actionDraftDateTime) {
-        this.actionDraftDateTime = actionDraftDateTime;
+    fun setActionDraftTaskDetails(actionDraftTaskDetails: ActionDraftTaskDetails?) {
+        this.actionDraftTaskDetails = actionDraftTaskDetails
     }
 
-    public void setActionDraftTaskBudget(ActionDraftTaskBudget actionDraftTaskBudget) {
-        this.actionDraftTaskBudget = actionDraftTaskBudget;
+    fun setActionDraftDateTime(actionDraftDateTime: ActionDraftDateTime?) {
+        this.actionDraftDateTime = actionDraftDateTime
     }
 
-    private void initComponent() {
-        setupViewPager(viewPager);
-        viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
-        viewPager.setCurrentItem(0);
-        viewPager.setOffscreenPageLimit(3);
-        selectDetailsBtn();
-        lytBntDateTime.setEnabled(false);
-        lytBtnBudget.setEnabled(false);
-        lytBtnDetails.setSelected(true);
+    fun setActionDraftTaskBudget(actionDraftTaskBudget: ActionDraftTaskBudget?) {
+        this.actionDraftTaskBudget = actionDraftTaskBudget
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        adapter.addFragment(TaskDetailFragment.newInstance(taskModel.getTitle(), taskModel.getDescription(), taskModel.getMusthave(), taskModel.getTaskType(), taskModel.getLocation(), taskModel.getPosition(), new AttachmentModels(taskModel.getAttachments()), this, isEditTask, taskModel.getSlug()), getResources().getString(R.string.details));
-        adapter.addFragment(TaskDateTimeFragment.newInstance(taskModel.getDueDate() == null ? null : taskModel.getDueDate().substring(0, 10), taskModel.getDueTime(), this), getResources().getString(R.string.date_time));
-        adapter.addFragment(TaskBudgetFragment.newInstance(taskModel.getBudget(), taskModel.getHourlyRate(), taskModel.getTotalHours(), taskModel.getPaymentType(), this), getResources().getString(R.string.budget));
-        viewPager.setAdapter(adapter);
+    private fun initComponent() {
+        setupViewPager(viewPager)
+        viewPager.addOnPageChangeListener(viewPagerPageChangeListener)
+        viewPager.currentItem = 0
+        viewPager.offscreenPageLimit = 3
+        selectDetailsBtn()
+        lytBntDateTime.isEnabled = false
+        lytBtnBudget.isEnabled = false
+        lytBtnDetails.isSelected = true
     }
 
-    private void initToolbar(String title) {
+    private fun setupViewPager(viewPager: ViewPager?) {
+        adapter.addFragment(TaskDetailFragment.newInstance(taskModel.title, taskModel.description, taskModel.musthave, taskModel.taskType, taskModel.location, taskModel.position, AttachmentModels(taskModel.attachments), this, isEditTask, taskModel.slug), resources.getString(R.string.details))
+        adapter.addFragment(TaskDateTimeFragment.newInstance(if (taskModel.dueDate == null) null else taskModel.dueDate.substring(0, 10), taskModel.dueTime, this), resources.getString(R.string.date_time))
+        adapter.addFragment(TaskBudgetFragment.newInstance(taskModel.budget, taskModel.hourlyRate, taskModel.totalHours, taskModel.paymentType, this), resources.getString(R.string.budget))
+        viewPager!!.adapter = adapter
+    }
+
+    private fun initToolbar(title: String?) {
+        var title = title
         if (isJobDraftedYet) {
-            toolbar.setNavigationIcon(R.drawable.ic_back_black);
-            ivDelete.setVisibility(View.VISIBLE);
-            title = ("Edit draft");
-        } else
-            toolbar.setNavigationIcon(R.drawable.ic_cancel);
-        ivDelete.setOnClickListener(v -> {
-            ConfirmDeleteTaskBottomSheet confirmBottomSheet = new ConfirmDeleteTaskBottomSheet(this);
-            confirmBottomSheet.setListener(this);
-            confirmBottomSheet.show(this.getSupportFragmentManager(), "");
-        });
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(title);
+            toolbar.setNavigationIcon(R.drawable.ic_back_black)
+            ivDelete.visibility = View.VISIBLE
+            title = "Edit draft"
+        } else toolbar.setNavigationIcon(R.drawable.ic_cancel)
+        ivDelete.setOnClickListener { v: View? ->
+            val confirmBottomSheet = ConfirmDeleteTaskBottomSheet(this)
+            confirmBottomSheet.listener = this
+            confirmBottomSheet.show(this.supportFragmentManager, "")
+        }
+        setSupportActionBar(toolbar)
+        if (supportActionBar != null) {
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            supportActionBar!!.title = title
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_task_create, menu);
-        return true;
+        menuInflater.inflate(R.menu.menu_task_create, menu)
+        return true
     }
 
     @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                isDraftWorkDone = false;
-                onBackPressed();
-                break;
-            case R.id.menu_attachment:
-                Bundle bundle = new Bundle();
-                Intent intent = new Intent(this, AttachmentActivity.class);
-                bundle.putParcelableArrayList(ConstantKey.ATTACHMENT, taskModel.getAttachments());
-                bundle.putString(ConstantKey.TITLE, title);
-                bundle.putString(ConstantKey.SLUG, taskModel.getSlug());
-                intent.putExtras(bundle);
-                startActivityForResult(intent, ConstantKey.RESULTCODE_ATTACHMENT);
-                break;
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                isDraftWorkDone = false
+                onBackPressed()
+            }
+            R.id.menu_attachment -> {
+                val bundle = Bundle()
+                val intent = Intent(this, AttachmentActivity::class.java)
+                bundle.putParcelableArrayList(ConstantKey.ATTACHMENT, taskModel.attachments)
+                bundle.putString(ConstantKey.TITLE, title)
+                bundle.putString(ConstantKey.SLUG, taskModel.slug)
+                intent.putExtras(bundle)
+                startActivityForResult(intent, ConstantKey.RESULTCODE_ATTACHMENT)
+            }
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
-    @Override
-    public void onBackPressed() {
-
+    override fun onBackPressed() {
         if (isDraftWorkDone) {
-            super.onBackPressed();
+            super.onBackPressed()
         } else {
             if (isEditTask) {
-                super.onBackPressed();
+                super.onBackPressed()
             } else {
-                if (isJobDraftedYet)
-                    super.onBackPressed();
-                else
-                    actionDraftTaskDetails.callDraftTaskDetails(this.taskModel);
+                if (isJobDraftedYet) super.onBackPressed() else actionDraftTaskDetails!!.callDraftTaskDetails(taskModel)
             }
         }
     }
 
-    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageSelected(final int position) {
-            switch (position) {
-                case 0:
-                    selectDetailsBtn();
-                    TaskDetailFragment fragmentDetails = (TaskDetailFragment) adapter.getItem(0);
-                    fragmentDetails.checkTabs();
-                    break;
-                case 1:
-                    selectDateTimeBtn();
-                    TaskDateTimeFragment fragmentDateTime = (TaskDateTimeFragment) adapter.getItem(1);
-                    fragmentDateTime.checkTabs();
-                    break;
-                case 2:
-                    selectBudgetBtn();
-                    break;
+    var viewPagerPageChangeListener: OnPageChangeListener = object : OnPageChangeListener {
+        override fun onPageSelected(position: Int) {
+            when (position) {
+                0 -> {
+                    selectDetailsBtn()
+                    val fragmentDetails = adapter.getItem(0) as TaskDetailFragment
+                    fragmentDetails.checkTabs()
+                }
+                1 -> {
+                    selectDateTimeBtn()
+                    val fragmentDateTime = adapter.getItem(1) as TaskDateTimeFragment
+                    fragmentDateTime.checkTabs()
+                }
+                2 -> selectBudgetBtn()
             }
         }
 
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
+        override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {}
+        override fun onPageScrollStateChanged(arg0: Int) {}
+    }
+
+    private fun selectBudgetBtn() {
+        imgBudget.imageTintList = AppCompatResources.getColorStateList(this, R.color.colorPrimary)
+        txtBudget.setTextColor(resources.getColor(R.color.colorPrimary))
+        val csl_green = AppCompatResources.getColorStateList(this, R.color.green)
+        imgDateTime.imageTintList = csl_green
+        imgDetails.imageTintList = csl_green
+        txtDateTime.setTextColor(resources.getColor(R.color.green))
+        txtDetails.setTextColor(resources.getColor(R.color.green))
+    }
+
+    private fun selectDateTimeBtn() {
+        imgDateTime.imageTintList = AppCompatResources.getColorStateList(this, R.color.colorPrimary)
+        txtDateTime.setTextColor(resources.getColor(R.color.colorPrimary))
+        imgDetails.imageTintList = AppCompatResources.getColorStateList(this, R.color.green)
+        imgBudget.imageTintList = AppCompatResources.getColorStateList(this, R.color.greyC4C4C4)
+        txtDetails.setTextColor(resources.getColor(R.color.green))
+        txtBudget.setTextColor(resources.getColor(R.color.colorGrayC9C9C9))
+    }
+
+    private fun selectDetailsBtn() {
+        imgDetails.imageTintList =  AppCompatResources.getColorStateList(this, R.color.colorPrimary)
+        txtDetails.setTextColor(resources.getColor(R.color.colorPrimary))
+        val cslGrey = AppCompatResources.getColorStateList(this, R.color.greyC4C4C4)
+        imgDateTime.imageTintList = cslGrey
+        imgBudget.imageTintList = cslGrey
+        txtDateTime.setTextColor(resources.getColor(R.color.colorGrayC9C9C9))
+        txtBudget.setTextColor(resources.getColor(R.color.colorGrayC9C9C9))
+    }
+
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_main, menu)
+        menu.setHeaderTitle("Select The Action")
+    }
+
+    private fun onViewClick() {
+        lytBtnDetails.setOnClickListener {
+            viewPager.currentItem = 0
+            selectDetailsBtn()
         }
-
-        @Override
-        public void onPageScrollStateChanged(int arg0) {
+        lytBntDateTime.setOnClickListener {
+            viewPager.currentItem = 1
+            selectDateTimeBtn()
         }
-    };
-
-    private void selectBudgetBtn() {
-        ColorStateList csl_primary = AppCompatResources.getColorStateList(this, R.color.colorPrimary);
-        imgBudget.setImageTintList(csl_primary);
-        txtBudget.setTextColor(getResources().getColor(R.color.colorPrimary));
-        ColorStateList csl_green = AppCompatResources.getColorStateList(this, R.color.green);
-        imgDateTime.setImageTintList(csl_green);
-        imgDetails.setImageTintList(csl_green);
-        txtDateTime.setTextColor(getResources().getColor(R.color.green));
-        txtDetails.setTextColor(getResources().getColor(R.color.green));
-
-    }
-
-    private void selectDateTimeBtn() {
-        ColorStateList csl_primary = AppCompatResources.getColorStateList(this, R.color.colorPrimary);
-        imgDateTime.setImageTintList(csl_primary);
-        txtDateTime.setTextColor(getResources().getColor(R.color.colorPrimary));
-        ColorStateList csl_grey = AppCompatResources.getColorStateList(this, R.color.greyC4C4C4);
-        ColorStateList csl_green = AppCompatResources.getColorStateList(this, R.color.green);
-        imgDetails.setImageTintList(csl_green);
-        imgBudget.setImageTintList(csl_grey);
-        txtDetails.setTextColor(getResources().getColor(R.color.green));
-        txtBudget.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
-    }
-
-    private void selectDetailsBtn() {
-        ColorStateList csl_primary = AppCompatResources.getColorStateList(this, R.color.colorPrimary);
-        imgDetails.setImageTintList(csl_primary);
-        txtDetails.setTextColor(getResources().getColor(R.color.colorPrimary));
-        ColorStateList csl_grey = AppCompatResources.getColorStateList(this, R.color.greyC4C4C4);
-        imgDateTime.setImageTintList(csl_grey);
-        imgBudget.setImageTintList(csl_grey);
-        txtDateTime.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
-        txtBudget.setTextColor(getResources().getColor(R.color.colorGrayC9C9C9));
-    }
-
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        menu.setHeaderTitle("Select The Action");
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @OnClick({R.id.lyt_btn_details, R.id.lyt_bnt_date_time, R.id.lyt_btn_budget})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.lyt_btn_details:
-                viewPager.setCurrentItem(0);
-                selectDetailsBtn();
-                break;
-            case R.id.lyt_bnt_date_time:
-                viewPager.setCurrentItem(1);
-                selectDateTimeBtn();
-                break;
-            case R.id.lyt_btn_budget:
-                viewPager.setCurrentItem(2);
-                selectBudgetBtn();
-                break;
+        lytBtnBudget.setOnClickListener {
+            viewPager.currentItem = 2
+            selectBudgetBtn()
         }
     }
 
-    @Override
-    public void onNextClick(String title, String description, ArrayList<String> musthave, String task_type,
-                            String location, PositionModel positionModel, ArrayList<AttachmentModel> attachmentArrayList) {
-        taskModel.setTitle(title);
-        taskModel.setDescription(description);
-        taskModel.setMusthave(musthave);
-        taskModel.setPosition(positionModel);
-        taskModel.setLocation(location);
-        taskModel.setTaskType(task_type);
-        taskModel.setAttachments(attachmentArrayList);
-        viewPager.setCurrentItem(1);
-        selectDateTimeBtn();
+    override fun onNextClick(title: String, description: String, musthave: ArrayList<String>, task_type: String,
+                             location: String, positionModel: PositionModel, attachmentArrayList: ArrayList<AttachmentModel>) {
+        taskModel.title = title
+        taskModel.description = description
+        taskModel.musthave = musthave
+        taskModel.position = positionModel
+        taskModel.location = location
+        taskModel.taskType = task_type
+        taskModel.attachments = attachmentArrayList
+        viewPager.currentItem = 1
+        selectDateTimeBtn()
     }
 
-    @Override
-    public void onNextClickDateTime(String due_date, DueTimeModel dueTimeModel) {
-        taskModel.setDueDate(due_date);
-        taskModel.setDueTime(dueTimeModel);
-        viewPager.setCurrentItem(2);
-        selectBudgetBtn();
+    override fun onNextClickDateTime(due_date: String, dueTimeModel: DueTimeModel) {
+        taskModel.dueDate = due_date
+        taskModel.dueTime = dueTimeModel
+        viewPager.currentItem = 2
+        selectBudgetBtn()
     }
 
-    @Override
-    public void onBackClickDateTime(String due_date, DueTimeModel dueTimeModel) {
-        taskModel.setDueDate(due_date);
-        taskModel.setDueTime(dueTimeModel);
-        viewPager.setCurrentItem(0);
-        selectDetailsBtn();
+    override fun onBackClickDateTime(due_date: String, dueTimeModel: DueTimeModel) {
+        taskModel.dueDate = due_date
+        taskModel.dueTime = dueTimeModel
+        viewPager.currentItem = 0
+        selectDetailsBtn()
     }
 
-    @Override
-    public void onValidDataFilledDateTimeNext() {
-        lytBntDateTime.setEnabled(true);
-        lytBtnBudget.setSelected(true);
-        lytBtnDetails.setEnabled(true);
+    override fun onValidDataFilledDateTimeNext() {
+        lytBntDateTime.isEnabled = true
+        lytBtnBudget.isSelected = true
+        lytBtnDetails.isEnabled = true
     }
 
-    @Override
-    public void onValidDataFilledDateTimeBack() {
-        lytBntDateTime.setEnabled(false);
-        lytBtnBudget.setEnabled(false);
-        lytBtnDetails.setSelected(true);
+    override fun onValidDataFilledDateTimeBack() {
+        lytBntDateTime.isEnabled = false
+        lytBtnBudget.isEnabled = false
+        lytBtnDetails.isSelected = true
     }
 
-    @Override
-    public void onValidDataFilled() {
-        lytBntDateTime.setSelected(true);
-        lytBtnBudget.setEnabled(false);
-        lytBtnDetails.setEnabled(true);
+    override fun onValidDataFilled() {
+        lytBntDateTime.isSelected = true
+        lytBtnBudget.isEnabled = false
+        lytBtnDetails.isEnabled = true
     }
 
-    @Override
-    public void draftTaskDetails(TaskModel taskModel, boolean moveForeword) {
+    override fun draftTaskDetails(taskModel: TaskModel, moveForeword: Boolean) {
         if (moveForeword) {
-            actionDraftDateTime.callDraftTaskDateTime(this.taskModel);
+            actionDraftDateTime!!.callDraftTaskDateTime(this.taskModel)
         } else {
-            this.taskModel = taskModel;
-            if (taskModel.getTitle() != null && taskModel.getTitle().trim().length() >= 10) {
-                uploadDataToServer(true);
+            this.taskModel = taskModel
+            if (taskModel.title != null && taskModel.title.trim { it <= ' ' }.length >= 10) {
+                uploadDataToServer(true)
             } else {
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putBoolean(ConstantKey.CATEGORY, true);
-                intent.putExtras(bundle);
-                setResult(ConstantKey.RESULTCODE_CATEGORY, intent);
-                super.onBackPressed();
+                val intent = Intent()
+                val bundle = Bundle()
+                bundle.putBoolean(ConstantKey.CATEGORY, true)
+                intent.putExtras(bundle)
+                setResult(ConstantKey.RESULTCODE_CATEGORY, intent)
+                super.onBackPressed()
             }
         }
     }
 
-    @Override
-    public void draftTaskDateTime(TaskModel taskModel, boolean moveForeword) {
+    override fun draftTaskDateTime(taskModel: TaskModel, moveForeword: Boolean) {
         if (moveForeword) {
-            actionDraftTaskBudget.callDraftTaskBudget(this.taskModel);
+            actionDraftTaskBudget!!.callDraftTaskBudget(this.taskModel)
         } else {
-            this.taskModel = taskModel;
-            uploadDataToServer(true);
+            this.taskModel = taskModel
+            uploadDataToServer(true)
         }
     }
 
-    @Override
-    public void draftTaskBudget(TaskModel taskModel) {
-        this.taskModel = taskModel;
-        uploadDataToServer(true);
+    override fun draftTaskBudget(taskModel: TaskModel) {
+        this.taskModel = taskModel
+        uploadDataToServer(true)
     }
 
-    @Override
-    public void onNextClickBudget(int budget, int hour_budget, int total_hours, String payment_type) {
-        taskModel.setBudget(budget);
-        taskModel.setHourlyRate(hour_budget);
-        taskModel.setTotalHours(total_hours);
-        taskModel.setPaymentType(payment_type);
-        uploadDataToServer(false);
+    override fun onNextClickBudget(budget: Int, hour_budget: Int, total_hours: Int, payment_type: String) {
+        taskModel.budget = budget
+        taskModel.hourlyRate = hour_budget
+        taskModel.totalHours = total_hours
+        taskModel.paymentType = payment_type
+        uploadDataToServer(false)
     }
 
-    private void uploadDataToServer(Boolean draft) {
-        String queryParameter;
-        int METHOD;
-        if (taskModel.getSlug() != null) {
-            queryParameter = "/" + taskModel.getSlug();
-            METHOD = Request.Method.PATCH;
+    private fun uploadDataToServer(draft: Boolean) {
+        val queryParameter: String
+        val METHOD: Int
+        if (taskModel.slug != null) {
+            queryParameter = "/" + taskModel.slug
+            METHOD = Request.Method.PATCH
         } else {
-            queryParameter = "/create";
-            METHOD = Request.Method.POST;
+            queryParameter = "/create"
+            METHOD = Request.Method.POST
         }
-        showProgressDialog();
-        StringRequest stringRequest = new StringRequest(METHOD, Constant.URL_TASKS + queryParameter,
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
+        showProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(METHOD, Constant.URL_TASKS + queryParameter,
+                Response.Listener { response: String? ->
+                    Timber.e(response)
+                    hideProgressDialog()
                     try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
+                        val jsonObject = JSONObject(response)
+                        Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                Intent intent;
-                                Bundle bundle;
+                                var intent: Intent
+                                val bundle: Bundle
                                 if (draft) {
-                                    intent = new Intent();
-                                    bundle = new Bundle();
-                                    bundle.putBoolean(ConstantKey.UPDATE_TASK, true);
-                                    intent.putExtras(bundle);
-                                    setResult(ConstantKey.RESULTCODE_UPDATE_TASK, intent);
-                                    isDraftWorkDone = true;
-//                                    Toasty.info(TaskCreateActivity.this,"Draft saved", Toast.LENGTH_LONG).show();
-                                    Toast.makeText(TaskCreateActivity.this, "Draft saved", Toast.LENGTH_LONG).show();
-                                    onBackPressed();
-                                    return;
+                                    intent = Intent()
+                                    bundle = Bundle()
+                                    bundle.putBoolean(ConstantKey.UPDATE_TASK, true)
+                                    intent.putExtras(bundle)
+                                    setResult(ConstantKey.RESULTCODE_UPDATE_TASK, intent)
+                                    isDraftWorkDone = true
+                                    //                                    Toasty.info(TaskCreateActivity.this,"Draft saved", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(this@TaskCreateActivity, "Draft saved", Toast.LENGTH_LONG).show()
+                                    onBackPressed()
+                                    return@Listener
                                 } else {
-                                    intent = new Intent();
-                                    bundle = new Bundle();
-                                    bundle.putBoolean(ConstantKey.CATEGORY, true);
-                                    intent.putExtras(bundle);
-                                    setResult(ConstantKey.RESULTCODE_CATEGORY, intent);
+                                    intent = Intent()
+                                    bundle = Bundle()
+                                    bundle.putBoolean(ConstantKey.CATEGORY, true)
+                                    intent.putExtras(bundle)
+                                    setResult(ConstantKey.RESULTCODE_CATEGORY, intent)
                                 }
-
                                 if (draft) {
-                                    isDraftWorkDone = true;
-                                    onBackPressed();
-                                    return;
+                                    isDraftWorkDone = true
+                                    onBackPressed()
+                                    return@Listener
                                 }
-
-                                FireBaseEvent.getInstance(getApplicationContext())
+                                FireBaseEvent.getInstance(applicationContext)
                                         .sendEvent(FireBaseEvent.Event.POST_A_JOB,
                                                 FireBaseEvent.EventType.API_RESPOND_SUCCESS,
-                                                FireBaseEvent.EventValue.POST_A_JOB_SUBMIT);
+                                                FireBaseEvent.EventValue.POST_A_JOB_SUBMIT)
                                 if (isEditTask) {
-                                    intent = new Intent(this, CompleteMessageActivity.class);
-                                    Bundle bundle1 = new Bundle();
-                                    bundle1.putString(ConstantKey.COMPLETES_MESSAGE_TITLE, "Job Edited Successfully");
-                                    bundle1.putInt(ConstantKey.COMPLETES_MESSAGE_FROM, ConstantKey.RESULTCODE_CREATE_TASK);
-                                    bundle1.putString(ConstantKey.SLUG, taskModel.getSlug());
-                                    intent.putExtras(bundle1);
-                                    startActivity(intent);
-                                    finish();
+                                    intent = Intent(this, CompleteMessageActivity::class.java)
+                                    val bundle1 = Bundle()
+                                    bundle1.putString(ConstantKey.COMPLETES_MESSAGE_TITLE, "Job Edited Successfully")
+                                    bundle1.putInt(ConstantKey.COMPLETES_MESSAGE_FROM, ConstantKey.RESULTCODE_CREATE_TASK)
+                                    bundle1.putString(ConstantKey.SLUG, taskModel.slug)
+                                    intent.putExtras(bundle1)
+                                    startActivity(intent)
+                                    finish()
                                 } else {
-                                    String taskSlug = null;
-
+                                    var taskSlug: String? = null
                                     try {
                                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                            JSONObject data = jsonObject.getJSONObject("data");
-                                            taskSlug = data.getString("slug");
-                                            Log.d("taskSlug", taskSlug);
-                                        } else
-                                            taskSlug = null;
-                                    } catch (Exception e) {
-                                        taskSlug = null;
+                                            val data = jsonObject.getJSONObject("data")
+                                            taskSlug = data.getString("slug")
+                                            Log.d("taskSlug", taskSlug)
+                                        } else taskSlug = null
+                                    } catch (e: Exception) {
+                                        taskSlug = null
                                     }
-                                    intent = new Intent(TaskCreateActivity.this, CompleteMessageActivity.class);
-                                    Bundle bundle2 = new Bundle();
-                                    bundle2.putInt(ConstantKey.COMPLETES_MESSAGE_FROM, ConstantKey.RESULTCODE_CREATE_TASK);
-                                    bundle2.putString(ConstantKey.SLUG, taskSlug);
-                                    intent.putExtras(bundle2);
-                                    startActivity(intent);
-                                    finish();
+                                    intent = Intent(this@TaskCreateActivity, CompleteMessageActivity::class.java)
+                                    val bundle2 = Bundle()
+                                    bundle2.putInt(ConstantKey.COMPLETES_MESSAGE_FROM, ConstantKey.RESULTCODE_CREATE_TASK)
+                                    bundle2.putString(ConstantKey.SLUG, taskSlug)
+                                    intent.putExtras(bundle2)
+                                    startActivity(intent)
+                                    finish()
                                 }
                             } else {
-                                showToast("Something went Wrong", TaskCreateActivity.this);
+                                showToast("Something went Wrong", this@TaskCreateActivity)
                             }
                         }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
+                    } catch (e: JSONException) {
+                        Timber.e(e.toString())
+                        e.printStackTrace()
                     }
                 },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
+                Response.ErrorListener { error: VolleyError ->
+                    val networkResponse = error.networkResponse
+                    if (networkResponse?.data != null) {
+                        val jsonError = String(networkResponse.data)
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser();
-                            hideProgressDialog();
-                            return;
+                            unauthorizedUser()
+                            hideProgressDialog()
+                            return@ErrorListener
                         }
                         try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            if (jsonObject_error.has("message")) {
-                                showToast(jsonObject_error.getString("message"), this);
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObjectError = jsonObject.getJSONObject("error")
+                            if (jsonObjectError.has("message")) {
+                                showToast(jsonObjectError.getString("message"), this)
                             }
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
                         }
                     } else {
-                        showToast("Something Went Wrong", TaskCreateActivity.this);
+                        showToast("Something Went Wrong", this@TaskCreateActivity)
                     }
-                    System.out.println(error.toString());
-                    hideProgressDialog();
+                    println(error.toString())
+                    hideProgressDialog()
                 }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Accept", "application/json");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                return map1;
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                map1["Accept"] = "application/json"
+                map1["X-Requested-With"] = "XMLHttpRequest"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                return map1
             }
 
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("category_id", Integer.toString(taskModel.getCategory_id()));
-                map1.put("title", taskModel.getTitle());
-                if (taskModel.getDescription() != null)
-                    map1.put("description", taskModel.getDescription());
-                if (taskModel.getLocation() != null && !taskModel.getLocation().equals(""))
-                    map1.put("location", taskModel.getLocation());
-                if (taskModel.getPosition() != null) {
-                    map1.put("latitude", String.valueOf(taskModel.getPosition().getLatitude()));
-                    map1.put("longitude", String.valueOf(taskModel.getPosition().getLongitude()));
+            override fun getParams(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["category_id"] = Integer.toString(taskModel.category_id)
+                map1["title"] = taskModel.title
+                if (taskModel.description != null) map1["description"] = taskModel.description
+                if (taskModel.location != null && taskModel.location != "") map1["location"] = taskModel.location
+                if (taskModel.position != null) {
+                    map1["latitude"] = taskModel.position.latitude.toString()
+                    map1["longitude"] = taskModel.position.longitude.toString()
                 }
-                if (taskModel.getTaskType() != null)
-                    map1.put("task_type", taskModel.getTaskType());
-                if (taskModel.getPaymentType() != null)
-                    map1.put("payment_type", taskModel.getPaymentType());
-                if (taskModel.getPaymentType() != null) {
-                    if (taskModel.getPaymentType().equalsIgnoreCase("fixed")) {
-                        if (taskModel.getBudget() >= 5)
-                            map1.put("budget", String.valueOf(taskModel.getBudget()));
+                if (taskModel.taskType != null) map1["task_type"] = taskModel.taskType
+                if (taskModel.paymentType != null) map1["payment_type"] = taskModel.paymentType
+                if (taskModel.paymentType != null) {
+                    if (taskModel.paymentType.equals("fixed", ignoreCase = true)) {
+                        if (taskModel.budget >= 5) map1["budget"] = taskModel.budget.toString()
                     } else {
-                        if (((taskModel.getTotalHours()) * taskModel.getHourlyRate()) >= 5) {
-                            map1.put("budget", String.valueOf(taskModel.getHourlyRate() * taskModel.getTotalHours()));
-                            map1.put("total_hours", String.valueOf(taskModel.getTotalHours()));
-                            map1.put("hourly_rate", String.valueOf(taskModel.getHourlyRate()));
+                        if (taskModel.totalHours * taskModel.hourlyRate >= 5) {
+                            map1["budget"] = (taskModel.hourlyRate * taskModel.totalHours).toString()
+                            map1["total_hours"] = taskModel.totalHours.toString()
+                            map1["hourly_rate"] = taskModel.hourlyRate.toString()
                         }
                     }
                 }
-                if (taskModel.getDueDate() != null)
-                    map1.put("due_date", Tools.getApplicationFromatToServerFormat(taskModel.getDueDate()));
-                if (taskModel.getAttachments() != null && taskModel.getAttachments().size() != 0) {
-                    for (int i = 0; taskModel.getAttachments().size() > i; i++) {
-                        if (taskModel.getAttachments().get(i).getId() != null) {
-                            map1.put("attachments[" + i + "]", String.valueOf(taskModel.getAttachments().get(i).getId()));
+                if (taskModel.dueDate != null) map1["due_date"] = Tools.getApplicationFromatToServerFormat(taskModel.dueDate)
+                if (taskModel.attachments != null && taskModel.attachments.size != 0) {
+                    var i = 0
+                    while (taskModel.attachments.size > i) {
+                        if (taskModel.attachments[i].id != null) {
+                            map1["attachments[$i]"] = taskModel.attachments[i].id.toString()
                         }
+                        i++
                     }
                 }
-                if (taskModel.getMusthave() != null && taskModel.getMusthave().size() != 0) {
-                    for (int i = 0; taskModel.getMusthave().size() > i; i++) {
-                        map1.put("musthave[" + i + "]", taskModel.getMusthave().get(i));
+                if (taskModel.musthave != null && taskModel.musthave.size != 0) {
+                    var i = 0
+                    while (taskModel.musthave.size > i) {
+                        map1["musthave[$i]"] = taskModel.musthave[i]
+                        i++
                     }
                 }
-                if (taskModel.getDueTime() != null) {
-                    int count = 0;
-                    if (taskModel.getDueTime().getMorning()) {
-                        map1.put("due_time[" + count + "]", "morning");
-                        count = count + 1;
+                if (taskModel.dueTime != null) {
+                    var count = 0
+                    if (taskModel.dueTime.morning) {
+                        map1["due_time[$count]"] = "morning"
+                        count += 1
                     }
-                    if (taskModel.getDueTime().getAfternoon()) {
-                        map1.put("due_time[" + count + "]", "afternoon");
-                        count = count + 1;
+                    if (taskModel.dueTime.afternoon) {
+                        map1["due_time[$count]"] = "afternoon"
+                        count += 1
                     }
-                    if (taskModel.getDueTime().getEvening()) {
-                        map1.put("due_time[" + count + "]", "evening");
-                        count = count + 1;
+                    if (taskModel.dueTime.evening) {
+                        map1["due_time[$count]"] = "evening"
+                        count += 1
                     }
-                    if (taskModel.getDueTime().getAnytime()) {
-                        map1.put("due_time[" + count + "]", "anytime");
+                    if (taskModel.dueTime.anytime) {
+                        map1["due_time[$count]"] = "anytime"
                     }
                 }
                 if (draft) {
-                    map1.put("draft", "1");
+                    map1["draft"] = "1"
                 }
-                System.out.println((map1.size()));
-                System.out.println((map1.toString()));
-
-                return map1;
+                println(map1.size)
+                println(map1.toString())
+                return map1
             }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(TaskCreateActivity.this);
-        requestQueue.add(stringRequest);
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        val requestQueue = Volley.newRequestQueue(this@TaskCreateActivity)
+        requestQueue.add(stringRequest)
     }
 
-    @Override
-    public void onBackClickBudget(int budget, int hour_budget, int total_hours, String payment_type) {
-        taskModel.setBudget(budget);
-        taskModel.setHourlyRate(hour_budget);
-        taskModel.setTotalHours(total_hours);
-        taskModel.setPaymentType(payment_type);
-        viewPager.setCurrentItem(1);
-        selectDateTimeBtn();
+    override fun onBackClickBudget(budget: Int, hour_budget: Int, total_hours: Int, payment_type: String) {
+        taskModel.budget = budget
+        taskModel.hourlyRate = hour_budget
+        taskModel.totalHours = total_hours
+        taskModel.paymentType = payment_type
+        viewPager.currentItem = 1
+        selectDateTimeBtn()
     }
 
-    @Override
-    public void onValidDataFilledBudgetNext() {
+    override fun onValidDataFilledBudgetNext() {}
+    override fun onValidDataFilledBudgetBack() {
+        lytBntDateTime.isSelected = true
+        lytBtnBudget.isEnabled = false
+        lytBtnDetails.isEnabled = true
     }
 
-    @Override
-    public void onValidDataFilledBudgetBack() {
-        lytBntDateTime.setSelected(true);
-        lytBtnBudget.setEnabled(false);
-        lytBtnDetails.setEnabled(true);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        for (Fragment fragment : getSupportFragmentManager().getFragments())
-            if (fragment instanceof TaskDetailFragment)
-                fragment.onActivityResult(requestCode, resultCode, data);
-
-
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        for (fragment in supportFragmentManager.fragments) (fragment as? TaskDetailFragment)?.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ConstantKey.RESULTCODE_ATTACHMENT) {
             if (data != null) {
-                if (data.getParcelableArrayListExtra(ConstantKey.ATTACHMENT) != null) {
-                    ArrayList<AttachmentModel> attachmentArrayList = data.getParcelableArrayListExtra(ConstantKey.ATTACHMENT);
-                    taskModel.setAttachments(attachmentArrayList);
+                if (data.getParcelableArrayListExtra<Parcelable>(ConstantKey.ATTACHMENT) != null) {
+                    val attachmentArrayList: ArrayList<AttachmentModel> = data.getParcelableArrayListExtra(ConstantKey.ATTACHMENT)!!
+                    taskModel.attachments = attachmentArrayList
                 }
             }
         }
     }
 
-    @Override
-    public void onDeleteConfirmClick() {
-        deleteTask(slug);
+    override fun onDeleteConfirmClick() {
+        deleteTask(slug)
     }
 
-
-    protected void deleteTask(String slug) {
-        showProgressDialog();
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, Constant.URL_TASKS + "/" + slug,
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
+    protected fun deleteTask(slug: String?) {
+        showProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(Method.DELETE, Constant.URL_TASKS + "/" + slug,
+                Response.Listener { response: String? ->
+                    Timber.e(response)
+                    hideProgressDialog()
                     try {
-
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
+                        val jsonObject = JSONObject(response)
+                        Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-
                             if (jsonObject.getBoolean("success")) {
-                                showToast("Job has been deleted successfully", this);
-                                sessionManager.setNeedRefresh(true);
-                                onBackPressed();
+                                showToast("Job has been deleted successfully", this)
+                                sessionManager.setNeedRefresh(true)
+                                onBackPressed()
                             } else {
-                                showToast("Something went Wrong", this);
+                                showToast("Something went Wrong", this)
                             }
                         }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
+                    } catch (e: JSONException) {
+                        Timber.e(e.toString())
+                        e.printStackTrace()
                     }
                 },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
+                Response.ErrorListener { error: VolleyError ->
+                    val networkResponse = error.networkResponse
                     if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
+                        val jsonError = String(networkResponse.data)
                         // Print Error!
-                        Timber.e(jsonError);
+                        Timber.e(jsonError)
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser();
-                            return;
+                            unauthorizedUser()
+                            return@ErrorListener
                         }
                         try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObject_error = jsonObject.getJSONObject("error")
                             if (jsonObject_error.has("message")) {
-                                showToast(jsonObject_error.getString("message"), this);
+                                showToast(jsonObject_error.getString("message"), this)
                             }
                             if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
+                                val jsonObject_errors = jsonObject_error.getJSONObject("errors")
                             }
                             //  ((CredentialActivity)requireActivity()).showToast(message,requireActivity());
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
                         }
                     } else {
-                        showToast("Something Went Wrong", this);
+                        showToast("Something Went Wrong", this)
                     }
-                    Timber.e(error.toString());
+                    Timber.e(error.toString())
                 }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<String, String>();
-
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                return map1;
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["X-Requested-With"] = "XMLHttpRequest"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                return map1
             }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        val requestQueue = Volley.newRequestQueue(this)
+        requestQueue.add(stringRequest)
     }
 
-    public interface ActionDraftTaskDetails {
-        void callDraftTaskDetails(TaskModel taskModel);
+    interface ActionDraftTaskDetails {
+        fun callDraftTaskDetails(taskModel: TaskModel?)
     }
 
-    public interface ActionDraftDateTime {
-        void callDraftTaskDateTime(TaskModel taskModel);
+    interface ActionDraftDateTime {
+        fun callDraftTaskDateTime(taskModel: TaskModel?)
     }
 
-    public interface ActionDraftTaskBudget {
-        void callDraftTaskBudget(TaskModel taskModel);
+    interface ActionDraftTaskBudget {
+        fun callDraftTaskBudget(taskModel: TaskModel?)
     }
 }

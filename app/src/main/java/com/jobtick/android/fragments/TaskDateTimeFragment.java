@@ -533,11 +533,11 @@ public class TaskDateTimeFragment extends Fragment implements TextWatcher {
     }
 
     private void tabClickListener() {
-        if (getActivity() != null && getValidationCode() == 0) {
-            lytBtnDetails.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
-            lytBntDateTime.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
-            lytBtnBudget.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
-        }
+//        if (getActivity() != null && getValidationCode() == 0) {
+//            lytBtnDetails.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
+//            lytBntDateTime.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
+//            lytBtnBudget.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
+//        }
     }
 
 

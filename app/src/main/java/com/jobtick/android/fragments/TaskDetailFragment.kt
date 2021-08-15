@@ -105,7 +105,6 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_task_detail, container, false)
-        setIDS()
         uploadableImage = object : AbstractUploadableImageImpl(requireActivity()) {
             override fun onImageReady(imageFile: File) {
                 if (!isEditTask) uploadDataInTempApi(imageFile) else uploadDataForEditTask(imageFile)
@@ -145,10 +144,18 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initVars()
+        setIDS()
+        selectDetailsBtn()
+        setComponent()
+        init()
+        textChangeCheck()
+    }
+
+    private fun initVars() {
         taskCreateActivity = requireActivity() as TaskCreateActivity
         sessionManager = SessionManager(taskCreateActivity)
         task = TaskModel()
-        selectDetailsBtn()
         addTagList = ArrayList()
         task!!.title = requireArguments().getString("TITLE")
         task!!.description = requireArguments().getString("DESCRIPTION")
@@ -160,7 +167,62 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         isEditTask = requireArguments().getBoolean("isEditTask", false)
         taskSlug = requireArguments().getString("taskSlug", null)
         //lytBtnDetails.setBackgroundResource(R.drawable.rectangle_round_white_with_shadow);
+    }
+
+    private fun setComponent() {
+        edtTitle.text = task!!.title
+        edtDescription.text = task!!.description
+        if (task!!.taskType != null) {
+            if (task!!.taskType.equals("remote", ignoreCase = true)) {
+                checkboxOnline.isChecked = true
+                txtSuburb.visibility = View.GONE
+            } else {
+                checkboxOnline.isChecked = false
+                txtSuburb.visibility = View.VISIBLE
+            }
+        } else {
+            checkboxOnline.isChecked = false
+            txtSuburb.visibility = View.VISIBLE
+        }
+        if (task!!.musthave != null && task!!.musthave.size != 0) {
+            addTagList!!.addAll(task!!.musthave)
+        }
+        txtSuburb.text = task!!.location
+    }
+
+    private fun init() {
         cardDetails.outlineProvider = ViewOutlineProvider.BACKGROUND
+        showBottomSheetAddMustHave(true)
+        recyclerAddMustHave.layoutManager = GridLayoutManager(taskCreateActivity, 1)
+        recyclerAddMustHave.addItemDecoration(SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true))
+        recyclerAddMustHave.setHasFixedSize(true)
+        tagAdapter = AddTagAdapter(addTagList) { data: String? ->
+            addTagList!!.remove(data)
+            tagAdapter!!.updateItem(addTagList)
+            tagAdapterBottomSheet!!.updateItem(addTagList)
+        }
+        if (addTagList!!.size == 0) {
+            relReqSmall.visibility = View.GONE
+            tvRequireTitle.setTextColor(resources.getColor(R.color.N100))
+            rltAddMustHave.visibility = View.VISIBLE
+        } else if (addTagList!!.size < 4) {
+            tvRequireTitle.setTextColor(resources.getColor(R.color.P300))
+            relReqSmall.visibility = View.VISIBLE
+            rltAddMustHave.visibility = View.GONE
+        }
+        recyclerAddMustHave.adapter = tagAdapter
+        rcAttachment.layoutManager = GridLayoutManager(taskCreateActivity, 4)
+        rcAttachment.setHasFixedSize(true)
+        attachmentAdapter = AttachmentAdapter1(attachmentArrayList, true)
+        rcAttachment.adapter = attachmentAdapter
+        attachmentAdapter!!.setOnItemClickListener(this)
+        if (task!!.attachments != null && !task!!.attachments.isEmpty()) {
+            attachmentAdapter!!.addItems(task!!.attachments)
+        }
+    }
+
+
+    private fun onViewClick() {
         addAttach.setOnClickListener { v: View? ->
             edtDescription.clearFocus()
             edtTitle.clearFocus()
@@ -197,64 +259,6 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
             val infoBottomSheet = SearchSuburbBottomSheet(this)
             infoBottomSheet.show(parentFragmentManager, null)
         }
-        setComponent()
-        init()
-        textChangeCheck()
-    }
-
-    private fun setComponent() {
-        edtTitle.text = task!!.title
-        edtDescription.text = task!!.description
-        if (task!!.taskType != null) {
-            if (task!!.taskType.equals("remote", ignoreCase = true)) {
-                checkboxOnline.isChecked = true
-                txtSuburb.visibility = View.GONE
-            } else {
-                checkboxOnline.isChecked = false
-                txtSuburb.visibility = View.VISIBLE
-            }
-        } else {
-            checkboxOnline.isChecked = false
-            txtSuburb.visibility = View.VISIBLE
-        }
-        if (task!!.musthave != null && task!!.musthave.size != 0) {
-            addTagList!!.addAll(task!!.musthave)
-        }
-        txtSuburb.text = task!!.location
-    }
-
-    private fun init() {
-        showBottomSheetAddMustHave(true)
-        recyclerAddMustHave.layoutManager = GridLayoutManager(taskCreateActivity, 1)
-        recyclerAddMustHave.addItemDecoration(SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true))
-        recyclerAddMustHave.setHasFixedSize(true)
-        tagAdapter = AddTagAdapter(addTagList) { data: String? ->
-            addTagList!!.remove(data)
-            tagAdapter!!.updateItem(addTagList)
-            tagAdapterBottomSheet!!.updateItem(addTagList)
-        }
-        if (addTagList!!.size == 0) {
-            relReqSmall.visibility = View.GONE
-            tvRequireTitle.setTextColor(resources.getColor(R.color.N100))
-            rltAddMustHave.visibility = View.VISIBLE
-        } else if (addTagList!!.size < 4) {
-            tvRequireTitle.setTextColor(resources.getColor(R.color.P300))
-            relReqSmall.visibility = View.VISIBLE
-            rltAddMustHave.visibility = View.GONE
-        }
-        recyclerAddMustHave.adapter = tagAdapter
-        rcAttachment.layoutManager = GridLayoutManager(taskCreateActivity, 4)
-        rcAttachment.setHasFixedSize(true)
-        attachmentAdapter = AttachmentAdapter1(attachmentArrayList, true)
-        rcAttachment.adapter = attachmentAdapter
-        attachmentAdapter!!.setOnItemClickListener(this)
-        if (task!!.attachments != null && !task!!.attachments.isEmpty()) {
-            attachmentAdapter!!.addItems(task!!.attachments)
-        }
-    }
-
-
-    private fun onViewClick() {
         rltAddMustHave.setOnClickListener {
             edtDescription.clearFocus()
             edtTitle.clearFocus()

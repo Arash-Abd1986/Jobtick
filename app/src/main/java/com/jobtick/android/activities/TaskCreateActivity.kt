@@ -292,7 +292,7 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
     }
 
     override fun onNextClick(title: String, description: String, musthave: ArrayList<String>, task_type: String,
-                             location: String, positionModel: PositionModel, attachmentArrayList: ArrayList<AttachmentModel>) {
+                             location: String, positionModel: PositionModel?, attachmentArrayList: ArrayList<AttachmentModel>) {
         taskModel.title = title
         taskModel.description = description
         taskModel.musthave = musthave

@@ -1,87 +1,69 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
+import com.jobtick.android.activities.ActivityBase
+import android.annotation.SuppressLint
+import butterknife.BindView
+import com.jobtick.android.R
+import com.google.android.material.appbar.MaterialToolbar
+import com.jobtick.android.widget.ExtendedSettingItem
+import android.os.Bundle
+import butterknife.ButterKnife
+import butterknife.OnClick
+import android.content.Intent
+import android.view.MenuItem
+import android.view.View
+import com.jobtick.android.activities.EmailNotificationsSettingsActivity
+import com.jobtick.android.activities.PushNotificationsSettingsActivity
+import com.jobtick.android.activities.SMSNotificationsSettingsActivity
 
-import androidx.annotation.Nullable;
+class NotificationSettings : ActivityBase() {
+    private lateinit var toolbar: MaterialToolbar
+    private lateinit var rtlBtnEmailNotification: ExtendedSettingItem
+    private lateinit var rtlBtnPushNotifications: ExtendedSettingItem
+    private lateinit var rtlBtnSMSNotifications: ExtendedSettingItem
 
-import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.android.R;
-import android.annotation.SuppressLint;
-
-import com.jobtick.android.widget.ExtendedSettingItem;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-public class NotificationSettings extends ActivityBase {
-
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.email_notifications)
-    ExtendedSettingItem rtlBtnEmailNotification;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.push_notifications)
-    ExtendedSettingItem rtlBtnPushNotifications;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.sms_notifications)
-    ExtendedSettingItem rtlBtnSMSNotifications;
-
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_notification_settings);
-        ButterKnife.bind(this);
-        initToolbar();
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_notification_settings)
+        initIDS()
+        initToolbar()
+        onViewClick()
     }
 
-    private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Notification Settings");
+    private fun initIDS() {
+        toolbar = findViewById(R.id.toolbar)
+        rtlBtnEmailNotification = findViewById(R.id.email_notifications)
+        rtlBtnPushNotifications = findViewById(R.id.push_notifications)
+        rtlBtnSMSNotifications = findViewById(R.id.sms_notifications)
     }
 
+    private fun initToolbar() {
+        toolbar.setNavigationIcon(R.drawable.ic_back)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.title = "Notification Settings"
+    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
         }
-
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
-
-    @OnClick({R.id.email_notifications, R.id.push_notifications, R.id.sms_notifications})
-    public void onViewClicked(View view) {
-        Intent intent;
-        switch (view.getId()) {
-            case R.id.email_notifications:
-                intent = new Intent(NotificationSettings.this, EmailNotificationsSettingsActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.push_notifications:
-                intent = new Intent(NotificationSettings.this, PushNotificationsSettingsActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.sms_notifications:
-                intent = new Intent(NotificationSettings.this, SMSNotificationsSettingsActivity.class);
-                startActivity(intent);
-                break;
+    private fun onViewClick() {
+        var intent: Intent
+        rtlBtnEmailNotification.setOnClickListener {
+            intent = Intent(this@NotificationSettings, EmailNotificationsSettingsActivity::class.java)
+            startActivity(intent)
+        }
+        rtlBtnPushNotifications.setOnClickListener {
+            intent = Intent(this@NotificationSettings, PushNotificationsSettingsActivity::class.java)
+            startActivity(intent)
+        }
+        rtlBtnSMSNotifications.setOnClickListener {
+            intent = Intent(this@NotificationSettings, SMSNotificationsSettingsActivity::class.java)
+            startActivity(intent)
         }
     }
 }

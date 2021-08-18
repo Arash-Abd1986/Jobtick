@@ -303,14 +303,14 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
 
 
 
-    override fun onNextClickDateTime(due_date: String, dueTimeModel: DueTimeModel) {
+    override fun onNextClickDateTime(due_date: String?, dueTimeModel: DueTimeModel?) {
         taskModel.dueDate = due_date
         taskModel.dueTime = dueTimeModel
         viewPager.currentItem = 2
         selectBudgetBtn()
     }
 
-    override fun onBackClickDateTime(due_date: String, dueTimeModel: DueTimeModel) {
+    override fun onBackClickDateTime(due_date: String?, dueTimeModel: DueTimeModel?) {
         taskModel.dueDate = due_date
         taskModel.dueTime = dueTimeModel
         viewPager.currentItem = 0
@@ -354,21 +354,21 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
         }
     }
 
-    override fun draftTaskDateTime(taskModel: TaskModel, moveForeword: Boolean) {
+    override fun draftTaskDateTime(taskModel: TaskModel?, moveForeword: Boolean) {
         if (moveForeword) {
             actionDraftTaskBudget!!.callDraftTaskBudget(this.taskModel)
         } else {
-            this.taskModel = taskModel
+            this.taskModel = taskModel!!
             uploadDataToServer(true)
         }
     }
 
-    override fun draftTaskBudget(taskModel: TaskModel) {
-        this.taskModel = taskModel
+    override fun draftTaskBudget(taskModel: TaskModel?) {
+        this.taskModel = taskModel!!
         uploadDataToServer(true)
     }
 
-    override fun onNextClickBudget(budget: Int, hour_budget: Int, total_hours: Int, payment_type: String) {
+    override fun onNextClickBudget(budget: Int, hour_budget: Int, total_hours: Int, payment_type: String?) {
         taskModel.budget = budget
         taskModel.hourlyRate = hour_budget
         taskModel.totalHours = total_hours
@@ -567,7 +567,7 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
         requestQueue.add(stringRequest)
     }
 
-    override fun onBackClickBudget(budget: Int, hour_budget: Int, total_hours: Int, payment_type: String) {
+    override fun onBackClickBudget(budget: Int, hour_budget: Int, total_hours: Int, payment_type: String?) {
         taskModel.budget = budget
         taskModel.hourlyRate = hour_budget
         taskModel.totalHours = total_hours
@@ -582,6 +582,8 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
         lytBtnBudget.isEnabled = false
         lytBtnDetails.isEnabled = true
     }
+
+
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

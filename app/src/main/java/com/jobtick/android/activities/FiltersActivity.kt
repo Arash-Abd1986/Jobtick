@@ -1,307 +1,236 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import androidx.appcompat.app.AppCompatActivity
+import com.jobtick.android.fragments.FilterInPersonFragment.FragmentCallbackFilterInPerson
+import com.jobtick.android.fragments.FilterAllFragment.FragmentCallbackFilterAll
+import com.jobtick.android.fragments.FilterRemotelyFragment.FragmentCallbackFilterRemote
+import android.annotation.SuppressLint
+import butterknife.BindView
+import com.jobtick.android.R
+import com.google.android.material.appbar.MaterialToolbar
+import androidx.appcompat.widget.SwitchCompat
+import com.jobtick.android.widget.ExtendedEntryText
+import androidx.viewpager.widget.ViewPager
+import com.jobtick.android.models.FilterModel
+import com.jobtick.android.fragments.AbstractFilterFragment
+import android.os.Bundle
+import butterknife.ButterKnife
+import android.os.Parcelable
+import android.widget.CompoundButton
+import com.jobtick.android.fragments.FilterRemotelyFragment
+import com.jobtick.android.fragments.FilterInPersonFragment
+import com.jobtick.android.fragments.FilterAllFragment
+import android.content.Intent
+import android.view.MenuItem
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import androidx.fragment.app.FragmentPagerAdapter
+import com.jobtick.android.utils.Constant
+import java.util.ArrayList
+import java.util.HashMap
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
-import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.android.R;
-
-import android.annotation.SuppressLint;
-import android.widget.Switch;
-
-import com.jobtick.android.fragments.AbstractFilterFragment;
-import com.jobtick.android.fragments.FilterAllFragment;
-import com.jobtick.android.fragments.FilterInPersonFragment;
-import com.jobtick.android.fragments.FilterRemotelyFragment;
-import com.jobtick.android.models.FilterModel;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.SuburbAutoComplete;
-import com.jobtick.android.widget.ExtendedEntryText;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-public class FiltersActivity extends AppCompatActivity implements FilterInPersonFragment.FragmentCallbackFilterInPerson, FilterAllFragment.FragmentCallbackFilterAll, FilterRemotelyFragment.FragmentCallbackFilterRemote {
-
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rb_remotely)
-    SwitchCompat rbRemotely;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rb_in_person)
-    SwitchCompat rbInPerson;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_suburb)
-    ExtendedEntryText txtSuburb;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
-    FilterModel filterModel;
-    Map<String, String> filters;
-    private boolean all = true;
-    private AbstractFilterFragment abstractFilterFragment1;
-    private AbstractFilterFragment abstractFilterFragment2;
-    private AbstractFilterFragment abstractFilterFragment3;
-    private int currentTab = 0;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filters);
-        ButterKnife.bind(this);
-        filters = new HashMap<>();
-        filterModel = new FilterModel();
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null && bundle.getParcelable(Constant.FILTER) != null) {
-            filterModel = bundle.getParcelable(Constant.FILTER);
+class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson, FragmentCallbackFilterAll, FragmentCallbackFilterRemote {
+    var toolbar: MaterialToolbar? = null
+    var rbRemotely: SwitchCompat? = null
+    var rbInPerson: SwitchCompat? = null
+    var txtSuburb: ExtendedEntryText? = null
+    var viewPager: ViewPager? = null
+    var filterModel: FilterModel? = null
+    var filters: Map<String, String>? = null
+    private var all = true
+    private var abstractFilterFragment1: AbstractFilterFragment? = null
+    private var abstractFilterFragment2: AbstractFilterFragment? = null
+    private var abstractFilterFragment3: AbstractFilterFragment? = null
+    private var currentTab = 0
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_filters)
+        setIDs()
+        filters = HashMap()
+        filterModel = FilterModel()
+        val bundle = intent.extras
+        if (bundle?.getParcelable<Parcelable?>(Constant.FILTER) != null) {
+            filterModel = bundle.getParcelable(Constant.FILTER)
         }
-        initToolbar();
-        initComponent();
+        initToolbar()
+        initComponent()
     }
 
-
-    public void setSuburb(String suburb){
-        txtSuburb.setText(suburb);
+    private fun setIDs() {
+        toolbar= findViewById(R.id.toolbar)
+        rbRemotely= findViewById(R.id.rb_remotely)
+        rbInPerson= findViewById(R.id.rb_in_person)
+        txtSuburb= findViewById(R.id.txt_suburb)
+        viewPager= findViewById(R.id.view_pager)
     }
-    public void setSubError(String error){
-        txtSuburb.setError(error);
-    }
-    private void initComponent() {
-        setupViewPager(viewPager);
-        viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
-        viewPager.setOffscreenPageLimit(3);
 
+    fun setSuburb(suburb: String?) {
+        txtSuburb!!.text = suburb
+    }
+
+    fun setSubError(error: String?) {
+        txtSuburb!!.setError(error)
+    }
+
+    private fun initComponent() {
+        setupViewPager(viewPager)
+        viewPager!!.addOnPageChangeListener(viewPagerPageChangeListener)
+        viewPager!!.offscreenPageLimit = 3
         if (filterModel != null) {
-            if (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_REMOTE)) {
-                viewPager.setCurrentItem(0);
-                rbRemotely.setChecked(true);
-                rbInPerson.setChecked(false);
-                all = (false);
-            } else if (filterModel.getSection().equalsIgnoreCase(Constant.FILTER_IN_PERSON)) {
-                viewPager.setCurrentItem(1);
-                rbRemotely.setChecked(false);
-                rbInPerson.setChecked(true);
-                all = (false);
+            if (filterModel!!.section.equals(Constant.FILTER_REMOTE, ignoreCase = true)) {
+                viewPager!!.currentItem = 0
+                rbRemotely!!.isChecked = true
+                rbInPerson!!.isChecked = false
+                all = false
+            } else if (filterModel!!.section.equals(Constant.FILTER_IN_PERSON, ignoreCase = true)) {
+                viewPager!!.currentItem = 1
+                rbRemotely!!.isChecked = false
+                rbInPerson!!.isChecked = true
+                all = false
             } else {
-                viewPager.setCurrentItem(2);
-                rbRemotely.setChecked(true);
-                rbInPerson.setChecked(true);
-                all = (true);
+                viewPager!!.currentItem = 2
+                rbRemotely!!.isChecked = true
+                rbInPerson!!.isChecked = true
+                all = true
             }
         } else {
-            viewPager.setCurrentItem(2);
-            rbRemotely.setChecked(true);
-            rbInPerson.setChecked(true);
-            all = (true);
+            viewPager!!.currentItem = 2
+            rbRemotely!!.isChecked = true
+            rbInPerson!!.isChecked = true
+            all = true
         }
-
-
-        rbRemotely.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        rbRemotely!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
-                if (!rbInPerson.isChecked()) {
-                    viewPager.setCurrentItem(0);
-                    all = (false);
+                if (!rbInPerson!!.isChecked) {
+                    viewPager!!.currentItem = 0
+                    all = false
                 }
-                if (rbInPerson.isChecked()) {
-                    all = (true);
-                    viewPager.setCurrentItem(2);
+                if (rbInPerson!!.isChecked) {
+                    all = true
+                    viewPager!!.currentItem = 2
                 }
             } else {
-                viewPager.setCurrentItem(1);
-                rbInPerson.setChecked(true);
-                all = (false);
+                viewPager!!.currentItem = 1
+                rbInPerson!!.isChecked = true
+                all = false
             }
-        });
-        rbInPerson.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        }
+        rbInPerson!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
-                if (!rbRemotely.isChecked()) {
-                    viewPager.setCurrentItem(1);
-                    all = (false);
+                if (!rbRemotely!!.isChecked) {
+                    viewPager!!.currentItem = 1
+                    all = false
                 }
-                if (rbRemotely.isChecked()) {
-                    all = (true);
-                    viewPager.setCurrentItem(2);
+                if (rbRemotely!!.isChecked) {
+                    all = true
+                    viewPager!!.currentItem = 2
                 }
             } else {
-                rbRemotely.setChecked(true);
-                viewPager.setCurrentItem(0);
-                all = (false);
+                rbRemotely!!.isChecked = true
+                viewPager!!.currentItem = 0
+                all = false
             }
-        });
-        txtSuburb.setExtendedViewOnClickListener(() -> {
-            switch (currentTab){
-                case 0:
-                    abstractFilterFragment1.startFindLocation();
-                    break;
-                case 1:
-                    abstractFilterFragment2.startFindLocation();
-                    break;
-                case 2:
-                    abstractFilterFragment3.startFindLocation();
-                    break;
-            }
-
-        });
-
-    }
-
-    private void setupViewPager(ViewPager viewPager) {
-        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        abstractFilterFragment1 = FilterRemotelyFragment.newInstance(this, filterModel);
-        abstractFilterFragment2 = FilterInPersonFragment.newInstance(this, filterModel);
-        abstractFilterFragment3 = FilterAllFragment.newInstance(this, filterModel);
-        adapter.addFragment(abstractFilterFragment1, getResources().getString(R.string.remotely));
-        adapter.addFragment(abstractFilterFragment2, getResources().getString(R.string.in_person));
-        adapter.addFragment(abstractFilterFragment3, getResources().getString(R.string.all));
-
-        viewPager.setAdapter(adapter);
-    }
-
-
-    private void initToolbar() {
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Filter");
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
         }
-        return super.onOptionsItemSelected(item);
+        txtSuburb!!.setExtendedViewOnClickListener {
+            when (currentTab) {
+                0 -> abstractFilterFragment1!!.startFindLocation()
+                1 -> abstractFilterFragment2!!.startFindLocation()
+                2 -> abstractFilterFragment3!!.startFindLocation()
+            }
+        }
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constant.FILTER, filterModel);
-        intent.putExtras(bundle);
-        setResult(101, intent);
+    private fun setupViewPager(viewPager: ViewPager?) {
+        val adapter = SectionsPagerAdapter(supportFragmentManager)
+        abstractFilterFragment1 = FilterRemotelyFragment.newInstance(this, filterModel)
+        abstractFilterFragment2 = FilterInPersonFragment.newInstance(this, filterModel)
+        abstractFilterFragment3 = FilterAllFragment.newInstance(this, filterModel)
+        adapter.addFragment(abstractFilterFragment1, resources.getString(R.string.remotely))
+        adapter.addFragment(abstractFilterFragment2, resources.getString(R.string.in_person))
+        adapter.addFragment(abstractFilterFragment3, resources.getString(R.string.all))
+        viewPager!!.adapter = adapter
+    }
 
-        super.onBackPressed();
+    private fun initToolbar() {
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.title = "Filter"
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        val intent = Intent()
+        val bundle = Bundle()
+        bundle.putParcelable(Constant.FILTER, filterModel)
+        intent.putExtras(bundle)
+        setResult(101, intent)
+        super.onBackPressed()
     }
 
     //  viewpager change listener
-    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-
-        @Override
-        public void onPageSelected(final int position) {
-            currentTab = position;
-            switch (position) {
-                case 0:
-                    txtSuburb.setVisibility(View.GONE);
-                    break;
-                case 1:
-                    txtSuburb.setVisibility(View.VISIBLE);
-                    break;
-                case 2:
-                    txtSuburb.setVisibility(View.VISIBLE);
-                    break;
+    var viewPagerPageChangeListener: OnPageChangeListener = object : OnPageChangeListener {
+        override fun onPageSelected(position: Int) {
+            currentTab = position
+            when (position) {
+                0 -> txtSuburb!!.visibility = View.GONE
+                1 -> txtSuburb!!.visibility = View.VISIBLE
+                2 -> txtSuburb!!.visibility = View.VISIBLE
             }
-
         }
 
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int arg0) {
-
-        }
-    };
-
-    @Override
-    public void getInPersonData(FilterModel filterModel) {
-
-        this.filterModel = filterModel;
-
-        onBackPressed();
+        override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {}
+        override fun onPageScrollStateChanged(arg0: Int) {}
     }
 
-    @Override
-    public void getAllData(FilterModel filterModel) {
-        this.filterModel = filterModel;
-        onBackPressed();
+    override fun getInPersonData(filterModel: FilterModel) {
+        this.filterModel = filterModel
+        onBackPressed()
     }
 
-    @Override
-    public void getRemoteData(FilterModel filterModel) {
-        this.filterModel = filterModel;
-        onBackPressed();
+    override fun getAllData(filterModel: FilterModel) {
+        this.filterModel = filterModel
+        onBackPressed()
     }
 
+    override fun getRemoteData(filterModel: FilterModel) {
+        this.filterModel = filterModel
+        onBackPressed()
+    }
 
-    private class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public SectionsPagerAdapter(FragmentManager manager) {
-            super(manager);
+    private inner class SectionsPagerAdapter(manager: FragmentManager?) : FragmentPagerAdapter(manager!!) {
+        private val mFragmentList: MutableList<Fragment> = ArrayList()
+        private val mFragmentTitleList: MutableList<String> = ArrayList()
+        override fun getItem(position: Int): Fragment {
+            return mFragmentList[position]
         }
 
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
+        override fun getCount(): Int {
+            return mFragmentList.size
         }
 
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
+        fun addFragment(fragment: Fragment?, title: String) {
+            mFragmentList.add(fragment!!)
+            mFragmentTitleList.add(title)
         }
 
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
+        override fun getPageTitle(position: Int): CharSequence? {
+            return mFragmentTitleList[position]
         }
     }
 
-    @Override
-    protected void onDestroy() {
 
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            fragment.onActivityResult(requestCode, resultCode, data);
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        for (fragment in supportFragmentManager.fragments) {
+            fragment.onActivityResult(requestCode, resultCode, data)
         }
     }
 }

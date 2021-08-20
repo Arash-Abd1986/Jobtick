@@ -1,187 +1,158 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import butterknife.BindView
+import com.android.volley.*
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.jobtick.android.BuildConfig
+import com.jobtick.android.R
+import com.jobtick.android.adapers.TaskCategoryAdapter
+import com.jobtick.android.models.TaskCategory
+import com.jobtick.android.pagination.PaginationListener
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ConstantKey
+import org.json.JSONException
+import org.json.JSONObject
+import java.util.*
 
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.jobtick.android.BuildConfig;
-import com.jobtick.android.R;
-import android.annotation.SuppressLint;
-
-import com.jobtick.android.adapers.TaskCategoryAdapter;
-import com.jobtick.android.models.TaskCategory;
-import com.jobtick.android.models.TaskModel;
-import com.jobtick.android.pagination.PaginationListener;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.ConstantKey;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-import static com.jobtick.android.pagination.PaginationListener.PAGE_START;
-
-public class CategoryListActivity extends ActivityBase implements TaskCategoryAdapter.OnItemClickListener {
-
+class CategoryListActivity : ActivityBase(), TaskCategoryAdapter.OnItemClickListener {
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.recyclerView_categories)
-    RecyclerView recyclerViewCategories;
+    var recyclerViewCategories: RecyclerView? = null
 
+    @JvmField
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.iv_backbutton)
-    ImageView ivBackButton;
-
-
-    private TaskModel taskModel;
-    private TaskCategoryAdapter adapter;
-    private int currentPage = PAGE_START;
-    private boolean isLastPage = false;
-    private int totalPage = 10;
-    private boolean isLoading = false;
-
-    private String query = "";
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_list);
-        ButterKnife.bind(this);
-        init();
-        setCategoryData();
-        clickEvent();
+    var ivBackButton: ImageView? = null
+    private var adapter: TaskCategoryAdapter? = null
+    private var currentPage = PaginationListener.PAGE_START
+    private var isLastPageItem = false
+    private var totalPage = 10
+    private var isLoadingItem = false
+    private var query: String? = ""
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_category_list)
+        setIDs()
+        init()
+        setCategoryData()
+        clickEvent()
     }
 
-    public void clickEvent() {
-        ivBackButton.setOnClickListener(v -> finish());
+    private fun setIDs() {
+        recyclerViewCategories = findViewById(R.id.recyclerView_categories)
+        ivBackButton = findViewById(R.id.iv_backbutton)
     }
 
-    public void init() {
-        Bundle bundle = getIntent().getExtras();
+    fun clickEvent() {
+        ivBackButton!!.setOnClickListener { v: View? -> finish() }
+    }
+
+    fun init() {
+        val bundle = intent.extras
         if (bundle != null) {
             if (bundle.getString("category") != null) {
-                query = bundle.getString("category");
+                query = bundle.getString("category")
             }
         }
     }
 
-    private void setCategoryData() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(CategoryListActivity.this);
-        recyclerViewCategories.setLayoutManager(layoutManager);
-        recyclerViewCategories.setHasFixedSize(true);
-        List<TaskCategory> items = getTaskCategoryData();
-        adapter = new TaskCategoryAdapter(CategoryListActivity.this, new ArrayList<>());
-        recyclerViewCategories.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
-
-        recyclerViewCategories.addOnScrollListener(new PaginationListener(layoutManager) {
-            @Override
-            protected void loadMoreItems() {
-                isLoading = true;
-                currentPage++;
-                getTaskCategoryData();
+    private fun setCategoryData() {
+        val layoutManager = LinearLayoutManager(this@CategoryListActivity)
+        recyclerViewCategories!!.layoutManager = layoutManager
+        recyclerViewCategories!!.setHasFixedSize(true)
+        val items = taskCategoryData
+        adapter = TaskCategoryAdapter(this@CategoryListActivity, ArrayList())
+        recyclerViewCategories!!.adapter = adapter
+        adapter!!.setOnItemClickListener(this)
+        recyclerViewCategories!!.addOnScrollListener(object : PaginationListener(layoutManager) {
+            override fun loadMoreItems() {
+                isLoadingItem = true
+                currentPage++
+                taskCategoryData
             }
 
-            @Override
-            public boolean isLastPage() {
-                return isLastPage;
-            }
-
-            @Override
-            public boolean isLoading() {
-                return isLoading;
-            }
-        });
+            override val isLastPage: Boolean
+                get() = isLastPageItem
+            override val isLoading: Boolean
+                get() = isLoadingItem
+        })
     }
 
-    @Override
-    public void onItemClick(View view, TaskCategory obj, int position) {
-        Intent creating_task = new Intent(CategoryListActivity.this, TaskCreateActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt(ConstantKey.CATEGORY_ID, obj.getId());
-        creating_task.putExtras(bundle);
-        startActivityForResult(creating_task, ConstantKey.RESULTCODE_CATEGORY);
-        finish();
+    override fun onItemClick(view: View, obj: TaskCategory, position: Int) {
+        val creatingTask = Intent(this@CategoryListActivity, TaskCreateActivity::class.java)
+        val bundle = Bundle()
+        bundle.putInt(ConstantKey.CATEGORY_ID, obj.id)
+        creatingTask.putExtras(bundle)
+        startActivityForResult(creatingTask, ConstantKey.RESULTCODE_CATEGORY)
+        finish()
     }
 
-    public List<TaskCategory> getTaskCategoryData() {
-        List<TaskCategory> items = new ArrayList<>();
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.BASE_URL + Constant.TASK_CATEGORY + "?query=" + query + "&page=" + currentPage,
-                response -> {
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                            JSONArray jsonArray_data = jsonObject.getJSONArray("data");
-                            for (int i = 0; jsonArray_data.length() > i; i++) {
-                                JSONObject jsonObject_taskModel_list = jsonArray_data.getJSONObject(i);
-                                TaskCategory taskModel = new TaskCategory().getJsonToModel(jsonObject_taskModel_list, CategoryListActivity.this);
-                                items.add(taskModel);
-                            }
-                        } else {
-                            showToast("some went to wrong", CategoryListActivity.this);
-                            return;
+    val taskCategoryData: List<TaskCategory>
+        get() {
+            val items: MutableList<TaskCategory> = ArrayList()
+            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.BASE_URL + Constant.TASK_CATEGORY + "?query=" + query + "&page=" + currentPage, label@
+            Response.Listener { response: String? ->
+                try {
+                    val jsonObject = JSONObject(response)
+                    if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                        val jsonArrayData = jsonObject.getJSONArray("data")
+                        var i = 0
+                        while (jsonArrayData.length() > i) {
+                            val jsonObjectTaskModelList = jsonArrayData.getJSONObject(i)
+                            val taskModel = TaskCategory().getJsonToModel(jsonObjectTaskModelList, this@CategoryListActivity)
+                            items.add(taskModel)
+                            i++
                         }
-
-                        if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
-                            JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
-                            totalPage = jsonObject_meta.getInt("last_page");
-                            Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
-                        }
-
-                        if (currentPage != PAGE_START)
-                            adapter.removeLoading();
-                        if (items.size() <= 0) {
-                            recyclerViewCategories.setVisibility(View.GONE);
-                        } else {
-                            recyclerViewCategories.setVisibility(View.VISIBLE);
-                        }
-                        adapter.addItems(items);
-
-                        if (currentPage < totalPage) {
-                            adapter.addLoading();
-                        } else {
-                            isLastPage = true;
-                        }
-                        isLoading = false;
-                    } catch (JSONException e) {
-                        hideProgressDialog();
-                        e.printStackTrace();
+                    } else {
+                        showToast("some went to wrong", this@CategoryListActivity)
+                        return@Listener
                     }
-                },
-                error -> errorHandle1(error.networkResponse)) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                return map1;
+                    if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
+                        val jsonObjectMeta = jsonObject.getJSONObject("meta")
+                        totalPage = jsonObjectMeta.getInt("last_page")
+                        Constant.PAGE_SIZE = jsonObjectMeta.getInt("per_page")
+                    }
+                    if (currentPage != PaginationListener.PAGE_START) adapter!!.removeLoading()
+                    if (items.size <= 0) {
+                        recyclerViewCategories!!.visibility = View.GONE
+                    } else {
+                        recyclerViewCategories!!.visibility = View.VISIBLE
+                    }
+                    adapter!!.addItems(items)
+                    if (currentPage < totalPage) {
+                        adapter!!.addLoading()
+                    } else {
+                        isLastPageItem = true
+                    }
+                    isLoadingItem = false
+                } catch (e: JSONException) {
+                    hideProgressDialog()
+                    e.printStackTrace()
+                }
+            },
+                    Response.ErrorListener { error: VolleyError -> errorHandle1(error.networkResponse) }) {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["Authorization"] = "Bearer " + sessionManager.accessToken
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    return map1
+                }
             }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(CategoryListActivity.this);
-        requestQueue.add(stringRequest);
-        return items;
-    }
+            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            val requestQueue = Volley.newRequestQueue(this@CategoryListActivity)
+            requestQueue.add(stringRequest)
+            return items
+        }
 }

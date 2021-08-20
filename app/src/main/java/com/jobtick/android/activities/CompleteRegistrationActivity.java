@@ -244,17 +244,14 @@ public class CompleteRegistrationActivity extends ActivityBase implements Select
 
     @OnClick({R.id.lyt_btn_complete_registration})
     public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.lyt_btn_complete_registration:
+        if (view.getId() == R.id.lyt_btn_complete_registration) {
+            if (validation()) {
+                str_fname = edtFirstName.getText().trim();
+                str_lname = edtLastName.getText().trim();
+                str_suburb = suburb.getText().trim();
 
-                if (validation()) {
-                    str_fname = edtFirstName.getText().trim();
-                    str_lname = edtLastName.getText().trim();
-                    str_suburb = suburb.getText().trim();
-
-                    openSelectRoleBottomSheet();
-                }
-                break;
+                openSelectRoleBottomSheet();
+            }
         }
     }
 

@@ -12,10 +12,10 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.jobtick.android.R
 
 class WebViewActivity : ActivityBase() {
-    var toolbar: MaterialToolbar? = null
-    var webView: WebView? = null
-    var URL: String? = null
-    var Title: String? = null
+    private var toolbar: MaterialToolbar? = null
+    private var webView: WebView? = null
+    private var url: String? = null
+    private var title: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
@@ -33,7 +33,7 @@ class WebViewActivity : ActivityBase() {
         toolbar!!.setNavigationIcon(R.drawable.ic_back)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.title = Title
+        supportActionBar!!.title = title
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -45,8 +45,8 @@ class WebViewActivity : ActivityBase() {
 
     fun init() {
         if (intent != null) {
-            URL = intent.extras!!.getString("URL")
-            Title = intent.extras!!.getString("Title")
+            url = intent.extras!!.getString("URL")
+            title = intent.extras!!.getString("Title")
         }
         webView!!.webViewClient = object : WebViewClient() {
             override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
@@ -58,6 +58,6 @@ class WebViewActivity : ActivityBase() {
                 onReceivedError(view, rerr.errorCode, rerr.description.toString(), req.url.toString())
             }
         }
-        webView!!.loadUrl(URL!!)
+        webView!!.loadUrl(url!!)
     }
 }

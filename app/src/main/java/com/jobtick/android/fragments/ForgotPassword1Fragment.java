@@ -66,7 +66,7 @@ public class ForgotPassword1Fragment extends Fragment implements AuthActivity.Ed
                     edtEmailAddress.setError("Please enter the email address");
                     return;
                 }
-                authActivity.nextStepForgotPassowrd(edtEmailAddress.getText().trim());
+                authActivity.nextStepForgotPassword(edtEmailAddress.getText().trim());
                 break;
         }
     }

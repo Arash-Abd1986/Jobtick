@@ -95,11 +95,11 @@ class SignUpFragment : Fragment(), EditTextError {
 
     }
 
-    override fun onEmailError(emailError: String) {
+    override fun onEmailError(emailError: String?) {
         edtEmailAddress!!.setError(emailError)
     }
 
-    override fun onPasswordError(passwordError: String) {
+    override fun onPasswordError(passwordError: String?) {
         edtPassword!!.setError(passwordError)
     }
 }

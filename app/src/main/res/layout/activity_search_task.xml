@@ -34,7 +34,7 @@
 
             </ImageView>
 
-            <com.jobtick.android.edit_text.EditTextRegular
+            <com.jobtick.android.edittext.EditTextRegular
                 android:id="@+id/edt_search_categoreis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                 android:textColorHint="@color/grey_70"
                 android:textSize="@dimen/_15sp">
 
-            </com.jobtick.android.edit_text.EditTextRegular>
+            </com.jobtick.android.edittext.EditTextRegular>
 
         </RelativeLayout>
 

@@ -1,4 +1,4 @@
-package com.jobtick.android.edit_text;
+package com.jobtick.android.edittext;
 
 import android.content.Context;
 import android.graphics.Canvas;

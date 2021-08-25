@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.jobtick.android.edit_text.EditTextRegular
+                <com.jobtick.android.edittext.EditTextRegular
                     android:id="@+id/edt_add_tag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

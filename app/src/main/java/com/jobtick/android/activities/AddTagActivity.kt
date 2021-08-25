@@ -5,7 +5,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.jobtick.android.adapers.AddTagAdapter
 import android.widget.TextView
-import com.jobtick.android.edit_text.EditTextRegular
+import com.jobtick.android.edittext.EditTextRegular
 import android.os.Bundle
 import com.jobtick.android.utils.ConstantKey
 import android.content.Intent
@@ -15,7 +15,6 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jobtick.android.widget.SpacingItemDecoration
 import com.jobtick.android.utils.Tools
-import butterknife.OnClick
 import java.util.ArrayList
 
 class AddTagActivity : ActivityBase() {

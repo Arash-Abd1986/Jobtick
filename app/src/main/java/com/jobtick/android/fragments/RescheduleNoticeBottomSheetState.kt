@@ -1,401 +1,336 @@
-package com.jobtick.android.fragments;
+package com.jobtick.android.fragments
 
-import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.content.Context
+import android.widget.TextView
+import android.widget.LinearLayout
+import com.jobtick.android.models.TaskModel
+import android.os.Bundle
+import com.jobtick.android.R
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import com.android.volley.*
+import com.jobtick.android.activities.TaskDetailsActivity
+import com.jobtick.android.activities.ActivityBase
+import com.android.volley.toolbox.StringRequest
+import timber.log.Timber
+import org.json.JSONException
+import com.android.volley.toolbox.Volley
+import com.jobtick.android.BuildConfig
+import com.jobtick.android.utils.*
+import org.json.JSONObject
+import java.lang.ClassCastException
+import java.util.HashMap
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.jobtick.android.BuildConfig;
-import com.jobtick.android.R;
-import com.jobtick.android.activities.ActivityBase;
-import com.jobtick.android.activities.TaskDetailsActivity;
-import com.jobtick.android.models.TaskModel;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.ConstantKey;
-import com.jobtick.android.utils.HttpStatus;
-import com.jobtick.android.utils.SessionManager;
-import com.jobtick.android.utils.TimeHelper;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import timber.log.Timber;
-
-import static com.jobtick.android.utils.Constant.URL_ADDITIONAL_FUND;
-import static com.jobtick.android.utils.Constant.URL_CREATE_RESCHEDULE;
-
-public class RescheduleNoticeBottomSheetState extends AbstractStateExpandedBottomSheet {
-
-    TextView name;
-    TextView description;
-    TextView previousDate;
-    TextView previousTime;
-    TextView newTime;
-    TextView reason;
-    Button decline;
-    Button accept;
-    Button btnWithdraw;
-    LinearLayout llAcceptDecline;
-    LinearLayout llWithDraw;
-    static boolean isMine=false;
-
-    private SessionManager sessionManager;
-    private TaskModel taskModel;
-    private int pos;
-
-
-    private NoticeListener listener;
-
-    public static RescheduleNoticeBottomSheetState newInstance(TaskModel taskModel, int pos,boolean isMineRequest) {
-        isMine = isMineRequest;
-        Bundle bundle = new Bundle();
-        //    bundle.putParcelable(ConstantKey.TASK, taskModel);
-        bundle.putInt(ConstantKey.POSITION, pos);
-        RescheduleNoticeBottomSheetState fragment = new RescheduleNoticeBottomSheetState();
-        fragment.setArguments(bundle);
-        return fragment;
+class RescheduleNoticeBottomSheetState : AbstractStateExpandedBottomSheet() {
+    var name: TextView? = null
+    var description: TextView? = null
+    var previousDate: TextView? = null
+    var previousTime: TextView? = null
+    var newTime: TextView? = null
+    var reason: TextView? = null
+    var decline: Button? = null
+    var accept: Button? = null
+    var btnWithdraw: Button? = null
+    var llAcceptDecline: LinearLayout? = null
+    var llWithDraw: LinearLayout? = null
+    private var sessionManager: SessionManager? = null
+    private var taskModel: TaskModel? = null
+    private var pos = 0
+    private var listener: NoticeListener? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.ThemeOverlay_BottomSheetDialog)
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.ThemeOverlay_BottomSheetDialog);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.bottom_sheet_reschedule_notice, container, false);
-        sessionManager = new SessionManager(requireContext());
-
-        assert getArguments() != null;
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.bottom_sheet_reschedule_notice, container, false)
+        sessionManager = SessionManager(requireContext())
+        assert(arguments != null)
         //   taskModel = getArguments().getParcelable(ConstantKey.TASK);
-        taskModel = TaskDetailsActivity.taskModel;
-        pos = getArguments().getInt(ConstantKey.POSITION);
-
-
-        name = view.findViewById(R.id.name);
-        description = view.findViewById(R.id.description);
-        llAcceptDecline = view.findViewById(R.id.lyt_button);
-        llWithDraw = view.findViewById(R.id.lytWithDraw);
-        previousDate = view.findViewById(R.id.txt_previous_date);
-        previousTime = view.findViewById(R.id.txt_previous_time);
-        newTime = view.findViewById(R.id.txt_new_time);
-        reason = view.findViewById(R.id.reason_description);
-        decline = view.findViewById(R.id.btn_decline);
-        accept = view.findViewById(R.id.btn_accept);
-        btnWithdraw = view.findViewById(R.id.btnWithdraw);
-
-        decline.setOnClickListener(v -> {
-            declineRequest();
-        });
-
-        accept.setOnClickListener(v -> {
-            acceptRequest();
-        });
-        btnWithdraw.setOnClickListener(v -> {
-            withdrawRequest();
-        });
-
-        init();
-        return view;
+        taskModel = TaskDetailsActivity.taskModel
+        pos = requireArguments().getInt(ConstantKey.POSITION)
+        setIDs()
+        decline!!.setOnClickListener(View.OnClickListener { v: View? -> declineRequest() })
+        accept!!.setOnClickListener(View.OnClickListener { v: View? -> acceptRequest() })
+        btnWithdraw!!.setOnClickListener(View.OnClickListener { v: View? -> withdrawRequest() })
+        init()
+        return view
     }
 
-    private void init() {
-        name.setText(taskModel.getPoster().getName());
-        description.setText(taskModel.getTitle());
-        reason.setText(taskModel.getRescheduleReqeust().get(pos).getReason());
-        newTime.setText(TimeHelper.convertToJustDateFormat(taskModel.getRescheduleReqeust().get(pos).getNew_duedate()));
-        previousDate.setText(taskModel.getDueDate());
+    private fun setIDs() {
+        name = requireView().findViewById(R.id.name)
+        description = requireView().findViewById(R.id.description)
+        llAcceptDecline = requireView().findViewById(R.id.lyt_button)
+        llWithDraw = requireView().findViewById(R.id.lytWithDraw)
+        previousDate = requireView().findViewById(R.id.txt_previous_date)
+        previousTime = requireView().findViewById(R.id.txt_previous_time)
+        newTime = requireView().findViewById(R.id.txt_new_time)
+        reason = requireView().findViewById(R.id.reason_description)
+        decline = requireView().findViewById(R.id.btn_decline)
+        accept = requireView().findViewById(R.id.btn_accept)
+        btnWithdraw = requireView().findViewById(R.id.btnWithdraw)
+    }
 
-        if (taskModel.getDueTime().getAnytime())
-            previousTime.setText(R.string.anytime);
-        if (taskModel.getDueTime().getMorning())
-            previousTime.setText(R.string.morning);
-        if (taskModel.getDueTime().getEvening())
-            previousTime.setText(R.string.evening);
-        if (taskModel.getDueTime().getAfternoon())
-            previousTime.setText(R.string.afternoon);
-
-        if(isMine){
-            name.setText("You");
-            llAcceptDecline.setVisibility(View.GONE);
-            llWithDraw.setVisibility(View.VISIBLE);
+    private fun init() {
+        name!!.text = taskModel!!.poster.name
+        description!!.text = taskModel!!.title
+        reason!!.text = taskModel!!.rescheduleReqeust[pos].reason
+        newTime!!.text = TimeHelper.convertToJustDateFormat(taskModel!!.rescheduleReqeust[pos].new_duedate)
+        previousDate!!.text = taskModel!!.dueDate
+        if (taskModel!!.dueTime.anytime) previousTime!!.setText(R.string.anytime)
+        if (taskModel!!.dueTime.morning) previousTime!!.setText(R.string.morning)
+        if (taskModel!!.dueTime.evening) previousTime!!.setText(R.string.evening)
+        if (taskModel!!.dueTime.afternoon) previousTime!!.setText(R.string.afternoon)
+        if (isMine) {
+            name!!.text = "You"
+            llAcceptDecline!!.visibility = View.GONE
+            llWithDraw!!.visibility = View.VISIBLE
         }
     }
 
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            listener = (NoticeListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(this.toString()
-                    + " must implement NoticeListener");
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = try {
+            context as NoticeListener
+        } catch (e: ClassCastException) {
+            throw ClassCastException(this.toString()
+                    + " must implement NoticeListener")
         }
     }
-    private void withdrawRequest() {
-        ((ActivityBase)requireActivity()).showProgressDialog();
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, Constant.BASE_URL + URL_CREATE_RESCHEDULE + "/" + taskModel.getRescheduleReqeust().get(pos).getId(),
-                response -> {
-                    Timber.e(response);
-                    ((ActivityBase)requireActivity()).hideProgressDialog();
+
+    private fun withdrawRequest() {
+        (requireActivity() as ActivityBase).showProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(Method.DELETE, Constant.BASE_URL + Constant.URL_CREATE_RESCHEDULE + "/" + taskModel!!.rescheduleReqeust[pos].id,
+                Response.Listener { response: String? ->
+                    Timber.e(response)
+                    (requireActivity() as ActivityBase).hideProgressDialog()
                     try {
-
-                        JSONObject jsonObject = new JSONObject(response);
+                        val jsonObject = JSONObject(response)
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                listener.onRescheduleWithDraw();
-                                dismiss();
+                                listener!!.onRescheduleWithDraw()
+                                dismiss()
                             } else {
-                                ((ActivityBase)requireActivity()).showToast("Something went Wrong", getContext());
+                                (requireActivity() as ActivityBase).showToast("Something went Wrong", context)
                             }
                         }
-
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-
+                    } catch (e: JSONException) {
+                        Timber.e(e.toString())
+                        e.printStackTrace()
                     }
-
-
                 },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            ((ActivityBase)requireActivity()).unauthorizedUser();
-                            ((ActivityBase)requireActivity()).hideProgressDialog();
-                            return;
-                        }
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-
-
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                                if (jsonObject_errors.has("amount") && !jsonObject_errors.isNull("amount")) {
-                                    JSONArray jsonArray_amount = jsonObject_errors.getJSONArray("amount");
-                                    ((ActivityBase)requireActivity()).showToast(jsonArray_amount.getString(0), requireContext());
-                                } else if (jsonObject_errors.has("creation_reason") && !jsonObject_errors.isNull("creation_reason")) {
-                                    JSONArray jsonArray_amount = jsonObject_errors.getJSONArray("creation_reason");
-                                    ((ActivityBase)requireActivity()).showToast(jsonArray_amount.getString(0), requireContext());
-                                }
-                            } else {
-                                if (jsonObject_error.has("message")) {
-                                    ((ActivityBase)requireActivity()).showToast(jsonObject_error.getString("message"), requireContext());
-                                }
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+        Response.ErrorListener { error: VolleyError ->
+            val networkResponse = error.networkResponse
+            if (networkResponse?.data != null) {
+                val jsonError = String(networkResponse.data)
+                // Print Error!
+                Timber.e(jsonError)
+                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                    (requireActivity() as ActivityBase).unauthorizedUser()
+                    (requireActivity() as ActivityBase).hideProgressDialog()
+                    return@ErrorListener
+                }
+                try {
+                    val jsonObject = JSONObject(jsonError)
+                    val jsonObjectError = jsonObject.getJSONObject("error")
+                    if (jsonObjectError.has("errors")) {
+                        val jsonObjectErrors = jsonObjectError.getJSONObject("errors")
+                        if (jsonObjectErrors.has("amount") && !jsonObjectErrors.isNull("amount")) {
+                            val jsonArrayAmount = jsonObjectErrors.getJSONArray("amount")
+                            (requireActivity() as ActivityBase).showToast(jsonArrayAmount.getString(0), requireContext())
+                        } else if (jsonObjectErrors.has("creation_reason") && !jsonObjectErrors.isNull("creation_reason")) {
+                            val jsonArrayAmount = jsonObjectErrors.getJSONArray("creation_reason")
+                            (requireActivity() as ActivityBase).showToast(jsonArrayAmount.getString(0), requireContext())
                         }
                     } else {
-                        ((ActivityBase)requireActivity()).showToast("Something Went Wrong", getContext());
+                        if (jsonObjectError.has("message")) {
+                            (requireActivity() as ActivityBase).showToast(jsonObjectError.getString("message"), requireContext())
+                        }
                     }
-                    Timber.e(error.toString());
-                    ((ActivityBase)requireActivity()).hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<String, String>();
-
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            } else {
+                (requireActivity() as ActivityBase).showToast("Something Went Wrong", context)
+            }
+            Timber.e(error.toString())
+            (requireActivity() as ActivityBase).hideProgressDialog()
+        }) {
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] = sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
                 //   map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
+                return map1
             }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
-        requestQueue.add(stringRequest);
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
     }
 
-    public void acceptRequest() {
-
-        ((ActivityBase) requireActivity()).showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.BASE_URL + URL_CREATE_RESCHEDULE + "/" +
-                taskModel.getRescheduleReqeust().get(pos).getId() + "/accept",
-                response -> {
-                    Timber.e(response);
-
+    fun acceptRequest() {
+        (requireActivity() as ActivityBase).showProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.BASE_URL + Constant.URL_CREATE_RESCHEDULE + "/" +
+                taskModel!!.rescheduleReqeust[pos].id + "/accept",
+                Response.Listener { response: String? ->
+                    Timber.e(response)
                     try {
-                        JSONObject jsonObject = new JSONObject(response);
+                        val jsonObject = JSONObject(response)
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                listener.onRescheduleTimeAcceptDeclineClick();
-                                dismiss();
+                                listener!!.onRescheduleTimeAcceptDeclineClick()
+                                dismiss()
                             } else {
-                                ((ActivityBase) requireActivity()).showToast("Something went wrong", requireContext());
+                                (requireActivity() as ActivityBase).showToast("Something went wrong", requireContext())
                             }
                         } else {
-                            ((ActivityBase) requireActivity()).showToast("Something went wrong", requireContext());
+                            (requireActivity() as ActivityBase).showToast("Something went wrong", requireContext())
                         }
-                        ((ActivityBase) requireActivity()).hideProgressDialog();
-                    } catch (JSONException e) {
-                        ((ActivityBase) requireActivity()).hideProgressDialog();
-                        e.printStackTrace();
+                        (requireActivity() as ActivityBase).hideProgressDialog()
+                    } catch (e: JSONException) {
+                        (requireActivity() as ActivityBase).hideProgressDialog()
+                        e.printStackTrace()
                     }
                 },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            ((ActivityBase) requireActivity()).unauthorizedUser();
-                            ((ActivityBase) requireActivity()).hideProgressDialog();
-                            return;
-                        }
-                        ((ActivityBase) requireActivity()).hideProgressDialog();
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                            if (jsonObject_error.has("message")) {
-                                ((ActivityBase)requireActivity()).showToast(jsonObject_error.getString("message"), requireContext());
-                            }
-
-                        } catch (JSONException e) {
-                            ((ActivityBase) requireActivity()).showToast("Something Went Wrong", requireContext());
-                            e.printStackTrace();
-                        }
-                    } else {
-                        ((ActivityBase) requireActivity()).showToast("Something Went Wrong", requireContext());
+        Response.ErrorListener { error: VolleyError ->
+            val networkResponse = error.networkResponse
+            if (networkResponse?.data != null) {
+                val jsonError = String(networkResponse.data)
+                // Print Error!
+                Timber.e(jsonError)
+                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                    (requireActivity() as ActivityBase).unauthorizedUser()
+                    (requireActivity() as ActivityBase).hideProgressDialog()
+                    return@ErrorListener
+                }
+                (requireActivity() as ActivityBase).hideProgressDialog()
+                try {
+                    val jsonObject = JSONObject(jsonError)
+                    val jsonObjectError = jsonObject.getJSONObject("error")
+                    if (jsonObjectError.has("message")) {
+                        (requireActivity() as ActivityBase).showToast(jsonObjectError.getString("message"), requireContext())
                     }
-                    Timber.e(error.toString());
-                    ((ActivityBase) requireActivity()).hideProgressDialog();
-                }) {
-
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Accept", "application/json");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                return map1;
+                } catch (e: JSONException) {
+                    (requireActivity() as ActivityBase).showToast("Something Went Wrong", requireContext())
+                    e.printStackTrace()
+                }
+            } else {
+                (requireActivity() as ActivityBase).showToast("Something Went Wrong", requireContext())
             }
-        };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
-        requestQueue.add(stringRequest);
+            Timber.e(error.toString())
+            (requireActivity() as ActivityBase).hideProgressDialog()
+        }) {
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] = sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                map1["Accept"] = "application/json"
+                map1["X-Requested-With"] = "XMLHttpRequest"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                return map1
+            }
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
     }
 
-    public void declineRequest() {
-
-        ((ActivityBase) requireActivity()).showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.BASE_URL + URL_CREATE_RESCHEDULE + "/" +
-                taskModel.getRescheduleReqeust().get(pos).getId() + "/reject",
-                response -> {
-                    Timber.e(response);
-
+    fun declineRequest() {
+        (requireActivity() as ActivityBase).showProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.BASE_URL + Constant.URL_CREATE_RESCHEDULE + "/" +
+                taskModel!!.rescheduleReqeust[pos].id + "/reject",
+                Response.Listener { response: String? ->
+                    Timber.e(response)
                     try {
-                        JSONObject jsonObject = new JSONObject(response);
+                        val jsonObject = JSONObject(response)
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                listener.onRescheduleTimeAcceptDeclineClick();
-                                dismiss();
+                                listener!!.onRescheduleTimeAcceptDeclineClick()
+                                dismiss()
                             } else {
-                                ((ActivityBase) requireActivity()).showToast("Something went wrong", requireContext());
+                                (requireActivity() as ActivityBase).showToast("Something went wrong", requireContext())
                             }
                         } else {
-                            ((ActivityBase) requireActivity()).showToast("Something went wrong", requireContext());
+                            (requireActivity() as ActivityBase).showToast("Something went wrong", requireContext())
                         }
-                        ((ActivityBase) requireActivity()).hideProgressDialog();
-                    } catch (JSONException e) {
-                        ((ActivityBase) requireActivity()).hideProgressDialog();
-                        e.printStackTrace();
+                        (requireActivity() as ActivityBase).hideProgressDialog()
+                    } catch (e: JSONException) {
+                        (requireActivity() as ActivityBase).hideProgressDialog()
+                        e.printStackTrace()
                     }
                 },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            ((ActivityBase) requireActivity()).unauthorizedUser();
-                            ((ActivityBase) requireActivity()).hideProgressDialog();
-                            return;
-                        }
-                        ((ActivityBase) requireActivity()).hideProgressDialog();
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-                            if (jsonObject_error.has("message")) {
-                                ((ActivityBase)requireActivity()).showToast(jsonObject_error.getString("message"), requireContext());
-                            }
-
-                        } catch (JSONException e) {
-                            ((ActivityBase) requireActivity()).showToast("Something Went Wrong", requireContext());
-                            e.printStackTrace();
-                        }
-                    } else {
-                        ((ActivityBase) requireActivity()).showToast("Something Went Wrong", requireContext());
+        Response.ErrorListener { error: VolleyError ->
+            val networkResponse = error.networkResponse
+            if (networkResponse?.data != null) {
+                val jsonError = String(networkResponse.data)
+                // Print Error!
+                Timber.e(jsonError)
+                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                    (requireActivity() as ActivityBase).unauthorizedUser()
+                    (requireActivity() as ActivityBase).hideProgressDialog()
+                    return@ErrorListener
+                }
+                (requireActivity() as ActivityBase).hideProgressDialog()
+                try {
+                    val jsonObject = JSONObject(jsonError)
+                    val jsonObject_error = jsonObject.getJSONObject("error")
+                    if (jsonObject_error.has("message")) {
+                        (requireActivity() as ActivityBase).showToast(jsonObject_error.getString("message"), requireContext())
                     }
-                    Timber.e(error.toString());
-                    ((ActivityBase) requireActivity()).hideProgressDialog();
-                }) {
-
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Accept", "application/json");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                return map1;
+                } catch (e: JSONException) {
+                    (requireActivity() as ActivityBase).showToast("Something Went Wrong", requireContext())
+                    e.printStackTrace()
+                }
+            } else {
+                (requireActivity() as ActivityBase).showToast("Something Went Wrong", requireContext())
+            }
+            Timber.e(error.toString())
+            (requireActivity() as ActivityBase).hideProgressDialog()
+        }) {
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] = sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                map1["Accept"] = "application/json"
+                map1["X-Requested-With"] = "XMLHttpRequest"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                return map1
             }
 
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<String, String>();
+            override fun getParams(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
                 //TODO: we put an empty string because there is no declined reason in design.
-                map1.put("declined_reason", "There is no declined reason in design, so just fill it.");
-                return map1;
+                map1["declined_reason"] = "There is no declined reason in design, so just fill it."
+                return map1
             }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
-        requestQueue.add(stringRequest);
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
     }
 
+    interface NoticeListener {
+        fun onRescheduleTimeAcceptDeclineClick()
+        fun onRescheduleWithDraw()
+    }
 
-    public interface NoticeListener {
-        void onRescheduleTimeAcceptDeclineClick();
-        void onRescheduleWithDraw();
+    companion object {
+        var isMine = false
+        @JvmStatic
+        fun newInstance(taskModel: TaskModel?, pos: Int, isMineRequest: Boolean): RescheduleNoticeBottomSheetState {
+            isMine = isMineRequest
+            val bundle = Bundle()
+            //    bundle.putParcelable(ConstantKey.TASK, taskModel);
+            bundle.putInt(ConstantKey.POSITION, pos)
+            val fragment = RescheduleNoticeBottomSheetState()
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }

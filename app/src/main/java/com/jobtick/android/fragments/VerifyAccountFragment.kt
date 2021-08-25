@@ -1,36 +1,14 @@
-package com.jobtick.android.fragments;
-
-import android.os.Bundle;
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import com.jobtick.android.R;
+package com.jobtick.android.fragments
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class VerifyAccountFragment extends AbstractVerifyAccountFragment {
+class VerifyAccountFragment : AbstractVerifyAccountFragment() {
 
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public override fun whatNext() {
+        val otp = edtVerificationCode.text.trim { it <= ' ' }
+        if (validation()) authActivity.newEmailVerification(email, otp)
     }
 
-    @Override
-    void whatNext() {
-        String otp = edtVerificationCode.getText().trim();
-
-        if (validation())
-            authActivity.newEmailVerification(email, otp);
-    }
-
-    @Override
-    void onResendOtp() {
-        authActivity.newResendOtp(email);
+    public override fun onResendOtp() {
+        authActivity.newResendOtp(email)
     }
 }

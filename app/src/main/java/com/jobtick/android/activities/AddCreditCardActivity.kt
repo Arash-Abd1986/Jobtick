@@ -213,24 +213,30 @@ class AddCreditCardActivity : ActivityBase() {
     }
 
     private fun validation(): Boolean {
-        if (edtFullName!!.text.isEmpty()) {
-            edtFullName!!.setError("The card name must be filled.")
-            return false
-        } else if (edtCardNumber!!.text.isEmpty()) {
-            edtCardNumber!!.setError("The card number must be filled.")
-            return false
-        } else if (edtExpiryDate!!.text == null || edtExpiryDate!!.text.isEmpty()
-                || edtExpiryDate!!.text.length != 5) {
-            edtExpiryDate!!.setError("The card expiry date must be filled.")
-            return false
-        } else if (!StringUtils.checkCreditCardExpiryFormatSimple(edtExpiryDate!!.text)) {
-            edtExpiryDate!!.setError("The card expiry date is not correct.")
-            return false
-        } else if (edtExpiryDate!!.text.substring(0, 2).toInt() > 12) {
-            edtExpiryDate!!.setError("The card expiry date is not correct.")
-        } else if (edtSecurityNumber!!.text.isEmpty()) {
-            edtSecurityNumber!!.setError("The card CVC must be filled.")
-            return false
+        when {
+            edtFullName!!.text.isEmpty() -> {
+                edtFullName!!.setError("The card name must be filled.")
+                return false
+            }
+            edtCardNumber!!.text.isEmpty() -> {
+                edtCardNumber!!.setError("The card number must be filled.")
+                return false
+            }
+            edtExpiryDate!!.text == null || edtExpiryDate!!.text.isEmpty() || edtExpiryDate!!.text.length != 5 -> {
+                edtExpiryDate!!.setError("The card expiry date must be filled.")
+                return false
+            }
+            !StringUtils.checkCreditCardExpiryFormatSimple(edtExpiryDate!!.text) -> {
+                edtExpiryDate!!.setError("The card expiry date is not correct.")
+                return false
+            }
+            edtExpiryDate!!.text.substring(0, 2).toInt() > 12 -> {
+                edtExpiryDate!!.setError("The card expiry date is not correct.")
+            }
+            edtSecurityNumber!!.text.isEmpty() -> {
+                edtSecurityNumber!!.setError("The card CVC must be filled.")
+                return false
+            }
         }
         return true
     }

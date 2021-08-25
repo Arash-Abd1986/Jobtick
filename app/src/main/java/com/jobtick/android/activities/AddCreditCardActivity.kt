@@ -1,286 +1,237 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.InputFilter;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
-import android.view.MenuItem;
-import android.view.View;
+import android.app.DatePickerDialog
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
+import android.widget.DatePicker
+import android.widget.ImageView
+import com.android.volley.NetworkResponse
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.button.MaterialButton
+import com.jobtick.android.R
+import com.jobtick.android.payment.AddCreditCard
+import com.jobtick.android.payment.AddCreditCardImpl
+import com.jobtick.android.utils.NumberTextWatcherForSlash
+import com.jobtick.android.utils.StringUtils
+import com.jobtick.android.widget.ExtendedEntryText
+import java.util.*
 
-import com.android.volley.NetworkResponse;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.button.MaterialButton;
-import com.jobtick.android.R;
-
-import android.annotation.SuppressLint;
-import android.view.WindowManager;
-import android.widget.DatePicker;
-import android.widget.ImageView;
-
-import com.jobtick.android.payment.AddCreditCard;
-import com.jobtick.android.payment.AddCreditCardImpl;
-import com.jobtick.android.utils.NumberTextWatcherForSlash;
-import com.jobtick.android.utils.StringUtils;
-import com.jobtick.android.widget.ExtendedEntryText;
-import com.segment.analytics.internal.Private;
-
-import java.lang.reflect.Field;
-import java.util.Calendar;
-import java.util.Locale;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-public class AddCreditCardActivity extends ActivityBase {
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_full_name)
-    ExtendedEntryText edtFullName;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_card_number)
-    ExtendedEntryText edtCardNumber;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_expiry_date)
-    ExtendedEntryText edtExpiryDate;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_security_number)
-    ExtendedEntryText edtSecurityNumber;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_add_credit_card)
-    MaterialButton lytBtnAddCreditCard;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.ivCardType)
-    ImageView ivCardType;
-
-    private int expMonth;
-    private int expYear;
-
-    private AddCreditCard addCreditCard;
-
-    DatePickerDialog.OnDateSetListener mDateSetListener;
-    private int lastLen = 0;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_credit_card);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-        ButterKnife.bind(this);
-        initToolbar();
-
-        edtExpiryDate.setExtendedViewOnClickListener(() -> {
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.DAY_OF_MONTH, -1);
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-
-            DatePickerDialog dialog = createDialogWithoutDateField(new DatePickerDialog(this,
+class AddCreditCardActivity : ActivityBase() {
+    private var toolbar: MaterialToolbar? = null
+    private var edtFullName: ExtendedEntryText? = null
+    private var edtCardNumber: ExtendedEntryText? = null
+    private var edtExpiryDate: ExtendedEntryText? = null
+    private var edtSecurityNumber: ExtendedEntryText? = null
+    private var lytBtnAddCreditCard: MaterialButton? = null
+    private var ivCardType: ImageView? = null
+    private var expMonth = 0
+    private var expYear = 0
+    private var addCreditCard: AddCreditCard? = null
+    private var mDateSetListener: DatePickerDialog.OnDateSetListener? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_add_credit_card)
+        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
+        initIDs()
+        initToolbar()
+        edtExpiryDate!!.setExtendedViewOnClickListener {
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.DAY_OF_MONTH, -1)
+            val year = calendar[Calendar.YEAR]
+            val month = calendar[Calendar.MONTH]
+            val dialog = createDialogWithoutDateField(DatePickerDialog(this,
                     android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                     mDateSetListener,
-                    year, month, 1));
-            dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.show();
-        });
-        mDateSetListener = (view1, year, month, dayOfMonth) -> {
-            month = month + 1;
-            String formattedMonth = String.format(Locale.US, "%02d", month);
-            String date = formattedMonth + "/" + year;
-            edtExpiryDate.setText(date);
-        };
-
-        addCreditCard = new AddCreditCardImpl(this, sessionManager) {
-            @Override
-            public void onSuccess() {
-                hideProgressDialog();
-                Intent returnIntent = new Intent();
-                setResult(Activity.RESULT_OK, returnIntent);
-                finish();
+                    year, month, 1))
+            dialog.datePicker.minDate = calendar.timeInMillis
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.show()
+        }
+        mDateSetListener = DatePickerDialog.OnDateSetListener { _: DatePicker?, year: Int, month: Int, _: Int ->
+            val monthL = month + 1
+            val formattedMonth = String.format(Locale.US, "%02d", monthL)
+            val date = "$formattedMonth/$year"
+            edtExpiryDate!!.text = date
+        }
+        addCreditCard = object : AddCreditCardImpl(this, sessionManager) {
+            override fun onSuccess() {
+                hideProgressDialog()
+                val returnIntent = Intent()
+                setResult(RESULT_OK, returnIntent)
+                finish()
             }
 
-            @Override
-            public void onError(Exception e) {
-                showToast(getString(R.string.credit_card_error), AddCreditCardActivity.this);
-                hideProgressDialog();
+            override fun onError(e: Exception) {
+                showToast(getString(R.string.credit_card_error), this@AddCreditCardActivity)
+                hideProgressDialog()
             }
 
-            @Override
-            public void onNetworkResponseError(NetworkResponse networkResponse) {
-                errorHandle1(networkResponse);
-                hideProgressDialog();
+            override fun onNetworkResponseError(networkResponse: NetworkResponse) {
+                errorHandle1(networkResponse)
+                hideProgressDialog()
             }
 
-            @Override
-            public void onValidationError(ValidationErrorType validationErrorType, String message) {
-                showToast(message, AddCreditCardActivity.this);
-                hideProgressDialog();
+            override fun onValidationError(validationErrorType: ValidationErrorType, message: String) {
+                showToast(message, this@AddCreditCardActivity)
+                hideProgressDialog()
             }
-        };
-
-        setupCardTypes();
-        setupExpireDateAutoSlash();
+        }
+        setupCardTypes()
+        setupExpireDateAutoSlash()
     }
 
-    private void setupExpireDateAutoSlash() {
-        edtExpiryDate.addTextChangedListener(new NumberTextWatcherForSlash(edtExpiryDate));
+    private fun initIDs() {
+        toolbar = findViewById(R.id.toolbar)
+        edtFullName = findViewById(R.id.edt_full_name)
+        edtCardNumber = findViewById(R.id.edt_card_number)
+        edtExpiryDate = findViewById(R.id.edt_expiry_date)
+        edtSecurityNumber = findViewById(R.id.edt_security_number)
+        lytBtnAddCreditCard = findViewById(R.id.lyt_btn_add_credit_card)
+        ivCardType = findViewById(R.id.ivCardType)
+        onViewClick()
     }
 
-    private void setupCardTypes() {
-        final int[] keyDel = {0};
-        final int[] lenB = {0};
-        final int[] lenA = {0};
-        edtCardNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                lenB[0] = s.length();
+    private fun setupExpireDateAutoSlash() {
+        edtExpiryDate!!.addTextChangedListener(NumberTextWatcherForSlash(edtExpiryDate!!))
+    }
+
+    private fun setupCardTypes() {
+        val keyDel = intArrayOf(0)
+        val lenB = intArrayOf(0)
+        val lenA = intArrayOf(0)
+        edtCardNumber!!.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                lenB[0] = s.length
             }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                lenA[0] = s.length();
-                boolean is465 = false;
-                boolean is4444 = false;
-                if (lenB[0] >= lenA[0])
-                    keyDel[0] = 1;
-                edtCardNumber.setFilter(19);
-                if (edtCardNumber.getText().startsWith("34") || edtCardNumber.getText().startsWith("37")) {
-                    is465 = true;
-                    edtCardNumber.setFilter(17);
-                } else if (edtCardNumber.getText().startsWith("5")) {
-                    is4444 = true;
-                } else if (edtCardNumber.getText().startsWith("4")) {
-                    is4444 = true;
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                lenA[0] = s.length
+                var is465 = false
+                var is4444 = false
+                if (lenB[0] >= lenA[0]) keyDel[0] = 1
+                edtCardNumber!!.setFilter(19)
+                when {
+                    edtCardNumber!!.text.startsWith("34") || edtCardNumber!!.text.startsWith("37") -> {
+                        is465 = true
+                        edtCardNumber!!.setFilter(17)
+                    }
+                    edtCardNumber!!.text.startsWith("5") -> {
+                        is4444 = true
+                    }
+                    edtCardNumber!!.text.startsWith("4") -> {
+                        is4444 = true
+                    }
                 }
-
-
                 if (keyDel[0] == 0) {
-                    int len = edtCardNumber.getText().length();
-                    Boolean needs465Spacing = (is465 && (len == 4 || len == 11));
-                    Boolean needs4444Spacing = (is4444 && (len == 4 || len == 9 || len == 14));
+                    val len = edtCardNumber!!.text.length
+                    val needs465Spacing = is465 && (len == 4 || len == 11)
+                    val needs4444Spacing = is4444 && (len == 4 || len == 9 || len == 14)
                     if (needs465Spacing || needs4444Spacing) {
-                        edtCardNumber.setText(edtCardNumber.getText() + " ");
-                        edtCardNumber.setSelection(edtCardNumber.getText().length());
+                        edtCardNumber!!.text = edtCardNumber!!.text + " "
+                        edtCardNumber!!.setSelection(edtCardNumber!!.text.length)
                     }
                 } else {
-                    keyDel[0] = 0;
+                    keyDel[0] = 0
                 }
-
             }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (edtCardNumber.getText().length() > 1) {
-
-                    String cardFirstLetters = edtCardNumber.getText().substring(0, 2);
-                    if (cardFirstLetters.equals("34") || cardFirstLetters.equals("37")) {
-                        ivCardType.setVisibility(View.VISIBLE);
-                        ivCardType.setImageResource(R.drawable.ic_card_american_express);
-                    } else if (edtCardNumber.getText().startsWith("5")) {
-                        ivCardType.setVisibility(View.VISIBLE);
-                        ivCardType.setImageResource(R.drawable.ic_card_master);
-                    } else if (edtCardNumber.getText().startsWith("4")) {
-                        ivCardType.setVisibility(View.VISIBLE);
-                        ivCardType.setImageResource(R.drawable.ic_card_visa);
-                    } else {
-                        ivCardType.setVisibility(View.INVISIBLE);
+            override fun afterTextChanged(s: Editable) {
+                if (edtCardNumber!!.text.length > 1) {
+                    val cardFirstLetters = edtCardNumber!!.text.substring(0, 2)
+                    when {
+                        cardFirstLetters == "34" || cardFirstLetters == "37" -> {
+                            ivCardType!!.visibility = View.VISIBLE
+                            ivCardType!!.setImageResource(R.drawable.ic_card_american_express)
+                        }
+                        edtCardNumber!!.text.startsWith("5") -> {
+                            ivCardType!!.visibility = View.VISIBLE
+                            ivCardType!!.setImageResource(R.drawable.ic_card_master)
+                        }
+                        edtCardNumber!!.text.startsWith("4") -> {
+                            ivCardType!!.visibility = View.VISIBLE
+                            ivCardType!!.setImageResource(R.drawable.ic_card_visa)
+                        }
+                        else -> {
+                            ivCardType!!.visibility = View.INVISIBLE
+                        }
                     }
-
-                } else if (ivCardType.getVisibility() == View.VISIBLE) {
-                    ivCardType.setVisibility(View.INVISIBLE);
+                } else if (ivCardType!!.visibility == View.VISIBLE) {
+                    ivCardType!!.visibility = View.INVISIBLE
                 }
             }
-        });
+        })
+    }
+
+    private fun initToolbar() {
+        toolbar!!.setNavigationIcon(R.drawable.ic_back)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.title = "Add Credit Card"
+    }
+
+    private fun setExpiryDate(expiryDate: String) {
+        expMonth = expiryDate.substring(0, 2).toInt()
+        expYear = 2000 + expiryDate.substring(3).toInt()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 
-    private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Add Credit Card");
-    }
-
-    private void setExpiryDate(String expiryDate) {
-        expMonth = Integer.parseInt(expiryDate.substring(0, 2));
-        expYear = 2000 + Integer.parseInt(expiryDate.substring(3));
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+    private fun onViewClick() {
+        lytBtnAddCreditCard!!.setOnClickListener {
+            if (validation()) {
+                setExpiryDate(edtExpiryDate!!.text)
+                showProgressDialog()
+                addCreditCard!!.getToken(edtCardNumber!!.text.replace(" ", ""),
+                        expMonth, expYear,
+                        edtSecurityNumber!!.text,
+                        edtFullName!!.text)
+            }
         }
 
-        return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @OnClick({R.id.lyt_btn_add_credit_card})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.lyt_btn_add_credit_card:
-                if (validation()) {
-                    setExpiryDate(edtExpiryDate.getText());
-                    showProgressDialog();
-                    addCreditCard.getToken(edtCardNumber.getText().replace(" ", ""),
-                            expMonth, expYear,
-                            edtSecurityNumber.getText(),
-                            edtFullName.getText());
-                }
-                break;
-        }
-    }
-
-    private DatePickerDialog createDialogWithoutDateField(DatePickerDialog dpd) {
+    private fun createDialogWithoutDateField(dpd: DatePickerDialog): DatePickerDialog {
         try {
-            dpd.getDatePicker().findViewById(getResources().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            dpd.datePicker.findViewById<View>(resources.getIdentifier("day", "id", "android")).visibility = View.GONE
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
-        return dpd;
-
+        return dpd
     }
 
-
-    private boolean validation() {
-        if (edtFullName.getText().isEmpty()) {
-            edtFullName.setError("The card name must be filled.");
-            return false;
-        } else if (edtCardNumber.getText().isEmpty()) {
-            edtCardNumber.setError("The card number must be filled.");
-            return false;
-        } else if (edtExpiryDate.getText() == null || edtExpiryDate.getText().isEmpty()
-                || edtExpiryDate.getText().length() != 5) {
-            edtExpiryDate.setError("The card expiry date must be filled.");
-            return false;
-        } else if (!StringUtils.checkCreditCardExpiryFormatSimple(edtExpiryDate.getText())) {
-            edtExpiryDate.setError("The card expiry date is not correct.");
-            return false;
-        } else if (Integer.parseInt(edtExpiryDate.getText().substring(0, 2)) > 12) {
-            edtExpiryDate.setError("The card expiry date is not correct.");
-        } else if (edtSecurityNumber.getText().isEmpty()) {
-            edtSecurityNumber.setError("The card CVC must be filled.");
-            return false;
+    private fun validation(): Boolean {
+        if (edtFullName!!.text.isEmpty()) {
+            edtFullName!!.setError("The card name must be filled.")
+            return false
+        } else if (edtCardNumber!!.text.isEmpty()) {
+            edtCardNumber!!.setError("The card number must be filled.")
+            return false
+        } else if (edtExpiryDate!!.text == null || edtExpiryDate!!.text.isEmpty()
+                || edtExpiryDate!!.text.length != 5) {
+            edtExpiryDate!!.setError("The card expiry date must be filled.")
+            return false
+        } else if (!StringUtils.checkCreditCardExpiryFormatSimple(edtExpiryDate!!.text)) {
+            edtExpiryDate!!.setError("The card expiry date is not correct.")
+            return false
+        } else if (edtExpiryDate!!.text.substring(0, 2).toInt() > 12) {
+            edtExpiryDate!!.setError("The card expiry date is not correct.")
+        } else if (edtSecurityNumber!!.text.isEmpty()) {
+            edtSecurityNumber!!.setError("The card CVC must be filled.")
+            return false
         }
-        return true;
+        return true
     }
 }

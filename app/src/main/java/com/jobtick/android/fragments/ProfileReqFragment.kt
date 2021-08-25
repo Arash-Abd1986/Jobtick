@@ -125,7 +125,7 @@ class ProfileReqFragment : Fragment() {
                             sessionManager!!.userAccount.avatar = attachment
                             ImageUtil.displayImage(imgAvatar, attachment.url, null)
                             if (ProfileFragment.onProfileupdatelistener != null) {
-                                ProfileFragment.onProfileupdatelistener.updatedSuccesfully(attachment.url)
+                                ProfileFragment.onProfileupdatelistener!!.updatedSuccesfully(attachment.url)
                             }
                             if (DashboardActivity.onProfileupdatelistenerSideMenu != null) {
                                 DashboardActivity.onProfileupdatelistenerSideMenu!!.updatedSuccesfully(attachment.url)

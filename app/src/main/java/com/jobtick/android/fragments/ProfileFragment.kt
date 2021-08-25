@@ -1,774 +1,536 @@
-package com.jobtick.android.fragments;
+package com.jobtick.android.fragments
 
-import android.content.Intent;
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RatingBar;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.jobtick.android.BuildConfig;
-import com.jobtick.android.R;
-import android.annotation.SuppressLint;
-
-import com.jobtick.android.activities.ActivityBase;
-import com.jobtick.android.activities.CategoryListActivity;
-import com.jobtick.android.activities.DashboardActivity;
-import com.jobtick.android.activities.EditProfileActivity;
-import com.jobtick.android.activities.ReviewsActivity;
-import com.jobtick.android.activities.ZoomImageActivity;
-import com.jobtick.android.adapers.AttachmentAdapter;
-import com.jobtick.android.adapers.BadgesAdapter;
-import com.jobtick.android.interfaces.onProfileUpdateListener;
-import com.jobtick.android.models.AttachmentModel;
-import com.jobtick.android.models.BadgesModel;
-import com.jobtick.android.models.UserAccountModel;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.ImageUtil;
-import com.jobtick.android.utils.SessionManager;
-import com.jobtick.android.utils.Tools;
-import com.jobtick.android.widget.SpacingItemDecoration;
-import com.mikhaellopez.circularimageview.CircularImageView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import co.lujun.androidtagview.TagContainerLayout;
-import timber.log.Timber;
+import com.jobtick.android.interfaces.onProfileUpdateListener
+import com.jobtick.android.adapers.AttachmentAdapter
+import android.annotation.SuppressLint
+import butterknife.BindView
+import com.jobtick.android.R
+import androidx.recyclerview.widget.RecyclerView
+import com.mikhaellopez.circularimageview.CircularImageView
+import co.lujun.androidtagview.TagContainerLayout
+import androidx.cardview.widget.CardView
+import com.jobtick.android.activities.DashboardActivity
+import com.jobtick.android.models.UserAccountModel
+import com.jobtick.android.models.AttachmentModel
+import com.jobtick.android.models.BadgesModel
+import com.jobtick.android.adapers.BadgesAdapter
+import android.graphics.Typeface
+import android.os.Bundle
+import androidx.core.content.res.ResourcesCompat
+import android.content.Intent
+import android.view.*
+import android.widget.*
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import com.jobtick.android.activities.CategoryListActivity
+import com.jobtick.android.activities.EditProfileActivity
+import androidx.fragment.app.Fragment
+import com.jobtick.android.activities.ActivityBase
+import androidx.recyclerview.widget.GridLayoutManager
+import com.jobtick.android.widget.SpacingItemDecoration
+import com.jobtick.android.utils.Tools
+import com.android.volley.toolbox.StringRequest
+import timber.log.Timber
+import org.json.JSONException
+import com.android.volley.VolleyError
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.toolbox.Volley
+import com.jobtick.android.BuildConfig
+import com.jobtick.android.activities.ReviewsActivity
+import com.jobtick.android.activities.ZoomImageActivity
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ImageUtil
+import com.jobtick.android.utils.SessionManager
+import org.json.JSONObject
+import java.util.ArrayList
+import java.util.HashMap
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple [Fragment] subclass.
  */
-public class ProfileFragment extends Fragment implements onProfileUpdateListener, AttachmentAdapter.OnItemClickListener {
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.recycler_view_portfolio)
-    RecyclerView recyclerViewPortfolio;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.img_avatar)
-    CircularImageView imgAvatar;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.ivCall)
-    ImageView ivCall;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.ivCard)
-    ImageView ivCard;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_about)
-    TextView txtAbout;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.tvAboutHeading)
-    TextView tvAboutHeading;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.tvAboutMeHeader)
-    TextView tvAboutMeHeader;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.img_verified)
-    ImageView imgVerified;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.tag_education)
-    TagContainerLayout tagEducation;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_education)
-    LinearLayout lytEducation;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.tag_specialities)
-    TagContainerLayout tagSpecialities;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_specialities)
-    LinearLayout lytSpecialities;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.tag_language)
-    TagContainerLayout tagLanguage;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_language)
-    LinearLayout lytLanguage;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.tag_experience)
-    TagContainerLayout tagExperience;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_experience)
-    LinearLayout lytExperience;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.tag_transportation)
-    TagContainerLayout tagTransportation;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_transportation)
-    LinearLayout lytTransportation;
-
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_full_name)
-    TextView txtFullName;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_suburb)
-    TextView txtSuburb;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_last_seen)
-    TextView txtLastSeen;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.tvViewAllReviews)
-    TextView tvViewAllReviews;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.tvSkills)
-    TextView tvSkills;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_account_level)
-    TextView txtAccountLevel;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.ratingbarAsTicker)
-    RatingBar ratingbarAsTicker;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.ratingbarAsPoster)
-    RatingBar ratingbarAsPoster;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.tvTickerReview)
-    TextView tvTickerReview;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.tvPosterReview)
-    TextView tvPosterReview;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.tvTickerCompletionRate)
-    TextView tvTickerCompletionRate;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.tvPosterCompletionRate)
-    TextView tvPosterCompletionRate;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rbPortfollio)
-    RadioButton rbPortfollio;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rbSkills)
-   RadioButton rbSkills;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.card_get_quote)
-    CardView btnQuote;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.llEnlarge)
-    LinearLayout llEnlarge;
-
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.ivMedalBoronz)
-    ImageView ivMedalBoronz;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.ivMedalSilver)
-    ImageView ivMedalSilver;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.ivMedalGOld)
-    ImageView ivMedalGOld;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.ivMedalMax)
-    ImageView ivMedalMax;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.pbLoading)
-    ProgressBar pbLoading;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.content)
-    LinearLayout content;
-
-    private DashboardActivity dashboardActivity;
-    private Toolbar toolbar;
-    private SessionManager sessionManager;
-    private UserAccountModel userAccountModel;
-    private ArrayList<AttachmentModel> attachmentArrayList;
-    private ArrayList<BadgesModel> badgesModelArrayList;
-    private AttachmentAdapter adapter;
-    private BadgesAdapter badgesAdapter;
-    public static onProfileUpdateListener onProfileupdatelistener;
-    private Typeface poppins_medium;
-    private LinearLayout lPort, lSkill, NoPortfolio,NoAbout;
-    private  ImageView ivLevelInfo,ivProfileInfo;
-    private LinearLayout noReview,tickerReview,posterReview,noSkill;
-    private TextView txtNoReview,addSkill,addPortFilo;
-    public ProfileFragment() {
+class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.OnItemClickListener {
+    private var recyclerViewPortfolio: RecyclerView? = null
+    private var imgAvatar: CircularImageView? = null
+    private var ivCall: ImageView? = null
+    private var ivCard: ImageView? = null
+    private var txtAbout: TextView? = null
+    private var tvAboutHeading: TextView? = null
+    private var tvAboutMeHeader: TextView? = null
+    private var imgVerified: ImageView? = null
+    private var tagEducation: TagContainerLayout? = null
+    private var lytEducation: LinearLayout? = null
+    private var tagSpecialities: TagContainerLayout? = null
+    private var lytSpecialities: LinearLayout? = null
+    private var tagLanguage: TagContainerLayout? = null
+    private var lytLanguage: LinearLayout? = null
+    private var tagExperience: TagContainerLayout? = null
+    private var lytExperience: LinearLayout? = null
+    private var tagTransportation: TagContainerLayout? = null
+    private var lytTransportation: LinearLayout? = null
+    private var txtFullName: TextView? = null
+    private var txtSuburb: TextView? = null
+    private var txtLastSeen: TextView? = null
+    private var tvViewAllReviews: TextView? = null
+    private var tvSkills: TextView? = null
+    private var txtAccountLevel: TextView? = null
+    private var ratingbarAsTicker: RatingBar? = null
+    private var ratingbarAsPoster: RatingBar? = null
+    private var tvTickerReview: TextView? = null
+    private var tvPosterReview: TextView? = null
+    private var tvTickerCompletionRate: TextView? = null
+    private var tvPosterCompletionRate: TextView? = null
+    private var rbPortfollio: RadioButton? = null
+    private var rbSkills: RadioButton? = null
+    private var btnQuote: CardView? = null
+    private var llEnlarge: LinearLayout? = null
+    private var ivMedalBoronz: ImageView? = null
+    private var ivMedalSilver: ImageView? = null
+    private var ivMedalGOld: ImageView? = null
+    private var ivMedalMax: ImageView? = null
+    private var pbLoading: ProgressBar? = null
+    private var content: LinearLayout? = null
+    private var dashboardActivity: DashboardActivity? = null
+    private var toolbar: Toolbar? = null
+    private var sessionManager: SessionManager? = null
+    private var userAccountModel: UserAccountModel? = null
+    private var attachmentArrayList: ArrayList<AttachmentModel>? = null
+    private var badgesModelArrayList: ArrayList<BadgesModel>? = null
+    private var adapter: AttachmentAdapter? = null
+    private var badgesAdapter: BadgesAdapter? = null
+    private var poppinsMedium: Typeface? = null
+    private var lPort: LinearLayout? = null
+    private var lSkill: LinearLayout? = null
+    private var noPortfolio: LinearLayout? = null
+    private var ivLevelInfo: ImageView? = null
+    private var ivProfileInfo: ImageView? = null
+    private var noReview: LinearLayout? = null
+    private var tickerReview: LinearLayout? = null
+    private var posterReview: LinearLayout? = null
+    private var noSkill: LinearLayout? = null
+    private var txtNoReview: TextView? = null
+    private var addSkill: TextView? = null
+    private var addPortFilo: TextView? = null
+    override fun onResume() {
+        super.onResume()
+        allProfileData
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getAllProfileData();
+    @SuppressLint("SetTextI18n", "RtlHardcoded")
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+        onProfileupdatelistener = this
+        return view
+    }
+    private fun setIDs() {
+        lPort = requireView().findViewById(R.id.lyt_Port)
+        lSkill = requireView().findViewById(R.id.lyt_skills)
+        noSkill = requireView().findViewById(R.id.no_port_skill)
+        addPortFilo = requireView().findViewById(R.id.txt_add_portfolio)
+        addSkill = requireView().findViewById(R.id.txt_add_skill)
+        txtNoReview = requireView().findViewById(R.id.tv_no_review)
+        noReview = requireView().findViewById(R.id.no_review)
+        posterReview = requireView().findViewById(R.id.poster_review)
+        tickerReview = requireView().findViewById(R.id.ticker_review)
+        ivLevelInfo = requireView().findViewById(R.id.ivLevelInfo)
+        ivProfileInfo = requireView().findViewById(R.id.ivProfileInfo)
+        recyclerViewPortfolio = requireView().findViewById(R.id.recycler_view_portfolio)
+        imgAvatar = requireView().findViewById(R.id.img_avatar)
+        txtAbout = requireView().findViewById(R.id.txt_about)
+        ivCall = requireView().findViewById(R.id.ivCall)
+        ivCard = requireView().findViewById(R.id.ivCard)
+        tvAboutHeading = requireView().findViewById(R.id.tvAboutHeading)
+        imgVerified = requireView().findViewById(R.id.img_verified)
+        tagEducation = requireView().findViewById(R.id.tag_education)
+        lytEducation = requireView().findViewById(R.id.lyt_education)
+        tagSpecialities = requireView().findViewById(R.id.tag_specialities)
+        lytSpecialities = requireView().findViewById(R.id.lyt_specialities)
+        tagLanguage = requireView().findViewById(R.id.tag_language)
+        tagExperience = requireView().findViewById(R.id.tag_experience)
+        lytExperience = requireView().findViewById(R.id.lyt_experience)
+        tagTransportation = requireView().findViewById(R.id.tag_transportation)
+        lytTransportation = requireView().findViewById(R.id.lyt_transportation)
+        txtFullName = requireView().findViewById(R.id.txt_full_name)
+        txtSuburb = requireView().findViewById(R.id.txt_suburb)
+        txtLastSeen = requireView().findViewById(R.id.txt_last_seen)
+        tvViewAllReviews = requireView().findViewById(R.id.tvViewAllReviews)
+        tvSkills = requireView().findViewById(R.id.tvSkills)
+        txtAccountLevel = requireView().findViewById(R.id.txt_account_level)
+        ratingbarAsTicker = requireView().findViewById(R.id.ratingbarAsTicker)
+        ratingbarAsPoster = requireView().findViewById(R.id.ratingbarAsPoster)
+        tvTickerReview = requireView().findViewById(R.id.tvTickerReview)
+        content = requireView().findViewById(R.id.content)
+        pbLoading = requireView().findViewById(R.id.pbLoading)
+        tvPosterReview = requireView().findViewById(R.id.tvPosterReview)
+        tvTickerCompletionRate = requireView().findViewById(R.id.tvTickerCompletionRate)
+        tvPosterCompletionRate = requireView().findViewById(R.id.tvPosterCompletionRate)
+        rbPortfollio = requireView().findViewById(R.id.rbPortfollio)
+        rbSkills = requireView().findViewById(R.id.rbSkills)
+        btnQuote = requireView().findViewById(R.id.card_get_quote)
+        llEnlarge = requireView().findViewById(R.id.llEnlarge)
+        ivMedalBoronz = requireView().findViewById(R.id.ivMedalBoronz)
+        ivMedalSilver = requireView().findViewById(R.id.ivMedalSilver)
+        ivMedalGOld = requireView().findViewById(R.id.ivMedalGOld)
+        ivMedalMax = requireView().findViewById(R.id.ivMedalMax)
     }
 
-    @SuppressLint({"SetTextI18n", "RtlHardcoded"})
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        ButterKnife.bind(this, view);
-
-
-        onProfileupdatelistener = this;
-        NoPortfolio = view.findViewById(R.id.no_port_folio);
-        lPort = view.findViewById(R.id.lyt_Port);
-        lSkill = view.findViewById(R.id.lyt_skills);
-        NoAbout=view.findViewById(R.id.no_about);
-        noSkill=view.findViewById(R.id.no_port_skill);
-        addPortFilo=view.findViewById(R.id.txt_add_portfolio);
-
-        addSkill=view.findViewById(R.id.txt_add_skill);
-        txtNoReview=view.findViewById(R.id.tv_no_review);
-        noReview=view.findViewById(R.id.no_review);
-        posterReview=view.findViewById(R.id.poster_review);
-        tickerReview=view.findViewById(R.id.ticker_review);
-        ivLevelInfo=view.findViewById(R.id.ivLevelInfo);
-        ivProfileInfo=view.findViewById(R.id.ivProfileInfo);
-        ivLevelInfo.setOnClickListener(view1 -> {
-            LevelsInfoBottomSheet levelsInfoBottomSheet = new LevelsInfoBottomSheet();
-            levelsInfoBottomSheet.show(getParentFragmentManager(), "");
-        });
-        ivProfileInfo.setOnClickListener(view1 -> {
-            LevelInfoBottomSheet levelInfoBottomSheet = new LevelInfoBottomSheet();
-            levelInfoBottomSheet.show(getParentFragmentManager(), "");
-        });
-        initToolbar();
-        return view;
-    }
-
-    private void initToolbar() {
-        dashboardActivity = (DashboardActivity) requireActivity();
-        poppins_medium = ResourcesCompat.getFont(getContext(), R.font.roboto_medium);
-        onProfileupdatelistener = this;
+    private fun initToolbar() {
+        dashboardActivity = requireActivity() as DashboardActivity
+        poppinsMedium = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
+        onProfileupdatelistener = this
         if (dashboardActivity != null) {
-            toolbar = dashboardActivity.findViewById(R.id.toolbar);
-            toolbar.getMenu().clear();
-            toolbar.inflateMenu(R.menu.menu_profile);
-            ImageView ivNotification = dashboardActivity.findViewById(R.id.ivNotification);
-            ivNotification.setVisibility(View.GONE);
-            TextView toolbar_title = dashboardActivity.findViewById(R.id.toolbar_title);
-            toolbar_title.setVisibility(View.VISIBLE);
-
-            toolbar_title.setText(R.string.profile);
-
-            toolbar_title.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.roboto_semi_bold));
-            toolbar.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.grey_100));
-            androidx.appcompat.widget.Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
-            params.gravity = Gravity.START;
-            toolbar_title.setLayoutParams(params);
-            btnQuote.setOnClickListener(view12 -> {
-                Intent creating_task = new Intent(requireActivity(), CategoryListActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("category", "");
-                creating_task.putExtras(bundle);
-                requireContext().startActivity(creating_task);
-            });
-            toolbar.setNavigationIcon(R.drawable.ic_setting);
+            toolbar = dashboardActivity!!.findViewById(R.id.toolbar)
+            toolbar!!.menu.clear()
+            toolbar!!.inflateMenu(R.menu.menu_profile)
+            val ivNotification = dashboardActivity!!.findViewById<ImageView>(R.id.ivNotification)
+            ivNotification.visibility = View.GONE
+            val toolbarTitle = dashboardActivity!!.findViewById<TextView>(R.id.toolbar_title)
+            toolbarTitle.visibility = View.VISIBLE
+            toolbarTitle.setText(R.string.profile)
+            toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_semi_bold)
+            toolbar!!.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.grey_100))
+            val params = Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT)
+            params.gravity = Gravity.START
+            toolbarTitle.layoutParams = params
+            btnQuote!!.setOnClickListener {
+                val creatingTask = Intent(requireActivity(), CategoryListActivity::class.java)
+                val bundle = Bundle()
+                bundle.putString("category", "")
+                creatingTask.putExtras(bundle)
+                requireContext().startActivity(creatingTask)
+            }
+            toolbar!!.setNavigationIcon(R.drawable.ic_setting)
         }
     }
 
     @SuppressLint("NonConstantResourceId")
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        sessionManager = new SessionManager(dashboardActivity);
-        userAccountModel = new UserAccountModel();
-        attachmentArrayList = new ArrayList<>();
-        badgesModelArrayList = new ArrayList<>();
-        toolbar.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.action_flag:
-
-                    break;
-                case R.id.action_edit:
-                    startActivity(new Intent(dashboardActivity, EditProfileActivity.class));
-
-                    break;
-            }
-            return false;
-        });
-
-        init();
-
-
-        getAllProfileData();
-        initComponent();
-     //   initComponentScroll(view);
-
-    }
-
-//    private void initComponentScroll(View view) {
-//        NestedScrollView nested_content = view.findViewById(R.id.nested_scroll_view);
-//        nested_content.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-//            if (scrollY < oldScrollY) { // up
-//                animateFab(true);
-//            }
-//            if (scrollY > oldScrollY) { // down
-//                animateFab(true);
-//            }
-//        });
-//    }
-
-//    boolean isFabHide = false;
-
-//    private void animateFab(final boolean hide) {
-//        if (isFabHide && hide || !isFabHide && !hide) return;
-//        isFabHide = hide;
-//        int moveY = hide ? (2 * btnQuote.getHeight()) : 0;
-//        btnQuote.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
-//    }
-
-    private void initComponent() {
-        rbPortfollio.setOnCheckedChangeListener((group, checkedId) -> onChangeTabBiography());
-        rbSkills.setOnCheckedChangeListener((group, checkedId) -> onChangeTabBiography());
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void onChangeTabUser() {
-
-        if (userAccountModel.getPostTaskStatistics() != null && userAccountModel.getPostTaskStatistics().getCompletionRate() != null) {
-            tvTickerCompletionRate.setText(userAccountModel.getPostTaskStatistics().getCompletionRate() + "%");
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setIDs()
+        ivLevelInfo!!.setOnClickListener {
+            val levelsInfoBottomSheet = LevelsInfoBottomSheet()
+            levelsInfoBottomSheet.show(parentFragmentManager, "")
         }
-    }
-
-    private void onChangeTabBiography() {
-        if(getContext()==null)
-            return;
-        if (rbPortfollio.isChecked()) {
-            //lytAbout.setVisibility(View.VISIBLE);
-            if (attachmentArrayList.size() <= 0) {
-                NoPortfolio.setVisibility(View.VISIBLE);
-                noSkill.setVisibility(View.GONE);
-                recyclerViewPortfolio.setVisibility(View.GONE);
-                addPortFilo.setOnClickListener(view13 -> {
-                    Intent intent = new Intent(requireActivity(), EditProfileActivity.class);
-                    startActivity(intent);
-                });
-                lPort.setVisibility(View.GONE);
-            } else {
-                if(attachmentArrayList.size() > 10){
-                    ((ActivityBase)requireActivity()).showToast("MAX 10 picture", requireContext());
+        ivProfileInfo!!.setOnClickListener {
+            val levelInfoBottomSheet = LevelInfoBottomSheet()
+            levelInfoBottomSheet.show(parentFragmentManager, "")
+        }
+        initToolbar()
+        sessionManager = SessionManager(dashboardActivity)
+        userAccountModel = UserAccountModel()
+        attachmentArrayList = ArrayList()
+        badgesModelArrayList = ArrayList()
+        toolbar!!.setOnMenuItemClickListener { item: MenuItem ->
+            when (item.itemId) {
+                R.id.action_flag -> {
                 }
-                recyclerViewPortfolio.setVisibility(View.VISIBLE);
-                noSkill.setVisibility(View.GONE);
-                NoPortfolio.setVisibility(View.GONE);
-                lPort.setVisibility(View.VISIBLE);
+                R.id.action_edit -> startActivity(Intent(dashboardActivity, EditProfileActivity::class.java))
             }
-            lSkill.setVisibility(View.GONE);
-            rbPortfollio.setTextColor(getResources().getColor(R.color.blue));
-            rbSkills.setTextColor(getResources().getColor(R.color.textColor));
-        } else
-            if (rbSkills.isChecked()) {
-            if (tagEducation.size()<=0 && tagExperience.size()<=0 && tagLanguage.size() <= 0
-            && tagSpecialities.size()<=0&& tagTransportation.size()<=0) {
-                NoPortfolio.setVisibility(View.GONE);
-                noSkill.setVisibility(View.VISIBLE);
-                addSkill.setOnClickListener(view13 -> {
-                    Intent intent = new Intent(requireActivity(), EditProfileActivity.class);
-                    startActivity(intent);
-                });
-                lSkill.setVisibility(View.GONE);
-                tvSkills.setVisibility(View.GONE);
-            } else {
-                NoPortfolio.setVisibility(View.GONE);
-                noSkill.setVisibility(View.GONE);
-                lSkill.setVisibility(View.VISIBLE);
-                tvSkills.setVisibility(View.VISIBLE);
-            }
-            recyclerViewPortfolio.setVisibility(View.GONE);
-            lPort.setVisibility(View.GONE);
-            rbPortfollio.setTextColor(getResources().getColor(R.color.textColor));
-            rbSkills.setTextColor(getResources().getColor(R.color.blue));
-
+            false
         }
+        init()
+        allProfileData
+        initComponent()
     }
 
-    private void init() {
-
-        recyclerViewPortfolio.setLayoutManager(new GridLayoutManager(dashboardActivity, 3));
-        recyclerViewPortfolio.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(dashboardActivity, 3), true));
-        recyclerViewPortfolio.setHasFixedSize(true);
-
-        adapter = new AttachmentAdapter(attachmentArrayList, false,getActivity());
-        recyclerViewPortfolio.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
-
-        badgesAdapter = new BadgesAdapter(badgesModelArrayList);
-    }
-
-    private void getAllProfileData() {
-        pbLoading.setVisibility(View.VISIBLE);
-        content.setVisibility(View.GONE);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PROFILE + "/" + sessionManager.getUserAccount().getId(),
-                response -> {
-                    Timber.e(response);
-                    content.setVisibility(View.VISIBLE);
-                    pbLoading.setVisibility(View.GONE);
-                    btnQuote.setVisibility(View.GONE);
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                            userAccountModel = new UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"));
-                            setUpAllEditFields(userAccountModel);
-                            attachmentArrayList = userAccountModel.getPortfolio();
-                            adapter.clear();
-                            badgesModelArrayList = userAccountModel.getBadges();
-
-                            if (attachmentArrayList.size() <= 0) {
-                                NoPortfolio.setVisibility(View.VISIBLE);
-                                lPort.setVisibility(View.GONE);
-                            } else {
-                                recyclerViewPortfolio.setVisibility(View.VISIBLE);
-                                NoPortfolio.setVisibility(View.GONE);
-                                lPort.setVisibility(View.VISIBLE);
-                                adapter.addItems(attachmentArrayList);
-                            }
-
-
-
-                            if (badgesModelArrayList.size() <= 0) {
-                                NoPortfolio.setVisibility(View.VISIBLE);
-                                lSkill.setVisibility(View.GONE);
-                            } else {
-                                NoPortfolio.setVisibility(View.GONE);
-                                lSkill.setVisibility(View.VISIBLE);
-                            }
-                            badgesAdapter.addItems(badgesModelArrayList);
-
-                            if(userAccountModel.getPortfolio().size()==0)
-                            {
-                                NoPortfolio.setVisibility(View.VISIBLE);
-                            }else{
-                                NoPortfolio.setVisibility(View.GONE);
-                            }
-
-                            if(rbPortfollio.isChecked())
-                            {
-                                lSkill.setVisibility(View.GONE);
-                                noSkill.setVisibility(View.GONE);
-                            }
-                        } else {
-                            dashboardActivity.showToast("Connection error", dashboardActivity);
-                        }
-
-                    } catch (JSONException e) {
-                        dashboardActivity.showToast("JSONException", dashboardActivity);
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    dashboardActivity.errorHandle1(error.networkResponse);
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                // map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(dashboardActivity);
-        requestQueue.add(stringRequest);
-        Timber.e(stringRequest.getUrl());
-
+    private fun initComponent() {
+        rbPortfollio!!.setOnCheckedChangeListener { group: CompoundButton?, checkedId: Boolean -> onChangeTabBiography() }
+        rbSkills!!.setOnCheckedChangeListener { group: CompoundButton?, checkedId: Boolean -> onChangeTabBiography() }
     }
 
     @SuppressLint("SetTextI18n")
-    private void setUpAllEditFields(UserAccountModel userAccountModel) {
-        if(userAccountModel==null)
-            return;
-
-        tvAboutHeading.setTypeface(txtAbout.getTypeface(), Typeface.BOLD_ITALIC);
-
-        if(userAccountModel.getMobileVerifiedAt() != null)
-        {
-            ivCall.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable);
+    private fun onChangeTabUser() {
+        if (userAccountModel!!.postTaskStatistics != null && userAccountModel!!.postTaskStatistics.completionRate != null) {
+            tvTickerCompletionRate!!.text = userAccountModel!!.postTaskStatistics.completionRate.toString() + "%"
         }
-        if(userAccountModel.getAccount_status()!=null && userAccountModel.getAccount_status().isBadges())
-        {
-            ivCard.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable);
+    }
+
+    private fun onChangeTabBiography() {
+        if (context == null) return
+        if (rbPortfollio!!.isChecked) {
+            //lytAbout.setVisibility(View.VISIBLE);
+            if (attachmentArrayList!!.size <= 0) {
+                noPortfolio!!.visibility = View.VISIBLE
+                noSkill!!.visibility = View.GONE
+                recyclerViewPortfolio!!.visibility = View.GONE
+                addPortFilo!!.setOnClickListener { view13: View? ->
+                    val intent = Intent(requireActivity(), EditProfileActivity::class.java)
+                    startActivity(intent)
+                }
+                lPort!!.visibility = View.GONE
+            } else {
+                if (attachmentArrayList!!.size > 10) {
+                    (requireActivity() as ActivityBase).showToast("MAX 10 picture", requireContext())
+                }
+                recyclerViewPortfolio!!.visibility = View.VISIBLE
+                noSkill!!.visibility = View.GONE
+                noPortfolio!!.visibility = View.GONE
+                lPort!!.visibility = View.VISIBLE
+            }
+            lSkill!!.visibility = View.GONE
+            rbPortfollio!!.setTextColor(resources.getColor(R.color.blue))
+            rbSkills!!.setTextColor(resources.getColor(R.color.textColor))
+        } else if (rbSkills!!.isChecked) {
+            if (tagEducation!!.size() <= 0 && tagExperience!!.size() <= 0 && tagLanguage!!.size() <= 0 && tagSpecialities!!.size() <= 0 && tagTransportation!!.size() <= 0) {
+                noPortfolio!!.visibility = View.GONE
+                noSkill!!.visibility = View.VISIBLE
+                addSkill!!.setOnClickListener { view13: View? ->
+                    val intent = Intent(requireActivity(), EditProfileActivity::class.java)
+                    startActivity(intent)
+                }
+                lSkill!!.visibility = View.GONE
+                tvSkills!!.visibility = View.GONE
+            } else {
+                noPortfolio!!.visibility = View.GONE
+                noSkill!!.visibility = View.GONE
+                lSkill!!.visibility = View.VISIBLE
+                tvSkills!!.visibility = View.VISIBLE
+            }
+            recyclerViewPortfolio!!.visibility = View.GONE
+            lPort!!.visibility = View.GONE
+            rbPortfollio!!.setTextColor(resources.getColor(R.color.textColor))
+            rbSkills!!.setTextColor(resources.getColor(R.color.blue))
+        }
+    }
+
+    private fun init() {
+        recyclerViewPortfolio!!.layoutManager = GridLayoutManager(dashboardActivity, 3)
+        recyclerViewPortfolio!!.addItemDecoration(SpacingItemDecoration(3, Tools.dpToPx(dashboardActivity, 3), true))
+        recyclerViewPortfolio!!.setHasFixedSize(true)
+        adapter = AttachmentAdapter(attachmentArrayList, false, activity)
+        recyclerViewPortfolio!!.adapter = adapter
+        adapter!!.setOnItemClickListener(this)
+        badgesAdapter = BadgesAdapter(badgesModelArrayList)
+    }
+
+    // map1.put("X-Requested-With", "XMLHttpRequest");
+    private val allProfileData: Unit
+        private get() {
+            pbLoading!!.visibility = View.VISIBLE
+            content!!.visibility = View.GONE
+            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_PROFILE + "/" + sessionManager!!.userAccount.id,
+                    Response.Listener { response: String? ->
+                        Timber.e(response)
+                        content!!.visibility = View.VISIBLE
+                        pbLoading!!.visibility = View.GONE
+                        btnQuote!!.visibility = View.GONE
+                        try {
+                            val jsonObject = JSONObject(response)
+                            Timber.e(jsonObject.toString())
+                            if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                                userAccountModel = UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
+                                setUpAllEditFields(userAccountModel)
+                                attachmentArrayList = userAccountModel!!.portfolio
+                                adapter!!.clear()
+                                badgesModelArrayList = userAccountModel!!.badges
+                                if (attachmentArrayList!!.size <= 0) {
+                                    noPortfolio!!.visibility = View.VISIBLE
+                                    lPort!!.visibility = View.GONE
+                                } else {
+                                    recyclerViewPortfolio!!.visibility = View.VISIBLE
+                                    noPortfolio!!.visibility = View.GONE
+                                    lPort!!.visibility = View.VISIBLE
+                                    adapter!!.addItems(attachmentArrayList)
+                                }
+                                if (badgesModelArrayList!!.size <= 0) {
+                                    noPortfolio!!.visibility = View.VISIBLE
+                                    lSkill!!.visibility = View.GONE
+                                } else {
+                                    noPortfolio!!.visibility = View.GONE
+                                    lSkill!!.visibility = View.VISIBLE
+                                }
+                                badgesAdapter!!.addItems(badgesModelArrayList)
+                                if (userAccountModel!!.portfolio.size == 0) {
+                                    noPortfolio!!.visibility = View.VISIBLE
+                                } else {
+                                    noPortfolio!!.visibility = View.GONE
+                                }
+                                if (rbPortfollio!!.isChecked) {
+                                    lSkill!!.visibility = View.GONE
+                                    noSkill!!.visibility = View.GONE
+                                }
+                            } else {
+                                dashboardActivity!!.showToast("Connection error", dashboardActivity)
+                            }
+                        } catch (e: JSONException) {
+                            dashboardActivity!!.showToast("JSONException", dashboardActivity)
+                            Timber.e(e.toString())
+                            e.printStackTrace()
+                        }
+                    },
+                    Response.ErrorListener { error: VolleyError -> dashboardActivity!!.errorHandle1(error.networkResponse) }) {
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["authorization"] = sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    // map1.put("X-Requested-With", "XMLHttpRequest");
+                    return map1
+                }
+            }
+            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            val requestQueue = Volley.newRequestQueue(dashboardActivity)
+            requestQueue.add(stringRequest)
+            Timber.e(stringRequest.url)
         }
 
-
-        if (userAccountModel.getAbout() == null || userAccountModel.getAbout().equals("")) {
-            txtAbout.setText("");
-            txtAbout.setVisibility(View.GONE);
+    @SuppressLint("SetTextI18n")
+    private fun setUpAllEditFields(userAccountModel: UserAccountModel?) {
+        if (userAccountModel == null) return
+        tvAboutHeading!!.setTypeface(txtAbout!!.typeface, Typeface.BOLD_ITALIC)
+        if (userAccountModel.mobileVerifiedAt != null) {
+            ivCall!!.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable)
+        }
+        if (userAccountModel.account_status != null && userAccountModel.account_status.isBadges) {
+            ivCard!!.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable)
+        }
+        if (userAccountModel.about == null || userAccountModel.about == "") {
+            txtAbout!!.text = ""
+            txtAbout!!.visibility = View.GONE
         } else {
-            txtAbout.setVisibility(View.VISIBLE);
-            txtAbout.setText("" + userAccountModel.getAbout());
-
+            txtAbout!!.visibility = View.VISIBLE
+            txtAbout!!.text = "" + userAccountModel.about
         }
-        if (userAccountModel.getTagline() == null ||userAccountModel.getTagline().equals("")) {
-            tvAboutHeading.setText("\"\"");
-            tvAboutHeading.setVisibility(View.GONE);
+        if (userAccountModel.tagline == null || userAccountModel.tagline == "") {
+            tvAboutHeading!!.text = "\"\""
+            tvAboutHeading!!.visibility = View.GONE
         } else {
-            tvAboutHeading.setVisibility(View.VISIBLE);
-            tvAboutHeading.setText("\"" + userAccountModel.getTagline()+"\"");
+            tvAboutHeading!!.visibility = View.VISIBLE
+            tvAboutHeading!!.text = "\"" + userAccountModel.tagline + "\""
         }
-
-        if(userAccountModel.getWorkerRatings()==null){
-            tickerReview.setVisibility(View.GONE);
-            noReview.setVisibility(View.VISIBLE);
-            txtNoReview.setVisibility(View.VISIBLE);
-
-        }else{
-            noReview.setVisibility(View.GONE);
-            tickerReview.setVisibility(View.VISIBLE);
-            ratingbarAsTicker.setRating(userAccountModel.getWorkerRatings().getAvgRating());
-            tvTickerReview.setText("("+userAccountModel.getWorkerRatings().getReceivedReviews().toString()+")");
-            if(userAccountModel.getWorkTaskStatistics()!=null)
-                tvTickerCompletionRate.setText(userAccountModel.getWorkTaskStatistics().getCompletionRate().toString()+"%");
-        }
-        if(userAccountModel.getPosterRatings()==null){
-            posterReview.setVisibility(View.GONE);
-            noReview.setVisibility(View.VISIBLE);
-            txtNoReview.setVisibility(View.VISIBLE);
-        }else{
-            posterReview.setVisibility(View.VISIBLE);
-            noReview.setVisibility(View.GONE);
-            ratingbarAsPoster.setRating(userAccountModel.getPosterRatings().getAvgRating());
-            tvPosterReview.setText("("+userAccountModel.getPosterRatings().getReceivedReviews().toString()+")");
-            if(userAccountModel.getPostTaskStatistics()!=null)
-            tvPosterCompletionRate.setText(userAccountModel.getPostTaskStatistics().getCompletionRate().toString()+"%");
-        }
-
-        switch (userAccountModel.getWorkerTier().getId()){
-            case 1:
-                ivMedalBoronz.setImageResource(R.drawable.ic_boronz_selected);
-                break;
-            case 2:
-                ivMedalBoronz.setImageResource(R.drawable.ic_silver_selected);
-                break;
-            case 3:
-                ivMedalBoronz.setImageResource(R.drawable.ic_gold_selected);
-                break;
-            case 4:
-                ivMedalBoronz.setImageResource(R.drawable.ic_max_selected);
-                break;
-        }
-
-        if (userAccountModel.getIsVerifiedAccount() == 1) {
-            imgVerified.setVisibility(View.VISIBLE);
+        if (userAccountModel.workerRatings == null) {
+            tickerReview!!.visibility = View.GONE
+            noReview!!.visibility = View.VISIBLE
+            txtNoReview!!.visibility = View.VISIBLE
         } else {
-            imgVerified.setVisibility(View.GONE);
+            noReview!!.visibility = View.GONE
+            tickerReview!!.visibility = View.VISIBLE
+            ratingbarAsTicker!!.rating = userAccountModel.workerRatings.avgRating
+            tvTickerReview!!.text = "(" + userAccountModel.workerRatings.receivedReviews.toString() + ")"
+            if (userAccountModel.workTaskStatistics != null) tvTickerCompletionRate!!.text = userAccountModel.workTaskStatistics.completionRate.toString() + "%"
         }
-        if(userAccountModel.getPortfolio().size()==0)
-        {
-            NoPortfolio.setVisibility(View.VISIBLE);
-        }else{
-            NoPortfolio.setVisibility(View.GONE);
+        if (userAccountModel.posterRatings == null) {
+            posterReview!!.visibility = View.GONE
+            noReview!!.visibility = View.VISIBLE
+            txtNoReview!!.visibility = View.VISIBLE
+        } else {
+            posterReview!!.visibility = View.VISIBLE
+            noReview!!.visibility = View.GONE
+            ratingbarAsPoster!!.rating = userAccountModel.posterRatings.avgRating
+            tvPosterReview!!.text = "(" + userAccountModel.posterRatings.receivedReviews.toString() + ")"
+            if (userAccountModel.postTaskStatistics != null) tvPosterCompletionRate!!.text = userAccountModel.postTaskStatistics.completionRate.toString() + "%"
         }
-        if(userAccountModel.getSkills().getExperience() == null && userAccountModel.getSkills().getExperience().size() == 0 &&
-                userAccountModel.getSkills().getLanguage() == null && userAccountModel.getSkills().getLanguage().size() == 0 &&
-                userAccountModel.getSkills().getSpecialities() == null && userAccountModel.getSkills().getSpecialities().size() == 0 &&
-                userAccountModel.getSkills().getTransportation() == null && userAccountModel.getSkills().getTransportation().size() == 0 &&
-                userAccountModel.getSkills().getEducation() == null && userAccountModel.getSkills().getEducation().size() == 0){
-            NoPortfolio.setVisibility(View.GONE);
-            lSkill.setVisibility(View.GONE);
-            lytEducation.setVisibility(View.GONE);
-            lytExperience.setVisibility(View.GONE);
-            lytLanguage.setVisibility(View.GONE);
-            lytSpecialities.setVisibility(View.GONE);
-            lytTransportation.setVisibility(View.GONE);
-            lPort.setVisibility(View.GONE);
+        when (userAccountModel.workerTier.id) {
+            1 -> ivMedalBoronz!!.setImageResource(R.drawable.ic_boronz_selected)
+            2 -> ivMedalBoronz!!.setImageResource(R.drawable.ic_silver_selected)
+            3 -> ivMedalBoronz!!.setImageResource(R.drawable.ic_gold_selected)
+            4 -> ivMedalBoronz!!.setImageResource(R.drawable.ic_max_selected)
         }
-        else{
-            if (userAccountModel.getSkills().getEducation() != null && userAccountModel.getSkills().getEducation().size() != 0) {
-                lytEducation.setVisibility(View.VISIBLE);
+        if (userAccountModel.isVerifiedAccount == 1) {
+            imgVerified!!.visibility = View.VISIBLE
+        } else {
+            imgVerified!!.visibility = View.GONE
+        }
+        if (userAccountModel.portfolio.size == 0) {
+            noPortfolio!!.visibility = View.VISIBLE
+        } else {
+            noPortfolio!!.visibility = View.GONE
+        }
+        if (userAccountModel.skills.experience == null && userAccountModel.skills.experience.size == 0 && userAccountModel.skills.language == null && userAccountModel.skills.language.size == 0 && userAccountModel.skills.specialities == null && userAccountModel.skills.specialities.size == 0 && userAccountModel.skills.transportation == null && userAccountModel.skills.transportation.size == 0 && userAccountModel.skills.education == null && userAccountModel.skills.education.size == 0) {
+            noPortfolio!!.visibility = View.GONE
+            lSkill!!.visibility = View.GONE
+            lytEducation!!.visibility = View.GONE
+            lytExperience!!.visibility = View.GONE
+            lytLanguage!!.visibility = View.GONE
+            lytSpecialities!!.visibility = View.GONE
+            lytTransportation!!.visibility = View.GONE
+            lPort!!.visibility = View.GONE
+        } else {
+            if (userAccountModel.skills.education != null && userAccountModel.skills.education.size != 0) {
+                lytEducation!!.visibility = View.VISIBLE
                 //tagEducation.setText(userAccountModel.getSkills().getEducation());
-
-                tagEducation.setTags(userAccountModel.getSkills().getEducation());
-
+                tagEducation!!.tags = userAccountModel.skills.education
             } else {
-                lytEducation.setVisibility(View.GONE);
-                tagEducation.setTags(new ArrayList<>());
+                lytEducation!!.visibility = View.GONE
+                tagEducation!!.tags = ArrayList()
             }
-            if (userAccountModel.getSkills().getExperience() != null && userAccountModel.getSkills().getExperience().size() != 0) {
-                lytExperience.setVisibility(View.VISIBLE);
-                tagExperience.setTags(userAccountModel.getSkills().getExperience());
+            if (userAccountModel.skills.experience != null && userAccountModel.skills.experience.size != 0) {
+                lytExperience!!.visibility = View.VISIBLE
+                tagExperience!!.tags = userAccountModel.skills.experience
             } else {
-                lytExperience.setVisibility(View.GONE);
-                tagExperience.setTags(new ArrayList<>());
+                lytExperience!!.visibility = View.GONE
+                tagExperience!!.tags = ArrayList()
             }
-            if (userAccountModel.getSkills().getLanguage() != null && userAccountModel.getSkills().getLanguage().size() != 0) {
-                lytLanguage.setVisibility(View.VISIBLE);
-                tagLanguage.setTags(userAccountModel.getSkills().getLanguage());
+            if (userAccountModel.skills.language != null && userAccountModel.skills.language.size != 0) {
+                lytLanguage!!.visibility = View.VISIBLE
+                tagLanguage!!.tags = userAccountModel.skills.language
             } else {
-                lytLanguage.setVisibility(View.GONE);
-                tagLanguage.setTags(new ArrayList<>());
+                lytLanguage!!.visibility = View.GONE
+                tagLanguage!!.tags = ArrayList()
             }
-            if (userAccountModel.getSkills().getSpecialities() != null && userAccountModel.getSkills().getSpecialities().size() != 0) {
-                lytSpecialities.setVisibility(View.VISIBLE);
-                tagSpecialities.setTags(userAccountModel.getSkills().getSpecialities());
-
+            if (userAccountModel.skills.specialities != null && userAccountModel.skills.specialities.size != 0) {
+                lytSpecialities!!.visibility = View.VISIBLE
+                tagSpecialities!!.tags = userAccountModel.skills.specialities
             } else {
-                lytSpecialities.setVisibility(View.GONE);
-                tagSpecialities.setTags(new ArrayList<>());
+                lytSpecialities!!.visibility = View.GONE
+                tagSpecialities!!.tags = ArrayList()
             }
-            if (userAccountModel.getSkills().getTransportation() != null && userAccountModel.getSkills().getTransportation().size() != 0) {
-                lytTransportation.setVisibility(View.VISIBLE);
-                tagTransportation.setTags(userAccountModel.getSkills().getTransportation());
+            if (userAccountModel.skills.transportation != null && userAccountModel.skills.transportation.size != 0) {
+                lytTransportation!!.visibility = View.VISIBLE
+                tagTransportation!!.tags = userAccountModel.skills.transportation
             } else {
-                lytTransportation.setVisibility(View.GONE);
-                tagTransportation.setTags(new ArrayList<>());
+                lytTransportation!!.visibility = View.GONE
+                tagTransportation!!.tags = ArrayList()
             }
         }
-        tagEducation.setTagTypeface(poppins_medium);
-        tagSpecialities.setTagTypeface(poppins_medium);
-        tagLanguage.setTagTypeface(poppins_medium);
-        tagExperience.setTagTypeface(poppins_medium);
-        tagTransportation.setTagTypeface(poppins_medium);
-        if (userAccountModel.getAvatar() != null) {
-            ImageUtil.displayImage(imgAvatar, userAccountModel.getAvatar().getUrl(), null);
-//            imgAvatar.setOnClickListener(v -> {
-//                ArrayList<AttachmentModel> items = new ArrayList<>();
-//                AttachmentModel attchment = new AttachmentModel();
-//                attchment.setId(0);
-//                attchment.setModalUrl(userAccountModel.getAvatar().getModalUrl());
-//                attchment.setThumbUrl(userAccountModel.getAvatar().getThumbUrl());
-//                attchment.setUrl(userAccountModel.getAvatar().getUrl());
-//                items.add(attchment);
-//                Intent intent = new Intent(getActivity(), ZoomImageActivity.class);
-//                intent.putExtra("url", items);
-//                intent.putExtra("title", "");
-//                intent.putExtra("pos", 0);
-//                startActivity(intent);
-//            });
+        tagEducation!!.tagTypeface = poppinsMedium
+        tagSpecialities!!.tagTypeface = poppinsMedium
+        tagLanguage!!.tagTypeface = poppinsMedium
+        tagExperience!!.tagTypeface = poppinsMedium
+        tagTransportation!!.tagTypeface = poppinsMedium
+        if (userAccountModel.avatar != null) {
+            ImageUtil.displayImage(imgAvatar, userAccountModel.avatar.url, null)
         }
-        txtFullName.setText(userAccountModel.getName());
-        txtSuburb.setText(userAccountModel.getLocation());
+        txtFullName!!.text = userAccountModel.name
+        txtSuburb!!.text = userAccountModel.location
         //txtAccountLevel.setText(""+userAccountModel.getWorkerTier().getName());
-        txtLastSeen.setText("Last Seen " + userAccountModel.getLastOnline());
-
-        tvViewAllReviews.setOnClickListener(v -> {
-
-            Bundle bundle = new Bundle();
-            bundle.putInt(Constant.userID, userAccountModel.getId());
-            bundle.putString("WhoIs", Constant.AS_A_WORKER);
-            ReviewsActivity.userAccountModel = null;
+        txtLastSeen!!.text = "Last Seen " + userAccountModel.lastOnline
+        tvViewAllReviews!!.setOnClickListener { v: View? ->
+            val bundle = Bundle()
+            bundle.putInt(Constant.userID, userAccountModel.id)
+            bundle.putString("WhoIs", Constant.AS_A_WORKER)
+            ReviewsActivity.userAccountModel = null
             //      bundle.putParcelable(Constant.userAccount, userAccountModel);
-
-            startActivity(new Intent(dashboardActivity, ReviewsActivity.class)
-                    .putExtras(bundle));
-        });
-
-
-        onChangeTabBiography();
-        onChangeTabUser();
-
-    }
-
-    public void onViewClicked() {
-        /*if (rbAsAPoster.isChecked()) {
-
-
-            Bundle bundle = new Bundle();
-            bundle.putInt(Constant.userID, userAccountModel.getId());
-            bundle.putString("WhoIs", Constant.AS_A_POSTER);
-            //        bundle.putParcelable(Constant.userAccount, userAccountModel);
-
-            startActivity(new Intent(dashboardActivity, ReviewsActivity.class)
-                    .putExtras(bundle)
-            );
-
-        } else {
-
-            Bundle bundle = new Bundle();
-            bundle.putInt(Constant.userID, userAccountModel.getId());
-            bundle.putString("WhoIs", Constant.AS_A_WORKER);
-            //      bundle.putParcelable(Constant.userAccount, userAccountModel);
-
-            startActivity(new Intent(dashboardActivity, ReviewsActivity.class)
-                    .putExtras(bundle));
-
-
-        }*/
-    }
-
-    @Override
-    public void updatedSuccesfully(String path) {
-        if (path != null) {
-            ImageUtil.displayImage(imgAvatar, path, null);
+            startActivity(Intent(dashboardActivity, ReviewsActivity::class.java)
+                    .putExtras(bundle))
         }
-
+        onChangeTabBiography()
+        onChangeTabUser()
     }
 
-    @Override
-    public void updateProfile() {
-        adapter.clear();
-        getAllProfileData();
 
+    override fun updatedSuccesfully(path: String) {
+        if (path != null) {
+            ImageUtil.displayImage(imgAvatar, path, null)
+        }
     }
 
-    @Override
-    public void onItemClick(View view, AttachmentModel obj, int position, String action) {
-        Intent intent = new Intent(getContext(), ZoomImageActivity.class);
-        intent.putExtra("url", attachmentArrayList);
-        intent.putExtra("title", "");
-        intent.putExtra("pos", position);
-        startActivity(intent);
+    override fun updateProfile() {
+        adapter!!.clear()
+        allProfileData
+    }
+
+    override fun onItemClick(view: View, obj: AttachmentModel, position: Int, action: String) {
+        val intent = Intent(context, ZoomImageActivity::class.java)
+        intent.putExtra("url", attachmentArrayList)
+        intent.putExtra("title", "")
+        intent.putExtra("pos", position)
+        startActivity(intent)
+    }
+
+    companion object {
+        var onProfileupdatelistener: onProfileUpdateListener? = null
     }
 }

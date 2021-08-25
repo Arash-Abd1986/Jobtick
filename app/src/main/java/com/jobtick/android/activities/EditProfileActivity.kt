@@ -16,7 +16,6 @@ import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
@@ -122,7 +121,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         attachmentArrayList = ArrayList()
         mBehavior = BottomSheetBehavior.from<FrameLayout?>(bottomSheet!!)
         edtPhoneNumber!!.setExtendedViewOnClickListener { verifyPhone() }
-        ivBack!!.setOnClickListener { v: View? -> onBackPressed() }
+        ivBack!!.setOnClickListener { onBackPressed() }
         init()
         allUserProfileDetails
         uploadableImage = object : AbstractUploadableImageImpl(this) {
@@ -258,7 +257,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 hideProgressDialog()
                 try {
-                    val jsonObject = JSONObject(response.body())
+                    val jsonObject = JSONObject(response.body()!!)
                     val jsonObject_user = jsonObject.getJSONObject("data")
                     val userAccountModel = UserAccountModel().getJsonToModel(jsonObject_user)
                     sessionManager.userAccount = userAccountModel
@@ -267,7 +266,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                     initDatePicker()
                     showSuccessToast(jsonObject.getString("message"), this@EditProfileActivity)
                     if (ProfileFragment.onProfileupdatelistener != null) {
-                        ProfileFragment.onProfileupdatelistener.updateProfile()
+                        ProfileFragment.onProfileupdatelistener!!.updateProfile()
                     }
                     onBackPressed()
                 } catch (e: java.lang.Exception) {
@@ -283,6 +282,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         })
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun init() {
         initTabs()
         recyclerView!!.layoutManager = GridLayoutManager(this@EditProfileActivity, 4)
@@ -294,13 +294,13 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         adapter!!.setOnItemClickListener(this)
         txtBirthDate!!.setExtendedViewOnClickListener {
             val utcFormat = SimpleDateFormat("yyyy-MM-dd")
-            var old_date = Date()
+            var oldDate = Date()
             try {
-                old_date = utcFormat.parse(userAccountModel!!.dob)
+                oldDate = utcFormat.parse(userAccountModel!!.dob)!!
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            val datePickerBottomSheet = DatePickerBottomSheet(Date(old_date.toString()).time)
+            val datePickerBottomSheet = DatePickerBottomSheet(Date(oldDate.toString()).time)
             datePickerBottomSheet.dchange = this
             datePickerBottomSheet.show(this.supportFragmentManager, "")
         }
@@ -309,7 +309,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
             val infoBottomSheet = SearchSuburbBottomSheet(this)
             infoBottomSheet.show(supportFragmentManager, null)
         }
-        smallPlus!!.setOnClickListener { v: View? ->
+        smallPlus!!.setOnClickListener {
             isImageProfile = false
             uploadableImage!!.showAttachmentImageBottomSheet(false)
         }
@@ -319,7 +319,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         llGeneral!!.visibility = View.VISIBLE
         llPinfo!!.visibility = View.GONE
         llPS!!.visibility = View.GONE
-        txtGeneralInfo!!.setOnClickListener { it: View? ->
+        txtGeneralInfo!!.setOnClickListener {
             llGeneral!!.visibility = View.VISIBLE
             llPinfo!!.visibility = View.GONE
             llPS!!.visibility = View.GONE
@@ -330,7 +330,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
             underTab2!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
             underTab3!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
         }
-        txtPrivateInfo!!.setOnClickListener { it: View? ->
+        txtPrivateInfo!!.setOnClickListener {
             llGeneral!!.visibility = View.GONE
             llPinfo!!.visibility = View.VISIBLE
             llPS!!.visibility = View.GONE
@@ -341,7 +341,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
             underTab2!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line_selected)
             underTab3!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
         }
-        txtPortfolioSkills!!.setOnClickListener { it: View? ->
+        txtPortfolioSkills!!.setOnClickListener {
             llGeneral!!.visibility = View.GONE
             llPinfo!!.visibility = View.GONE
             llPS!!.visibility = View.VISIBLE
@@ -388,7 +388,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                         Timber.e(response)
                         hideProgressDialog()
                         try {
-                            val jsonObject = JSONObject(response)
+                            val jsonObject = JSONObject(response!!)
                             Timber.e(jsonObject.toString())
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                 userAccountModel = UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
@@ -478,7 +478,6 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
     @SuppressLint("SetTextI18n")
     private fun specialitiesSetUp(userAccountModel: UserAccountModel?) {
         if (userAccountModel!!.skills.specialities != null && userAccountModel.skills.specialities.size != 0) {
-            val str_tag = convertArrayToString(userAccountModel.skills.specialities)
             txtSpecialities!!.text = "" + userAccountModel.skills.specialities.size
             txtSpecialities!!.visibility = View.VISIBLE
         } else {
@@ -490,7 +489,6 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
     @SuppressLint("SetTextI18n")
     private fun experienceSetUp(userAccountModel: UserAccountModel?) {
         if (userAccountModel!!.skills.experience != null && userAccountModel.skills.experience.size != 0) {
-            val str_tag = convertArrayToString(userAccountModel.skills.experience)
             txtExperience!!.text = "" + userAccountModel.skills.experience.size
             txtExperience!!.visibility = View.VISIBLE
         } else {
@@ -502,7 +500,6 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
     @SuppressLint("SetTextI18n")
     private fun educationSetUp(userAccountModel: UserAccountModel?) {
         if (userAccountModel!!.skills.education != null && userAccountModel.skills.education.size != 0) {
-            val str_tag = convertArrayToString(userAccountModel.skills.education)
             txtEducation!!.text = "" + userAccountModel.skills.education.size
             txtEducation!!.visibility = View.VISIBLE
         } else {
@@ -514,7 +511,6 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
     @SuppressLint("SetTextI18n")
     private fun languagesSetUp(userAccountModel: UserAccountModel?) {
         if (userAccountModel!!.skills.language != null && userAccountModel.skills.language.size != 0) {
-            val str_tag = convertArrayToString(userAccountModel.skills.language)
             txtLanguages!!.text = "" + userAccountModel.skills.language.size
             txtLanguages!!.visibility = View.VISIBLE
         } else {
@@ -526,7 +522,6 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
     @SuppressLint("SetTextI18n")
     private fun transportationSetUp(userAccountModel: UserAccountModel?) {
         if (userAccountModel!!.skills.transportation != null && userAccountModel.skills.transportation.size != 0) {
-            val str_tag = convertArrayToString(userAccountModel.skills.transportation)
             txtTransportation!!.text = "" + userAccountModel.skills.transportation.size
             txtTransportation!!.visibility = View.VISIBLE
         } else {
@@ -564,7 +559,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                     Timber.e(response)
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         attachmentArrayList!!.removeAt(position)
                         adapter!!.DeleteItem(position)
@@ -672,11 +667,11 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                     .setTitle("")
                     .setMessage("Remove profile photo?")
                     .setCancelable(false)
-                    .setPositiveButton("Yes") { dialog1: DialogInterface, id: Int ->
+                    .setPositiveButton("Yes") { dialog1: DialogInterface, _: Int ->
                         dialog1.dismiss()
                         removeProfilePicture()
                     }
-                    .setNegativeButton("No") { dialog12: DialogInterface, id: Int ->
+                    .setNegativeButton("No") { dialog12: DialogInterface, _: Int ->
                         //  Action for 'NO' Button
                         dialog12.cancel()
                     }.show()
@@ -728,19 +723,19 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                     }
                     if (response.code() == HttpStatus.SUCCESS) {
                         Timber.e(strResponse)
-                        val jsonObject = JSONObject(strResponse)
+                        val jsonObject = JSONObject(strResponse!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("data")) {
                             val attachment = AttachmentModel()
-                            val jsonObject_data = jsonObject.getJSONObject("data")
-                            if (jsonObject_data.has("id") && !jsonObject_data.isNull("id")) attachment.id = jsonObject_data.getInt("id")
-                            if (jsonObject_data.has("name") && !jsonObject_data.isNull("name")) attachment.name = jsonObject_data.getString("name")
-                            if (jsonObject_data.has("file_name") && !jsonObject_data.isNull("file_name")) attachment.fileName = jsonObject_data.getString("file_name")
-                            if (jsonObject_data.has("mime") && !jsonObject_data.isNull("mime")) attachment.mime = jsonObject_data.getString("mime")
-                            if (jsonObject_data.has("url") && !jsonObject_data.isNull("url")) attachment.url = jsonObject_data.getString("url")
-                            if (jsonObject_data.has("thumb_url") && !jsonObject_data.isNull("thumb_url")) attachment.thumbUrl = jsonObject_data.getString("thumb_url")
-                            if (jsonObject_data.has("modal_url") && !jsonObject_data.isNull("modal_url")) attachment.modalUrl = jsonObject_data.getString("modal_url")
-                            if (jsonObject_data.has("created_at") && !jsonObject_data.isNull("created_at")) attachment.createdAt = jsonObject_data.getString("created_at")
+                            val jsonObjectData = jsonObject.getJSONObject("data")
+                            if (jsonObjectData.has("id") && !jsonObjectData.isNull("id")) attachment.id = jsonObjectData.getInt("id")
+                            if (jsonObjectData.has("name") && !jsonObjectData.isNull("name")) attachment.name = jsonObjectData.getString("name")
+                            if (jsonObjectData.has("file_name") && !jsonObjectData.isNull("file_name")) attachment.fileName = jsonObjectData.getString("file_name")
+                            if (jsonObjectData.has("mime") && !jsonObjectData.isNull("mime")) attachment.mime = jsonObjectData.getString("mime")
+                            if (jsonObjectData.has("url") && !jsonObjectData.isNull("url")) attachment.url = jsonObjectData.getString("url")
+                            if (jsonObjectData.has("thumb_url") && !jsonObjectData.isNull("thumb_url")) attachment.thumbUrl = jsonObjectData.getString("thumb_url")
+                            if (jsonObjectData.has("modal_url") && !jsonObjectData.isNull("modal_url")) attachment.modalUrl = jsonObjectData.getString("modal_url")
+                            if (jsonObjectData.has("created_at") && !jsonObjectData.isNull("created_at")) attachment.createdAt = jsonObjectData.getString("created_at")
                             attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
                             attachmentArrayList!!.add(attachment)
 
@@ -751,11 +746,6 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                         adapter!!.clearAll()
                         adapter!!.addItems(attachmentArrayList)
                         updateAttachment.clear()
-                        //adapter.notifyDataSetChanged();
-
-
-                        //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
-                        // showToast("attachment added", AttachmentActivity.this);
                     } else {
                         showToast("Something went wrong", this@EditProfileActivity)
                     }
@@ -863,24 +853,24 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                     }
                     if (response.code() == HttpStatus.SUCCESS) {
                         Timber.e(strResponse)
-                        val jsonObject = JSONObject(strResponse)
+                        val jsonObject = JSONObject(strResponse!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("data")) {
                             val attachment = AttachmentModel()
-                            val jsonObject_data = jsonObject.getJSONObject("data")
-                            if (jsonObject_data.has("id") && !jsonObject_data.isNull("id")) attachment.id = jsonObject_data.getInt("id")
-                            if (jsonObject_data.has("name") && !jsonObject_data.isNull("name")) attachment.name = jsonObject_data.getString("name")
-                            if (jsonObject_data.has("file_name") && !jsonObject_data.isNull("file_name")) attachment.fileName = jsonObject_data.getString("file_name")
-                            if (jsonObject_data.has("mime") && !jsonObject_data.isNull("mime")) attachment.mime = jsonObject_data.getString("mime")
-                            if (jsonObject_data.has("url") && !jsonObject_data.isNull("url")) attachment.url = jsonObject_data.getString("url")
-                            if (jsonObject_data.has("thumb_url") && !jsonObject_data.isNull("thumb_url")) attachment.thumbUrl = jsonObject_data.getString("thumb_url")
-                            if (jsonObject_data.has("modal_url") && !jsonObject_data.isNull("modal_url")) attachment.modalUrl = jsonObject_data.getString("modal_url")
-                            if (jsonObject_data.has("created_at") && !jsonObject_data.isNull("created_at")) attachment.createdAt = jsonObject_data.getString("created_at")
+                            val jsonObjectData = jsonObject.getJSONObject("data")
+                            if (jsonObjectData.has("id") && !jsonObjectData.isNull("id")) attachment.id = jsonObjectData.getInt("id")
+                            if (jsonObjectData.has("name") && !jsonObjectData.isNull("name")) attachment.name = jsonObjectData.getString("name")
+                            if (jsonObjectData.has("file_name") && !jsonObjectData.isNull("file_name")) attachment.fileName = jsonObjectData.getString("file_name")
+                            if (jsonObjectData.has("mime") && !jsonObjectData.isNull("mime")) attachment.mime = jsonObjectData.getString("mime")
+                            if (jsonObjectData.has("url") && !jsonObjectData.isNull("url")) attachment.url = jsonObjectData.getString("url")
+                            if (jsonObjectData.has("thumb_url") && !jsonObjectData.isNull("thumb_url")) attachment.thumbUrl = jsonObjectData.getString("thumb_url")
+                            if (jsonObjectData.has("modal_url") && !jsonObjectData.isNull("modal_url")) attachment.modalUrl = jsonObjectData.getString("modal_url")
+                            if (jsonObjectData.has("created_at") && !jsonObjectData.isNull("created_at")) attachment.createdAt = jsonObjectData.getString("created_at")
                             attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
                             sessionManager.userAccount.avatar = attachment
                             lytDeletePicture!!.visibility = View.VISIBLE
                             if (ProfileFragment.onProfileupdatelistener != null) {
-                                ProfileFragment.onProfileupdatelistener.updatedSuccesfully(attachment.thumbUrl)
+                                ProfileFragment.onProfileupdatelistener!!.updatedSuccesfully(attachment.thumbUrl)
                             }
                             if (DashboardActivity.onProfileupdatelistenerSideMenu != null) {
                                 DashboardActivity.onProfileupdatelistenerSideMenu!!.updatedSuccesfully(attachment.thumbUrl)
@@ -911,7 +901,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                     Timber.e(response)
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
@@ -919,7 +909,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                                 imgAvatar!!.setImageResource(R.drawable.ic_circle_logo)
                                 lytDeletePicture!!.visibility = View.GONE
                                 if (ProfileFragment.onProfileupdatelistener != null) {
-                                    ProfileFragment.onProfileupdatelistener.updatedSuccesfully("")
+                                    ProfileFragment.onProfileupdatelistener!!.updatedSuccesfully("")
                                 }
                                 if (DashboardActivity.onProfileupdatelistenerSideMenu != null) {
                                     DashboardActivity.onProfileupdatelistenerSideMenu!!.updatedSuccesfully("")
@@ -996,7 +986,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         this.year = year
         month = monthOfYear
         day = dayOfMonth
-        txtBirthDate!!.text = dob.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + " " + dayOfMonth + ", " + year
+        txtBirthDate!!.text = dob.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())!! + " " + dayOfMonth + ", " + year
     }
 
     companion object {

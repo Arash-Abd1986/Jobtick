@@ -1,40 +1,33 @@
 package com.jobtick.android.fragments
 
-import com.mikhaellopez.circularimageview.CircularImageView
-import com.jobtick.android.models.UserAccountModel
-import com.google.android.material.button.MaterialButton
-import com.jobtick.android.activities.UploadableImage
-import android.os.Bundle
-import com.jobtick.android.R
-import com.jobtick.android.activities.TaskDetailsActivity
-import com.jobtick.android.activities.AbstractUploadableImageImpl
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import butterknife.ButterKnife
-import timber.log.Timber
-import com.jobtick.android.utils.ConstantKey
-import butterknife.OnClick
 import android.content.Intent
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import okhttp3.RequestBody
-import okhttp3.MultipartBody
-import com.jobtick.android.retrofit.ApiClient
-import com.jobtick.android.utils.HttpStatus
-import com.jobtick.android.activities.ActivityBase
-import com.jobtick.android.models.AttachmentModel
+import com.google.android.material.button.MaterialButton
+import com.jobtick.android.R
+import com.jobtick.android.activities.*
 import com.jobtick.android.adapers.AttachmentAdapter
-import com.jobtick.android.activities.DashboardActivity
-import org.json.JSONException
+import com.jobtick.android.models.AttachmentModel
+import com.jobtick.android.models.UserAccountModel
+import com.jobtick.android.retrofit.ApiClient
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.HttpStatus
 import com.jobtick.android.utils.ImageUtil
 import com.jobtick.android.utils.SessionManager
+import com.mikhaellopez.circularimageview.CircularImageView
 import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.io.File
-import java.lang.Exception
 
 class ProfileReqFragment : Fragment() {
     private var imgAvatar: CircularImageView? = null
@@ -47,12 +40,10 @@ class ProfileReqFragment : Fragment() {
         sessionManager = SessionManager(context)
         imgAvatar = view.findViewById(R.id.img_user_avatar)
         imgAvatar!!.setOnClickListener {
-            if (view.id == R.id.img_user_avatar) {
                 uploadableImage!!.showAttachmentImageBottomSheet(true)
-            }
         }
         btnNext = view.findViewById(R.id.btn_next)
-        btnNext!!.setOnClickListener(View.OnClickListener { v: View? -> (parentFragment as TickerRequirementsBottomSheet?)!!.changeFragment(1) })
+        btnNext!!.setOnClickListener { (parentFragment as TickerRequirementsBottomSheet?)!!.changeFragment(1) }
         userAccountModel = (activity as TaskDetailsActivity?)!!.userAccountModel
         setUpAvatar(userAccountModel)
         uploadableImage = object : AbstractUploadableImageImpl(requireActivity()) {
@@ -64,9 +55,7 @@ class ProfileReqFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_profile_req, container, false)
-        ButterKnife.bind(this, view)
-        return view
+        return inflater.inflate(R.layout.fragment_profile_req, container, false)
     }
 
     private fun setUpAvatar(userAccountModel: UserAccountModel?) {

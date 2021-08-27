@@ -1,50 +1,43 @@
 package com.jobtick.android.fragments
 
-import com.jobtick.android.interfaces.onProfileUpdateListener
-import com.jobtick.android.adapers.AttachmentAdapter
 import android.annotation.SuppressLint
-import butterknife.BindView
-import com.jobtick.android.R
-import androidx.recyclerview.widget.RecyclerView
-import com.mikhaellopez.circularimageview.CircularImageView
-import co.lujun.androidtagview.TagContainerLayout
-import androidx.cardview.widget.CardView
-import com.jobtick.android.activities.DashboardActivity
-import com.jobtick.android.models.UserAccountModel
-import com.jobtick.android.models.AttachmentModel
-import com.jobtick.android.models.BadgesModel
-import com.jobtick.android.adapers.BadgesAdapter
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
-import androidx.core.content.res.ResourcesCompat
-import android.content.Intent
 import android.view.*
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import com.jobtick.android.activities.CategoryListActivity
-import com.jobtick.android.activities.EditProfileActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import com.jobtick.android.activities.ActivityBase
 import androidx.recyclerview.widget.GridLayoutManager
-import com.jobtick.android.widget.SpacingItemDecoration
-import com.jobtick.android.utils.Tools
-import com.android.volley.toolbox.StringRequest
-import timber.log.Timber
-import org.json.JSONException
-import com.android.volley.VolleyError
+import androidx.recyclerview.widget.RecyclerView
+import co.lujun.androidtagview.TagContainerLayout
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.jobtick.android.BuildConfig
-import com.jobtick.android.activities.ReviewsActivity
-import com.jobtick.android.activities.ZoomImageActivity
+import com.jobtick.android.R
+import com.jobtick.android.activities.*
+import com.jobtick.android.adapers.AttachmentAdapter
+import com.jobtick.android.adapers.BadgesAdapter
+import com.jobtick.android.interfaces.onProfileUpdateListener
+import com.jobtick.android.models.AttachmentModel
+import com.jobtick.android.models.BadgesModel
+import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.ImageUtil
 import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.Tools
+import com.jobtick.android.widget.SpacingItemDecoration
+import com.mikhaellopez.circularimageview.CircularImageView
+import org.json.JSONException
 import org.json.JSONObject
-import java.util.ArrayList
-import java.util.HashMap
+import timber.log.Timber
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -124,6 +117,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         return view
     }
     private fun setIDs() {
+        noPortfolio = requireView().findViewById(R.id.no_port_folio)
         lPort = requireView().findViewById(R.id.lyt_Port)
         lSkill = requireView().findViewById(R.id.lyt_skills)
         noSkill = requireView().findViewById(R.id.no_port_skill)
@@ -147,6 +141,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         tagSpecialities = requireView().findViewById(R.id.tag_specialities)
         lytSpecialities = requireView().findViewById(R.id.lyt_specialities)
         tagLanguage = requireView().findViewById(R.id.tag_language)
+        lytLanguage = requireView().findViewById(R.id.lyt_language)
         tagExperience = requireView().findViewById(R.id.tag_experience)
         lytExperience = requireView().findViewById(R.id.lyt_experience)
         tagTransportation = requireView().findViewById(R.id.tag_transportation)
@@ -306,7 +301,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
 
     // map1.put("X-Requested-With", "XMLHttpRequest");
     private val allProfileData: Unit
-        private get() {
+        get() {
             pbLoading!!.visibility = View.VISIBLE
             content!!.visibility = View.GONE
             val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_PROFILE + "/" + sessionManager!!.userAccount.id,

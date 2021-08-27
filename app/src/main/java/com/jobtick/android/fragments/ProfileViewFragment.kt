@@ -1,47 +1,43 @@
 package com.jobtick.android.fragments
 
-import com.jobtick.android.interfaces.onProfileUpdateListener
-import com.jobtick.android.adapers.AttachmentAdapter
 import android.annotation.SuppressLint
-import com.jobtick.android.R
-import androidx.recyclerview.widget.RecyclerView
-import com.mikhaellopez.circularimageview.CircularImageView
-import co.lujun.androidtagview.TagContainerLayout
-import androidx.cardview.widget.CardView
-import com.jobtick.android.activities.ProfileActivity
-import com.jobtick.android.models.UserAccountModel
-import com.jobtick.android.models.AttachmentModel
-import com.jobtick.android.models.BadgesModel
-import com.jobtick.android.adapers.BadgesAdapter
+import android.content.Intent
 import android.graphics.Typeface
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
-import android.content.Intent
-import android.view.View
-import android.widget.*
 import androidx.fragment.app.Fragment
-import com.jobtick.android.activities.EditProfileActivity
-import com.jobtick.android.activities.ActivityBase
 import androidx.recyclerview.widget.GridLayoutManager
-import com.jobtick.android.widget.SpacingItemDecoration
-import com.jobtick.android.utils.Tools
-import com.android.volley.toolbox.StringRequest
-import timber.log.Timber
-import org.json.JSONException
-import com.android.volley.VolleyError
+import androidx.recyclerview.widget.RecyclerView
+import co.lujun.androidtagview.TagContainerLayout
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.jobtick.android.BuildConfig
-import com.jobtick.android.activities.ReviewsActivity
-import com.jobtick.android.activities.ZoomImageActivity
+import com.jobtick.android.R
+import com.jobtick.android.activities.*
+import com.jobtick.android.adapers.AttachmentAdapter
+import com.jobtick.android.adapers.BadgesAdapter
+import com.jobtick.android.interfaces.onProfileUpdateListener
+import com.jobtick.android.models.AttachmentModel
+import com.jobtick.android.models.BadgesModel
+import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.ImageUtil
 import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.Tools
+import com.jobtick.android.widget.SpacingItemDecoration
+import com.mikhaellopez.circularimageview.CircularImageView
+import org.json.JSONException
 import org.json.JSONObject
+import timber.log.Timber
 import java.util.*
 
 /**
@@ -176,6 +172,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
         ivMedalSilver = requireView().findViewById(R.id.ivMedalSilver)
         ivMedalGOld = requireView().findViewById(R.id.ivMedalGOld)
         ivMedalMax = requireView().findViewById(R.id.ivMedalMax)
+        lytLanguage = requireView().findViewById(R.id.lyt_language)
     }
 
     private fun initToolbar() {

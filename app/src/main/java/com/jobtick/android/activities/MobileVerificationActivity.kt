@@ -1,131 +1,96 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
+import com.google.android.material.appbar.MaterialToolbar
+import com.jobtick.android.R
+import com.jobtick.android.payment.VerifyPhoneNumber
+import com.jobtick.android.payment.VerifyPhoneNumberImpl
+import com.jobtick.android.widget.ExtendedEntryText
 
-import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.android.R;
-import android.annotation.SuppressLint;
+class MobileVerificationActivity : ActivityBase() {
 
-import com.jobtick.android.payment.VerifyPhoneNumber;
-import com.jobtick.android.payment.VerifyPhoneNumberImpl;
-import com.jobtick.android.widget.ExtendedEntryText;
-
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-import static com.jobtick.android.activities.EditProfileActivity.PHONE_VERIFICATION_REQUEST_CODE;
-
-public class MobileVerificationActivity extends ActivityBase {
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.phone_verify_message)
-    TextView phoneVerifyMessage;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_verify)
-    LinearLayout lytBtnUpdate;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_verification_code)
-    ExtendedEntryText etOtp;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_bottom)
-    LinearLayout lytBottom;
-    private String phoneNumber;
-    private boolean otpSent;
-
-    private VerifyPhoneNumber verifyPhoneNumber;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mobile_verification);
-        ButterKnife.bind(this);
-        phoneNumber = getIntent().getStringExtra("phone_number");
-        String str = phoneVerifyMessage.getText().toString() +" "+
-                phoneNumber;
-        phoneVerifyMessage.setText(str);
-        initToolbar();
-
-        lytBtnUpdate.setOnClickListener(v -> {
-            if(otpSent){
-                if(!validationVerify()) return;
-                showProgressDialog();
-                verifyPhoneNumber.verify(etOtp.getText());
+    private var toolbar: MaterialToolbar? = null
+    private var phoneVerifyMessage: TextView? = null
+    private var lytBtnUpdate: LinearLayout? = null
+    private var etOtp: ExtendedEntryText? = null
+    private var lytBottom: LinearLayout? = null
+    private var phoneNumber: String? = null
+    private var otpSent = false
+    private var verifyPhoneNumber: VerifyPhoneNumber? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_mobile_verification)
+        setIDs()
+        phoneNumber = intent.getStringExtra("phone_number")
+        val str = phoneVerifyMessage!!.text.toString() + " " +
+                phoneNumber
+        phoneVerifyMessage!!.text = str
+        initToolbar()
+        lytBtnUpdate!!.setOnClickListener { v: View? ->
+            if (otpSent) {
+                if (!validationVerify()) return@setOnClickListener
+                showProgressDialog()
+                verifyPhoneNumber!!.verify(etOtp!!.text)
+            } else {
+                showToast("Request SMS verification first.", this@MobileVerificationActivity)
             }
-            else{
-                MobileVerificationActivity.this.showToast("Request SMS verification first.", MobileVerificationActivity.this);
-            }
-        });
-
-        verifyPhoneNumber = new VerifyPhoneNumberImpl(this, sessionManager) {
-            @Override
-            public void onSuccess(VerifyPhoneNumberImpl.SuccessType successType) {
-                MobileVerificationActivity.this.hideProgressDialog();
-                if(successType == VerifyPhoneNumberImpl.SuccessType.OTP){
-                    MobileVerificationActivity.this.showSuccessToast("SMS verification code is sent.", MobileVerificationActivity.this);
-                    otpSent = true;
-                }
-                else if( successType == VerifyPhoneNumberImpl.SuccessType.Verify){
-                    setResult(PHONE_VERIFICATION_REQUEST_CODE);
-                    finish();
+        }
+        verifyPhoneNumber = object : VerifyPhoneNumberImpl(this, sessionManager) {
+            override fun onSuccess(successType: SuccessType) {
+                hideProgressDialog()
+                if (successType == SuccessType.OTP) {
+                    showSuccessToast("SMS verification code is sent.", this@MobileVerificationActivity)
+                    otpSent = true
+                } else if (successType == SuccessType.Verify) {
+                    setResult(EditProfileActivity.PHONE_VERIFICATION_REQUEST_CODE)
+                    finish()
                 }
             }
 
-            @Override
-            public void onError(Exception e) {
-                MobileVerificationActivity.this.hideProgressDialog();
-                MobileVerificationActivity.this.showToast(e.getMessage(), MobileVerificationActivity.this);
+            override fun onError(e: Exception) {
+                hideProgressDialog()
+                showToast(e.message, this@MobileVerificationActivity)
             }
 
-            @Override
-            public void onValidationError(VerifyPhoneNumberImpl.ErrorType errorType, String message) {
-                MobileVerificationActivity.this.hideProgressDialog();
-                if(errorType == VerifyPhoneNumberImpl.ErrorType.UN_AUTHENTICATED_USER)
-                    MobileVerificationActivity.this.unauthorizedUser();
-                else
-                    MobileVerificationActivity.this.showToast(message, MobileVerificationActivity.this);
+            override fun onValidationError(errorType: ErrorType, message: String) {
+                hideProgressDialog()
+                if (errorType == ErrorType.UN_AUTHENTICATED_USER) unauthorizedUser() else showToast(message, this@MobileVerificationActivity)
             }
-        };
-
-        verifyPhoneNumber.sendOTP(phoneNumber);
-    }
-
-    private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Mobile number verification");
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
         }
-
-        return super.onOptionsItemSelected(item);
+        verifyPhoneNumber!!.sendOTP(phoneNumber)
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    private fun setIDs() {
+        toolbar = findViewById(R.id.toolbar)
+        phoneVerifyMessage = findViewById(R.id.phone_verify_message)
+        lytBtnUpdate = findViewById(R.id.lyt_btn_verify)
+        etOtp = findViewById(R.id.edt_verification_code)
+        lytBottom = findViewById(R.id.lyt_bottom)
     }
 
-    private boolean validationVerify() {
-        if (etOtp.getText().length() != 6) {
-            etOtp.setError("Enter 6 digits verification code.");
-            return false;
+    private fun initToolbar() {
+        toolbar!!.setNavigationIcon(R.drawable.ic_back)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.title = "Mobile number verification"
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
         }
-        return true;
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun validationVerify(): Boolean {
+        if (etOtp!!.text.length != 6) {
+            etOtp!!.setError("Enter 6 digits verification code.")
+            return false
+        }
+        return true
     }
 }

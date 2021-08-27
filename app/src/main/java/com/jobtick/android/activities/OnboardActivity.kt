@@ -1,237 +1,160 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import com.airbnb.lottie.LottieAnimationView
+import com.google.android.material.button.MaterialButton
+import com.jobtick.android.R
+import com.jobtick.android.models.AttachmentModel
+import java.util.*
 
-import androidx.annotation.Nullable;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
-import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.material.button.MaterialButton;
-import com.jobtick.android.R;
-
-import android.annotation.SuppressLint;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import com.jobtick.android.models.AttachmentModel;
-import com.nostra13.universalimageloader.utils.L;
-
-import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-public class OnboardActivity extends ActivityBase {
-
-
-    int pos;
-    AdapterImageSlider adapterImageSlider;
-    ArrayList<Integer> lottieAnimList;
-    ArrayList<Integer> descriptionList;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.pager)
-    ViewPager viewPager;
-
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.layout_dots)
-    LinearLayout layoutDots;
-
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_next)
-    MaterialButton lytBtnNext;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_skip)
-    MaterialButton txtSkip;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_onboard);
-        ButterKnife.bind(this);
-        lottieAnimList = new ArrayList<>();
-        descriptionList = new ArrayList<>();
-        init();
+class OnboardActivity : ActivityBase() {
+    private var pos = 0
+    private var adapterImageSlider: AdapterImageSlider? = null
+    private var lottieAnimList: ArrayList<Int>? = null
+    private var descriptionList: ArrayList<Int>? = null
+    private var viewPager: ViewPager? = null
+    private var layoutDots: LinearLayout? = null
+    private var lytBtnNext: MaterialButton? = null
+    private var txtSkip: MaterialButton? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_onboard)
+        setIDs()
+        lottieAnimList = ArrayList()
+        descriptionList = ArrayList()
+        init()
     }
 
-    public void init() {
+    private fun setIDs() {
+        viewPager = findViewById(R.id.pager)
+        layoutDots = findViewById(R.id.layout_dots)
+        lytBtnNext = findViewById(R.id.lyt_btn_next)
+        txtSkip = findViewById(R.id.txt_skip)
+    }
 
-
-        if (getIntent().hasExtra("as")) {
-            if (getIntent().getExtras().getString("as").equals("poster")) {
-
-                lottieAnimList.add(R.raw.slide1);
-                lottieAnimList.add(R.raw.slide5);
-                lottieAnimList.add(R.raw.slide2);
-                lottieAnimList.add(R.raw.slide3);
-
-                descriptionList.add(R.string.poster_page1);
-                descriptionList.add(R.string.poster_page2);
-                descriptionList.add(R.string.poster_page3);
-                descriptionList.add(R.string.poster_page4);
+    fun init() {
+        if (intent.hasExtra("as")) {
+            if (intent.extras!!.getString("as") == "poster") {
+                lottieAnimList!!.add(R.raw.slide1)
+                lottieAnimList!!.add(R.raw.slide5)
+                lottieAnimList!!.add(R.raw.slide2)
+                lottieAnimList!!.add(R.raw.slide3)
+                descriptionList!!.add(R.string.poster_page1)
+                descriptionList!!.add(R.string.poster_page2)
+                descriptionList!!.add(R.string.poster_page3)
+                descriptionList!!.add(R.string.poster_page4)
             }
-            if (getIntent().getExtras().getString("as").equals("worker")) {
-
-                lottieAnimList.add(R.raw.slide4);
-                lottieAnimList.add(R.raw.slide5);
-                lottieAnimList.add(R.raw.slide2);
-                lottieAnimList.add(R.raw.slide6);
-
-                descriptionList.add(R.string.worker_page1);
-                descriptionList.add(R.string.worker_page2);
-                descriptionList.add(R.string.worker_page3);
-                descriptionList.add(R.string.worker_page4);
-
+            if (intent.extras!!.getString("as") == "worker") {
+                lottieAnimList!!.add(R.raw.slide4)
+                lottieAnimList!!.add(R.raw.slide5)
+                lottieAnimList!!.add(R.raw.slide2)
+                lottieAnimList!!.add(R.raw.slide6)
+                descriptionList!!.add(R.string.worker_page1)
+                descriptionList!!.add(R.string.worker_page2)
+                descriptionList!!.add(R.string.worker_page3)
+                descriptionList!!.add(R.string.worker_page4)
             }
         }
-
-
-        adapterImageSlider = new AdapterImageSlider(OnboardActivity.this, lottieAnimList, descriptionList);
-        viewPager.setAdapter(adapterImageSlider);
-        addBottomDots(layoutDots, adapterImageSlider.getCount(), 0);
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int pos, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int pos) {
+        adapterImageSlider = AdapterImageSlider(this@OnboardActivity, lottieAnimList, descriptionList)
+        viewPager!!.adapter = adapterImageSlider
+        addBottomDots(layoutDots, adapterImageSlider!!.count, 0)
+        viewPager!!.addOnPageChangeListener(object : OnPageChangeListener {
+            override fun onPageScrolled(pos: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageSelected(pos: Int) {
                 //   ((TextView) findViewById(R.id.brief)).setText(items.get(pos).brief);
-                addBottomDots(layoutDots, adapterImageSlider.getCount(), pos);
+                addBottomDots(layoutDots, adapterImageSlider!!.count, pos)
             }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
+            override fun onPageScrollStateChanged(state: Int) {}
+        })
+        lytBtnNext!!.setOnClickListener { v: View? ->
+            if (viewPager!!.currentItem == lottieAnimList!!.size - 1) {
+                val main = Intent(this@OnboardActivity, DashboardActivity::class.java)
+                main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(main)
+                finish()
+            } else {
+                viewPager!!.currentItem = viewPager!!.currentItem + 1
             }
-        });
-
-
-        lytBtnNext.setOnClickListener(v ->
-                {
-                    if (viewPager.getCurrentItem() == lottieAnimList.size() - 1) {
-                        Intent main = new Intent(OnboardActivity.this, DashboardActivity.class);
-                        main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(main);
-                        OnboardActivity.this.finish();
-
-                    } else {
-                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-
-                    }
-
-                }
-        );
-
-        txtSkip.setOnClickListener(v -> {
-            Intent main = new Intent(OnboardActivity.this, DashboardActivity.class);
-            main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(main);
-            OnboardActivity.this.finish();
-
-
-        });
-
+        }
+        txtSkip!!.setOnClickListener { v: View? ->
+            val main = Intent(this@OnboardActivity, DashboardActivity::class.java)
+            main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(main)
+            finish()
+        }
     }
 
-    private static class AdapterImageSlider extends PagerAdapter {
-        private final Activity act;
-        private final ArrayList<Integer> animItems;
-        private final ArrayList<Integer> descItems;
-        private AdapterImageSlider.OnItemClickListener onItemClickListener;
+    class AdapterImageSlider  // constructor
+    (private val act: Activity, private val animItems: ArrayList<Int>?, private val descItems: ArrayList<Int>?) : PagerAdapter() {
+        private var onItemClickListener: OnItemClickListener? = null
 
-        private interface OnItemClickListener {
-            void onItemClick(View view, AttachmentModel obj);
+        interface OnItemClickListener {
+            fun onItemClick(view: View?, obj: AttachmentModel?)
         }
 
-        public void setOnItemClickListener(AdapterImageSlider.OnItemClickListener onItemClickListener) {
-            this.onItemClickListener = onItemClickListener;
+        fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
+            this.onItemClickListener = onItemClickListener
         }
 
-        // constructor
-        private AdapterImageSlider(Activity activity, ArrayList<Integer> animItems, ArrayList<Integer> descriptionItems) {
-            this.act = activity;
-            this.animItems = animItems;
-            this.descItems = descriptionItems;
+        override fun getCount(): Int {
+            return animItems!!.size
         }
 
-        @Override
-        public int getCount() {
-            return this.animItems.size();
+        override fun isViewFromObject(view: View, `object`: Any): Boolean {
+            return view === `object` as RelativeLayout
         }
 
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == ((RelativeLayout) object);
+        override fun instantiateItem(container: ViewGroup, position: Int): Any {
+            val animAttachment = animItems!![position]
+            val descAttachment = descItems!![position]
+            val inflater = act.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val v = inflater.inflate(R.layout.item_slider_image_onboarding, container, false)
+            val lottieAnimationView: LottieAnimationView = v.findViewById(R.id.lottieAnimationView)
+            val description = v.findViewById<TextView>(R.id.description)
+            lottieAnimationView.visibility = View.VISIBLE
+            description.visibility = View.VISIBLE
+            lottieAnimationView.setAnimation(animAttachment)
+            description.setText(descAttachment)
+            (container as ViewPager).addView(v)
+            return v
         }
 
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            final int animAttachment = animItems.get(position);
-            final int descAttachment = descItems.get(position);
-            LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View v = inflater.inflate(R.layout.item_slider_image_onboarding, container, false);
-
-            LottieAnimationView lottieAnimationView = v.findViewById(R.id.lottieAnimationView);
-            TextView description = v.findViewById(R.id.description);
-            lottieAnimationView.setVisibility(View.VISIBLE);
-            description.setVisibility(View.VISIBLE);
-            lottieAnimationView.setAnimation(animAttachment);
-            description.setText(descAttachment);
-            ((ViewPager) container).addView(v);
-
-            return v;
+        override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+            (container as ViewPager).removeView(`object` as RelativeLayout)
         }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            ((ViewPager) container).removeView((RelativeLayout) object);
-
-        }
-
-    }
-
-    /*  Intent intent = new Intent(CompleteRegistrationActivity.this, DashboardActivity.class);
-                            openActivity(intent);*/
-
-
-    private void addBottomDots(LinearLayout layout_dots, int size, int current) {
-        ImageView[] dots = new ImageView[size];
-        layout_dots.removeAllViews();
-        for (int i = 0; i < dots.length; i++) {
-            dots[i] = new ImageView(this);
-            int width_height = 30;
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(width_height, width_height));
-            params.setMargins(10, 10, 10, 10);
-            dots[i].setLayoutParams(params);
-            dots[i].setImageResource(R.drawable.shape_circle_gray);
-            layout_dots.addView(dots[i]);
-        }
-
-        if (dots.length > 0) {
-            dots[current].setImageResource(R.drawable.shape_circle_blue);
-        }
-        if (current == size - 1)
-            lytBtnNext.setText(R.string.get_started);
-        else
-            lytBtnNext.setText(R.string.next);
     }
 
 
+    private fun addBottomDots(layout_dots: LinearLayout?, size: Int, current: Int) {
+        val dots = arrayOfNulls<ImageView>(size)
+        layout_dots!!.removeAllViews()
+        for (i in dots.indices) {
+            dots[i] = ImageView(this)
+            val widthHeight = 30
+            val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams(widthHeight, widthHeight))
+            params.setMargins(10, 10, 10, 10)
+            dots[i]!!.layoutParams = params
+            dots[i]!!.setImageResource(R.drawable.shape_circle_gray)
+            layout_dots.addView(dots[i])
+        }
+        if (dots.isNotEmpty()) {
+            dots[current]!!.setImageResource(R.drawable.shape_circle_blue)
+        }
+        if (current == size - 1) lytBtnNext!!.setText(R.string.get_started) else lytBtnNext!!.setText(R.string.next)
+    }
 }

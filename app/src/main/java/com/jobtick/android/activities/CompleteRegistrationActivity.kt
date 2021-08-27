@@ -1,276 +1,216 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.MenuItem;
-import android.view.View;
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.text.TextUtils
+import android.view.MenuItem
+import androidx.appcompat.widget.Toolbar
+import com.android.volley.*
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.google.android.material.button.MaterialButton
+import com.jobtick.android.BuildConfig
+import com.jobtick.android.R
+import com.jobtick.android.adapers.SuburbSearchAdapter.SubClickListener
+import com.jobtick.android.fragments.SearchSuburbBottomSheet
+import com.jobtick.android.fragments.SelectRoleBottomSheet
+import com.jobtick.android.models.UserAccountModel
+import com.jobtick.android.models.response.searchsuburb.Feature
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.Helper
+import com.jobtick.android.utils.SuburbAutoComplete
+import com.jobtick.android.widget.ExtendedEntryText
+import org.json.JSONException
+import org.json.JSONObject
+import timber.log.Timber
+import java.util.*
 
-import androidx.appcompat.widget.Toolbar;
+class CompleteRegistrationActivity : ActivityBase(), SelectRoleBottomSheet.NoticeListener, SubClickListener {
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.button.MaterialButton;
-import com.jobtick.android.BuildConfig;
-import com.jobtick.android.adapers.SuburbSearchAdapter;
-import com.jobtick.android.fragments.SearchSuburbBottomSheet;
-import com.jobtick.android.fragments.SelectRoleBottomSheet;
-import com.jobtick.android.models.response.searchsuburb.Feature;
-import com.jobtick.android.utils.SuburbAutoComplete;
-import com.jobtick.android.widget.ExtendedEntryText;
-import com.jobtick.android.R;
-
-import android.annotation.SuppressLint;
-
-import com.jobtick.android.models.UserAccountModel;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.Helper;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import timber.log.Timber;
-
-public class CompleteRegistrationActivity extends ActivityBase implements SelectRoleBottomSheet.NoticeListener, SuburbSearchAdapter.SubClickListener {
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.first_name)
-    ExtendedEntryText edtFirstName;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.last_name)
-    ExtendedEntryText edtLastName;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_complete_registration)
-    MaterialButton lytBtnCompleteRegistration;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.suburb)
-    ExtendedEntryText suburb;
-
-
-    private final int PLACE_SELECTION_REQUEST_CODE = 1;
-
-    private String str_latitude = null;
-    private String str_longitude = null;
-
-    private String str_fname;
-    private String str_lname;
-    private String str_suburb;
-
-
-    Context context;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_complete_registration);
-        ButterKnife.bind(this);
-        context = CompleteRegistrationActivity.this;
-        initToolbar();
-        suburb.setExtendedViewOnClickListener(() -> {
-            SearchSuburbBottomSheet infoBottomSheet = new SearchSuburbBottomSheet(this);
-            infoBottomSheet.show(getSupportFragmentManager(), null);
-        });
-
-
-    }
-
-    private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Create Profile");
+    var toolbar: Toolbar? = null
+    var edtFirstName: ExtendedEntryText? = null
+    var edtLastName: ExtendedEntryText? = null
+    var lytBtnCompleteRegistration: MaterialButton? = null
+    var suburb: ExtendedEntryText? = null
+    private val PLACE_SELECTION_REQUEST_CODE = 1
+    private var strLatitude: String? = null
+    private var strLongitude: String? = null
+    private var strFname: String? = null
+    private var strLname: String? = null
+    private var strSuburb: String? = null
+    var context: Context? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_complete_registration)
+        setIDs()
+        onViewClick()
+        context = this@CompleteRegistrationActivity
+        initToolbar()
+        suburb!!.setExtendedViewOnClickListener {
+            val infoBottomSheet = SearchSuburbBottomSheet(this)
+            infoBottomSheet.show(supportFragmentManager, null)
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+    private fun setIDs() {
+        toolbar = findViewById(R.id.toolbar)
+        edtFirstName = findViewById(R.id.first_name)
+        edtLastName = findViewById(R.id.last_name)
+        lytBtnCompleteRegistration = findViewById(R.id.lyt_btn_complete_registration)
+        suburb = findViewById(R.id.suburb)
+    }
+
+    private fun initToolbar() {
+        toolbar!!.setNavigationIcon(R.drawable.ic_back)
+        setSupportActionBar(toolbar)
+        if (supportActionBar != null) {
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            supportActionBar!!.title = "Create Profile"
         }
-        return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent AuthActivity = new Intent(this, AuthActivity.class);
-        startActivity(AuthActivity);
-        finish();
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
+    override fun onBackPressed() {
+        val AuthActivity = Intent(this, AuthActivity::class.java)
+        startActivity(AuthActivity)
+        finish()
+    }
 
-    private void profileUpdate(String fname, String lname, String suburb, String role) {
-        showProgressDialog();
-
-        final int[] count = {0};
-        Helper.closeKeyboard(this);
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_USER_PROFILE_INFO,
-                response -> {
-
-                    hideProgressDialog();
+    private fun profileUpdate(fname: String?, lname: String?, suburb: String?, role: String?) {
+        showProgressDialog()
+        val count = intArrayOf(0)
+        Helper.closeKeyboard(this)
+        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_USER_PROFILE_INFO,
+                Response.Listener { response: String? ->
+                    hideProgressDialog()
                     try {
-
-                        JSONObject jsonObject = new JSONObject(response);
-                        JSONObject jsonObject_user = jsonObject.getJSONObject("data");
-
-                        UserAccountModel userAccountModel = new UserAccountModel().getJsonToModel(jsonObject_user);
-                        sessionManager.setUserAccount(userAccountModel);
-
-                        sessionManager.setLogin(true);
-                        sessionManager.setLatitude(str_latitude);
-                        sessionManager.setLongitude(str_longitude);
-                        Intent intent = new Intent(CompleteRegistrationActivity.this, OnboardActivity.class);
-                        intent.putExtra("as", role);
-                        startActivity(intent);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-
+                        val jsonObject = JSONObject(response)
+                        val jsonObjectUser = jsonObject.getJSONObject("data")
+                        val userAccountModel = UserAccountModel().getJsonToModel(jsonObjectUser)
+                        sessionManager.userAccount = userAccountModel
+                        sessionManager.login = true
+                        sessionManager.latitude = strLatitude
+                        sessionManager.longitude = strLongitude
+                        val intent = Intent(this@CompleteRegistrationActivity, OnboardActivity::class.java)
+                        intent.putExtra("as", role)
+                        startActivity(intent)
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
                     }
-
-
                 },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
+                Response.ErrorListener { error: VolleyError ->
+                    val networkResponse = error.networkResponse
+                    if (networkResponse?.data != null) {
+                        val jsonError = String(networkResponse.data)
                         // Print Error!
                         try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            String message = jsonObject_error.getString("message");
-
-                            showToast(message, context);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObjectError = jsonObject.getJSONObject("error")
+                            val message = jsonObjectError.getString("message")
+                            showToast(message, context)
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
                         }
                     } else {
-                        showToast("Something Went Wrong", context);
+                        showToast("Something Went Wrong", context)
                     }
-                    Timber.e(error.toString());
-                    hideProgressDialog();
+                    Timber.e(error.toString())
+                    hideProgressDialog()
                 }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-
-                return map1;
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["X-Requested-With"] = "XMLHttpRequest"
+                map1["Authorization"] = "Bearer " + sessionManager.accessToken
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                return map1
             }
 
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("fname", fname);
-                map1.put("lname", lname);
-
-                map1.put("role_as", role);
-                map1.put("location", suburb);
-                map1.put("latitude", str_latitude);
-                map1.put("longitude", str_longitude);
-                return map1;
+            override fun getParams(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["fname"] = fname!!
+                map1["lname"] = lname!!
+                map1["role_as"] = role!!
+                map1["location"] = suburb!!
+                map1["latitude"] = strLatitude!!
+                map1["longitude"] = strLongitude!!
+                return map1
             }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-
-    }
-
-    private boolean validation() {
-        if (TextUtils.isEmpty(edtFirstName.getText())) {
-            edtFirstName.setError("Please enter first name");
-            return false;
-        } else if (edtFirstName.getText().length() < 3) {
-            edtFirstName.setError("Please enter the first name correctly");
-            return false;
-        } else if (TextUtils.isEmpty(edtLastName.getText())) {
-            edtLastName.setError("Please enter last name");
-            return false;
-        } else if (edtLastName.getText().length() < 3) {
-            edtLastName.setError("Please enter the last name correctly");
-            return false;
-        } else if (TextUtils.isEmpty(suburb.getText())) {
-            suburb.setError("Please enter suburb");
-            return false;
         }
-
-        return true;
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        val requestQueue = Volley.newRequestQueue(this)
+        requestQueue.add(stringRequest)
     }
 
+    private fun validation(): Boolean {
+        when {
+            TextUtils.isEmpty(edtFirstName!!.text) -> {
+                edtFirstName!!.setError("Please enter first name")
+                return false
+            }
+            edtFirstName!!.text.length < 3 -> {
+                edtFirstName!!.setError("Please enter the first name correctly")
+                return false
+            }
+            TextUtils.isEmpty(edtLastName!!.text) -> {
+                edtLastName!!.setError("Please enter last name")
+                return false
+            }
+            edtLastName!!.text.length < 3 -> {
+                edtLastName!!.setError("Please enter the last name correctly")
+                return false
+            }
+            TextUtils.isEmpty(suburb!!.text) -> {
+                suburb!!.setError("Please enter suburb")
+                return false
+            }
+            else -> return true
+        }
+    }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PLACE_SELECTION_REQUEST_CODE && resultCode == RESULT_OK) {
-
-            Helper.closeKeyboard(this);
-
-            suburb.setText(SuburbAutoComplete.getSuburbName(data));
-            str_latitude = SuburbAutoComplete.getLatitude(data);
-            str_longitude = SuburbAutoComplete.getLongitude(data);
+            Helper.closeKeyboard(this)
+            suburb!!.text = SuburbAutoComplete.getSuburbName(data)
+            strLatitude = SuburbAutoComplete.getLatitude(data)
+            strLongitude = SuburbAutoComplete.getLongitude(data)
         }
     }
 
-    @OnClick({R.id.lyt_btn_complete_registration})
-    public void onViewClicked(View view) {
-        if (view.getId() == R.id.lyt_btn_complete_registration) {
+    private fun onViewClick() {
+        lytBtnCompleteRegistration!!.setOnClickListener {
             if (validation()) {
-                str_fname = edtFirstName.getText().trim();
-                str_lname = edtLastName.getText().trim();
-                str_suburb = suburb.getText().trim();
-
-                openSelectRoleBottomSheet();
+                strFname = edtFirstName!!.text.trim { it <= ' ' }
+                strLname = edtLastName!!.text.trim { it <= ' ' }
+                strSuburb = suburb!!.text.trim { it <= ' ' }
+                openSelectRoleBottomSheet()
             }
         }
     }
 
-    private void openSelectRoleBottomSheet() {
-        SelectRoleBottomSheet roleBottomSheet = new SelectRoleBottomSheet();
-        roleBottomSheet.show(getSupportFragmentManager(), "");
+    private fun openSelectRoleBottomSheet() {
+        val roleBottomSheet = SelectRoleBottomSheet()
+        roleBottomSheet.show(supportFragmentManager, "")
     }
 
-    @Override
-    public void onGetStartedClick(String role) {
-        profileUpdate(str_fname, str_lname, str_suburb, role);
+    override fun onGetStartedClick(role: String?) {
+        profileUpdate(strFname, strLname, strSuburb, role)
     }
 
-    @Override
-    public void clickOnSearchedLoc(@NotNull Feature location) {
-        Helper.closeKeyboard(this);
-
-        suburb.setText(location.getPlace_name_en());
-        str_latitude = String.valueOf(location.getGeometry().getCoordinates().get(1));
-        str_longitude = String.valueOf(location.getGeometry().getCoordinates().get(0));
+    override fun clickOnSearchedLoc(location: Feature) {
+        Helper.closeKeyboard(this)
+        suburb!!.text = location.place_name_en
+        strLatitude = location.geometry!!.coordinates!![1].toString()
+        strLongitude = location.geometry.coordinates!![0].toString()
     }
 }

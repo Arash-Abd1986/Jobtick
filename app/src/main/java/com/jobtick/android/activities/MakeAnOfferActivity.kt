@@ -1,270 +1,230 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.StrictMode;
-import android.widget.FrameLayout;
+import android.content.Intent
+import android.os.Bundle
+import android.os.StrictMode
+import android.os.StrictMode.VmPolicy
+import android.widget.FrameLayout
+import androidx.fragment.app.Fragment
+import com.android.volley.*
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.jobtick.android.BuildConfig
+import com.jobtick.android.R
+import com.jobtick.android.fragments.MakeAnOfferAboutFragment
+import com.jobtick.android.fragments.MakeAnOfferAboutFragment.AboutCallbackFunction
+import com.jobtick.android.fragments.MakeAnOfferBudgetFragment
+import com.jobtick.android.fragments.MakeAnOfferBudgetFragment.BudgetCallbackFunction
+import com.jobtick.android.fragments.MakeAnOfferMustHaveFragment
+import com.jobtick.android.fragments.MakeAnOfferMustHaveFragment.MustHaveCallbackFunction
+import com.jobtick.android.fragments.MakeAnOfferReviewFragment
+import com.jobtick.android.fragments.MakeAnOfferReviewFragment.ReviewCallbackFunction
+import com.jobtick.android.models.MakeAnOfferModel
+import com.jobtick.android.models.TaskModel
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.FireBaseEvent
+import com.jobtick.android.utils.HttpStatus
+import org.json.JSONException
+import org.json.JSONObject
+import timber.log.Timber
+import java.util.*
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.jobtick.android.BuildConfig;
-import com.jobtick.android.R;
-import android.annotation.SuppressLint;
-
-import com.jobtick.android.fragments.MakeAnOfferAboutFragment;
-import com.jobtick.android.fragments.MakeAnOfferBudgetFragment;
-import com.jobtick.android.fragments.MakeAnOfferMustHaveFragment;
-import com.jobtick.android.fragments.MakeAnOfferReviewFragment;
-import com.jobtick.android.models.MakeAnOfferModel;
-import com.jobtick.android.models.TaskModel;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.ConstantKey;
-import com.jobtick.android.utils.FireBaseEvent;
-import com.jobtick.android.utils.HttpStatus;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import timber.log.Timber;
-
-public class MakeAnOfferActivity extends ActivityBase implements MakeAnOfferMustHaveFragment.MustHaveCallbackFunction, MakeAnOfferBudgetFragment.BudgetCallbackFunction, MakeAnOfferAboutFragment.AboutCallbackFunction, MakeAnOfferReviewFragment.ReviewCallbackFunction {
-
-    private static final String TAG = "MakeAnOfferActivity";
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.make_an_offer_layout)
-    FrameLayout makeAnOfferLayout;
-    MakeAnOfferModel makeAnOfferModel;
-    TaskModel taskModel;
-    int id = 0, bugdet = 0;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_make_an_offer);
-        ButterKnife.bind(this);
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
-        makeAnOfferModel = new MakeAnOfferModel();
+class MakeAnOfferActivity : ActivityBase(), MustHaveCallbackFunction, BudgetCallbackFunction, AboutCallbackFunction, ReviewCallbackFunction {
+    private lateinit var makeAnOfferLayout: FrameLayout
+    private var makeAnOfferModel: MakeAnOfferModel? = null
+    private var taskModel: TaskModel? = null
+    private var id = 0
+    private var bugdet = 0
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_make_an_offer)
+        setIDs()
+        val builder = VmPolicy.Builder()
+        StrictMode.setVmPolicy(builder.build())
+        makeAnOfferModel = MakeAnOfferModel()
         // taskModel = new TaskModel();
-        Bundle bundle = getIntent().getExtras();
+        val bundle = intent.extras
         if (bundle != null) {
-            id = bundle.getInt("id");
-            bugdet = bundle.getInt("budget");
-
-            makeAnOfferModel.setTask_id(id);
+            id = bundle.getInt("id")
+            bugdet = bundle.getInt("budget")
+            makeAnOfferModel!!.task_id = id
         }
-        taskModel = TaskDetailsActivity.taskModel;
-
-        Fragment fragment = MakeAnOfferBudgetFragment.newInstance(makeAnOfferModel, MakeAnOfferActivity.this);
-        commit(fragment, MakeAnOfferBudgetFragment.class.getSimpleName());
-
+        taskModel = TaskDetailsActivity.taskModel
+        val fragment: Fragment = MakeAnOfferBudgetFragment.newInstance(makeAnOfferModel, this@MakeAnOfferActivity)
+        commit(fragment, MakeAnOfferBudgetFragment::class.java.simpleName)
     }
 
-    private void backButtonBudget() {
-        finish();
+    private fun setIDs() {
+        makeAnOfferLayout = findViewById(R.id.make_an_offer_layout)
     }
 
-    @Override
-    public void backButtonMustHave() {
-        onBackPressed();
+    private fun backButtonBudget() {
+        finish()
     }
 
-    @Override
-    public void continueMustHave(MakeAnOfferModel makeAnOfferModel) {
-        Fragment fragment = MakeAnOfferBudgetFragment.newInstance(makeAnOfferModel, MakeAnOfferActivity.this);
-        commit(fragment, MakeAnOfferBudgetFragment.class.getSimpleName());
+    override fun backButtonMustHave() {
+        onBackPressed()
     }
 
-    @Override
-    public void onBackPressed() {
+    override fun continueMustHave(makeAnOfferModel: MakeAnOfferModel) {
+        val fragment: Fragment = MakeAnOfferBudgetFragment.newInstance(makeAnOfferModel, this@MakeAnOfferActivity)
+        commit(fragment, MakeAnOfferBudgetFragment::class.java.simpleName)
+    }
+
+    override fun onBackPressed() {
         //TODO
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.make_an_offer_layout);
-        if (currentFragment instanceof MakeAnOfferMustHaveFragment) {
-            super.onBackPressed();
-        } else if (currentFragment instanceof MakeAnOfferBudgetFragment) {
-            if (taskModel.getMusthave() != null && taskModel.getMusthave().size() > 0) {
-                backButtonBudget();
-
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.make_an_offer_layout)
+        if (currentFragment is MakeAnOfferMustHaveFragment) {
+            super.onBackPressed()
+        } else if (currentFragment is MakeAnOfferBudgetFragment) {
+            if (taskModel!!.musthave != null && taskModel!!.musthave.size > 0) {
+                backButtonBudget()
             } else {
-                super.onBackPressed();
-
+                super.onBackPressed()
             }
-        } else if (currentFragment instanceof MakeAnOfferAboutFragment) {
-            backButtonAbout();
+        } else if (currentFragment is MakeAnOfferAboutFragment) {
+            backButtonAbout()
         } else {
-            backButtonReview(makeAnOfferModel);
+            backButtonReview(makeAnOfferModel!!)
         }
-
-
     }
 
-    @Override
-    public void continueButtonBudget(MakeAnOfferModel makeAnOfferModel) {
-        Fragment fragment = MakeAnOfferAboutFragment.newInstance(makeAnOfferModel, MakeAnOfferActivity.this);
-        commit(fragment, MakeAnOfferAboutFragment.class.getSimpleName());
+    override fun continueButtonBudget(makeAnOfferModel: MakeAnOfferModel) {
+        val fragment: Fragment = MakeAnOfferAboutFragment.newInstance(makeAnOfferModel, this@MakeAnOfferActivity)
+        commit(fragment, MakeAnOfferAboutFragment::class.java.simpleName)
     }
 
-    private void commit(Fragment fragment, String tag) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager
+    private fun commit(fragment: Fragment, tag: String) {
+        val fragmentManager = supportFragmentManager
+        val transaction = fragmentManager
                 .beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
-                        android.R.anim.fade_in, android.R.anim.fade_out);
-        transaction.replace(R.id.make_an_offer_layout, fragment, tag);
-        transaction.commit();
+                        android.R.anim.fade_in, android.R.anim.fade_out)
+        transaction.replace(R.id.make_an_offer_layout, fragment, tag)
+        transaction.commit()
     }
 
-    @Override
-    public void backButtonAbout() {
-        Fragment fragment = MakeAnOfferBudgetFragment.newInstance(makeAnOfferModel, MakeAnOfferActivity.this);
-        commit(fragment, MakeAnOfferBudgetFragment.class.getSimpleName());
+    override fun backButtonAbout() {
+        val fragment: Fragment = MakeAnOfferBudgetFragment.newInstance(makeAnOfferModel, this@MakeAnOfferActivity)
+        commit(fragment, MakeAnOfferBudgetFragment::class.java.simpleName)
     }
 
-    @Override
-    public void continueButtonAbout(MakeAnOfferModel makeAnOfferModel) {
-        Fragment fragment = MakeAnOfferReviewFragment.newInstance(makeAnOfferModel, MakeAnOfferActivity.this);
-        commit(fragment, MakeAnOfferReviewFragment.class.getSimpleName());
+    override fun continueButtonAbout(makeAnOfferModel: MakeAnOfferModel) {
+        val fragment: Fragment = MakeAnOfferReviewFragment.newInstance(makeAnOfferModel, this@MakeAnOfferActivity)
+        commit(fragment, MakeAnOfferReviewFragment::class.java.simpleName)
     }
 
-    @Override
-    public void backButtonReview(MakeAnOfferModel makeAnOfferModel) {
-        Fragment fragment = MakeAnOfferAboutFragment.newInstance(makeAnOfferModel, MakeAnOfferActivity.this);
-        commit(fragment, MakeAnOfferAboutFragment.class.getSimpleName());
+    override fun backButtonReview(makeAnOfferModel: MakeAnOfferModel) {
+        val fragment: Fragment = MakeAnOfferAboutFragment.newInstance(makeAnOfferModel, this@MakeAnOfferActivity)
+        commit(fragment, MakeAnOfferAboutFragment::class.java.simpleName)
     }
 
-
-    @Override
-    public void submitButtonReview(MakeAnOfferModel makeAnOfferModel) {
-        submitOffer(makeAnOfferModel);
+    override fun submitButtonReview(makeAnOfferModel: MakeAnOfferModel) {
+        submitOffer(makeAnOfferModel)
     }
 
-    private void submitOffer(MakeAnOfferModel makeAnOfferModel) {
-        showProgressDialog();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_OFFERS,
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
+    private fun submitOffer(makeAnOfferModel: MakeAnOfferModel) {
+        showProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_OFFERS,
+                Response.Listener { response: String? ->
+                    Timber.e(response)
+                    hideProgressDialog()
                     try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
+                        val jsonObject = JSONObject(response)
+                        Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-
-                                FireBaseEvent.getInstance(getApplicationContext())
+                                FireBaseEvent.getInstance(applicationContext)
                                         .sendEvent(FireBaseEvent.Event.OFFER_SUMMARY,
                                                 FireBaseEvent.EventType.API_RESPOND_SUCCESS,
-                                                FireBaseEvent.EventValue.OFFER_SUMMARY_SUBMIT_OFFER);
-
-                                Intent intent = new Intent();
-                                Bundle bundle = new Bundle();
-                                bundle.putBoolean(ConstantKey.MAKE_AN_OFFER, true);
-                                intent.putExtras(bundle);
-                                setResult(ConstantKey.RESULTCODE_MAKEANOFFER, intent);
-
-                                intent = new Intent(MakeAnOfferActivity.this, CompleteMessageActivity.class);
-                                Bundle bundle1 = new Bundle();
-                                bundle1.putString(ConstantKey.COMPLETES_MESSAGE_TITLE, "Offer Sent Successfully");
-                                bundle1.putString(ConstantKey.COMPLETES_MESSAGE_SUBTITLE, "Wait for an answer or continue looking for more tasks!");
-                                bundle1.putInt(ConstantKey.COMPLETES_MESSAGE_FROM, ConstantKey.RESULTCODE_MAKEANOFFER);
-
-                                intent.putExtras(bundle1);
-                                startActivity(intent);
-                                finish();
+                                                FireBaseEvent.EventValue.OFFER_SUMMARY_SUBMIT_OFFER)
+                                var intent = Intent()
+                                val bundle = Bundle()
+                                bundle.putBoolean(ConstantKey.MAKE_AN_OFFER, true)
+                                intent.putExtras(bundle)
+                                setResult(ConstantKey.RESULTCODE_MAKEANOFFER, intent)
+                                intent = Intent(this@MakeAnOfferActivity, CompleteMessageActivity::class.java)
+                                val bundle1 = Bundle()
+                                bundle1.putString(ConstantKey.COMPLETES_MESSAGE_TITLE, "Offer Sent Successfully")
+                                bundle1.putString(ConstantKey.COMPLETES_MESSAGE_SUBTITLE, "Wait for an answer or continue looking for more tasks!")
+                                bundle1.putInt(ConstantKey.COMPLETES_MESSAGE_FROM, ConstantKey.RESULTCODE_MAKEANOFFER)
+                                intent.putExtras(bundle1)
+                                startActivity(intent)
+                                finish()
                             } else {
-                                showToast("Something went Wrong", MakeAnOfferActivity.this);
+                                showToast("Something went Wrong", this@MakeAnOfferActivity)
                             }
                         }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
+                    } catch (e: JSONException) {
+                        Timber.e(e.toString())
+                        e.printStackTrace()
                     }
                 },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
+                Response.ErrorListener { error: VolleyError ->
+                    val networkResponse = error.networkResponse
+                    if (networkResponse?.data != null) {
+                        val jsonError = String(networkResponse.data)
                         // Print Error!
-                        Timber.e(jsonError);
+                        Timber.e(jsonError)
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser();
-                            hideProgressDialog();
-                            return;
+                            unauthorizedUser()
+                            hideProgressDialog()
+                            return@ErrorListener
                         }
                         if (networkResponse.statusCode == 500) {
-                            showToast("Something Went Wrong", MakeAnOfferActivity.this);
-                            hideProgressDialog();
-                            return;
+                            showToast("Something Went Wrong", this@MakeAnOfferActivity)
+                            hideProgressDialog()
+                            return@ErrorListener
                         }
                         try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObject_error = jsonObject.getJSONObject("error")
                             if (jsonObject_error.has("message")) {
-                                showToast(jsonObject_error.getString("message"), this);
+                                showToast(jsonObject_error.getString("message"), this)
                             }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
                         }
                     } else {
-                        showToast("Something Went Wrong", MakeAnOfferActivity.this);
+                        showToast("Something Went Wrong", this@MakeAnOfferActivity)
                     }
-                    Timber.e(error.toString());
-                    hideProgressDialog();
+                    Timber.e(error.toString())
+                    hideProgressDialog()
                 }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-
-                map1.put("X-REQUESTED-WITH", "xmlhttprequest");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-//                headers.put("Accept", "application/json");
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["X-REQUESTED-WITH"] = "xmlhttprequest"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                //                headers.put("Accept", "application/json");
                 // map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
+                return map1
             }
 
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("task_id", String.valueOf(makeAnOfferModel.getTask_id()));
-                map1.put("offer_price", String.valueOf(makeAnOfferModel.getOffer_price()));
-                map1.put("offer_price_type ", makeAnOfferModel.getOffer_price_type());
-                if (makeAnOfferModel.getAttachment() != null && makeAnOfferModel.getAttachment().getThumbUrl() != null) {
-                    map1.put("attachment_id", String.valueOf(makeAnOfferModel.getAttachment().getId()));
+            override fun getParams(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["task_id"] = makeAnOfferModel.task_id.toString()
+                map1["offer_price"] = makeAnOfferModel.offer_price.toString()
+                map1["offer_price_type "] = makeAnOfferModel.offer_price_type
+                if (makeAnOfferModel.attachment != null && makeAnOfferModel.attachment.thumbUrl != null) {
+                    map1["attachment_id"] = makeAnOfferModel.attachment.id.toString()
                 } else {
-                    map1.put("message", makeAnOfferModel.getMessage());
+                    map1["message"] = makeAnOfferModel.message
                 }
-
-                Timber.e(String.valueOf(map1.size()));
-                Timber.e(map1.toString());
-                return map1;
-
+                Timber.e(map1.size.toString())
+                Timber.e(map1.toString())
+                return map1
             }
-        };
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        val requestQueue = Volley.newRequestQueue(this@MakeAnOfferActivity)
+        requestQueue.add(stringRequest)
+        Timber.e(stringRequest.url)
+    }
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(MakeAnOfferActivity.this);
-        requestQueue.add(stringRequest);
-        Timber.e(stringRequest.getUrl());
+    companion object {
+        private const val TAG = "MakeAnOfferActivity"
     }
 }

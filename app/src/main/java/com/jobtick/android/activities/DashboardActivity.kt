@@ -1,7 +1,6 @@
 package com.jobtick.android.activities
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -11,10 +10,8 @@ import android.os.Parcelable
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -26,12 +23,10 @@ import androidx.navigation.ui.NavigationUI
 import com.android.volley.*
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.others.ReferAFriendActivity
-import com.jobtick.android.fragments.CashOutBottomSheet
 import com.jobtick.android.fragments.CategoryListBottomSheet
 import com.jobtick.android.fragments.LogOutBottomSheet
 import com.jobtick.android.interfaces.onProfileUpdateListener
@@ -46,7 +41,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
 import java.util.*
-import kotlin.math.abs
 
 class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     var drawerLayout: DrawerLayout? = null
@@ -313,10 +307,10 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
                 true
             }
             R.id.action_rate_us -> {
-                val rating_link = "https://play.google.com/store/apps/details?id=$packageName"
-                val rate_us = Intent(Intent.ACTION_VIEW)
-                rate_us.data = Uri.parse(rating_link)
-                startActivity(rate_us)
+                val ratingLink = "https://play.google.com/store/apps/details?id=$packageName"
+                val rateUs = Intent(Intent.ACTION_VIEW)
+                rateUs.data = Uri.parse(ratingLink)
+                startActivity(rateUs)
                 true
             }
             R.id.action_share -> {
@@ -325,10 +319,10 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
                 true
             }
             R.id.action_privacy_policy -> {
-                val privacy_policy_link = "https://sites.google.com/view/_/home"
-                val privacy_policy = Intent(Intent.ACTION_VIEW)
-                privacy_policy.data = Uri.parse(privacy_policy_link)
-                startActivity(privacy_policy)
+                val privacyPolicyLink = "https://sites.google.com/view/_/home"
+                val privacyPolicy = Intent(Intent.ACTION_VIEW)
+                privacyPolicy.data = Uri.parse(privacyPolicyLink)
+                startActivity(privacyPolicy)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -377,91 +371,6 @@ Team ${resources.getString(R.string.app_name)}""")
         }
     }
 
-    //http request
-    private val balance: Unit
-        private get() {
-            val stringRequest: StringRequest = object : StringRequest(Method.GET,
-                    Constant.URL_PAYMENTS_METHOD,
-                    Response.Listener { response: String? ->
-                        Timber.e(response)
-                        try {
-                            val jsonObject = JSONObject(response)
-                            Timber.e(jsonObject.toString())
-                            if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                                if (jsonObject.getBoolean("success")) {
-                                    if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                        val jsonString = jsonObject.toString() //http request
-                                        val gson = Gson()
-                                        creditCardModel = gson.fromJson(jsonString, CreditCardModel::class.java)
-                                        if (creditCardModel != null && creditCardModel!!.data != null && creditCardModel!!.data!![1].wallet != null && creditCardModel!!.data!![1].wallet!!.balance != null) {
-                                            when {
-                                                creditCardModel!!.data!![1].wallet!!.balance!!.toDouble() > 0 -> {
-                                                    myBalance!!.text = creditCardModel!!.data!![1].wallet!!.balance
-//                                                    btnCashOut!!.visibility = View.VISIBLE
-//                                                    btnCashOut!!.setOnClickListener { v: View? ->
-//                                                        drawerLayout!!.close()
-//                                                        val cashOutBottomSheet = CashOutBottomSheet.newInstance(creditCardModel)
-//                                                        cashOutBottomSheet.show(supportFragmentManager, "")
-//                                                    }
-//                                                    llWalletBalance!!.setBackgroundColor(resources.getColor(R.color.colorPrimary, null))
-                                                }
-                                                creditCardModel!!.data!![1].wallet!!.balance!!.toDouble() < 0 -> {
-                                                    myBalance!!.text = abs(creditCardModel!!.data!![1].wallet!!.balance!!.toDouble()).toString()
-//                                                    btnCashOut!!.visibility = View.VISIBLE
-//                                                    llWalletBalance!!.setBackgroundColor(resources.getColor(R.color.colorRedBalance, null))
-                                                }
-                                                else -> {
-                                                    //btnCashOut!!.visibility = View.GONE
-                                                }
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    showToast("Something went Wrong", this)
-                                }
-                            }
-                        } catch (e: Exception) {
-                            showToast("Something went Wrong", this)
-                            Timber.e(e.toString())
-                            e.printStackTrace()
-                        }
-                    },
-                    Response.ErrorListener { error: VolleyError ->
-                        val networkResponse = error.networkResponse
-                        if (networkResponse?.data != null) {
-                            val jsonError = String(networkResponse.data)
-                            // Print Error!
-                            Timber.e(jsonError)
-                            try {
-                                val jsonObject = JSONObject(jsonError)
-                                val jsonObject_error = jsonObject.getJSONObject("error")
-                                if (jsonObject_error.has("error_code") && !jsonObject_error.isNull("error_code")) {
-                                    if (ConstantKey.NO_PAYMENT_METHOD == jsonObject_error.getString("error_code")) {
-                                        hideProgressDialog()
-                                    }
-                                }
-                            } catch (e: JSONException) {
-                                e.printStackTrace()
-                            }
-                        }
-                        Timber.e(error.toString())
-                        errorHandle1(error.networkResponse)
-                    }) {
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val map1: MutableMap<String, String> = HashMap()
-                    map1["authorization"] = sessionManager1!!.tokenType + " " + sessionManager1!!.accessToken
-                    map1["Content-Type"] = "application/x-www-form-urlencoded"
-                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                    // map1.put("X-Requested-With", "XMLHttpRequest");
-                    return map1
-                }
-            }
-            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-            val requestQueue = Volley.newRequestQueue(this)
-            requestQueue.add(stringRequest)
-        }
 
     override fun updatedSuccesfully(path: String) {
         //ImageUtil.displayImage(imgUserAvatar, path, null)
@@ -476,21 +385,6 @@ Team ${resources.getString(R.string.app_name)}""")
         HOME, MY_JOBS, EXPLORE, CHAT, PROFILE, INVITE
     }
 
-    //TODO
-    private fun showRateAppDialog() {
-        val dialog = Dialog(this)
-        dialog.setContentView(R.layout.item_rate_app)
-        dialog.setTitle("Title...")
-        val dialogButton = dialog.findViewById<View>(R.id.ivClose) as ImageView
-        val submit = dialog.findViewById<View>(R.id.submit) as Button
-        // if button is clicked, close the custom dialog
-        dialogButton.setOnClickListener { v: View? -> dialog.dismiss() }
-        submit.setOnClickListener { v: View? ->
-            dialog.dismiss()
-            launchMarket()
-        }
-        dialog.show()
-    }
 
     private val accountDetails: Unit
         get() {
@@ -498,9 +392,9 @@ Team ${resources.getString(R.string.app_name)}""")
                     Response.Listener { response: String? ->
                         try {
                             val jsonObject = JSONObject(response)
-                            val jsonObject_data = jsonObject.getJSONObject("data")
-                            sessionManager!!.role = jsonObject_data.getString("role")
-                            val userAccountModel = UserAccountModel().getJsonToModel(jsonObject_data)
+                            val jsonobjectData = jsonObject.getJSONObject("data")
+                            sessionManager!!.role = jsonobjectData.getString("role")
+                            val userAccountModel = UserAccountModel().getJsonToModel(jsonobjectData)
                             sessionManager1!!.userAccount = userAccountModel
                             if (sessionManager1!!.filter == null) {
                                 val gson = Gson()

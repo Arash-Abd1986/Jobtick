@@ -1,304 +1,240 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.LinearLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.gson.Gson
+import com.jobtick.android.BuildConfig
+import com.jobtick.android.R
+import com.jobtick.android.adapers.NotificationListAdapter
+import com.jobtick.android.models.ConversationModel
+import com.jobtick.android.models.notification.NotifDatum
+import com.jobtick.android.models.notification.PushNotificationModel2
+import com.jobtick.android.pagination.PaginationListener
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.SessionManager
+import org.json.JSONException
+import org.json.JSONObject
+import timber.log.Timber
+import java.util.*
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+class NotificationActivity : ActivityBase(), NotificationListAdapter.OnItemClickListener, OnRefreshListener {
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.gson.Gson;
-import com.jobtick.android.BuildConfig;
-import com.jobtick.android.R;
-import android.annotation.SuppressLint;
-
-import com.jobtick.android.adapers.NotificationListAdapter;
-import com.jobtick.android.models.ConversationModel;
-import com.jobtick.android.models.notification.NotifDatum;
-import com.jobtick.android.models.notification.PushNotificationModel2;
-import com.jobtick.android.pagination.PaginationListener;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.ConstantKey;
-import com.jobtick.android.utils.SessionManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import timber.log.Timber;
-
-import static com.jobtick.android.pagination.PaginationListener.PAGE_START;
-
-public class NotificationActivity extends ActivityBase implements NotificationListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.swipeRefresh)
-    SwipeRefreshLayout swipeRefresh;
-
-    private int currentPage = PAGE_START;
-    private boolean isLastPage = false;
-    private int totalPage = 10;
-    private boolean isLoading = false;
-
-    NotificationListAdapter notificationListAdapter;
-    private PushNotificationModel2 pushNotificationModel2;
-    private LinearLayout noNotifications;
-    private SessionManager sessionManager;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notification);
-        ButterKnife.bind(this);
-        sessionManager = new SessionManager(this);
-        noNotifications = findViewById(R.id.no_notifications_container);
-        initToolbar();
-        initComponent();
-        getNotificationList();
+    private var toolbar: MaterialToolbar? = null
+    private var recyclerView: RecyclerView? = null
+    private var swipeRefresh: SwipeRefreshLayout? = null
+    private var currentPage = PaginationListener.PAGE_START
+    private var isLastPageItem = false
+    private var totalPage = 10
+    private var isLoadingItem = false
+    private var notificationListAdapter: NotificationListAdapter? = null
+    private var pushNotificationModel2: PushNotificationModel2? = null
+    private var noNotifications: LinearLayout? = null
+    private lateinit var sessionManagerN: SessionManager
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_notification)
+        setIDs()
+        sessionManagerN = SessionManager(this)
+        noNotifications = findViewById(R.id.no_notifications_container)
+        initToolbar()
+        initComponent()
+        notificationList
     }
 
-    private void initComponent() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(NotificationActivity.this);
+    private fun setIDs() {
 
+        toolbar = findViewById(R.id.toolbar)
+        recyclerView = findViewById(R.id.recycler_view)
+        swipeRefresh = findViewById(R.id.swipeRefresh)
+    }
 
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        notificationListAdapter = new NotificationListAdapter(new ArrayList<>());
-        notificationListAdapter.setOnItemClickListener(this);
-        swipeRefresh.setOnRefreshListener(this);
-        recyclerView.setAdapter(notificationListAdapter);
-        recyclerView.addOnScrollListener(new PaginationListener(layoutManager) {
-            @Override
-            protected void loadMoreItems() {
-                isLoading = true;
-                currentPage++;
-                getNotificationList();
+    private fun initComponent() {
+        val layoutManager = LinearLayoutManager(this@NotificationActivity)
+        recyclerView!!.layoutManager = layoutManager
+        recyclerView!!.setHasFixedSize(true)
+        notificationListAdapter = NotificationListAdapter(ArrayList())
+        notificationListAdapter!!.setOnItemClickListener(this)
+        swipeRefresh!!.setOnRefreshListener(this)
+        recyclerView!!.adapter = notificationListAdapter
+        recyclerView!!.addOnScrollListener(object : PaginationListener(layoutManager) {
+            override fun loadMoreItems() {
+                isLoadingItem = true
+                currentPage++
+                notificationList
             }
 
-            @Override
-            public boolean isLastPage() {
-                return isLastPage;
-            }
 
-            @Override
-            public boolean isLoading() {
-                return isLoading;
-            }
-        });
+            override val isLastPage: Boolean
+                get() = isLastPageItem
+            override val isLoading: Boolean
+                get() = isLoadingItem
+        })
     }
 
-
-    private void initToolbar() {
-        toolbar.setTitle("Notifications");
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    private fun initToolbar() {
+        toolbar!!.title = "Notifications"
+        toolbar!!.setNavigationIcon(R.drawable.ic_back)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_notification, menu);
-        return true;
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_notification, menu)
+        return true
     }
-
 
     @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            case R.id.nav_setting:
-                startActivity(new Intent(this, NotificationSettings.class));
-                break;
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+            R.id.nav_setting -> startActivity(Intent(this, NotificationSettings::class.java))
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
+    private val notificationList:
+            Unit
+        get() {
+            if (currentPage == PaginationListener.PAGE_START) swipeRefresh!!.isRefreshing = true
+            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_NOTIFICATION_LIST + "?page=" + currentPage,
+                    Response.Listener { response: String? ->
+                        Timber.e(response)
+                        hideProgressDialog()
+                        try {
+                            val jsonObject = JSONObject(response)
+                            Timber.e(jsonObject.toString())
+                            if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                                val jsonString = jsonObject.toString() //http request
+                                val gson = Gson()
+                                pushNotificationModel2 = gson.fromJson(jsonString, PushNotificationModel2::class.java)
+                                makeNotificationsAsRead()
+                            } else {
+                                showToast("something went wrong.", this)
+                                checkList()
+                                return@Listener
+                            }
+                            if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
+                                val jsonObject_meta = jsonObject.getJSONObject("meta")
+                                totalPage = jsonObject_meta.getInt("last_page")
+                                Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page")
+                            }
 
+                            /*
+                                *manage progress view
+                                */if (currentPage != PaginationListener.PAGE_START) notificationListAdapter!!.removeLoading()
+                            notificationListAdapter!!.addItems(pushNotificationModel2!!.data)
+                            checkList()
 
-    private void getNotificationList() {
-
-        if(currentPage == PAGE_START)
-            swipeRefresh.setRefreshing(true);
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_NOTIFICATION_LIST + "?page=" + currentPage,
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                            String jsonString = jsonObject.toString(); //http request
-                            Gson gson = new Gson();
-                            pushNotificationModel2 = gson.fromJson(jsonString, PushNotificationModel2.class);
-                            makeNotificationsAsRead();
-                        } else {
-                            showToast("something went wrong.", this);
-                            checkList();
-                            return;
+                            // check weather is last page or not
+                            if (currentPage < totalPage) {
+                                notificationListAdapter!!.addLoading()
+                            } else {
+                                isLastPageItem = true
+                            }
+                            isLoadingItem = false
+                        } catch (e: JSONException) {
+                            hideProgressDialog()
+                            Timber.e(e.toString())
+                            e.printStackTrace()
+                            checkList()
                         }
-
-                        if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
-                            JSONObject jsonObject_meta = jsonObject.getJSONObject("meta");
-                            totalPage = jsonObject_meta.getInt("last_page");
-                            Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page");
-                        }
-
-                        /*
-                         *manage progress view
-                         */
-                        if (currentPage != PAGE_START)
-                            notificationListAdapter.removeLoading();
-
-                        notificationListAdapter.addItems(pushNotificationModel2.getData());
-                        checkList();
-
-                        // check weather is last page or not
-                        if (currentPage < totalPage) {
-                            notificationListAdapter.addLoading();
-                        } else {
-                            isLastPage = true;
-                        }
-                        isLoading = false;
-                    } catch (JSONException e) {
-                        hideProgressDialog();
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-                        checkList();
-                    }
-                },
-                error -> {
-                    checkList();
-                    errorHandle1(error.networkResponse);
-                }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                return map1;
+                    },
+                    Response.ErrorListener { error: VolleyError ->
+                        checkList()
+                        errorHandle1(error.networkResponse)
+                    }) {
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["Authorization"] = "Bearer " + sessionManagerN.getAccessToken()
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    return map1
+                }
             }
-        };
+            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            val requestQueue = Volley.newRequestQueue(this@NotificationActivity)
+            requestQueue.add(stringRequest)
+            Timber.e(stringRequest.url)
+        }
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(NotificationActivity.this);
-        requestQueue.add(stringRequest);
-        Timber.e(stringRequest.getUrl());
-
-    }
-
-
-    private void makeNotificationsAsRead() {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constant.URL_NOTIFICATION_MARK_ALL_READ,
-                response -> {
-                    Timber.i("make all notifications as read success.");
-                },
-                error -> {
-                    Timber.i("make all notifications as read NOT success.");
-                })
-        {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<>();
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                return map1;
+    private fun makeNotificationsAsRead() {
+        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_NOTIFICATION_MARK_ALL_READ,
+                Response.Listener { Timber.i("make all notifications as read success.") },
+                Response.ErrorListener { Timber.i("make all notifications as read NOT success.") }) {
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["Authorization"] = "Bearer " + sessionManagerN.getAccessToken()
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                return map1
             }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-        Timber.e(stringRequest.getUrl());
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        val requestQueue = Volley.newRequestQueue(this)
+        requestQueue.add(stringRequest)
+        Timber.e(stringRequest.url)
     }
 
-
-
-    @Override
-    public void onRefresh() {
-        swipeRefresh.setRefreshing(true);
-        currentPage = PAGE_START;
-        isLastPage = false;
-        notificationListAdapter.clear();
-        getNotificationList();
+    override fun onRefresh() {
+        swipeRefresh!!.isRefreshing = true
+        currentPage = PaginationListener.PAGE_START
+        isLastPageItem = false
+        notificationListAdapter!!.clear()
+        notificationList
     }
 
-    private void checkList() {
-        if (notificationListAdapter.getItemCount() <= 0) {
-            noNotifications.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
+    private fun checkList() {
+        if (notificationListAdapter!!.itemCount <= 0) {
+            noNotifications!!.visibility = View.VISIBLE
+            recyclerView!!.visibility = View.GONE
         } else {
-            noNotifications.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
+            noNotifications!!.visibility = View.GONE
+            recyclerView!!.visibility = View.VISIBLE
         }
-        swipeRefresh.setRefreshing(false);
+        swipeRefresh!!.isRefreshing = false
     }
 
-    @Override
-    public void onItemClick(View view, NotifDatum obj, int position, String action) {
-
-
-        if (obj.getData() != null && obj.getData().getTrigger() != null) {
-            if(obj.getData().getTrigger().equals("task") || obj.getData().getTrigger().equals("comment")) {
-                Intent intent = new Intent(NotificationActivity.this, TaskDetailsActivity.class);
-                Bundle bundleIntent = new Bundle();
-                bundleIntent.putString(ConstantKey.SLUG, obj.getData().getTaskSlug());
+    override fun onItemClick(view: View, obj: NotifDatum, position: Int, action: String) {
+        if (obj.data != null && obj.data.trigger != null) {
+            if (obj.data.trigger == "task" || obj.data.trigger == "comment") {
+                val intent = Intent(this@NotificationActivity, TaskDetailsActivity::class.java)
+                val bundleIntent = Bundle()
+                bundleIntent.putString(ConstantKey.SLUG, obj.data.taskSlug)
                 //TODO: need to put poster id to this, but is has to be implemented at taskDetailsActivity not from outside
                 //bundleIntent.putInt(ConstantKey.USER_ID, obj.getUser().getId());
-                intent.putExtras(bundleIntent);
-                startActivity(intent);
-            }else if(obj.getData().getTrigger().equals("conversation")) {
-
-                ConversationModel model = new ConversationModel(obj.getData().getConversation().getId(),
-                        obj.getUserAccountModel().getName(), obj.getData().getTaskId(), null, null, obj.getCreatedAt(),
-                        sessionManager.getUserAccount(),
-                        obj.getUserAccountModel(),
-                        obj.getData().getTaskSlug(), obj.getData().getTaskStatus(), null);
-
-                Intent intent = new Intent(this, ChatActivity.class);
-                Bundle bundle = new Bundle();
-                ChatActivity.conversationModel = model;
-            //    bundle.putParcelable(ConstantKey.CONVERSATION, model);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                intent.putExtras(bundleIntent)
+                startActivity(intent)
+            } else if (obj.data.trigger == "conversation") {
+                val model = ConversationModel(obj.data.conversation.id,
+                        obj.userAccountModel.name, obj.data.taskId, null, null, obj.createdAt,
+                        sessionManagerN.userAccount,
+                        obj.userAccountModel,
+                        obj.data.taskSlug, obj.data.taskStatus, null)
+                val intent = Intent(this, ChatActivity::class.java)
+                val bundle = Bundle()
+                ChatActivity.conversationModel = model
+                //    bundle.putParcelable(ConstantKey.CONVERSATION, model);
+                intent.putExtras(bundle)
+                startActivity(intent)
             }
         }
-
-
     }
 }

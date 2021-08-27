@@ -1,274 +1,211 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
+import android.content.Intent
+import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import com.android.volley.*
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.gson.Gson
+import com.jobtick.android.BuildConfig
+import com.jobtick.android.R
+import com.jobtick.android.activities.ChatActivity
+import com.jobtick.android.adapers.NotificationListAdapter
+import com.jobtick.android.adapers.SectionsPagerAdapter
+import com.jobtick.android.fragments.Dashboard2PosterFragment
+import com.jobtick.android.fragments.Dashboard2TickerFragment
+import com.jobtick.android.models.ConversationModel
+import com.jobtick.android.models.notification.NotifDatum
+import com.jobtick.android.models.notification.PushNotificationModel2
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.widget.ContentWrappingViewPager
+import org.json.JSONException
+import org.json.JSONObject
+import timber.log.Timber
+import java.util.*
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.gson.Gson;
-import com.jobtick.android.BuildConfig;
-import com.jobtick.android.R;
-import android.annotation.SuppressLint;
-
-import com.jobtick.android.adapers.NotificationListAdapter;
-import com.jobtick.android.adapers.SectionsPagerAdapter;
-import com.jobtick.android.fragments.Dashboard2PosterFragment;
-import com.jobtick.android.fragments.Dashboard2TickerFragment;
-import com.jobtick.android.models.ConversationModel;
-import com.jobtick.android.models.notification.NotifDatum;
-import com.jobtick.android.models.notification.PushNotificationModel2;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.ConstantKey;
-import com.jobtick.android.widget.ContentWrappingViewPager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import timber.log.Timber;
-
-public class Dashboard2Activity extends ActivityBase implements NotificationListAdapter.OnItemClickListener, ViewPager.OnPageChangeListener {
-
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rb_as_ticker)
-    RadioButton rbAsATicker;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rb_as_poster)
-    RadioButton rbAsAPoster;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.rg_ticker_poster)
-    RadioGroup rgTickerPoster;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.no_notifications_container)
-    LinearLayout noNotifications;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.ticker_poster_view_pager)
-    ContentWrappingViewPager viewPager;
-
-    NotificationListAdapter notificationListAdapter;
-    private PushNotificationModel2 pushNotificationModel2;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard2);
-        ButterKnife.bind(this);
-        initToolbar();
-        initComponent();
-        initNotificationList();
+class Dashboard2Activity : ActivityBase(), NotificationListAdapter.OnItemClickListener, OnPageChangeListener {
+    private lateinit var toolbar: MaterialToolbar
+    private lateinit var rbAsATicker: RadioButton
+    private lateinit var rbAsAPoster: RadioButton
+    private lateinit var rgTickerPoster: RadioGroup
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var noNotifications: LinearLayout
+    private lateinit var viewPager: ContentWrappingViewPager
+    private var notificationListAdapter: NotificationListAdapter? = null
+    private var pushNotificationModel2: PushNotificationModel2? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_dashboard2)
+        setIDs()
+        initToolbar()
+        initComponent()
+        initNotificationList()
     }
 
-    private void initToolbar() {
-        toolbar.setTitle("Dashboard");
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    private fun setIDs() {
+        toolbar =findViewById(R.id.toolbar)
+        rbAsATicker =findViewById(R.id.rb_as_ticker)
+        rbAsAPoster =findViewById(R.id.rb_as_poster)
+        rgTickerPoster =findViewById(R.id.rg_ticker_poster)
+        recyclerView =findViewById(R.id.recycler_view)
+        noNotifications =findViewById(R.id.no_notifications_container)
+        viewPager =findViewById(R.id.ticker_poster_view_pager)
     }
+
+    private fun initToolbar() {
+        toolbar.title = "Dashboard"
+        toolbar.setNavigationIcon(R.drawable.ic_back)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    }//http request
 
     //we just get last 10 notifications
-    private void getNotificationList() {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_NOTIFICATION_LIST + "?page=1",
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
-                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                            String jsonString = jsonObject.toString(); //http request
-                            Gson gson = new Gson();
-                            pushNotificationModel2 = gson.fromJson(jsonString, PushNotificationModel2.class);
-                        } else {
-                            showToast("something went wrong.", this);
-                            checkList();
-                            return;
-                        }
-
-                        notificationListAdapter.addItems(pushNotificationModel2.getData());
-                        checkList();
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        checkList();
+    private val notificationList: Unit
+        get() {
+            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_NOTIFICATION_LIST + "?page=1",
+            Response.Listener { response: String? ->
+                Timber.e(response)
+                hideProgressDialog()
+                try {
+                    val jsonObject = JSONObject(response)
+                    Timber.e(jsonObject.toString())
+                    pushNotificationModel2 = if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                        val jsonString = jsonObject.toString() //http request
+                        val gson = Gson()
+                        gson.fromJson(jsonString, PushNotificationModel2::class.java)
+                    } else {
+                        showToast("something went wrong.", this)
+                        checkList()
+                        return@Listener
                     }
-                },
-                error -> {
-                    checkList();
-                    errorHandle1(error.networkResponse);
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("Authorization", "Bearer " + sessionManager.getAccessToken());
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                return map1;
+                    notificationListAdapter!!.addItems(pushNotificationModel2!!.getData())
+                    checkList()
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    checkList()
+                }
+            },
+                    Response.ErrorListener { error: VolleyError ->
+                        checkList()
+                        errorHandle1(error.networkResponse)
+                    }) {
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["Authorization"] = "Bearer " + sessionManager.accessToken
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    return map1
+                }
             }
-        };
+            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            val requestQueue = Volley.newRequestQueue(this@Dashboard2Activity)
+            requestQueue.add(stringRequest)
+            Timber.e(stringRequest.url)
+        }
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(Dashboard2Activity.this);
-        requestQueue.add(stringRequest);
-        Timber.e(stringRequest.getUrl());
-
-    }
-
-    private void checkList() {
-        if (notificationListAdapter.getItemCount() <= 0) {
-            noNotifications.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
+    private fun checkList() {
+        if (notificationListAdapter!!.itemCount <= 0) {
+            noNotifications.visibility = View.VISIBLE
+            recyclerView.visibility = View.GONE
         } else {
-            noNotifications.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
+            noNotifications.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
         }
     }
 
-    private void initNotificationList() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(Dashboard2Activity.this);
-
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        notificationListAdapter = new NotificationListAdapter(new ArrayList<>());
-        notificationListAdapter.setOnItemClickListener(this);
-        recyclerView.setAdapter(notificationListAdapter);
-
-        getNotificationList();
+    private fun initNotificationList() {
+        val layoutManager = LinearLayoutManager(this@Dashboard2Activity)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.setHasFixedSize(true)
+        notificationListAdapter = NotificationListAdapter(ArrayList())
+        notificationListAdapter!!.setOnItemClickListener(this)
+        recyclerView.adapter = notificationListAdapter
+        notificationList
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
         }
-
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        switch (position) {
-            case 0:
-                rbAsATicker.setChecked(true);
-                rbAsAPoster.setChecked(false);
-                break;
-            case 1:
-                rbAsATicker.setChecked(false);
-                rbAsAPoster.setChecked(true);
-                break;
-            case 2:
-
-                break;
-        }
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
-
-    private void initComponent() {
-        setupViewPager(viewPager);
-        viewPager.addOnPageChangeListener(this);
-        viewPager.setCurrentItem(0);
-        viewPager.setOffscreenPageLimit(2);
-        clickEvent();
-    }
-
-    private void clickEvent() {
-        rgTickerPoster.setOnCheckedChangeListener((group, checkedId) -> {
-            switch (checkedId) {
-                case R.id.rb_as_ticker:
-                    viewPager.setCurrentItem(0);
-                    break;
-                case R.id.rb_as_poster:
-                    viewPager.setCurrentItem(1);
-                    break;
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+    override fun onPageSelected(position: Int) {
+        when (position) {
+            0 -> {
+                rbAsATicker.isChecked = true
+                rbAsAPoster.isChecked = false
             }
-        });
+            1 -> {
+                rbAsATicker.isChecked = false
+                rbAsAPoster.isChecked = true
+            }
+            2 -> {
+            }
+        }
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(Dashboard2TickerFragment.newInstance(), "User as Ticker");
-        adapter.addFragment(Dashboard2PosterFragment.newInstance(), "User as Poster");
-        viewPager.setAdapter(adapter);
+    override fun onPageScrollStateChanged(state: Int) {}
+    private fun initComponent() {
+        setupViewPager(viewPager)
+        viewPager.addOnPageChangeListener(this)
+        viewPager.currentItem = 0
+        viewPager.offscreenPageLimit = 2
+        clickEvent()
     }
 
+    private fun clickEvent() {
+        rgTickerPoster!!.setOnCheckedChangeListener { group: RadioGroup?, checkedId: Int ->
+            when (checkedId) {
+                R.id.rb_as_ticker -> viewPager.currentItem = 0
+                R.id.rb_as_poster -> viewPager.currentItem = 1
+            }
+        }
+    }
 
-    @Override
-    public void onItemClick(View view, NotifDatum obj, int position, String action) {
+    private fun setupViewPager(viewPager: ViewPager?) {
+        val adapter = SectionsPagerAdapter(supportFragmentManager)
+        adapter.addFragment(Dashboard2TickerFragment.newInstance(), "User as Ticker")
+        adapter.addFragment(Dashboard2PosterFragment.newInstance(), "User as Poster")
+        viewPager!!.adapter = adapter
+    }
 
-
-        if (obj.getData() != null && obj.getData().getTrigger() != null) {
-            if(obj.getData().getTrigger().equals("task") || obj.getData().getTrigger().equals("comment")) {
-                Intent intent = new Intent(Dashboard2Activity.this, TaskDetailsActivity.class);
-                Bundle bundleIntent = new Bundle();
-                bundleIntent.putString(ConstantKey.SLUG, obj.getData().getTaskSlug());
+    override fun onItemClick(view: View, obj: NotifDatum, position: Int, action: String) {
+        if (obj.data != null && obj.data.trigger != null) {
+            if (obj.data.trigger == "task" || obj.data.trigger == "comment") {
+                val intent = Intent(this@Dashboard2Activity, TaskDetailsActivity::class.java)
+                val bundleIntent = Bundle()
+                bundleIntent.putString(ConstantKey.SLUG, obj.data.taskSlug)
                 //TODO: need to put poster id to this, but is has to be implemented at taskDetailsActivity not from outside
                 //bundleIntent.putInt(ConstantKey.USER_ID, obj.getUser().getId());
-                intent.putExtras(bundleIntent);
-                startActivity(intent);
-            }else if(obj.getData().getTrigger().equals("conversation")) {
-
-                ConversationModel model = new ConversationModel(obj.getData().getConversation().getId(),
-                        obj.getUserAccountModel().getName(), obj.getData().getTaskId(), null, null, obj.getCreatedAt(),
-                        sessionManager.getUserAccount(),
-                        obj.getUserAccountModel(),
-                        obj.getData().getTaskSlug(), obj.getData().getTaskStatus(), null);
-
-                Intent intent = new Intent(this, ChatActivity.class);
-                Bundle bundle = new Bundle();
-                ChatActivity.conversationModel = model;
+                intent.putExtras(bundleIntent)
+                startActivity(intent)
+            } else if (obj.data.trigger == "conversation") {
+                val model = ConversationModel(obj.data.conversation.id,
+                        obj.userAccountModel.name, obj.data.taskId, null, null, obj.createdAt,
+                        sessionManager.userAccount,
+                        obj.userAccountModel,
+                        obj.data.taskSlug, obj.data.taskStatus, null)
+                val intent = Intent(this, ChatActivity::class.java)
+                val bundle = Bundle()
+                ChatActivity.conversationModel = model
                 //    bundle.putParcelable(ConstantKey.CONVERSATION, model);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                intent.putExtras(bundle)
+                startActivity(intent)
             }
         }
-
-
     }
 }

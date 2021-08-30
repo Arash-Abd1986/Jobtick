@@ -1,311 +1,231 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.app.DatePickerDialog;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.CalendarView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.app.DatePickerDialog
+import android.content.DialogInterface
+import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
+import android.widget.CalendarView
+import android.widget.DatePicker
+import android.widget.LinearLayout
+import android.widget.TextView
+import butterknife.OnClick
+import com.android.volley.*
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.jobtick.android.BuildConfig
+import com.jobtick.android.R
+import com.jobtick.android.models.TaskModel
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.HttpStatus
+import com.jobtick.android.utils.TimeHelper
+import com.jobtick.android.utils.Tools
+import com.jobtick.android.widget.ExtendedCommentText
+import com.jobtick.android.widget.ExtendedEntryText
+import org.json.JSONException
+import org.json.JSONObject
+import timber.log.Timber
+import java.util.*
 
-import androidx.annotation.Nullable;
-
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.jobtick.android.BuildConfig;
-import com.jobtick.android.R;
-
-import android.annotation.SuppressLint;
-
-import com.jobtick.android.models.TaskModel;
-import com.jobtick.android.utils.HttpStatus;
-import com.jobtick.android.utils.TimeHelper;
-import com.jobtick.android.utils.Tools;
-import com.jobtick.android.widget.ExtendedCommentText;
-import com.jobtick.android.widget.ExtendedEntryText;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import timber.log.Timber;
-
-import static com.jobtick.android.utils.Constant.MAX_RESCHEDULE_DAY;
-import static com.jobtick.android.utils.Constant.URL_CREATE_RESCHEDULE;
-import static com.jobtick.android.utils.Constant.URL_TASKS;
-
-public class RescheduleTimeRequestActivity extends ActivityBase implements ExtendedEntryText.ExtendedViewOnClickListener {
-
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_date)
-    ExtendedEntryText txtDate;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_previous_date)
-    TextView txtPreviousDate;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_previous_time)
-    TextView getTxtPreviousTime;
-
-    int year, month, day;
-    long dueDate;
-    DatePickerDialog.OnDateSetListener mDateSetListener;
-    String str_due_date = null;
-
-
-    private TaskModel taskModel;
-
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_note)
-    ExtendedCommentText edtNote;
-
-    private BottomSheetDialog mBottomSheetDialog;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reschedule_time_request);
-
-        ButterKnife.bind(this);
-        initToolbar();
-        init();
+class RescheduleTimeRequestActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickListener {
+    private lateinit var toolbar: MaterialToolbar
+    private lateinit var txtDate: ExtendedEntryText
+    private lateinit var txtPreviousDate: TextView
+    private lateinit var getTxtPreviousTime: TextView
+    private  var year = 0
+    private  var month = 0
+    private  var day = 0
+    private  var dueDate: Long = 0
+    private lateinit var mDateSetListener: DatePickerDialog.OnDateSetListener
+    private lateinit var strDueDate: String
+    private var taskModel: TaskModel? = null
+    private lateinit var edtNote: ExtendedCommentText
+    private var mBottomSheetDialog: BottomSheetDialog? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_reschedule_time_request)
+        setIDs()
+        initToolbar()
+        init()
     }
 
+    private fun setIDs() {
+        edtNote = findViewById(R.id.edt_note)
+        toolbar = findViewById(R.id.toolbar)
+        txtDate = findViewById(R.id.txt_date)
+        txtPreviousDate = findViewById(R.id.txt_previous_date)
+        getTxtPreviousTime = findViewById(R.id.txt_previous_time)
+    }
 
-    private void init() {
-
-        taskModel = new TaskModel();
-        Bundle bundle = getIntent().getExtras();
+    private fun init() {
+        taskModel = TaskModel()
+        val bundle = intent.extras
         if (bundle != null) {
-            //    taskModel = bundle.getParcelable(ConstantKey.TASK);
-            taskModel = TaskDetailsActivity.taskModel;
+            taskModel = TaskDetailsActivity.taskModel
         }
-
         if (taskModel != null) {
-            //format 2021-01-07
-            txtPreviousDate.setText(taskModel.getDueDate());
-            dueDate = TimeHelper.convertDateToLong(taskModel.getDueDate());
-            if (taskModel.getDueTime().getAfternoon())
-                getTxtPreviousTime.setText(R.string.afternoon);
-            if (taskModel.getDueTime().getEvening())
-                getTxtPreviousTime.setText(R.string.evening);
-            if (taskModel.getDueTime().getMorning())
-                getTxtPreviousTime.setText(R.string.morning);
-            if (taskModel.getDueTime().getAnytime())
-                getTxtPreviousTime.setText(R.string.anyTime);
+            txtPreviousDate.text = taskModel!!.dueDate
+            dueDate = TimeHelper.convertDateToLong(taskModel!!.dueDate)
+            if (taskModel!!.dueTime.afternoon) getTxtPreviousTime.setText(R.string.afternoon)
+            if (taskModel!!.dueTime.evening) getTxtPreviousTime.setText(R.string.evening)
+            if (taskModel!!.dueTime.morning) getTxtPreviousTime.setText(R.string.morning)
+            if (taskModel!!.dueTime.anytime) getTxtPreviousTime.setText(R.string.anyTime)
         }
-        mDateSetListener = (view, year, month, dayOfMonth) -> {
-            month = month + 1;
-            str_due_date = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + dayOfMonth);
-            txtDate.setText(str_due_date);
-        };
-        txtDate.setExtendedViewOnClickListener(this);
-    }
-
-    private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_cancel);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Reschedule time");
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+        mDateSetListener = DatePickerDialog.OnDateSetListener { _: DatePicker?, year: Int, month: Int, dayOfMonth: Int ->
+            val monthL = month + 1
+            strDueDate = Tools.getDayMonthDateTimeFormat("$year-$monthL-$dayOfMonth")
+            txtDate.text = strDueDate
         }
-        return super.onOptionsItemSelected(item);
+        txtDate.setExtendedViewOnClickListener(this)
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    private fun initToolbar() {
+        toolbar.setNavigationIcon(R.drawable.ic_cancel)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.title = "Reschedule time"
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 
-    @OnClick({R.id.lyt_btn_verify, R.id.lyt_btn_decline})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.lyt_btn_verify:
-                if (validation())
-                    CreateRequest();
-                break;
-            case R.id.lyt_btn_decline:
-                finish();
-                break;
+    @OnClick(R.id.lyt_btn_verify, R.id.lyt_btn_decline)
+    fun onViewClicked(view: View) {
+        when (view.id) {
+            R.id.lyt_btn_verify -> if (validation()) createRequest()
+            R.id.lyt_btn_decline -> finish()
         }
     }
 
-    private boolean validation() {
-        if (txtDate.getText().length() == 0) {
-            txtDate.setError("Please enter new date.");
-            return false;
+    private fun validation(): Boolean {
+        if (txtDate.text.isEmpty()) {
+            txtDate.setError("Please enter new date.")
+            return false
         }
-        if (edtNote.getText().length() < edtNote.geteMinSize()) {
-            edtNote.setError("");
-            return false;
+        if (edtNote.text.length < edtNote.geteMinSize()) {
+            edtNote.setError("")
+            return false
         }
-        return true;
+        return true
     }
 
+    private fun createRequest() {
 
-    private void CreateRequest() {
-
-        ///{{baseurl}}/tasks/:task_slug/reschedule
-
-        showProgressDialog();
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, URL_TASKS + "/" + taskModel.getSlug() + "/" + URL_CREATE_RESCHEDULE,
-                response -> {
-                    Timber.e(response);
-                    hideProgressDialog();
+        showProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_TASKS + "/" + taskModel!!.slug + "/" + Constant.URL_CREATE_RESCHEDULE,
+                Response.Listener { response: String? ->
+                    Timber.e(response)
+                    hideProgressDialog()
                     try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Timber.e(jsonObject.toString());
+                        val jsonObject = JSONObject(response)
+                        Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                finish();
+                                finish()
                             } else {
-                                showToast("Something went Wrong", RescheduleTimeRequestActivity.this);
+                                showToast("Something went Wrong", this@RescheduleTimeRequestActivity)
                             }
                         }
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-
+                    } catch (e: JSONException) {
+                        Timber.e(e.toString())
+                        e.printStackTrace()
                     }
                 },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser();
-                            hideProgressDialog();
-                            return;
-                        }
-                        try {
-                            hideProgressDialog();
-                            JSONObject jsonObject = new JSONObject(jsonError);
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-                            if (jsonObject_error.has("message")) {
-                                showToast(jsonObject_error.getString("message"), this);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        showToast("Something Went Wrong", RescheduleTimeRequestActivity.this);
+        Response.ErrorListener { error: VolleyError ->
+            val networkResponse = error.networkResponse
+            if (networkResponse?.data != null) {
+                val jsonError = String(networkResponse.data)
+                // Print Error!
+                Timber.e(jsonError)
+                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                    unauthorizedUser()
+                    hideProgressDialog()
+                    return@ErrorListener
+                }
+                try {
+                    hideProgressDialog()
+                    val jsonObject = JSONObject(jsonError)
+                    val jsonObjectError = jsonObject.getJSONObject("error")
+                    if (jsonObjectError.has("message")) {
+                        showToast(jsonObjectError.getString("message"), this)
                     }
-                    Timber.e(error.toString());
-                    hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("X-Requested-With", "XMLHttpRequest");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                return map1;
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            } else {
+                showToast("Something Went Wrong", this@RescheduleTimeRequestActivity)
+            }
+            Timber.e(error.toString())
+            hideProgressDialog()
+        }) {
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["X-Requested-With"] = "XMLHttpRequest"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                return map1
             }
 
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> map1 = new HashMap<String, String>();
-                map1.put("reason", edtNote.getText());
-                map1.put("new_duedate", Tools.getApplicationFromatToServerFormat(txtDate.getText()));
-                return map1;
+            override fun getParams(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["reason"] = edtNote.text
+                map1["new_duedate"] = Tools.getApplicationFromatToServerFormat(txtDate.text)
+                return map1
             }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(RescheduleTimeRequestActivity.this);
-        requestQueue.add(stringRequest);
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        val requestQueue = Volley.newRequestQueue(this@RescheduleTimeRequestActivity)
+        requestQueue.add(stringRequest)
     }
 
-    @Override
-    public void onClick() {
-        showBottomSheetDialogDate();
+    override fun onClick() {
+        showBottomSheetDialogDate()
     }
 
-    private void showBottomSheetDialogDate() {
-
-        final View view = getLayoutInflater().inflate(R.layout.sheet_date, null);
-
-        mBottomSheetDialog = new BottomSheetDialog(this);
-        mBottomSheetDialog.setContentView(view);
-        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        long oneDay = 86400000;
-        CalendarView calendarView = view.findViewById(R.id.calenderView);
+    private fun showBottomSheetDialogDate() {
+        val view = layoutInflater.inflate(R.layout.sheet_date, null)
+        mBottomSheetDialog = BottomSheetDialog(this)
+        mBottomSheetDialog!!.setContentView(view)
+        mBottomSheetDialog!!.window!!.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        val oneDay: Long = 86400000
+        val calendarView = view.findViewById<CalendarView>(R.id.calenderView)
         //set min date to tomorrow
-        calendarView.setMinDate(((System.currentTimeMillis() - 1000) + oneDay));
+        calendarView.minDate = System.currentTimeMillis() - 1000 + oneDay
         //set max date to two weeks later
-        calendarView.setMaxDate(dueDate + oneDay * MAX_RESCHEDULE_DAY + 1000);
-
-        TextView txtCancel = view.findViewById(R.id.txt_cancel);
-        txtCancel.setOnClickListener(v -> {
-            mBottomSheetDialog.dismiss();
-        });
-
-        LinearLayout lytBtnDone = view.findViewById(R.id.lyt_btn_done);
-
-        Calendar calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-
-        month = calendar.get(Calendar.MONTH);
-        month = month + 1;
-
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-        lytBtnDone.setOnClickListener(v -> {
-
-
-            str_due_date = Tools.getDayMonthDateTimeFormat(year + "-" + month + "-" + day);
-            txtDate.setText(str_due_date);
-
-            mBottomSheetDialog.dismiss();
-
-        });
-
-        calendarView.setOnDateChangeListener((arg0, year, month, date) -> {
-
-            this.month = month + 1;
-            this.year = year;
-            this.day = date;
-        });
+        calendarView.maxDate = dueDate + oneDay * Constant.MAX_RESCHEDULE_DAY + 1000
+        val txtCancel = view.findViewById<TextView>(R.id.txt_cancel)
+        txtCancel.setOnClickListener { v: View? -> mBottomSheetDialog!!.dismiss() }
+        val lytBtnDone = view.findViewById<LinearLayout>(R.id.lyt_btn_done)
+        val calendar = Calendar.getInstance()
+        year = calendar[Calendar.YEAR]
+        month = calendar[Calendar.MONTH]
+        month += 1
+        day = calendar[Calendar.DAY_OF_MONTH]
+        lytBtnDone.setOnClickListener { v: View? ->
+            strDueDate = Tools.getDayMonthDateTimeFormat("$year-$month-$day")
+            txtDate.text = strDueDate
+            mBottomSheetDialog!!.dismiss()
+        }
+        calendarView.setOnDateChangeListener { arg0: CalendarView?, year: Int, month: Int, date: Int ->
+            this.month = month + 1
+            this.year = year
+            day = date
+        }
 
 
         // set background transparent
-        ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
-
-        mBottomSheetDialog.show();
-        mBottomSheetDialog.setOnDismissListener(dialog -> mBottomSheetDialog = null);
+        (view.parent as View).setBackgroundColor(resources.getColor(android.R.color.transparent))
+        mBottomSheetDialog!!.show()
+        mBottomSheetDialog!!.setOnDismissListener { dialog: DialogInterface? -> mBottomSheetDialog = null }
     }
 }

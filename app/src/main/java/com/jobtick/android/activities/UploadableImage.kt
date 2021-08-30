@@ -1,10 +1,8 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import android.content.Intent;
+import android.content.Intent
 
-public interface UploadableImage {
-
-    void showAttachmentImageBottomSheet(boolean isImageCircle);
-
-    void onActivityResult(int requestCode, int resultCode, Intent data);
+interface UploadableImage {
+    fun showAttachmentImageBottomSheet(isImageCircle: Boolean)
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
 }

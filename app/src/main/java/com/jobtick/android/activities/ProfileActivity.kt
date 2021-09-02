@@ -1,59 +1,40 @@
-package com.jobtick.android.activities;
+package com.jobtick.android.activities
 
-import androidx.fragment.app.FragmentTransaction;
+import android.os.Bundle
+import android.view.MenuItem
+import com.google.android.material.appbar.MaterialToolbar
+import com.jobtick.android.R
+import com.jobtick.android.fragments.ProfileViewFragment
 
-import android.annotation.SuppressLint;
-import android.os.Bundle;
-import android.view.MenuItem;
-
-import com.google.android.material.appbar.MaterialToolbar;
-import com.jobtick.android.R;
-
-import com.jobtick.android.fragments.ProfileViewFragment;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-public class ProfileActivity extends ActivityBase {
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.toolbar)
-    MaterialToolbar toolbar;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_porfile);
-        ButterKnife.bind(this);
-
-        if(getIntent().getIntExtra("id",-1)!=-1){
-            Bundle b = new Bundle();
-            b.putInt("userId",getIntent().getIntExtra("id",-1));
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ProfileViewFragment profileFragment = new ProfileViewFragment();
-            profileFragment.setArguments(b);
-            ft.replace(R.id.profile, profileFragment);
-            ft.commit();
+class ProfileActivity : ActivityBase() {
+    var toolbar: MaterialToolbar? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_porfile)
+        if (intent.getIntExtra("id", -1) != -1) {
+            val b = Bundle()
+            b.putInt("userId", intent.getIntExtra("id", -1))
+            val ft = supportFragmentManager.beginTransaction()
+            val profileFragment = ProfileViewFragment()
+            profileFragment.arguments = b
+            ft.replace(R.id.profile, profileFragment)
+            ft.commit()
         }
-
-        initToolbar();
+        initToolbar()
     }
 
-
-    private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Profile");
+    private fun initToolbar() {
+        toolbar = findViewById(R.id.toolbar)
+        toolbar!!.setNavigationIcon(R.drawable.ic_back)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.title = "Profile"
     }
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
         }
-
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 }

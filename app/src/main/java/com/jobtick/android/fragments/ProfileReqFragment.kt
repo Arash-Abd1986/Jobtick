@@ -48,7 +48,7 @@ class ProfileReqFragment : Fragment() {
         setUpAvatar(userAccountModel)
         uploadableImage = object : AbstractUploadableImageImpl(requireActivity()) {
             override fun onImageReady(imageFile: File) {
-                uploadProfileAvatar(imageFile)
+                uploadProfileAvatar(imageFile!!)
             }
         }
     }

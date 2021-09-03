@@ -126,7 +126,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         allUserProfileDetails
         uploadableImage = object : AbstractUploadableImageImpl(this) {
             override fun onImageReady(imageFile: File) {
-                uploadMedia(imageFile)
+                uploadMedia(imageFile!!)
             }
         }
     }

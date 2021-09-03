@@ -251,8 +251,8 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         imgBtnImageSelect.setOnClickListener { uploadableImage!!.showAttachmentImageBottomSheet(false) }
         imgBtnSend.setOnClickListener {
             if (validation()) {
-                val str_message = Objects.requireNonNull(edtCommentMessage.text).toString().trim { it <= ' ' }
-                addCommentIntoServer(imageFileTemp, str_message)
+                val strMessage = Objects.requireNonNull(edtCommentMessage.text).toString().trim { it <= ' ' }
+                addCommentIntoServer(imageFileTemp, strMessage)
                 edtCommentMessage.text = null
             }
         }

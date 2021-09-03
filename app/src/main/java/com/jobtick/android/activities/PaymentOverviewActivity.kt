@@ -425,7 +425,7 @@ class PaymentOverviewActivity : ActivityBase(), PosterRequirementsBottomSheet.No
         paymentMethod
     }
 
-    override fun onVerifySubmit(coupon: String) {
+    override fun onVerifySubmit(coupon: String?) {
         calculate(offerModel!!.offerPrice.toString() + "")
         this.coupon = coupon
         tvCoupon.text = coupon

@@ -46,7 +46,7 @@ abstract class AbstractUploadableImageImpl(private val activity: FragmentActivit
         }
     }
 
-    abstract fun onImageReady(imageFile: File?)
+    abstract fun onImageReady(imageFile: File)
 
     init {
         attachmentBottomSheet = AttachmentBottomSheet()

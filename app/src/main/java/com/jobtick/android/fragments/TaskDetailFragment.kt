@@ -107,7 +107,7 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         val view = inflater.inflate(R.layout.fragment_task_detail, container, false)
         uploadableImage = object : AbstractUploadableImageImpl(requireActivity()) {
             override fun onImageReady(imageFile: File) {
-                if (!isEditTask) uploadDataInTempApi(imageFile) else uploadDataForEditTask(imageFile)
+                if (!isEditTask) uploadDataInTempApi(imageFile!!) else uploadDataForEditTask(imageFile!!)
             }
         }
         return view

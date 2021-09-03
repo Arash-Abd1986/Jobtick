@@ -131,7 +131,7 @@ class ChatSearchActivity : ActivityBase(), InboxListAdapter.OnItemClickListener,
 
     }
 
-    override fun onEditorAction(textView: TextView, actionId: Int, keyEvent: KeyEvent?): Boolean {
+    override fun onEditorAction(textView: TextView?, actionId: Int, keyEvent: KeyEvent?): Boolean {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
             //set adapter to online mode (previewMode will be false)
             fetchData(etSearch.text.toString())

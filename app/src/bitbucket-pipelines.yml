@@ -1,0 +1,12 @@
+pipelines:
+  branches:
+    master:
+          - step:
+              name: Build Debug
+              caches:
+                - gradle
+              image: bitbucketpipelines/android-ci-image
+              script:
+                - ./gradlew assembleDebug
+              artifacts:
+                - app/build/outputs/**

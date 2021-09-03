@@ -21,5 +21,7 @@ pipelines:
             - yes | sdkmanager "extras;google;m2repository"
             - yes | sdkmanager "extras;google;instantapps"
             - yes | sdkmanager --licenses
+            - ./gradlew assembleDebug
+
           artifacts:
             - app/build/outputs/**

@@ -6,7 +6,6 @@ pipelines:
           name: Build Debug
           caches:
             - gradle
-            - android-sdk
           image: bitbucketpipelines/android-ci-image
           script:
             - wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip

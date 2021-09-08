@@ -148,8 +148,8 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
     override fun onResume() {
         super.onResume()
         if (!swipeRefresh!!.isRefreshing) {
-            refresh()
             swipeRefresh!!.isRefreshing = true
+            refresh()
         }
 
         val app = requireActivity().application as AppController
@@ -175,11 +175,10 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
     }
 
     private fun refresh() {
-        swipeRefresh!!.isRefreshing = true
-        currentPage = PaginationListener.PAGE_START
-        isLastPageItems = false
-        taskListAdapter!!.clear()
-        doApiCall()
+            currentPage = PaginationListener.PAGE_START
+            isLastPageItems = false
+            taskListAdapter!!.clear()
+            doApiCall()
     }
 
     @SuppressLint("LogNotTimber")
@@ -288,6 +287,7 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
                 currentPage++
                 doApiCall()
             }
+
             override val isLastPage: Boolean
                 get() = isLastPageItems
             override val isLoading: Boolean
@@ -400,6 +400,7 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
         val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_TASKS_v2 + "?page=" + currentPage + queryParameter,
                 Response.Listener { response: String? ->
                     Timber.e(response)
+                    swipeRefresh!!.isRefreshing = false
                     newJobCount = 0
                     linNewMessage!!.visibility = View.GONE
                     // categoryArrayList.clear();
@@ -427,6 +428,7 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
                             recyclerViewBrowse!!.visibility = View.VISIBLE
                         }
                     } catch (e: JSONException) {
+                        swipeRefresh!!.isRefreshing = false
                         dashboardActivity!!.hideProgressDialog()
                         Timber.e(e.toString())
                         e.printStackTrace()
@@ -453,13 +455,11 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
     }
 
     override fun onRefresh() {
-        if (!swipeRefresh!!.isRefreshing) {
             swipeRefresh!!.isRefreshing = true
             currentPage = PaginationListener.PAGE_START
             isLastPageItems = false
             taskListAdapter!!.clear()
             doApiCall()
-        }
     }
 
 

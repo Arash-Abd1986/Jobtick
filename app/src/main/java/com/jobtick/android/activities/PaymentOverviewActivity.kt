@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.cardview.widget.CardView
-import butterknife.OnClick
 import com.android.volley.*
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -79,6 +78,7 @@ class PaymentOverviewActivity : ActivityBase(), PosterRequirementsBottomSheet.No
         gson = Gson()
         setUpData()
         paymentMethod
+        onViewClick()
     }
 
     private fun setIDs() {
@@ -246,15 +246,16 @@ class PaymentOverviewActivity : ActivityBase(), PosterRequirementsBottomSheet.No
         calculate(offerModel!!.offerPrice.toFloat().toString())
     }
 
-    @OnClick(R.id.lyt_add_credit_card, R.id.btn_new, R.id.btn_pay)
-    fun onViewClicked(view: View) {
-        when (view.id) {
-            R.id.btn_pay -> payAcceptOffer(coupon)
-            R.id.btn_new -> {
-                showCreditCardRequirementBottomSheet()
-                setUpAddPaymentLayout()
-            }
-            R.id.lyt_add_credit_card -> showCreditCardRequirementBottomSheet()
+    private fun onViewClick() {
+        btnPay.setOnClickListener {
+            payAcceptOffer(coupon)
+        }
+        btnNew.setOnClickListener {
+            showCreditCardRequirementBottomSheet()
+            setUpAddPaymentLayout()
+        }
+        lytAddCreditCard.setOnClickListener {
+            showCreditCardRequirementBottomSheet()
         }
     }
 

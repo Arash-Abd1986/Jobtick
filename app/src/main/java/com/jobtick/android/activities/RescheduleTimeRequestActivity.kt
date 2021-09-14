@@ -10,12 +10,12 @@ import android.widget.CalendarView
 import android.widget.DatePicker
 import android.widget.LinearLayout
 import android.widget.TextView
-import butterknife.OnClick
 import com.android.volley.*
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.button.MaterialButton
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.models.TaskModel
@@ -35,6 +35,8 @@ class RescheduleTimeRequestActivity : ActivityBase(), ExtendedEntryText.Extended
     private lateinit var txtDate: ExtendedEntryText
     private lateinit var txtPreviousDate: TextView
     private lateinit var getTxtPreviousTime: TextView
+    private lateinit var lytBtnDecline: MaterialButton
+    private lateinit var lytBtnVerify: MaterialButton
     private  var year = 0
     private  var month = 0
     private  var day = 0
@@ -50,6 +52,7 @@ class RescheduleTimeRequestActivity : ActivityBase(), ExtendedEntryText.Extended
         setIDs()
         initToolbar()
         init()
+        onViewClick()
     }
 
     private fun setIDs() {
@@ -58,6 +61,8 @@ class RescheduleTimeRequestActivity : ActivityBase(), ExtendedEntryText.Extended
         txtDate = findViewById(R.id.txt_date)
         txtPreviousDate = findViewById(R.id.txt_previous_date)
         getTxtPreviousTime = findViewById(R.id.txt_previous_time)
+        lytBtnVerify = findViewById(R.id.lyt_btn_verify)
+        lytBtnDecline = findViewById(R.id.lyt_btn_decline)
     }
 
     private fun init() {
@@ -97,11 +102,12 @@ class RescheduleTimeRequestActivity : ActivityBase(), ExtendedEntryText.Extended
     }
 
 
-    @OnClick(R.id.lyt_btn_verify, R.id.lyt_btn_decline)
-    fun onViewClicked(view: View) {
-        when (view.id) {
-            R.id.lyt_btn_verify -> if (validation()) createRequest()
-            R.id.lyt_btn_decline -> finish()
+    private fun onViewClick() {
+        lytBtnDecline.setOnClickListener {
+            finish()
+        }
+        lytBtnVerify.setOnClickListener {
+            if (validation()) createRequest()
         }
     }
 

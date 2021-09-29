@@ -527,7 +527,8 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         val call: Call<String?>?
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
         val imageFile = MultipartBody.Part.createFormData("media", pictureFile.name, requestFile)
-        call = ApiClient.getClient().getTaskTempAttachmentMediaData( /*"application/x-www-form-urlencoded",*/"XMLHttpRequest", sessionManager!!.tokenType + " " + sessionManager!!.accessToken, imageFile)
+        call = ApiClient.getClient().getTaskTempAttachmentMediaData( /*"application/x-www-form-urlencoded",*/"XMLHttpRequest",
+                sessionManager!!.tokenType + " " + sessionManager!!.accessToken, imageFile)
         call?.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 taskCreateActivity!!.hideProgressDialog()

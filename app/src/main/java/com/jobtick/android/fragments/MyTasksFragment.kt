@@ -1,45 +1,39 @@
 package com.jobtick.android.fragments
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import android.content.Context
-import com.jobtick.android.R
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.jobtick.android.activities.DashboardActivity
-import com.jobtick.android.widget.EndlessRecyclerViewOnScrollListener
-import com.jobtick.android.adapers.TaskListAdapterV2
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import android.os.Bundle
-import butterknife.ButterKnife
-import androidx.core.content.res.ResourcesCompat
-import android.graphics.drawable.ColorDrawable
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import android.view.*
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.android.volley.*
-import com.jobtick.android.activities.SearchTaskActivity
 import com.android.volley.toolbox.StringRequest
-import timber.log.Timber
-import com.google.gson.Gson
-import com.jobtick.android.models.response.myjobs.MyJobsResponse
-import org.json.JSONException
 import com.android.volley.toolbox.Volley
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
-import com.jobtick.android.activities.TaskDetailsActivity
+import com.jobtick.android.R
+import com.jobtick.android.activities.*
+import com.jobtick.android.adapers.TaskListAdapterV2
 import com.jobtick.android.models.TaskModel
-import com.jobtick.android.activities.TaskCreateActivity
-import com.jobtick.android.activities.ActivityBase
 import com.jobtick.android.models.response.myjobs.Data
+import com.jobtick.android.models.response.myjobs.MyJobsResponse
 import com.jobtick.android.utils.*
+import com.jobtick.android.widget.EndlessRecyclerViewOnScrollListener
+import org.json.JSONException
 import org.json.JSONObject
-import java.util.ArrayList
-import java.util.HashMap
+import timber.log.Timber
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -73,12 +67,11 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
     private var noJobs: LinearLayout? = null
     var mypopupWindow: PopupWindow? = null
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_my_tasks, container, false)
-        return view
+        return inflater.inflate(R.layout.fragment_my_tasks, container, false)
     }
 
     private fun initIDS() {
@@ -95,7 +88,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
         //toolbar.inflateMenu(R.menu.menu_my_task_black);
         toolbar.visibility = View.VISIBLE
         ivNotification = dashboardActivity!!.findViewById(R.id.ivNotification)
-        ivNotification.setVisibility(View.GONE)
+        ivNotification.visibility = View.GONE
         toolbarTitle = dashboardActivity!!.findViewById(R.id.toolbar_title)
         linFilter = dashboardActivity!!.findViewById(R.id.lin_filter)
         filterText = dashboardActivity!!.findViewById(R.id.filter_text)
@@ -124,17 +117,17 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
         )
         params.gravity = Gravity.START
         toolbarTitle.layoutParams = params
-        toolbar.setNavigationIcon(R.drawable.ic_setting)
+        toolbar.setNavigationIcon(R.drawable.ic_back)
     }
 
     override fun onStop() {
         super.onStop()
-        linFilter!!.visibility = View.GONE
+        linFilter.visibility = View.GONE
     }
 
     override fun onResume() {
         super.onResume()
-        linFilter!!.visibility = View.VISIBLE
+        linFilter.visibility = View.VISIBLE
         sessionManager!!.needRefresh = false
         statusList
     }
@@ -160,8 +153,8 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
         val closed = view.findViewById<View>(R.id.closed) as TextView
         val cancelled = view.findViewById<View>(R.id.cancelled) as TextView
         mypopupWindow!!.setOnDismissListener {
-            filterText!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
-            filterIcon!!.setImageDrawable(
+            filterText.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+            filterIcon.setImageDrawable(
                 ContextCompat.getDrawable(
                     requireContext(),
                     R.drawable.ic_sort_arrow_down

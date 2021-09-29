@@ -195,7 +195,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 creatingTask.putExtras(bundle)
                 requireContext().startActivity(creatingTask)
             }
-            toolbar!!.setNavigationIcon(R.drawable.ic_setting)
+            toolbar!!.navigationIcon = null
         }
     }
 

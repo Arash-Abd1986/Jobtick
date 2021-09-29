@@ -172,7 +172,7 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
                 Toolbar.LayoutParams.WRAP_CONTENT)
         params.gravity = Gravity.START
         toolbarTitle!!.layoutParams = params
-        toolbar!!.setNavigationIcon(R.drawable.ic_setting)
+        toolbar!!.navigationIcon = null
     }
 
     private fun subscribeToPresence() {

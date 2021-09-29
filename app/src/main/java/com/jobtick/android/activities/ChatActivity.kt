@@ -103,13 +103,13 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
     private var mSocket: Socket? = null
     private var uploadableImage: UploadableImage? = null
     private var imageFileTemp: File? = null
+    private lateinit var app: AppController
 
 
     override fun onResume() {
         super.onResume()
         pbLoading.visibility = View.VISIBLE
         imgBtnSend.visibility = View.GONE
-        val app = this.application as AppController
         if (mSocket == null)
             mSocket = app.socket
         if (!mSocket!!.connected()) {
@@ -128,7 +128,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
             mSocket!!.on("newpm", onNewMessage)
             mSocket!!.on("userstatus", userStatus)
             mSocket!!.connect()
-        }else{
+        } else {
             pbLoading.visibility = View.GONE
             imgBtnSend.visibility = View.VISIBLE
         }
@@ -275,7 +275,11 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
     }
 
     private fun initVars() {
+        app = this.application as AppController
         attachment = AttachmentModel()
+        if (app.socket != null)
+            if (app.socket.connected())
+                app.socket.disconnect()
         val bundle = intent.extras
         if (bundle != null) {
             if (bundle.getParcelable<Parcelable?>(ConstantKey.CONVERSATION) != null) {
@@ -487,7 +491,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                 cardStatus.setCardBackgroundColor(getColor(R.color.N030))
                 txtStatus.setTextColor(ContextCompat.getColor(this, R.color.N080))
             }
-            Constant.TASK_COMPLETE,"completed" -> {
+            Constant.TASK_COMPLETE, "completed" -> {
                 cardStatus.setCardBackgroundColor(getColor(R.color.G050))
                 txtStatus.setTextColor(ContextCompat.getColor(this, R.color.G400))
             }
@@ -495,7 +499,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                 cardStatus.setCardBackgroundColor(getColor(R.color.P050))
                 txtStatus.setTextColor(ContextCompat.getColor(this, R.color.P300))
             }
-            Constant.TASK_ASSIGNED ,"overdue"-> {
+            Constant.TASK_ASSIGNED, "overdue" -> {
                 cardStatus.setCardBackgroundColor(getColor(R.color.Y050))
                 txtStatus.setTextColor(ContextCompat.getColor(this, R.color.Y400))
             }

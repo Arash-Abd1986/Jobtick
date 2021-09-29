@@ -64,6 +64,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     var smallPlus: FrameLayout? = null
     private var creditCardModel: CreditCardModel? = null
     var navController: NavController? = null
+    private var navigationID = -1
 
     @SuppressLint("NonConstantResourceId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -165,8 +166,12 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         toolbar!!.setNavigationIcon(R.drawable.ic_setting)
         toolbar!!.setNavigationOnClickListener {
             linFilterExplore!!.visibility = View.GONE
-            val settings = Intent(this@DashboardActivity, SettingActivity::class.java)
-            startActivity(settings)
+            if (navigationID == R.id.navigation_my_tasks) {
+                onBackPressed()
+            } else {
+                val settings = Intent(this@DashboardActivity, SettingActivity::class.java)
+                startActivity(settings)
+            }
         }
     }
 
@@ -188,6 +193,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
                     setMenuItemProperties(4)
                 }
             }
+            navigationID = destination.id
         }
     }
 

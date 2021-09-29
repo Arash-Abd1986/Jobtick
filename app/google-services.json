@@ -8,28 +8,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:582071119574:android:8d2fa7c440b905cfb0a377",
+        "mobilesdk_app_id": "1:582071119574:android:b61b4b2d3bc58a84b0a377",
         "android_client_info": {
           "package_name": "com.jobtick.android"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "582071119574-9b9770pdg2prs2ol30e1euuke13b381c.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.jobtick.android",
-            "certificate_hash": "99b52c7b276c7c48b48a89160f254a0abb73e6dc"
-          }
-        },
-        {
-          "client_id": "582071119574-tvmjf31mkap4efpr80rukbb3fgukahkf.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.jobtick.android",
-            "certificate_hash": "7bca7ec7f1f0164e874a765ef6227e011810924a"
-          }
-        },
         {
           "client_id": "582071119574-2d8rcnd0serh1eam9bjr26pcj41emr0i.apps.googleusercontent.com",
           "client_type": 3

@@ -53,14 +53,14 @@ class TaskListAdapterV2(private val mItems: ArrayList<Data> = ArrayList(), priva
 
     override fun getItemViewType(position: Int): Int {
         return if (isLoaderVisible) {
-            if (position == mItems!!.size - 1) VIEW_TYPE_LOADING else VIEW_TYPE_NORMAL
+            if (position == mItems.size - 1) VIEW_TYPE_LOADING else VIEW_TYPE_NORMAL
         } else {
             VIEW_TYPE_NORMAL
         }
     }
 
     override fun getItemCount(): Int {
-        return mItems?.size ?: 0
+        return mItems.size
     }
 
     fun addItems(mItems: List<Data>, allItems: Int) {
@@ -75,7 +75,7 @@ class TaskListAdapterV2(private val mItems: ArrayList<Data> = ArrayList(), priva
     private fun addLoading() {
         if (isLoaderVisible) return
         isLoaderVisible = true
-        val position = mItems!!.size - 1
+        val position = mItems.size - 1
         mItems.add(
             Data(
                 null,
@@ -104,7 +104,7 @@ class TaskListAdapterV2(private val mItems: ArrayList<Data> = ArrayList(), priva
     private fun removeLoading() {
         if (!isLoaderVisible) return
         isLoaderVisible = false
-        val position = mItems!!.size - 1
+        val position = mItems.size - 1
         if (position == -1) return
         val item = getItem(position)
         if (item != null) {
@@ -114,12 +114,12 @@ class TaskListAdapterV2(private val mItems: ArrayList<Data> = ArrayList(), priva
     }
 
     fun clear() {
-        mItems!!.clear()
+        mItems.clear()
         notifyDataSetChanged()
     }
 
     fun getItem(position: Int): Data {
-        return mItems!![position]
+        return mItems[position]
     }
 
     inner class ViewHolder internal constructor(itemView: View?) : BaseViewHolder(itemView) {
@@ -159,7 +159,7 @@ class TaskListAdapterV2(private val mItems: ArrayList<Data> = ArrayList(), priva
         @SuppressLint("SetTextI18n")
         override fun onBind(position: Int) {
             super.onBind(position)
-            val item = mItems!![position]
+            val item = mItems[position]
             if (item.offers != null) if (item.offers.isNotEmpty()) {
                 txtOfferCount!!.setTextColor(ContextCompat.getColor(context!!, R.color.N900))
                 when {

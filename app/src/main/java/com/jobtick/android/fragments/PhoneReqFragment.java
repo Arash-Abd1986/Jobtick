@@ -65,13 +65,13 @@ public class PhoneReqFragment extends Fragment implements TextWatcher {
         btnNext.setOnClickListener(v -> {
             if(!validationPhone() || !validationVerify()) return;
 
-            verifyPhoneNumber.verify(verify.getText().toString().trim());
+            verifyPhoneNumber.verify(verify.getText().trim());
         });
 
         phone.setExtendedViewOnClickListener(() -> {
                 if(!validationPhone()) return;
                 ((ActivityBase) requireActivity()).showProgressDialog();
-                verifyPhoneNumber.sendOTP(phone.getText().toString().trim());
+                verifyPhoneNumber.sendOTP(phone.getText().trim());
             });
 
         verifyPhoneNumber = new VerifyPhoneNumberImpl(requireContext(), sessionManager) {

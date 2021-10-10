@@ -13,8 +13,7 @@ data class Card(
             parcel.readString(),
             parcel.readValue(Int::class.java.classLoader) as? Int,
             parcel.readValue(Int::class.java.classLoader) as? Int,
-            parcel.readString()) {
-    }
+            parcel.readString())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(brand)

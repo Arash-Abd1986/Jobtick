@@ -42,7 +42,7 @@ public class Links implements Parcelable
     protected Links(Parcel in) {
         this.first = ((String) in.readValue((String.class.getClassLoader())));
         this.last = ((String) in.readValue((String.class.getClassLoader())));
-        this.prev = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.prev = in.readValue((Object.class.getClassLoader()));
         this.next = ((String) in.readValue((String.class.getClassLoader())));
     }
 

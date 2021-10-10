@@ -107,7 +107,7 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         val view = inflater.inflate(R.layout.fragment_task_detail, container, false)
         uploadableImage = object : AbstractUploadableImageImpl(requireActivity()) {
             override fun onImageReady(imageFile: File) {
-                if (!isEditTask) uploadDataInTempApi(imageFile!!) else uploadDataForEditTask(imageFile!!)
+                if (!isEditTask) uploadDataInTempApi(imageFile) else uploadDataForEditTask(imageFile)
             }
         }
         return view
@@ -264,7 +264,7 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
             edtTitle.clearFocus()
             showBottomSheetAddMustHave(false)
         }
-        relReqSmall.setOnClickListener { if (Objects.requireNonNull(recyclerAddMustHave.adapter)!!.itemCount >= 3) taskCreateActivity!!.showToast("you can add only 3 requirements", taskCreateActivity) else showBottomSheetAddMustHave(false) }
+        relReqSmall.setOnClickListener { if ((recyclerAddMustHave.adapter)!!.itemCount >= 3) taskCreateActivity!!.showToast("you can add only 3 requirements", taskCreateActivity) else showBottomSheetAddMustHave(false) }
         checkboxOnline.setOnClickListener {
             edtDescription.clearFocus()
             edtTitle.clearFocus()
@@ -624,13 +624,13 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun selectDetailsBtn() {
-        val csl_primary = AppCompatResources.getColorStateList(requireContext()!!, R.color.colorPrimary)
+        val csl_primary = AppCompatResources.getColorStateList(requireContext(), R.color.colorPrimary)
         imgDetails.imageTintList = csl_primary
         imgDetails.setImageDrawable(resources.getDrawable(R.drawable.ic_details_big))
         txtDetails.setTextColor(resources.getColor(R.color.colorPrimary))
         val face = ResourcesCompat.getFont(requireActivity(), R.font.roboto_medium)
         txtDetails.typeface = face
-        val csl_grey = AppCompatResources.getColorStateList(requireContext()!!, R.color.greyC4C4C4)
+        val csl_grey = AppCompatResources.getColorStateList(requireContext(), R.color.greyC4C4C4)
         imgDateTime.imageTintList = csl_grey
         imgBudget.imageTintList = csl_grey
         txtDateTime.setTextColor(resources.getColor(R.color.colorGrayC9C9C9))
@@ -648,12 +648,12 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
 
     fun checkTabs() {
         if ((requireActivity() as TaskCreateActivity?)!!.isBudgetComplete) {
-            val csl_green = AppCompatResources.getColorStateList(requireContext()!!, R.color.green)
+            val csl_green = AppCompatResources.getColorStateList(requireContext(), R.color.green)
             imgBudget.imageTintList = csl_green
             txtBudget.setTextColor(resources.getColor(R.color.green))
         }
         if ((requireActivity() as TaskCreateActivity?)!!.isDateTimeComplete) {
-            val csl_green = AppCompatResources.getColorStateList(requireContext()!!, R.color.green)
+            val csl_green = AppCompatResources.getColorStateList(requireContext(), R.color.green)
             imgDateTime.imageTintList = csl_green
             txtDateTime.setTextColor(resources.getColor(R.color.green))
         }

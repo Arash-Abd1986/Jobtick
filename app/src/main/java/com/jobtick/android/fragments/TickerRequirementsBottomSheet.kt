@@ -178,7 +178,7 @@ class TickerRequirementsBottomSheet : AbstractStateExpandedBottomSheet() {
                 listener!!.onStripeRequirementFilled()
                 dismiss()
                 val taskModel = TaskDetailsActivity.taskModel
-                if (taskModel.musthave.size == 0) {
+                if (taskModel!!.musthave.size == 0) {
                     val intent = Intent(context, MakeAnOfferActivity::class.java)
                     val bundle = Bundle()
                     bundle.putInt("id", taskModel.id)

@@ -72,7 +72,7 @@ class AddBankAccountActivity : ActivityBase() {
         edtAccountNumber.text = "xxxxx" + bankAccountModel.data.account_number
         edtBsb.text = bankAccountModel.data.bsb_code
         editMode = bundle.getBoolean(Constant.EDIT_MODE)
-        if (editMode) lytBtnAddBankAccount!!.text = getString(R.string.edit_bank_account) else lytBtnAddBankAccount!!.text = getString(R.string.add_bank_account)
+        if (editMode) lytBtnAddBankAccount.text = getString(R.string.edit_bank_account) else lytBtnAddBankAccount.text = getString(R.string.add_bank_account)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

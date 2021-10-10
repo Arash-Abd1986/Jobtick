@@ -21,7 +21,7 @@ public class TimeHelper {
             return -1;
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.ENGLISH);
-        return Integer.parseInt(sdf.format(date).toString());
+        return Integer.parseInt(sdf.format(date));
     }
 
     public static int getMonth(String time){
@@ -36,7 +36,7 @@ public class TimeHelper {
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM", Locale.ENGLISH);
-        return Integer.parseInt(sdf.format(date).toString());
+        return Integer.parseInt(sdf.format(date));
     }
 
     public static int getDay(String time){
@@ -51,7 +51,7 @@ public class TimeHelper {
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd", Locale.ENGLISH);
-        return Integer.parseInt(sdf.format(date).toString());
+        return Integer.parseInt(sdf.format(date));
     }
 
     public static String convertToWeekDateFormat(String time){

@@ -186,7 +186,7 @@ class NewTaskAlertsInPersonFragment : Fragment(), SubClickListener {
                     operationInPersonListener!!.onInPersonSave(position, taskAlert, minPrice, maxPrice)
                 }
             }
-            2 -> txtSuburb!!.setError("Select suburb");
+            2 -> txtSuburb!!.setError("Select suburb")
             1 -> edtKeyword!!.setError("Please enter keyword")
 
         }

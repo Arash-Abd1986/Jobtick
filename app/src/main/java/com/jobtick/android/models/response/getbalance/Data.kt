@@ -9,8 +9,7 @@ data class Data(
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readParcelable(Card::class.java.classLoader),
-            parcel.readParcelable(Wallet::class.java.classLoader)) {
-    }
+            parcel.readParcelable(Wallet::class.java.classLoader))
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeParcelable(card, flags)

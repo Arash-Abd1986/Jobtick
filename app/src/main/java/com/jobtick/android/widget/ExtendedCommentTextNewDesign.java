@@ -85,10 +85,10 @@ public class ExtendedCommentTextNewDesign extends RelativeLayout implements View
 
         setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
 
-        editText = (EditText) findViewById(R.id.content);
-        textView = (TextView) findViewById(R.id.title);
-        counter = (TextView) findViewById(R.id.counter);
-        suburbIcon = (AppCompatImageView) findViewById(R.id.suburb_icon);
+        editText = findViewById(R.id.content);
+        textView = findViewById(R.id.title);
+        counter = findViewById(R.id.counter);
+        suburbIcon = findViewById(R.id.suburb_icon);
         if (!showCounter)
             counter.setVisibility(INVISIBLE);
         textView.setText(eTitle);

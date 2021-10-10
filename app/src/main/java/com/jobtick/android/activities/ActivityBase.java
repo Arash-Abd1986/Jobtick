@@ -86,9 +86,6 @@ public class ActivityBase extends AppCompatActivity {
                 Timber.tag("connection").e(change.getCurrentState() + "");
                 System.out.println("State changed to " + change.getCurrentState() +
                         " from " + change.getPreviousState());
-                if (change.getCurrentState() == ConnectionState.CONNECTED) {
-                    // subscribeToPresenceChannel();
-                }
             }
 
             @Override

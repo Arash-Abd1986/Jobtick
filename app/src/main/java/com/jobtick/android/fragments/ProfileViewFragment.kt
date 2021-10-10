@@ -117,7 +117,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
         val view = inflater.inflate(R.layout.fragment_profile_view, container, false)
         onProfileupdatelistener = this
         val b = arguments
-        userId = Objects.requireNonNull(b)!!.getInt("userId", -1)
+        userId = (b)!!.getInt("userId", -1)
         return view
     }
     private fun setIDs() {
@@ -311,7 +311,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
                                 setUpAllEditFields(userAccountModel)
                                 attachmentArrayList = userAccountModel!!.portfolio
                                 adapter!!.clear()
-                                badgesModelArrayList = userAccountModel!!.getBadges()
+                                badgesModelArrayList = userAccountModel!!.badges
                                 if (attachmentArrayList!!.size <= 0) {
                                     noPortfolio!!.visibility = View.VISIBLE
                                     lPort!!.visibility = View.GONE

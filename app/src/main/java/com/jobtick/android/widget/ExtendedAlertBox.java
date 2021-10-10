@@ -51,8 +51,8 @@ public class ExtendedAlertBox extends FrameLayout {
         LayoutInflater.from(context).inflate(R.layout.view_alert_box, this);
 
         setBackgroundResource(R.drawable.rectangle_round_corners_red_8dp);
-        mTitle = (TextView) findViewById(R.id.title);
-        mButton = (MaterialButton) findViewById(R.id.button_text);
+        mTitle = findViewById(R.id.title);
+        mButton = findViewById(R.id.button_text);
 
         mTitle.setText(title);
         mButton.setText(buttonText);

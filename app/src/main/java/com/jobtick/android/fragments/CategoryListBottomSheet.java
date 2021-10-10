@@ -55,10 +55,10 @@ import static com.jobtick.android.pagination.PaginationListener.PAGE_START;
 public class CategoryListBottomSheet extends BottomSheetDialogFragment implements TaskCategoryAdapter.OnItemClickListener {
     RecyclerView recyclerViewCategories;
     private TaskCategoryAdapter adapter;
-    private SessionManager sessionManager;
+    private final SessionManager sessionManager;
     private FrameLayout close;
 
-    private String query = "";
+    private final String query = "";
 
     public CategoryListBottomSheet(SessionManager sessionManager) {
         this.sessionManager = sessionManager;

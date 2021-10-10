@@ -37,7 +37,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private OnItemClickListener mOnItemClickListener;
     private OnDraftDeleteListener mOnDraftDeleteListener;
 
-    private Integer userId;
+    private final Integer userId;
 
     public interface OnItemClickListener {
         void onItemClick(View view, TaskModel obj, int position, String action);

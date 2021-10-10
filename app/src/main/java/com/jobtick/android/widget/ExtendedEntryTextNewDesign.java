@@ -53,7 +53,7 @@ public class ExtendedEntryTextNewDesign extends RelativeLayout implements View.O
     private int eImeOptions;
     private boolean password_hide = true;
     private boolean eIsEnable = true;
-    private int tHigh = 0;
+    private final int tHigh = 0;
     private ExtendedViewOnClickListener extendedViewOnClickListener;
     private TextWatcher textWatcher;
 
@@ -108,18 +108,18 @@ public class ExtendedEntryTextNewDesign extends RelativeLayout implements View.O
 
         setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
 
-        autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.content_auto_complete);
+        autoCompleteTextView = findViewById(R.id.content_auto_complete);
         if (eInputType == EInputType.AUTOCOMPLETE) {
-            editText = (EditText) autoCompleteTextView;
-            secondEditText = (EditText) findViewById(R.id.content);
+            editText = autoCompleteTextView;
+            secondEditText = findViewById(R.id.content);
         } else
-            editText = (EditText) findViewById(R.id.content);
+            editText = findViewById(R.id.content);
 
-        textView = (TextView) findViewById(R.id.title);
-        errorView = (TextView) findViewById(R.id.error);
-        imageView = (ImageView) findViewById(R.id.img_btn_password_toggle);
-        dollar = (TextView) findViewById(R.id.dollar);
-        verify = (Button) findViewById(R.id.verifyButton);
+        textView = findViewById(R.id.title);
+        errorView = findViewById(R.id.error);
+        imageView = findViewById(R.id.img_btn_password_toggle);
+        dollar = findViewById(R.id.dollar);
+        verify = findViewById(R.id.verifyButton);
         textView.setText(eTitle);
         editText.setText(eContent);
         editText.setHint(eTitle);
@@ -219,7 +219,6 @@ public class ExtendedEntryTextNewDesign extends RelativeLayout implements View.O
                 if (extendedViewOnClickListener == null)
                     throw new IllegalStateException(eInputType + " type selected, but ExtendedViewOnClickListener is not implemented.");
                 extendedViewOnClickListener.onClick();
-                ;
             });
         }
 

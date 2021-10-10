@@ -177,7 +177,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
             cancelled.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
             refreshSort("All Jobs")
             mypopupWindow!!.dismiss()
-            filterText!!.text = "All jobs"
+            filterText.text = "All jobs"
         }
         assigned.setOnClickListener { v: View? ->
             allJobs.setTextColor(
@@ -195,7 +195,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
             cancelled.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
             refreshSort("Assigned")
             mypopupWindow!!.dismiss()
-            filterText!!.text = "Assigned"
+            filterText.text = "Assigned"
         }
         posted.setOnClickListener { v: View? ->
             allJobs.setTextColor(
@@ -213,7 +213,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
             cancelled.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
             refreshSort("Open")
             mypopupWindow!!.dismiss()
-            filterText!!.text = "Posted"
+            filterText.text = "Posted"
         }
         offered.setOnClickListener { v: View? ->
             allJobs.setTextColor(
@@ -231,7 +231,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
             cancelled.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
             refreshSort("Offered")
             mypopupWindow!!.dismiss()
-            filterText!!.text = "Offered"
+            filterText.text = "Offered"
         }
         draft.setOnClickListener { v: View? ->
             allJobs.setTextColor(
@@ -249,7 +249,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
             cancelled.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
             refreshSort("Draft")
             mypopupWindow!!.dismiss()
-            filterText!!.text = "Draft"
+            filterText.text = "Draft"
         }
         completed.setOnClickListener { v: View? ->
             allJobs.setTextColor(
@@ -267,7 +267,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
             cancelled.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
             refreshSort("Completed")
             mypopupWindow!!.dismiss()
-            filterText!!.text = "Completed"
+            filterText.text = "Completed"
         }
         overdue.setOnClickListener { v: View? ->
             allJobs.setTextColor(
@@ -285,7 +285,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
             cancelled.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
             refreshSort("Overdue")
             mypopupWindow!!.dismiss()
-            filterText!!.text = "Overdue"
+            filterText.text = "Overdue"
         }
         closed.setOnClickListener { v: View? ->
             allJobs.setTextColor(

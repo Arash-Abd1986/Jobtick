@@ -106,7 +106,7 @@ public class CancellationPosterActivity extends
 
     @Override
     public void onCheckedChanged(RadioGroup group, int id) {
-        RadioButton radioButton = (RadioButton) group.findViewById(id);
+        RadioButton radioButton = group.findViewById(id);
         Poster selectedReason = ((Poster) radioButton.getTag());
         if (radioButton.isChecked()) {
             reason = radioButton.getText().toString().trim();

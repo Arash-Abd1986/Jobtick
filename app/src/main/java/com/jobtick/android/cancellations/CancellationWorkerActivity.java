@@ -105,7 +105,7 @@ public class CancellationWorkerActivity extends AbstractCancellationReasonsActiv
 
     @Override
     public void onCheckedChanged(RadioGroup group, int id) {
-        RadioButton radioButton = (RadioButton) group.findViewById(id);
+        RadioButton radioButton = group.findViewById(id);
         Worker selectedReason = ((Worker)radioButton.getTag());
         if (radioButton.isChecked()) {
             reason = radioButton.getText().toString().trim();

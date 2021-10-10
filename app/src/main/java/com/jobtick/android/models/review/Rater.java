@@ -52,7 +52,7 @@ public class Rater implements Parcelable
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.slug = ((String) in.readValue((String.class.getClassLoader())));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
-        this.avatar = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.avatar = in.readValue((Object.class.getClassLoader()));
         this.isVerifiedAccount = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.lastOnline = ((String) in.readValue((String.class.getClassLoader())));
         this.position = ((Position) in.readValue((Position.class.getClassLoader())));

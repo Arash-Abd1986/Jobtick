@@ -360,8 +360,8 @@ open class AuthActivity : ActivityBase() {
                 map1["device_type"] = strDevice
                 map1["fcm_token"] = strFcmToken
                 map1["access_token"] = str_access_token
-                map1["latitude"] = sessionManagerA.getLatitude()
-                map1["longitude"] = sessionManagerA.getLongitude()
+                map1["latitude"] = sessionManagerA.latitude
+                map1["longitude"] = sessionManagerA.longitude
                 return map1
             }
         }
@@ -684,8 +684,8 @@ open class AuthActivity : ActivityBase() {
                             map1["device_type"] = strDevice
                             if (strFcmToken != null && !strFcmToken.isEmpty()) map1["fcm_token"] = strFcmToken
                             map1["access_token"] = strIdToken
-                            map1["latitude"] = sessionManagerA.getLatitude()
-                            map1["longitude"] = sessionManagerA.getLongitude()
+                            map1["latitude"] = sessionManagerA.latitude
+                            map1["longitude"] = sessionManagerA.longitude
                             return map1
                         }
                     }

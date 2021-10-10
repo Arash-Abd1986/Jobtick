@@ -35,7 +35,7 @@ public class RecommendedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder>
     private OnItemClickListener mOnItemClickListener;
     private OnDraftDeleteListener mOnDraftDeleteListener;
 
-    private Integer userId;
+    private final Integer userId;
 
     public interface OnItemClickListener {
         void onItemClick(View view, PostedJob obj, int position, String action);

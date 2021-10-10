@@ -280,11 +280,11 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
 
         final View view = getLayoutInflater().inflate(R.layout.sheet_job_details, null);
 
-        TextView tvJobTitle = (TextView) view.findViewById(R.id.tvJobTitle);
-        TextView tvPosterName = (TextView) view.findViewById(R.id.tvPosterName);
-        TextView tvLocation = (TextView) view.findViewById(R.id.tvLocation);
-        TextView tvDate = (TextView) view.findViewById(R.id.tvDate);
-        TextView tvDesc = (TextView) view.findViewById(R.id.tvDesc);
+        TextView tvJobTitle = view.findViewById(R.id.tvJobTitle);
+        TextView tvPosterName = view.findViewById(R.id.tvPosterName);
+        TextView tvLocation = view.findViewById(R.id.tvLocation);
+        TextView tvDate = view.findViewById(R.id.tvDate);
+        TextView tvDesc = view.findViewById(R.id.tvDesc);
 
         tvJobTitle.setText(TaskDetailsActivity.taskModel.getTitle());
         tvPosterName.setText(TaskDetailsActivity.taskModel.getPoster().getName());
@@ -298,7 +298,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
         //
         tvDate.setText(Tools.getDayMonthDateTimeFormat2(TaskDetailsActivity.taskModel.getDueDate()));
 
-        CircularImageView imgAvtarPoster = (CircularImageView) view.findViewById(R.id.ivAvatar);
+        CircularImageView imgAvtarPoster = view.findViewById(R.id.ivAvatar);
         if (TaskDetailsActivity.taskModel.getPoster().getAvatar() != null && TaskDetailsActivity.taskModel.getPoster().getAvatar().getThumbUrl() != null) {
             ImageUtil.displayImage(imgAvtarPoster, TaskDetailsActivity.taskModel.getPoster().getAvatar().getThumbUrl(), null);
         } else {
@@ -334,7 +334,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
         }
         makeAnOfferModel = new MakeAnOfferModel();
         if (getArguments() != null && getArguments().getParcelable(ConstantKey.MAKE_AN_OFFER_MODEL) != null) {
-            makeAnOfferModel = (MakeAnOfferModel) getArguments().getParcelable(ConstantKey.MAKE_AN_OFFER_MODEL);
+            makeAnOfferModel = getArguments().getParcelable(ConstantKey.MAKE_AN_OFFER_MODEL);
         }
         if (makeAnOfferModel != null) {
             setLayoout();
@@ -391,7 +391,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
                         break;
                     case 0:
                         if (aboutCallbackFunction != null) {
-                            makeAnOfferModel.setMessage(edtDescription.getText().toString().trim());
+                            makeAnOfferModel.setMessage(edtDescription.getText().trim());
                             makeAnOfferModel.setCheckbok(checkboxSaveAsTemplate.isChecked());
                             aboutCallbackFunction.continueButtonAbout(makeAnOfferModel);
                         }
@@ -420,7 +420,7 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
     private int validation() {
         if (edtDescription.getText().length() < edtDescription.geteMinSize() && makeAnOfferModel.getAttachment() == null) {
             return 1;
-        } else if (!TextUtils.isEmpty(edtDescription.getText().toString().trim()) && makeAnOfferModel.getAttachment() != null) {
+        } else if (!TextUtils.isEmpty(edtDescription.getText().trim()) && makeAnOfferModel.getAttachment() != null) {
             return 2;
         }
         return 0;

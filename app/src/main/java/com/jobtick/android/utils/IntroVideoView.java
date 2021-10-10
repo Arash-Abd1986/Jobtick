@@ -13,7 +13,7 @@ public class IntroVideoView extends VideoView {
     private static final int SCALE_TYPE_CENTER_CROP = 1;
     private static final int SCALE_TYPE_FILL = 2;
 
-    private int mScaleType;
+    private final int mScaleType;
     private int mHorizontalAspectRatioThreshold;
     private int mVerticalAspectRatioThreshold;
 

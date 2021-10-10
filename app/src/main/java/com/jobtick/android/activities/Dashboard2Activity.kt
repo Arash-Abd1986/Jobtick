@@ -89,7 +89,7 @@ class Dashboard2Activity : ActivityBase(), NotificationListAdapter.OnItemClickLi
                         checkList()
                         return@Listener
                     }
-                    notificationListAdapter!!.addItems(pushNotificationModel2!!.getData())
+                    notificationListAdapter!!.addItems(pushNotificationModel2!!.data)
                     checkList()
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -168,7 +168,7 @@ class Dashboard2Activity : ActivityBase(), NotificationListAdapter.OnItemClickLi
     }
 
     private fun clickEvent() {
-        rgTickerPoster!!.setOnCheckedChangeListener { group: RadioGroup?, checkedId: Int ->
+        rgTickerPoster.setOnCheckedChangeListener { group: RadioGroup?, checkedId: Int ->
             when (checkedId) {
                 R.id.rb_as_ticker -> viewPager.currentItem = 0
                 R.id.rb_as_poster -> viewPager.currentItem = 1

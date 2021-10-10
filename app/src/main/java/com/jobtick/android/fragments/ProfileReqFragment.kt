@@ -44,11 +44,11 @@ class ProfileReqFragment : Fragment() {
         }
         btnNext = view.findViewById(R.id.btn_next)
         btnNext!!.setOnClickListener { (parentFragment as TickerRequirementsBottomSheet?)!!.changeFragment(1) }
-        userAccountModel = (activity as TaskDetailsActivity?)!!.userAccountModel
+        userAccountModel = (activity as TaskDetailsActivity?)!!.userAccountModel!!
         setUpAvatar(userAccountModel)
         uploadableImage = object : AbstractUploadableImageImpl(requireActivity()) {
             override fun onImageReady(imageFile: File) {
-                uploadProfileAvatar(imageFile!!)
+                uploadProfileAvatar(imageFile)
             }
         }
     }

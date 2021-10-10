@@ -1,40 +1,38 @@
 package com.jobtick.android.activities
 
-import com.jobtick.android.fragments.TaskDetailFragment
-import com.jobtick.android.fragments.TaskDateTimeFragment
-import com.jobtick.android.fragments.TaskBudgetFragment
-import com.jobtick.android.fragments.ConfirmDeleteTaskBottomSheet
 import android.annotation.SuppressLint
-import com.jobtick.android.R
-import com.google.android.material.appbar.MaterialToolbar
-import androidx.cardview.widget.CardView
-import androidx.viewpager.widget.ViewPager
-import com.jobtick.android.models.TaskModel
-import android.os.Bundle
-import com.jobtick.android.models.task.AttachmentModels
 import android.content.Intent
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
-import androidx.appcompat.content.res.AppCompatResources
-import android.view.ContextMenu.ContextMenuInfo
-import com.jobtick.android.models.PositionModel
-import com.jobtick.android.models.AttachmentModel
-import com.jobtick.android.models.DueTimeModel
-import com.android.volley.toolbox.StringRequest
-import timber.log.Timber
-import org.json.JSONException
-import com.android.volley.toolbox.Volley
+import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.view.*
+import android.view.ContextMenu.ContextMenuInfo
 import android.widget.*
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.cardview.widget.CardView
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.android.volley.*
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.google.android.material.appbar.MaterialToolbar
 import com.jobtick.android.BuildConfig
+import com.jobtick.android.R
 import com.jobtick.android.adapers.SectionsPagerAdapter
+import com.jobtick.android.fragments.ConfirmDeleteTaskBottomSheet
+import com.jobtick.android.fragments.TaskBudgetFragment
+import com.jobtick.android.fragments.TaskDateTimeFragment
+import com.jobtick.android.fragments.TaskDetailFragment
+import com.jobtick.android.models.AttachmentModel
+import com.jobtick.android.models.DueTimeModel
+import com.jobtick.android.models.PositionModel
+import com.jobtick.android.models.TaskModel
+import com.jobtick.android.models.task.AttachmentModels
 import com.jobtick.android.utils.*
+import org.json.JSONException
 import org.json.JSONObject
-import java.lang.Exception
-import java.util.ArrayList
-import java.util.HashMap
+import timber.log.Timber
+import java.util.*
 
 class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener, TaskDateTimeFragment.OperationsListener, TaskBudgetFragment.OperationsListener, ConfirmDeleteTaskBottomSheet.NoticeListener {
 
@@ -87,7 +85,7 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
             taskModel.category_id = bundle.getInt(ConstantKey.CATEGORY_ID, 1)
         }
         if (bundle != null && bundle.getBoolean(ConstantKey.COPY, false)) {
-            taskModel = TaskDetailsActivity.taskModel
+            taskModel = TaskDetailsActivity.taskModel!!
             if (taskModel.poster != null &&
                     taskModel.poster.id != sessionManager.userAccount.id) {
                 val taskModelTemp = TaskModel()
@@ -106,7 +104,7 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
             title = bundle.getString(ConstantKey.TITLE)
         }
         if (bundle != null && bundle.getBoolean(ConstantKey.EDIT, false)) {
-            taskModel = TaskDetailsActivity.taskModel
+            taskModel = TaskDetailsActivity.taskModel!!
             isEditTask = true
         }
         if (bundle != null && bundle.getBoolean(ConstantKey.DRAFT_JOB, false)) {
@@ -614,7 +612,7 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 showToast("Job has been deleted successfully", this)
-                                sessionManager.setNeedRefresh(true)
+                                sessionManager.needRefresh = true
                                 onBackPressed()
                             } else {
                                 showToast("Something went Wrong", this)

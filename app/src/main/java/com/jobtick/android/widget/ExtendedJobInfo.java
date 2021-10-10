@@ -48,9 +48,9 @@ public class ExtendedJobInfo extends FrameLayout {
         //Inflate and attach the content
         LayoutInflater.from(context).inflate(R.layout.view_dashboard_job_cell_info, this);
 
-        title = (TextView) findViewById(R.id.title);
-        value = (TextView) findViewById(R.id.value);
-        card = (CardView) findViewById(R.id.card_task_background);
+        title = findViewById(R.id.title);
+        value = findViewById(R.id.value);
+        card = findViewById(R.id.card_task_background);
 
         title.setText(eTitle);
         value.setText(eValue);

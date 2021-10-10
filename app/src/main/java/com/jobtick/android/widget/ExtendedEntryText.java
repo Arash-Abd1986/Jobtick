@@ -108,18 +108,18 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
 
         setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
 
-        autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.content_auto_complete);
+        autoCompleteTextView = findViewById(R.id.content_auto_complete);
         if (eInputType == EInputType.AUTOCOMPLETE) {
-            editText = (EditText) autoCompleteTextView;
-            secondEditText = (EditText) findViewById(R.id.content);
+            editText = autoCompleteTextView;
+            secondEditText = findViewById(R.id.content);
         } else
-            editText = (EditText) findViewById(R.id.content);
+            editText = findViewById(R.id.content);
 
-        textView = (TextView) findViewById(R.id.title);
-        errorView = (TextView) findViewById(R.id.error);
-        imageView = (ImageView) findViewById(R.id.img_btn_password_toggle);
-        dollar = (TextView) findViewById(R.id.dollar);
-        verify = (Button) findViewById(R.id.verifyButton);
+        textView = findViewById(R.id.title);
+        errorView = findViewById(R.id.error);
+        imageView = findViewById(R.id.img_btn_password_toggle);
+        dollar = findViewById(R.id.dollar);
+        verify = findViewById(R.id.verifyButton);
         LayoutParams params = (LayoutParams) textView.getLayoutParams();
         tHigh = params.height;
         params.height = 0;
@@ -225,7 +225,6 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
                 if (extendedViewOnClickListener == null)
                     throw new IllegalStateException(eInputType + " type selected, but ExtendedViewOnClickListener is not implemented.");
                 extendedViewOnClickListener.onClick();
-                ;
             });
         }
 

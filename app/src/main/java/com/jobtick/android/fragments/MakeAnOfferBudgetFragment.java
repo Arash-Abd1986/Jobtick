@@ -95,7 +95,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
     private TaskModel taskModel;
     private SessionManager sessionManager;
 
-    private String previousCalculatedBudget = "0";
+    private final String previousCalculatedBudget = "0";
 
     public static MakeAnOfferBudgetFragment newInstance(MakeAnOfferModel makeAnOfferModel, BudgetCallbackFunction budgetCallbackFunction) {
 
@@ -153,7 +153,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
         //toolbar.setNavigationOnClickListener(MakeAnOfferBudgetFragment.this);
 
         //Custom tool bar back here
-        ImageView ivBack = (ImageView) view.findViewById(R.id.ivBack);
+        ImageView ivBack = view.findViewById(R.id.ivBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

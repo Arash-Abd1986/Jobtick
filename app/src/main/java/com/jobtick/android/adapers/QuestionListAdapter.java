@@ -41,8 +41,8 @@ public class QuestionListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int VIEW_TYPE_NORMAL = 1;
 
     private final Context context;
-    private String status;
-    private int posterID;
+    private final String status;
+    private final int posterID;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {

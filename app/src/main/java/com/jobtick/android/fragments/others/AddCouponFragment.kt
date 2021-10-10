@@ -55,7 +55,7 @@ class AddCouponFragment : AbstractStateExpandedBottomSheet() {
     }
 
     private fun verify() {
-        if (isVerified) listener!!.onVerifySubmit(etPromoCode!!.text.toString()) else listener!!.onClose()
+        if (isVerified) listener!!.onVerifySubmit(etPromoCode.text.toString()) else listener!!.onClose()
     }
 
     private fun setupPromotionCodeChecker() {
@@ -67,12 +67,12 @@ class AddCouponFragment : AbstractStateExpandedBottomSheet() {
         etPromoCode.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (etPromoCode.getText().length == 8) {
-                    ivState.setVisibility(View.GONE)
-                    pbLoading.setVisibility(View.VISIBLE)
+                if (etPromoCode.text.length == 8) {
+                    ivState.visibility = View.GONE
+                    pbLoading.visibility = View.VISIBLE
                 } else {
-                    ivState.setVisibility(View.VISIBLE)
-                    pbLoading.setVisibility(View.GONE)
+                    ivState.visibility = View.VISIBLE
+                    pbLoading.visibility = View.GONE
                 }
             }
 

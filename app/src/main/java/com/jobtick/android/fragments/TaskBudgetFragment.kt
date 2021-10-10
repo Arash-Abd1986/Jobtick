@@ -77,18 +77,18 @@ class TaskBudgetFragment : Fragment() {
         taskCreateActivity = requireActivity() as TaskCreateActivity
         task = TaskModel()
         lytBtnBack.setOnClickListener { view1: View? ->
-            operationsListener!!.onBackClickBudget(budgetT, budgetH, hours, if (rbHourly!!.isChecked) "hourly " else "fixed")
+            operationsListener!!.onBackClickBudget(budgetT, budgetH, hours, if (rbHourly.isChecked) "hourly " else "fixed")
             operationsListener!!.onValidDataFilledBudgetBack()
         }
         radioBtnClick()
         edtText()
         selectBudgetBtn()
         task!!.budget = requireArguments().getInt("BUDGET")
-        if (task!!.budget != null && task!!.budget.toString() != "0") edtBudgetT.setText(task!!.budget.toString())
+        if (task!!.budget != null && task!!.budget.toString() != "0") edtBudgetT.text = task!!.budget.toString()
         task!!.hourlyRate = requireArguments().getInt("HOUR_BUDGET")
-        if (task!!.hourlyRate != null && task!!.hourlyRate.toString() != "0") edtBudgetH.setText(task!!.hourlyRate.toString())
+        if (task!!.hourlyRate != null && task!!.hourlyRate.toString() != "0") edtBudgetH.text = task!!.hourlyRate.toString()
         task!!.totalHours = requireArguments().getInt("TOTAL_HOURS")
-        if (task!!.totalHours != null && task!!.totalHours.toString() != "0") edtHours.setText(task!!.totalHours.toString())
+        if (task!!.totalHours != null && task!!.totalHours.toString() != "0") edtHours.text = task!!.totalHours.toString()
         task!!.paymentType = requireArguments().getString("PAYMENT_TYPE")
         if (task!!.paymentType == null || task!!.paymentType.equals("fixed", ignoreCase = true)) {
             rbTotal.isChecked = true
@@ -112,11 +112,11 @@ class TaskBudgetFragment : Fragment() {
             override fun callDraftTaskBudget(taskModel: TaskModel?) {
                 if (rbTotal.isChecked) {
                     taskModel!!.taskType = "fixed"
-                    taskModel.budget = edtBudgetT.getText().toInt()
+                    taskModel.budget = edtBudgetT.text.toInt()
                 } else {
                     taskModel!!.taskType = "hourly"
-                    taskModel.totalHours = edtHours.getText().toInt()
-                    taskModel.hourlyRate = edtBudgetH.getText().toInt()
+                    taskModel.totalHours = edtHours.text.toInt()
+                    taskModel.hourlyRate = edtBudgetH.text.toInt()
                 }
                 operationsListener!!.draftTaskBudget(taskModel)
             }

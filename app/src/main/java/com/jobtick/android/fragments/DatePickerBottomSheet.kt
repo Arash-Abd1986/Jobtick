@@ -14,7 +14,7 @@ class DatePickerBottomSheet(private val time: Long) : BottomSheetDialogFragment(
     private var calenderView: CalendarView? = null
     private var btnAccept: Button? = null
     private var btnCancel: Button? = null
-    private var year = 0;
+    private var year = 0
     private var month = 0
     private var day = 0
     var dchange: DateChange? = null

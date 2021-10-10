@@ -150,10 +150,10 @@ class PushNotificationsSettingsActivity : ActivityBase() {
 
             override fun getParams(): MutableMap<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
-                map1.put("type", type);
-                map1.put("item", item);
-                map1.put("value", value);
-                return map1;
+                map1.put("type", type)
+                map1.put("item", item)
+                map1.put("value", value)
+                return map1
 
             }
         }

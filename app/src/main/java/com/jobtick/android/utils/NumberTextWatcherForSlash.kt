@@ -68,7 +68,7 @@ class NumberTextWatcherForSlash(internal var editText: ExtendedEntryText) : Text
                 }
                 else -> sPrev = sNew
             }
-            editText.setText(sPrev)
+            editText.text = sPrev
             editText.setSelection(sPrev.length)
         } catch (e: java.lang.Exception) {
             e.printStackTrace()

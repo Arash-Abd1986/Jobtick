@@ -128,7 +128,7 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
                 var i = 0
                 while (data.size > i) {
                     try {
-                        val latitude = java.lang.Double.valueOf(data?.get(i)!!.latitude)
+                        val latitude = java.lang.Double.valueOf(data.get(i).latitude)
                         val longitude = java.lang.Double.valueOf(data[i].longitude)
                         addMarker(latitude, longitude, data[i].title, i)
                     } catch (e: Exception) {
@@ -235,8 +235,8 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
         val cameraPosition = CameraPosition.Builder()
             .target(
                 LatLng(
-                    sessionManagerM.getLatitude().toDouble(),
-                    sessionManagerM.getLongitude().toDouble()
+                    sessionManagerM.latitude.toDouble(),
+                    sessionManagerM.longitude.toDouble()
                 )
             )
             .zoom(12f)

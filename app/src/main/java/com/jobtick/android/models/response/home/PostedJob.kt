@@ -43,8 +43,7 @@ data class PostedJob(
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
-            parcel.readString()) {
-    }
+            parcel.readString())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeTypedList(assigned_worker)

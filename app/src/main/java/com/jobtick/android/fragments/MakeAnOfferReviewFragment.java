@@ -129,7 +129,7 @@ public class MakeAnOfferReviewFragment extends Fragment implements View.OnClickL
         sessionManager = new SessionManager(makeAnOfferActivity);
         userAccountModel = sessionManager.getUserAccount();
         if (getArguments() != null && getArguments().getParcelable(ConstantKey.MAKE_AN_OFFER_MODEL) != null) {
-            makeAnOfferModel = (MakeAnOfferModel) getArguments().getParcelable(ConstantKey.MAKE_AN_OFFER_MODEL);
+            makeAnOfferModel = getArguments().getParcelable(ConstantKey.MAKE_AN_OFFER_MODEL);
         }
 
         if (makeAnOfferModel != null) {

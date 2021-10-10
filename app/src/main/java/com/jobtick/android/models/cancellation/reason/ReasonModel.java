@@ -47,7 +47,7 @@ public class ReasonModel implements Parcelable
     protected ReasonModel(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.reason = ((String) in.readValue((String.class.getClassLoader())));
-        this.parentId = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.parentId = in.readValue((Object.class.getClassLoader()));
         this.responsiblePersonType = ((String) in.readValue((String.class.getClassLoader())));
     }
 

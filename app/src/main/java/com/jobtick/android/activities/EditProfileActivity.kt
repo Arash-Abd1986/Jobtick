@@ -126,7 +126,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         allUserProfileDetails
         uploadableImage = object : AbstractUploadableImageImpl(this) {
             override fun onImageReady(imageFile: File) {
-                uploadMedia(imageFile!!)
+                uploadMedia(imageFile)
             }
         }
     }
@@ -357,8 +357,8 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
     private fun initDatePicker() {
         userAccountModel = sessionManager.userAccount
         var calendar = Calendar.getInstance()
-        if (userAccountModel!!.getDob() != null) {
-            calendar[TimeHelper.getYear(userAccountModel!!.getDob()), TimeHelper.getMonth(userAccountModel!!.getDob())] = TimeHelper.getDay(userAccountModel!!.getDob())
+        if (userAccountModel!!.dob != null) {
+            calendar[TimeHelper.getYear(userAccountModel!!.dob), TimeHelper.getMonth(userAccountModel!!.dob)] = TimeHelper.getDay(userAccountModel!!.dob)
             year = calendar[Calendar.YEAR]
             month = calendar[Calendar.MONTH]
             day = calendar[Calendar.DAY_OF_MONTH]
@@ -395,7 +395,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                                 /*
                     * Add Button for empty attachment
                     * */setUpAllEditFields(userAccountModel)
-                                attachmentArrayList = userAccountModel!!.getPortfolio()
+                                attachmentArrayList = userAccountModel!!.portfolio
                                 // attachmentArrayList.add(new AttachmentModel());
                                 Timber.e("%s", attachmentArrayList!!.size)
                                 if (attachmentArrayList!!.size >= 0) {

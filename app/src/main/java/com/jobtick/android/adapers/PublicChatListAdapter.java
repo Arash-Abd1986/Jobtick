@@ -55,8 +55,8 @@ public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> 
 
 
     private final Context context;
-    private Boolean isInPublicChat;
-    private String posterID;
+    private final Boolean isInPublicChat;
+    private final String posterID;
     private OnItemClickListener mOnItemClickListener;
     private OfferModel offerModel;
     private QuestionModel questionModel;

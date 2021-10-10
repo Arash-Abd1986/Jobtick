@@ -108,7 +108,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
     }
 
     private fun initVM() {
-        val dashboardActivity = requireActivity() as DashboardActivity ?: return
+        val dashboardActivity = requireActivity() as DashboardActivity
         viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
         dashboardActivity.showProgressDialog()
         viewModel.getNotifResponse().observe(viewLifecycleOwner, androidx.lifecycle.Observer { jsonObject ->
@@ -443,7 +443,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
     }
 
     private fun setIDs() {
-        val dashboardActivity = requireActivity() as DashboardActivity ?: return
+        val dashboardActivity = requireActivity() as DashboardActivity
         ivNotification = dashboardActivity.findViewById(R.id.ivNotification)
         toolbar = dashboardActivity.findViewById(R.id.toolbar)
         name = requireView().findViewById(R.id.name)
@@ -485,7 +485,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
     }
 
     private fun initToolbar() {
-        val dashboardActivity = requireActivity() as DashboardActivity ?: return
+        val dashboardActivity = requireActivity() as DashboardActivity
         toolbar!!.menu.clear()
         toolbar!!.inflateMenu(R.menu.menu_new_task)
         toolbar!!.menu.findItem(R.id.action_search).isVisible = false

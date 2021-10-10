@@ -25,9 +25,9 @@ fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).to
 fun Int.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
 fun Double.round(): String {
     return if (this % 1.0 != 0.0)
-        String.format("%s", this);
+        String.format("%s", this)
     else
-        String.format("%.0f", this);
+        String.format("%.0f", this)
 }
 fun Double.round(decimals: Int): Double {
     var multiplier = 1.0

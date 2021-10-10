@@ -146,7 +146,7 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,VoiceSearchBot
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["Authorization"] = "Bearer " + sessionManagerT.getAccessToken()
+                map1["Authorization"] = "Bearer " + sessionManagerT.accessToken
                 map1["Version"] = BuildConfig.VERSION_CODE.toString()
                 return map1
             }
@@ -200,7 +200,7 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,VoiceSearchBot
     }
 
     override fun onItemClick(view: View?, obj: Data?, position: Int, action: String?) {
-        val previewTaskModel = PreviewTaskModel(obj!!.id!!, obj.title, sessionManagerT.getUserAccount().getId(), obj.slug)
+        val previewTaskModel = PreviewTaskModel(obj!!.id!!, obj.title, sessionManagerT.userAccount.id, obj.slug)
         onItemClick(view, previewTaskModel, position)
     }
 

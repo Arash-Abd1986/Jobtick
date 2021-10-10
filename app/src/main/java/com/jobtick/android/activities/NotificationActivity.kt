@@ -162,7 +162,7 @@ class NotificationActivity : ActivityBase(), NotificationListAdapter.OnItemClick
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()
                     map1["Content-Type"] = "application/x-www-form-urlencoded"
-                    map1["Authorization"] = "Bearer " + sessionManagerN.getAccessToken()
+                    map1["Authorization"] = "Bearer " + sessionManagerN.accessToken
                     map1["Version"] = BuildConfig.VERSION_CODE.toString()
                     return map1
                 }
@@ -181,7 +181,7 @@ class NotificationActivity : ActivityBase(), NotificationListAdapter.OnItemClick
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["Authorization"] = "Bearer " + sessionManagerN.getAccessToken()
+                map1["Authorization"] = "Bearer " + sessionManagerN.accessToken
                 map1["Version"] = BuildConfig.VERSION_CODE.toString()
                 return map1
             }

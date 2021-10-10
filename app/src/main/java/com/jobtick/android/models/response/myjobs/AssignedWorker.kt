@@ -11,8 +11,7 @@ data class AssignedWorker(
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readParcelable(Pivot::class.java.classLoader),
-            parcel.readValue(Int::class.java.classLoader) as? Int) {
-    }
+            parcel.readValue(Int::class.java.classLoader) as? Int)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(avatar)

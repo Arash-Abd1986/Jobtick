@@ -11,8 +11,7 @@ data class Link(
     constructor(parcel: Parcel) : this(
             parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
             parcel.readString(),
-            parcel.readString()) {
-    }
+            parcel.readString())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(active)

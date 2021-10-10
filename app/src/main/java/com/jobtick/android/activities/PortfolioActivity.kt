@@ -56,7 +56,7 @@ class PortfolioActivity : ActivityBase(), AttachmentAdapter.OnItemClickListener 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_attachment)
         setIDs()
-        mBehavior = BottomSheetBehavior.from<FrameLayout?>(bottomSheet!!)
+        mBehavior = BottomSheetBehavior.from<FrameLayout?>(bottomSheet)
         toolbar.setNavigationOnClickListener { onBackPressed() }
         attachmentArrayList = ArrayList()
         val bundle = intent.extras

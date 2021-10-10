@@ -18,7 +18,7 @@ public class StateHelper {
     public String getStateAbr(String state) {
         int index = 0;
         for (; index < 8; index++) {
-            if (states[index].toLowerCase().equals(state.trim().toLowerCase()))
+            if (states[index].equalsIgnoreCase(state.trim()))
                 break;
         }
         if(index == 8)
@@ -30,7 +30,7 @@ public class StateHelper {
     public String getStateName(String abr) {
         int index = 0;
         for (; index < 8; index++) {
-            if (abr.toLowerCase().equals(abrs[index].toLowerCase()))
+            if (abr.equalsIgnoreCase(abrs[index]))
                 break;
         }
         if(index == 8)
@@ -46,7 +46,7 @@ public class StateHelper {
     public boolean isCorrectState(String state){
         int index = 0;
         for (; index < 8; index++) {
-            if (states[index].toLowerCase().equals(state.trim().toLowerCase()))
+            if (states[index].equalsIgnoreCase(state.trim()))
                 break;
         }
         return index != 8;

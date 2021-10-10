@@ -470,7 +470,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                     intent.putExtra("id", conversationModel.receiver.id)
                     startActivity(intent)
                 }
-                txtTitle.setOnClickListener { v: View? -> imgAvatar!!.performClick() }
+                txtTitle.setOnClickListener { v: View? -> imgAvatar.performClick() }
             }
         }
         if (conversationModel!!.receiver.avatar != null && conversationModel.receiver.avatar.thumbUrl != null) {

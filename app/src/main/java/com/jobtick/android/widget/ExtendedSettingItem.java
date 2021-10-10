@@ -43,7 +43,7 @@ public class ExtendedSettingItem extends FrameLayout {
         //Inflate and attach the content
         LayoutInflater.from(context).inflate(R.layout.view_setting_item, this);
 
-        title = (TextView) findViewById(R.id.title);
+        title = findViewById(R.id.title);
         title.setTextColor(eColor);
         title.setText(eTitle);
     }

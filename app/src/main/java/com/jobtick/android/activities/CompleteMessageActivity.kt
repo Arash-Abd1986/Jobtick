@@ -1,24 +1,20 @@
 package com.jobtick.android.activities
 
-import androidx.appcompat.app.AppCompatActivity
-import android.annotation.SuppressLint
-import butterknife.BindView
-import com.jobtick.android.R
-import com.google.android.material.appbar.MaterialToolbar
-import android.widget.TextView
-import com.google.android.material.button.MaterialButton
-import android.widget.LinearLayout
-import android.os.Bundle
-import butterknife.ButterKnife
-import com.jobtick.android.utils.ConstantKey
-import butterknife.OnClick
-import com.jobtick.android.activities.TaskDetailsActivity
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.button.MaterialButton
+import com.jobtick.android.R
 import com.jobtick.android.activities.DashboardActivity
+import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.fragments.CategoryListBottomSheet
+import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.SessionManager
 
 class CompleteMessageActivity : AppCompatActivity() {
@@ -101,7 +97,7 @@ class CompleteMessageActivity : AppCompatActivity() {
         cardFinish!!.setOnClickListener {
             if (from == ConstantKey.RESULTCODE_INCREASE_BUDGET) {
                 if (TaskDetailsActivity.requestAcceptListener != null) {
-                    TaskDetailsActivity.requestAcceptListener.onRequestAccept()
+                    TaskDetailsActivity.requestAcceptListener!!.onRequestAccept()
                 }
                 onBackPressed()
             } else {
@@ -135,7 +131,7 @@ class CompleteMessageActivity : AppCompatActivity() {
         }
         viewYourOffer!!.setOnClickListener {
             if (TaskDetailsActivity.requestAcceptListener != null) {
-                TaskDetailsActivity.requestAcceptListener.onMakeAnOffer()
+                TaskDetailsActivity.requestAcceptListener!!.onMakeAnOffer()
             }
             onBackPressed()
         }

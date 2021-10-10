@@ -47,8 +47,8 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
         initToolbar()
         onViewClick()
         getVars()
-        edtSubject!!.setExtendedViewOnClickListener(this)
-        root!!.setOnClickListener { v: View? -> if (spinnerVisible) hideSpinner() }
+        edtSubject.setExtendedViewOnClickListener(this)
+        root.setOnClickListener { v: View? -> if (spinnerVisible) hideSpinner() }
     }
 
     private fun getVars() {
@@ -169,8 +169,8 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
                 }) {
             override fun getParams(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
-                map1["subject"] = edtSubject!!.text
-                map1["description"] = edtDescription!!.text
+                map1["subject"] = edtSubject.text
+                map1["description"] = edtDescription.text
                 return map1
             }
 
@@ -267,8 +267,8 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
                 }) {
             override fun getParams(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
-                map1["subject"] = edtSubject!!.text
-                map1["description"] = edtDescription!!.text
+                map1["subject"] = edtSubject.text
+                map1["description"] = edtDescription.text
                 return map1
             }
 
@@ -315,8 +315,8 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
                 }) {
             override fun getParams(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
-                map1["subject"] = edtSubject!!.text
-                map1["description"] = edtDescription!!.text
+                map1["subject"] = edtSubject.text
+                map1["description"] = edtDescription.text
                 return map1
             }
 
@@ -364,8 +364,8 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
                 }) {
             override fun getParams(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
-                map1["subject"] = edtSubject!!.text
-                map1["description"] = edtDescription!!.text
+                map1["subject"] = edtSubject.text
+                map1["description"] = edtDescription.text
                 return map1
             }
             override fun getHeaders(): Map<String, String> {

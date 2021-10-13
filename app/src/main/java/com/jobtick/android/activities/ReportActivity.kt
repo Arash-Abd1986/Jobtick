@@ -145,7 +145,7 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 showSuccessToast("Reported Task Successfully", this)
@@ -195,7 +195,7 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 showSuccessToast("Reported User Successfully", this)
@@ -245,7 +245,7 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 showSuccessToast("Question Reported Successfully", this)
@@ -293,7 +293,7 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 showSuccessToast("Comment Reported Successfully", this)
@@ -342,7 +342,7 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 showSuccessToast("Offer Reported Successfully", this)

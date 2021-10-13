@@ -387,7 +387,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
                     Timber.e(response)
                     // categoryArrayList.clear();
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         val gson = Gson()
                         val (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(
@@ -475,7 +475,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
                 Timber.e(response)
                 dashboardActivity!!.hideProgressDialog()
                 try {
-                    val jsonObject = JSONObject(response)
+                    val jsonObject = JSONObject(response!!)
                     Timber.e(jsonObject.toString())
                     if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                         if (jsonObject.getBoolean("success")) {
@@ -588,7 +588,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {

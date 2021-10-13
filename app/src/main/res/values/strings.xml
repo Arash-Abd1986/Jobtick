@@ -205,6 +205,9 @@
     <string name="assigned">Assigned</string>
     <string name="cancelled">Cancelled</string>
     <string name="overdue">Overdue</string>
+    <string name="closed">Closed</string>
+    <string name="posted">Posted</string>
+    <string name="offered">Offered</string>
     <string name="completed">Completed</string>
     <string name="reviewed">Reviewed</string>
     <string name="repost_this_job">Repost this job</string>

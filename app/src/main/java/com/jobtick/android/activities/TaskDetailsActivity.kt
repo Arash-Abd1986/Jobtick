@@ -41,12 +41,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
-import com.jobtick.android.activities.ChatActivity
-import com.jobtick.android.activities.JobReceiptActivity
-import com.jobtick.android.activities.LeaveReviewActivity
-import com.jobtick.android.activities.MakeAnOfferActivity
-import com.jobtick.android.activities.PaymentOverviewActivity
-import com.jobtick.android.activities.PublicChatActivity
 import com.jobtick.android.adapers.*
 import com.jobtick.android.cancellations.*
 import com.jobtick.android.fragments.*
@@ -62,6 +56,7 @@ import com.jobtick.android.utils.*
 import com.jobtick.android.widget.ExtendedAlertBox
 import com.jobtick.android.widget.ExtendedAlertBox.OnExtendedAlertButtonClickListener
 import com.jobtick.android.widget.SpacingItemDecoration
+import com.jobtick.android.widget.StatusLayout
 import com.mikhaellopez.circularimageview.CircularImageView
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -88,9 +83,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
     private lateinit var collapsingToolbar: CollapsingToolbarLayout
     private lateinit var appBarLayout: AppBarLayout
     private lateinit var txtCompletionRate: TextView
-    private lateinit var txtStatusOpen: TextView
-    private lateinit var txtStatusAssigned: TextView
-    private lateinit var txtStatusCompleted: TextView
+    private lateinit var lytStatus: StatusLayout
     private lateinit var txtDueDate: TextView
     private lateinit var txtRatingValue: TextView
     private lateinit var txtDueTime: TextView
@@ -134,9 +127,6 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
     private lateinit var lytBtnCommentSend: ImageView
     private lateinit var recyclerViewQuestionAttachment: RecyclerView
     private lateinit var rltQuestionAdd: RelativeLayout
-    private lateinit var txtStatusCancelled: TextView
-    private lateinit var txtStatusOverdue: TextView
-    private lateinit var txtStatusReviewed: TextView
     private lateinit var adapterImageSlider: AdapterImageSlider
     private lateinit var viewPager: ViewPager
     private lateinit var layoutDots: LinearLayout
@@ -163,7 +153,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
     lateinit var bankAccountModel: BankAccountModel
     lateinit var billingAdreessModel: BillingAdreessModel
     private val dataList = ArrayList<AttachmentModel>()
-    private val attachmentArrayList_question = ArrayList<AttachmentModel>()
+    private val attachmentArrayListQuestion = ArrayList<AttachmentModel>()
     private var str_slug: String? = ""
     private var isUserThePoster = false
     private var isUserTheTicker = false
@@ -209,9 +199,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
         collapsingToolbar = findViewById(R.id.collapsing_toolbar)
         appBarLayout = findViewById(R.id.app_bar_layout)
         txtCompletionRate = findViewById(R.id.txt_completion_rate)
-        txtStatusOpen = findViewById(R.id.txt_status_open)
-        txtStatusAssigned = findViewById(R.id.txt_status_assigned)
-        txtStatusCompleted = findViewById(R.id.txt_status_completed)
+        lytStatus = findViewById(R.id.lyt_status)
         txtDueDate = findViewById(R.id.txt_due_date)
         txtRatingValue = findViewById(R.id.txt_rating_value)
         txtDueTime = findViewById(R.id.txt_due_time)
@@ -255,9 +243,6 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
         lytBtnCommentSend = findViewById(R.id.lyt_btn_comment_send)
         recyclerViewQuestionAttachment = findViewById(R.id.recycler_view_question_attachment)
         rltQuestionAdd = findViewById(R.id.rlt_layout_action_data)
-        txtStatusCancelled = findViewById(R.id.txt_status_cancelled)
-        txtStatusOverdue = findViewById(R.id.txt_status_overdue)
-        txtStatusReviewed = findViewById(R.id.txt_status_reviewed)
         viewPager = findViewById(R.id.pager)
         layoutDots = findViewById(R.id.layout_dots)
         budget = findViewById(R.id.txt_budgets)
@@ -323,20 +308,10 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
         setQuestionView(taskModel!!.questionCount)
         when (status) {
             Constant.TASK_ASSIGNED -> {
-                txtStatusOpen.isSelected = false
-                txtStatusAssigned.isSelected = true
-                txtStatusCompleted.isSelected = false
-                txtStatusCancelled.isSelected = false
-                txtStatusOverdue.isSelected = false
-                txtStatusReviewed.isSelected = false
-                txtStatusOpen.visibility = View.VISIBLE
+                lytStatus.setStatus(getString(R.string.assigned))
+
                 cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
                         R.color.colorTaskAssigned)
-                txtStatusAssigned.visibility = View.VISIBLE
-                txtStatusCompleted.visibility = View.VISIBLE
-                txtStatusCancelled.visibility = View.GONE
-                txtStatusOverdue.visibility = View.GONE
-                txtStatusReviewed.visibility = View.GONE
                 txtOffersCount.visibility = View.GONE
                 //                txtStatusOpen.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_tab_primary_2dp));
                 if (isUserThePoster) {
@@ -359,16 +334,13 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
                         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
                         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
-
-//                        cardPrivateChat.setVisibility(View.GONE);
                     } else {
                         cardMakeAnOffer.visibility = View.VISIBLE
                         txtBtnText.text = ConstantKey.BTN_ASK_TO_RELEASE_MONEY
                         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_copy, true)
                         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, true)
                         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, true)
-                        //                        cardPrivateChat.setVisibility(View.VISIBLE);
-                        //Cancellation
+
                     }
                 }
                 toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
@@ -378,29 +350,10 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 cardAssigneeLayout.visibility = View.VISIBLE
                 rltQuestionAdd.visibility = View.GONE
                 cardQuestionsLayout.visibility = View.VISIBLE
-                //                if (taskModel!!.getQuestions() != null && taskModel!!.getQuestions().size() != 0) {
-//                    rltQuestionAdd.setVisibility(View.VISIBLE);
-//                    cardQuestionsLayout.setVisibility(View.VISIBLE);
-//                } else {
-//                    cardQuestionsLayout.setVisibility(View.GONE);
-//                }
                 setPrice()
             }
             Constant.TASK_OPEN -> {
-                txtStatusOpen.isSelected = true
-                //                txtStatusOpen.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_tab_primary_2dp));
-//                txtStatusOpen.setTextColor(ContextCompat.getColor(this, R.color.white));
-                txtStatusAssigned.isSelected = false
-                txtStatusCompleted.isSelected = false
-                txtStatusCancelled.isSelected = false
-                txtStatusOverdue.isSelected = false
-                txtStatusReviewed.isSelected = false
-                txtStatusOpen.visibility = View.VISIBLE
-                txtStatusAssigned.visibility = View.VISIBLE
-                txtStatusCompleted.visibility = View.VISIBLE
-                txtStatusCancelled.visibility = View.GONE
-                txtStatusOverdue.visibility = View.GONE
-                txtStatusReviewed.visibility = View.GONE
+                lytStatus.setStatus(getString(R.string.open))
                 lineOpenState.visibility = View.GONE
                 cardMakeAnOffer.setCardBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
@@ -471,29 +424,16 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 setPrice()
             }
             Constant.TASK_CANCELLED -> {
+                lytStatus.setStatus(getString(R.string.cancelled))
+
+
                 cardMakeAnOffer.visibility = View.GONE
                 lineOpenState.visibility = View.GONE
                 cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
                         R.color.colorPrimary)
-                txtStatusOpen.isSelected = false
-                txtStatusAssigned.isSelected = false
-                txtStatusCompleted.isSelected = false
-                txtStatusCancelled.isSelected = true
-                txtOffersCount.visibility = View.GONE
-                txtStatusOverdue.isSelected = false
-                txtStatusReviewed.isSelected = false
-                txtStatusOpen.visibility = View.VISIBLE
-                txtStatusAssigned.visibility = View.VISIBLE
-                txtStatusCompleted.visibility = View.GONE
-                txtStatusCancelled.visibility = View.VISIBLE
-                txtStatusOverdue.visibility = View.GONE
-                txtStatusReviewed.visibility = View.GONE
-
-//                cardMessage.setVisibility(View.VISIBLE);
                 if (taskModel!!.worker != null) cardAssigneeLayout.visibility = View.VISIBLE else {
                     cardAssigneeLayout.visibility = View.GONE
                 }
-                //                cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.visibility = View.GONE
                 cardQuestionsLayout.visibility = View.GONE
                 toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
@@ -508,24 +448,16 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 setPrice()
             }
             Constant.TASK_OVERDUE, Constant.TASK_COMPLETED -> {
+
                 lineOpenState.visibility = View.VISIBLE
-                txtStatusOpen.isSelected = false
-                txtStatusAssigned.isSelected = false
                 txtOffersCount.visibility = View.GONE
-                txtStatusCompleted.isSelected = true
-                txtStatusCancelled.isSelected = false
-                txtStatusOverdue.isSelected = true
-                txtStatusReviewed.isSelected = false
-                txtStatusOpen.visibility = View.VISIBLE
-                txtStatusAssigned.visibility = View.VISIBLE
-                txtStatusCompleted.visibility = View.GONE
-                txtStatusCancelled.visibility = View.GONE
-                txtStatusOverdue.visibility = View.GONE
-                txtStatusReviewed.visibility = View.GONE
                 cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
                         R.color.colorPrimary)
                 if (isUserThePoster) {
-                    if (status == Constant.TASK_OVERDUE) txtStatusOverdue.visibility = View.VISIBLE else txtStatusCompleted.visibility = View.VISIBLE
+                    if (status == Constant.TASK_OVERDUE)
+                        lytStatus.setStatus(getString(R.string.overdue))
+                    else lytStatus.setStatus(getString(R.string.completed))
+
 
                     // poster task
                     if (noActionAvailable) {
@@ -536,7 +468,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                     }
                     toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
                 } else {
-                    txtStatusCompleted.visibility = View.VISIBLE
+                    lytStatus.setStatus(getString(R.string.completed))
                     // worker task
                     if (noActionAvailable) {
                         cardMakeAnOffer.visibility = View.GONE
@@ -564,20 +496,10 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
             Constant.TASK_DRAFT -> {
             }
             Constant.TASK_CLOSED -> {
+                lytStatus.setStatus(getString(R.string.completed))
+
                 lineOpenState.visibility = View.VISIBLE
-                txtStatusOpen.isSelected = false
-                txtStatusAssigned.isSelected = false
-                txtStatusCompleted.isSelected = true
-                txtStatusCancelled.isSelected = false
-                txtStatusOverdue.isSelected = false
-                txtStatusReviewed.isSelected = false
-                txtStatusOpen.visibility = View.VISIBLE
-                txtStatusAssigned.visibility = View.VISIBLE
                 txtOffersCount.visibility = View.GONE
-                txtStatusCompleted.visibility = View.VISIBLE
-                txtStatusCancelled.visibility = View.GONE
-                txtStatusOverdue.visibility = View.GONE
-                txtStatusReviewed.visibility = View.GONE
                 if (isUserThePoster) {
                     cardMakeAnOffer.visibility = View.GONE
                     txtBtnText.text = ConstantKey.BTN_WRITE_A_REVIEW
@@ -673,16 +595,12 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                         }.show()
                 R.id.action_copy -> copyTask(taskModel!!)
                 R.id.action_cancellation -> {
-                    val intent: Intent
-                    val bundle: Bundle
-                    intent = if (isUserThePoster) {
+                    val intent: Intent = if (isUserThePoster) {
                         Intent(this@TaskDetailsActivity, CancellationPosterActivity::class.java)
-                        // bundle.putParcelable(ConstantKey.TASK, taskModel!!);
                     } else {
                         Intent(this@TaskDetailsActivity, CancellationWorkerActivity::class.java)
-                        //   bundle.putParcelable(ConstantKey.TASK, taskModel!!);
                     }
-                    bundle = Bundle()
+                    val bundle: Bundle = Bundle()
                     bundle.putString(ConstantKey.SLUG, taskModel!!.slug)
                     intent.putExtras(bundle)
                     startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION)
@@ -768,7 +686,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                     com.android.volley.Response.Listener { response: String? ->
                         Timber.e(response)
                         try {
-                            val jsonObject = JSONObject(response)
+                            val jsonObject = JSONObject(response!!)
                             Timber.e(jsonObject.toString())
                             if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                                 if (jsonObject.getBoolean("success")) {
@@ -847,7 +765,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                         Timber.e(response)
                         try {
                             hideProgressDialog()
-                            val jsonObject = JSONObject(response)
+                            val jsonObject = JSONObject(response!!)
                             Timber.e(jsonObject.toString())
                             if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                                 if (jsonObject.getBoolean("success")) {
@@ -875,7 +793,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                     },
                     com.android.volley.Response.ErrorListener { error: VolleyError ->
                         val networkResponse = error.networkResponse
-                        if (networkResponse != null && networkResponse.data != null) {
+                        if (networkResponse?.data != null) {
                             val jsonError = String(networkResponse.data)
                             // Print Error!
                             Timber.e(jsonError)
@@ -920,7 +838,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
             val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_PROFILE + "/" + sessionManager.userAccount.id,
                     com.android.volley.Response.Listener { response: String? ->
                         try {
-                            val jsonObject = JSONObject(response)
+                            val jsonObject = JSONObject(response!!)
                             Timber.e(jsonObject.toString())
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                 userAccountModel = UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
@@ -957,7 +875,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 com.android.volley.Response.Listener { response: String? ->
                     try {
                         content.visibility = View.VISIBLE
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         println(jsonObject.toString())
                         if (jsonObject.has("success") &&
@@ -978,10 +896,11 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                                 initQuestion()
                                 setChatButton(taskModel!!.status.toLowerCase(), jsonObject_data)
                                 setPosterChatButton(taskModel!!.status.toLowerCase(), jsonObject_data)
-                                if (taskModel!!.poster.id.toString() == sessionManager.userAccount.id.toString()) {
-                                    txtStatusOpen.text = "Posted"
+                                if ((taskModel!!.poster.id.toString() == sessionManager.userAccount.id.toString()) and (taskModel!!.status.equals(Constant.TASK_OPEN, ignoreCase = true))) {
+                                    lytStatus.setStatus(getString(R.string.posted))
                                 } else {
-                                    if (taskModel!!.offerSent) txtStatusOpen.text = "Offered"
+                                    if (taskModel!!.offerSent and (taskModel!!.status.equals(Constant.TASK_OPEN, ignoreCase = true)))
+                                        lytStatus.setStatus(getString(R.string.offered))
                                 }
                                 if (jsonObject_data.has("conversations") && !jsonObject_data.isNull("conversations")) {
                                     for (i in 0 until jsonObject_data.getJSONArray("conversations").length()) {
@@ -1050,7 +969,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                         try {
                             llLoading.visibility = View.GONE
                             content.visibility = View.VISIBLE
-                            val jsonObject = JSONObject(response)
+                            val jsonObject = JSONObject(response!!)
                             Timber.e(jsonObject.toString())
                             println(jsonObject.toString())
                             if (jsonObject.has("success") &&
@@ -1223,13 +1142,13 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initQuestion() {
-        attachmentArrayList_question.clear()
-        attachmentArrayList_question.add(AttachmentModel())
+        attachmentArrayListQuestion.clear()
+        attachmentArrayListQuestion.add(AttachmentModel())
         recyclerViewQuestionAttachment.layoutManager = LinearLayoutManager(this@TaskDetailsActivity, RecyclerView.HORIZONTAL, false)
         recyclerViewQuestionAttachment.addItemDecoration(SpacingItemDecoration(3, Tools.dpToPx(this@TaskDetailsActivity, 5), true))
         recyclerViewQuestionAttachment.setHasFixedSize(true)
         //set data and list adapter
-        adapter = QuestionAttachmentAdapter(attachmentArrayList_question, true)
+        adapter = QuestionAttachmentAdapter(attachmentArrayListQuestion, true)
         recyclerViewQuestionAttachment.adapter = adapter
         adapter.notifyDataSetChanged()
         adapter.setOnItemClickListener(this)
@@ -1361,7 +1280,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 com.android.volley.Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 getData
@@ -1540,7 +1459,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 edtComment.error = "?"
                 return@setOnClickListener
             } else {
-                if (attachmentArrayList_question.size == 0) {
+                if (attachmentArrayListQuestion.size == 0) {
                     postComment(
                             edtComment.text.toString().trim { it <= ' ' },
                             null
@@ -1649,7 +1568,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 com.android.volley.Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             initialStage()
@@ -1708,7 +1627,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 com.android.volley.Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             initialStage()
@@ -1773,12 +1692,12 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 com.android.volley.Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             edtComment.setText("")
-                            attachmentArrayList_question.clear()
-                            attachmentArrayList_question.add(AttachmentModel())
+                            attachmentArrayListQuestion.clear()
+                            attachmentArrayListQuestion.add(AttachmentModel())
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                 if (recyclerViewQuestions.visibility != View.VISIBLE) {
                                     recyclerViewQuestions.visibility = View.VISIBLE
@@ -2081,11 +2000,11 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_PICKUP_IMAGE_REQUEST_CODE)
             } else if (action.equals("delete", ignoreCase = true)) {
                 recyclerViewQuestionAttachment.removeViewAt(position)
-                attachmentArrayList_question.removeAt(position)
+                attachmentArrayListQuestion.removeAt(position)
                 adapter.notifyItemRemoved(position)
-                adapter.notifyItemRangeRemoved(position, attachmentArrayList_question.size)
-                attachmentArrayList_question.clear()
-                attachmentArrayList_question.add(AttachmentModel())
+                adapter.notifyItemRangeRemoved(position, attachmentArrayListQuestion.size)
+                attachmentArrayListQuestion.clear()
+                attachmentArrayListQuestion.add(AttachmentModel())
                 adapter.notifyDataSetChanged()
             }
         }
@@ -2124,7 +2043,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                         if (jsonObject.has("data")) {
                             val jsonObject_data = jsonObject.getJSONObject("data")
                             val attachment = AttachmentModel().getJsonToModel(jsonObject_data)
-                            attachmentArrayList_question.add(attachment)
+                            attachmentArrayListQuestion.add(attachment)
                         }
                         adapter.notifyItemInserted(0)
                         adapter.notifyDataSetChanged()
@@ -2152,7 +2071,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                     Timber.e(response)
                     // categoryArrayList.clear();
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         var data = OfferDeleteModel()
                         val gson = Gson()
                         data = gson.fromJson(jsonObject.toString(), OfferDeleteModel::class.java)
@@ -2222,7 +2141,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 com.android.volley.Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp)
@@ -2692,7 +2611,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 com.android.volley.Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         val gson = Gson()
                         val chatModel = ChatModel()
                         val sender = UserAccountModel()

@@ -102,7 +102,7 @@ class SearchSuburbBottomSheet(private val subClickListener: SubClickListener) : 
                 qParams,
                 Response.Listener { response: String? ->
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         val gson = Gson()
                         val (_, features) = gson.fromJson(jsonObject.toString(), SearchSuburbResponse::class.java)
                         adapter!!.clear()

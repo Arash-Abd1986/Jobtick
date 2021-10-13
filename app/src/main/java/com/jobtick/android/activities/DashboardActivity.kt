@@ -397,7 +397,7 @@ Team ${resources.getString(R.string.app_name)}""")
             val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_GET_ACCOUNT,
                     Response.Listener { response: String? ->
                         try {
-                            val jsonObject = JSONObject(response)
+                            val jsonObject = JSONObject(response!!)
                             val jsonobjectData = jsonObject.getJSONObject("data")
                             sessionManager!!.role = jsonobjectData.getString("role")
                             val userAccountModel = UserAccountModel().getJsonToModel(jsonobjectData)

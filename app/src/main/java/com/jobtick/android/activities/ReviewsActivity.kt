@@ -291,7 +291,7 @@ class ReviewsActivity : ActivityBase() {
                         // categoryArrayList.clear();
                         try {
                             reviewModelList.clear()
-                            val jsonObject = JSONObject(response)
+                            val jsonObject = JSONObject(response!!)
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                 val jsonString = jsonObject.toString() //http request
                                 var data = ReviewModel()

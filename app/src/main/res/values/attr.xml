@@ -165,5 +165,9 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="StatusLayout">
+        <attr name="status" format="string"/>
+    </declare-styleable>
+
 
 </resources>

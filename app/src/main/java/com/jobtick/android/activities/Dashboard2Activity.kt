@@ -78,7 +78,7 @@ class Dashboard2Activity : ActivityBase(), NotificationListAdapter.OnItemClickLi
                 Timber.e(response)
                 hideProgressDialog()
                 try {
-                    val jsonObject = JSONObject(response)
+                    val jsonObject = JSONObject(response!!)
                     Timber.e(jsonObject.toString())
                     pushNotificationModel2 = if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                         val jsonString = jsonObject.toString() //http request

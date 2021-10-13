@@ -37,7 +37,6 @@ import com.jobtick.android.activities.UploadableImage
 import com.jobtick.android.adapers.AddTagAdapter
 import com.jobtick.android.adapers.AttachmentAdapter1
 import com.jobtick.android.adapers.SuburbSearchAdapter.SubClickListener
-import com.jobtick.android.fragments.TaskDetailFragment
 import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.PositionModel
 import com.jobtick.android.models.TaskModel
@@ -59,6 +58,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.util.*
+import kotlin.math.roundToInt
 
 class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, TextWatcher, SubClickListener {
     private lateinit var lytBtnDetails: LinearLayout
@@ -411,12 +411,12 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         mBottomSheetDialog = BottomSheetDialog(taskCreateActivity!!)
         mBottomSheetDialog!!.setContentView(view)
         mBottomSheetDialog!!.window!!.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        val iv_attachment = view.findViewById<ImageView>(R.id.iv_attachment)
+        val ivAttachment = view.findViewById<ImageView>(R.id.iv_attachment)
         if (url != null) {
-            Glide.with(iv_attachment).load(url).into(iv_attachment)
+            Glide.with(ivAttachment).load(url).into(ivAttachment)
         }
-        val lyt_btn_delete = view.findViewById<LinearLayout>(R.id.lyt_btn_delete)
-        lyt_btn_delete.setOnClickListener { v: View? ->
+        val lytBtnDelete = view.findViewById<LinearLayout>(R.id.lyt_btn_delete)
+        lytBtnDelete.setOnClickListener {
             if (isEditTask) deleteEditTaskAttachment(attachmentArrayList!![currentPosition].id)
             rcAttachment.removeViewAt(currentPosition)
             attachmentArrayList!!.removeAt(currentPosition)
@@ -424,13 +424,13 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
             attachmentAdapter!!.notifyItemRangeRemoved(currentPosition, attachmentArrayList.size)
             mBottomSheetDialog!!.dismiss()
         }
-        val lyt_btn_back = view.findViewById<LinearLayout>(R.id.lyt_btn_back)
-        lyt_btn_back.setOnClickListener { v: View? -> mBottomSheetDialog!!.dismiss() }
+        val lytBtnBack = view.findViewById<LinearLayout>(R.id.lyt_btn_back)
+        lytBtnBack.setOnClickListener { v: View? -> mBottomSheetDialog!!.dismiss() }
 
         // set background transparent
         (view.parent as View).setBackgroundColor(resources.getColor(android.R.color.transparent))
         mBottomSheetDialog!!.show()
-        mBottomSheetDialog!!.setOnDismissListener { dialog: DialogInterface? -> mBottomSheetDialog = null }
+        mBottomSheetDialog!!.setOnDismissListener { mBottomSheetDialog = null }
     }
 
     @SuppressLint("SetTextI18n")
@@ -448,10 +448,10 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         val relRequire = view.findViewById<RelativeLayout>(R.id.rel_require)
         val edtAddTag = view.findViewById<EditText>(R.id.edtAddTag)
         val r = resources
-        val px = Math.round(TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 750f, r.displayMetrics))
-        val pxMin = Math.round(TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 400f, r.displayMetrics))
+        val px = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 750f, r.displayMetrics).roundToInt()
+        val pxMin = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 400f, r.displayMetrics).roundToInt()
         edtAddTag.onFocusChangeListener = OnFocusChangeListener { v: View?, hasFocus: Boolean -> if (hasFocus) root.minimumHeight = px else root.minimumHeight = pxMin }
         edtAddTag.requestFocus()
         edtAddTag.post {
@@ -459,12 +459,12 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
                     .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(edtAddTag, 0)
         }
-        relRequire.setOnClickListener { v: View? ->
+        relRequire.setOnClickListener {
             edtAddTag.requestFocus()
             val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(edtAddTag, InputMethodManager.SHOW_IMPLICIT)
         }
-        edtAddTag.setOnEditorActionListener { textView: TextView?, i: Int, keyEvent: KeyEvent? ->
+        edtAddTag.setOnEditorActionListener { _: TextView?, i: Int, _: KeyEvent? ->
             if (i == EditorInfo.IME_ACTION_SEND) {
                 btnAdd.performClick()
                 return@setOnEditorActionListener true
@@ -540,8 +540,8 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
                     val strResponse = response.body()
                     val jsonObject = JSONObject(strResponse)
                     if (jsonObject.has("data")) {
-                        val jsonObject_data = jsonObject.getJSONObject("data")
-                        val attachment = AttachmentModel().getJsonToModel(jsonObject_data)
+                        val jsonObjectData = jsonObject.getJSONObject("data")
+                        val attachment = AttachmentModel().getJsonToModel(jsonObjectData)
                         if (attachmentArrayList!!.size == 0) {
                             attachmentArrayList.add(attachment)
                         } else {
@@ -594,10 +594,10 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
                 }
                 try {
                     val strResponse = response.body()
-                    val jsonObject = JSONObject(strResponse)
+                    val jsonObject = JSONObject(strResponse!!)
                     if (jsonObject.has("data")) {
-                        val jsonObject_data = jsonObject.getJSONObject("data")
-                        val attachment = AttachmentModel().getJsonToModel(jsonObject_data)
+                        val jsonObjectData = jsonObject.getJSONObject("data")
+                        val attachment = AttachmentModel().getJsonToModel(jsonObjectData)
                         if (attachmentArrayList!!.size != 0) {
                             attachmentArrayList.add(attachmentArrayList.size - 1, attachment)
                         }
@@ -624,41 +624,34 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun selectDetailsBtn() {
-        val csl_primary = AppCompatResources.getColorStateList(requireContext(), R.color.colorPrimary)
-        imgDetails.imageTintList = csl_primary
+        val cslPrimary = AppCompatResources.getColorStateList(requireContext(), R.color.colorPrimary)
+        imgDetails.imageTintList = cslPrimary
         imgDetails.setImageDrawable(resources.getDrawable(R.drawable.ic_details_big))
         txtDetails.setTextColor(resources.getColor(R.color.colorPrimary))
         val face = ResourcesCompat.getFont(requireActivity(), R.font.roboto_medium)
         txtDetails.typeface = face
-        val csl_grey = AppCompatResources.getColorStateList(requireContext(), R.color.greyC4C4C4)
-        imgDateTime.imageTintList = csl_grey
-        imgBudget.imageTintList = csl_grey
+        val cslGrey = AppCompatResources.getColorStateList(requireContext(), R.color.greyC4C4C4)
+        imgDateTime.imageTintList = cslGrey
+        imgBudget.imageTintList = cslGrey
         txtDateTime.setTextColor(resources.getColor(R.color.colorGrayC9C9C9))
         txtBudget.setTextColor(resources.getColor(R.color.colorGrayC9C9C9))
-        tabClickListener()
     }
 
-    private fun tabClickListener() {
-        if (requireActivity() != null && validationCode == 0) {
-//            lytBtnDetails.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
-//            lytBntDateTime.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
-//            lytBtnBudget.setOnClickListener(v -> ((TaskCreateActivity) requireActivity()).onViewClicked(v));
-        }
-    }
 
     fun checkTabs() {
         if ((requireActivity() as TaskCreateActivity?)!!.isBudgetComplete) {
-            val csl_green = AppCompatResources.getColorStateList(requireContext(), R.color.green)
-            imgBudget.imageTintList = csl_green
+            val cslGreen = AppCompatResources.getColorStateList(requireContext(), R.color.green)
+            imgBudget.imageTintList = cslGreen
             txtBudget.setTextColor(resources.getColor(R.color.green))
         }
         if ((requireActivity() as TaskCreateActivity?)!!.isDateTimeComplete) {
-            val csl_green = AppCompatResources.getColorStateList(requireContext(), R.color.green)
-            imgDateTime.imageTintList = csl_green
+            val cslGreen = AppCompatResources.getColorStateList(requireContext(), R.color.green)
+            imgDateTime.imageTintList = cslGreen
             txtDateTime.setTextColor(resources.getColor(R.color.green))
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         uploadableImage!!.onActivityResult(requestCode, resultCode, data)
@@ -680,14 +673,15 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
 
     companion object {
         const val MEDIA_TYPE_VIDEO = 2
-        fun newInstance(title: String?, description: String?, musthave: ArrayList<String?>?,
-                        task_type: String?, location: String?, positionModel: PositionModel?, attachmentModels: AttachmentModels?, operationsListener: OperationsListener?, isEditTask: Boolean, taskSlug: String?): TaskDetailFragment {
+        fun newInstance(title: String?, description: String?, mustHave: ArrayList<String?>?,
+                        task_type: String?, location: String?, positionModel: PositionModel?, attachmentModels: AttachmentModels?, operationsListener: OperationsListener?,
+                        isEditTask: Boolean, taskSlug: String?): TaskDetailFragment {
             val fragment = TaskDetailFragment()
             fragment.operationsListener = operationsListener
             val args = Bundle()
             args.putString("TITLE", title)
             args.putString("DESCRIPTION", description)
-            args.putStringArrayList("MUSTHAVE", musthave)
+            args.putStringArrayList("MUSTHAVE", mustHave)
             args.putString("TASK_TYPE", task_type)
             args.putString("LOCATION", location)
             args.putBoolean("isEditTask", isEditTask)

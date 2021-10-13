@@ -92,7 +92,7 @@ class ViewAllQuestionsActivity : ActivityBase(), OnRefreshListener, QuestionList
                     Timber.e(response)
                     // categoryArrayList.clear();
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (!jsonObject.has("data") && jsonObject.isNull("data")) {
                             showToast("some went to wrong", this@ViewAllQuestionsActivity)

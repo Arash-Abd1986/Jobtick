@@ -109,7 +109,7 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
                     Timber.e(response)
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
@@ -172,7 +172,7 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
                         Timber.e(response)
                         hideProgressDialog()
                         try {
-                            val jsonObject = JSONObject(response)
+                            val jsonObject = JSONObject(response!!)
                             Timber.e(jsonObject.toString())
                             val gson = Gson()
                             val (data, _, success) = gson.fromJson(jsonObject.toString(), JobAlertsResponse::class.java)

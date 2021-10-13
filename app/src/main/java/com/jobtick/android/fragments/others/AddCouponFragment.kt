@@ -97,7 +97,7 @@ class AddCouponFragment : AbstractStateExpandedBottomSheet() {
                 Response.Listener { response: String? ->
                     pbLoading.visibility = View.GONE
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         val data = jsonObject.getString("data")
                         isVerified = true
                         ivState.visibility = View.VISIBLE
@@ -176,7 +176,7 @@ class AddCouponFragment : AbstractStateExpandedBottomSheet() {
                 Response.Listener { response: String? ->
                     pbLoading.visibility = View.GONE
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         val data = jsonObject.getString("data")
                         ivState.visibility = View.VISIBLE
                         ivState.setImageResource(R.drawable.ic_verified_coupon)

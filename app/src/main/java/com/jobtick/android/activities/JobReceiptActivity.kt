@@ -180,7 +180,7 @@ class JobReceiptActivity : ActivityBase() {
                     Timber.e(response)
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                             val model = JobReceiptModel().getJsonToModel(jsonObject.getJSONObject("data"), this)

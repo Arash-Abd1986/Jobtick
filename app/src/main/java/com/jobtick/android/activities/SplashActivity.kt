@@ -45,7 +45,7 @@ class SplashActivity : AppCompatActivity() {
             val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_GET_ACCOUNT,
                     Response.Listener { response: String? ->
                         try {
-                            val jsonObject = JSONObject(response)
+                            val jsonObject = JSONObject(response!!)
                             val jsonObjectData = jsonObject.getJSONObject("data")
                             val userAccountModel = UserAccountModel().getJsonToModel(jsonObjectData)
                             sessionManager!!.userAccount = userAccountModel

@@ -535,7 +535,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                     Timber.e(response)
                     // categoryArrayList.clear();
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         val gson = Gson()
                         val chatResponse = gson.fromJson(jsonObject.toString(), ChatResponse::class.java)
                         Timber.e(jsonObject.toString())

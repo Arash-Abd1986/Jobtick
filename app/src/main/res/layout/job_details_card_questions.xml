@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/card_questions_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/spacing_middle">
+
+        <com.jobtick.android.text_view.TextViewBold
+            android:id="@+id/txt_questions_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="18dp"
+            android:singleLine="true"
+            android:text="@string/question"
+            android:textColor="@color/N900" />
+
+        <RelativeLayout
+            android:id="@+id/rlt_layout_action_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:background="@drawable/shape_border"
+                android:focusableInTouchMode="true"
+                tools:ignore="UselessParent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:padding="@dimen/spacing_xsmall">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_question_attachment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/spacing_small"
+                        android:overScrollMode="never" />
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_comment"
+                        style="@style/materialText_400_14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/spacing_small"
+                        android:layout_toStartOf="@id/lyt_btn_comment_send"
+                        android:layout_toEndOf="@+id/recycler_view_question_attachment"
+                        android:background="@null"
+                        android:hint="@string/ask_a_question"
+                        android:inputType="textMultiLine"
+                        android:maxLines="5" />
+
+                    <ImageView
+                        android:id="@+id/lyt_btn_comment_send"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/spacing_small"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/spacing_middle"
+                        android:src="@drawable/ic_send_primary"
+                        tools:ignore="ContentDescription" />
+
+                </RelativeLayout>
+            </FrameLayout>
+        </RelativeLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_questions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="10dp"
+            android:focusableInTouchMode="true"
+            android:overScrollMode="never"
+            />
+
+
+        <RelativeLayout
+            android:id="@+id/lyt_view_all_questions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/lyt_btn_view_all_questions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/linear_rounded_white_fill_gray_border"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingHorizontal="35dp"
+                android:paddingVertical="15dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_500_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="See more"
+                    android:textColor="@color/N100" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>

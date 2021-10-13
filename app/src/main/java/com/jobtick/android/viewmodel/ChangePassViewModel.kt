@@ -35,7 +35,7 @@ class ChangePassViewModel : ViewModel() {
                 Response.Listener{ response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         jobsResponse.postValue(jsonObject)
                     } catch (exception: Exception) {

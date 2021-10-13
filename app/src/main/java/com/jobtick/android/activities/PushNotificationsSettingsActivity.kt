@@ -93,7 +93,7 @@ class PushNotificationsSettingsActivity : ActivityBase() {
                     Timber.e(response)
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         val gson = Gson()
                         val notifSettingResponse = gson.fromJson(jsonObject.toString(), NotifSettingResponse::class.java)
 

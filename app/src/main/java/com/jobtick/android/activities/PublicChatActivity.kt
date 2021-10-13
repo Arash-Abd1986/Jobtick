@@ -317,7 +317,7 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
                     Timber.e(response)
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             attachmentArraylistQuestion.clear()
@@ -416,7 +416,7 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
                     Timber.e(response)
                     // categoryArrayList.clear();
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         val jsonArrayData = jsonObject.getJSONArray("data")
                         var i = 0

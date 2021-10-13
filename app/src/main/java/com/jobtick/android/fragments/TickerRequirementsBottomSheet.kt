@@ -14,9 +14,6 @@ import com.jobtick.android.R
 import com.jobtick.android.activities.MakeAnOfferActivity
 import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.fragments.ProfileReqFragment.Companion.newInstance
-import com.jobtick.android.models.BankAccountModel
-import com.jobtick.android.models.BillingAdreessModel
-import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.SessionManager
 import java.util.*
@@ -29,9 +26,6 @@ class TickerRequirementsBottomSheet : AbstractStateExpandedBottomSheet() {
     private var birthDayBtn: ImageView? = null
     private var phoneNumberBtn: ImageView? = null
     private var sessionManager: SessionManager? = null
-    private var userAccountModel: UserAccountModel? = null
-    private var bankAccountModel: BankAccountModel? = null
-    private var billingAddressModel: BillingAdreessModel? = null
     private var state: HashMap<Requirement, Boolean>? = null
     private var contextT: Context? = null
     private var listener: NoticeListener? = null
@@ -56,9 +50,6 @@ class TickerRequirementsBottomSheet : AbstractStateExpandedBottomSheet() {
         if (arguments != null) {
             state = requireArguments().getSerializable(Constant.STATE_STRIPE_TICKER) as HashMap<Requirement, Boolean>?
         }
-        userAccountModel = (requireActivity() as TaskDetailsActivity).userAccountModel
-        bankAccountModel = (requireActivity() as TaskDetailsActivity).bankAccountModel
-        billingAddressModel = (requireActivity() as TaskDetailsActivity).billingAdreessModel
         profileBtn = view.findViewById(R.id.img_requirement)
         bankAccountBtn = view.findViewById(R.id.credit_requirement)
         billingAddressBtn = view.findViewById(R.id.map_requirement)

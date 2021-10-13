@@ -6,18 +6,11 @@ import androidx.lifecycle.ViewModel
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.RequestQueue
 import com.android.volley.Response
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
-import com.jobtick.android.models.response.home.HomeResponse
-import com.jobtick.android.models.response.myjobs.MyJobsResponse
 import com.jobtick.android.utils.Constant
-import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.lang.Exception
 import java.util.*
 
 class MapViewModel : ViewModel() {
@@ -42,14 +35,14 @@ class MapViewModel : ViewModel() {
             Response.Listener { response: String? ->
                 Timber.e(response)
                 try {
-                    val jsonObject = JSONObject(response)
+                    val jsonObject = JSONObject(response!!)
                     Timber.e(jsonObject.toString())
                     jobsResponse.postValue(jsonObject)
                 }catch (exception:Exception){
                     this.error.postValue("Something went wrong")
                 }
             },
-            Response.ErrorListener { error: VolleyError -> this.error.postValue("Something went wrong") }) {
+            Response.ErrorListener { this.error.postValue("Something went wrong") }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["Content-Type"] = "application/x-www-form-urlencoded"

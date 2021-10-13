@@ -289,7 +289,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
         recyclerViewOffers.visibility = View.GONE
         cardViewAllOffers.visibility = View.GONE
         initToolbar()
-        data
+        getData
     }
 
     private fun initQuestionList() {
@@ -752,7 +752,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
         }
     }
 
-    private val data: Unit
+    private val getData: Unit
         get() {
             allUserProfileDetails
             bankAccountAddress
@@ -1364,7 +1364,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                         val jsonObject = JSONObject(response)
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                data
+                                getData
                                 showSuccessToast("Job Cancelled Successfully", this@TaskDetailsActivity)
                             } else {
                                 showToast("Job not cancelled", this@TaskDetailsActivity)
@@ -1575,56 +1575,63 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
             startActivity(posterIntent)
         }
     }
-     private fun offerClick(){
-         when (txtBtnText.text.toString().trim { it <= ' ' }) {
-             ConstantKey.BTN_ASK_TO_RELEASE_MONEY -> showCustomDialogAskToReleaseMoney()
-             ConstantKey.BTN_RELEASE_MONEY -> showCustomDialogReleaseMoney()
-             ConstantKey.BTN_MAKE_AN_OFFER -> if (!needRequirementSheet()) {
-                 if (taskModel!!.musthave.size == 0) {
-                     intent = Intent(this@TaskDetailsActivity, MakeAnOfferActivity::class.java)
-                     val bundle = Bundle()
-                     bundle.putInt("id", taskModel!!.id)
-                     bundle.putInt("budget", taskModel!!.budget)
-                     intent.putExtras(bundle)
-                     startActivity(intent)
-                 } else {
-                     showRequirementDialog()
-                 }
-             } else {
-                 val tickerRequirementsBottomSheet = newInstance(requirementState)
-                 tickerRequirementsBottomSheet.show(supportFragmentManager, "")
-             }
-             ConstantKey.BTN_OFFER_PENDING -> {
-             }
-             ConstantKey.BTN_CANCELLATION_REQUEST_RECEIVED, ConstantKey.BTN_CANCELLATION_REQUEST_SENT -> {
-             }
-             ConstantKey.BTN_WRITE_A_REVIEW -> {
-             }
-         }
-     }
+
+    private fun offerClick() {
+        when (txtBtnText.text.toString().trim { it <= ' ' }) {
+            ConstantKey.BTN_ASK_TO_RELEASE_MONEY -> showCustomDialogAskToReleaseMoney()
+            ConstantKey.BTN_RELEASE_MONEY -> showCustomDialogReleaseMoney()
+            ConstantKey.BTN_MAKE_AN_OFFER -> if (!needRequirementSheet()) {
+                if (taskModel!!.musthave.size == 0) {
+                    intent = Intent(this@TaskDetailsActivity, MakeAnOfferActivity::class.java)
+                    val bundle = Bundle()
+                    bundle.putInt("id", taskModel!!.id)
+                    bundle.putInt("budget", taskModel!!.budget)
+                    intent.putExtras(bundle)
+                    startActivity(intent)
+                } else {
+                    showRequirementDialog()
+                }
+            } else {
+                val tickerRequirementsBottomSheet = newInstance(requirementState)
+                tickerRequirementsBottomSheet.show(supportFragmentManager, "")
+            }
+            ConstantKey.BTN_OFFER_PENDING -> {
+            }
+            ConstantKey.BTN_CANCELLATION_REQUEST_RECEIVED, ConstantKey.BTN_CANCELLATION_REQUEST_SENT -> {
+            }
+            ConstantKey.BTN_WRITE_A_REVIEW -> {
+            }
+        }
+    }
+
     private fun handleState() {
         requirementState[TickerRequirementsBottomSheet.Requirement.Profile] = false
         requirementState[TickerRequirementsBottomSheet.Requirement.BankAccount] = false
         requirementState[TickerRequirementsBottomSheet.Requirement.BillingAddress] = false
         requirementState[TickerRequirementsBottomSheet.Requirement.BirthDate] = false
         requirementState[TickerRequirementsBottomSheet.Requirement.PhoneNumber] = false
-        if (userAccountModel.avatar != null && userAccountModel.avatar.url != null && userAccountModel.avatar.url != "") {
-            requirementState[TickerRequirementsBottomSheet.Requirement.Profile] = true
-        }
+        if (::userAccountModel.isInitialized)
+            if (userAccountModel.avatar != null && userAccountModel.avatar.url != null && userAccountModel.avatar.url != "") {
+                requirementState[TickerRequirementsBottomSheet.Requirement.Profile] = true
+            }
         //checking one field is enough
-        if (bankAccountModel.data != null && bankAccountModel.data.account_number != null && bankAccountModel.data.account_number != "") {
-            requirementState[TickerRequirementsBottomSheet.Requirement.BankAccount] = true
-        }
+        if (::bankAccountModel.isInitialized)
+            if (bankAccountModel.data != null && bankAccountModel.data.account_number != null && bankAccountModel.data.account_number != "") {
+                requirementState[TickerRequirementsBottomSheet.Requirement.BankAccount] = true
+            }
         //checking one filed is enough
-        if (billingAdreessModel.data != null && billingAdreessModel.data.post_code != null && billingAdreessModel.data.post_code != "") {
-            requirementState[TickerRequirementsBottomSheet.Requirement.BillingAddress] = true
-        }
-        if (userAccountModel.dob != null && userAccountModel.dob != "") {
-            requirementState[TickerRequirementsBottomSheet.Requirement.BirthDate] = true
-        }
-        if (userAccountModel.mobile != null && userAccountModel.mobile != "" && userAccountModel.mobileVerifiedAt != null && userAccountModel.mobileVerifiedAt != "") {
-            requirementState[TickerRequirementsBottomSheet.Requirement.PhoneNumber] = true
-        }
+        if (::billingAdreessModel.isInitialized)
+            if (billingAdreessModel.data != null && billingAdreessModel.data.post_code != null && billingAdreessModel.data.post_code != "") {
+                requirementState[TickerRequirementsBottomSheet.Requirement.BillingAddress] = true
+            }
+        if (::userAccountModel.isInitialized)
+            if (userAccountModel.dob != null && userAccountModel.dob != "") {
+                requirementState[TickerRequirementsBottomSheet.Requirement.BirthDate] = true
+            }
+        if (::userAccountModel.isInitialized)
+            if (userAccountModel.mobile != null && userAccountModel.mobile != "" && userAccountModel.mobileVerifiedAt != null && userAccountModel.mobileVerifiedAt != "") {
+                requirementState[TickerRequirementsBottomSheet.Requirement.PhoneNumber] = true
+            }
     }
 
     private fun needRequirementSheet(): Boolean {
@@ -1831,7 +1838,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
             override fun getParams(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["question_text"] = str_comment
-                if (attachmentModels != null && attachmentModels.size != 0) {
+                if (attachmentModels != null && attachmentModels.size != 0 && attachmentModels.getAttachment(0).id != null) {
                     var i = 0
                     while (attachmentModels.size > i) {
                         map1["attachments[$i]"] = attachmentModels.getAttachment(i).id.toString()
@@ -1852,7 +1859,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
     }
 
     override fun onRequestAccept() {
-        data
+        getData
     }
 
     override fun onWithdraw(id: Int) {
@@ -1970,7 +1977,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
             }
         }
         if (requestCode == ConstantKey.RESULTCODE_RESCHEDULE) {
-            data
+            getData
         }
         if (requestCode == ConstantKey.RESULTCODE_CANCELLATION_DONE) {
             if (data != null) {
@@ -2182,7 +2189,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
         val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_TASKS + "/" + taskModel!!.slug + "/bookmark",
                 com.android.volley.Response.Listener { response: String? ->
                     toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_grey_32dp)
-                    data
+                    getData
                 },
                 com.android.volley.Response.ErrorListener { error: VolleyError ->
                     errorHandle1(error.networkResponse)
@@ -2219,7 +2226,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp)
-                                data
+                                getData
                                 if (SavedTaskActivity.onRemoveSavedtasklistener != null) {
                                     SavedTaskActivity.onRemoveSavedtasklistener!!.onRemoveSavedTask()
                                 }
@@ -2809,7 +2816,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
     }
 
     override fun onIncreaseBudgetAcceptClick() {
-        data
+        getData
     }
 
     override fun onIncreaseBudgetRejectClick() {
@@ -2817,23 +2824,23 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
     }
 
     override fun onIncreaseBudgetWithDrawClick() {
-        data
+        getData
     }
 
     override fun onIncreaseBudgetSubmitClick() {
-        data
+        getData
     }
 
     override fun onRescheduleTimeAcceptDeclineClick() {
-        data
+        getData
     }
 
     override fun onRescheduleWithDraw() {
-        data
+        getData
     }
 
     override fun onSubmitIncreasePrice() {
-        data
+        getData
     }
 
     enum class AlertType {

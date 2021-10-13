@@ -80,7 +80,7 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
     }
 
     private fun init() {
-        learnMore!!.setOnClickListener { view: View? -> ExternalIntentHelper.openLink(this, Constant.URL_privacy_policy) }
+        learnMore!!.setOnClickListener { ExternalIntentHelper.openLink(this, Constant.URL_privacy_policy) }
         str_SLUG = taskModel!!.slug
         val bundle = intent.extras ?: throw IllegalStateException("there is no bundle.")
         title!!.text = Html.fromHtml(bundle.getString(ConstantKey.CANCELLATION_TITLE))

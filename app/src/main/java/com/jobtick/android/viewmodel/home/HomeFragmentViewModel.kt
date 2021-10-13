@@ -51,7 +51,7 @@ class HomeFragmentViewModel : ViewModel() {
                         error2.postValue("")
                     }
                 },
-                Response.ErrorListener { error: VolleyError? ->
+                Response.ErrorListener {
                     this.error2.postValue("error")
                 }
         ) {

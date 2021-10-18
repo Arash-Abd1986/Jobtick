@@ -1,106 +1,70 @@
-package com.jobtick.android.utils;
+package com.jobtick.android.utils
 
-import android.app.Application;
-import android.content.Intent;
-import android.os.Bundle;
+import android.app.Application
+import android.content.Intent
+import android.os.Bundle
+import com.jobtick.android.activities.DashboardActivity
+import com.jobtick.android.models.PushNotificationModel
+import com.onesignal.OSNotificationAction
+import com.onesignal.OSNotificationOpenedResult
+import com.onesignal.OneSignal.OSNotificationOpenedHandler
+import org.json.JSONException
+import timber.log.Timber
 
-
-import com.jobtick.android.activities.DashboardActivity;
-import com.jobtick.android.models.PushNotificationModel;
-import com.onesignal.OSNotificationAction;
-import com.onesignal.OSNotificationOpenResult;
-import com.onesignal.OneSignal;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import timber.log.Timber;
-
-import static com.jobtick.android.utils.ConstantKey.ID;
-import static com.jobtick.android.utils.ConstantKey.PUSH_CONVERSATION;
-import static com.jobtick.android.utils.ConstantKey.PUSH_OFFER;
-import static com.jobtick.android.utils.ConstantKey.PUSH_QUESTION;
-import static com.jobtick.android.utils.ConstantKey.PUSH_STATUS;
-import static com.jobtick.android.utils.ConstantKey.PUSH_TASK_ID;
-import static com.jobtick.android.utils.ConstantKey.PUSH_TASK_SLUG;
-import static com.jobtick.android.utils.ConstantKey.PUSH_TRIGGER;
-
-public class MyNotificationOpenedHandler implements OneSignal.NotificationOpenedHandler {
-
-    private final Application application;
-    private PushNotificationModel pushNotificationModel;
-
-    public MyNotificationOpenedHandler(Application application) {
-        this.application = application;
+class MyNotificationOpenedHandler(private val application: Application) : OSNotificationOpenedHandler {
+    private var pushNotificationModel: PushNotificationModel? = null
+    private fun startApp() {
+        val bundle = Bundle()
+        val intent = Intent(application, DashboardActivity::class.java)
+                .setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT or Intent.FLAG_ACTIVITY_NEW_TASK)
+        bundle.putParcelable(ConstantKey.PUSH_NOTIFICATION_MODEL, pushNotificationModel)
+        intent.putExtras(bundle)
+        application.startActivity(intent)
     }
 
-    @Override
-    public void notificationOpened(OSNotificationOpenResult result) {
-
-        String trigger;
+    override fun notificationOpened(result: OSNotificationOpenedResult) {
+        var trigger: String
         // Get custom datas from notification
-        JSONObject data = result.notification.payload.additionalData;
+        val data = result.notification.additionalData
         if (data != null) {
-            if (data.has(PUSH_TRIGGER) && !data.isNull(PUSH_TRIGGER)) {
-                pushNotificationModel = new PushNotificationModel();
+            if (data.has(ConstantKey.PUSH_TRIGGER) && !data.isNull(ConstantKey.PUSH_TRIGGER)) {
+                pushNotificationModel = PushNotificationModel()
                 try {
-                    pushNotificationModel.setTrigger(data.getString(PUSH_TRIGGER));
-
-                    if (data.has(PUSH_TASK_SLUG) && !data.isNull(PUSH_TASK_SLUG)) {
-                        pushNotificationModel.setModel_slug(data.getString(PUSH_TASK_SLUG));
+                    pushNotificationModel!!.setTrigger(data.getString(ConstantKey.PUSH_TRIGGER))
+                    if (data.has(ConstantKey.PUSH_TASK_SLUG) && !data.isNull(ConstantKey.PUSH_TASK_SLUG)) {
+                        pushNotificationModel!!.setModel_slug(data.getString(ConstantKey.PUSH_TASK_SLUG))
                     }
-
-                    if (data.has(PUSH_TASK_ID) && !data.isNull(PUSH_TASK_ID)) {
-                        pushNotificationModel.setModel_id(data.getInt(PUSH_TASK_ID));
+                    if (data.has(ConstantKey.PUSH_TASK_ID) && !data.isNull(ConstantKey.PUSH_TASK_ID)) {
+                        pushNotificationModel!!.setModel_id(data.getInt(ConstantKey.PUSH_TASK_ID))
                     }
-
-                    if (data.has(PUSH_OFFER) && !data.isNull(PUSH_OFFER)) {
-                        JSONObject jsonObjectOffer = data.getJSONObject(PUSH_OFFER);
-                        if (jsonObjectOffer.has(ID) && !jsonObjectOffer.isNull(ID)) {
-                            pushNotificationModel.setOffer_id(jsonObjectOffer.getInt(ID));
+                    if (data.has(ConstantKey.PUSH_OFFER) && !data.isNull(ConstantKey.PUSH_OFFER)) {
+                        val jsonObjectOffer = data.getJSONObject(ConstantKey.PUSH_OFFER)
+                        if (jsonObjectOffer.has(ConstantKey.ID) && !jsonObjectOffer.isNull(ConstantKey.ID)) {
+                            pushNotificationModel!!.setOffer_id(jsonObjectOffer.getInt(ConstantKey.ID))
                         }
                     }
-                    if (data.has(PUSH_QUESTION) && !data.isNull(PUSH_QUESTION)) {
-                        JSONObject jsonObjectQuestion = data.getJSONObject(PUSH_QUESTION);
-                        if (jsonObjectQuestion.has(ID) && !jsonObjectQuestion.isNull(ID)) {
-
-                            pushNotificationModel.setQuestion_id(jsonObjectQuestion.getInt(ID));
+                    if (data.has(ConstantKey.PUSH_QUESTION) && !data.isNull(ConstantKey.PUSH_QUESTION)) {
+                        val jsonObjectQuestion = data.getJSONObject(ConstantKey.PUSH_QUESTION)
+                        if (jsonObjectQuestion.has(ConstantKey.ID) && !jsonObjectQuestion.isNull(ConstantKey.ID)) {
+                            pushNotificationModel!!.setQuestion_id(jsonObjectQuestion.getInt(ConstantKey.ID))
                         }
                     }
-                    if (data.has(PUSH_CONVERSATION) && !data.isNull(PUSH_CONVERSATION)) {
-                        JSONObject jsonObjectConversation = data.getJSONObject(PUSH_CONVERSATION);
-                        if (jsonObjectConversation.has(ID) && !jsonObjectConversation.isNull(ID)) {
-
-                            pushNotificationModel.setConversation_id(jsonObjectConversation.getInt(ID));
+                    if (data.has(ConstantKey.PUSH_CONVERSATION) && !data.isNull(ConstantKey.PUSH_CONVERSATION)) {
+                        val jsonObjectConversation = data.getJSONObject(ConstantKey.PUSH_CONVERSATION)
+                        if (jsonObjectConversation.has(ConstantKey.ID) && !jsonObjectConversation.isNull(ConstantKey.ID)) {
+                            pushNotificationModel!!.setConversation_id(jsonObjectConversation.getInt(ConstantKey.ID))
                         }
                     }
-                    if (data.has(PUSH_STATUS) && !data.isNull(PUSH_STATUS)) {
-                        pushNotificationModel.setStatus(data.getString(PUSH_STATUS));
+                    if (data.has(ConstantKey.PUSH_STATUS) && !data.isNull(ConstantKey.PUSH_STATUS)) {
+                        pushNotificationModel!!.setStatus(data.getString(ConstantKey.PUSH_STATUS))
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } catch (e: JSONException) {
+                    e.printStackTrace()
                 }
-                startApp();
+                startApp()
             }
-
-//            String myCustomData = data.optString("key", null);
         }
-
-        // React to button pressed
-        OSNotificationAction.ActionType actionType = result.action.type;
-        if (actionType == OSNotificationAction.ActionType.ActionTaken)
-            Timber.tag("OneSignalExample").i("Button pressed with id: " + result.action.actionID);
-
-        // Launch new activity using Application object
-    }
-
-    private void startApp() {
-
-        Bundle bundle = new Bundle();
-        Intent intent = new Intent(application, DashboardActivity.class)
-                .setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-        bundle.putParcelable(ConstantKey.PUSH_NOTIFICATION_MODEL, pushNotificationModel);
-        intent.putExtras(bundle);
-        application.startActivity(intent);
+        val actionType = result.action.type
+        if (actionType == OSNotificationAction.ActionType.ActionTaken) Timber.tag("OneSignalExample").i("Button pressed with id: " + result.action.actionId)
     }
 }

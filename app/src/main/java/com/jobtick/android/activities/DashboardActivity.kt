@@ -290,11 +290,14 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     private fun setHeaderLayout() {
-        OneSignal.setExternalUserId(sessionManager1!!.userAccount.id.toString(), { results: JSONObject? -> })
+        OneSignal.setExternalUserId(sessionManager!!.userAccount.id.toString())
+        OneSignal.setEmail(sessionManager!!.userAccount.email)
+        OneSignal.sendTag("Email", sessionManager!!.userAccount.email)
+        OneSignal.sendTag("Name", sessionManager!!.userAccount.fname +" " + sessionManager!!.userAccount.lname)
+        OneSignal.sendTag("Mobile", sessionManager!!.userAccount.fname + sessionManager!!.userAccount.mobile)
+        OneSignal.sendTag("Location", sessionManager!!.userAccount.fname + sessionManager!!.userAccount.location)
     }
-
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)

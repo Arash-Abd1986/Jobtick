@@ -29,6 +29,7 @@ import com.jobtick.android.models.notification.PushNotificationModel2
 import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.widget.ContentWrappingViewPager
+import com.onesignal.OneSignal
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
@@ -51,6 +52,7 @@ class Dashboard2Activity : ActivityBase(), NotificationListAdapter.OnItemClickLi
         initToolbar()
         initComponent()
         initNotificationList()
+        setHeaderLayout()
     }
 
     private fun setIDs() {
@@ -61,6 +63,14 @@ class Dashboard2Activity : ActivityBase(), NotificationListAdapter.OnItemClickLi
         recyclerView =findViewById(R.id.recycler_view)
         noNotifications =findViewById(R.id.no_notifications_container)
         viewPager =findViewById(R.id.ticker_poster_view_pager)
+    }
+
+    private fun setHeaderLayout() {
+        OneSignal.setExternalUserId(sessionManager!!.userAccount.id.toString())
+        OneSignal.setEmail(sessionManager!!.userAccount.email)
+        OneSignal.sendTag("Email", sessionManager!!.userAccount.email);
+        OneSignal.sendTag("Name", sessionManager!!.userAccount.fname + sessionManager!!.userAccount.lname);
+        OneSignal.sendTag("Mobile", sessionManager!!.userAccount.fname + sessionManager!!.userAccount.mobile);
     }
 
     private fun initToolbar() {

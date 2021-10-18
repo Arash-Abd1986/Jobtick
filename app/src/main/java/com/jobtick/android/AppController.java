@@ -38,7 +38,7 @@ public class AppController extends Application {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
         Mapbox.getInstance(getApplicationContext(), Constant.MAPBOX_API_KEY);
-        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
+     /*   OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
 
         // OneSignal Initialization
         OneSignal.startInit(this)
@@ -57,6 +57,12 @@ public class AppController extends Application {
             }
         });
 
+        // Enable verbose OneSignal logging to debug issues if needed.
+        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);*/
+        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
+        OneSignal.initWithContext(this);
+        OneSignal.setNotificationOpenedHandler(new MyNotificationOpenedHandler(this));
+        OneSignal.setAppId("dd77e2db-8358-4c20-95b9-e4943e401d4b");
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         // Operations on FirebaseCrashlytics.
         mCrashlytics = FirebaseCrashlytics.getInstance();

@@ -6,6 +6,8 @@ import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.AppsFlyerLib;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.instabug.library.Instabug;
+import com.instabug.library.invocation.InstabugInvocationEvent;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.utils.MyNotificationOpenedHandler;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -35,9 +37,13 @@ public class AppController extends Application {
         super.onCreate();
         isDebug = BuildConfig.DEBUG;
 
+        new Instabug.Builder(this, "14cdc056876dd1e8bf9a8579522f9b85")
+                .setInvocationEvents(InstabugInvocationEvent.SHAKE, InstabugInvocationEvent.SCREENSHOT)
+                .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
         Mapbox.getInstance(getApplicationContext(), Constant.MAPBOX_API_KEY);
+
      /*   OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
 
         // OneSignal Initialization

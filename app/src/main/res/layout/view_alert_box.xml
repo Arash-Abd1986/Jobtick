@@ -5,8 +5,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:background="@drawable/rectangle_round_corners_grey_8dp">
+        android:layout_marginTop="5dp"
+        android:background="@drawable/shape_rounded_white_5dp">
 
         <com.rishabhharit.roundedimageview.RoundedImageView
             android:id="@+id/alert_image"

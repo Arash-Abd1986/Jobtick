@@ -68,9 +68,9 @@ class Dashboard2Activity : ActivityBase(), NotificationListAdapter.OnItemClickLi
     private fun setHeaderLayout() {
         OneSignal.setExternalUserId(sessionManager!!.userAccount.id.toString())
         OneSignal.setEmail(sessionManager!!.userAccount.email)
-        OneSignal.sendTag("Email", sessionManager!!.userAccount.email);
-        OneSignal.sendTag("Name", sessionManager!!.userAccount.fname + sessionManager!!.userAccount.lname);
-        OneSignal.sendTag("Mobile", sessionManager!!.userAccount.fname + sessionManager!!.userAccount.mobile);
+        OneSignal.sendTag("Email", sessionManager!!.userAccount.email)
+        OneSignal.sendTag("Name", sessionManager!!.userAccount.fname + sessionManager!!.userAccount.lname)
+        OneSignal.sendTag("Mobile", sessionManager!!.userAccount.fname + sessionManager!!.userAccount.mobile)
     }
 
     private fun initToolbar() {

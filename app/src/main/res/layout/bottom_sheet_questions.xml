@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:orientation="vertical"
+    android:paddingTop="10dp">
+   <LinearLayout
+       android:background="@drawable/bg_white_top_c"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+       <include
+           layout="@layout/job_details_card_questions"
+           android:visibility="visible" />
+   </LinearLayout>
+</RelativeLayout>

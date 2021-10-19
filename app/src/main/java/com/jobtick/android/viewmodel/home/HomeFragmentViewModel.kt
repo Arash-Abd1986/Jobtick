@@ -44,7 +44,7 @@ class HomeFragmentViewModel : ViewModel() {
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     if (response != null) {
-                        val jsonObject = JSONObject(response!!)
+                        val jsonObject = JSONObject(response)
                         Timber.e(jsonObject.toString())
                         notifReponse.postValue(jsonObject)
                     } else {
@@ -75,7 +75,7 @@ class HomeFragmentViewModel : ViewModel() {
                     Timber.e(response)
                     try {
                         if (response != null) {
-                            val jsonObject = JSONObject(response!!)
+                            val jsonObject = JSONObject(response)
                             Timber.e(jsonObject.toString())
                             val homeResponseTemp = Gson().fromJson(jsonObject.toString(), HomeResponse::class.java)
                             if (homeResponseTemp.success!!)

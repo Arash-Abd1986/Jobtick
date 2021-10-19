@@ -41,13 +41,13 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/materialText_500_12"
-                        tools:ignore="TooDeepLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/view_all_offers"
                         android:textAllCaps="true"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        tools:ignore="TooDeepLayout" />
                 </LinearLayout>
 
                 <FrameLayout
@@ -60,72 +60,55 @@
 
         </FrameLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:layout_gravity="bottom|end"
             android:layout_marginStart="17dp"
             android:layout_marginEnd="17dp"
+            android:background="@drawable/shape_rounded_white_20dp"
             android:layout_marginBottom="@dimen/_40dp"
-            android:gravity="center"
             android:orientation="horizontal">
 
-            <ImageView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@drawable/shape_tab_left_white"
-                android:contentDescription="@string/todo"
-                android:gravity="center"
-                android:paddingStart="@dimen/spacing_middle"
-                android:paddingTop="@dimen/spacing_medium"
-                android:paddingEnd="@dimen/spacing_medium"
-                android:paddingBottom="@dimen/spacing_medium"
-                app:srcCompat="@drawable/ic_clock_task_details" />
+                android:layout_height="32dp"
+                android:background="@drawable/shape_rounded_white_20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_due_date"
-                style="@style/materialText_500_12"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@color/white"
-                android:gravity="center"
-                android:paddingTop="@dimen/spacing_medium"
-                android:paddingBottom="@dimen/spacing_medium"
-                android:textColor="@color/textColor" />
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="match_parent"
+                    android:paddingStart="@dimen/spacing_middle"
+                    android:paddingTop="@dimen/spacing_medium"
+                    android:paddingEnd="@dimen/spacing_medium"
+                    android:paddingBottom="@dimen/spacing_medium"
+                    app:srcCompat="@drawable/ic_blue_clock" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_due_time"
-                style="@style/materialText_500_12"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@drawable/shape_tab_right_white"
-                android:gravity="center"
-                android:paddingTop="@dimen/spacing_medium"
-                android:paddingEnd="@dimen/spacing_middle"
-                android:paddingBottom="@dimen/spacing_medium"
-                android:textColor="@color/textColor" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_due_date"
+                    style="@style/materialText_500_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingTop="@dimen/spacing_medium"
+                    android:paddingBottom="@dimen/spacing_medium"
+                    android:textColor="@color/textColor" />
 
-            <FrameLayout
-                tools:ignore="UselessLeaf"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_due_time"
+                    style="@style/materialText_500_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/spacing_medium"
+                    android:paddingEnd="@dimen/spacing_middle"
+                    android:paddingBottom="@dimen/spacing_medium"
+                    android:textColor="@color/textColor" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_budgets"
-                style="@style/materialText_500_18"
-                tools:text="@string/_200"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:background="@drawable/shape_tab_primary"
-                android:gravity="center"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:textColor="@color/white" />
-        </LinearLayout>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -159,7 +142,7 @@
             app:contentInsetStartWithNavigation="0dp"
             app:layout_collapseMode="pin"
             app:menu="@menu/menu_task_details"
-            app:navigationIcon="@drawable/ic_chevron_left_while_background_grey_32dp"
+            app:navigationIcon="@drawable/ic_chevron_left_while_background_white_32dp"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:titleMarginStart="-25dp"
             app:titleTextColor="@color/white" />

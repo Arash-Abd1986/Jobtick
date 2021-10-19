@@ -6,16 +6,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.jobtick.android.widget.ExtendedAlertBox
-        android:id="@+id/alert_box"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sp"
-        android:layout_marginTop="@dimen/_18sp"
-        android:layout_marginEnd="@dimen/_16sp"
-        android:visibility="gone"
-        app:eAlertButtonText="@string/view_cancellation_request"
-        app:eAlertTitle="You have requested to cancel this job on 9th Dec. 2020 9:45 PM" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,14 +15,30 @@
         android:layout_marginEnd="@dimen/_13sp"
         android:layout_marginBottom="@dimen/spacing_middle"
         android:orientation="horizontal">
-       <com.jobtick.android.widget.StatusLayout
-           android:id="@+id/lyt_status"
-           android:layout_alignParentStart="true"
-           android:layout_width="wrap_content"
-           app:status="@string/completed"
-           android:layout_height="wrap_content"/>
 
+        <com.jobtick.android.widget.StatusLayout
+            android:id="@+id/lyt_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            app:status="@string/completed" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/txt_budgets"
+            app:srcCompat="@drawable/ic_big_blue_dollar" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_budgets"
+            style="@style/materialText_700_20"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:text="99999"
+            android:textColor="@color/textColor" />
     </RelativeLayout>
 
     <LinearLayout
@@ -50,57 +56,6 @@
             android:layout_marginEnd="@dimen/spacing_smlarge"
             android:layout_marginBottom="3dp"
             android:textColor="@color/textColor" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="@dimen/spacing_smlarge"
-            android:layout_marginEnd="@dimen/spacing_smlarge"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <LinearLayout
-                android:id="@+id/llLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="9dp"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal"
-                tools:ignore="UselessParent">
-
-                <ImageView
-                    android:id="@+id/img_map_pin"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:contentDescription="@string/todo"
-                    android:src="@drawable/ic_map_pin" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_location"
-                    style="@style/fontSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="@color/colorPrimary"
-                    tools:text="123" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_created_date"
-                    style="@style/fontSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginEnd="8dp"
-                    android:textColor="@color/grey_70"
-                    tools:text="123" />
-            </LinearLayout>
-        </LinearLayout>
-
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_description"
             style="@style/materialText_500_14"
@@ -108,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_marginStart="@dimen/spacing_smlarge"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="@dimen/spacing_smlarge"
             android:layout_marginBottom="@dimen/spacing_medium"
             android:lineSpacingExtra="@dimen/_3dp"
@@ -135,6 +90,79 @@
                 tools:listitem="@layout/item_must_have" />
 
         </androidx.cardview.widget.CardView>
+        <RelativeLayout
+            android:layout_marginTop="15dp"
+            android:background="@drawable/google_map_job_location"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/spacing_smlarge"
+            android:layout_marginEnd="@dimen/spacing_smlarge"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:id="@+id/llLocation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_rounded_white_s_back"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                tools:ignore="UselessParent">
+
+                <ImageView
+                    android:id="@+id/img_map_pin"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_map_location_blue" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_location"
+                    style="@style/materialText_500_14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimary"
+                    tools:text="123" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_created_date"
+                    style="@style/fontSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="8dp"
+                    android:textColor="@color/grey_70"
+                    android:visibility="gone"
+                    tools:text="123" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="95dp"
+                android:layout_height="15dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="80dp"
+                app:srcCompat="@drawable/ic_location_point" />
+        </RelativeLayout>
+
+        <com.jobtick.android.widget.ExtendedAlertBox
+            android:id="@+id/alert_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sp"
+            android:layout_marginTop="@dimen/_18sp"
+            android:layout_marginEnd="@dimen/_16sp"
+            android:visibility="gone"
+            app:eAlertButtonText="@string/view_cancellation_request"
+            app:eAlertTitle="You have requested to cancel this job on 9th Dec. 2020 9:45 PM" />
+
 
         <View
             android:id="@+id/lineOpen"
@@ -257,14 +285,6 @@
                         android:contentDescription="@string/todo"
                         android:src="@drawable/ic_message" />
 
-                    <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_500_16"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="4dp"
-                        android:text="@string/chat"
-                        android:textColor="#C9C9C9" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -281,14 +301,6 @@
                     android:paddingBottom="8dp"
                     android:visibility="visible">
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/spacing_small"
-                        android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_message_active" />
-
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/materialText_500_16"
                         android:layout_width="wrap_content"
@@ -302,47 +314,38 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:background="@drawable/shape_rounded_white_5dp"
             android:id="@+id/postedByLyt"
+            android:layout_marginStart="@dimen/spacing_smlarge"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="@dimen/spacing_smlarge"
+            android:layout_marginBottom="@dimen/spacing_middle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txtPostedBy"
-                style="@style/materialText_600_14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="@dimen/spacing_smlarge"
-                android:layout_marginTop="@dimen/spacing_smlarge"
-                android:text="@string/posted_by"
-                android:textColor="@color/N900" />
+            android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/lin_poster"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtPostedBy"
-                android:layout_marginStart="@dimen/spacing_smlarge"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="@dimen/spacing_smlarge"
-                android:layout_marginBottom="@dimen/spacing_middle"
                 android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <RelativeLayout
                     android:id="@+id/relativProfile"
-                    android:layout_width="55dp"
-                    android:layout_height="63dp">
+                    android:layout_width="60dp"
+                    android:layout_height="63dp"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal">
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/img_avtar_poster"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:layout_centerHorizontal="true"
+                        android:layout_width="@dimen/_55dp"
+                        android:layout_height="@dimen/_55dp"
+                        android:layout_alignParentTop="true"
                         android:src="@drawable/ic_place_holder"
                         app:civ_border="false" />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/img_account_shield"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
@@ -350,8 +353,8 @@
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center"
                         android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_shield"
-                        android:visibility="gone" />
+                        android:visibility="visible"
+                        app:srcCompat="@drawable/ic_confirmed_profile" />
 
                     <ImageView
                         android:id="@+id/img_account_level"
@@ -368,7 +371,7 @@
                 <LinearLayout
                     android:id="@+id/linearUserProfile"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="12dp"
                     android:layout_weight="1"
@@ -389,7 +392,8 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="@color/grey_40" />
+                        android:textColor="@color/grey_40"
+                        android:visibility="gone" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_poster_last_online"
@@ -407,7 +411,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="@dimen/spacing_small"
-                    android:background="@drawable/chat_active_bg"
                     android:orientation="horizontal"
                     android:paddingStart="@dimen/_8dp"
                     android:paddingTop="8dp"
@@ -416,21 +419,12 @@
                     android:visibility="gone">
 
                     <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="55dp"
+                        android:layout_height="@dimen/_55dp"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/spacing_small"
                         android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_message_active" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_600_14"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="4dp"
-                        android:text="@string/message"
-                        android:textColor="@color/white" />
+                        android:src="@drawable/ic_p_chat_enable_v2" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -439,7 +433,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="@dimen/spacing_small"
-                    android:background="@drawable/shape_rounded_back_button_deactive"
                     android:orientation="horizontal"
                     android:paddingStart="@dimen/_8dp"
                     android:paddingTop="8dp"
@@ -447,23 +440,47 @@
                     android:paddingBottom="8dp">
 
                     <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:id="@+id/img_pChat"
+                        android:layout_width="55dp"
+                        android:layout_height="@dimen/_55dp"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/spacing_small"
                         android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_message_active" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_600_14"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="4dp"
-                        android:text="@string/message"
-                        android:textColor="@color/white" />
+                        android:src="@drawable/ic_p_chat_disable_v2" />
                 </LinearLayout>
             </LinearLayout>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_make_an_offer"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_gravity="bottom"
+                android:layout_below="@+id/lin_poster"
+                android:layout_margin="@dimen/spacing_large"
+                android:backgroundTint="@color/colorPrimary"
+                android:clickable="false"
+                android:visibility="gone"
+                app:cardCornerRadius="@dimen/spacing_medium"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:id="@+id/lyt_btn_make_an_offer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_btn_text"
+                        style="@style/materialText_500_14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/make_an_offer"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </RelativeLayout>
     </LinearLayout>
 
@@ -472,11 +489,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/spacing_line"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:background="@color/grey_10" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_offer_count"

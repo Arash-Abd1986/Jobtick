@@ -15,16 +15,15 @@
         android:focusableInTouchMode="true"
         tools:context=".activities.TaskDetailsActivity">
 
-      <include
-          layout="@layout/job_details_top_toolbar"/>
 
+        <include layout="@layout/job_details_top_toolbar" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="-14dp"
-            android:background="@drawable/taske_details_header"
+            android:background="@drawable/taske_details_header_gradient"
             android:clipToPadding="false"
             android:paddingBottom="@dimen/spacing_large"
             android:scrollbars="none"
@@ -46,56 +45,16 @@
                     android:orientation="vertical"
                     android:visibility="visible">
 
-                    <include
-                        layout="@layout/job_details_details_of_job"/>
+                    <include layout="@layout/job_details_details_of_job" />
 
-                    <include
-                        layout="@layout/job_details_card_assign" />
+                    <include layout="@layout/job_details_card_assign" />
 
-                    <include
-                        layout="@layout/job_details_card_offer" />
-
-                    <include
-                        layout="@layout/job_details_card_questions" />
+                    <include layout="@layout/job_details_card_offer" />
 
 
                 </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_make_an_offer"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:layout_margin="@dimen/spacing_large"
-            android:backgroundTint="@color/colorPrimary"
-            android:clickable="false"
-            android:visibility="gone"
-            app:cardCornerRadius="@dimen/spacing_medium"
-            app:cardElevation="0dp">
-
-            <LinearLayout
-                android:id="@+id/lyt_btn_make_an_offer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_btn_text"
-                    style="@style/materialText_500_14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/make_an_offer"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
         <FrameLayout
             android:id="@+id/fl_task_details"
@@ -126,4 +85,25 @@
             android:layout_gravity="center"
             android:layout_marginTop="50dp" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_white_top_c"
+        android:orientation="vertical">
+
+        <include layout="@layout/view_bottom_sheet_top_handler" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_ask_question"
+            style="@style/materialText_600_14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="Do You Have Any Question ?"
+            android:textColor="#AFB6C4" />
+    </LinearLayout>
 </RelativeLayout>

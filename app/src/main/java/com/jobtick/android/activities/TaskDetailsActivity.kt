@@ -14,9 +14,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.Html
 import android.text.Spanned
-import android.text.TextUtils
 import android.view.*
 import android.widget.*
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
@@ -51,21 +51,14 @@ import com.jobtick.android.interfaces.OnRequestAcceptListener
 import com.jobtick.android.interfaces.OnWidthDrawListener
 import com.jobtick.android.models.*
 import com.jobtick.android.models.response.conversationinfo.GetConversationInfoResponse
-import com.jobtick.android.retrofit.ApiClient
 import com.jobtick.android.utils.*
 import com.jobtick.android.widget.ExtendedAlertBox
 import com.jobtick.android.widget.ExtendedAlertBox.OnExtendedAlertButtonClickListener
 import com.jobtick.android.widget.SpacingItemDecoration
 import com.jobtick.android.widget.StatusLayout
 import com.mikhaellopez.circularimageview.CircularImageView
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import org.json.JSONException
 import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import timber.log.Timber
 import java.io.File
 import java.text.ParseException
@@ -96,6 +89,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
     private lateinit var firstOfferLyt: LinearLayout
     private lateinit var txtBudget: TextView
     private lateinit var lytBtnMessage: LinearLayout
+    private lateinit var imgPChat: AppCompatImageView
     private lateinit var llLocation: LinearLayout
     private lateinit var postedByLyt: RelativeLayout
     private lateinit var lytBtnMakeAnOffer: LinearLayout
@@ -118,15 +112,6 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
     private lateinit var txtPosterName: TextView
     private lateinit var txtPosterLocation: TextView
     private lateinit var txtPosterLastOnline: TextView
-    private lateinit var txtQuestionsCount: TextView
-    private lateinit var recyclerViewQuestions: RecyclerView
-    private lateinit var lytBtnViewAllQuestions: LinearLayout
-    private lateinit var lytViewAllQuestions: RelativeLayout
-    private lateinit var cardQuestionsLayout: LinearLayout
-    private lateinit var edtComment: EditText
-    private lateinit var lytBtnCommentSend: ImageView
-    private lateinit var recyclerViewQuestionAttachment: RecyclerView
-    private lateinit var rltQuestionAdd: RelativeLayout
     private lateinit var adapterImageSlider: AdapterImageSlider
     private lateinit var viewPager: ViewPager
     private lateinit var layoutDots: LinearLayout
@@ -137,6 +122,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
     private lateinit var mustHaveList: RecyclerView
     private lateinit var bottom_sheet: FrameLayout
     private lateinit var content: LinearLayout
+    private lateinit var lnOffers: LinearLayout
     private lateinit var llLoading: RelativeLayout
     private lateinit var tvPrivateChatName: TextView
     private lateinit var tvPrivateChatLocation: TextView
@@ -146,6 +132,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
     private lateinit var llBtnPrivateMessageEnable: LinearLayout
     private lateinit var llBtnPosterMessageEnable: LinearLayout
     private lateinit var relPrivateChat: RelativeLayout
+    private lateinit var txtAskQuestion: TextView
     private var isFav = true
     private var offerListS = ArrayList<OfferModel>()
     private var offerListF = ArrayList<OfferModel>()
@@ -159,7 +146,6 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
     private var isUserTheTicker = false
     var isToolbarCollapsed = false
     private lateinit var offerListAdapter: OfferListAdapter
-    private lateinit var questionListAdapter: QuestionListAdapter
     private var noActionAvailable = false
     private lateinit var adapter: QuestionAttachmentAdapter
     var pushOfferID = 0
@@ -183,16 +169,23 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
         initialStage()
     }
 
+    private fun showQuestions() {
+        val questionsBottomSheet = QuestionsBottomSheet(sessionManager, str_slug!!, taskModel!!, isUserThePoster, pushQuestionID)
+        questionsBottomSheet.show(supportFragmentManager, null)
+    }
+
     private fun setIDs() {
         relPrivateChat = findViewById(R.id.relPrivateChat)
         tvPrivateChatName = findViewById(R.id.tvPrivateChatName)
         tvPrivateChatLocation = findViewById(R.id.tvPrivateChatLocation)
         tvPrivateChatLastOnline = findViewById(R.id.tvPrivateChatLastOnline)
+        txtAskQuestion = findViewById(R.id.txt_ask_question)
         imgAvatarChat = findViewById(R.id.imgAvatarChat)
         llBtnPrivateMessageDisable = findViewById(R.id.llBtnPrivateMessageDisable)
         llBtnPrivateMessageEnable = findViewById(R.id.llBtnPrivateMessageEnable)
         llBtnPosterMessageEnable = findViewById(R.id.llBtnPosterMessageEnable)
         llLoading = findViewById(R.id.llLoading)
+        lnOffers = findViewById(R.id.ln_offers)
         content = findViewById(R.id.content)
         alertBox = findViewById(R.id.alert_box)
         toolbar = findViewById(R.id.toolbar)
@@ -212,6 +205,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
         firstOfferLyt = findViewById(R.id.first_offer_lyt)
         txtBudget = findViewById(R.id.txt_budget)
         lytBtnMessage = findViewById(R.id.lyt_btn_message)
+        imgPChat = findViewById(R.id.img_pChat)
         llLocation = findViewById(R.id.llLocation)
         postedByLyt = findViewById(R.id.postedByLyt)
         lytBtnMakeAnOffer = findViewById(R.id.lyt_btn_make_an_offer)
@@ -234,15 +228,6 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
         txtPosterName = findViewById(R.id.txt_poster_name)
         txtPosterLocation = findViewById(R.id.txt_poster_location)
         txtPosterLastOnline = findViewById(R.id.txt_poster_last_online)
-        txtQuestionsCount = findViewById(R.id.txt_questions_count)
-        recyclerViewQuestions = findViewById(R.id.recycler_view_questions)
-        lytBtnViewAllQuestions = findViewById(R.id.lyt_btn_view_all_questions)
-        lytViewAllQuestions = findViewById(R.id.lyt_view_all_questions)
-        cardQuestionsLayout = findViewById(R.id.card_questions_layout)
-        edtComment = findViewById(R.id.edt_comment)
-        lytBtnCommentSend = findViewById(R.id.lyt_btn_comment_send)
-        recyclerViewQuestionAttachment = findViewById(R.id.recycler_view_question_attachment)
-        rltQuestionAdd = findViewById(R.id.rlt_layout_action_data)
         viewPager = findViewById(R.id.pager)
         layoutDots = findViewById(R.id.layout_dots)
         budget = findViewById(R.id.txt_budgets)
@@ -277,23 +262,6 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
         getData
     }
 
-    private fun initQuestionList() {
-        val name = taskModel!!.poster.name
-        var simpleName = name
-        try {
-            simpleName = name.substring(0, name.indexOf(" ") + 2) + "."
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        edtComment.hint = String.format("Ask %s a question", simpleName)
-        recyclerViewQuestions.setHasFixedSize(true)
-        val layoutManager = LinearLayoutManager(this@TaskDetailsActivity)
-        recyclerViewQuestions.layoutManager = layoutManager
-        questionListAdapter = QuestionListAdapter(this@TaskDetailsActivity, ArrayList(), taskModel!!.status.toLowerCase(), taskModel!!.poster.id)
-        recyclerViewQuestions.adapter = questionListAdapter
-        questionListAdapter.setOnItemClickListener(this)
-    }
-
     private fun initOfferList() {
         recyclerViewOffers.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(this@TaskDetailsActivity)
@@ -305,7 +273,6 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
 
     @SuppressLint("SetTextI18n", "NonConstantResourceId")
     private fun initStatusTask(status: String) {
-        setQuestionView(taskModel!!.questionCount)
         when (status) {
             Constant.TASK_ASSIGNED -> {
                 lytStatus.setStatus(getString(R.string.assigned))
@@ -348,8 +315,8 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 cardOfferLayout.visibility = View.GONE
                 //                cardMessage.setVisibility(View.VISIBLE);
                 cardAssigneeLayout.visibility = View.VISIBLE
-                rltQuestionAdd.visibility = View.GONE
-                cardQuestionsLayout.visibility = View.VISIBLE
+                //rltQuestionAdd.visibility = View.GONE
+                //cardQuestionsLayout.visibility = View.VISIBLE
                 setPrice()
             }
             Constant.TASK_OPEN -> {
@@ -420,7 +387,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                     recyclerViewOffers.visibility = View.GONE
                 }
                 cardOfferLayout.visibility = View.VISIBLE
-                cardQuestionsLayout.visibility = View.VISIBLE
+                //cardQuestionsLayout.visibility = View.VISIBLE
                 setPrice()
             }
             Constant.TASK_CANCELLED -> {
@@ -435,7 +402,6 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                     cardAssigneeLayout.visibility = View.GONE
                 }
                 cardOfferLayout.visibility = View.GONE
-                cardQuestionsLayout.visibility = View.GONE
                 toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
                 toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, false)
                 toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
@@ -443,8 +409,8 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
                 toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
                 cardAssigneeLayout.visibility = View.VISIBLE
-                rltQuestionAdd.visibility = View.GONE
-                cardQuestionsLayout.visibility = View.VISIBLE
+                //rltQuestionAdd.visibility = View.GONE
+                //cardQuestionsLayout.visibility = View.VISIBLE
                 setPrice()
             }
             Constant.TASK_OVERDUE, Constant.TASK_COMPLETED -> {
@@ -489,8 +455,8 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 cardAssigneeLayout.visibility = View.VISIBLE
                 //                cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.visibility = View.GONE
-                rltQuestionAdd.visibility = View.GONE
-                cardQuestionsLayout.visibility = View.VISIBLE
+                //rltQuestionAdd.visibility = View.GONE
+                //cardQuestionsLayout.visibility = View.VISIBLE
                 setPrice()
             }
             Constant.TASK_DRAFT -> {
@@ -526,10 +492,9 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 cardAssigneeLayout.visibility = View.VISIBLE
                 //                cardPrivateChat.setVisibility(View.VISIBLE);
                 cardOfferLayout.visibility = View.GONE
-                cardQuestionsLayout.visibility = View.GONE
                 cardAssigneeLayout.visibility = View.VISIBLE
-                rltQuestionAdd.visibility = View.GONE
-                cardQuestionsLayout.visibility = View.VISIBLE
+                //rltQuestionAdd.visibility = View.GONE
+                //cardQuestionsLayout.visibility = View.VISIBLE
                 setPrice()
             }
         }
@@ -889,11 +854,9 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                                 )
                                 setOwnerTask()
                                 initOfferList()
-                                initQuestionList()
                                 initStatusTask(taskModel!!.status.toLowerCase())
                                 initComponent()
                                 setDataInLayout(taskModel!!)
-                                initQuestion()
                                 setChatButton(taskModel!!.status.toLowerCase(), jsonObject_data)
                                 setPosterChatButton(taskModel!!.status.toLowerCase(), jsonObject_data)
                                 if ((taskModel!!.poster.id.toString() == sessionManager.userAccount.id.toString()) and (taskModel!!.status.equals(Constant.TASK_OPEN, ignoreCase = true))) {
@@ -907,7 +870,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                                         val first = jsonObject_data.getJSONArray("conversations").getJSONObject(i).getJSONArray("users").getJSONObject(0).getInt("id")
                                         val sec = jsonObject_data.getJSONArray("conversations").getJSONObject(i).getJSONArray("users").getJSONObject(1).getInt("id")
                                         if (first == sessionManager.userAccount.id || sec == sessionManager.userAccount.id) {
-                                            lytBtnMessage.setBackgroundResource(R.drawable.shape_rounded_back_button_active)
+                                            imgPChat.setImageDrawable(getDrawable(R.drawable.ic_p_chat_enable_v2))
                                             lytBtnMessage.setOnClickListener { v: View? -> getConversationId(taskModel!!.slug, taskModel!!.poster.id.toString()) }
                                         }
                                     }
@@ -918,14 +881,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                                         startActivity(intent)
                                     }
                                 }
-                                questionListAdapter.clear()
-                                if (taskModel!!.questions.size > 5) questionListAdapter.addItems(taskModel!!.questions.subList(0, 5)) else questionListAdapter.addItems(taskModel!!.questions)
-                                for (i in taskModel!!.questions.indices) {
-                                    if (taskModel!!.questions[i].id == pushQuestionID) {
-                                        onItemQuestionClick(null, taskModel!!.questions[i], i, "reply")
-                                        break
-                                    }
-                                }
+
                             }
                         } else {
                             showToast("Something went wrong", this@TaskDetailsActivity)
@@ -959,83 +915,15 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         val requestQueue = Volley.newRequestQueue(this@TaskDetailsActivity)
         requestQueue.add(stringRequest)
-    }// map1.put("X-Requested-With", "XMLHttpRequest");//    fl_task_details.setVisibility(View.GONE);
-
-    //                                initOfferList();
-    private val dataOnlyQuestions: Unit
-        get() {
-            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_TASKS + "/" + str_slug,
-                    com.android.volley.Response.Listener { response: String? ->
-                        try {
-                            llLoading.visibility = View.GONE
-                            content.visibility = View.VISIBLE
-                            val jsonObject = JSONObject(response!!)
-                            Timber.e(jsonObject.toString())
-                            println(jsonObject.toString())
-                            if (jsonObject.has("success") &&
-                                    !jsonObject.isNull("success") &&
-                                    jsonObject.getBoolean("success")) {
-                                if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                    val jsonObject_data = jsonObject.getJSONObject("data")
-                                    taskModel = TaskModel().getJsonToModel(jsonObject_data, this@TaskDetailsActivity)
-                                    taskModel!!.offerSent = false
-                                    taskModel!!.offers.forEach(Consumer { offerModel1: OfferModel -> if (offerModel1.worker.id == sessionManager.userAccount.id) taskModel!!.offerSent = true }
-                                    )
-                                    setOwnerTask()
-                                    //                                initOfferList();
-                                    initStatusTask(taskModel!!.status.toLowerCase())
-                                    initComponent()
-                                    setDataInLayout(taskModel!!)
-                                    initQuestion()
-                                    setChatButton(taskModel!!.status.toLowerCase(), jsonObject_data)
-                                    setPosterChatButton(taskModel!!.status.toLowerCase(), jsonObject_data)
-                                    if (taskModel!!.taskType == "physical") {
-                                        llLocation.setOnClickListener { v: View? ->
-                                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:<" + taskModel!!.position.latitude + ">,<" + taskModel!!.position.longitude + ">?q=<" + taskModel!!.position.latitude + ">,<" + taskModel!!.position.longitude + ">(" + "job address" + ")"))
-                                            startActivity(intent)
-                                        }
-                                    }
-                                    questionListAdapter.clear()
-                                    if (taskModel!!.questions.size > 5) questionListAdapter.addItems(taskModel!!.questions.subList(0, 5)) else questionListAdapter.addItems(taskModel!!.questions)
-                                    for (i in taskModel!!.questions.indices) {
-                                        if (taskModel!!.questions[i].id == pushQuestionID) {
-                                            onItemQuestionClick(null, taskModel!!.questions[i], i, "reply")
-                                            break
-                                        }
-                                    }
-                                }
-                            } else {
-                                showToast("Something went wrong", this@TaskDetailsActivity)
-                            }
-                        } catch (e: JSONException) {
-                            showToast("JSONException", this@TaskDetailsActivity)
-                            Timber.e(e.toString())
-                            e.printStackTrace()
-                        }
-                    },
-                    com.android.volley.Response.ErrorListener { error: VolleyError ->
-                        //    fl_task_details.setVisibility(View.GONE);
-                        errorHandle1(error.networkResponse)
-                    }) {
-                override fun getHeaders(): Map<String, String> {
-                    val map1: MutableMap<String, String> = HashMap()
-                    map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                    map1["Content-Type"] = "application/x-www-form-urlencoded"
-                    // map1.put("X-Requested-With", "XMLHttpRequest");
-                    return map1
-                }
-            }
-            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-            val requestQueue = Volley.newRequestQueue(this@TaskDetailsActivity)
-            requestQueue.add(stringRequest)
-        }
+    }
 
 
     @SuppressLint("SetTextI18n")
     private fun setChatButton(state: String, jsonObject: JSONObject) {
+
+
         if (!isUserThePoster || taskModel!!.worker == null) return
-        relPrivateChat!!.visibility = View.VISIBLE
+        relPrivateChat.visibility = View.VISIBLE
         if (taskModel!!.worker.avatar != null && taskModel!!.worker.avatar.thumbUrl != null) {
             ImageUtil.displayImage(imgAvatarChat, taskModel!!.worker.avatar.thumbUrl, null)
         }
@@ -1140,26 +1028,12 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun initQuestion() {
-        attachmentArrayListQuestion.clear()
-        attachmentArrayListQuestion.add(AttachmentModel())
-        recyclerViewQuestionAttachment.layoutManager = LinearLayoutManager(this@TaskDetailsActivity, RecyclerView.HORIZONTAL, false)
-        recyclerViewQuestionAttachment.addItemDecoration(SpacingItemDecoration(3, Tools.dpToPx(this@TaskDetailsActivity, 5), true))
-        recyclerViewQuestionAttachment.setHasFixedSize(true)
-        //set data and list adapter
-        adapter = QuestionAttachmentAdapter(attachmentArrayListQuestion, true)
-        recyclerViewQuestionAttachment.adapter = adapter
-        adapter.notifyDataSetChanged()
-        adapter.setOnItemClickListener(this)
-    }
-
     @SuppressLint("SetTextI18n")
     private fun setDataInLayout(taskModel: TaskModel?) {
         txtTitle.text = taskModel!!.title
         txtCreatedDate.text = "Posted " + taskModel.createdAt
         if (taskModel.bookmarkID != null) {
-            toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_grey_32dp)
+            toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_white_32dp)
         }
         txtDescription.text = taskModel.description
         if (taskModel.poster.avatar != null && taskModel.poster.avatar.thumbUrl != null) {
@@ -1178,12 +1052,12 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
         } else {
             txtLocation.text = "Remote job"
         }
-        if (taskModel.poster.location != null && taskModel.poster.location.length > 0) {
-            txtPosterLocation.visibility = View.VISIBLE
-            //            txtPosterLocation.setText(taskModel!!.getLocation());
-        } else {
-            txtPosterLocation.visibility = View.VISIBLE
-        }
+        /*  if (taskModel.poster.location != null && taskModel.poster.location.isNotEmpty()) {
+              txtPosterLocation.visibility = View.VISIBLE
+              //            txtPosterLocation.setText(taskModel!!.getLocation());
+          } else {
+              txtPosterLocation.visibility = View.VISIBLE
+          }*/
         txtPosterLastOnline.text = "Active " + taskModel.poster.lastOnline
         if (taskModel.dueTime != null) {
             val dueTime = convertObjectToString(taskModel.dueTime, "")
@@ -1192,9 +1066,9 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
         if (taskModel.dueTime != null) {
             try {
                 val time = Tools.jobDetailsDate(taskModel.dueDate)
-                txtDueDate.text = Tools.formatJobDetailsDate(time) + " - "
+                txtDueDate.text = Tools.formatJobDetailsDateV3(time) + ", "
             } catch (e: ParseException) {
-                txtDueDate.text = taskModel.dueDate + " - "
+                txtDueDate.text = taskModel.dueDate + ", "
             }
         }
         if (taskModel.musthave != null && taskModel.musthave.size > 0) {
@@ -1213,21 +1087,21 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
             dueTime = "Morning"
         }
         if (time.afternoon) {
-            dueTime = if (dueTime.length != 0) {
+            dueTime = if (dueTime.isNotEmpty()) {
                 "$dueTime,Afternoon"
             } else {
                 dueTime + "Afternoon"
             }
         }
         if (time.evening) {
-            dueTime = if (dueTime.length != 0) {
+            dueTime = if (dueTime.isNotEmpty()) {
                 "$dueTime,Evening"
             } else {
                 dueTime + "Evening"
             }
         }
         if (time.anytime != null && time.anytime) {
-            dueTime = if (dueTime.length != 0) {
+            dueTime = if (dueTime.isNotEmpty()) {
                 "$dueTime,Anytime"
             } else {
                 dueTime + "Anytime"
@@ -1325,9 +1199,9 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
     private fun setPrice() {
         if (taskModel!!.status != null && !taskModel!!.status.equals(Constant.TASK_OPEN, ignoreCase = true)
                 && (isUserThePoster || isUserTheTicker)) {
-            budget.text = String.format(Locale.ENGLISH, "$%d", taskModel!!.amount)
+            budget.text = String.format(Locale.ENGLISH, "%d", taskModel!!.amount)
         } else {
-            budget.text = String.format(Locale.ENGLISH, "$%d", taskModel!!.budget)
+            budget.text = String.format(Locale.ENGLISH, "%d", taskModel!!.budget)
         }
     }
 
@@ -1377,28 +1251,13 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
 
     }
 
-    private fun setQuestionView(questionCount: Int) {
-        if (isUserThePoster) {
-            rltQuestionAdd.visibility = View.GONE
-        } else {
-            rltQuestionAdd.visibility = View.VISIBLE
-        }
-        if (questionCount == 0) {
-            txtQuestionsCount.text = getString(R.string.questions)
-        } else {
-            txtQuestionsCount.text = String.format("%s (%s)", getString(R.string.questions), questionCount)
-        }
-
-        //TODO taskModel.getQuestionCount() > 5
-        if (taskModel!!.questionCount > 5) {
-            lytViewAllQuestions.visibility = View.VISIBLE
-        } else {
-            lytViewAllQuestions.visibility = View.GONE
-        }
-    }
 
     @SuppressLint("SetTextI18n")
     private fun setOfferView(offerCount: Int) {
+        if (!isUserThePoster) {
+            lnOffers.visibility = View.GONE
+            return
+        }
         if (offerCount == 0) {
             txtOffersCount.text = getString(R.string.offer)
             txtWaitingForOffer.visibility = View.VISIBLE
@@ -1446,31 +1305,8 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
     private fun onViewClick() {
         var intent: Intent
         var bundle: Bundle
-        lytViewAllQuestions.setOnClickListener {
-            intent = Intent(this@TaskDetailsActivity, ViewAllQuestionsActivity::class.java)
-            bundle = Bundle()
-            bundle.putString(ConstantKey.SLUG, taskModel!!.slug)
-            bundle.putString(ConstantKey.TASK_STATUS, taskModel!!.status.toLowerCase())
-            intent.putExtras(bundle)
-            startActivityForResult(intent, 121)
-        }
-        lytBtnCommentSend.setOnClickListener {
-            if (TextUtils.isEmpty(edtComment.text.toString().trim { it <= ' ' })) {
-                edtComment.error = "?"
-                return@setOnClickListener
-            } else {
-                if (attachmentArrayListQuestion.size == 0) {
-                    postComment(
-                            edtComment.text.toString().trim { it <= ' ' },
-                            null
-                    )
-                } else {
-                    postComment(
-                            edtComment.text.toString().trim { it <= ' ' },
-                            adapter
-                    )
-                }
-            }
+        txtAskQuestion.setOnClickListener {
+            showQuestions()
         }
         lytBtnViewAllOffers.setOnClickListener {
             intent = Intent(this@TaskDetailsActivity, ViewAllOffersActivity::class.java)
@@ -1682,7 +1518,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
         requestQueue.add(stringRequest)
     }
 
-    private fun postComment(str_comment: String, attachmentModels: QuestionAttachmentAdapter?) {
+/*    private fun postComment(str_comment: String, attachmentModels: QuestionAttachmentAdapter?) {
         if (str_comment.length < 5) {
             showToast("The question text must be at least 5 characters", this)
             return
@@ -1699,9 +1535,9 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                             attachmentArrayListQuestion.clear()
                             attachmentArrayListQuestion.add(AttachmentModel())
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                if (recyclerViewQuestions.visibility != View.VISIBLE) {
+                               *//* if (recyclerViewQuestions.visibility != View.VISIBLE) {
                                     recyclerViewQuestions.visibility = View.VISIBLE
-                                }
+                                }*//*
                                 val questionModel = QuestionModel().getJsonToModel(jsonObject.getJSONObject("data"))
                                 questionListAdapter.addItem(questionModel)
                             }
@@ -1718,7 +1554,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 },
                 com.android.volley.Response.ErrorListener { error: VolleyError ->
                     val networkResponse = error.networkResponse
-                    if (networkResponse != null && networkResponse.data != null) {
+                    if (networkResponse?.data != null) {
                         val jsonError = String(networkResponse.data)
 
                         // Print Error!
@@ -1771,7 +1607,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         val requestQueue = Volley.newRequestQueue(this@TaskDetailsActivity)
         requestQueue.add(stringRequest)
-    }
+    }*/
 
     override fun onMakeAnOffer() {
         initialStage()
@@ -1909,14 +1745,14 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
             }
         }
         if (requestCode == 21 || requestCode == 20) {
-            dataOnlyQuestions
+            //dataOnlyQuestions
         }
         if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 if (data!!.data != null) {
                     val imageStoragePath = CameraUtils.getPath(this@TaskDetailsActivity, data.data)
                     val file = File(imageStoragePath)
-                    uploadDataQuestionMediaApi(file)
+                    // uploadDataQuestionMediaApi(file)
                 }
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled recording
@@ -1999,7 +1835,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 intent.action = Intent.ACTION_GET_CONTENT
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_PICKUP_IMAGE_REQUEST_CODE)
             } else if (action.equals("delete", ignoreCase = true)) {
-                recyclerViewQuestionAttachment.removeViewAt(position)
+                //recyclerViewQuestionAttachment.removeViewAt(position)
                 attachmentArrayListQuestion.removeAt(position)
                 adapter.notifyItemRemoved(position)
                 adapter.notifyItemRangeRemoved(position, attachmentArrayListQuestion.size)
@@ -2010,7 +1846,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
         }
     }
 
-    private fun uploadDataQuestionMediaApi(pictureFile: File) {
+/*    private fun uploadDataQuestionMediaApi(pictureFile: File) {
         showProgressDialog()
         val call: Call<String?>?
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
@@ -2061,7 +1897,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                 hideProgressDialog()
             }
         })
-    }
+    }*/
 
     private fun doApiCall(url: String) {
         showProgressDialog()
@@ -2104,15 +1940,15 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
     }
 
     fun addToBookmark() {
-        toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_grey_32dp)
+        toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_white_32dp)
         val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_TASKS + "/" + taskModel!!.slug + "/bookmark",
                 com.android.volley.Response.Listener { response: String? ->
-                    toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_grey_32dp)
+                    toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_white_32dp)
                     getData
                 },
                 com.android.volley.Response.ErrorListener { error: VolleyError ->
                     errorHandle1(error.networkResponse)
-                    toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp)
+                    toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_white_32dp)
                 }) {
             override fun getParams(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
@@ -2136,7 +1972,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
     }
 
     private fun removeBookmark() {
-        toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp)
+        toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_white_32dp)
         val stringRequest: StringRequest = object : StringRequest(Method.DELETE, Constant.BASE_URL + "bookmarks/" + taskModel!!.bookmarkID,
                 com.android.volley.Response.Listener { response: String? ->
                     Timber.e(response)
@@ -2144,7 +1980,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                         val jsonObject = JSONObject(response!!)
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp)
+                                toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_white_32dp)
                                 getData
                                 if (SavedTaskActivity.onRemoveSavedtasklistener != null) {
                                     SavedTaskActivity.onRemoveSavedtasklistener!!.onRemoveSavedTask()
@@ -2158,7 +1994,7 @@ class TaskDetailsActivity : ActivityBase(), OfferListAdapter.OnItemClickListener
                     } catch (e: JSONException) {
                         hideProgressDialog()
                         e.printStackTrace()
-                        toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_grey_32dp)
+                        toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_white_32dp)
                     }
                 },
                 com.android.volley.Response.ErrorListener { error: VolleyError ->
